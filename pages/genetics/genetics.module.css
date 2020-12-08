@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  max-width: 1700px;
+  margin: auto;
+}
+
+.interactive-container {
+  height: 60%;
+  padding: 1rem;
+}
+
+.interactive-container--inner {
+  height: 100%;
+  background-color: #ddd;
+}
+
+.text-container {
+  height: 40%;
+  padding: 1rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .interactive-container {
+    height: 100%;
+    width: 60%;
+  }
+
+  .text-container {
+    display: flex;
+    height: 100%;
+    width: 40%;
+    align-items: center;
+  }
+}
