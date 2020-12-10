@@ -6,10 +6,8 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Genetics</title>
       </Head>
-
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Newt Interactive</h1>
         <Link href="/genetics">Genetics</Link>
