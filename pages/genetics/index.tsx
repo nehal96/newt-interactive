@@ -7,7 +7,9 @@ const GeneticsPage = () => {
     <div className={styles.container}>
       <div className={styles["interactive-container"]}>
         <div className={styles["interactive-container--inner"]}>
-          <Canvas>
+          <Canvas
+            camera={{ fov: 60, near: 0.1, far: 1000, position: [0, -35, 0] }}
+          >
             <DNAModel />
           </Canvas>
         </div>
