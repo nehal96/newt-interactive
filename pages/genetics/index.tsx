@@ -8,9 +8,12 @@ const GeneticsPage = () => {
       <div className={styles["interactive-container"]}>
         <div className={styles["interactive-container--inner"]}>
           <Canvas
-            camera={{ fov: 60, near: 0.1, far: 1000, position: [0, -35, 0] }}
+            camera={{ fov: 60, near: 0.1, far: 1000, position: [10, 10, 10] }}
           >
             <DNAModel />
+            {/* <cameraHelper /> */}
+            <gridHelper args={[20, 40, "blue", "hotpink"]} />
+            <axesHelper args={[10]} />
           </Canvas>
         </div>
       </div>
