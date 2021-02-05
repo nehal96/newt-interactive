@@ -1,5 +1,11 @@
+import dynamic from "next/dynamic";
 import styles from "./genetics.module.css";
-import GeneticsComponent from "../../components/GeneticsComponent";
+
+// Load r3f components like this to "solve" those can't import module 3js issues
+const GeneticsComponent = dynamic(
+  () => import("../../components/GeneticsComponent"),
+  { ssr: false }
+);
 
 const GeneticsPage = () => {
   return (
