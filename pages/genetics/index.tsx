@@ -55,6 +55,15 @@ const GeneticsPage = () => {
             <p>{`Slide ${slide}`}</p>
           </div>
         </div>
+        <Paragraph>
+          Leo urna molestie at elementum eu facilisis sed. Tortor at auctor urna
+          nunc id. Dictum fusce ut placerat orci nulla pellentesque dignissim
+          enim sit. Pretium nibh ipsum consequat nisl vel. Orci sagittis eu
+          volutpat odio facilisis mauris sit amet massa. At tempor commodo
+          ullamcorper a lacus. Aliquam vestibulum morbi blandit cursus risus at
+          ultrices. Risus at ultrices mi tempus. Ac tortor vitae purus faucibus
+          ornare suspendisse. Ornare lectus sit amet est placerat.
+        </Paragraph>
       </ArticleContainer>
     </>
   );
