@@ -1,0 +1,6 @@
+.title {
+  font-family: "DM Serif Display", serif;
+  font-size: var(--FS-5xl);
+  justify-self: center;
+  align-self: center;
+}
