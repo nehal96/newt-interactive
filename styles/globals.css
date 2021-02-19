@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Righteous");
+
 html,
 body {
   padding: 0;
@@ -13,4 +15,25 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+:root {
+  /* 
+    Font sizes 
+  */
+  --FS-xs: 0.75rem;
+  --FS-s: 0.875rem;
+  --FS-base: 1rem;
+  --FS-lg: 1.125rem;
+  --FS-xl: 1.25rem;
+  --FS-2xl: 1.5rem;
+  --FS-3xl: 1.875rem;
+  --FS-4xl: 2.25rem;
+  --FS-5xl: 3rem;
+  --FS-6xl: 4rem;
+
+  /*
+    Colours
+  */
+  --glaucous-500: #6b7fd7;
 }
