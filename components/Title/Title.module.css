@@ -3,4 +3,12 @@
   font-size: var(--FS-5xl);
   justify-self: center;
   align-self: center;
+  text-align: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .title {
+    font-size: var(--FS-6xl);
+    margin-bottom: 2.5rem;
+  }
 }

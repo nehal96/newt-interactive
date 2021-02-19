@@ -1,12 +1,17 @@
 .nav {
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 1600px;
   box-sizing: border-box;
   height: 75px;
   padding: 0 2rem;
   background-color: var(--glaucous-500);
+}
+
+.container {
+  max-width: 1600px;
+  justify-content: flex-start;
 }
 
 .logo {

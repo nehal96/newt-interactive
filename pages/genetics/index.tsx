@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { ArticleContainer, Navbar, Title } from "../../components";
+import { ArticleContainer, Navbar, Title, Lede } from "../../components";
 import styles from "./genetics.module.css";
 
 // Load r3f components like this to "solve" those can't import module 3js issues
@@ -17,6 +17,10 @@ const GeneticsPage = () => {
       <Navbar />
       <ArticleContainer>
         <Title>Discovering the Shape of Life</Title>
+        <Lede>
+          How a handful of scientists, spanning almost a century, discovered the
+          structure of DNA. Gonna make this a bit longer to test
+        </Lede>
         <div className={styles.container}>
           <div className={styles["interactive-container"]}>
             <div className={styles["interactive-container--inner"]}>

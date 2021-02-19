@@ -1,0 +1,17 @@
+.lede {
+  font-size: var(--FS-xl);
+  color: var(--gray-600);
+  font-weight: 300;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+  margin-top: 0;
+  padding: 0 0.5rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .lede {
+    font-size: var(--FS-2xl);
+    padding: 0 4rem;
+  }
+}
