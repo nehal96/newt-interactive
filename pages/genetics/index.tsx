@@ -11,6 +11,10 @@ import {
 import styles from "./genetics.module.css";
 
 // Load r3f components like this to "solve" those can't import module 3js issues
+const XRayCrystallographyGame = dynamic(
+  () => import("../../canvases/XRayCrystallographyGame"),
+  { ssr: false }
+);
 const DNADoubleHelixCanvas = dynamic(
   () => import("../../canvases/DNA-DoubleHelixCanvas"),
   { ssr: false }
@@ -43,6 +47,14 @@ const GeneticsPage = () => {
           felis. Vel pretium lectus quam id leo in vitae turpis massa. Odio ut
           enim blandit volutpat maecenas volutpat blandit.
         </Paragraph>
+        {/* Refactor containers later */}
+        <div className={styles.container}>
+          <div className={styles["interactive-container"]}>
+            <div className={styles["interactive-container--inner"]}>
+              <XRayCrystallographyGame />
+            </div>
+          </div>
+        </div>
         <div className={styles.container}>
           <div className={styles["interactive-container"]}>
             <div className={styles["interactive-container--inner"]}>
