@@ -6,12 +6,13 @@ import {
   Title,
   Lede,
   Paragraph,
+  Footer,
 } from "../../components";
 import styles from "./genetics.module.css";
 
 // Load r3f components like this to "solve" those can't import module 3js issues
-const GeneticsComponent = dynamic(
-  () => import("../../components/GeneticsComponent"),
+const DNADoubleHelixCanvas = dynamic(
+  () => import("../../canvases/DNA-DoubleHelixCanvas"),
   { ssr: false }
 );
 
@@ -45,7 +46,7 @@ const GeneticsPage = () => {
         <div className={styles.container}>
           <div className={styles["interactive-container"]}>
             <div className={styles["interactive-container--inner"]}>
-              <GeneticsComponent slide={slide} />
+              <DNADoubleHelixCanvas slide={slide} />
             </div>
           </div>
           <div className={styles["text-container"]}>
@@ -65,6 +66,7 @@ const GeneticsPage = () => {
           ornare suspendisse. Ornare lectus sit amet est placerat.
         </Paragraph>
       </ArticleContainer>
+      <Footer />
     </>
   );
 };

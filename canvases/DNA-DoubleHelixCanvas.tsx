@@ -9,7 +9,7 @@ interface Genetics {
 // Loading GLTF files in Next is a mess (can't be in pages), so here's a
 // commit that works
 // https://github.com/pmndrs/react-three-fiber/discussions/504
-const DNA = lazy(() => import("./Dna-5"));
+const DNA = lazy(() => import("../r3f-models/DNA-DoubleHelix"));
 
 const GeneticsComponent = ({ slide }: Genetics) => {
   return (
