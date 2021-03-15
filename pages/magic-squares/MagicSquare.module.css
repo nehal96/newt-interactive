@@ -1,0 +1,15 @@
+.grid {
+  border-collapse: separate;
+  border-spacing: inherit;
+  font-size: 1.75rem;
+  display: flex;
+  align-self: center;
+}
+
+.cell {
+  width: 75px;
+  height: 75px;
+  border: 1px solid black;
+  padding: 0.25rem;
+  text-align: center;
+}
