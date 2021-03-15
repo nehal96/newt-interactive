@@ -13,3 +13,27 @@
   padding: 0.25rem;
   text-align: center;
 }
+
+/* Totals cells */
+.totals--default {
+  border-width: 0px;
+  border-color: var(--gray-400);
+}
+
+.totals--top-right {
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+}
+
+.totals--bottom-left {
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+
+.totals--center {
+  border-bottom-width: 1px;
+}
+
+.totals--bottom-center {
+  border-right-width: 1px;
+}
