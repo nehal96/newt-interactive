@@ -8,7 +8,16 @@ const MagicSquaresInteractive = () => {
       <ArticleContainer>
         <Title>The Mystery of Magic Squares</Title>
         <Lede>An animated exploration of magic squares</Lede>
-        <MagicSquare name="main" n={3} withTotals={true} />
+        <MagicSquare
+          name="main"
+          n={3}
+          values={[
+            [2, 9, 4],
+            [7, 5, 3],
+            [6, 1, 8],
+          ]}
+          withTotals={true}
+        />
       </ArticleContainer>
     </>
   );
