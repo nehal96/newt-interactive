@@ -1,11 +1,47 @@
+import * as THREE from "three";
 import { Canvas } from "react-three-fiber";
-import { Suspense } from "react";
-import { OrbitControls } from "@react-three/drei";
+import { Suspense, useRef } from "react";
+import { OrbitControls, useHelper } from "@react-three/drei";
 import { DNA } from "../components";
 
 interface Genetics {
   slide: number;
 }
+
+const Lights = () => {
+  const spotlight1 = useRef();
+  const spotlight2 = useRef();
+
+  if (process.env.NODE_ENV === "development") {
+    useHelper(spotlight1, THREE.SpotLightHelper, "white");
+    useHelper(spotlight2, THREE.SpotLightHelper, "white");
+  }
+
+  return (
+    <>
+      <spotLight
+        ref={spotlight1}
+        intensity={4}
+        position={[10, 10, 10]}
+        distance={30}
+        shadow-bias={-0.00005}
+        angle={Math.PI / 6}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+      />
+      <spotLight
+        ref={spotlight2}
+        intensity={4}
+        position={[-10, 10, -10]}
+        distance={30}
+        shadow-bias={-0.00005}
+        angle={Math.PI / 6}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+      />
+    </>
+  );
+};
 
 const GeneticsComponent = ({ slide }: Genetics) => {
   return (
@@ -18,20 +54,11 @@ const GeneticsComponent = ({ slide }: Genetics) => {
         position: [6, 6, 6],
       }}
     >
-      {/* <cameraHelper /> */}
       <Suspense fallback={null}>
         <DNA exploreMode={slide === 0 ? true : false} />
         <gridHelper args={[20, 40, "blue", "hotpink"]} />
         <axesHelper args={[10]} />
-        <spotLight
-          intensity={2}
-          position={[20, 20, 20]}
-          shadow-bias={-0.00005}
-          angle={Math.PI / 6}
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-          // castShadow
-        />
+        <Lights />
         {slide === 0 ? <OrbitControls /> : null}
       </Suspense>
     </Canvas>
