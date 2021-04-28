@@ -1,15 +1,11 @@
 import { Canvas } from "react-three-fiber";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { OrbitControls } from "@react-three/drei";
+import { DNA } from "../components";
 
 interface Genetics {
   slide: number;
 }
-
-// Loading GLTF files in Next is a mess (can't be in pages), so here's a
-// commit that works
-// https://github.com/pmndrs/react-three-fiber/discussions/504
-const DNA = lazy(() => import("../r3f-models/DNA-DoubleHelix"));
 
 const GeneticsComponent = ({ slide }: Genetics) => {
   return (
