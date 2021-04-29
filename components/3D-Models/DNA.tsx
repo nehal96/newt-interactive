@@ -12,9 +12,11 @@ interface DNA {
 }
 
 const DNA = ({ exploreMode }: DNA) => {
+  const vec = new Vector3(5, 6, 5);
+
   useFrame((state) => {
     if (!exploreMode) {
-      state.camera.position.lerp(new Vector3(5, 6, 5), 0.1);
+      state.camera.position.lerp(vec, 0.1);
       state.camera.lookAt(0, 2, 0);
       state.camera.updateProjectionMatrix();
     }

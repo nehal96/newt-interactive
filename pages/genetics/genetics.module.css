@@ -14,7 +14,7 @@
 
 .interactive-container--inner {
   height: 100%;
-  background-color: #ddd;
+  background-color: var(--gray-500);
 }
 
 .text-container {

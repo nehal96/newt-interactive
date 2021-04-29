@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import { Vector3 } from "three";
 import { Canvas } from "react-three-fiber";
 import { Suspense, useRef } from "react";
 import { OrbitControls, useHelper } from "@react-three/drei";
@@ -12,10 +12,10 @@ const Lights = () => {
   const spotlight1 = useRef();
   const spotlight2 = useRef();
 
-  if (process.env.NODE_ENV === "development") {
-    useHelper(spotlight1, THREE.SpotLightHelper, "white");
-    useHelper(spotlight2, THREE.SpotLightHelper, "white");
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   useHelper(spotlight1, THREE.SpotLightHelper, "white");
+  //   useHelper(spotlight2, THREE.SpotLightHelper, "white");
+  // }
 
   return (
     <>
@@ -51,7 +51,7 @@ const GeneticsComponent = ({ slide }: Genetics) => {
         fov: 60,
         near: 0.1,
         far: 1000,
-        position: [6, 6, 6],
+        position: [3, 3, 3],
       }}
     >
       <Suspense fallback={null}>
@@ -59,7 +59,7 @@ const GeneticsComponent = ({ slide }: Genetics) => {
         <gridHelper args={[20, 40, "blue", "hotpink"]} />
         <axesHelper args={[10]} />
         <Lights />
-        {slide === 0 ? <OrbitControls /> : null}
+        {slide === 0 ? <OrbitControls target={new Vector3(0, 2.5, 0)} /> : null}
       </Suspense>
     </Canvas>
   );
