@@ -46,6 +46,11 @@ a {
   --gray-700: #4a5568;
   --gray-800: #2d3748;
   --gray-900: #1a202c;
-  /*  */
+
+  /* Purple  */
   --glaucous-500: #6b7fd7;
+
+  /* Newt Blue */
+  --newt-blue-50: #e9f9ff;
+  --newt-blue-100: #d5f5ff;
 }
