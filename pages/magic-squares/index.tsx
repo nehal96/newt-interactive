@@ -40,22 +40,21 @@ const MagicSquaresInteractive = () => {
 
   const handleInputChange = (value, name) => {
     const val = !value || value === "" ? "" : Number(value);
-
-    setInputValues({
+    const updatedValues = {
       ...inputValues,
       [name]: { ...inputValues[name], value: val },
+    };
+
+    const validatedValues = validateVariables(updatedValues);
+
+    setInputValues({
+      ...validatedValues,
     });
   };
   const handleInputFocus = (name) => {
     setInputValues({
       ...inputValues,
       [name]: { ...inputValues[name], hasBeenFocused: true },
-    });
-  };
-  const handleInputBlur = () => {
-    const validatedInputs = validateVariables(inputValues);
-    setInputValues({
-      ...validatedInputs,
     });
   };
 
@@ -88,7 +87,6 @@ const MagicSquaresInteractive = () => {
                   handleInputChange(e.target.value, e.target.name)
                 }
                 onFocus={(e) => handleInputFocus(e.target.name)}
-                onBlur={(e) => handleInputBlur()}
                 className={styles.input}
                 isValid={inputValues[name].isValid}
                 withPrepend
