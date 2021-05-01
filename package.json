@@ -9,13 +9,13 @@
   },
   "dependencies": {
     "@react-three/drei": "^2.2.12",
-    "@tippyjs/react": "^4.2.5",
     "classnames": "^2.2.6",
-    "next": "^10.2.0",
+    "@tippyjs/react": "^4.2.5",
+    "next": "10.0.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-three-fiber": "^5.3.7",
-    "three": "^0.128.0"
+    "three": "^0.123.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.10",
