@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArticleContainer,
   Input,
@@ -65,6 +65,15 @@ const MagicSquaresInteractive = () => {
       inputValues.c.value
     )
   );
+
+  useEffect(() => {
+    const { a, b, c } = inputValues;
+
+    if (a.isValid && b.isValid && c.isValid) {
+      const newMagicSquare = generate3x3MagicSquare(a.value, b.value, c.value);
+      setSquareValues(newMagicSquare);
+    }
+  }, [inputValues]);
 
   return (
     <>
