@@ -10,7 +10,10 @@ import {
 } from "../../components";
 import MagicSquare from "./MagicSquare";
 // Helpers
-import { generate3x3MagicSquare } from "./magic-squares.helpers";
+import {
+  generate3x3MagicSquare,
+  validateVariables,
+} from "./magic-squares.helpers";
 // Styling
 import styles from "./magic-squares.module.css";
 // Types
@@ -49,6 +52,12 @@ const MagicSquaresInteractive = () => {
       [name]: { ...inputValues[name], hasBeenFocused: true },
     });
   };
+  const handleInputBlur = () => {
+    const validatedInputs = validateVariables(inputValues);
+    setInputValues({
+      ...validatedInputs,
+    });
+  };
 
   const [squareValues, setSquareValues] = useState(
     generate3x3MagicSquare(
@@ -67,7 +76,9 @@ const MagicSquaresInteractive = () => {
         <div className={styles["input-group"]}>
           {Object.keys(inputValues).map((name) => (
             <InputWrapper key={name}>
-              <InputPrepend>{name}</InputPrepend>
+              <InputPrepend isValid={inputValues[name].isValid}>
+                {name}
+              </InputPrepend>
               <Input
                 name={name}
                 type="number"
@@ -77,7 +88,9 @@ const MagicSquaresInteractive = () => {
                   handleInputChange(e.target.value, e.target.name)
                 }
                 onFocus={(e) => handleInputFocus(e.target.name)}
+                onBlur={(e) => handleInputBlur()}
                 className={styles.input}
+                isValid={inputValues[name].isValid}
                 withPrepend
               />
             </InputWrapper>

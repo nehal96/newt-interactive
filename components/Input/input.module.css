@@ -2,6 +2,18 @@
   border-radius: 0.4rem;
 }
 
+.input--valid {
+  border-color: var(--lightGreen-600);
+  background-color: var(--lightGreen-100);
+  color: var(--lightGreen-700);
+}
+
+.input--invalid {
+  border-color: var(--red-500);
+  background-color: var(--red-100);
+  color: var(--red-600);
+}
+
 .wrapper {
   display: flex;
 }
@@ -14,6 +26,16 @@
   padding: 0.5rem 0.75rem;
   border-bottom-left-radius: 0.4rem;
   border-top-left-radius: 0.4rem;
+}
+
+.prepend-text--valid {
+  background-color: var(--lightGreen-600);
+  color: #fff;
+}
+
+.prepend-text--invalid {
+  background-color: var(--red-500);
+  color: #fff;
 }
 
 .prepend-input {

@@ -68,4 +68,26 @@ input {
   /* Newt Blue */
   --newt-blue-50: #e9f9ff;
   --newt-blue-100: #d5f5ff;
+
+  /* Light greens */
+  --lightGreen-100: #f0fbf3;
+  --lightGreen-200: #c1f0cc;
+  --lightGreen-300: #92e5a5;
+  --lightGreen-400: #62d97e;
+  --lightGreen-500: #33ce57;
+  --lightGreen-600: #26a043;
+  --lightGreen-700: #1f8035;
+  --lightGreen-800: #176128;
+  --lightGreen-900: #10411b;
+
+  /* Reds */
+  --red-100: #ffeaea;
+  --red-200: #ffc3c3;
+  --red-300: #ff9b9b;
+  --red-400: #ff7474;
+  --red-500: #ff4d4d;
+  --red-600: #ff2626;
+  --red-700: #ea0000;
+  --red-800: #af0000;
+  --red-900: #740000;
 }

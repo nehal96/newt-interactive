@@ -9,14 +9,25 @@ interface InputProps
     HTMLInputElement
   > {
   withPrepend?: boolean;
+  isValid?: boolean | null | undefined;
 }
 
-const Input = ({ withPrepend = false, className, ...props }: InputProps) => {
+const Input = ({
+  withPrepend = false,
+  isValid,
+  className,
+  ...props
+}: InputProps) => {
   return (
     <input
       className={cx(
         styles.input,
         withPrepend ? styles["prepend-input"] : null,
+        isValid === null || isValid === undefined
+          ? null
+          : isValid
+          ? styles["input--valid"]
+          : styles["input--invalid"],
         className
       )}
       {...props}
