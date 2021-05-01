@@ -1,31 +1,53 @@
 import { useState } from "react";
 import { ArticleContainer, Input, Navbar, Title, Lede } from "../../components";
 import MagicSquare from "./MagicSquare";
+// Helpers
+import { generate3x3MagicSquare } from "./magic-squares.helpers";
+// Styling
 import styles from "./magic-squares.module.css";
-
-function generate3x3MagicSquare(a: number, b: number, c: number) {
-  return [
-    [c - b, c + (a + b), c - a],
-    [c - (a - b), c, c + (a - b)],
-    [c + a, c - (a + b), c + b],
-  ];
-}
+// Types
+import { VariableInputs } from "./types";
 
 const MagicSquaresInteractive = () => {
-  const [inputValues, setInputValues] = useState({
-    a: 1,
-    b: 3,
-    c: 5,
+  const [inputValues, setInputValues] = useState<VariableInputs>({
+    a: {
+      value: 1,
+      hasBeenFocused: false,
+      isValid: null,
+    },
+    b: {
+      value: 3,
+      hasBeenFocused: false,
+      isValid: null,
+    },
+    c: {
+      value: 5,
+      hasBeenFocused: false,
+      isValid: null,
+    },
   });
 
   const handleInputChange = (value, name) => {
     const val = !value || value === "" ? "" : Number(value);
 
-    setInputValues({ ...inputValues, [name]: val });
+    setInputValues({
+      ...inputValues,
+      [name]: { ...inputValues[name], value: val },
+    });
+  };
+  const handleInputFocus = (name) => {
+    setInputValues({
+      ...inputValues,
+      [name]: { ...inputValues[name], hasBeenFocused: true },
+    });
   };
 
   const [squareValues, setSquareValues] = useState(
-    generate3x3MagicSquare(inputValues.a, inputValues.b, inputValues.c)
+    generate3x3MagicSquare(
+      inputValues.a.value,
+      inputValues.b.value,
+      inputValues.c.value
+    )
   );
 
   return (
@@ -39,9 +61,10 @@ const MagicSquaresInteractive = () => {
             <Input
               name={name}
               type="number"
-              value={inputValues[name]}
-              min={0}
+              value={inputValues[name].value}
+              min={1}
               onChange={(e) => handleInputChange(e.target.value, e.target.name)}
+              onFocus={(e) => handleInputFocus(e.target.name)}
               className={styles.input}
               withPrepend
               prependText={name}
@@ -49,7 +72,6 @@ const MagicSquaresInteractive = () => {
             />
           ))}
         </div>
-
         <MagicSquare name="main" values={squareValues} withTotals={true} />
       </ArticleContainer>
     </>

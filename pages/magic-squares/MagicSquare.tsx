@@ -1,17 +1,20 @@
 import styles from "./MagicSquare.module.css";
 import classnames from "classnames/bind";
+import { MagicSquareRow } from "./types";
 
 const cx = classnames.bind(styles);
 
-type MagicSquareRow = number[];
-
-interface MagicSquare {
+interface MagicSquareProps {
   name: string;
   values: MagicSquareRow[];
   withTotals?: Boolean;
 }
 
-const MagicSquare = ({ name, values, withTotals = false }: MagicSquare) => {
+const MagicSquare = ({
+  name,
+  values,
+  withTotals = false,
+}: MagicSquareProps) => {
   const n = values.length;
   // If with totals row + col, add 2 to square size, otherwise stick with input (n)
   const drawnSquareSize = withTotals ? n + 2 : n;
