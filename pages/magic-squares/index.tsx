@@ -10,7 +10,6 @@ const MagicSquaresInteractive = () => {
         <Lede>An animated exploration of magic squares</Lede>
         <MagicSquare
           name="main"
-          n={3}
           values={[
             [2, 9, 4],
             [7, 5, 3],

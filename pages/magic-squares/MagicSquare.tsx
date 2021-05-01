@@ -7,15 +7,14 @@ type MagicSquareRow = number[];
 
 interface MagicSquare {
   name: string;
-  n: number;
   values: MagicSquareRow[];
   withTotals?: Boolean;
 }
 
-const MagicSquare = ({ name, n, values, withTotals = false }: MagicSquare) => {
+const MagicSquare = ({ name, values, withTotals = false }: MagicSquare) => {
+  const n = values.length;
   // If with totals row + col, add 2 to square size, otherwise stick with input (n)
   const drawnSquareSize = withTotals ? n + 2 : n;
-  // const nArray = new Array(drawnSquareSize).fill(null);
   const lastIndex = drawnSquareSize - 1;
 
   // Whether the row or column is for the totals (first and last row/col)
@@ -60,6 +59,17 @@ const MagicSquare = ({ name, n, values, withTotals = false }: MagicSquare) => {
     return totalCellStyles;
   };
 
+  // Surround the square values with 2 rows and 2 columns on null values for
+  // the totals
+  if (withTotals) {
+    values = values.map((row) => [null, ...row, null]);
+    values = [
+      new Array(drawnSquareSize).fill(null),
+      ...values,
+      new Array(drawnSquareSize).fill(null),
+    ];
+  }
+
   return (
     <table className={styles.grid}>
       <tbody>
@@ -71,7 +81,9 @@ const MagicSquare = ({ name, n, values, withTotals = false }: MagicSquare) => {
                 key={colIndex}
                 className={cx("cell", getTotalsCellClass(rowIndex, colIndex))}
               >
-                {!getIsTotalsRow(rowIndex) && !getIsTotalsColumn(colIndex)
+                {!withTotals
+                  ? `${value}`
+                  : !getIsTotalsRow(rowIndex) && !getIsTotalsColumn(colIndex)
                   ? `${value}`
                   : null}
               </td>
