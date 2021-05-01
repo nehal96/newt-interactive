@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { ArticleContainer, Input, Navbar, Title, Lede } from "../../components";
+import {
+  ArticleContainer,
+  Input,
+  InputPrepend,
+  InputWrapper,
+  Navbar,
+  Title,
+  Lede,
+} from "../../components";
 import MagicSquare from "./MagicSquare";
 // Helpers
 import { generate3x3MagicSquare } from "./magic-squares.helpers";
@@ -58,18 +66,21 @@ const MagicSquaresInteractive = () => {
         <Lede>An animated exploration of magic squares</Lede>
         <div className={styles["input-group"]}>
           {Object.keys(inputValues).map((name) => (
-            <Input
-              name={name}
-              type="number"
-              value={inputValues[name].value}
-              min={1}
-              onChange={(e) => handleInputChange(e.target.value, e.target.name)}
-              onFocus={(e) => handleInputFocus(e.target.name)}
-              className={styles.input}
-              withPrepend
-              prependText={name}
-              key={name}
-            />
+            <InputWrapper key={name}>
+              <InputPrepend>{name}</InputPrepend>
+              <Input
+                name={name}
+                type="number"
+                value={inputValues[name].value}
+                min={1}
+                onChange={(e) =>
+                  handleInputChange(e.target.value, e.target.name)
+                }
+                onFocus={(e) => handleInputFocus(e.target.name)}
+                className={styles.input}
+                withPrepend
+              />
+            </InputWrapper>
           ))}
         </div>
         <MagicSquare name="main" values={squareValues} withTotals={true} />
