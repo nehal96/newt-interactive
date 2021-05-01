@@ -1,0 +1,15 @@
+.input-group {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+/* send help */
+.input-group > div:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.input {
+  width: 80px;
+}
