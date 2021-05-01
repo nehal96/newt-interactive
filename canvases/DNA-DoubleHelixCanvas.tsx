@@ -1,15 +1,47 @@
+import { Vector3 } from "three";
 import { Canvas } from "react-three-fiber";
-import { lazy, Suspense } from "react";
-import { OrbitControls } from "@react-three/drei";
+import { Suspense, useRef } from "react";
+import { OrbitControls, useHelper } from "@react-three/drei";
+import { DNA } from "../components";
 
 interface Genetics {
   slide: number;
 }
 
-// Loading GLTF files in Next is a mess (can't be in pages), so here's a
-// commit that works
-// https://github.com/pmndrs/react-three-fiber/discussions/504
-const DNA = lazy(() => import("../r3f-models/DNA-DoubleHelix"));
+const Lights = () => {
+  const spotlight1 = useRef();
+  const spotlight2 = useRef();
+
+  // if (process.env.NODE_ENV === "development") {
+  //   useHelper(spotlight1, THREE.SpotLightHelper, "white");
+  //   useHelper(spotlight2, THREE.SpotLightHelper, "white");
+  // }
+
+  return (
+    <>
+      <spotLight
+        ref={spotlight1}
+        intensity={4}
+        position={[10, 10, 10]}
+        distance={30}
+        shadow-bias={-0.00005}
+        angle={Math.PI / 6}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+      />
+      <spotLight
+        ref={spotlight2}
+        intensity={4}
+        position={[-10, 10, -10]}
+        distance={30}
+        shadow-bias={-0.00005}
+        angle={Math.PI / 6}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+      />
+    </>
+  );
+};
 
 const GeneticsComponent = ({ slide }: Genetics) => {
   return (
@@ -19,24 +51,15 @@ const GeneticsComponent = ({ slide }: Genetics) => {
         fov: 60,
         near: 0.1,
         far: 1000,
-        position: [6, 6, 6],
+        position: [3, 3, 3],
       }}
     >
-      {/* <cameraHelper /> */}
       <Suspense fallback={null}>
         <DNA exploreMode={slide === 0 ? true : false} />
         <gridHelper args={[20, 40, "blue", "hotpink"]} />
         <axesHelper args={[10]} />
-        <spotLight
-          intensity={2}
-          position={[20, 20, 20]}
-          shadow-bias={-0.00005}
-          angle={Math.PI / 6}
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-          // castShadow
-        />
-        {slide === 0 ? <OrbitControls /> : null}
+        <Lights />
+        {slide === 0 ? <OrbitControls target={new Vector3(0, 2.5, 0)} /> : null}
       </Suspense>
     </Canvas>
   );

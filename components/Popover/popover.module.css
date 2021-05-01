@@ -1,0 +1,18 @@
+.popover-btn {
+  position: relative;
+  background-color: var(--newt-blue-100);
+  padding: 0 0.4rem;
+  font-size: var(--FS-s);
+  font-weight: 500;
+  border-radius: 1rem;
+  top: -0.5rem;
+  margin-left: 3px;
+}
+
+.active {
+  background-color: var(--newt-blue-50);
+}
+
+.popover-content {
+  padding: 0.5rem;
+}

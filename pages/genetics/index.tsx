@@ -6,6 +6,8 @@ import {
   Title,
   Lede,
   Paragraph,
+  Popover,
+  PopoverContent,
   Footer,
 } from "../../components";
 import styles from "./genetics.module.css";
@@ -33,12 +35,15 @@ const GeneticsPage = () => {
           structure of DNA. Gonna make this a bit longer to test
         </Lede>
         <Paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam
-          quisque id diam vel. At tempor commodo ullamcorper a. Consectetur a
-          erat nam at lectus urna duis convallis convallis. Quis commodo odio
-          aenean sed. Porta nibh venenatis cras sed felis eget velit aliquet.
-          Senectus et netus et malesuada fames ac turpis.
+          <Popover content={<PopoverContent>loremmmmm</PopoverContent>}>
+            Lorem ipsum
+          </Popover>{" "}
+          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Quam quisque id diam vel.
+          At tempor commodo ullamcorper a. Consectetur a erat nam at lectus urna
+          duis convallis convallis. Quis commodo odio aenean sed. Porta nibh
+          venenatis cras sed felis eget velit aliquet. Senectus et netus et
+          malesuada fames ac turpis.
         </Paragraph>
         <Paragraph>
           Mauris pharetra et ultrices neque ornare. Commodo odio aenean sed
