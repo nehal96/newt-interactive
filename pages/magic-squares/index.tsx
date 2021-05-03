@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   ArticleContainer,
+  Button,
   Input,
   InputPrepend,
   InputWrapper,
@@ -66,10 +67,21 @@ const MagicSquaresInteractive = () => {
     )
   );
 
-  useEffect(() => {
+  const areVariablesValid = () => {
     const { a, b, c } = inputValues;
 
-    if (a.isValid && b.isValid && c.isValid) {
+    return a.isValid && b.isValid && c.isValid;
+  };
+
+  const onClickAnimate = () => {
+    console.log("animate");
+  };
+
+  useEffect(() => {
+    const { a, b, c } = inputValues;
+    const variablesAreValid = areVariablesValid();
+
+    if (variablesAreValid) {
       const newMagicSquare = generate3x3MagicSquare(a.value, b.value, c.value);
       setSquareValues(newMagicSquare);
     }
@@ -102,6 +114,15 @@ const MagicSquaresInteractive = () => {
               />
             </InputWrapper>
           ))}
+        </div>
+        <div className={styles["btn-container"]}>
+          <Button
+            category="primary"
+            onClick={onClickAnimate}
+            style={{ maxWidth: "500px" }}
+          >
+            Animate
+          </Button>
         </div>
         <MagicSquare name="main" values={squareValues} withTotals={true} />
       </ArticleContainer>

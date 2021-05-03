@@ -63,7 +63,15 @@ input {
   --gray-900: #1a202c;
 
   /* Purple  */
+  --glaucous-100: #e7eaf8;
+  --glaucous-200: #c8cff0;
+  --glaucous-300: #a9b4e8;
+  --glaucous-400: #8a9adf;
   --glaucous-500: #6b7fd7;
+  --glaucous-600: #4c64cf;
+  --glaucous-700: #344ec0;
+  --glaucous-800: #273b91;
+  --glaucous-900: #1b2863;
 
   /* Newt Blue */
   --newt-blue-50: #e9f9ff;
