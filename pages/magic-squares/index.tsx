@@ -77,6 +77,7 @@ const MagicSquaresInteractive = () => {
   };
 
   const onClickAnimate = () => setIsAnimating(true);
+  const onFinishAnimation = () => setIsAnimating(false);
 
   useEffect(() => {
     const { a, b, c } = inputValues;
@@ -109,6 +110,7 @@ const MagicSquaresInteractive = () => {
                   handleInputChange(e.target.value, e.target.name)
                 }
                 onFocus={(e) => handleInputFocus(e.target.name)}
+                disabled={isAnimating}
                 className={styles.input}
                 isValid={inputValues[name].isValid}
                 withPrepend
@@ -120,9 +122,9 @@ const MagicSquaresInteractive = () => {
           <Button
             category="primary"
             onClick={onClickAnimate}
-            style={{ maxWidth: "500px" }}
+            style={{ width: "150px" }}
           >
-            Animate
+            {isAnimating ? "Animating..." : "Animate"}
           </Button>
         </div>
         <MagicSquare
@@ -130,6 +132,7 @@ const MagicSquaresInteractive = () => {
           values={squareValues}
           withTotals={true}
           shouldRunAnimation={isAnimating}
+          onFinishAnimation={onFinishAnimation}
         />
       </ArticleContainer>
     </>

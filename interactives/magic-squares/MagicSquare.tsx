@@ -15,6 +15,7 @@ interface MagicSquareProps {
   values: MagicSquareRow[];
   withTotals?: boolean;
   shouldRunAnimation?: boolean;
+  onFinishAnimation?: () => void;
 }
 
 const MagicSquare = ({
@@ -22,6 +23,7 @@ const MagicSquare = ({
   values,
   withTotals = false,
   shouldRunAnimation = false,
+  onFinishAnimation,
 }: MagicSquareProps) => {
   const n = values.length;
   // If with totals row + col, add 2 to square size, otherwise stick with input (n)
@@ -107,12 +109,15 @@ const MagicSquare = ({
           ))}
         </tbody>
       </table>
-      <Animation
-        shouldAnimate={shouldRunAnimation && withTotals}
-        cells={cellRefs.current}
-        drawnSquareSize={drawnSquareSize}
-        squareName={name}
-      />
+      {withTotals ? (
+        <Animation
+          shouldAnimate={shouldRunAnimation}
+          cells={cellRefs.current}
+          drawnSquareSize={drawnSquareSize}
+          squareName={name}
+          onFinishAnimation={onFinishAnimation}
+        />
+      ) : null}
     </>
   );
 };

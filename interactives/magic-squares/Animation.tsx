@@ -6,6 +6,7 @@ interface AnimationProps {
   cells: Cells;
   drawnSquareSize: number;
   squareName: string;
+  onFinishAnimation: () => void;
 }
 
 const Animation = ({
@@ -13,6 +14,7 @@ const Animation = ({
   cells,
   drawnSquareSize,
   squareName,
+  onFinishAnimation,
 }: AnimationProps) => {
   if (shouldAnimate) {
     // Row/columns start at 1, end at size of drawn square
@@ -176,6 +178,8 @@ const Animation = ({
         );
 
         // console.log(timers);
+      } else {
+        setTimeout(() => onFinishAnimation(), stepCounter * delay);
       }
     };
 
