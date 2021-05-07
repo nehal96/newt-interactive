@@ -1,6 +1,8 @@
+import { useRef } from "react";
+import { runAnimation, generateCellId } from "./magic-squares.helpers";
 import styles from "./MagicSquare.module.css";
 import classnames from "classnames/bind";
-import { MagicSquareRow } from "./types";
+import { Cells, MagicSquareRow } from "./types";
 
 const cx = classnames.bind(styles);
 
@@ -8,17 +10,21 @@ interface MagicSquareProps {
   name: string;
   values: MagicSquareRow[];
   withTotals?: Boolean;
+  shouldRunAnimation?: boolean;
 }
 
 const MagicSquare = ({
   name,
   values,
   withTotals = false,
+  shouldRunAnimation = false,
 }: MagicSquareProps) => {
   const n = values.length;
   // If with totals row + col, add 2 to square size, otherwise stick with input (n)
   const drawnSquareSize = withTotals ? n + 2 : n;
   const lastIndex = drawnSquareSize - 1;
+
+  const cellRefs = useRef<Cells>({});
 
   // Whether the row or column is for the totals (first and last row/col)
   const getIsTotalsRow = (rowIndex) => rowIndex === 0 || rowIndex === lastIndex;
@@ -73,6 +79,12 @@ const MagicSquare = ({
     ];
   }
 
+  // Run animation only if asked and there are total cells drawn (so the totals
+  // can be displayed)
+  if (withTotals && shouldRunAnimation) {
+    runAnimation(cellRefs.current, drawnSquareSize, name);
+  }
+
   return (
     <table className={styles.grid}>
       <tbody>
@@ -80,7 +92,8 @@ const MagicSquare = ({
           <tr key={rowIndex}>
             {row.map((value, colIndex) => (
               <td
-                id={`${name}-r${rowIndex + 1}c${colIndex + 1}`}
+                id={generateCellId(name, rowIndex + 1, colIndex + 1)}
+                ref={(el) => (el ? (cellRefs.current[el.id] = el) : null)}
                 key={colIndex}
                 className={cx("cell", getTotalsCellClass(rowIndex, colIndex))}
               >

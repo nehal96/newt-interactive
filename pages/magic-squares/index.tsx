@@ -38,6 +38,14 @@ const MagicSquaresInteractive = () => {
       isValid: null,
     },
   });
+  const [squareValues, setSquareValues] = useState(
+    generate3x3MagicSquare(
+      inputValues.a.value,
+      inputValues.b.value,
+      inputValues.c.value
+    )
+  );
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const handleInputChange = (value, name) => {
     const val = !value || value === "" ? "" : Number(value);
@@ -57,15 +65,10 @@ const MagicSquaresInteractive = () => {
       ...inputValues,
       [name]: { ...inputValues[name], hasBeenFocused: true },
     });
-  };
 
-  const [squareValues, setSquareValues] = useState(
-    generate3x3MagicSquare(
-      inputValues.a.value,
-      inputValues.b.value,
-      inputValues.c.value
-    )
-  );
+    // To avoid starting another animation sequence (much more to do here)
+    setIsAnimating(false);
+  };
 
   const areVariablesValid = () => {
     const { a, b, c } = inputValues;
@@ -73,9 +76,7 @@ const MagicSquaresInteractive = () => {
     return a.isValid && b.isValid && c.isValid;
   };
 
-  const onClickAnimate = () => {
-    console.log("animate");
-  };
+  const onClickAnimate = () => setIsAnimating(true);
 
   useEffect(() => {
     const { a, b, c } = inputValues;
@@ -124,7 +125,12 @@ const MagicSquaresInteractive = () => {
             Animate
           </Button>
         </div>
-        <MagicSquare name="main" values={squareValues} withTotals={true} />
+        <MagicSquare
+          name="main"
+          values={squareValues}
+          withTotals={true}
+          shouldRunAnimation={isAnimating}
+        />
       </ArticleContainer>
     </>
   );
