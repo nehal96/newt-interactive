@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { generateCellId } from "./magic-squares.helpers";
 import { CellGrouping, Cells } from "./types";
 
@@ -6,6 +7,7 @@ interface AnimationProps {
   cells: Cells;
   drawnSquareSize: number;
   squareName: string;
+  shouldStopAnimation: boolean;
   onFinishAnimation: () => void;
 }
 
@@ -14,8 +16,26 @@ const Animation = ({
   cells,
   drawnSquareSize,
   squareName,
+  shouldStopAnimation,
   onFinishAnimation,
 }: AnimationProps) => {
+  const timers = useRef([]);
+
+  if (shouldStopAnimation) {
+    // Clear all the timers
+    timers.current.forEach((timerId) => {
+      clearTimeout(timerId);
+    });
+
+    // Reset timers ref to empty array
+    timers.current = [];
+
+    // Not sure why just calling onFinishAnimation throws an error saying can't
+    // update parent state while still rendering, but like below, works when
+    // wrapped in a setTimeout
+    setTimeout(() => onFinishAnimation(), 100);
+  }
+
   if (shouldAnimate) {
     // Row/columns start at 1, end at size of drawn square
     const start = 1;
@@ -110,7 +130,7 @@ const Animation = ({
 
     // Animating by each group (or animation step)
     const animateCellGroup = (cellGroup, totalsCellId, isLastAnimation) => {
-      // const timers = [];
+      const timers = [];
 
       for (let i = 0; i <= cellGroup.length; i++) {
         const timerId = setTimeout(() => {
@@ -151,7 +171,7 @@ const Animation = ({
           }
         }, delay * stepCounter);
 
-        // timers.push(timerId);
+        timers.push(timerId);
         stepCounter++;
       }
 
@@ -160,7 +180,7 @@ const Animation = ({
       // Recursively call animate function
       animate(animationStep);
 
-      // return timers;
+      return timers;
     };
 
     const allTotalsCellsIds = Object.keys(allAnimations);
@@ -171,13 +191,14 @@ const Animation = ({
       // Each totals cell Id is one step/group, so call the group animating func.
       // as long as there are groups left to be animated
       if (animationStep < allTotalsCellsIds.length) {
-        const timers = animateCellGroup(
+        const timerIds = animateCellGroup(
           allAnimations[allTotalsCellsIds[animationStep]],
           allTotalsCellsIds[animationStep],
           isLastAnimation
         );
 
-        // console.log(timers);
+        // Spread all the timer ids to timers ref
+        timers.current = [...timers.current, ...timerIds];
       } else {
         setTimeout(() => onFinishAnimation(), stepCounter * delay);
       }

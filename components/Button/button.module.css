@@ -21,7 +21,16 @@
 }
 .btn--primary:hover {
   background-color: var(--glaucous-700);
-  border-color: var(--glaucous-800);
+}
+
+.btn--danger {
+  background-color: var(--red-500);
+  border: 1px solid var(--red-600);
+  color: white;
+}
+
+.btn--danger:hover {
+  background-color: var(--red-600);
 }
 
 .btn--disabled {

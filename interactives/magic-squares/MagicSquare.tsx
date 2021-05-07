@@ -15,6 +15,7 @@ interface MagicSquareProps {
   values: MagicSquareRow[];
   withTotals?: boolean;
   shouldRunAnimation?: boolean;
+  shouldStopAnimation?: boolean;
   onFinishAnimation?: () => void;
 }
 
@@ -23,6 +24,7 @@ const MagicSquare = ({
   values,
   withTotals = false,
   shouldRunAnimation = false,
+  shouldStopAnimation = false,
   onFinishAnimation,
 }: MagicSquareProps) => {
   const n = values.length;
@@ -98,11 +100,7 @@ const MagicSquare = ({
                   key={colIndex}
                   className={cx("cell", getTotalsCellClass(rowIndex, colIndex))}
                 >
-                  {!withTotals
-                    ? `${value}`
-                    : !getIsTotalsRow(rowIndex) && !getIsTotalsColumn(colIndex)
-                    ? `${value}`
-                    : null}
+                  {value ? value : null}
                 </td>
               ))}
             </tr>
@@ -115,6 +113,7 @@ const MagicSquare = ({
           cells={cellRefs.current}
           drawnSquareSize={drawnSquareSize}
           squareName={name}
+          shouldStopAnimation={shouldStopAnimation}
           onFinishAnimation={onFinishAnimation}
         />
       ) : null}

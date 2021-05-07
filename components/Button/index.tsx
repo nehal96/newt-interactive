@@ -18,6 +18,7 @@ const Button = ({ children, category, disabled, ...props }: ButtonProps) => {
     <button
       className={cx("btn", {
         "btn--primary": category === "primary",
+        "btn--danger": category === "danger",
         "btn--disabled": disabled,
       })}
       {...props}

@@ -12,7 +12,7 @@ export type VariableInputs = {
 export type MagicSquareRow = number[];
 
 export type Cells = {
-  [totalsCellId: string]: HTMLTableCellElement;
+  [cellId: string]: HTMLTableCellElement;
 };
 export type CellIds = string[];
 export type CellGrouping = {

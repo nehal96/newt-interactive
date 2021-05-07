@@ -46,6 +46,7 @@ const MagicSquaresInteractive = () => {
     )
   );
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isStoppingAnimation, setIsStoppingAnimation] = useState(false);
 
   const handleInputChange = (value, name) => {
     const val = !value || value === "" ? "" : Number(value);
@@ -77,7 +78,14 @@ const MagicSquaresInteractive = () => {
   };
 
   const onClickAnimate = () => setIsAnimating(true);
-  const onFinishAnimation = () => setIsAnimating(false);
+  const onFinishAnimation = () => {
+    setIsAnimating(false);
+    setIsStoppingAnimation(false);
+  };
+  const stopAnimating = () => {
+    setIsAnimating(false);
+    setIsStoppingAnimation(true);
+  };
 
   useEffect(() => {
     const { a, b, c } = inputValues;
@@ -126,12 +134,20 @@ const MagicSquaresInteractive = () => {
           >
             {isAnimating ? "Animating..." : "Animate"}
           </Button>
+          <Button
+            category="danger"
+            onClick={stopAnimating}
+            style={{ marginLeft: "1rem" }}
+          >
+            Stop
+          </Button>
         </div>
         <MagicSquare
           name="main"
           values={squareValues}
           withTotals={true}
           shouldRunAnimation={isAnimating}
+          shouldStopAnimation={isStoppingAnimation}
           onFinishAnimation={onFinishAnimation}
         />
       </ArticleContainer>
