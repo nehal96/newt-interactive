@@ -1,12 +1,15 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Animation from "./Animation";
 import classnames from "classnames/bind";
 // Stylinh
 import styles from "./MagicSquare.module.css";
 // Helpers
-import { generateCellId } from "./magic-squares.helpers";
+import {
+  generateCellAnimationGroups,
+  generateCellId,
+} from "./magic-squares.helpers";
 // Types
-import { Cells, MagicSquareRow } from "./types";
+import { CellGrouping, Cells, MagicSquareRow } from "./types";
 
 const cx = classnames.bind(styles);
 
@@ -33,6 +36,23 @@ const MagicSquare = ({
   const lastIndex = drawnSquareSize - 1;
 
   const cellRefs = useRef<Cells>({});
+  const [cellAimationGroups, setCellAnimationGroups] = useState<CellGrouping>(
+    {}
+  );
+
+  // Generate cell groupings for animation and set to state to be used by animation
+  // component. Only changes if the size of the matrix changes (or name, but that's
+  // not a variable anyways)
+  useEffect(() => {
+    if (withTotals) {
+      const cellAnimationGroups = generateCellAnimationGroups(
+        drawnSquareSize,
+        name
+      );
+
+      setCellAnimationGroups(cellAnimationGroups);
+    }
+  }, [drawnSquareSize, cellRefs]);
 
   // Whether the row or column is for the totals (first and last row/col)
   const getIsTotalsRow = (rowIndex) => rowIndex === 0 || rowIndex === lastIndex;
@@ -111,6 +131,7 @@ const MagicSquare = ({
         <Animation
           shouldAnimate={shouldRunAnimation}
           cells={cellRefs.current}
+          animationGroups={cellAimationGroups}
           drawnSquareSize={drawnSquareSize}
           squareName={name}
           shouldStopAnimation={shouldStopAnimation}
