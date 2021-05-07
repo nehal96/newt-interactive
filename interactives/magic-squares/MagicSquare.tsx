@@ -1,7 +1,11 @@
 import { useRef } from "react";
-import { runAnimation, generateCellId } from "./magic-squares.helpers";
-import styles from "./MagicSquare.module.css";
+import Animation from "./Animation";
 import classnames from "classnames/bind";
+// Stylinh
+import styles from "./MagicSquare.module.css";
+// Helpers
+import { generateCellId } from "./magic-squares.helpers";
+// Types
 import { Cells, MagicSquareRow } from "./types";
 
 const cx = classnames.bind(styles);
@@ -9,7 +13,7 @@ const cx = classnames.bind(styles);
 interface MagicSquareProps {
   name: string;
   values: MagicSquareRow[];
-  withTotals?: Boolean;
+  withTotals?: boolean;
   shouldRunAnimation?: boolean;
 }
 
@@ -79,35 +83,37 @@ const MagicSquare = ({
     ];
   }
 
-  // Run animation only if asked and there are total cells drawn (so the totals
-  // can be displayed)
-  if (withTotals && shouldRunAnimation) {
-    runAnimation(cellRefs.current, drawnSquareSize, name);
-  }
-
   return (
-    <table className={styles.grid}>
-      <tbody>
-        {values.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {row.map((value, colIndex) => (
-              <td
-                id={generateCellId(name, rowIndex + 1, colIndex + 1)}
-                ref={(el) => (el ? (cellRefs.current[el.id] = el) : null)}
-                key={colIndex}
-                className={cx("cell", getTotalsCellClass(rowIndex, colIndex))}
-              >
-                {!withTotals
-                  ? `${value}`
-                  : !getIsTotalsRow(rowIndex) && !getIsTotalsColumn(colIndex)
-                  ? `${value}`
-                  : null}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <>
+      <table className={styles.grid}>
+        <tbody>
+          {values.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((value, colIndex) => (
+                <td
+                  id={generateCellId(name, rowIndex + 1, colIndex + 1)}
+                  ref={(el) => (el ? (cellRefs.current[el.id] = el) : null)}
+                  key={colIndex}
+                  className={cx("cell", getTotalsCellClass(rowIndex, colIndex))}
+                >
+                  {!withTotals
+                    ? `${value}`
+                    : !getIsTotalsRow(rowIndex) && !getIsTotalsColumn(colIndex)
+                    ? `${value}`
+                    : null}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Animation
+        shouldAnimate={shouldRunAnimation && withTotals}
+        cells={cellRefs.current}
+        drawnSquareSize={drawnSquareSize}
+        squareName={name}
+      />
+    </>
   );
 };
 

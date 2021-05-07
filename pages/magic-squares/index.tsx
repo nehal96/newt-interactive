@@ -9,16 +9,16 @@ import {
   Title,
   Lede,
 } from "../../components";
-import MagicSquare from "./MagicSquare";
+import MagicSquare from "../../interactives/magic-squares/MagicSquare";
 // Helpers
 import {
   generate3x3MagicSquare,
   validateVariables,
-} from "./magic-squares.helpers";
+} from "../../interactives/magic-squares/magic-squares.helpers";
 // Styling
 import styles from "./magic-squares.module.css";
 // Types
-import { VariableInputs } from "./types";
+import { VariableInputs } from "../../interactives/magic-squares/types";
 
 const MagicSquaresInteractive = () => {
   const [inputValues, setInputValues] = useState<VariableInputs>({
