@@ -76,6 +76,11 @@ const MagicSquaresInteractive = () => {
 
     return a.isValid && b.isValid && c.isValid;
   };
+  const atleastOneHasBeenFocused = () => {
+    const { a, b, c } = inputValues;
+
+    return a.hasBeenFocused || b.hasBeenFocused || c.hasBeenFocused;
+  };
 
   const onClickAnimate = () => setIsAnimating(true);
   const onFinishAnimation = () => {
@@ -129,6 +134,7 @@ const MagicSquaresInteractive = () => {
         <div className={styles["btn-container"]}>
           <Button
             category="primary"
+            disabled={!areVariablesValid() && atleastOneHasBeenFocused()}
             onClick={onClickAnimate}
             style={{ width: "150px" }}
           >
@@ -136,6 +142,7 @@ const MagicSquaresInteractive = () => {
           </Button>
           <Button
             category="danger"
+            disabled={!areVariablesValid() && atleastOneHasBeenFocused()}
             onClick={stopAnimating}
             style={{ marginLeft: "1rem" }}
           >
