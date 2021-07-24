@@ -1,43 +1,47 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  max-width: 1700px;
-  margin: auto;
+  margin: 2rem auto;
+  justify-content: center;
 }
 
 .interactive-container {
   height: 60%;
-  padding: 1rem;
+  margin: 1rem;
 }
 
 .interactive-container--inner {
   height: 100%;
-  background-color: #ddd;
+  background-color: var(--gray-500);
 }
 
 .text-container {
   height: 40%;
-  padding: 1rem;
+  margin: 1rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border: 1px solid gray;
 }
 
 @media screen and (min-width: 1024px) {
   .container {
     flex-direction: row;
+    height: auto;
+    margin: 3rem auto;
   }
 
   .interactive-container {
-    height: 100%;
+    height: 600px;
     width: 60%;
   }
 
   .text-container {
     display: flex;
-    height: 100%;
+    height: 600px;
     width: 40%;
     align-items: center;
   }
