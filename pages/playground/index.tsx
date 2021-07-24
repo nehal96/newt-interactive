@@ -1,5 +1,7 @@
+import { ArticleContainer } from "components";
+
 const PlaygroundPage = () => {
-  return <div>playground</div>;
+  return <ArticleContainer>playground</ArticleContainer>;
 };
 
 export default PlaygroundPage;
