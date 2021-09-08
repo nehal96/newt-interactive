@@ -3,7 +3,7 @@ import { Canvas } from "react-three-fiber";
 import { Suspense, useRef } from "react";
 import { OrbitControls, useHelper } from "@react-three/drei";
 import { DNA } from "../components";
-import { Slide } from "../pages/genetics";
+import { Slide } from "../pages/genetics/slides";
 
 interface Genetics {
   slide: Slide;
@@ -56,7 +56,10 @@ const GeneticsComponent = ({ slide }: Genetics) => {
       }}
     >
       <Suspense fallback={null}>
-        <DNA exploreMode={slide?.number === 0 ? true : false} />
+        <DNA
+          exploreMode={slide?.number === 0 ? true : false}
+          cameraPosition={slide?.cameraPosition}
+        />
         <gridHelper args={[20, 40, "blue", "hotpink"]} />
         <axesHelper args={[10]} />
         <Lights />

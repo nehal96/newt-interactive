@@ -10,14 +10,8 @@ import {
   PopoverContent,
   Footer,
 } from "../../components";
+import slides from "./slides";
 import styles from "./genetics.module.css";
-
-export type Slide = {
-  number: number;
-  cameraPosition: [number, number, number];
-  text: string;
-};
-type Slides = Slide[];
 
 // Load r3f components like this to "solve" those can't import module 3js issues
 const XRayCrystallographyGame = dynamic(
@@ -29,18 +23,7 @@ const DNADoubleHelixCanvas = dynamic(
   { ssr: false }
 );
 
-const slides: Slides = [
-  {
-    number: 0,
-    cameraPosition: [0, 0, 0],
-    text: "Welcome to genetics interactive",
-  },
-  {
-    number: 1,
-    cameraPosition: [5, 6, 7],
-    text: "This is slide 1, which will provide some info on the model",
-  },
-];
+
 
 const GeneticsPage = () => {
   const [slideNumber, setSlideNumber] = useState(0);
