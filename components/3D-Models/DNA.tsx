@@ -16,7 +16,7 @@ const DNA = ({ exploreMode }: DNA) => {
 
   useFrame((state) => {
     if (!exploreMode) {
-      state.camera.position.lerp(vec, 0.1);
+      state.camera.position.lerp(vec, 0.04);
       state.camera.lookAt(0, 2, 0);
       state.camera.updateProjectionMatrix();
     }

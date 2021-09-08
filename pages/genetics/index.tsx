@@ -12,6 +12,13 @@ import {
 } from "../../components";
 import styles from "./genetics.module.css";
 
+export type Slide = {
+  number: number;
+  cameraPosition: [number, number, number];
+  text: string;
+};
+type Slides = Slide[];
+
 // Load r3f components like this to "solve" those can't import module 3js issues
 const XRayCrystallographyGame = dynamic(
   () => import("../../canvases/XRayCrystallographyGame"),
@@ -22,8 +29,21 @@ const DNADoubleHelixCanvas = dynamic(
   { ssr: false }
 );
 
+const slides: Slides = [
+  {
+    number: 0,
+    cameraPosition: [0, 0, 0],
+    text: "Welcome to genetics interactive",
+  },
+  {
+    number: 1,
+    cameraPosition: [5, 6, 7],
+    text: "This is slide 1, which will provide some info on the model",
+  },
+];
+
 const GeneticsPage = () => {
-  const [slide, setSlide] = useState(0);
+  const [slideNumber, setSlideNumber] = useState(0);
 
   return (
     <>
@@ -63,14 +83,16 @@ const GeneticsPage = () => {
         <div className={styles.container}>
           <div className={styles["interactive-container"]}>
             <div className={styles["interactive-container--inner"]}>
-              <DNADoubleHelixCanvas slide={slide} />
+              <DNADoubleHelixCanvas slide={slides[slideNumber]} />
             </div>
           </div>
           <div className={styles["text-container"]}>
-            Welcome to genetics interactive
-            <button onClick={() => setSlide((slide) => slide + 1)}>Next</button>
-            <button onClick={() => setSlide(0)}>Reset</button>
-            <p>{`Slide ${slide}`}</p>
+            {slides[slideNumber]?.text ?? "All done. Feel free to explore!"}
+            <button onClick={() => setSlideNumber((slide) => slide + 1)}>
+              Next
+            </button>
+            <button onClick={() => setSlideNumber(0)}>Reset</button>
+            <p>{`Slide ${slideNumber}`}</p>
           </div>
         </div>
         <Paragraph>
