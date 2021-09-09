@@ -57,13 +57,13 @@ const GeneticsComponent = ({ slide }: Genetics) => {
     >
       <Suspense fallback={null}>
         <DNA
-          exploreMode={slide?.number === 0 ? true : false}
+          exploreMode={slide?.exploreMode}
           cameraPosition={slide?.cameraPosition}
         />
         <gridHelper args={[20, 40, "blue", "hotpink"]} />
         <axesHelper args={[10]} />
         <Lights />
-        {slide?.number === 0 ? (
+        {slide?.exploreMode ? (
           <OrbitControls target={new Vector3(0, 2.5, 0)} />
         ) : null}
       </Suspense>

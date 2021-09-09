@@ -70,8 +70,11 @@ const GeneticsPage = () => {
             </div>
           </div>
           <div className={styles["text-container"]}>
-            {slides[slideNumber]?.text ?? "All done. Feel free to explore!"}
-            <button onClick={() => setSlideNumber((slide) => slide + 1)}>
+            {slides[slideNumber]?.text}
+            <button
+              onClick={() => setSlideNumber((slide) => slide + 1)}
+              disabled={slideNumber >= slides.length - 1}
+            >
               Next
             </button>
             <button onClick={() => setSlideNumber(0)}>Reset</button>
