@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { initializeBeliefs } from "./helpers";
+import { initializeBeliefs, randomChoice } from "./helpers";
 import styles from "./LocalizationSimulation.module.css";
 import { SimulationGrid } from "./types";
 
 const LocalizationSimlation2D = () => {
-  const O = "orange";
-  const B = "lightblue";
+  const colors = ["orange", "lightblue"];
+  const [O, B] = colors;
   const grid: SimulationGrid = [
     [O, B, B, B, O],
     [B, B, O, B, O],
@@ -17,6 +17,26 @@ const LocalizationSimlation2D = () => {
   const [currentPosition, setCurrentPosition] = useState({ row: 4, col: 2 });
   const pHit = 3;
   const pMiss = 1;
+  const incorrectSenseProbability = pMiss / (pHit + pMiss);
+
+  const getObservedColor = () => {
+    const trueColor = grid[currentPosition.row][currentPosition.col];
+    let observedColor;
+
+    if (Math.random() < incorrectSenseProbability) {
+      const possibleColors = [];
+      colors.forEach((color) => {
+        if (color !== trueColor) {
+          possibleColors.push(color);
+        }
+      });
+      observedColor = randomChoice(possibleColors);
+    } else {
+      observedColor = trueColor;
+    }
+
+    return observedColor;
+  };
 
   const sense = (color: string, pHit: number, pMiss: number) => {
     const height = grid.length;
@@ -44,6 +64,12 @@ const LocalizationSimlation2D = () => {
       }
     }
 
+    console.log({
+      trueColor: grid[currentPosition.row][currentPosition.col],
+      observedColor: color,
+      prevBeliefs: beliefs,
+      newBeliefs,
+    });
     setBeliefs(newBeliefs);
   };
 
@@ -89,9 +115,7 @@ const LocalizationSimlation2D = () => {
         </tbody>
       </table>
       <button
-        onClick={() =>
-          sense(grid[currentPosition.row][currentPosition.col], pHit, pMiss)
-        }
+        onClick={() => sense(getObservedColor(), pHit, pMiss)}
         style={{ width: 200, marginTop: "2rem", alignSelf: "center" }}
       >
         Sense

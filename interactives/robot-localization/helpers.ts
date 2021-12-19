@@ -9,3 +9,8 @@ export const initializeBeliefs = (grid: SimulationGrid): BeliefsGrid => {
 
   return beliefs;
 };
+
+export const randomChoice = (arr: any[]) => {
+  const index = Math.floor(Math.random() * arr.length);
+  return arr[index];
+};
