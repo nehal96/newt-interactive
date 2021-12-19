@@ -6,11 +6,12 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Genetics</title>
+        <title>Newt Interactive</title>
       </Head>
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Newt Interactive</h1>
         <Link href="/genetics">Genetics</Link>
+        <Link href="/robot-localization">Robot Localization</Link>
       </main>
     </div>
   );
