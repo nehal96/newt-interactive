@@ -1,4 +1,5 @@
 import { Navbar, ArticleContainer, Title, Lede } from "../../components";
+import { LocalizationSimulation2D } from "../../interactives/robot-localization";
 
 const RobotLocalizationPage = () => {
   return (
@@ -7,6 +8,7 @@ const RobotLocalizationPage = () => {
       <ArticleContainer>
         <Title>How a Self-Driving Car Sees the World</Title>
         <Lede>Part One: Robot Localization</Lede>
+        <LocalizationSimulation2D />
       </ArticleContainer>
     </>
   );
