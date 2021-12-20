@@ -14,3 +14,13 @@ export const randomChoice = (arr: any[]) => {
   const index = Math.floor(Math.random() * arr.length);
   return arr[index];
 };
+
+export const randomMove = () => {
+  const dx = randomChoice([1, 0, -1]);
+  const dy = randomChoice([1, 0, -1]);
+  return { dx, dy };
+};
+
+export const mod = (a: number, b: number) => {
+  return ((a % b) + b) % b;
+};

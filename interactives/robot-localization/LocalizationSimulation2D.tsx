@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { initializeBeliefs, randomChoice } from "./helpers";
+import { initializeBeliefs, mod, randomChoice, randomMove } from "./helpers";
 import styles from "./LocalizationSimulation.module.css";
 import { SimulationGrid } from "./types";
 
@@ -13,9 +13,12 @@ const LocalizationSimlation2D = () => {
     [O, O, B, O, B],
     [O, B, O, B, O],
   ];
+  const height = grid.length;
+  const width = grid[0].length;
   const [beliefs, setBeliefs] = useState(initializeBeliefs(grid));
   const [currentPosition, setCurrentPosition] = useState({ row: 4, col: 2 });
-  const pHit = 3;
+  const [prevPosition, setPrevPosition] = useState({ row: 4, col: 2 });
+  const pHit = 24;
   const pMiss = 1;
   const incorrectSenseProbability = pMiss / (pHit + pMiss);
 
@@ -39,8 +42,6 @@ const LocalizationSimlation2D = () => {
   };
 
   const sense = (color: string, pHit: number, pMiss: number) => {
-    const height = grid.length;
-    const width = grid[0].length;
     let total = 0;
     const newBeliefs = [];
 
@@ -71,6 +72,38 @@ const LocalizationSimlation2D = () => {
       newBeliefs,
     });
     setBeliefs(newBeliefs);
+  };
+
+  const move = () => {
+    const { dx, dy } = randomMove();
+    const newX = mod(currentPosition.col + dx, width);
+    const newY = mod(currentPosition.row + dy, height);
+
+    console.log({
+      prevX: currentPosition.col,
+      prevY: currentPosition.row,
+      dx,
+      dy,
+      newX,
+      newY,
+    });
+
+    const shiftedBeliefs = new Array(height).fill(new Array(width).fill(0));
+
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        const newI = mod(i + dy, height);
+        const newJ = mod(j + dx, width);
+        shiftedBeliefs[newI][newJ] = beliefs[i][j];
+      }
+    }
+
+    // TODO: blurring
+    console.log({ beliefs, shiftedBeliefs });
+
+    setPrevPosition({ row: currentPosition.row, col: currentPosition.col });
+    setCurrentPosition({ row: newY, col: newX });
+    setBeliefs(shiftedBeliefs);
   };
 
   return (
@@ -119,6 +152,12 @@ const LocalizationSimlation2D = () => {
         style={{ width: 200, marginTop: "2rem", alignSelf: "center" }}
       >
         Sense
+      </button>
+      <button
+        onClick={() => move()}
+        style={{ width: 200, marginTop: "1rem", alignSelf: "center" }}
+      >
+        Random move
       </button>
     </>
   );
