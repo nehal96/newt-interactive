@@ -1,20 +1,4 @@
-import { useState } from "react";
 import { Slides } from "./types";
-
-const SenseButton = ({ onClick }) => {
-  const [hasClicked, setHasClicked] = useState(false);
-
-  const handleClick = () => {
-    onClick();
-    setHasClicked(true);
-  };
-
-  return (
-    <button onClick={handleClick} disabled={hasClicked}>
-      Sense
-    </button>
-  );
-};
 
 export const SLIDES: Slides = {
   1: {
@@ -64,7 +48,7 @@ export const SLIDES: Slides = {
         </p>
       </>
     ),
-    actionButton: (sense) => <SenseButton onClick={sense} />,
+    actionButton: "sense",
   },
 };
 
