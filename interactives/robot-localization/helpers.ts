@@ -1,5 +1,18 @@
 import { BeliefsGrid, SimulationGrid } from "./types";
 
+export const initialize2DArray = (height: number, width: number) => {
+  const arr = [];
+  for (let i = 0; i < height; i++) {
+    const row = [];
+    for (let j = 0; j < width; j++) {
+      row.push(0);
+    }
+    arr.push(row);
+  }
+
+  return arr;
+};
+
 export const initializeBeliefs = (grid: SimulationGrid): BeliefsGrid => {
   const height = grid.length;
   const width = grid[0].length;
@@ -61,13 +74,7 @@ export function blur(beliefsGrid: BeliefsGrid, blurring: number) {
     [adjacentProb, centerProb, adjacentProb],
     [cornerProb, adjacentProb, cornerProb],
   ];
-  const newBeliefs: BeliefsGrid = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-  ];
+  const newBeliefs: BeliefsGrid = initialize2DArray(height, width);
 
   for (let i = 0; i < height; i++) {
     for (let j = 0; j < width; j++) {

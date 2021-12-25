@@ -6,6 +6,7 @@ import {
   randomMove,
   blur,
   normalize,
+  initialize2DArray,
 } from "./helpers";
 import styles from "./LocalizationSimulation.module.css";
 import { SimulationGrid } from "./types";
@@ -83,13 +84,7 @@ const LocalizationSimlation2D = () => {
       newY,
     });
 
-    const shiftedBeliefs = [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-    ];
+    const shiftedBeliefs = initialize2DArray(height, width);
 
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
