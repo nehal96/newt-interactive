@@ -24,3 +24,72 @@ export const randomMove = () => {
 export const mod = (a: number, b: number) => {
   return ((a % b) + b) % b;
 };
+
+export const normalize = (grid: BeliefsGrid) => {
+  console.log("grid", grid);
+  let total = 0;
+  const normalizedGrid = new Array(grid.length).fill(
+    new Array(grid[0].length).fill(0)
+  );
+
+  grid.forEach((row) => {
+    row.forEach((cell) => {
+      total += cell;
+    });
+  });
+
+  console.log(grid, total);
+
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      normalizedGrid[i][j] = grid[i][j] / total;
+    }
+  }
+
+  console.log("normalized grid", normalizedGrid);
+
+  return normalizedGrid;
+};
+
+export function blur(beliefsGrid: BeliefsGrid, blurring: number) {
+  const height = beliefsGrid.length;
+  const width = beliefsGrid[0].length;
+
+  const centerProb = 1 - blurring;
+  const cornerProb = blurring / 12;
+  const adjacentProb = blurring / 6;
+
+  const window = [
+    [cornerProb, adjacentProb, cornerProb],
+    [adjacentProb, centerProb, adjacentProb],
+    [cornerProb, adjacentProb, cornerProb],
+  ];
+  const newBeliefs: BeliefsGrid = new Array(height).fill(
+    new Array(width).fill(0)
+  );
+
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      const gridVal = beliefsGrid[i][j];
+      for (let dx = -1; dx < 2; dx++) {
+        for (let dy = -1; dy < 2; dy++) {
+          const mult = window[dx + 1][dy + 1];
+          const newI = mod(i + dy, height);
+          const newJ = mod(i + dx, width);
+          newBeliefs[newI][newJ] += mult * gridVal;
+          console.log({
+            i,
+            j,
+            gridVal,
+            multVal: gridVal * mult,
+            newBeliefs,
+          });
+        }
+      }
+    }
+  }
+
+  console.log("new beliefs", newBeliefs);
+
+  return normalize(newBeliefs);
+}

@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { initializeBeliefs, mod, randomChoice, randomMove } from "./helpers";
+import {
+  initializeBeliefs,
+  mod,
+  randomChoice,
+  randomMove,
+  blur,
+} from "./helpers";
 import styles from "./LocalizationSimulation.module.css";
 import { SimulationGrid } from "./types";
 
@@ -18,9 +24,10 @@ const LocalizationSimlation2D = () => {
   const [beliefs, setBeliefs] = useState(initializeBeliefs(grid));
   const [currentPosition, setCurrentPosition] = useState({ row: 4, col: 2 });
   const [prevPosition, setPrevPosition] = useState({ row: 4, col: 2 });
-  const pHit = 24;
+  const pHit = 100;
   const pMiss = 1;
   const incorrectSenseProbability = pMiss / (pHit + pMiss);
+  const blurring = 0.1;
 
   const getObservedColor = () => {
     const trueColor = grid[currentPosition.row][currentPosition.col];
@@ -103,7 +110,7 @@ const LocalizationSimlation2D = () => {
 
     setPrevPosition({ row: currentPosition.row, col: currentPosition.col });
     setCurrentPosition({ row: newY, col: newX });
-    setBeliefs(shiftedBeliefs);
+    setBeliefs(blur(shiftedBeliefs, blurring));
   };
 
   return (
