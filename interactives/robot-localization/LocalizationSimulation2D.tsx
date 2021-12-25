@@ -50,7 +50,6 @@ const LocalizationSimlation2D = () => {
   };
 
   const sense = (color: string, pHit: number, pMiss: number) => {
-    let total = 0;
     const newBeliefs = [];
 
     for (let i = 0; i < height; i++) {
@@ -60,14 +59,12 @@ const LocalizationSimlation2D = () => {
         const isHit = grid[i][j] === color ? 1 : 0;
         const newBelief = beliefs[i][j] * (isHit * pHit + (1 - isHit) * pMiss);
         newBeliefsRow.push(newBelief);
-
-        total += newBelief;
       }
 
       newBeliefs.push(newBeliefsRow);
     }
 
-    const normalizedNewBeliefs = normalize(newBeliefs, total);
+    const normalizedNewBeliefs = normalize(newBeliefs);
 
     setBeliefs(normalizedNewBeliefs);
   };
@@ -86,7 +83,13 @@ const LocalizationSimlation2D = () => {
       newY,
     });
 
-    const shiftedBeliefs = new Array(height).fill(new Array(width).fill(0));
+    const shiftedBeliefs = [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+    ];
 
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {

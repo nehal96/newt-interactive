@@ -25,23 +25,24 @@ export const mod = (a: number, b: number) => {
   return ((a % b) + b) % b;
 };
 
-export const normalize = (grid: BeliefsGrid, total: number = 0) => {
-  const normalizedGrid = new Array(grid.length).fill(
-    new Array(grid[0].length).fill(0)
-  );
+export const normalize = (grid: BeliefsGrid) => {
+  let total = 0;
+  // using new Array constructor has weird behavior with assigning values in 2d
+  const normalizedGrid = [];
 
-  if (!total) {
-    grid.forEach((row) => {
-      row.forEach((cell) => {
-        total += cell;
-      });
+  grid.forEach((row) => {
+    row.forEach((cell) => {
+      total += cell;
     });
-  }
+  });
 
   for (let i = 0; i < grid.length; i++) {
+    const normalizedRow = [];
     for (let j = 0; j < grid[0].length; j++) {
-      normalizedGrid[i][j] = grid[i][j] / total;
+      const normalizedVal = grid[i][j] / total;
+      normalizedRow.push(normalizedVal);
     }
+    normalizedGrid.push(normalizedRow);
   }
 
   return normalizedGrid;
@@ -60,9 +61,13 @@ export function blur(beliefsGrid: BeliefsGrid, blurring: number) {
     [adjacentProb, centerProb, adjacentProb],
     [cornerProb, adjacentProb, cornerProb],
   ];
-  const newBeliefs: BeliefsGrid = new Array(height).fill(
-    new Array(width).fill(0)
-  );
+  const newBeliefs: BeliefsGrid = [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+  ];
 
   for (let i = 0; i < height; i++) {
     for (let j = 0; j < width; j++) {
@@ -71,21 +76,12 @@ export function blur(beliefsGrid: BeliefsGrid, blurring: number) {
         for (let dy = -1; dy < 2; dy++) {
           const mult = window[dx + 1][dy + 1];
           const newI = mod(i + dy, height);
-          const newJ = mod(i + dx, width);
+          const newJ = mod(j + dx, width);
           newBeliefs[newI][newJ] += mult * gridVal;
-          console.log({
-            i,
-            j,
-            gridVal,
-            multVal: gridVal * mult,
-            newBeliefs,
-          });
         }
       }
     }
   }
-
-  console.log("new beliefs", newBeliefs);
 
   return normalize(newBeliefs);
 }
