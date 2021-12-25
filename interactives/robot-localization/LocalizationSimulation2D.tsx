@@ -5,6 +5,7 @@ import {
   randomChoice,
   randomMove,
   blur,
+  normalize,
 } from "./helpers";
 import styles from "./LocalizationSimulation.module.css";
 import { SimulationGrid } from "./types";
@@ -66,19 +67,9 @@ const LocalizationSimlation2D = () => {
       newBeliefs.push(newBeliefsRow);
     }
 
-    for (let i = 0; i < height; i++) {
-      for (let j = 0; j < width; j++) {
-        newBeliefs[i][j] = newBeliefs[i][j] / total;
-      }
-    }
+    const normalizedNewBeliefs = normalize(newBeliefs, total);
 
-    console.log({
-      trueColor: grid[currentPosition.row][currentPosition.col],
-      observedColor: color,
-      prevBeliefs: beliefs,
-      newBeliefs,
-    });
-    setBeliefs(newBeliefs);
+    setBeliefs(normalizedNewBeliefs);
   };
 
   const move = () => {

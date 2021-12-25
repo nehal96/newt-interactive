@@ -25,28 +25,24 @@ export const mod = (a: number, b: number) => {
   return ((a % b) + b) % b;
 };
 
-export const normalize = (grid: BeliefsGrid) => {
-  console.log("grid", grid);
-  let total = 0;
+export const normalize = (grid: BeliefsGrid, total: number = 0) => {
   const normalizedGrid = new Array(grid.length).fill(
     new Array(grid[0].length).fill(0)
   );
 
-  grid.forEach((row) => {
-    row.forEach((cell) => {
-      total += cell;
+  if (!total) {
+    grid.forEach((row) => {
+      row.forEach((cell) => {
+        total += cell;
+      });
     });
-  });
-
-  console.log(grid, total);
+  }
 
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[0].length; j++) {
       normalizedGrid[i][j] = grid[i][j] / total;
     }
   }
-
-  console.log("normalized grid", normalizedGrid);
 
   return normalizedGrid;
 };
