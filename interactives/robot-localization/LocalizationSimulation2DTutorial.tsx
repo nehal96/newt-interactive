@@ -16,7 +16,13 @@ const LocalizationSimulation2DTutorial = () => {
   return (
     <InteractiveTutorialContainer>
       <TextContainer>
+        {/* Slide text */}
         {SLIDES[slide]?.text ? SLIDES[slide].text : null}
+        {/* Action button */}
+        {SLIDES[slide]?.actionButton
+          ? SLIDES[slide]?.actionButton(() => alert("sense"))
+          : null}
+        {/* Back + Next buttons */}
         <div style={{ display: "flex" }}>
           {slide > 1 ? <button onClick={goToPreviousSlide}>Back</button> : null}
           {slide < totalSlides ? (
