@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { DetailedHTMLProps, FunctionComponent, HTMLAttributes } from "react";
 import styles from "./InteractiveContainer.module.css";
 
 export const InteractiveTutorialContainer: FunctionComponent = ({
@@ -15,6 +15,12 @@ export const InteractiveContainer: FunctionComponent = ({ children }) => {
   );
 };
 
-export const TextContainer: FunctionComponent = ({ children }) => {
-  return <div className={styles["text-container"]}>{children}</div>;
+export const TextContainer: FunctionComponent<
+  DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+> = ({ children, ...props }) => {
+  return (
+    <div className={styles["text-container"]} {...props}>
+      {children}
+    </div>
+  );
 };

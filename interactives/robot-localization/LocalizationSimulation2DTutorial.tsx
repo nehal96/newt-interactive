@@ -46,23 +46,45 @@ const LocalizationSimulation2DTutorial = () => {
 
   return (
     <InteractiveTutorialContainer>
-      <TextContainer>
-        {/* Slide text */}
-        {SLIDES[slide]?.text ? SLIDES[slide].text : null}
-        {/* Action button */}
-        {SLIDES[slide]?.actionButton
-          ? renderActionButton(
-              SLIDES[slide].actionButton.type,
-              SLIDES[slide].actionButton.args,
-              SLIDES[slide].actionButton.goToNextSlide
-            )
-          : null}
-        {/* Back + Next buttons */}
-        <div style={{ display: "flex" }}>
-          {slide > 1 ? <button onClick={goToPreviousSlide}>Back</button> : null}
-          {slide < totalSlides ? (
-            <button onClick={goToNextSlide}>Next</button>
-          ) : null}
+      <TextContainer style={{ justifyContent: "flex-start" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            color: "#a0aec0",
+          }}
+        >
+          {slide} / {totalSlides}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {/* Slide text */}
+            {SLIDES[slide]?.text ? SLIDES[slide].text : null}
+            {/* Action button */}
+            {SLIDES[slide]?.actionButton
+              ? renderActionButton(
+                  SLIDES[slide].actionButton.type,
+                  SLIDES[slide].actionButton.args,
+                  SLIDES[slide].actionButton.goToNextSlide
+                )
+              : null}
+          </div>
+          {/* Back + Next buttons */}
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {slide > 1 ? (
+              <button onClick={goToPreviousSlide}>Back</button>
+            ) : null}
+            {slide < totalSlides ? (
+              <button onClick={goToNextSlide}>Next</button>
+            ) : null}
+          </div>
         </div>
       </TextContainer>
       <InteractiveContainer>
