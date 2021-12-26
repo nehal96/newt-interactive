@@ -43,12 +43,47 @@ export const SLIDES: Slides = {
           move around and localize itself within its environment.
         </p>
         <p>
-          Let's start by sensing the current tile first. Click the Sense button
-          to begin.
+          Take a quick look at the grid, and then let's start by sensing the
+          current tile. Click the Sense button to begin.
         </p>
       </>
     ),
     actionButton: "sense",
+  },
+  4: {
+    text: (
+      <>
+        <p>Did you notice what happened?</p>
+        <p>
+          The robot sensed it was on an orange tile, and then updated its{" "}
+          <b>belief</b> about where it was on the grid.
+        </p>
+        <p>
+          It now believes its more likely to be on an orange tile, and less
+          likely to be on a blue one, and the probabilities have shifted
+          accordingly.
+        </p>
+      </>
+    ),
+  },
+  5: {
+    text: (
+      <>
+        <p>
+          Now let's move the robot up by one tile, onto the light blue square on
+          row 4.
+        </p>
+        <p>Make note of the positions of the dark blue circles.</p>
+      </>
+    ),
+    actionButton: "move",
+  },
+  6: {
+    text: (
+      <>
+        <p>6</p>
+      </>
+    ),
   },
 };
 

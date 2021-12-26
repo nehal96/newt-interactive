@@ -8,7 +8,7 @@ import {
   mod,
   randomMove,
 } from "./helpers";
-import { GridPosition, SimulationGrid } from "./types";
+import { GridPosition, GridPositionChange, SimulationGrid } from "./types";
 
 export default function useLocalizationSimulation() {
   const colors = ["orange", "lightblue"];
@@ -76,8 +76,18 @@ export default function useLocalizationSimulation() {
     setBeliefs(normalizedNewBeliefs);
   };
 
-  const move = () => {
-    const { dx, dy } = randomMove();
+  const move = (to?: GridPositionChange) => {
+    let dx, dy;
+
+    if (!to) {
+      const pos = randomMove();
+      dx = pos.dx;
+      dy = pos.dy;
+    } else {
+      dx = to.dx;
+      dy = to.dy;
+    }
+
     const newX = mod(currentPosition.col + dx, width);
     const newY = mod(currentPosition.row + dy, height);
 

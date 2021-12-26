@@ -11,16 +11,26 @@ import { SlideAction } from "./types";
 
 const LocalizationSimulation2DTutorial = () => {
   const [slide, setSlide] = useState(1);
-  const { grid, beliefs, currentPosition, sense } = useLocalizationSimulation();
+  const { grid, beliefs, currentPosition, sense, move } =
+    useLocalizationSimulation();
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
   const renderActionButton = (type: SlideAction) => {
+    const onSense = () => {
+      sense();
+      setSlide(slide + 1);
+    };
+    const onMove = () => {
+      move({ dx: 0, dy: -1 });
+      setSlide(slide + 1);
+    };
+
     switch (type) {
       case "sense":
-        return <button onClick={sense}>Sense</button>;
+        return <button onClick={onSense}>Sense</button>;
       case "move":
-        return <button onClick={() => alert("move")}>Move</button>;
+        return <button onClick={onMove}>Move</button>;
       default:
         return null;
     }

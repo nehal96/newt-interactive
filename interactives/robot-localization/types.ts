@@ -4,6 +4,10 @@ export type GridPosition = {
   row: number;
   col: number;
 };
+export type GridPositionChange = {
+  dx: number;
+  dy: number;
+};
 
 export type SlideAction = "sense" | "move";
 type Slide = {
