@@ -7,7 +7,7 @@ import {
 } from "../../components";
 import useLocalizationSimulation from "./hooks";
 import { SLIDES, totalSlides } from "./slides";
-import { SlideAction } from "./types";
+import { ActionButton } from "./types";
 
 const LocalizationSimulation2DTutorial = () => {
   const [slide, setSlide] = useState(1);
@@ -16,14 +16,22 @@ const LocalizationSimulation2DTutorial = () => {
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
-  const renderActionButton = (type: SlideAction) => {
+  const renderActionButton = (
+    type: ActionButton["type"],
+    args: ActionButton["args"],
+    goToNextSlide: ActionButton["goToNextSlide"]
+  ) => {
     const onSense = () => {
       sense();
-      setSlide(slide + 1);
+      if (goToNextSlide) {
+        setSlide(slide + 1);
+      }
     };
     const onMove = () => {
-      move({ dx: 0, dy: -1 });
-      setSlide(slide + 1);
+      args ? move(args) : move();
+      if (goToNextSlide) {
+        setSlide(slide + 1);
+      }
     };
 
     switch (type) {
@@ -43,7 +51,11 @@ const LocalizationSimulation2DTutorial = () => {
         {SLIDES[slide]?.text ? SLIDES[slide].text : null}
         {/* Action button */}
         {SLIDES[slide]?.actionButton
-          ? renderActionButton(SLIDES[slide].actionButton)
+          ? renderActionButton(
+              SLIDES[slide].actionButton.type,
+              SLIDES[slide].actionButton.args,
+              SLIDES[slide].actionButton.goToNextSlide
+            )
           : null}
         {/* Back + Next buttons */}
         <div style={{ display: "flex" }}>

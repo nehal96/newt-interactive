@@ -48,7 +48,11 @@ export const SLIDES: Slides = {
         </p>
       </>
     ),
-    actionButton: "sense",
+    actionButton: {
+      type: "sense",
+      args: null,
+      goToNextSlide: true,
+    },
   },
   4: {
     text: (
@@ -76,7 +80,14 @@ export const SLIDES: Slides = {
         <p>Make note of the positions of the dark blue circles.</p>
       </>
     ),
-    actionButton: "move",
+    actionButton: {
+      type: "move",
+      args: {
+        dx: 0,
+        dy: -1,
+      },
+      goToNextSlide: true,
+    },
   },
   6: {
     text: (
