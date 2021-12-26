@@ -106,6 +106,11 @@ export default function useLocalizationSimulation() {
     setBeliefs(blur(shiftedBeliefs, blurring));
   };
 
+  const reset = () => {
+    setBeliefs(initializeBeliefs(grid));
+    setCurrentPosition({ row: 4, col: 2 });
+  };
+
   return {
     grid,
     height,
@@ -115,5 +120,6 @@ export default function useLocalizationSimulation() {
     getObservedColor,
     sense,
     move,
+    reset,
   };
 }

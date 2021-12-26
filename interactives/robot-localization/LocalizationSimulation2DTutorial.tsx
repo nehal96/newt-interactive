@@ -11,11 +11,16 @@ import { ActionButton } from "./types";
 
 const LocalizationSimulation2DTutorial = () => {
   const [slide, setSlide] = useState(1);
-  const { grid, beliefs, currentPosition, sense, move } =
+  const { grid, beliefs, currentPosition, sense, move, reset } =
     useLocalizationSimulation();
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
+  const onReset = () => {
+    reset();
+    setSlide(1);
+  };
+
   const renderActionButton = (
     type: ActionButton["type"],
     args: ActionButton["args"],
@@ -54,6 +59,9 @@ const LocalizationSimulation2DTutorial = () => {
             color: "#a0aec0",
           }}
         >
+          <button onClick={onReset} style={{ marginRight: "1rem" }}>
+            Reset
+          </button>
           {slide} / {totalSlides}
         </div>
         <div
