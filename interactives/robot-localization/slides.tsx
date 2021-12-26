@@ -92,9 +92,51 @@ export const SLIDES: Slides = {
   6: {
     text: (
       <>
-        <p>6</p>
+        <p>Did you notice the change?</p>
+        <p>
+          All the robots beliefs shifted up by one as well, to account for its
+          movement.
+        </p>
+        <p>
+          Now, we'll see how, with this Sense and Move cycle, a robot can
+          eventually be confident in its current position even if the sensors
+          make mistakes every now and then.
+        </p>
       </>
     ),
+  },
+  7: {
+    text: (
+      <>
+        <p>We've sensed and moved once. Let's do it once more.</p>
+      </>
+    ),
+    actionButton: {
+      type: "sense",
+      args: null,
+      goToNextSlide: true,
+    },
+  },
+  8: {
+    text: (
+      <>
+        <p>
+          Last time, we specifically moved up a tile. This time, let's move in a
+          random direction.
+        </p>
+        <p>
+          This can be up or down, left or right, or any of the four diagonals.
+        </p>
+      </>
+    ),
+    actionButton: {
+      type: "move",
+      args: null,
+      goToNextSlide: true,
+    },
+  },
+  9: {
+    text: <p>nine</p>,
   },
 };
 
