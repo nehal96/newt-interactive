@@ -1,13 +1,15 @@
 import Link from "next/link";
-import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   return (
-    <nav className={styles.nav}>
-      <div className={styles.container}>
+    <nav className="flex justify-center items-center w-full box-border h-20 px-8 bg-indigo-400">
+      <div className="max-w-7xl">
         <Link href="/">
-          <a className={styles.logo}>
-            newt <span className={styles.notLogo}>interactive</span>
+          <a
+            className="font-logo text-4xl text-white"
+            style={{ lineHeight: "60px" }}
+          >
+            newt <span className="font-body text-3xl">interactive</span>
           </a>
         </Link>
       </div>

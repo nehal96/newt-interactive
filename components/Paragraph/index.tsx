@@ -1,5 +1,3 @@
-import styles from "./Paragraph.module.css";
-
 interface Paragraph {
   children: React.ReactNode;
 }

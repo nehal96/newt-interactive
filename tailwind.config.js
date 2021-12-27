@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         body: ["avenir"],
         title: ["DM Serif Display"],
+        logo: ["Righteous"],
       },
     },
   },
