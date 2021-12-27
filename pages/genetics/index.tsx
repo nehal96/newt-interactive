@@ -68,8 +68,15 @@ const GeneticsPage = () => {
           </div>
           <div className={styles["text-container"]}>
             Welcome to genetics interactive
-            <button onClick={() => setSlide((slide) => slide + 1)}>Next</button>
-            <button onClick={() => setSlide(0)}>Reset</button>
+            <button
+              className={styles.btn}
+              onClick={() => setSlide((slide) => slide + 1)}
+            >
+              Next
+            </button>
+            <button className={styles.btn} onClick={() => setSlide(0)}>
+              Reset
+            </button>
             <p>{`Slide ${slide}`}</p>
           </div>
         </div>
