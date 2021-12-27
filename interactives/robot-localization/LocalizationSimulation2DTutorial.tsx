@@ -8,6 +8,7 @@ import {
 import useLocalizationSimulation from "./hooks";
 import { SLIDES, totalSlides } from "./slides";
 import { ActionButton } from "./types";
+import styles from "./LocalizationSimulation.module.css";
 
 const LocalizationSimulation2DTutorial = () => {
   const [slide, setSlide] = useState(1);
@@ -41,9 +42,23 @@ const LocalizationSimulation2DTutorial = () => {
 
     switch (type) {
       case "sense":
-        return <button onClick={onSense}>Sense</button>;
+        return (
+          <button
+            className="py-1 px-2 border border-slate-500 rounded-md mr-4"
+            onClick={onSense}
+          >
+            Sense
+          </button>
+        );
       case "move":
-        return <button onClick={onMove}>Move</button>;
+        return (
+          <button
+            className="py-1 px-2 border border-slate-500 rounded-md mr-4"
+            onClick={onMove}
+          >
+            Move
+          </button>
+        );
       default:
         return null;
     }
@@ -51,30 +66,22 @@ const LocalizationSimulation2DTutorial = () => {
 
   return (
     <InteractiveTutorialContainer>
-      <TextContainer style={{ justifyContent: "flex-start" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            color: "#a0aec0",
-          }}
-        >
-          <button onClick={onReset} style={{ marginRight: "1rem" }}>
+      <TextContainer>
+        <div className="flex items-center justify-end text-slate-400 mb-6">
+          <button
+            className="py-1 px-2 border border-slate-400 rounded-md mr-4"
+            onClick={onReset}
+          >
             Reset
           </button>
-          {slide} / {totalSlides}
+          {`${slide} / ${totalSlides}`}
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            height: "100%",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column" }}>
+        <div className="flex flex-col justify-between h-full">
+          <div className="flex flex-col">
             {/* Slide text */}
-            {SLIDES[slide]?.text ? SLIDES[slide].text : null}
+            <div className={styles["slide-text"]}>
+              {SLIDES[slide]?.text ? SLIDES[slide].text : null}
+            </div>
             {/* Action button */}
             {SLIDES[slide]?.actionButton
               ? renderActionButton(
@@ -85,12 +92,22 @@ const LocalizationSimulation2DTutorial = () => {
               : null}
           </div>
           {/* Back + Next buttons */}
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className="flex justify-center">
             {slide > 1 ? (
-              <button onClick={goToPreviousSlide}>Back</button>
+              <button
+                className="py-1 px-2 border border-slate-500 rounded-md mr-4"
+                onClick={goToPreviousSlide}
+              >
+                Back
+              </button>
             ) : null}
             {slide < totalSlides ? (
-              <button onClick={goToNextSlide}>Next</button>
+              <button
+                className="py-1 px-2 border border-slate-500 rounded-md mr-4"
+                onClick={goToNextSlide}
+              >
+                Next
+              </button>
             ) : null}
           </div>
         </div>

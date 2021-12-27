@@ -1,10 +1,6 @@
 
 .grid {
-  border-collapse: collapse;
-  border-spacing: inherit;
-  font-size: 1.75rem;
-  display: flex;
-  align-self: center;
+  @apply border-collapse text-2xl flex self-center;
 }
 
 .cell {
@@ -12,4 +8,8 @@
   height: 75px;
   border: 1px solid black;
   text-align: center;
+}
+
+.slide-text > p {
+  @apply mb-4 text-slate-800;
 }

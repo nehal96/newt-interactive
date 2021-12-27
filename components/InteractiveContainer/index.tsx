@@ -1,16 +1,19 @@
 import { DetailedHTMLProps, FunctionComponent, HTMLAttributes } from "react";
-import styles from "./InteractiveContainer.module.css";
 
 export const InteractiveTutorialContainer: FunctionComponent = ({
   children,
 }) => {
-  return <div className={styles.container}>{children}</div>;
+  return (
+    <div className="flex flex-col w-full my-8 mx-auto justify-center lg:flex-row lg:my-12">
+      {children}
+    </div>
+  );
 };
 
 export const InteractiveContainer: FunctionComponent = ({ children }) => {
   return (
-    <div className={styles["interactive-container"]}>
-      <div className={styles["interactive-container--inner"]}>{children}</div>
+    <div className="flex justify-center m-4 lg:my-0 lg:w-2/5">
+      <div className="flex flex-col justify-center">{children}</div>
     </div>
   );
 };
@@ -19,7 +22,10 @@ export const TextContainer: FunctionComponent<
   DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 > = ({ children, ...props }) => {
   return (
-    <div className={styles["text-container"]} {...props}>
+    <div
+      className="flex flex-col justify-start p-6 m-4 border border-slate-300 rounded-xl lg:my-0 lg:w-3/5"
+      {...props}
+    >
       {children}
     </div>
   );
