@@ -1,7 +1,6 @@
 import Tippy, { TippyProps } from "@tippyjs/react";
 import { useState } from "react";
 import "tippy.js/dist/tippy.css";
-import styles from "./popover.module.css";
 
 interface PopoverProps extends Omit<TippyProps, "children"> {
   children: React.ReactNode;
@@ -11,7 +10,7 @@ interface PopoverContentProps {
 }
 
 export const PopoverContent = ({ children }: PopoverContentProps) => {
-  return <div className={styles["popover-content"]}>{children}</div>;
+  return <div className="p-2">{children}</div>;
 };
 
 const Popover = ({
@@ -25,7 +24,7 @@ const Popover = ({
 
   return (
     <>
-      <span className={isShown ? styles.active : null}>{children}</span>
+      <span className={isShown ? "bg-newt-blue-50" : null}>{children}</span>
       <Tippy
         content={content}
         interactive={interactive}
@@ -34,7 +33,9 @@ const Popover = ({
         onHide={() => setIsShown(false)}
         {...props}
       >
-        <span className={styles["popover-btn"]}>i</span>
+        <span className="relative bg-newt-blue-100 px-1.5 text-sm font-medium rounded-2xl -top-2 ml-1">
+          i
+        </span>
       </Tippy>
     </>
   );

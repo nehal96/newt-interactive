@@ -5,6 +5,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        "newt-blue": {
+          50: "#e9f9ff",
+          100: "#d5f5ff",
+        },
+      },
       fontFamily: {
         body: ["avenir"],
         title: ["DM Serif Display"],
