@@ -7,7 +7,7 @@ import {
 } from "../../components";
 import useLocalizationSimulation from "./hooks";
 import { SLIDES, totalSlides } from "./slides";
-import { ActionButton } from "./types";
+import { ActionButtons, MoveButton, SenseButton } from "./types";
 import styles from "./LocalizationSimulation.module.css";
 
 const LocalizationSimulation2DTutorial = () => {
@@ -22,46 +22,49 @@ const LocalizationSimulation2DTutorial = () => {
     setSlide(1);
   };
 
-  const renderActionButton = (
-    type: ActionButton["type"],
-    args: ActionButton["args"],
-    goToNextSlide: ActionButton["goToNextSlide"]
-  ) => {
-    const onSense = () => {
+  const renderActionButtons = (actionButtons: ActionButtons) => {
+    const onSense = (goNext: SenseButton["goToNextSlide"]) => {
       sense();
-      if (goToNextSlide) {
+      if (goNext) {
         setSlide(slide + 1);
       }
     };
-    const onMove = () => {
+    const onMove = (
+      args: MoveButton["args"],
+      goNext: MoveButton["goToNextSlide"]
+    ) => {
       args ? move(args) : move();
-      if (goToNextSlide) {
+      if (goNext) {
         setSlide(slide + 1);
       }
     };
 
-    switch (type) {
-      case "sense":
-        return (
-          <button
-            className="py-1 px-2 border border-slate-500 rounded-md mr-4"
-            onClick={onSense}
-          >
-            Sense
-          </button>
-        );
-      case "move":
-        return (
-          <button
-            className="py-1 px-2 border border-slate-500 rounded-md mr-4"
-            onClick={onMove}
-          >
-            Move
-          </button>
-        );
-      default:
-        return null;
-    }
+    return actionButtons.map((button, index) => {
+      switch (button.type) {
+        case "sense":
+          return (
+            <button
+              key={index}
+              className="py-1 px-2 border border-slate-500 rounded-md mb-4"
+              onClick={() => onSense(button.goToNextSlide)}
+            >
+              Sense
+            </button>
+          );
+        case "move":
+          return (
+            <button
+              key={index}
+              className="py-1 px-2 border border-slate-500 rounded-md mb-4"
+              onClick={() => onMove(button.args, button.goToNextSlide)}
+            >
+              Move
+            </button>
+          );
+        default:
+          return null;
+      }
+    });
   };
 
   return (
@@ -83,12 +86,8 @@ const LocalizationSimulation2DTutorial = () => {
               {SLIDES[slide]?.text ? SLIDES[slide].text : null}
             </div>
             {/* Action button */}
-            {SLIDES[slide]?.actionButton
-              ? renderActionButton(
-                  SLIDES[slide].actionButton.type,
-                  SLIDES[slide].actionButton.args,
-                  SLIDES[slide].actionButton.goToNextSlide
-                )
+            {SLIDES[slide]?.actionButtons
+              ? renderActionButtons(SLIDES[slide]?.actionButtons)
               : null}
           </div>
           {/* Back + Next buttons */}

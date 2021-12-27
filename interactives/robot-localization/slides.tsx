@@ -48,11 +48,13 @@ export const SLIDES: Slides = {
         </p>
       </>
     ),
-    actionButton: {
-      type: "sense",
-      args: null,
-      goToNextSlide: true,
-    },
+    actionButtons: [
+      {
+        type: "sense",
+        args: null,
+        goToNextSlide: true,
+      },
+    ],
   },
   4: {
     text: (
@@ -80,14 +82,16 @@ export const SLIDES: Slides = {
         <p>Make note of the positions of the dark blue circles.</p>
       </>
     ),
-    actionButton: {
-      type: "move",
-      args: {
-        dx: 0,
-        dy: -1,
+    actionButtons: [
+      {
+        type: "move",
+        args: {
+          dx: 0,
+          dy: -1,
+        },
+        goToNextSlide: true,
       },
-      goToNextSlide: true,
-    },
+    ],
   },
   6: {
     text: (
@@ -111,11 +115,13 @@ export const SLIDES: Slides = {
         <p>We've sensed and moved once. Let's do it once more.</p>
       </>
     ),
-    actionButton: {
-      type: "sense",
-      args: null,
-      goToNextSlide: true,
-    },
+    actionButtons: [
+      {
+        type: "sense",
+        args: null,
+        goToNextSlide: true,
+      },
+    ],
   },
   8: {
     text: (
@@ -129,14 +135,33 @@ export const SLIDES: Slides = {
         </p>
       </>
     ),
-    actionButton: {
-      type: "move",
-      args: null,
-      goToNextSlide: true,
-    },
+    actionButtons: [
+      {
+        type: "move",
+        args: null,
+        goToNextSlide: true,
+      },
+    ],
   },
   9: {
-    text: <p>nine</p>,
+    text: (
+      <p>
+        Now, let's repeat this Sense and move cycle several more times, and
+        notice what happens.
+      </p>
+    ),
+    actionButtons: [
+      {
+        type: "sense",
+        args: null,
+        goToNextSlide: false,
+      },
+      {
+        type: "move",
+        args: null,
+        goToNextSlide: false,
+      },
+    ],
   },
 };
 

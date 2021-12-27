@@ -9,20 +9,20 @@ export type GridPositionChange = {
   dy: number;
 };
 
-export type ActionButton =
-  | {
-      type: "sense";
-      args: null;
-      goToNextSlide: boolean;
-    }
-  | {
-      type: "move";
-      args: GridPositionChange | null;
-      goToNextSlide: boolean;
-    };
+export type SenseButton = {
+  type: "sense";
+  args: null;
+  goToNextSlide: boolean;
+};
+export type MoveButton = {
+  type: "move";
+  args: GridPositionChange | null;
+  goToNextSlide: boolean;
+};
+export type ActionButtons = Array<SenseButton | MoveButton>;
 type Slide = {
   text: JSX.IntrinsicElements["p"];
-  actionButton?: ActionButton;
+  actionButtons?: ActionButtons;
 };
 export type Slides = {
   [index: number]: Slide;
