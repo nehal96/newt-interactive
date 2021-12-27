@@ -1,14 +1,9 @@
 .title {
-  font-family: "DM Serif Display", serif;
-  font-size: var(--FS-5xl);
-  justify-self: center;
-  align-self: center;
-  text-align: center;
+  @apply font-title text-5xl justify-self-center self-center text-center;
 }
 
 @media screen and (min-width: 1024px) {
   .title {
-    font-size: var(--FS-6xl);
-    margin-bottom: 2.5rem;
+    @apply text-6xl mb-10;
   }
 }
