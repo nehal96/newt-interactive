@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        body: ["avenir"],
         title: ["DM Serif Display"],
       },
     },
