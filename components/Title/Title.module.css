@@ -1,9 +1,0 @@
-.title {
-  @apply font-title text-5xl justify-self-center self-center text-center;
-}
-
-@media screen and (min-width: 1024px) {
-  .title {
-    @apply text-6xl mb-10;
-  }
-}
