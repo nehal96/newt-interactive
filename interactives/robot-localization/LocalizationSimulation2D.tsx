@@ -33,7 +33,7 @@ const LocalizationSimlation2D = ({
                       cx="50%"
                       cy="50%"
                       r={beliefs[rowIndex][colIndex] * 36}
-                      fill="darkblue"
+                      fill="#1e40af"
                     />
                     {rowIndex === currentPosition.row &&
                     colIndex === currentPosition.col ? (

@@ -213,6 +213,7 @@ export const SLIDES: Slides = {
                 The first row or column is actally denoted by the number 0
               </PopoverContent>
             }
+            highlightColor="newt-blue-100"
           >
             zero-indexed
           </Popover>{" "}
@@ -283,7 +284,68 @@ export const SLIDES: Slides = {
     section: "code-explain",
     text: (
       <>
-        <p>boom</p>
+        <p>
+          Now, most likely the robot sensed 'orange', and all orange tiles have
+          a slightly larger blue circle. (If you're part of the 1% that sensed
+          incorrectly, it will be the light blue tiles).
+        </p>
+        <p>
+          Take a look at the beliefs array below. It was previously all{" "}
+          <code>0.04</code>. Now, some{" "}
+          <Popover
+            content={
+              <PopoverContent>
+                I've rounded the digits to 2 sigfigs to make them easier to read
+              </PopoverContent>
+            }
+            highlightColor="newt-blue-100"
+          >
+            should be <code>0.09</code> and others <code>0.0009</code>.
+          </Popover>
+        </p>
+        <p>
+          We've updated our beliefs about where the robot is, and if you got
+          orange, the robot has more-or-less narrowed it down to 11 tiles.
+        </p>
+        <p>
+          In the previous slide, I said that we could multiply the measured
+          probability values by 99. So how did we get decimals here?
+        </p>
+        <p>
+          After the multiplication, we <b>normalized</b> the array -- because
+          probabilities have to add up to 1, we divided each multiplied value by
+          the array's total to get the same proportion.
+        </p>
+      </>
+    ),
+  },
+  15: {
+    section: "code-explain",
+    text: (
+      <>
+        <p>
+          Now the next step for our robot is to move. Once again, we're going to
+          move up a tile by 1.
+        </p>
+        <p>
+          Notice where the dark-blue circles are now, and try and predict where
+          they'll shift to after the robot moves.
+        </p>
+      </>
+    ),
+    actionButtons: [
+      {
+        type: "move",
+        args: { dx: 0, dy: -1 },
+        goToNextSlide: true,
+      },
+    ],
+  },
+  16: {
+    section: "code-explain",
+    text: (
+      <>
+        <p>16</p>
       </>
     ),
   },
