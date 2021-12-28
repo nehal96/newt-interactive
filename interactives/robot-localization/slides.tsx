@@ -163,6 +163,30 @@ export const SLIDES: Slides = {
       },
     ],
   },
+  10: {
+    text: (
+      <>
+        <p>
+          If you've run this several times, you should see that the robot's
+          belief has converged to its actual location (the blue circle is
+          largest where the robot is).
+        </p>
+        <p>
+          So far, you haven't seen what's happening under the hood. So let's
+          take a look.
+        </p>
+      </>
+    ),
+    onNext: ["reset", "show under the hood"],
+    nextButtonTitle: "Reset and Next",
+  },
+  11: {
+    text: (
+      <>
+        <p>We've reset back to where we started.</p>
+      </>
+    ),
+  },
 };
 
 export const totalSlides = Object.keys(SLIDES).length;

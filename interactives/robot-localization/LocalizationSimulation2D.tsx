@@ -5,6 +5,7 @@ const LocalizationSimlation2D = ({
   grid,
   beliefs,
   currentPosition,
+  showUnderTheHood,
 }: LocalizationSimulaton2D) => {
   return (
     <>
@@ -47,6 +48,11 @@ const LocalizationSimlation2D = ({
           ))}
         </tbody>
       </table>
+      {showUnderTheHood ? (
+        <code className="border border-slate-500 rounded-md bg-slate-700 text-slate-50 font-mono mt-4 p-4">
+          beliefs = {JSON.stringify(beliefs)}
+        </code>
+      ) : null}
     </>
   );
 };

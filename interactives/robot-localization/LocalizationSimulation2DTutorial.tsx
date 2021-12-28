@@ -7,19 +7,39 @@ import {
 } from "../../components";
 import useLocalizationSimulation from "./hooks";
 import { SLIDES, totalSlides } from "./slides";
-import { ActionButtons, MoveButton, SenseButton } from "./types";
+import { ActionButtons, MoveButton, NextAction, SenseButton } from "./types";
 import styles from "./LocalizationSimulation.module.css";
 
 const LocalizationSimulation2DTutorial = () => {
   const [slide, setSlide] = useState(1);
   const { grid, beliefs, currentPosition, sense, move, reset } =
     useLocalizationSimulation();
+  const [showUnderTheHood, setShowUnderTheHood] = useState(false);
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
+
   const onReset = () => {
     reset();
     setSlide(1);
+  };
+  const onNext = (actions?: NextAction[]) => {
+    goToNextSlide();
+    actions?.map((action) => {
+      console.log(action);
+      switch (action) {
+        case "reset":
+          reset();
+        case "show under the hood":
+          setShowUnderTheHood(true);
+          break;
+        case "hide under the hood":
+          setShowUnderTheHood(false);
+          break;
+        default:
+          return;
+      }
+    });
   };
 
   const renderActionButtons = (actionButtons: ActionButtons) => {
@@ -103,9 +123,11 @@ const LocalizationSimulation2DTutorial = () => {
             {slide < totalSlides ? (
               <button
                 className="py-1 px-2 border border-slate-500 rounded-md mr-4"
-                onClick={goToNextSlide}
+                onClick={() => onNext(SLIDES[slide]?.onNext)}
               >
-                Next
+                {SLIDES[slide]?.nextButtonTitle
+                  ? SLIDES[slide]?.nextButtonTitle
+                  : "Next"}
               </button>
             ) : null}
           </div>
@@ -116,6 +138,7 @@ const LocalizationSimulation2DTutorial = () => {
           grid={grid}
           beliefs={beliefs}
           currentPosition={currentPosition}
+          showUnderTheHood={showUnderTheHood}
         />
       </InteractiveContainer>
     </InteractiveTutorialContainer>
