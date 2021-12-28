@@ -16,8 +16,13 @@ const LocalizationSimlation2D = ({
               {row.map((val, colIndex) => (
                 <td
                   key={`r${rowIndex + 1}c${colIndex + 1}`}
-                  className={styles.cell}
-                  style={{ backgroundColor: val }}
+                  className={`${styles.cell} ${
+                    val === "orange"
+                      ? "bg-orange-300"
+                      : val === "lightblue"
+                      ? "bg-sky-300"
+                      : "bg-white"
+                  } `}
                 >
                   <svg
                     height="100%"
@@ -49,8 +54,10 @@ const LocalizationSimlation2D = ({
         </tbody>
       </table>
       {showUnderTheHood ? (
-        <code className="border border-slate-500 rounded-md bg-slate-700 text-slate-50 font-mono mt-4 p-4">
-          beliefs = {JSON.stringify(beliefs)}
+        <code className="border border-slate-500 rounded-md bg-slate-700 text-slate-50 font-mono mt-4 p-4 whitespace-pre-wrap">
+          {`beliefs = ${JSON.stringify(
+            beliefs
+          )}\n\ncurrentPosition = ${JSON.stringify(currentPosition)}`}
         </code>
       ) : null}
     </>

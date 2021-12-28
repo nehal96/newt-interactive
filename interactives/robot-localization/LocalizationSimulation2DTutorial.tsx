@@ -7,7 +7,13 @@ import {
 } from "../../components";
 import useLocalizationSimulation from "./hooks";
 import { SLIDES, totalSlides } from "./slides";
-import { ActionButtons, MoveButton, NextAction, SenseButton } from "./types";
+import {
+  ActionButtons,
+  BackAction,
+  MoveButton,
+  NextAction,
+  SenseButton,
+} from "./types";
 import styles from "./LocalizationSimulation.module.css";
 
 const LocalizationSimulation2DTutorial = () => {
@@ -26,13 +32,24 @@ const LocalizationSimulation2DTutorial = () => {
   const onNext = (actions?: NextAction[]) => {
     goToNextSlide();
     actions?.map((action) => {
-      console.log(action);
       switch (action) {
         case "reset":
           reset();
         case "show under the hood":
           setShowUnderTheHood(true);
           break;
+        case "hide under the hood":
+          setShowUnderTheHood(false);
+          break;
+        default:
+          return;
+      }
+    });
+  };
+  const onBack = (actions?: BackAction[]) => {
+    goToPreviousSlide();
+    actions?.map((action) => {
+      switch (action) {
         case "hide under the hood":
           setShowUnderTheHood(false);
           break;
@@ -115,7 +132,7 @@ const LocalizationSimulation2DTutorial = () => {
             {slide > 1 ? (
               <button
                 className="py-1 px-2 border border-slate-500 rounded-md mr-4"
-                onClick={goToPreviousSlide}
+                onClick={() => onBack(SLIDES[slide]?.onBack)}
               >
                 Back
               </button>

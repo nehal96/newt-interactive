@@ -1,3 +1,4 @@
+import { Popover, PopoverContent } from "../../components";
 import { Slides } from "./types";
 
 export const SLIDES: Slides = {
@@ -178,12 +179,60 @@ export const SLIDES: Slides = {
       </>
     ),
     onNext: ["reset", "show under the hood"],
-    nextButtonTitle: "Reset and Next",
   },
   11: {
     text: (
       <>
-        <p>We've reset back to where we started.</p>
+        <p>
+          We've reset back to where we started. We've also displayed a box below
+          the grid displaying the associated data -- a peek under the hood.
+        </p>
+        <p>
+          Beliefs is represented as a <code>2D array</code>. Each row in the
+          array represents a row on the grid, and each value in the array
+          represents the robot's belief that it's on that cell.
+        </p>
+        <p>
+          The robot's position is denoted by the <code>currentPosition</code>{" "}
+          object, which has the fields <code>row</code> and <code>col</code>{" "}
+          representing the row and column. The values are{" "}
+          <Popover
+            content={
+              <PopoverContent>
+                The first row or column is actally denoted by the number 0
+              </PopoverContent>
+            }
+          >
+            zero-indexed
+          </Popover>{" "}
+          because arrays are zero-indexed, which why the current position has a
+          value of <code>(4, 2)</code>.
+        </p>
+      </>
+    ),
+    onBack: ["hide under the hood"],
+  },
+  12: {
+    text: (
+      <>
+        <p>
+          When we click Sense, we do two things. First the robot measures the
+          color of the tile it's on, which will make a correct measurement 99%
+          of the time. Then based on the measurement, it will update its belief
+          across the entire grid. If it senses that the tile it's on is orange,
+          then it increases the probability of all orange tiles and decreases
+          the probability of all light-blue tiles.
+        </p>
+        <p>First, how did we get that 99% value? Here's the math:</p>
+        <pre className="mb-4 p-4 border border-slate-300 rounded-md bg-slate-300 text-slate-800">
+          <code>{`pHit = 99\npMiss = 1\nincorrectSenseProbability = pMiss / (pHit + pMiss)`}</code>
+        </pre>
+        <p>
+          With these values, the probability the robot senses incorrectly is{" "}
+          <code>1/100</code> or 1%, which means the probability it senses
+          correctly is 99%. Later, you'll be able to change these values and see
+          how it affects the outcome.
+        </p>
       </>
     ),
   },

@@ -24,11 +24,13 @@ export type NextAction =
   | "reset"
   | "show under the hood"
   | "hide under the hood";
+export type BackAction = "hide under the hood";
 type Slide = {
   text: JSX.IntrinsicElements["p"];
   actionButtons?: ActionButtons;
   onNext?: NextAction[];
   nextButtonTitle?: string;
+  onBack?: BackAction[];
 };
 export type Slides = {
   [index: number]: Slide;
