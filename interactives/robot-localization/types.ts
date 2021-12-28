@@ -9,6 +9,7 @@ export type GridPositionChange = {
   dy: number;
 };
 
+type Section = "overview" | "code-explain";
 export type SenseButton = {
   type: "sense";
   args: null;
@@ -26,6 +27,7 @@ export type NextAction =
   | "hide under the hood";
 export type BackAction = "hide under the hood";
 type Slide = {
+  section: Section;
   text: JSX.IntrinsicElements["p"];
   actionButtons?: ActionButtons;
   onNext?: NextAction[];

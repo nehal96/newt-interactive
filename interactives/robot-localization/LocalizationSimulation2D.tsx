@@ -54,9 +54,9 @@ const LocalizationSimlation2D = ({
         </tbody>
       </table>
       {showUnderTheHood ? (
-        <code className="border border-slate-500 rounded-md bg-slate-700 text-slate-50 font-mono mt-4 p-4 whitespace-pre-wrap">
+        <code className="border border-slate-500 rounded-md bg-slate-700 text-slate-50 mt-4 p-4 whitespace-pre-wrap overflow-auto">
           {`beliefs = ${JSON.stringify(
-            beliefs
+            beliefs.map((row) => row.map((val) => val.toPrecision(2)))
           )}\n\ncurrentPosition = ${JSON.stringify(currentPosition)}`}
         </code>
       ) : null}

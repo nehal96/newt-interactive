@@ -106,7 +106,11 @@ const LocalizationSimulation2DTutorial = () => {
 
   return (
     <InteractiveTutorialContainer>
-      <TextContainer>
+      <TextContainer
+        className={
+          SLIDES[slide]?.section === "code-explain" ? "lg:w-1/2" : "lg:w-3/5"
+        }
+      >
         <div className="flex items-center justify-end text-slate-400 mb-6">
           <button
             className="py-1 px-2 border border-slate-400 rounded-md mr-4"
@@ -150,7 +154,11 @@ const LocalizationSimulation2DTutorial = () => {
           </div>
         </div>
       </TextContainer>
-      <InteractiveContainer>
+      <InteractiveContainer
+        className={
+          SLIDES[slide]?.section === "code-explain" ? "lg:w-1/2" : "lg:w-2/5"
+        }
+      >
         <LocalizationSimulation2D
           grid={grid}
           beliefs={beliefs}

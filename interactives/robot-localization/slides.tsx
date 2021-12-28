@@ -3,6 +3,7 @@ import { Slides } from "./types";
 
 export const SLIDES: Slides = {
   1: {
+    section: "overview",
     text: (
       <>
         <p>
@@ -19,6 +20,7 @@ export const SLIDES: Slides = {
     ),
   },
   2: {
+    section: "overview",
     text: (
       <>
         <p>
@@ -36,6 +38,7 @@ export const SLIDES: Slides = {
     ),
   },
   3: {
+    section: "overview",
     text: (
       <>
         <p>
@@ -58,6 +61,7 @@ export const SLIDES: Slides = {
     ],
   },
   4: {
+    section: "overview",
     text: (
       <>
         <p>Did you notice what happened?</p>
@@ -74,6 +78,7 @@ export const SLIDES: Slides = {
     ),
   },
   5: {
+    section: "overview",
     text: (
       <>
         <p>
@@ -95,6 +100,7 @@ export const SLIDES: Slides = {
     ],
   },
   6: {
+    section: "overview",
     text: (
       <>
         <p>Did you notice the change?</p>
@@ -111,6 +117,7 @@ export const SLIDES: Slides = {
     ),
   },
   7: {
+    section: "overview",
     text: (
       <>
         <p>We've sensed and moved once. Let's do it once more.</p>
@@ -125,6 +132,7 @@ export const SLIDES: Slides = {
     ],
   },
   8: {
+    section: "overview",
     text: (
       <>
         <p>
@@ -145,6 +153,7 @@ export const SLIDES: Slides = {
     ],
   },
   9: {
+    section: "overview",
     text: (
       <p>
         Now, let's repeat this Sense and move cycle several more times, and
@@ -165,6 +174,7 @@ export const SLIDES: Slides = {
     ],
   },
   10: {
+    section: "overview",
     text: (
       <>
         <p>
@@ -181,6 +191,7 @@ export const SLIDES: Slides = {
     onNext: ["reset", "show under the hood"],
   },
   11: {
+    section: "code-explain",
     text: (
       <>
         <p>
@@ -213,6 +224,7 @@ export const SLIDES: Slides = {
     onBack: ["hide under the hood"],
   },
   12: {
+    section: "code-explain",
     text: (
       <>
         <p>
@@ -224,7 +236,7 @@ export const SLIDES: Slides = {
           the probability of all light-blue tiles.
         </p>
         <p>First, how did we get that 99% value? Here's the math:</p>
-        <pre className="mb-4 p-4 border border-slate-300 rounded-md bg-slate-300 text-slate-800">
+        <pre className="mb-4 p-4 border border-slate-700 rounded-md bg-slate-700 text-slate-50">
           <code>{`pHit = 99\npMiss = 1\nincorrectSenseProbability = pMiss / (pHit + pMiss)`}</code>
         </pre>
         <p>
@@ -233,6 +245,45 @@ export const SLIDES: Slides = {
           correctly is 99%. Later, you'll be able to change these values and see
           how it affects the outcome.
         </p>
+      </>
+    ),
+  },
+  13: {
+    section: "code-explain",
+    text: (
+      <>
+        <pre className="mb-4 p-4 border border-slate-700 rounded-md bg-slate-700 text-slate-50">
+          <code>{`pHit = 99\npMiss = 1\n`}</code>
+        </pre>
+        <p>
+          So now after taking a measurment, we go over each cell in the grid,
+          and if the color matches the measured color, we multiply the belief by{" "}
+          <code>pHit</code>, otherwise we multiply with <code>pMiss</code>.
+        </p>
+        <p>
+          So in this example, if the robot senses orange, all orange cells
+          belief value will be multiplied by 99, and all light-blue tiles will
+          be multipled by 1.
+        </p>
+        <p>
+          Let's try this again. Click on Sense and see what happens to the
+          belief values
+        </p>
+      </>
+    ),
+    actionButtons: [
+      {
+        type: "sense",
+        args: null,
+        goToNextSlide: true,
+      },
+    ],
+  },
+  14: {
+    section: "code-explain",
+    text: (
+      <>
+        <p>boom</p>
       </>
     ),
   },
