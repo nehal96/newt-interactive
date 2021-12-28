@@ -345,7 +345,81 @@ export const SLIDES: Slides = {
     section: "code-explain",
     text: (
       <>
-        <p>16</p>
+        <p>
+          If you guessed that the beliefs would shift up by one as well, you're
+          correct. But if you take a look at the <code>beliefs</code> array
+          again, you'll notice that the values are slightly different.
+        </p>
+        <p>
+          This is because of a step called <i>blurring</i>. We won't go into its
+          details now, but you can think of blurring as spreading a little bit
+          of a tile's probability to its neighboring tiles, mimicking
+          uncertainty in movement.
+        </p>
+        <p>
+          You can also see that <code>currentPosition</code> got updated as
+          well, and the robot is now in <code>row 3</code>.
+        </p>
+      </>
+    ),
+  },
+  17: {
+    section: "code-explain",
+    text: (
+      <>
+        <p>
+          Now let's repeat this Sense and Move cycle repeatedly, and see how the{" "}
+          <code>beliefs</code> array changes over cycles. Remember, clicking
+          Move now means that the robot will move at random to any neighboring
+          tile, or stay in the same spot.
+        </p>
+      </>
+    ),
+    actionButtons: [
+      {
+        type: "sense",
+        args: null,
+        goToNextSlide: false,
+      },
+      {
+        type: "move",
+        args: null,
+        goToNextSlide: false,
+      },
+    ],
+  },
+  18: {
+    section: "code-explain",
+    text: (
+      <>
+        <p>
+          Eventually, even with potential erroneous measurements, the belief
+          will converge to the robot's actual position, with its associated
+          value in the array hovering around <code>0.9</code>.
+        </p>
+        <p>
+          So despite the robot starting at a random spot, having some
+          uncertainty in its measurment, and some uncertainty in its movement,
+          we have a basic algorithm that still manages to figure out if
+          location.
+        </p>
+        <p>Ofcourse, this is a highly simplified model, but it's a start.</p>
+        <p>In the beginning we set out some initial conditions:</p>
+        <pre className="mb-4 p-4 border border-slate-700 rounded-md bg-slate-700 text-slate-50">
+          <code>{`pHit = 99\npMiss = 1\n`}</code>
+        </pre>
+        <p>
+          Now, let's set up a playground environment where you can change these
+          values, and see what happens.
+        </p>
+      </>
+    ),
+  },
+  19: {
+    section: "playground",
+    text: (
+      <>
+        <p>playground</p>
       </>
     ),
   },

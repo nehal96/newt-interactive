@@ -28,14 +28,18 @@ const LocalizationSimulation2DTutorial = () => {
 
   const onJumpToSection = (section: Section) => {
     switch (section) {
-      case "overview":
+      case "overview": {
         setSlide(1);
+        setShowUnderTheHood(false);
         break;
-      case "code-explain":
+      }
+      case "code-explain": {
         // TODO: might have to change slides data structure to array to find
         // slide programmatically
         setSlide(11);
+        setShowUnderTheHood(true);
         break;
+      }
       default:
         return;
     }

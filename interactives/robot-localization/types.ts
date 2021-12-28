@@ -9,7 +9,7 @@ export type GridPositionChange = {
   dy: number;
 };
 
-export type Section = "overview" | "code-explain";
+export type Section = "overview" | "code-explain" | "playground";
 export type SenseButton = {
   type: "sense";
   args: null;
