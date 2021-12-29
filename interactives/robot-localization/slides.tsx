@@ -1,8 +1,12 @@
 import { Popover, PopoverContent } from "../../components";
 import { GetSlideParams, Slides } from "./types";
-import { ActionButton } from "./LocalizationSlides";
+import { ActionButton, Playground } from "./LocalizationSlides";
 
-export function getSlides({ onSense, onMove }: GetSlideParams): Slides {
+export function getSlides({
+  onSense,
+  onMove,
+  playgroundValues,
+}: GetSlideParams): Slides {
   return {
     1: {
       section: "overview",
@@ -372,7 +376,9 @@ export function getSlides({ onSense, onMove }: GetSlideParams): Slides {
       text: (
         <>
           <p>playground</p>
-          <input type="range" min="1" max="100" value="50"></input>
+          <Playground values={playgroundValues} />
+          <ActionButton onClick={() => onSense(false)}>Sense</ActionButton>
+          <ActionButton onClick={() => onMove(null, false)}>Move</ActionButton>
         </>
       ),
     },

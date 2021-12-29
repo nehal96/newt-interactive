@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 export type SimulationGrid = string[][];
 export type BeliefsGrid = number[][];
@@ -17,9 +17,16 @@ export type NextAction =
   | "show under the hood"
   | "hide under the hood";
 export type BackAction = "hide under the hood";
+export type PlaygroundValues = {
+  pHit: number;
+  setPHit: Dispatch<SetStateAction<number>>;
+  pMiss: number;
+  setPMiss: Dispatch<SetStateAction<number>>;
+};
 export type GetSlideParams = {
   onSense: (goToNextSlide: boolean) => void;
   onMove: (args: GridPositionChange, goToNextSlide: boolean) => void;
+  playgroundValues: PlaygroundValues;
 };
 type Slide = {
   section: Section;

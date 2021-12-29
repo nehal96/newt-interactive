@@ -10,7 +10,7 @@ import {
 } from "./helpers";
 import { GridPosition, GridPositionChange, SimulationGrid } from "./types";
 
-export default function useLocalizationSimulation() {
+export default function useLocalizationSimulation(pHit = 99, pMiss = 1) {
   const colors = ["orange", "lightblue"];
   const [O, B] = colors;
   const grid: SimulationGrid = [
@@ -31,8 +31,6 @@ export default function useLocalizationSimulation() {
     row: 4,
     col: 2,
   });
-  const pHit = 100;
-  const pMiss = 1;
   const incorrectSenseProbability = pMiss / (pHit + pMiss);
   const blurring = 0.1;
 

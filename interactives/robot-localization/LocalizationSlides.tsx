@@ -1,6 +1,7 @@
+import { useState } from "react";
 import styles from "./LocalizationSimulation.module.css";
 import { TextContainer } from "../../components";
-import { LocalizationSlidesProps } from "./types";
+import { LocalizationSlidesProps, PlaygroundValues } from "./types";
 
 export const ActionButton = ({ children, onClick }) => {
   return (
@@ -10,6 +11,65 @@ export const ActionButton = ({ children, onClick }) => {
     >
       {children}
     </button>
+  );
+};
+
+export const Playground = ({ values }: { values: PlaygroundValues }) => {
+  const { pHit, setPHit, pMiss, setPMiss } = values;
+  const incorrectSenseProb = pMiss / (pHit + pMiss);
+
+  return (
+    <>
+      <div className="mb-8">
+        <label>
+          <code>pHit</code>: Sensor hit value
+        </label>
+        <div className="flex">
+          <input
+            name="pHit"
+            type="range"
+            value={pHit}
+            min={0}
+            max={100}
+            step={0.5}
+            onChange={(e) => setPHit(Number(e.target.value))}
+            className="flex-auto"
+          />
+          <span className="w-8 ml-2">{pHit}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-xs">0</span>
+          <span className="text-xs mr-10">100</span>
+        </div>
+      </div>
+      <div className="mb-8">
+        <label>
+          <code>pMiss</code>: Sensor miss value
+        </label>
+        <div className="flex">
+          <input
+            name="pMiss"
+            type="range"
+            value={pMiss}
+            min={0}
+            max={100}
+            step={0.5}
+            onChange={(e) => setPMiss(Number(e.target.value))}
+            className="flex-auto"
+          />
+          <span className="w-8 ml-2">{pMiss}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-xs">0</span>
+          <span className="text-xs mr-10">100</span>
+        </div>
+      </div>
+      <div className="mb-8">
+        <code>{`incorrectSenseProbability = ${incorrectSenseProb.toPrecision(
+          3
+        )}`}</code>
+      </div>
+    </>
   );
 };
 
