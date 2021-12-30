@@ -11,7 +11,7 @@ export default function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Newt Interactive</h1>
         <Link href="/genetics">Genetics</Link>
-        <Link href="/robot-localization">Robot Localization</Link>
+        <Link href="/sdc/part-one">Robot Localization</Link>
       </main>
     </div>
   );

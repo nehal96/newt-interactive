@@ -1,5 +1,5 @@
-import { Navbar, ArticleContainer, Title, Lede } from "../../components";
-import LocalizationSimulation2DTutorial from "../../interactives/robot-localization/LocalizationSimulation2DTutorial";
+import { Navbar, ArticleContainer, Title, Lede } from "../../../components";
+import LocalizationSimulation2DTutorial from "../../../interactives/robot-localization/LocalizationSimulation2DTutorial";
 
 const RobotLocalizationPage = () => {
   return (
