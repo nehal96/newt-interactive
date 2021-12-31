@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { LocalizationSimulation2D } from ".";
+import LocalizationSimulation2D from "./LocalizationSimulation2D";
 import {
   InteractiveContainer,
   InteractiveTutorialContainer,

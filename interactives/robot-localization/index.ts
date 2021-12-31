@@ -1,1 +1,1 @@
-export { default as LocalizationSimulation2D } from "./LocalizationSimulation2D";
+export { default as RobotLocalization } from "./LocalizationSimulation2DTutorial";
