@@ -37,14 +37,20 @@ const LocalizationSimlation2D = ({
                     />
                     {rowIndex === currentPosition.row &&
                     colIndex === currentPosition.col ? (
-                      <text
-                        x="50%"
-                        y="50%"
-                        dominantBaseline="middle"
-                        textAnchor="middle"
+                      <svg
+                        width="37"
+                        height="51"
+                        viewBox="0 0 37 51"
+                        fill="none"
+                        x="17.5"
+                        y="10.5"
                       >
-                        Q
-                      </text>
+                        <path
+                          d="M18.1865 50.1389L0.614135 25.5L18.1865 0.861102L35.7589 25.5L18.1865 50.1389Z"
+                          stroke="white"
+                          strokeWidth={4}
+                        />
+                      </svg>
                     ) : null}
                   </svg>
                 </td>
