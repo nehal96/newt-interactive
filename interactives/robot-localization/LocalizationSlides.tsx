@@ -1,16 +1,16 @@
-import { useState } from "react";
 import styles from "./LocalizationSimulation.module.css";
-import { TextContainer } from "../../components";
+import { Button, TextContainer } from "../../components";
 import { LocalizationSlidesProps, PlaygroundValues } from "./types";
 
 export const ActionButton = ({ children, onClick }) => {
   return (
-    <button
-      className="w-1/2 self-center py-1 px-2 border border-slate-500 rounded-md mb-4"
+    <Button
+      variant="primary"
+      className="w-1/2 self-center mb-4"
       onClick={onClick}
     >
       {children}
-    </button>
+    </Button>
   );
 };
 
@@ -120,12 +120,13 @@ const LocalizationSlides = ({
           </button>
         </div>
         <div>
-          <button
-            className="py-1 px-2 border border-slate-400 rounded-md mr-4 text-sm"
+          <Button
+            variant="outline"
+            className="mr-4 text-sm hover:text-slate-500"
             onClick={onReset}
           >
             Reset
-          </button>
+          </Button>
           <span>{`${slideNumber} / ${totalSlides}`}</span>
         </div>
       </div>
@@ -139,20 +140,22 @@ const LocalizationSlides = ({
         {/* Back + Next buttons */}
         <div className="flex justify-center">
           {slideNumber > 1 ? (
-            <button
-              className="py-1 px-2 border border-slate-500 rounded-md mr-4"
+            <Button
+              variant="secondary"
+              className="mr-2 px-4"
               onClick={() => onBack(slide?.onBack)}
             >
               Back
-            </button>
+            </Button>
           ) : null}
           {slideNumber < totalSlides ? (
-            <button
-              className="py-1 px-2 border border-slate-500 rounded-md mr-4"
+            <Button
+              variant="secondary"
+              className="ml-2 px-4"
               onClick={() => onNext(slide?.onNext)}
             >
               Next
-            </button>
+            </Button>
           ) : null}
         </div>
       </div>
