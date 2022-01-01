@@ -10,7 +10,12 @@ import {
 } from "./helpers";
 import { GridPosition, GridPositionChange, SimulationGrid } from "./types";
 
-export default function useLocalizationSimulation(pHit = 99, pMiss = 1) {
+const INITIAL_P_HIT = 99;
+const INITIAL_P_MISS = 1;
+
+export default function useLocalizationSimulation() {
+  const [pHit, setPHit] = useState(INITIAL_P_HIT);
+  const [pMiss, setPMiss] = useState(INITIAL_P_MISS);
   const colors = ["orange", "lightblue"];
   const [O, B] = colors;
   const grid: SimulationGrid = [
@@ -107,6 +112,8 @@ export default function useLocalizationSimulation(pHit = 99, pMiss = 1) {
   const reset = () => {
     setBeliefs(initializeBeliefs(grid));
     setCurrentPosition({ row: 4, col: 2 });
+    setPHit(INITIAL_P_HIT);
+    setPMiss(INITIAL_P_MISS);
   };
 
   return {
@@ -119,5 +126,9 @@ export default function useLocalizationSimulation(pHit = 99, pMiss = 1) {
     sense,
     move,
     reset,
+    pHit,
+    setPHit,
+    pMiss,
+    setPMiss,
   };
 }

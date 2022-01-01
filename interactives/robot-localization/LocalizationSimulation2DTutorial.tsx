@@ -11,10 +11,18 @@ import LocalizationSlides from "./LocalizationSlides";
 
 const LocalizationSimulation2DTutorial = () => {
   const [slide, setSlide] = useState(1);
-  const [pHit, setPHit] = useState(99);
-  const [pMiss, setPMiss] = useState(1);
-  const { grid, beliefs, currentPosition, sense, move, reset } =
-    useLocalizationSimulation(pHit, pMiss);
+  const {
+    grid,
+    beliefs,
+    currentPosition,
+    sense,
+    move,
+    reset,
+    pHit,
+    setPHit,
+    pMiss,
+    setPMiss,
+  } = useLocalizationSimulation();
   const [showUnderTheHood, setShowUnderTheHood] = useState(false);
 
   const goToNextSlide = () => setSlide(slide + 1);
