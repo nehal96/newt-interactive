@@ -1,4 +1,4 @@
-import { Popover, PopoverContent } from "../../components";
+import { Code, InlineCode, Popover, PopoverContent } from "../../components";
 import { GetSlideParams, Slides } from "./types";
 import { ActionButton, Playground } from "./LocalizationSlides";
 
@@ -13,11 +13,11 @@ export function getSlides({
       text: (
         <>
           <p>
-            Here we have a 5x5 grid with our robot (Q) with tiles of two
-            colours: orange and light blue.
+            Here we have a 5x5 grid with our robot (white diamond) with tiles of
+            two colours: orange and light blue.
           </p>
           <p>
-            The dark blue circles indicate the robot's belief of where it
+            The dark blue circles indicate the robot's <i>belief</i> of where it
             currently is. Initially, it has no idea, so all positions are
             equally likely.
           </p>
@@ -31,14 +31,15 @@ export function getSlides({
         <>
           <p>
             The sensor can identify the colour of the tile it's currently in.
-            But the sensor's not a 100% accurate. Sometimes, very rarely, it
-            makes an error.
+            But the sensor's not 100% accurate. Sometimes, very rarely, it makes
+            an error.
           </p>
           <p>This introduces uncertainty in measurement.</p>
           <p>
-            The robot can move as well -- left or right, up or down, or any of
-            the four diagonals. The grid's also mirrored -- going past an edge
-            brings you to the other side, like going through a portal.
+            The robot can move as well &mdash; left or right, up or down, or any
+            of the four diagonals. The grid is also mirrored &mdash; going past
+            an edge brings you to the other parallel side, like going through a
+            portal.
           </p>
         </>
       ),
@@ -48,13 +49,13 @@ export function getSlides({
       text: (
         <>
           <p>
-            We're going to see how, despite starting clueless of it's starting
+            We're going to see how, despite being clueless of it's starting
             position and having uncertainty in its sensor measurement, a robot
             can move around and localize itself within its environment.
           </p>
           <p>
-            Take a quick look at the grid, and then let's start by sensing the
-            current tile. Click the Sense button to begin.
+            Take a quick look at the grid, and then let's start by{" "}
+            <i>sensing</i> the current tile. Click the Sense button to begin.
           </p>
           <ActionButton onClick={() => onSense(true)}>Sense</ActionButton>
         </>
@@ -66,13 +67,24 @@ export function getSlides({
         <>
           <p>Did you notice what happened?</p>
           <p>
-            The robot sensed it was on an orange tile, and then updated its{" "}
-            <b>belief</b> about where it was on the grid.
+            <Popover
+              content={
+                <PopoverContent>
+                  there's a 1% chance you'll get an erroneous blue tile. If so,
+                  please Reset and Sense again
+                </PopoverContent>
+              }
+              highlightColor="newt-blue-100"
+            >
+              The robot sensed it was on an orange tile
+            </Popover>
+            , and then updated its <b>beliefs</b> about where it was on the
+            grid.
           </p>
           <p>
-            It now believes its more likely to be on an orange tile, and less
-            likely to be on a blue one, and the probabilities have shifted
-            accordingly.
+            It now believes it's more likely to be on an orange tile, and less
+            likely to be on a blue one, and the probabilities, represented by
+            the dark blue circles, have shifted accordingly.
           </p>
         </>
       ),
@@ -83,9 +95,12 @@ export function getSlides({
         <>
           <p>
             Now let's move the robot up by one tile, onto the light blue square
-            on row 4.
+            on the row above.
           </p>
-          <p>Make note of the positions of the dark blue circles.</p>
+          <p>
+            Make note of the positions of the dark blue circles. Where do you
+            think they're gonna move?
+          </p>
           <ActionButton onClick={() => onMove({ dx: 0, dy: -1 }, true)}>
             Move
           </ActionButton>
@@ -113,7 +128,7 @@ export function getSlides({
       section: "overview",
       text: (
         <>
-          <p>We've sensed and moved once. Let's do it once more.</p>
+          <p>So far we've sensed and moved once. Let's do it once more.</p>
           <ActionButton onClick={() => onSense(true)}>Sense</ActionButton>
         </>
       ),
@@ -127,7 +142,8 @@ export function getSlides({
             a random direction.
           </p>
           <p>
-            This can be up or down, left or right, or any of the four diagonals.
+            This can be up or down, left or right, any of the four diagonals, or
+            staying in the same spot.
           </p>
           <ActionButton onClick={() => onMove(null, true)}>Move</ActionButton>
         </>
@@ -152,12 +168,12 @@ export function getSlides({
         <>
           <p>
             If you've run this several times, you should see that the robot's
-            belief has converged to its actual location (the blue circle is
+            belief has converged to its actual location (the dark blue circle is
             largest where the robot is).
           </p>
           <p>
-            So far, you haven't seen what's happening under the hood. So let's
-            take a look.
+            So far, you haven't seen what's happening under the hood. So now,
+            let's take a look.
           </p>
         </>
       ),
@@ -169,18 +185,21 @@ export function getSlides({
         <>
           <p>
             We've reset back to where we started. We've also displayed a box
-            below the grid displaying the associated data -- a peek under the
-            hood.
+            below the grid displaying some associated data &mdash; a peek under
+            the hood.
           </p>
           <p>
-            Beliefs is represented as a <code>2D array</code>. Each row in the
-            array represents a row on the grid, and each value in the array
+            Beliefs is represented as a{" "}
+            <InlineCode variant="medium">2D array</InlineCode>. Each row in the
+            array represents a row on the grid, and each value in the row
             represents the robot's belief that it's on that cell.
           </p>
           <p>
-            The robot's position is denoted by the <code>currentPosition</code>{" "}
-            object, which has the fields <code>row</code> and <code>col</code>{" "}
-            representing the row and column. The values are{" "}
+            The robot's position is denoted by the{" "}
+            <InlineCode variant="medium">currentPosition</InlineCode> object,
+            which has the fields <InlineCode variant="medium">row</InlineCode>{" "}
+            and <InlineCode variant="medium">col</InlineCode> representing the
+            row and column. The values are{" "}
             <Popover
               content={
                 <PopoverContent>
@@ -192,7 +211,7 @@ export function getSlides({
               zero-indexed
             </Popover>{" "}
             because arrays are zero-indexed, which why the current position has
-            a value of <code>(4, 2)</code>.
+            a value of <InlineCode variant="medium">(4, 2)</InlineCode>.
           </p>
         </>
       ),
@@ -204,21 +223,35 @@ export function getSlides({
         <>
           <p>
             When we click Sense, we do two things. First the robot measures the
-            color of the tile it's on, which will make a correct measurement 99%
-            of the time. Then based on the measurement, it will update its
-            belief across the entire grid. If it senses that the tile it's on is
-            orange, then it increases the probability of all orange tiles and
-            decreases the probability of all light-blue tiles.
+            color of the tile it's on, which will be correct 99% of the time.
+            Then based on the measurement, it will update its beliefs across the
+            entire grid. If it senses that the tile it's on is orange, then it
+            increases the probability of all orange tiles and decreases the
+            probability of all light-blue tiles.
           </p>
           <p>First, how did we get that 99% value? Here's the math:</p>
-          <pre className="mb-4 p-4 border border-slate-700 rounded-md bg-slate-700 text-slate-50">
-            <code>{`pHit = 99\npMiss = 1\nincorrectSenseProbability = pMiss / (pHit + pMiss)`}</code>
-          </pre>
+          <Code variant="dark" className="mb-4">
+            {`pHit = 99\npMiss = 1\nincorrectSenseProbability = pMiss / (pHit + pMiss)`}
+          </Code>
           <p>
-            With these values, the probability the robot senses incorrectly is{" "}
-            <code>1/100</code> or 1%, which means the probability it senses
-            correctly is 99%. Later, you'll be able to change these values and
-            see how it affects the outcome.
+            <Popover
+              content={
+                <PopoverContent>
+                  If you're wondering why not just use decimals like pHit = 0.99
+                  and pMiss = 1 - pHit, you'll see the reason in the next slide
+                </PopoverContent>
+              }
+              highlightColor="newt-blue-100"
+            >
+              With these values
+            </Popover>
+            , the probability the robot senses incorrectly is{" "}
+            <InlineCode variant="medium">1/100</InlineCode> or 1%, which means
+            the probability it senses correctly is 99%.
+          </p>
+          <p>
+            Later, you'll be able to change these values and see how it affects
+            the outcome.
           </p>
         </>
       ),
@@ -227,13 +260,26 @@ export function getSlides({
       section: "code-explain",
       text: (
         <>
-          <pre className="mb-4 p-4 border border-slate-700 rounded-md bg-slate-700 text-slate-50">
-            <code>{`pHit = 99\npMiss = 1\n`}</code>
-          </pre>
+          <Code
+            variant="dark"
+            className="mb-4"
+          >{`pHit = 99\npMiss = 1\n`}</Code>
           <p>
-            So now after taking a measurment, we go over each cell in the grid,
-            and if the color matches the measured color, we multiply the belief
-            by <code>pHit</code>, otherwise we multiply with <code>pMiss</code>.
+            So now, after taking a measurment, we go over each cell in the grid,
+            and if the color matches the measured color,{" "}
+            <Popover
+              content={
+                <PopoverContent>
+                  here's the reason &mdash; the values are also used as a belief
+                  multiplier
+                </PopoverContent>
+              }
+              highlightColor="newt-blue-100"
+            >
+              we multiply the belief by{" "}
+              <InlineCode variant="medium">pHit</InlineCode>, otherwise we
+              multiply with <InlineCode variant="medium">pMiss</InlineCode>.
+            </Popover>
           </p>
           <p>
             So in this example, if the robot senses orange, all orange cells
@@ -241,8 +287,8 @@ export function getSlides({
             be multipled by 1.
           </p>
           <p>
-            Let's try this again. Click on Sense and see what happens to the
-            belief values
+            Let's try this again. Click on Sense and see what happens to the{" "}
+            <InlineCode variant="medium">belief</InlineCode> values.
           </p>
           <ActionButton onClick={() => onSense(true)}>Sense</ActionButton>
         </>
@@ -253,13 +299,17 @@ export function getSlides({
       text: (
         <>
           <p>
-            Now, most likely the robot sensed 'orange', and all orange tiles
-            have a slightly larger blue circle. (If you're part of the 1% that
-            sensed incorrectly, it will be the light blue tiles).
+            Now, most likely the robot sensed{" "}
+            <InlineCode className="bg-orange-200 text-orange-900">
+              orange
+            </InlineCode>
+            , and all orange tiles have a slightly larger blue circle. (If
+            you're part of the 1% that sensed incorrectly, it will be the light
+            blue tiles).
           </p>
           <p>
-            Take a look at the beliefs array below. It was previously all{" "}
-            <code>0.04</code>. Now, some{" "}
+            Take a look at the <InlineCode variant="medium">beliefs</InlineCode>{" "}
+            array below. It was previously all <code>0.04</code>. Now, some{" "}
             <Popover
               content={
                 <PopoverContent>
@@ -269,19 +319,21 @@ export function getSlides({
               }
               highlightColor="newt-blue-100"
             >
-              should be <code>0.09</code> and others <code>0.0009</code>.
+              should be <InlineCode>0.09</InlineCode> and others{" "}
+              <InlineCode>0.0009</InlineCode>.
             </Popover>
           </p>
           <p>
             We've updated our beliefs about where the robot is, and if you got
-            orange, the robot has more-or-less narrowed it down to 11 tiles.
+            orange, the robot has more-or-less narrowed it down to 11 orange
+            tiles.
           </p>
           <p>
             In the previous slide, I said that we could multiply the measured
-            probability values by 99. So how did we get decimals here?
+            probability values by 99. So how did we values less than 1 here?
           </p>
           <p>
-            After the multiplication, we <b>normalized</b> the array -- because
+            After the multiplication, we <b>normalized</b> the array. Because
             probabilities have to add up to 1, we divided each multiplied value
             by the array's total to get the same proportion.
           </p>
@@ -311,19 +363,22 @@ export function getSlides({
       text: (
         <>
           <p>
-            If you guessed that the beliefs would shift up by one as well,
-            you're correct. But if you take a look at the <code>beliefs</code>{" "}
-            array again, you'll notice that the values are slightly different.
+            As you might have seen before, the beliefs would shift up by one as
+            well. But if you take a look at the{" "}
+            <InlineCode variant="medium">beliefs</InlineCode> array again,
+            you'll notice that the values are slightly different.
           </p>
           <p>
-            This is because of a step called <i>blurring</i>. We won't go into
+            This is because of a step called <b>blurring</b>. We won't go into
             its details now, but you can think of blurring as spreading a little
             bit of a tile's probability to its neighboring tiles, mimicking
             uncertainty in movement.
           </p>
           <p>
-            You can also see that <code>currentPosition</code> got updated as
-            well, and the robot is now in <code>row 3</code>.
+            You can also see that{" "}
+            <InlineCode variant="medium">currentPosition</InlineCode> got
+            updated as well, and the robot is now in{" "}
+            <InlineCode variant="medium">row 3</InlineCode>.
           </p>
         </>
       ),
@@ -334,9 +389,12 @@ export function getSlides({
         <>
           <p>
             Now let's repeat this Sense and Move cycle repeatedly, and see how
-            the <code>beliefs</code> array changes over cycles. Remember,
-            clicking Move now means that the robot will move at random to any
-            neighboring tile, or stay in the same spot.
+            the <InlineCode variant="medium">beliefs</InlineCode> array changes
+            over cycles.
+          </p>
+          <p>
+            Remember, clicking Move now means that the robot will move at random
+            to any neighboring tile, or stay in the same spot.
           </p>
           <ActionButton onClick={() => onSense(false)}>Sense</ActionButton>
           <ActionButton onClick={() => onMove(null, false)}>Move</ActionButton>
@@ -350,28 +408,36 @@ export function getSlides({
           <p>
             Eventually, even with potential erroneous measurements, the belief
             will converge to the robot's actual position, with its associated
-            value in the array hovering around <code>0.9</code>.
+            probability value in the array hovering around{" "}
+            <InlineCode>0.9</InlineCode>.
           </p>
           <p>
-            So despite the robot starting at a random spot, having some
+            So, despite the robot starting at a random spot, having some
             uncertainty in its measurment, and some uncertainty in its movement,
-            we have a basic algorithm that still manages to figure out if
+            we have a basic algorithm that still manages to figure out its
             location.
           </p>
           <p>Ofcourse, this is a highly simplified model, but it's a start.</p>
+        </>
+      ),
+      onNext: ["reset"],
+    },
+    19: {
+      section: "code-explain",
+      text: (
+        <>
           <p>In the beginning we set out some initial conditions:</p>
-          <pre className="mb-4 p-4 border border-slate-700 rounded-md bg-slate-700 text-slate-50">
-            <code>{`pHit = 99\npMiss = 1\n`}</code>
-          </pre>
+          <Code variant="dark" className="mb-4">
+            {`pHit = 99\npMiss = 1\n`}
+          </Code>
           <p>
             Now, let's set up a playground environment where you can change
             these values, and see what happens.
           </p>
         </>
       ),
-      onNext: ["reset"],
     },
-    19: {
+    20: {
       section: "playground",
       text: (
         <>
@@ -383,4 +449,4 @@ export function getSlides({
       ),
     },
   };
-};
+}

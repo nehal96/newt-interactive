@@ -43,7 +43,7 @@ const LocalizationSimulation2DTutorial = () => {
         break;
       }
       case "playground": {
-        setSlide(19);
+        setSlide(20);
         setShowUnderTheHood(true);
         reset();
         break;
