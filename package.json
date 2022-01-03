@@ -8,11 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@reach/accordion": "^0.16.1",
     "@react-three/drei": "^2.2.12",
     "@tippyjs/react": "^4.2.5",
     "next": "10.0.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-icons": "^4.3.1",
     "react-three-fiber": "^5.3.7",
     "three": "^0.123.0"
   },

@@ -1,5 +1,13 @@
 import styles from "./LocalizationSimulation.module.css";
-import { Button, TextContainer } from "../../components";
+import { Button, Code, InlineCode, TextContainer } from "../../components";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+} from "@reach/accordion";
+import { FiChevronDown, FiInfo } from "react-icons/fi";
+import "@reach/accordion/styles.css";
 import { LocalizationSlidesProps, PlaygroundValues } from "./types";
 
 export const ActionButton = ({ children, onClick }) => {
@@ -20,7 +28,7 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
 
   return (
     <>
-      <div className="mb-8">
+      <div className="mb-6">
         <label>
           <code>pHit</code>: Sensor hit value
         </label>
@@ -42,7 +50,7 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
           <span className="text-xs mr-10">100</span>
         </div>
       </div>
-      <div className="mb-8">
+      <div className="mb-6">
         <label>
           <code>pMiss</code>: Sensor miss value
         </label>
@@ -64,11 +72,33 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
           <span className="text-xs mr-10">100</span>
         </div>
       </div>
-      <div className="mb-8">
-        <code>{`incorrectSenseProbability = ${incorrectSenseProb.toPrecision(
+      <div className="mb-6">
+        <Code variant="medium">{`incorrectSenseProbability = ${incorrectSenseProb.toPrecision(
           3
-        )}`}</code>
+        )}`}</Code>
       </div>
+      <Accordion collapsible className="mb-8">
+        <AccordionItem>
+          <div>
+            <AccordionButton className="flex items-center text-sm text-slate-600 hover:text-slate-800">
+              <FiInfo className="mr-1.5" /> See how the values are used to
+              update beliefs <FiChevronDown className="ml-1" />
+            </AccordionButton>
+          </div>
+          <AccordionPanel className="mt-2 pl-3 border-l-2 border-l-slate-300">
+            <blockquote className="text-sm text-slate-800">
+              <InlineCode variant="medium">i</InlineCode> and{" "}
+              <InlineCode variant="medium">j</InlineCode> are the indicies of
+              the row and column, and{" "}
+              <InlineCode variant="medium">isHit</InlineCode> is either 1 or 0
+              whether the sensed color is correct or not.
+            </blockquote>
+            <Code variant="dark" className="text-sm overflow-auto">
+              {`const newBelief = beliefs[i][j] * (isHit * pHit + (1 - isHit) * pMiss);`}
+            </Code>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </>
   );
 };

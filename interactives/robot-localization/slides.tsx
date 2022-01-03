@@ -441,7 +441,6 @@ export function getSlides({
       section: "playground",
       text: (
         <>
-          <p>playground</p>
           <Playground values={playgroundValues} />
           <ActionButton onClick={() => onSense(false)}>Sense</ActionButton>
           <ActionButton onClick={() => onMove(null, false)}>Move</ActionButton>
