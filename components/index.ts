@@ -9,6 +9,7 @@ export {
 } from "./InteractiveContainer";
 export { default as Lede } from "./Lede";
 export { default as Navbar } from "./Navbar";
+export { default as OrderedList } from "./OrderedList";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover, PopoverContent } from "./Popover";
 export { default as Title } from "./Title";
