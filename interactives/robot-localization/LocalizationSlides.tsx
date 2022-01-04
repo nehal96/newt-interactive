@@ -6,9 +6,11 @@ import {
   AccordionButton,
   AccordionPanel,
 } from "@reach/accordion";
+import { Menu, MenuButton, MenuList, MenuItem } from "@reach/menu-button";
 import { FiChevronDown, FiInfo } from "react-icons/fi";
 import "@reach/accordion/styles.css";
-import { LocalizationSlidesProps, PlaygroundValues } from "./types";
+import "@reach/menu-button/styles.css";
+import { LocalizationSlidesProps, PlaygroundValues, Section } from "./types";
 
 export const ActionButton = ({ children, onClick }) => {
   return (
@@ -112,52 +114,63 @@ const LocalizationSlides = ({
   onReset,
   onJumpToSection,
 }: LocalizationSlidesProps) => {
+  const getSectionName = (section: Section) => {
+    switch (section) {
+      case "overview":
+        return "Overview";
+      case "code-explain":
+        return "Code";
+      case "playground":
+        return "Playground";
+      default:
+        return "";
+    }
+  };
+
   return (
     <TextContainer
       className={slide?.section === "overview" ? "lg:w-3/5" : "lg:w-1/2"}
     >
       <div className="flex items-center justify-between text-slate-400 mb-6">
         <div>
-          <button
-            className={`text-sm mr-2  py-1 px-2 hover:border-b hover:border-b-slate-300 ${
-              slide?.section === "overview"
-                ? "border-b border-b-slate-400 text-slate-500 hover:border-b-slate-400"
-                : ""
-            }`}
-            onClick={() => onJumpToSection("overview")}
-          >
-            Overview
-          </button>
-          <button
-            className={`text-sm mr-2  py-1 px-2 hover:border-b hover:border-b-slate-300 ${
-              slide?.section === "code-explain"
-                ? "border-b border-b-slate-400 text-slate-500 hover:border-b-slate-400"
-                : ""
-            }`}
-            onClick={() => onJumpToSection("code-explain")}
-          >
-            Code
-          </button>
-          <button
-            className={`text-sm mr-2  py-1 px-2 hover:border-b hover:border-b-slate-300 ${
-              slide?.section === "playground"
-                ? "border-b border-b-slate-400 text-slate-500 hover:border-b-slate-400"
-                : ""
-            }`}
-            onClick={() => onJumpToSection("playground")}
-          >
-            Playground
-          </button>
+          <Menu>
+            <MenuButton className="inline-flex text-xs items-center hover:text-slate-500">
+              {getSectionName(slide?.section)}{" "}
+              <span>
+                <FiChevronDown className="ml-1" />
+              </span>
+            </MenuButton>
+            <MenuList className="rounded-md">
+              <MenuItem
+                className={styles["menu-item"]}
+                onSelect={() => onJumpToSection("overview")}
+              >
+                Overview
+              </MenuItem>
+              <MenuItem
+                className={styles["menu-item"]}
+                onSelect={() => onJumpToSection("code-explain")}
+              >
+                Code
+              </MenuItem>
+              <MenuItem
+                className={styles["menu-item"]}
+                onSelect={() => onJumpToSection("playground")}
+              >
+                Playground
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </div>
         <div>
           <Button
             variant="outline"
-            className="mr-4 text-sm hover:text-slate-500"
+            className="mr-2 text-xs hover:text-slate-500 md:mr-4 md:text-sm"
             onClick={onReset}
           >
             Reset
           </Button>
-          <span>{`${slideNumber} / ${totalSlides}`}</span>
+          <span className="text-xs md:text-sm">{`${slideNumber} / ${totalSlides}`}</span>
         </div>
       </div>
       <div className="flex flex-col justify-between h-full">
