@@ -75,29 +75,32 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
         </div>
       </div>
       <div className="mb-6">
-        <Code variant="medium">{`incorrectSenseProbability = ${incorrectSenseProb.toPrecision(
+        <Code
+          variant="medium"
+          className="text-sm"
+        >{`incorrectSenseProbability = ${incorrectSenseProb.toPrecision(
           3
         )}`}</Code>
       </div>
       <Accordion collapsible className="mb-8">
         <AccordionItem>
           <div>
-            <AccordionButton className="flex items-center text-sm text-slate-600 hover:text-slate-800">
+            <AccordionButton className="flex items-center text-xs sm:text-sm text-slate-600 hover:text-slate-800">
               <FiInfo className="mr-1.5" /> See how the values are used to
               update beliefs <FiChevronDown className="ml-1" />
             </AccordionButton>
           </div>
           <AccordionPanel className="mt-2 pl-3 border-l-2 border-l-slate-300">
-            <blockquote className="text-sm text-slate-800">
-              <InlineCode variant="medium">i</InlineCode> and{" "}
+            <Code variant="dark" className="text-sm mb-2">
+              {`const newBelief = beliefs[i][j] * (isHit * pHit + (1 - isHit) * pMiss);`}
+            </Code>
+            <blockquote className="text-xs sm:text-sm text-slate-800">
+              where <InlineCode variant="medium">i</InlineCode> and{" "}
               <InlineCode variant="medium">j</InlineCode> are the indicies of
               the row and column, and{" "}
               <InlineCode variant="medium">isHit</InlineCode> is either 1 or 0
-              whether the sensed color is correct or not.
+              depending on whether the sensed color is correct or not.
             </blockquote>
-            <Code variant="dark" className="text-sm overflow-auto">
-              {`const newBelief = beliefs[i][j] * (isHit * pHit + (1 - isHit) * pMiss);`}
-            </Code>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

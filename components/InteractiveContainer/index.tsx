@@ -4,7 +4,7 @@ export const InteractiveTutorialContainer: FunctionComponent = ({
   children,
 }) => {
   return (
-    <div className="flex flex-col w-full my-8 mx-auto justify-center lg:flex-row lg:my-12">
+    <div className="flex flex-col-reverse w-full my-8 mx-auto justify-center lg:flex-row lg:my-12">
       {children}
     </div>
   );

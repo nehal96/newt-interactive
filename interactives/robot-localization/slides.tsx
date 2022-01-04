@@ -203,7 +203,7 @@ export function getSlides({
             <Popover
               content={
                 <PopoverContent>
-                  The first row or column is actally denoted by the number 0
+                  The first row or column is denoted by the number 0
                 </PopoverContent>
               }
               highlightColor="newt-blue-100"
@@ -266,7 +266,7 @@ export function getSlides({
           >{`pHit = 99\npMiss = 1\n`}</Code>
           <p>
             So now, after taking a measurment, we go over each cell in the grid,
-            and if the color matches the measured color,{" "}
+            and if the true color matches the measured color,{" "}
             <Popover
               content={
                 <PopoverContent>
@@ -277,14 +277,17 @@ export function getSlides({
               highlightColor="newt-blue-100"
             >
               we multiply the belief by{" "}
-              <InlineCode variant="medium">pHit</InlineCode>, otherwise we
+              <InlineCode variant="medium">pHit</InlineCode>. Otherwise, we
               multiply with <InlineCode variant="medium">pMiss</InlineCode>.
             </Popover>
           </p>
           <p>
-            So in this example, if the robot senses orange, all orange cells
-            belief value will be multiplied by 99, and all light-blue tiles will
-            be multipled by 1.
+            So in this example, if the robot senses{" "}
+            <InlineCode className="bg-orange-200 text-orange-900">
+              orange
+            </InlineCode>
+            , all orange cells belief value will be multiplied by 99, and all
+            light-blue tiles will be multipled by 1.
           </p>
           <p>
             Let's try this again. Click on Sense and see what happens to the{" "}
@@ -309,7 +312,7 @@ export function getSlides({
           </p>
           <p>
             Take a look at the <InlineCode variant="medium">beliefs</InlineCode>{" "}
-            array below. It was previously all <code>0.04</code>. Now, some{" "}
+            array. It was previously all <code>0.04</code>. Now, some{" "}
             <Popover
               content={
                 <PopoverContent>
@@ -329,8 +332,8 @@ export function getSlides({
             tiles.
           </p>
           <p>
-            In the previous slide, I said that we could multiply the measured
-            probability values by 99. So how did we values less than 1 here?
+            In the previous slide, I said that we would multiply the measured
+            probability values by 99. So how did we get values less than 1 here?
           </p>
           <p>
             After the multiplication, we <b>normalized</b> the array. Because

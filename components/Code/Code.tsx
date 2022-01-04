@@ -9,7 +9,9 @@ interface CodeProps
 const Code = ({ children, variant, className, ...props }: CodeProps) => {
   return (
     <pre
-      className={`p-4 rounded-md ${getStyles(variant)} ${className}`}
+      className={`p-4 rounded-md overflow-auto ${getStyles(
+        variant
+      )} ${className}`}
       {...props}
     >
       <code>{children}</code>
