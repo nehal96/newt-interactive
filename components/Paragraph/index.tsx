@@ -4,7 +4,7 @@ interface Paragraph {
 
 const Paragraph = ({ children }: Paragraph) => {
   return (
-    <p className="font-body text-lg text-slate-700 self-center max-w-3xl my-5 md:text-xl md:tracking-wide">
+    <p className="font-body text-lg w-full text-slate-700 self-center max-w-3xl mb-8 md:text-xl md:tracking-wide">
       {children}
     </p>
   );

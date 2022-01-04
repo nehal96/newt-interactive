@@ -4,7 +4,7 @@ interface Lede {
 
 const Lede = ({ children }: Lede) => {
   return (
-    <h2 className="text-xl text-slate-400 font-light justify-self-center self-center text-center mb-8 px-2 max-w-4xl sm:mb-12 lg:text-2xl lg:mb-16 lg:px-16">
+    <h2 className="text-xl text-slate-400 font-light justify-self-center self-center text-center mb-14 px-2 max-w-4xl lg:text-2xl lg:mb-20 lg:px-16">
       {children}
     </h2>
   );

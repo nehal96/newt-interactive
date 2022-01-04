@@ -1,9 +1,11 @@
 import Tippy, { TippyProps } from "@tippyjs/react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import "tippy.js/dist/tippy.css";
 
 interface PopoverProps extends Omit<TippyProps, "children"> {
   children: React.ReactNode;
+  content: ReactNode;
+  highlightColor?: string;
 }
 interface PopoverContentProps {
   children: React.ReactNode;
@@ -18,13 +20,16 @@ const Popover = ({
   content,
   interactive = true,
   interactiveBorder = 20,
+  highlightColor = "newt-blue-50",
   ...props
 }: PopoverProps) => {
   const [isShown, setIsShown] = useState(false);
 
   return (
     <>
-      <span className={isShown ? "bg-newt-blue-50" : null}>{children}</span>
+      <span className={isShown ? `bg-${highlightColor}` : null}>
+        {children}
+      </span>
       <Tippy
         content={content}
         interactive={interactive}
@@ -33,7 +38,7 @@ const Popover = ({
         onHide={() => setIsShown(false)}
         {...props}
       >
-        <span className="relative bg-newt-blue-100 px-1.5 text-sm font-medium rounded-2xl -top-2 ml-1">
+        <span className="relative bg-newt-blue-100 px-1.5 text-xs font-medium rounded-full ml-0.5 -top-2">
           i
         </span>
       </Tippy>
