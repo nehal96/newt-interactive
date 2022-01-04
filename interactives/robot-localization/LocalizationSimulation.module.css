@@ -4,10 +4,7 @@
 }
 
 .cell {
-  width: 75px;
-  height: 75px;
-  border: 1px solid black;
-  text-align: center;
+  @apply w-[60px] h-[60px] sm:w-[75px] sm:h-[75px] border border-slate-800;
 }
 
 .slide-text {

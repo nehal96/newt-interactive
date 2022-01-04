@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import styles from "./LocalizationSimulation.module.css";
 import { LocalizationSimulaton2D } from "./types";
 
@@ -7,10 +8,37 @@ const LocalizationSimlation2D = ({
   currentPosition,
   showUnderTheHood,
 }: LocalizationSimulaton2D) => {
+  const tableBodyRef = useRef(null);
+
+  const robotWidth = 37;
+  const robotHeight = 51;
+
+  const [robotPosition, setRobotPosition] = useState({ x: 0, y: 0 });
+
+  const handleRobotPositionChange = () => {
+    const cellHeight =
+      tableBodyRef?.current.childNodes[0].childNodes[0].offsetHeight;
+    const cellWidth =
+      tableBodyRef?.current.childNodes[0].childNodes[0].offsetWidth;
+
+    const robotX = cellWidth / 2 - robotWidth / 2 - 1;
+    const robotY = cellHeight / 2 - robotHeight / 2 - 1;
+
+    setRobotPosition({ x: robotX, y: robotY });
+  };
+
+  useEffect(() => {
+    handleRobotPositionChange();
+    window.addEventListener("resize", handleRobotPositionChange);
+
+    return () =>
+      window.removeEventListener("resize", handleRobotPositionChange);
+  }, []);
+
   return (
     <>
       <table className={styles.grid}>
-        <tbody>
+        <tbody ref={tableBodyRef}>
           {grid.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((val, colIndex) => (
@@ -38,12 +66,12 @@ const LocalizationSimlation2D = ({
                     {rowIndex === currentPosition.row &&
                     colIndex === currentPosition.col ? (
                       <svg
-                        width="37"
-                        height="51"
-                        viewBox="0 0 37 51"
+                        width={robotWidth}
+                        height={robotHeight}
+                        viewBox={`0 0 ${robotWidth} ${robotHeight}`}
                         fill="none"
-                        x="17.5"
-                        y="10.5"
+                        x={robotPosition.x}
+                        y={robotPosition.y}
                       >
                         <path
                           d="M18.1865 50.1389L0.614135 25.5L18.1865 0.861102L35.7589 25.5L18.1865 50.1389Z"
