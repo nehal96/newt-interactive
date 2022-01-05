@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { Navbar } from "../components";
+import { Navbar, Paragraph } from "../components";
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-12">
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
           <Link href="/blocks/robot-localization">
             <a className="w-28 sm:w-40 mr-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <div className="">
@@ -52,6 +52,40 @@ export default function Home() {
             </a>
           </Link>
         </div>
+        <Paragraph className="mt-12 md:mt-16">
+          Welcome to Newt Interactive.
+        </Paragraph>
+        <Paragraph>
+          Here, you will find interactive explainers and playgrounds on topics
+          in science, technology, engineering, and math. I think learning should
+          be as close to games as possible, and this space is where I'll begin
+          to bring that thesis to reality.
+        </Paragraph>
+        <Paragraph>
+          If you like the work or the idea, have suggestions, found bugs, or
+          just want to reach out, feel free to{" "}
+          <a
+            href="https://www.twitter.com/nehaludyavar"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+          >
+            DM me on Twitter
+          </a>{" "}
+          or{" "}
+          <a
+            href={`mailto:nehaludyavar@gmail.com?subject=${encodeURIComponent(
+              "Hey! You're amazing!"
+            )}`}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+          >
+            send me an email
+          </a>
+          .
+        </Paragraph>
+        <Paragraph>Enjoy!</Paragraph>
       </main>
     </div>
   );
