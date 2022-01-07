@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { Navbar, Paragraph } from "../components";
+import { Navbar, Paragraph, SubscribeForm } from "../components";
 
 export default function Home() {
   return (
@@ -62,8 +62,8 @@ export default function Home() {
           to bring that thesis to reality.
         </Paragraph>
         <Paragraph>
-          If you like the work or the idea, have suggestions, found bugs, or
-          just want to reach out, feel free to{" "}
+          If you have suggestions, found bugs, or just want to reach out, feel
+          free to{" "}
           <a
             href="https://www.twitter.com/nehaludyavar"
             target="_blank"
@@ -85,7 +85,11 @@ export default function Home() {
           </a>
           .
         </Paragraph>
-        <Paragraph>Enjoy!</Paragraph>
+        <Paragraph className="mb-14 sm:mb-20">
+          If you like the work or the idea and would like to hear when I release
+          new content, please subscribe below.
+        </Paragraph>
+        <SubscribeForm />
       </main>
     </div>
   );

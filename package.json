@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.72",
     "@reach/accordion": "^0.16.1",
     "@reach/menu-button": "^0.16.2",
     "@react-three/drei": "^2.2.12",
