@@ -27,7 +27,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(201).json({ error: "" });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: error.message || error.toString() });
+    const getNiceErrorMessage = (error) => {
+      if (error.response?.body?.title) {
+        switch (error.response.body.title) {
+          case "Member Exists":
+            return `${email} is already a member.`;
+          default:
+            return (
+              error.response?.body?.title || error.message || error.toString()
+            );
+        }
+      } else {
+        return error.message || error.toString();
+      }
+    };
+
+    return res.status(500).json({ error: getNiceErrorMessage(error) });
   }
 };

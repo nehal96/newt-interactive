@@ -1,12 +1,13 @@
 import { FormEvent, useRef, useState } from "react";
 import { Button } from "..";
 
-const Subscribe = () => {
+const SubscribeForm = () => {
   // 1. Create a reference to the input so we can fetch/clear it's value.
   const nameInputEl = useRef(null);
   const emailInputEl = useRef(null);
   // 2. Hold a message in state to handle the response from our API.
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const subscribe = async (e: FormEvent) => {
     e.preventDefault();
@@ -27,13 +28,16 @@ const Subscribe = () => {
 
     if (error) {
       // 4. If there was an error, update the message in state.
+      setIsError(true);
       setMessage(error);
+      setTimeout(() => setMessage(""), 3000);
       return;
     }
 
     // 5. Clear the input value and show a success message.
     nameInputEl.current.value = "";
     emailInputEl.current.value = "";
+    setIsError(false);
     setMessage("Success! Thanks for subscribing.");
     setTimeout(() => setMessage(""), 3000);
   };
@@ -88,7 +92,13 @@ const Subscribe = () => {
         </div>
       </form>
       {message ? (
-        <div className="bg-emerald-100 text-emerald-900 rounded-lg mt-4 p-2 transition-all sm:flex-row">
+        <div
+          className={`${
+            isError
+              ? "bg-red-100 text-red-900"
+              : "bg-emerald-100 text-emerald-900"
+          } rounded-lg mt-4 p-2 transition-all sm:flex-row`}
+        >
           {message}
         </div>
       ) : null}
@@ -96,4 +106,4 @@ const Subscribe = () => {
   );
 };
 
-export default Subscribe;
+export default SubscribeForm;
