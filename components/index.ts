@@ -12,6 +12,7 @@ export { default as Navbar } from "./Navbar";
 export { default as OrderedList } from "./OrderedList";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover, PopoverContent } from "./Popover";
+export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
 export { default as SubscribeForm } from "./SubscribeForm";
 export { default as Title } from "./Title";
 

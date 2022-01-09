@@ -5,6 +5,7 @@ import {
   Paragraph,
   Title,
   OrderedList,
+  PostArticleSubscribe,
 } from "../../../components";
 import { RobotLocalization } from "../../../interactives/robot-localization";
 
@@ -46,6 +47,7 @@ const RobotLocalizationPage = () => {
           Enjoy!
         </Paragraph>
         <RobotLocalization />
+        <PostArticleSubscribe />
       </ArticleContainer>
     </>
   );

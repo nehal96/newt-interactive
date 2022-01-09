@@ -2,9 +2,9 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import {
   ArticleContainer,
-  Footer,
   Lede,
   Navbar,
+  PostArticleSubscribe,
   Title,
 } from "../../../components";
 
@@ -45,6 +45,7 @@ const DNAPage = () => {
             <p>{`Slide ${slide}`}</p>
           </div>
         </div>
+        <PostArticleSubscribe />
       </ArticleContainer>
     </>
   );

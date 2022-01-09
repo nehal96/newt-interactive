@@ -74,7 +74,7 @@ export default function Home() {
           </a>{" "}
           or{" "}
           <a
-            href={`mailto:nehaludyavar@gmail.com?subject=${encodeURIComponent(
+            href={`mailto:nehal@newtinteractive.com?subject=${encodeURIComponent(
               "Hey! You're amazing!"
             )}`}
             target="_blank"
