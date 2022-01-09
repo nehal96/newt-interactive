@@ -1,12 +1,8 @@
 import { Vector3 } from "three";
 import { Canvas } from "react-three-fiber";
 import { Suspense, useRef } from "react";
-import { OrbitControls, useHelper } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { DNA } from "../components";
-
-interface Genetics {
-  slide: number;
-}
 
 const Lights = () => {
   const spotlight1 = useRef();
@@ -43,7 +39,7 @@ const Lights = () => {
   );
 };
 
-const GeneticsComponent = ({ slide }: Genetics) => {
+const GeneticsComponent = () => {
   return (
     <Canvas
       concurrent
@@ -55,11 +51,11 @@ const GeneticsComponent = ({ slide }: Genetics) => {
       }}
     >
       <Suspense fallback={null}>
-        <DNA exploreMode={slide === 0 ? true : false} />
-        <gridHelper args={[20, 40, "blue", "hotpink"]} />
-        <axesHelper args={[10]} />
+        <DNA />
+        <gridHelper args={[20, 40, "#334155", "#64748b"]} />
+        {/* <axesHelper args={[10]} />  */}
         <Lights />
-        {slide === 0 ? <OrbitControls target={new Vector3(0, 2.5, 0)} /> : null}
+        <OrbitControls target={new Vector3(0, 2.5, 0)} />
       </Suspense>
     </Canvas>
   );

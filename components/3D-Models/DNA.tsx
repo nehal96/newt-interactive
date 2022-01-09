@@ -11,7 +11,7 @@ interface DNA {
   exploreMode?: Boolean;
 }
 
-const DNA = ({ exploreMode }: DNA) => {
+const DNA = ({ exploreMode = true }: DNA) => {
   const vec = new Vector3(5, 6, 5);
 
   useFrame((state) => {
@@ -23,10 +23,6 @@ const DNA = ({ exploreMode }: DNA) => {
   });
 
   return <DNAModel />;
-};
-
-DNA.defaultProps = {
-  exploreMode: true,
 };
 
 export default DNA;
