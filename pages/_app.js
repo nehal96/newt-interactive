@@ -1,8 +1,6 @@
 import Head from "next/head";
 import "../styles/globals.css";
 
-<a href="https://ibb.co/5vdjmk8"><img src="" alt="Meta-tag-image-1" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'>private image upload</a><br />
-
 function MyApp({ Component, pageProps }) {
   return (
     <>
