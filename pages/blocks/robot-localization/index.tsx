@@ -1,3 +1,4 @@
+import Head from "next/head";
 import {
   ArticleContainer,
   Lede,
@@ -12,6 +13,14 @@ import { RobotLocalization } from "../../../interactives/robot-localization";
 const RobotLocalizationPage = () => {
   return (
     <>
+      <Head>
+        <title>Robot Localization / Newt Interactive</title>
+        <meta
+          name="description"
+          content="Interactive explainer on the algorithm behind how a robot finds its location in a simple
+          environment"
+        />
+      </Head>
       <Navbar />
       <ArticleContainer>
         <Title>Simple Robot Localization</Title>

@@ -7,7 +7,11 @@ export default function Home() {
   return (
     <div className="flex flex-col justify-between items-center min-h-screen">
       <Head>
-        <title>newt interactive</title>
+        <title>Newt Interactive</title>
+        <meta
+          name="description"
+          content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
+        />
       </Head>
       <Navbar />
       <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-12">

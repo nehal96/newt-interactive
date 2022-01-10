@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import {
   ArticleContainer,
   Lede,
@@ -15,6 +16,13 @@ const DNADoubleHelixCanvas = dynamic(
 const DNAPage = () => {
   return (
     <>
+      <Head>
+        <title>DNA in 3D / Newt Interactive</title>
+        <meta
+          name="description"
+          content="Explorable 3D model of simplified DNA molecule"
+        />
+      </Head>
       <Navbar />
       <ArticleContainer>
         <Title>DNA in 3D</Title>
