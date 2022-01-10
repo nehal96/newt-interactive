@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
           property="og:description"
           content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
         />
-        <meta property="og:image" content="/logo-banner.jpg" />
+        <meta property="og:image" content="https://ibb.co/5vdjmk8" />
         {/* <!-- Twitter --> */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta
@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }) {
           property="twitter:description"
           content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
         />
-        <meta property="twitter:image" content="/logo-banner.jpg" />
+        <meta property="twitter:image" content="https://ibb.co/5vdjmk8" />
       </Head>
       <Component {...pageProps} />
     </>
