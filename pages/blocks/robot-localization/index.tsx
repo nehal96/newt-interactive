@@ -20,6 +20,23 @@ const RobotLocalizationPage = () => {
           content="Interactive explainer on the algorithm behind how a robot finds its location in a simple
           environment"
         />
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:creator" content="@nehaludyavar" />
+        <meta
+          property="twitter:url"
+          content="https://www.newtinteractive.com/"
+        />
+        <meta property="twitter:title" content="Simple Robot Localization" />
+        <meta
+          property="twitter:description"
+          content="Interactive explainer on the algorithm behind how a robot finds its location in a simple
+          environment"
+        />
+        <meta
+          property="twitter:image"
+          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+        />
       </Head>
       <Navbar />
       <ArticleContainer>

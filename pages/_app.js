@@ -14,19 +14,10 @@ function MyApp({ Component, pageProps }) {
           property="og:description"
           content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
         />
-        <meta property="og:image" content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png" />
-        {/* <!-- Twitter --> */}
-        <meta property="twitter:card" content="summary_large_image" />
         <meta
-          property="twitter:url"
-          content="https://www.newtinteractive.com/"
+          property="og:image"
+          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
         />
-        <meta property="twitter:title" content="Newt Interactive" />
-        <meta
-          property="twitter:description"
-          content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
-        />
-        <meta property="twitter:image" content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png" />
       </Head>
       <Component {...pageProps} />
     </>
