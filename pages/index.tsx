@@ -53,7 +53,7 @@ export default function Home() {
             </a>
           </Link>
           <Link href="/blocks/dna">
-            <a className="w-28 sm:w-40 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+            <a className="w-28 sm:w-40 mr-6 sm:mr-12 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <div className="">
                 <Image
                   src="/images/DNA3d.jpg"
@@ -67,6 +67,15 @@ export default function Home() {
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
                   3D Model of DNA
+                </h3>
+              </div>
+            </a>
+          </Link>
+          <Link href="/blocks/kalman-filters">
+            <a className="w-28 sm:w-40 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+              <div className="p-3 sm:p-5">
+                <h3 className="sm:text-lg font-medium text-slate-800">
+                  Kalman Filters
                 </h3>
               </div>
             </a>
