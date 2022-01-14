@@ -23,7 +23,7 @@ const DNAPage = () => {
           content="Explorable 3D model of simplified DNA molecule"
         />
         {/* <!-- Twitter --> */}
-        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:card" content="summary" />
         <meta
           property="twitter:url"
           content="https://www.newtinteractive.com/blocks/dna"
@@ -36,7 +36,7 @@ const DNAPage = () => {
         />
         <meta
           property="twitter:image"
-          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+          content="https://i.ibb.co/JQp3PZk/DNA3d.jpg"
         />
       </Head>
       <Navbar />

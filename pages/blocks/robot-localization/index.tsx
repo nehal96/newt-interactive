@@ -35,7 +35,7 @@ const RobotLocalizationPage = () => {
         />
         <meta
           property="twitter:image"
-          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+          content="https://i.ibb.co/xC58v82/Screen-Shot-2022-01-13-at-7-43-58-PM.png"
         />
       </Head>
       <Navbar />
