@@ -19,14 +19,30 @@ const getGaussianData = (mean = 24, sigma = 8) => {
 };
 
 const GaussianParameterUpdate = () => {
-  const gaussianOne = getGaussianData();
-  const gaussianTwo = getGaussianData(48, 6);
+  const priorMean = 24,
+    priorSigma = 10;
+  const measurementMean = 48,
+    measurementSigma = 6;
+
+  const mockPriorGaussian = getGaussianData(priorMean, priorSigma);
+  const mockMeasurementGaussian = getGaussianData(
+    measurementMean,
+    measurementSigma
+  );
+
+  const posteriorMean =
+    (measurementSigma * priorMean + priorSigma * measurementMean) /
+    (priorSigma + measurementSigma);
+  const posteriorSigma = 1 / (1 / priorSigma + 1 / measurementSigma);
+  const mockPosteriorGaussian = getGaussianData(posteriorMean, posteriorSigma);
+
+  console.log({ posteriorMean, posteriorSigma });
 
   return (
     <div className="h-[500px] bg-slate-200">
       <VictoryChart>
         <VictoryArea
-          data={gaussianOne}
+          data={mockPriorGaussian}
           style={{
             data: {
               fill: "#a5b4fc",
@@ -36,10 +52,20 @@ const GaussianParameterUpdate = () => {
           interpolation="natural"
         />
         <VictoryArea
-          data={gaussianTwo}
+          data={mockMeasurementGaussian}
           style={{
             data: {
               fill: "#6ee7b7",
+              fillOpacity: 0.5,
+            },
+          }}
+          interpolation="natural"
+        />
+        <VictoryArea
+          data={mockPosteriorGaussian}
+          style={{
+            data: {
+              fill: "#7dd3fc",
               fillOpacity: 0.5,
             },
           }}
@@ -54,6 +80,7 @@ const GaussianParameterUpdate = () => {
         />
         <VictoryAxis
           dependentAxis
+          domain={[0, 31]}
           style={{
             axis: { stroke: "#94a3b8" },
             tickLabels: { fontSize: 10, fill: "#334155" },
