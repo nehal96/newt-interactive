@@ -18,7 +18,7 @@ const getGaussianData = (mean = 24, sigma = 8) => {
   return data;
 };
 
-const GaussianParameterUpdate = () => {
+const GaussianParameterUpdateChart = () => {
   const priorMean = 24,
     priorSigma = 10;
   const measurementMean = 48,
@@ -39,8 +39,8 @@ const GaussianParameterUpdate = () => {
   console.log({ posteriorMean, posteriorSigma });
 
   return (
-    <div className="h-[500px] bg-slate-200">
-      <VictoryChart>
+    <div className="h-[500px] flex justify-center items-center">
+      <VictoryChart width={550} height={400}>
         <VictoryArea
           data={mockPriorGaussian}
           style={{
@@ -74,17 +74,16 @@ const GaussianParameterUpdate = () => {
         <VictoryAxis
           style={{
             axis: { stroke: "#94a3b8" },
-            tickLabels: { fontSize: 10, fill: "#334155" },
+            tickLabels: { fontSize: 14, fill: "#334155" },
             ticks: { stroke: "#94a3b8", size: 4 },
           }}
         />
         <VictoryAxis
           dependentAxis
           domain={[0, 31]}
+          tickFormat={() => ""}
           style={{
             axis: { stroke: "#94a3b8" },
-            tickLabels: { fontSize: 10, fill: "#334155" },
-            ticks: { stroke: "#94a3b8", size: 4 },
           }}
         />
       </VictoryChart>
@@ -92,4 +91,4 @@ const GaussianParameterUpdate = () => {
   );
 };
 
-export default GaussianParameterUpdate;
+export default GaussianParameterUpdateChart;

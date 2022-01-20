@@ -1,1 +1,1 @@
-export { default as GaussianParameterUpdate } from "./GaussianParameterUpdate";
+export { default as GaussianParameterUpdateTutorial } from "./GaussianParameterUpdateTutorial";

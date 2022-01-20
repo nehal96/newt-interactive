@@ -7,7 +7,7 @@ import {
   Paragraph,
   Title,
 } from "../../../components";
-import { GaussianParameterUpdate } from "../../../interactives/kalman-filters";
+import { GaussianParameterUpdateTutorial } from "../../../interactives/kalman-filters";
 
 const KalmanFilterPage = () => {
   return (
@@ -42,7 +42,7 @@ const KalmanFilterPage = () => {
           uncertainty of measurement to make predictions with increased
           confidence: the Kalman filter.
         </Paragraph>
-        <GaussianParameterUpdate />
+        <GaussianParameterUpdateTutorial />
       </ArticleContainer>
     </>
   );
