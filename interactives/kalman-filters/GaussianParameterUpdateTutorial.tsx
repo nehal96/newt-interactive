@@ -1,14 +1,32 @@
+import { useState } from "react";
 import {
   InteractiveTutorialContainer,
   InteractiveContainer,
-  TextContainer,
 } from "../../components";
 import GaussianParameterUpdateChart from "./GaussianParameterUpdateChart";
+import GaussianParameterUpdateSlides from "./GaussianParameterUpdateSlides";
+import { getSlides } from "./slides";
 
 const GaussianParameterUpdateTutorial = () => {
+  const [slide, setSlide] = useState(1);
+
+  const goToNextSlide = () => setSlide(slide + 1);
+  const goToPreviousSlide = () => setSlide(slide - 1);
+  const onReset = () => setSlide(1);
+
+  const SLIDES = getSlides();
+  const totalSlides = Object.keys(SLIDES)?.length;
+
   return (
     <InteractiveTutorialContainer>
-      <TextContainer className="lg:w-2/5" />
+      <GaussianParameterUpdateSlides
+        slide={SLIDES[slide]}
+        slideNumber={slide}
+        totalSlides={totalSlides}
+        onBack={goToPreviousSlide}
+        onNext={goToNextSlide}
+        onReset={onReset}
+      />
       <InteractiveContainer className="lg:w-3/5">
         <GaussianParameterUpdateChart />
       </InteractiveContainer>

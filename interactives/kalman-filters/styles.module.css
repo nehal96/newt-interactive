@@ -1,0 +1,7 @@
+.slide-text {
+  @apply flex flex-col;
+}
+
+.slide-text > p {
+  @apply mb-4 text-slate-800;
+}
