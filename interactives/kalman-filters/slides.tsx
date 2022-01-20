@@ -1,4 +1,6 @@
-export function getSlides() {
+import { Slides } from "./types";
+
+export function getSlides(): Slides {
   return {
     1: {
       text: (
@@ -13,9 +15,15 @@ export function getSlides() {
           </p>
         </>
       ),
+      showPriorGaussian: false,
+      showMeasurementGaussian: false,
+      showPosteriorGaussian: false,
     },
     2: {
       text: <p>2</p>,
+      showPriorGaussian: true,
+      showMeasurementGaussian: false,
+      showPosteriorGaussian: false,
     },
   };
 }

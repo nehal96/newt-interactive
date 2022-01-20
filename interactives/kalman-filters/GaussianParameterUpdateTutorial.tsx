@@ -28,7 +28,11 @@ const GaussianParameterUpdateTutorial = () => {
         onReset={onReset}
       />
       <InteractiveContainer className="lg:w-3/5">
-        <GaussianParameterUpdateChart />
+        <GaussianParameterUpdateChart
+          showPriorGaussian={SLIDES[slide]?.showPriorGaussian}
+          showMeasurementGaussian={SLIDES[slide]?.showMeasurementGaussian}
+          showPosteriorGaussian={SLIDES[slide]?.showPosteriorGaussian}
+        />
       </InteractiveContainer>
     </InteractiveTutorialContainer>
   );

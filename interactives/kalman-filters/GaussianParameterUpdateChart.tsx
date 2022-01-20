@@ -1,4 +1,5 @@
 import { VictoryChart, VictoryArea, VictoryAxis } from "victory";
+import { GaussianParameterUpdateChartParams } from "./types";
 
 const getGaussianData = (mean = 24, sigma = 8) => {
   const data = [];
@@ -18,7 +19,11 @@ const getGaussianData = (mean = 24, sigma = 8) => {
   return data;
 };
 
-const GaussianParameterUpdateChart = () => {
+const GaussianParameterUpdateChart = ({
+  showPriorGaussian,
+  showMeasurementGaussian,
+  showPosteriorGaussian,
+}: GaussianParameterUpdateChartParams) => {
   const priorMean = 24,
     priorSigma = 10;
   const measurementMean = 48,
@@ -46,7 +51,16 @@ const GaussianParameterUpdateChart = () => {
           style={{
             data: {
               fill: "#a5b4fc",
-              fillOpacity: 0.5,
+              fillOpacity: showPriorGaussian ? 0.5 : 0,
+              strokeOpacity: showPriorGaussian ? 1 : 0,
+            },
+          }}
+          animate={{
+            onEnter: {
+              duration: 1000,
+            },
+            onExit: {
+              duration: 500,
             },
           }}
           interpolation="natural"
@@ -56,7 +70,8 @@ const GaussianParameterUpdateChart = () => {
           style={{
             data: {
               fill: "#6ee7b7",
-              fillOpacity: 0.5,
+              fillOpacity: showMeasurementGaussian ? 0.5 : 0,
+              strokeOpacity: showMeasurementGaussian ? 1 : 0,
             },
           }}
           interpolation="natural"
@@ -66,7 +81,8 @@ const GaussianParameterUpdateChart = () => {
           style={{
             data: {
               fill: "#7dd3fc",
-              fillOpacity: 0.5,
+              fillOpacity: showPosteriorGaussian ? 0.5 : 0,
+              strokeOpacity: showPosteriorGaussian ? 1 : 0,
             },
           }}
           interpolation="natural"
