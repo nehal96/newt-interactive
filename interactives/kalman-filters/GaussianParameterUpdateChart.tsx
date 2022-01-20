@@ -46,25 +46,26 @@ const GaussianParameterUpdateChart = ({
   return (
     <div className="h-[500px] flex justify-center items-center">
       <VictoryChart width={550} height={400}>
-        <VictoryArea
-          data={mockPriorGaussian}
-          style={{
-            data: {
-              fill: "#a5b4fc",
-              fillOpacity: showPriorGaussian ? 0.5 : 0,
-              strokeOpacity: showPriorGaussian ? 1 : 0,
-            },
-          }}
-          animate={{
-            onEnter: {
-              duration: 1000,
-            },
-            onExit: {
-              duration: 500,
-            },
-          }}
-          interpolation="natural"
-        />
+        {showPriorGaussian ? (
+          <VictoryArea
+            data={mockPriorGaussian}
+            style={{
+              data: {
+                fill: "#a5b4fc",
+                fillOpacity: 0.5,
+              },
+            }}
+            animate={{
+              onLoad: {
+                duration: 1500,
+              },
+              onExit: {
+                duration: 500,
+              },
+            }}
+            interpolation="natural"
+          />
+        ) : null}
         <VictoryArea
           data={mockMeasurementGaussian}
           style={{
