@@ -1,8 +1,10 @@
 import { InlineCode } from "../../components";
+import { ActionButton } from "../robot-localization/LocalizationSlides";
 import { GetSlidesParams, Slides } from "./types";
 
-export function getSlides({ gaussianParams }: GetSlidesParams): Slides {
-  const { priorMean, priorSigma } = gaussianParams;
+export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
+  const { priorMean, priorSigma, measurementMean, measurementSigma } =
+    gaussianParams;
 
   return {
     1: {
@@ -27,7 +29,7 @@ export function getSlides({ gaussianParams }: GetSlidesParams): Slides {
         <>
           <p>
             The indigo Gaussian, which we're going to call the{" "}
-            <span className="bg-indigo-200 text-indigo-800 py-1 px-2 rounded-md">
+            <span className="bg-indigo-200 text-indigo-800 py-1 px-2 rounded-md font-medium">
               Prior
             </span>
             , represents the belief, or probability distribution, of where the
@@ -51,6 +53,50 @@ export function getSlides({ gaussianParams }: GetSlidesParams): Slides {
       ),
       showPriorGaussian: true,
       showMeasurementGaussian: false,
+      showPosteriorGaussian: false,
+    },
+    3: {
+      text: (
+        <>
+          <p>
+            Now, let's say the robot has a sensor that can measure where it is
+            with some uncertainty.
+          </p>
+          <p>Click the Sense button to take a measurment.</p>
+          <ActionButton onClick={onNext}>Sense</ActionButton>
+        </>
+      ),
+      showPriorGaussian: true,
+      showMeasurementGaussian: false,
+      showPosteriorGaussian: false,
+    },
+    4: {
+      text: (
+        <>
+          <p>
+            Because the robot's measurement is uncertain, we get another
+            Gaussian, which we'll call the{" "}
+            <span className="bg-emerald-100 text-emerald-800 py-1 px-2 rounded-md font-medium">
+              Measurement
+            </span>
+            .
+          </p>
+          <p>
+            This distribution has a mean of{" "}
+            <InlineCode variant="medium">{measurementMean}</InlineCode> and a
+            covariance of{" "}
+            <InlineCode variant="medium">{measurementSigma}</InlineCode>.
+          </p>
+          <p>
+            Notice that this distribution has less uncertainity (the covariance
+            is lower, thus the higher spike), which makes sense because we
+            expect the measurement to increase confidence about the robot's
+            position.
+          </p>
+        </>
+      ),
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
       showPosteriorGaussian: false,
     },
   };

@@ -11,6 +11,8 @@ export type Slides = {
 type GaussianParams = {
   priorMean: number;
   priorSigma: number;
+  measurementMean: number;
+  measurementSigma: number;
 };
 
 export type GaussianParameterUpdateChartParams = {
@@ -22,4 +24,5 @@ export type GaussianParameterUpdateChartParams = {
 
 export type GetSlidesParams = {
   gaussianParams: GaussianParams;
+  onNext?: () => void;
 };

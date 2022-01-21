@@ -25,9 +25,8 @@ const GaussianParameterUpdateChart = ({
   showMeasurementGaussian,
   showPosteriorGaussian,
 }: GaussianParameterUpdateChartParams) => {
-  const { priorMean, priorSigma } = gaussianParams;
-  const measurementMean = 52,
-    measurementSigma = 6;
+  const { priorMean, priorSigma, measurementMean, measurementSigma } =
+    gaussianParams;
 
   const mockPriorGaussian = getGaussianData(priorMean, priorSigma);
   const mockMeasurementGaussian = getGaussianData(
@@ -66,17 +65,26 @@ const GaussianParameterUpdateChart = ({
             interpolation="natural"
           />
         ) : null}
-        <VictoryArea
-          data={mockMeasurementGaussian}
-          style={{
-            data: {
-              fill: "#6ee7b7",
-              fillOpacity: showMeasurementGaussian ? 0.5 : 0,
-              strokeOpacity: showMeasurementGaussian ? 1 : 0,
-            },
-          }}
-          interpolation="natural"
-        />
+        {showMeasurementGaussian ? (
+          <VictoryArea
+            data={mockMeasurementGaussian}
+            style={{
+              data: {
+                fill: "#6ee7b7",
+                fillOpacity: 0.5,
+              },
+            }}
+            animate={{
+              onLoad: {
+                duration: 1500,
+              },
+              onExit: {
+                duration: 500,
+              },
+            }}
+            interpolation="natural"
+          />
+        ) : null}
         <VictoryArea
           data={mockPosteriorGaussian}
           style={{
