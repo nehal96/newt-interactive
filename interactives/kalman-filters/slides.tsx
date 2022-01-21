@@ -99,5 +99,47 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
       showMeasurementGaussian: true,
       showPosteriorGaussian: false,
     },
+    5: {
+      text: (
+        <>
+          <p>
+            Now, we're going to combine the information we have &mdash; our{" "}
+            <span className="bg-indigo-200 text-indigo-800 py-1 px-2 rounded-md font-medium">
+              Prior
+            </span>{" "}
+            and our{" "}
+            <span className="bg-emerald-100 text-emerald-800 py-1 px-2 rounded-md font-medium">
+              Measurement
+            </span>{" "}
+            &mdash; and get a result that gives us new information about the
+            position of the robot.
+          </p>
+          <p>
+            But what's this information going to look like? Where do you think
+            the mean will be? In between the two Gaussians? Or to the left or
+            right of one of them?
+          </p>
+          <p>
+            What about the covariance? Do you think we're going to be more
+            confident about the robot's position after combining, or less
+            confident?
+          </p>
+          <p>Try and make a guess, then click Next when you're ready.</p>
+        </>
+      ),
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
+      showPosteriorGaussian: false,
+    },
+    6: {
+      text: (
+        <>
+          <p>6</p>
+        </>
+      ),
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
+      showPosteriorGaussian: false,
+    },
   };
 }
