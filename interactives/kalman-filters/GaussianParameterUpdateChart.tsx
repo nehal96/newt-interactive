@@ -11,7 +11,7 @@ const getGaussianData = (mean = 24, sigma = 8) => {
     return (gaussianConstant * Math.exp(-0.5 * newX * newX)) / sigma;
   };
 
-  for (let x = 0; x < 80; x++) {
+  for (let x = 0; x < 100; x++) {
     const y = gaussian(x);
     data.push({ x, y: y * scaleFactor });
   }
@@ -20,13 +20,13 @@ const getGaussianData = (mean = 24, sigma = 8) => {
 };
 
 const GaussianParameterUpdateChart = ({
+  gaussianParams,
   showPriorGaussian,
   showMeasurementGaussian,
   showPosteriorGaussian,
 }: GaussianParameterUpdateChartParams) => {
-  const priorMean = 24,
-    priorSigma = 10;
-  const measurementMean = 48,
+  const { priorMean, priorSigma } = gaussianParams;
+  const measurementMean = 52,
     measurementSigma = 6;
 
   const mockPriorGaussian = getGaussianData(priorMean, priorSigma);
@@ -89,8 +89,10 @@ const GaussianParameterUpdateChart = ({
           interpolation="natural"
         />
         <VictoryAxis
+          label="Position (m)"
           style={{
             axis: { stroke: "#94a3b8" },
+            axisLabel: { padding: 30 },
             tickLabels: { fontSize: 14, fill: "#334155" },
             ticks: { stroke: "#94a3b8", size: 4 },
           }}

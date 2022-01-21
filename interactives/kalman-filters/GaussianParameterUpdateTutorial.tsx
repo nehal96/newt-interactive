@@ -10,11 +10,18 @@ import { getSlides } from "./slides";
 const GaussianParameterUpdateTutorial = () => {
   const [slide, setSlide] = useState(1);
 
+  const priorMean = 32,
+    priorSigma = 10;
+  const gaussianParams = {
+    priorMean,
+    priorSigma,
+  };
+
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
   const onReset = () => setSlide(1);
 
-  const SLIDES = getSlides();
+  const SLIDES = getSlides({ gaussianParams });
   const totalSlides = Object.keys(SLIDES)?.length;
 
   return (
@@ -29,6 +36,7 @@ const GaussianParameterUpdateTutorial = () => {
       />
       <InteractiveContainer className="lg:w-3/5">
         <GaussianParameterUpdateChart
+          gaussianParams={gaussianParams}
           showPriorGaussian={SLIDES[slide]?.showPriorGaussian}
           showMeasurementGaussian={SLIDES[slide]?.showMeasurementGaussian}
           showPosteriorGaussian={SLIDES[slide]?.showPosteriorGaussian}
