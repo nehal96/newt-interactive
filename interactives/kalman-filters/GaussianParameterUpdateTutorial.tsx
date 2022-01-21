@@ -12,13 +12,20 @@ const GaussianParameterUpdateTutorial = () => {
 
   const priorMean = 40,
     priorSigma = 16;
-  const measurementMean = 60,
+  const measurementMean = 70,
     measurementSigma = 6;
+  const posteriorMean =
+    (measurementSigma * priorMean + priorSigma * measurementMean) /
+    (priorSigma + measurementSigma);
+  const posteriorSigma = 1 / (1 / priorSigma + 1 / measurementSigma);
+
   const gaussianParams = {
     priorMean,
     priorSigma,
     measurementMean,
     measurementSigma,
+    posteriorMean,
+    posteriorSigma,
   };
 
   const goToNextSlide = () => setSlide(slide + 1);

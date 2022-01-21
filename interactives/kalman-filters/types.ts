@@ -13,6 +13,8 @@ type GaussianParams = {
   priorSigma: number;
   measurementMean: number;
   measurementSigma: number;
+  posteriorMean: number;
+  posteriorSigma: number;
 };
 
 export type GaussianParameterUpdateChartParams = {

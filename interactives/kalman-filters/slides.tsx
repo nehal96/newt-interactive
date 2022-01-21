@@ -3,8 +3,14 @@ import { ActionButton } from "../robot-localization/LocalizationSlides";
 import { GetSlidesParams, Slides } from "./types";
 
 export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
-  const { priorMean, priorSigma, measurementMean, measurementSigma } =
-    gaussianParams;
+  const {
+    priorMean,
+    priorSigma,
+    measurementMean,
+    measurementSigma,
+    posteriorMean,
+    posteriorSigma,
+  } = gaussianParams;
 
   return {
     1: {
@@ -134,12 +140,33 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
     6: {
       text: (
         <>
-          <p>6</p>
+          <p>
+            The result of the combination is a new Gaussian, called the{" "}
+            <span className="bg-sky-200 text-sky-900 py-1 px-2 rounded-md font-medium">
+              Posterior
+            </span>
+            .
+          </p>
+          <p>
+            It has a mean of{" "}
+            <InlineCode variant="medium">{posteriorMean.toFixed(2)}</InlineCode>{" "}
+            and a covariance of{" "}
+            <InlineCode variant="medium">
+              {posteriorSigma.toFixed(2)}
+            </InlineCode>
+            , so if you guessed a mean in the middle, and a covariance less than
+            both (or increased confidence), great job!
+          </p>
+          <p>
+            The mean being in the middle might have been intuitive, but the{" "}
+            certainty <i>increasing</i> definitely wasn't.
+          </p>
+          <p>It's what makes the Kalman filter so powerful.</p>
         </>
       ),
       showPriorGaussian: true,
       showMeasurementGaussian: true,
-      showPosteriorGaussian: false,
+      showPosteriorGaussian: true,
     },
   };
 }
