@@ -1,4 +1,4 @@
-import { InlineCode } from "../../components";
+import { InlineCode, Popover, PopoverContent } from "../../components";
 import { ActionButton } from "../robot-localization/LocalizationSlides";
 import { GetSlidesParams, Slides } from "./types";
 
@@ -161,7 +161,41 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
             The mean being in the middle might have been intuitive, but the{" "}
             certainty <i>increasing</i> definitely wasn't.
           </p>
-          <p>It's what makes the Kalman filter so powerful.</p>
+          <p>It's one aspect of what makes the Kalman filter so powerful.</p>
+        </>
+      ),
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
+      showPosteriorGaussian: true,
+    },
+    7: {
+      text: (
+        <>
+          <p>
+            So, how did we calculate the{" "}
+            <span className="bg-sky-200 text-sky-900 py-1 px-2 rounded-md font-medium">
+              Posterior
+            </span>
+            ? How did we get a mean of{" "}
+            <InlineCode variant="medium">{posteriorMean.toFixed(2)}</InlineCode>{" "}
+            and a covariance of{" "}
+            <InlineCode variant="medium">
+              {posteriorSigma.toFixed(2)}
+            </InlineCode>
+            ?
+          </p>
+          <p>
+            Here's the formula
+            <Popover
+              content={
+                <PopoverContent>
+                  In some future version I'll prove and explain these formulas.
+                  If you'd like to see it earlier, reach out to me.
+                </PopoverContent>
+              }
+            />
+            :
+          </p>
         </>
       ),
       showPriorGaussian: true,

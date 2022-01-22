@@ -11,7 +11,7 @@ const GaussianParameterUpdateTutorial = () => {
   const [slide, setSlide] = useState(1);
 
   const priorMean = 40,
-    priorSigma = 16;
+    priorSigma = 15;
   const measurementMean = 70,
     measurementSigma = 6;
   const posteriorMean =
