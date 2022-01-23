@@ -1,6 +1,12 @@
 import { InlineCode, Popover, PopoverContent } from "../../components";
 import { ActionButton } from "../robot-localization/LocalizationSlides";
 import { GetSlidesParams, Slides } from "./types";
+import "katex/dist/katex.min.css";
+import TeX from "@matejmazur/react-katex";
+
+const Formula = ({ tex, ...props }) => {
+  return <TeX math={tex} {...props} />;
+};
 
 export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
   const {
@@ -185,7 +191,7 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
             ?
           </p>
           <p>
-            Here's the formula
+            Here's the formulas
             <Popover
               content={
                 <PopoverContent>
@@ -196,6 +202,14 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
             />
             :
           </p>
+          <div className="flex-col items-center">
+            <div className="mb-6 flex justify-center">
+              <Formula tex="\mu' = \dfrac{r^2\mu + \sigma^2\nu}{r^2 + \sigma^2}" />
+            </div>
+            <div className="mb-6 flex justify-center">
+              <Formula tex="\sigma^{2'} = \dfrac{1}{\dfrac{1}{r^2} + \dfrac{1}{\sigma^2}}" />
+            </div>
+          </div>
         </>
       ),
       showPriorGaussian: true,
