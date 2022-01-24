@@ -4,6 +4,7 @@ type Slide = {
   showMeasurementGaussian: boolean;
   showPosteriorGaussian: boolean;
   showFormulaAsChart?: boolean;
+  formula?: React.ReactNode;
 };
 export type Slides = {
   [index: number]: Slide;

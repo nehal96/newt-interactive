@@ -56,9 +56,7 @@ const GaussianParameterUpdateTutorial = () => {
         />
         {SLIDES[slide]?.showFormulaAsChart ? (
           <div className="h-[300px] p-10 flex-col items-center">
-            <div className="mb-6 flex justify-center text-lg">
-              <MathFormula tex="\mu' = \dfrac{r^2\mu + \sigma^2\nu}{r^2 + \sigma^2}" />
-            </div>
+            {SLIDES[slide]?.formula}
           </div>
         ) : null}
       </InteractiveContainer>

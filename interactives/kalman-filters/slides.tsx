@@ -240,10 +240,72 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
           <p className="mt-3">Let's plug in the numbers in the next slide.</p>
         </>
       ),
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
+      showPosteriorGaussian: false,
+      showFormulaAsChart: true,
+      formula: (
+        <div className="mb-6 flex justify-center text-lg">
+          <MathFormula tex="\mu' = \dfrac{r^2\mu + \sigma^2\nu}{r^2 + \sigma^2}" />
+        </div>
+      ),
+    },
+    9: {
+      text: (
+        <>
+          <p>
+            <MathFormula tex="\mu'" /> is what we're calculating, the{" "}
+            <GaussianName name="Posterior" /> mean.
+          </p>
+          <p className="mt-3 flex justify-between">
+            <MathFormula tex={`\\mu = ${priorMean}`} />
+            <span>
+              (<GaussianName name="Prior" /> mean)
+            </span>
+          </p>
+          <p className="flex justify-between">
+            <MathFormula tex={`\\sigma^2 = ${priorSigma}`} />
+            <span>
+              (<GaussianName name="Prior" /> covariance)
+            </span>
+          </p>
+          <p className="flex justify-between">
+            <MathFormula tex={`\\nu = ${measurementMean}`} />
+            <span>
+              (<GaussianName name="Measurement" /> mean)
+            </span>
+          </p>
+          <p className="flex justify-between">
+            <MathFormula tex={`r^2 = ${measurementSigma}`} />
+            <span>
+              (<GaussianName name="Measurement" /> covariance)
+            </span>
+          </p>
+          <p className="mt-6">Next, let's calculate the covariance.</p>
+        </>
+      ),
       showFormulaAsChart: true,
       showPriorGaussian: true,
       showMeasurementGaussian: true,
       showPosteriorGaussian: false,
+      formula: (
+        <>
+          <div className="mb-6 flex justify-center text-lg">
+            <MathFormula tex="\mu' = \dfrac{r^2\mu + \sigma^2\nu}{r^2 + \sigma^2}" />
+          </div>
+          <div className="mb-6 flex justify-center text-lg">
+            <MathFormula
+              tex={`\\mu' = \\dfrac{${measurementSigma} \\times ${priorMean} + ${priorSigma} \\times ${measurementMean}}{${measurementSigma} + ${priorSigma}}`}
+            />
+          </div>
+          <div className="mb-6 flex justify-center text-lg">
+            <MathFormula tex={`\\mu' = \\dfrac{240 + 1050}{21}`} />
+          </div>
+          <div className="mb-6 flex justify-center text-lg">
+            <MathFormula tex={`\\mu' = 61.43`} />
+          </div>
+        </>
+      ),
     },
   };
 }
