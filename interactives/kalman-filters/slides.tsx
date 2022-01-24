@@ -307,5 +307,55 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
         </>
       ),
     },
+    10: {
+      text: (
+        <>
+          <p>
+            <MathFormula tex="\sigma^{2'}" /> is what we're calculating, the{" "}
+            <GaussianName name="Posterior" /> covariance.
+          </p>
+          <p className="mt-3 flex justify-between">
+            <MathFormula tex={`\\sigma^2 = ${priorSigma}`} />
+            <span>
+              (<GaussianName name="Prior" /> covariance)
+            </span>
+          </p>
+          <p className="flex justify-between">
+            <MathFormula tex={`r^2 = ${measurementSigma}`} />
+            <span>
+              (<GaussianName name="Measurement" /> covariance)
+            </span>
+          </p>
+          <p className="mt-6">
+            Plotting our <GaussianName name="Posterior" /> with mean of{" "}
+            <InlineCode variant="medium">{posteriorMean.toFixed(2)}</InlineCode>{" "}
+            and covariance of{" "}
+            <InlineCode variant="medium">
+              {posteriorSigma.toFixed(2)}
+            </InlineCode>{" "}
+            gives us...
+          </p>
+        </>
+      ),
+      showFormulaAsChart: true,
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
+      showPosteriorGaussian: false,
+      formula: (
+        <>
+          <div className="mb-6 flex justify-center">
+            <MathFormula tex="\sigma^{2'} = \dfrac{1}{\dfrac{1}{r^2} + \dfrac{1}{\sigma^2}}" />
+          </div>
+          <div className="mb-6 flex justify-center">
+            <MathFormula
+              tex={`\\sigma^{2'} = \\dfrac{1}{\\dfrac{1}{${measurementSigma}} + \\dfrac{1}{${priorSigma}}}`}
+            />
+          </div>
+          <div className="mb-6 flex justify-center">
+            <MathFormula tex="\sigma^{2'} = 4.29" />
+          </div>
+        </>
+      ),
+    },
   };
 }
