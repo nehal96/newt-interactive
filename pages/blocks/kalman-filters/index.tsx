@@ -5,6 +5,7 @@ import {
   Lede,
   Navbar,
   Paragraph,
+  PostArticleSubscribe,
   Title,
 } from "../../../components";
 import { GaussianParameterUpdateTutorial } from "../../../interactives/kalman-filters";
@@ -43,6 +44,7 @@ const KalmanFilterPage = () => {
           confidence: the Kalman filter.
         </Paragraph>
         <GaussianParameterUpdateTutorial />
+        <PostArticleSubscribe />
       </ArticleContainer>
     </>
   );
