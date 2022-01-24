@@ -255,26 +255,26 @@ export function getSlides({
           </p>
           <p className="mt-3 flex justify-between">
             <MathFormula tex={`\\mu = ${priorMean}`} />
-            <span>
-              (<GaussianName name="Prior" /> mean)
+            <span className="flex items-center text-xs text-slate-600">
+              <GaussianName name="Prior" /> mean
             </span>
           </p>
           <p className="flex justify-between">
             <MathFormula tex={`\\sigma^2 = ${priorSigma}`} />
-            <span>
-              (<GaussianName name="Prior" /> covariance)
+            <span className="flex items-center text-xs text-slate-600">
+              <GaussianName name="Prior" /> covariance
             </span>
           </p>
           <p className="flex justify-between">
             <MathFormula tex={`\\nu = ${measurementMean}`} />
-            <span>
-              (<GaussianName name="Measurement" /> mean)
+            <span className="flex items-center text-xs text-slate-600">
+              <GaussianName name="Measurement" /> mean
             </span>
           </p>
           <p className="flex justify-between">
             <MathFormula tex={`r^2 = ${measurementSigma}`} />
-            <span>
-              (<GaussianName name="Measurement" /> covariance)
+            <span className="flex items-center text-xs text-slate-600">
+              <GaussianName name="Measurement" /> covariance
             </span>
           </p>
           <p className="mt-6">Next, let's calculate the covariance.</p>
@@ -313,14 +313,14 @@ export function getSlides({
           </p>
           <p className="mt-3 flex justify-between">
             <MathFormula tex={`\\sigma^2 = ${priorSigma}`} />
-            <span>
-              (<GaussianName name="Prior" /> covariance)
+            <span className="flex items-center text-xs text-slate-600">
+              <GaussianName name="Prior" /> covariance
             </span>
           </p>
           <p className="flex justify-between">
             <MathFormula tex={`r^2 = ${measurementSigma}`} />
-            <span>
-              (<GaussianName name="Measurement" /> covariance)
+            <span className="flex items-center text-xs text-slate-600">
+              <GaussianName name="Measurement" /> covariance
             </span>
           </p>
           <p className="mt-6">

@@ -74,14 +74,16 @@ const GaussianParameterUpdateTutorial = () => {
       />
       <InteractiveContainer className="lg:w-3/5">
         <GaussianParameterUpdateChart
-          height={SLIDES[slide]?.showFormulaAsChart ? "h-[200px]" : "h-[500px]"}
+          height={
+            SLIDES[slide]?.showFormulaAsChart ? "sm:h-[200px]" : "sm:h-[500px]"
+          }
           gaussianParams={{ ...gaussianParams, posteriorMean, posteriorSigma }}
           showPriorGaussian={SLIDES[slide]?.showPriorGaussian}
           showMeasurementGaussian={SLIDES[slide]?.showMeasurementGaussian}
           showPosteriorGaussian={SLIDES[slide]?.showPosteriorGaussian}
         />
         {SLIDES[slide]?.showFormulaAsChart ? (
-          <div className="h-[300px] p-10 flex-col items-center">
+          <div className="sm:h-[300px] p-10 flex-col items-center">
             {SLIDES[slide]?.formula}
           </div>
         ) : null}
