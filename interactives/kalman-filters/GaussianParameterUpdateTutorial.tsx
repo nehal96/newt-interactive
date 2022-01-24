@@ -26,7 +26,15 @@ const GaussianParameterUpdateTutorial = () => {
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
-  const onReset = () => setSlide(1);
+  const onReset = () => {
+    setGaussianParams({
+      priorMean: 40,
+      priorSigma: 15,
+      measurementMean: 70,
+      measurementSigma: 6,
+    });
+    setSlide(1);
+  };
   const onJumpToSection = (section: Section) => {
     switch (section) {
       case "overview": {
