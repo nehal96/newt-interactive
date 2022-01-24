@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   InteractiveTutorialContainer,
   InteractiveContainer,
-  MathFormula,
 } from "../../components";
 import GaussianParameterUpdateChart from "./GaussianParameterUpdateChart";
 import GaussianParameterUpdateSlides from "./GaussianParameterUpdateSlides";
@@ -11,29 +10,28 @@ import { getSlides } from "./slides";
 const GaussianParameterUpdateTutorial = () => {
   const [slide, setSlide] = useState(1);
 
-  const priorMean = 40,
-    priorSigma = 15;
-  const measurementMean = 70,
-    measurementSigma = 6;
+  const [gaussianParams, setGaussianParams] = useState({
+    priorMean: 40,
+    priorSigma: 15,
+    measurementMean: 70,
+    measurementSigma: 6,
+  });
+  const { priorMean, priorSigma, measurementMean, measurementSigma } =
+    gaussianParams;
   const posteriorMean =
     (measurementSigma * priorMean + priorSigma * measurementMean) /
     (priorSigma + measurementSigma);
   const posteriorSigma = 1 / (1 / priorSigma + 1 / measurementSigma);
 
-  const gaussianParams = {
-    priorMean,
-    priorSigma,
-    measurementMean,
-    measurementSigma,
-    posteriorMean,
-    posteriorSigma,
-  };
-
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
   const onReset = () => setSlide(1);
 
-  const SLIDES = getSlides({ gaussianParams, onNext: goToNextSlide });
+  const SLIDES = getSlides({
+    gaussianParams: { ...gaussianParams, posteriorMean, posteriorSigma },
+    setGaussianParams,
+    onNext: goToNextSlide,
+  });
   const totalSlides = Object.keys(SLIDES)?.length;
 
   return (
@@ -49,7 +47,7 @@ const GaussianParameterUpdateTutorial = () => {
       <InteractiveContainer className="lg:w-3/5">
         <GaussianParameterUpdateChart
           height={SLIDES[slide]?.showFormulaAsChart ? "h-[200px]" : "h-[500px]"}
-          gaussianParams={gaussianParams}
+          gaussianParams={{ ...gaussianParams, posteriorMean, posteriorSigma }}
           showPriorGaussian={SLIDES[slide]?.showPriorGaussian}
           showMeasurementGaussian={SLIDES[slide]?.showMeasurementGaussian}
           showPosteriorGaussian={SLIDES[slide]?.showPosteriorGaussian}

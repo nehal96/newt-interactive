@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 type Slide = {
   text: React.ReactNode;
   showPriorGaussian: boolean;
@@ -29,9 +31,28 @@ export type GaussianParameterUpdateChartParams = {
 
 export type GetSlidesParams = {
   gaussianParams: GaussianParams;
+  setGaussianParams: Dispatch<
+    SetStateAction<{
+      priorMean: number;
+      priorSigma: number;
+      measurementMean: number;
+      measurementSigma: number;
+    }>
+  >;
   onNext?: () => void;
 };
 
 export type GaussianNameProps = {
   name: "Prior" | "Measurement" | "Posterior";
+};
+export type PlaygroundProps = {
+  gaussianParams: GaussianParams;
+  setGaussianParams: Dispatch<
+    SetStateAction<{
+      priorMean: number;
+      priorSigma: number;
+      measurementMean: number;
+      measurementSigma: number;
+    }>
+  >;
 };

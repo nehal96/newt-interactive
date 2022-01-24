@@ -5,27 +5,14 @@ import {
   PopoverContent,
 } from "../../components";
 import { ActionButton } from "../robot-localization/LocalizationSlides";
-import { GaussianNameProps, GetSlidesParams, Slides } from "./types";
+import { GaussianName, Playground } from "./GaussianParameterUpdateSlides";
+import { GetSlidesParams, Slides } from "./types";
 
-const GaussianName = ({ name }: GaussianNameProps) => {
-  const getStyle = () => {
-    switch (name) {
-      case "Prior":
-        return "bg-indigo-200 text-indigo-800";
-      case "Measurement":
-        return "bg-emerald-100 text-emerald-800";
-      case "Posterior":
-        return "bg-sky-200 text-sky-900";
-    }
-  };
-  return (
-    <span className={`py-1 px-2 rounded-md font-medium ${getStyle()}`}>
-      {name}
-    </span>
-  );
-};
-
-export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
+export function getSlides({
+  gaussianParams,
+  setGaussianParams,
+  onNext,
+}: GetSlidesParams): Slides {
   const {
     priorMean,
     priorSigma,
@@ -388,6 +375,20 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
             In the next section, play around with different mean and covariance
             values to see how the predictions change.
           </p>
+        </>
+      ),
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
+      showPosteriorGaussian: true,
+    },
+    12: {
+      text: (
+        <>
+          <p>Change the values below and see the changes on the chart:</p>
+          <Playground
+            gaussianParams={gaussianParams}
+            setGaussianParams={setGaussianParams}
+          />
         </>
       ),
       showPriorGaussian: true,
