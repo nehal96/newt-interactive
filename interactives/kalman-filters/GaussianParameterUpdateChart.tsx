@@ -1,7 +1,13 @@
 import { VictoryChart, VictoryArea, VictoryAxis } from "victory";
+import { min, max } from "lodash";
 import { GaussianParameterUpdateChartParams } from "./types";
 
-const getGaussianData = (mean = 24, sigma = 8) => {
+const getGaussianData = (
+  mean = 24,
+  sigma = 8,
+  domainMin = 0,
+  domainMax = 100
+) => {
   const data = [];
   const scaleFactor = 250;
 
@@ -11,7 +17,7 @@ const getGaussianData = (mean = 24, sigma = 8) => {
     return (gaussianConstant * Math.exp(-0.5 * newX * newX)) / sigma;
   };
 
-  for (let x = 0; x < 100; x++) {
+  for (let x = domainMin; x <= domainMax; x++) {
     const y = gaussian(x);
     data.push({ x, y: y * scaleFactor });
   }
@@ -35,16 +41,38 @@ const GaussianParameterUpdateChart = ({
     posteriorSigma,
   } = gaussianParams;
 
-  const mockPriorGaussian = getGaussianData(priorMean, priorSigma);
+  // Min is 3 deviations less than prior, Max is 3 deviations more than measurement
+  const minX = priorMean - 3 * priorSigma;
+  const maxX = measurementMean + 3 * measurementSigma + 10;
+  const domainMin = min([minX, 0]);
+  const domainMax = max([100, maxX]);
+
+  const mockPriorGaussian = getGaussianData(
+    priorMean,
+    priorSigma,
+    domainMin,
+    domainMax
+  );
   const mockMeasurementGaussian = getGaussianData(
     measurementMean,
-    measurementSigma
+    measurementSigma,
+    domainMin,
+    domainMax
   );
-  const mockPosteriorGaussian = getGaussianData(posteriorMean, posteriorSigma);
+  const mockPosteriorGaussian = getGaussianData(
+    posteriorMean,
+    posteriorSigma,
+    domainMin,
+    domainMax
+  );
 
   return (
     <div className={`${height} flex justify-center items-center`}>
-      <VictoryChart width={550} height={400}>
+      <VictoryChart
+        width={550}
+        height={400}
+        domain={{ x: [domainMin, domainMax] }}
+      >
         {showPriorGaussian ? (
           <VictoryArea
             data={mockPriorGaussian}
