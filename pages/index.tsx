@@ -34,8 +34,8 @@ export default function Home() {
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
           <Link href="/blocks/robot-localization">
-            <a className="w-28 sm:w-40 mr-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
-              <div className="">
+            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+              <div>
                 <Image
                   src="/images/robot.jpg"
                   height={160}
@@ -53,8 +53,8 @@ export default function Home() {
             </a>
           </Link>
           <Link href="/blocks/dna">
-            <a className="w-28 sm:w-40 mr-6 sm:mr-12 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
-              <div className="">
+            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+              <div>
                 <Image
                   src="/images/DNA3d.jpg"
                   height={160}
@@ -72,10 +72,18 @@ export default function Home() {
             </a>
           </Link>
           <Link href="/blocks/kalman-filters">
-            <a className="w-28 sm:w-40 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+            <a className="w-28 sm:w-40 mb-6 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+              <Image
+                src="/images/kalman-1d.jpg"
+                height={160}
+                width={160}
+                layout="responsive"
+                className="rounded-t-xl"
+                alt="1D Kalman filter"
+              />
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
-                  Kalman Filters
+                  1D Kalman Filters
                 </h3>
               </div>
             </a>

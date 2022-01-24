@@ -15,11 +15,34 @@ const KalmanFilterPage = () => {
     <>
       <Head>
         <title>Kalman Filters / Newt Interactive</title>
+        <meta
+          name="description"
+          content="Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions"
+        />
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:creator" content="@nehaludyavar" />
+        <meta
+          property="twitter:url"
+          content="https://www.newtinteractive.com/"
+        />
+        <meta property="twitter:title" content="1D Kalman Filters" />
+        <meta
+          property="twitter:description"
+          content="Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions"
+        />
+        <meta
+          property="twitter:image"
+          content="https://i.ibb.co/cg0H2N1/kalman.jpg"
+        />
       </Head>
       <Navbar />
       <ArticleContainer>
         <Title>Kalman Filters</Title>
-        <Lede>Something something Kalman filters</Lede>
+        <Lede>
+          How to efficiently combine uncertain information to make predictions
+          in a continuously changing 1D environment
+        </Lede>
         <Paragraph>
           In the{" "}
           <Link href="/blocks/robot-localization">
