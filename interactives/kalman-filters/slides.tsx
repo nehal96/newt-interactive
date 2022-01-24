@@ -327,7 +327,7 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
             </span>
           </p>
           <p className="mt-6">
-            Plotting our <GaussianName name="Posterior" /> with mean of{" "}
+            Plotting our calculated mean of{" "}
             <InlineCode variant="medium">{posteriorMean.toFixed(2)}</InlineCode>{" "}
             and covariance of{" "}
             <InlineCode variant="medium">
@@ -356,6 +356,43 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
           </div>
         </>
       ),
+    },
+    11: {
+      text: (
+        <>
+          <p>
+            ...our <GaussianName name="Posterior" />!
+          </p>
+          <p>
+            <Popover
+              content={
+                <PopoverContent>
+                  If you're interested in this, reach out to me (info at the
+                  bottom of the page)
+                </PopoverContent>
+              }
+              highlightColor="newt-blue-100"
+              placement="bottom"
+            >
+              (In some future version, I'll derive those two formulas so you can
+              better understand where it comes from and why it works).
+            </Popover>
+          </p>
+          <p>
+            For now, just know that the beauty and power of the Kalman filter is
+            in its ability to efficiently combine uncertain information to make
+            predictions in a continuously changing environment &mdash; very
+            useful in robots and self-driving cars.
+          </p>
+          <p>
+            In the next section, play around with different mean and covariance
+            values to see how the predictions change.
+          </p>
+        </>
+      ),
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
+      showPosteriorGaussian: true,
     },
   };
 }
