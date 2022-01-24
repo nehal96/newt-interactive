@@ -3,6 +3,7 @@ type Slide = {
   showPriorGaussian: boolean;
   showMeasurementGaussian: boolean;
   showPosteriorGaussian: boolean;
+  showFormulaAsChart?: boolean;
 };
 export type Slides = {
   [index: number]: Slide;
@@ -18,6 +19,7 @@ type GaussianParams = {
 };
 
 export type GaussianParameterUpdateChartParams = {
+  height: string;
   gaussianParams: GaussianParams;
   showPriorGaussian: boolean;
   showMeasurementGaussian: boolean;
@@ -27,4 +29,8 @@ export type GaussianParameterUpdateChartParams = {
 export type GetSlidesParams = {
   gaussianParams: GaussianParams;
   onNext?: () => void;
+};
+
+export type GaussianNameProps = {
+  name: "Prior" | "Measurement" | "Posterior";
 };

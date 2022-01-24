@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   InteractiveTutorialContainer,
   InteractiveContainer,
+  MathFormula,
 } from "../../components";
 import GaussianParameterUpdateChart from "./GaussianParameterUpdateChart";
 import GaussianParameterUpdateSlides from "./GaussianParameterUpdateSlides";
@@ -47,11 +48,19 @@ const GaussianParameterUpdateTutorial = () => {
       />
       <InteractiveContainer className="lg:w-3/5">
         <GaussianParameterUpdateChart
+          height={SLIDES[slide]?.showFormulaAsChart ? "h-[200px]" : "h-[500px]"}
           gaussianParams={gaussianParams}
           showPriorGaussian={SLIDES[slide]?.showPriorGaussian}
           showMeasurementGaussian={SLIDES[slide]?.showMeasurementGaussian}
           showPosteriorGaussian={SLIDES[slide]?.showPosteriorGaussian}
         />
+        {SLIDES[slide]?.showFormulaAsChart ? (
+          <div className="h-[300px] p-10 flex-col items-center">
+            <div className="mb-6 flex justify-center text-lg">
+              <MathFormula tex="\mu' = \dfrac{r^2\mu + \sigma^2\nu}{r^2 + \sigma^2}" />
+            </div>
+          </div>
+        ) : null}
       </InteractiveContainer>
     </InteractiveTutorialContainer>
   );

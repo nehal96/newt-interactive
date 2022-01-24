@@ -1,11 +1,28 @@
-import { InlineCode, Popover, PopoverContent } from "../../components";
+import {
+  InlineCode,
+  MathFormula,
+  Popover,
+  PopoverContent,
+} from "../../components";
 import { ActionButton } from "../robot-localization/LocalizationSlides";
-import { GetSlidesParams, Slides } from "./types";
-import "katex/dist/katex.min.css";
-import TeX from "@matejmazur/react-katex";
+import { GaussianNameProps, GetSlidesParams, Slides } from "./types";
 
-const Formula = ({ tex, ...props }) => {
-  return <TeX math={tex} {...props} />;
+const GaussianName = ({ name }: GaussianNameProps) => {
+  const getStyle = () => {
+    switch (name) {
+      case "Prior":
+        return "bg-indigo-200 text-indigo-800";
+      case "Measurement":
+        return "bg-emerald-100 text-emerald-800";
+      case "Posterior":
+        return "bg-sky-200 text-sky-900";
+    }
+  };
+  return (
+    <span className={`py-1 px-2 rounded-md font-medium ${getStyle()}`}>
+      {name}
+    </span>
+  );
 };
 
 export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
@@ -41,11 +58,8 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
         <>
           <p>
             The indigo Gaussian, which we're going to call the{" "}
-            <span className="bg-indigo-200 text-indigo-800 py-1 px-2 rounded-md font-medium">
-              Prior
-            </span>
-            , represents the belief, or probability distribution, of where the
-            robot initially resides.
+            <GaussianName name="Prior" />, represents the belief, or probability
+            distribution, of where the robot initially resides.
           </p>
           <p>
             We don't know exactly where it is, but we know that it follows a
@@ -87,11 +101,7 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
         <>
           <p>
             Because the robot's measurement is uncertain, we get another
-            Gaussian, which we'll call the{" "}
-            <span className="bg-emerald-100 text-emerald-800 py-1 px-2 rounded-md font-medium">
-              Measurement
-            </span>
-            .
+            Gaussian, which we'll call the <GaussianName name="Measurement" />.
           </p>
           <p>
             This distribution has a mean of{" "}
@@ -116,15 +126,9 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
         <>
           <p>
             Now, we're going to combine the information we have &mdash; our{" "}
-            <span className="bg-indigo-200 text-indigo-800 py-1 px-2 rounded-md font-medium">
-              Prior
-            </span>{" "}
-            and our{" "}
-            <span className="bg-emerald-100 text-emerald-800 py-1 px-2 rounded-md font-medium">
-              Measurement
-            </span>{" "}
-            &mdash; and get a result that gives us new information about the
-            position of the robot.
+            <GaussianName name="Prior" /> and our{" "}
+            <GaussianName name="Measurement" /> &mdash; and get a result that
+            gives us new information about the position of the robot.
           </p>
           <p>
             But what's this information going to look like? Where do you think
@@ -148,10 +152,7 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
         <>
           <p>
             The result of the combination is a new Gaussian, called the{" "}
-            <span className="bg-sky-200 text-sky-900 py-1 px-2 rounded-md font-medium">
-              Posterior
-            </span>
-            .
+            <GaussianName name="Posterior" />.
           </p>
           <p>
             It has a mean of{" "}
@@ -178,11 +179,8 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
       text: (
         <>
           <p>
-            So, how did we calculate the{" "}
-            <span className="bg-sky-200 text-sky-900 py-1 px-2 rounded-md font-medium">
-              Posterior
-            </span>
-            ? How did we get a mean of{" "}
+            So, how did we calculate the <GaussianName name="Posterior" />? How
+            did we get a mean of{" "}
             <InlineCode variant="medium">{posteriorMean.toFixed(2)}</InlineCode>{" "}
             and a covariance of{" "}
             <InlineCode variant="medium">
@@ -195,8 +193,8 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
             <Popover
               content={
                 <PopoverContent>
-                  In some future version I'll prove and explain these formulas.
-                  If you'd like to see it earlier, reach out to me.
+                  In some future version I'll prove/derive these formulas. If
+                  you'd like to see it earlier, reach out to me.
                 </PopoverContent>
               }
             />
@@ -204,17 +202,48 @@ export function getSlides({ gaussianParams, onNext }: GetSlidesParams): Slides {
           </p>
           <div className="flex-col items-center">
             <div className="mb-6 flex justify-center">
-              <Formula tex="\mu' = \dfrac{r^2\mu + \sigma^2\nu}{r^2 + \sigma^2}" />
+              <MathFormula tex="\mu' = \dfrac{r^2\mu + \sigma^2\nu}{r^2 + \sigma^2}" />
             </div>
             <div className="mb-6 flex justify-center">
-              <Formula tex="\sigma^{2'} = \dfrac{1}{\dfrac{1}{r^2} + \dfrac{1}{\sigma^2}}" />
+              <MathFormula tex="\sigma^{2'} = \dfrac{1}{\dfrac{1}{r^2} + \dfrac{1}{\sigma^2}}" />
             </div>
           </div>
+          <p>Let's break these down in the next slide.</p>
         </>
       ),
       showPriorGaussian: true,
       showMeasurementGaussian: true,
       showPosteriorGaussian: true,
+    },
+    8: {
+      text: (
+        <>
+          <p>
+            <MathFormula tex="\mu'" /> is what we're calculating, the{" "}
+            <GaussianName name="Posterior" /> mean.
+          </p>
+          <p className="mt-3">
+            <MathFormula tex="\mu" /> is the <GaussianName name="Prior" /> mean.
+          </p>
+          <p>
+            <MathFormula tex="\sigma^2" /> is the <GaussianName name="Prior" />{" "}
+            covariance.
+          </p>
+          <p>
+            <MathFormula tex="\nu" /> is the <GaussianName name="Measurement" />{" "}
+            mean.
+          </p>
+          <p>
+            <MathFormula tex="r^2" /> is the <GaussianName name="Measurement" />{" "}
+            covariance.
+          </p>
+          <p className="mt-3">Let's plug in the numbers in the next slide.</p>
+        </>
+      ),
+      showFormulaAsChart: true,
+      showPriorGaussian: true,
+      showMeasurementGaussian: true,
+      showPosteriorGaussian: false,
     },
   };
 }

@@ -20,6 +20,7 @@ const getGaussianData = (mean = 24, sigma = 8) => {
 };
 
 const GaussianParameterUpdateChart = ({
+  height,
   gaussianParams,
   showPriorGaussian,
   showMeasurementGaussian,
@@ -42,7 +43,7 @@ const GaussianParameterUpdateChart = ({
   const mockPosteriorGaussian = getGaussianData(posteriorMean, posteriorSigma);
 
   return (
-    <div className="h-[500px] flex justify-center items-center">
+    <div className={`${height} flex justify-center items-center`}>
       <VictoryChart width={550} height={400}>
         {showPriorGaussian ? (
           <VictoryArea
