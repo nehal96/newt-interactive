@@ -3,7 +3,7 @@ import { ReactNode, useState } from "react";
 import "tippy.js/dist/tippy.css";
 
 interface PopoverProps extends Omit<TippyProps, "children"> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   content: ReactNode;
   highlightColor?: string;
 }
