@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { capitalize } from "lodash";
 import {
   TextContainer,
   Button,
@@ -6,7 +7,13 @@ import {
   InlineCode,
 } from "../../components";
 import styles from "./styles.module.css";
-import { GaussianNameProps, PlaygroundProps } from "./types";
+import {
+  GaussianNameProps,
+  GaussianParamterUpdateSlidesProps,
+  PlaygroundProps,
+} from "./types";
+import { Menu, MenuButton, MenuItem, MenuList } from "@reach/menu-button";
+import { FiChevronDown } from "react-icons/fi";
 
 export const GaussianName = ({ name }: GaussianNameProps) => {
   const getStyle = () => {
@@ -175,11 +182,42 @@ const GaussianParameterUpdateSlides = ({
   totalSlides,
   onBack,
   onNext,
+  onJumpToSection,
   onReset,
-}) => {
+}: GaussianParamterUpdateSlidesProps) => {
   return (
     <TextContainer className="lg:w-2/5">
-      <div className="flex items-center justify-end text-slate-400 mb-6">
+      <div className="flex items-center justify-between text-slate-400 mb-6">
+        <div>
+          <Menu>
+            <MenuButton className="inline-flex text-xs items-center hover:text-slate-500">
+              {capitalize(slide?.section)}
+              <span>
+                <FiChevronDown className="ml-1" />
+              </span>
+            </MenuButton>
+            <MenuList className="rounded-md">
+              <MenuItem
+                className={styles["menu-item"]}
+                onSelect={() => onJumpToSection("overview")}
+              >
+                Overview
+              </MenuItem>
+              <MenuItem
+                className={styles["menu-item"]}
+                onSelect={() => onJumpToSection("calculations")}
+              >
+                Calculations
+              </MenuItem>
+              <MenuItem
+                className={styles["menu-item"]}
+                onSelect={() => onJumpToSection("playground")}
+              >
+                Playground
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </div>
         <div>
           <Button
             variant="outline"
@@ -201,20 +239,12 @@ const GaussianParameterUpdateSlides = ({
         {/* Back + Next buttons */}
         <div className="flex justify-center">
           {slideNumber > 1 ? (
-            <Button
-              variant="secondary"
-              className="mr-2 px-4"
-              onClick={() => onBack(slide?.onBack)}
-            >
+            <Button variant="secondary" className="mr-2 px-4" onClick={onBack}>
               Back
             </Button>
           ) : null}
           {slideNumber < totalSlides ? (
-            <Button
-              variant="secondary"
-              className="ml-2 px-4"
-              onClick={() => onNext(slide?.onNext)}
-            >
+            <Button variant="secondary" className="ml-2 px-4" onClick={onNext}>
               Next
             </Button>
           ) : null}

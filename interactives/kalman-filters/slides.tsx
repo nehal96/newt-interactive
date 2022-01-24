@@ -24,6 +24,7 @@ export function getSlides({
 
   return {
     1: {
+      section: "overview",
       text: (
         <>
           <p>
@@ -41,6 +42,7 @@ export function getSlides({
       showPosteriorGaussian: false,
     },
     2: {
+      section: "overview",
       text: (
         <>
           <p>
@@ -69,6 +71,7 @@ export function getSlides({
       showPosteriorGaussian: false,
     },
     3: {
+      section: "overview",
       text: (
         <>
           <p>
@@ -84,6 +87,7 @@ export function getSlides({
       showPosteriorGaussian: false,
     },
     4: {
+      section: "overview",
       text: (
         <>
           <p>
@@ -109,6 +113,7 @@ export function getSlides({
       showPosteriorGaussian: false,
     },
     5: {
+      section: "overview",
       text: (
         <>
           <p>
@@ -135,6 +140,7 @@ export function getSlides({
       showPosteriorGaussian: false,
     },
     6: {
+      section: "overview",
       text: (
         <>
           <p>
@@ -163,6 +169,7 @@ export function getSlides({
       showPosteriorGaussian: true,
     },
     7: {
+      section: "calculations",
       text: (
         <>
           <p>
@@ -203,6 +210,7 @@ export function getSlides({
       showPosteriorGaussian: true,
     },
     8: {
+      section: "calculations",
       text: (
         <>
           <p>
@@ -238,6 +246,7 @@ export function getSlides({
       ),
     },
     9: {
+      section: "calculations",
       text: (
         <>
           <p>
@@ -295,6 +304,7 @@ export function getSlides({
       ),
     },
     10: {
+      section: "calculations",
       text: (
         <>
           <p>
@@ -345,6 +355,7 @@ export function getSlides({
       ),
     },
     11: {
+      section: "calculations",
       text: (
         <>
           <p>
@@ -382,6 +393,7 @@ export function getSlides({
       showPosteriorGaussian: true,
     },
     12: {
+      section: "playground",
       text: (
         <>
           <p>Change the values below and see the changes on the chart:</p>

@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 
+export type Section = "overview" | "calculations" | "playground";
 type Slide = {
+  section: Section;
   text: React.ReactNode;
   showPriorGaussian: boolean;
   showMeasurementGaussian: boolean;
@@ -56,3 +58,12 @@ export type PlaygroundProps = {
     }>
   >;
 };
+export interface GaussianParamterUpdateSlidesProps {
+  slide: Slide;
+  slideNumber: number;
+  totalSlides: number;
+  onBack: () => void;
+  onNext: () => void;
+  onJumpToSection: (section: Section) => void;
+  onReset: () => void;
+}

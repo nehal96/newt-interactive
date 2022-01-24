@@ -6,6 +6,7 @@ import {
 import GaussianParameterUpdateChart from "./GaussianParameterUpdateChart";
 import GaussianParameterUpdateSlides from "./GaussianParameterUpdateSlides";
 import { getSlides } from "./slides";
+import { Section } from "./types";
 
 const GaussianParameterUpdateTutorial = () => {
   const [slide, setSlide] = useState(1);
@@ -26,6 +27,24 @@ const GaussianParameterUpdateTutorial = () => {
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
   const onReset = () => setSlide(1);
+  const onJumpToSection = (section: Section) => {
+    switch (section) {
+      case "overview": {
+        setSlide(1);
+        break;
+      }
+      case "calculations": {
+        setSlide(7);
+        break;
+      }
+      case "playground": {
+        setSlide(12);
+        break;
+      }
+      default:
+        return;
+    }
+  };
 
   const SLIDES = getSlides({
     gaussianParams: { ...gaussianParams, posteriorMean, posteriorSigma },
@@ -42,6 +61,7 @@ const GaussianParameterUpdateTutorial = () => {
         totalSlides={totalSlides}
         onBack={goToPreviousSlide}
         onNext={goToNextSlide}
+        onJumpToSection={onJumpToSection}
         onReset={onReset}
       />
       <InteractiveContainer className="lg:w-3/5">
