@@ -5,7 +5,7 @@ import {
   PopoverContent,
 } from "../../components";
 import { ActionButton } from "../robot-localization/LocalizationSlides";
-import { GaussianName, Playground } from "./GaussianParameterUpdateSlides";
+import { GaussianName, Playground } from "./GaussianParameterUpdatePlayground";
 import { GetSlidesParams, Slides } from "./types";
 
 export function getSlides({
