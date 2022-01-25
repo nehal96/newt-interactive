@@ -7,7 +7,8 @@ import {
 import { JumpToSectionMenu } from "../../components/Slides";
 import GaussianParameterUpdateChart from "./GaussianParameterUpdateChart";
 import { getSlides } from "./slides";
-import { Section } from "./types";
+import { Section, Slide } from "./types";
+import _ from "lodash";
 
 const GaussianParameterUpdateTutorial = () => {
   const [slide, setSlide] = useState(1);
@@ -60,28 +61,20 @@ const GaussianParameterUpdateTutorial = () => {
     setGaussianParams,
     onNext: goToNextSlide,
   });
-  const totalSlides = Object.keys(SLIDES)?.length;
-  const sections: JumpToSectionMenu = [
-    {
-      name: "overview",
-      onSelect: () => onJumpToSection("overview"),
-    },
-    {
-      name: "calculations",
-      onSelect: () => onJumpToSection("calculations"),
-    },
-    {
-      name: "playground",
-      onSelect: () => onJumpToSection("calculations"),
-    },
-  ];
+  const sections: JumpToSectionMenu = _.chain(SLIDES)
+    .map((slide: Slide) => slide.section)
+    .uniq()
+    .map((section: Section) => ({
+      name: section,
+      onSelect: () => onJumpToSection(section),
+    }))
+    .value();
 
   return (
     <InteractiveTutorialContainer>
       <Slides
-        slide={SLIDES[slide]}
-        slideNumber={slide}
-        totalSlides={totalSlides}
+        slides={SLIDES}
+        currentSlideNumber={slide}
         onBack={goToPreviousSlide}
         onNext={goToNextSlide}
         onReset={onReset}

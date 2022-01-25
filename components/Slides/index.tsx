@@ -10,15 +10,17 @@ type Slide = {
   onBackActions?: string[];
   onNextActions?: string[];
 };
+type Slides = {
+  [index: number]: Slide;
+};
 export type JumpToSectionMenu = {
   name: string;
   onSelect: () => void;
 }[];
 interface SlidesProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  slide: Slide;
-  slideNumber: number;
-  totalSlides: number;
+  slides: Slides;
+  currentSlideNumber: number;
   onBack: (callback?: any) => void;
   onNext: (callback?: any) => void;
   onReset: () => void;
@@ -28,9 +30,8 @@ interface SlidesProps
 
 // Text slides for interactives
 const Slides = ({
-  slide,
-  slideNumber,
-  totalSlides,
+  slides,
+  currentSlideNumber,
   onBack,
   onNext,
   onReset,
@@ -38,6 +39,9 @@ const Slides = ({
   currentSection,
   className,
 }: SlidesProps) => {
+  const currentSlide = slides[currentSlideNumber];
+  const totalSlides = Object.keys(slides)?.length;
+
   return (
     <TextContainer className={className}>
       <div className="flex items-center justify-between text-slate-400 mb-6">
@@ -55,6 +59,7 @@ const Slides = ({
                   <MenuItem
                     className={styles["menu-item"]}
                     onSelect={section.onSelect}
+                    key={section.name}
                   >
                     {capitalize(section.name)}
                   </MenuItem>
@@ -71,32 +76,32 @@ const Slides = ({
           >
             Reset
           </Button>
-          <span className="text-xs md:text-sm">{`${slideNumber} / ${totalSlides}`}</span>
+          <span className="text-xs md:text-sm">{`${currentSlideNumber} / ${totalSlides}`}</span>
         </div>
       </div>
       <div className="flex flex-col justify-between h-full">
         <div className="flex flex-col">
           {/* Slide text */}
           <div className={styles["slide-text"]}>
-            {slide?.text ? slide.text : null}
+            {currentSlide?.text ? currentSlide.text : null}
           </div>
         </div>
         {/* Back + Next buttons */}
         <div className="flex justify-center">
-          {slideNumber > 1 ? (
+          {currentSlideNumber > 1 ? (
             <Button
               variant="secondary"
               className="mr-2 px-4"
-              onClick={() => onBack(slide?.onBackActions)}
+              onClick={() => onBack(currentSlide?.onBackActions)}
             >
               Back
             </Button>
           ) : null}
-          {slideNumber < totalSlides ? (
+          {currentSlideNumber < totalSlides ? (
             <Button
               variant="secondary"
               className="ml-2 px-4"
-              onClick={() => onNext(slide?.onNextActions)}
+              onClick={() => onNext(currentSlide?.onNextActions)}
             >
               Next
             </Button>

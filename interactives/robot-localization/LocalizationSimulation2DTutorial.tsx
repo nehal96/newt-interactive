@@ -7,8 +7,15 @@ import {
 } from "../../components";
 import useLocalizationSimulation from "./hooks";
 import { getSlides } from "./slides";
-import { BackAction, GridPositionChange, NextAction, Section } from "./types";
+import {
+  BackAction,
+  GridPositionChange,
+  NextAction,
+  Section,
+  Slide,
+} from "./types";
 import { JumpToSectionMenu } from "../../components/Slides";
+import _ from "lodash";
 
 const LocalizationSimulation2DTutorial = () => {
   const [slide, setSlide] = useState(1);
@@ -110,28 +117,20 @@ const LocalizationSimulation2DTutorial = () => {
     () => getSlides({ onSense, onMove, playgroundValues }),
     [onSense, onMove]
   );
-  const totalSlides = Object.keys(SLIDES)?.length;
-  const sections: JumpToSectionMenu = [
-    {
-      name: "Overview",
-      onSelect: () => onJumpToSection("overview"),
-    },
-    {
-      name: "Code",
-      onSelect: () => onJumpToSection("code"),
-    },
-    {
-      name: "Playground",
-      onSelect: () => onJumpToSection("playground"),
-    },
-  ];
+  const sections: JumpToSectionMenu = _.chain(SLIDES)
+    .map((slide: Slide) => slide.section)
+    .uniq()
+    .map((section: Section) => ({
+      name: section,
+      onSelect: () => onJumpToSection(section),
+    }))
+    .value();
 
   return (
     <InteractiveTutorialContainer>
       <Slides
-        slide={SLIDES[slide]}
-        slideNumber={slide}
-        totalSlides={totalSlides}
+        slides={SLIDES}
+        currentSlideNumber={slide}
         onBack={onBack}
         onNext={onNext}
         jumpToSectionMenu={sections}

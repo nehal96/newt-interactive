@@ -28,7 +28,7 @@ export type GetSlideParams = {
   onMove: (args: GridPositionChange, goToNextSlide: boolean) => void;
   playgroundValues: PlaygroundValues;
 };
-type Slide = {
+export type Slide = {
   section: Section;
   text: React.ReactNode;
   onNextActions?: NextAction[];
