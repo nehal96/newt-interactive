@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 export type Section = "overview" | "calculations" | "playground";
-type Slide = {
+export type Slide = {
   section: Section;
   text: React.ReactNode;
   showPriorGaussian: boolean;
