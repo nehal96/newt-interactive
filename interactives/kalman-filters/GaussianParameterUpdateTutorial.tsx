@@ -2,9 +2,10 @@ import { useState } from "react";
 import {
   InteractiveTutorialContainer,
   InteractiveContainer,
+  Slides,
 } from "../../components";
+import { JumpToSectionMenu } from "../../components/Slides";
 import GaussianParameterUpdateChart from "./GaussianParameterUpdateChart";
-import GaussianParameterUpdateSlides from "./GaussianParameterUpdateSlides";
 import { getSlides } from "./slides";
 import { Section } from "./types";
 
@@ -60,17 +61,32 @@ const GaussianParameterUpdateTutorial = () => {
     onNext: goToNextSlide,
   });
   const totalSlides = Object.keys(SLIDES)?.length;
+  const sections: JumpToSectionMenu = [
+    {
+      name: "overview",
+      onSelect: () => onJumpToSection("overview"),
+    },
+    {
+      name: "calculations",
+      onSelect: () => onJumpToSection("calculations"),
+    },
+    {
+      name: "playground",
+      onSelect: () => onJumpToSection("calculations"),
+    },
+  ];
 
   return (
     <InteractiveTutorialContainer>
-      <GaussianParameterUpdateSlides
+      <Slides
         slide={SLIDES[slide]}
         slideNumber={slide}
         totalSlides={totalSlides}
         onBack={goToPreviousSlide}
         onNext={goToNextSlide}
-        onJumpToSection={onJumpToSection}
         onReset={onReset}
+        jumpToSectionMenu={sections}
+        currentSection={SLIDES[slide].section}
       />
       <InteractiveContainer className="lg:w-3/5">
         <GaussianParameterUpdateChart
