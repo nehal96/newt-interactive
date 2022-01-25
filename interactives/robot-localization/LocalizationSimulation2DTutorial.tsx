@@ -3,11 +3,12 @@ import LocalizationSimulation2D from "./LocalizationSimulation2D";
 import {
   InteractiveContainer,
   InteractiveTutorialContainer,
+  Slides,
 } from "../../components";
 import useLocalizationSimulation from "./hooks";
 import { getSlides } from "./slides";
 import { BackAction, GridPositionChange, NextAction, Section } from "./types";
-import LocalizationSlides from "./LocalizationSlides";
+import { JumpToSectionMenu } from "../../components/Slides";
 
 const LocalizationSimulation2DTutorial = () => {
   const [slide, setSlide] = useState(1);
@@ -35,7 +36,7 @@ const LocalizationSimulation2DTutorial = () => {
         setShowUnderTheHood(false);
         break;
       }
-      case "code-explain": {
+      case "code": {
         // TODO: might have to change slides data structure to array to find
         // slide programmatically
         setSlide(11);
@@ -110,16 +111,31 @@ const LocalizationSimulation2DTutorial = () => {
     [onSense, onMove]
   );
   const totalSlides = Object.keys(SLIDES)?.length;
+  const sections: JumpToSectionMenu = [
+    {
+      name: "Overview",
+      onSelect: () => onJumpToSection("overview"),
+    },
+    {
+      name: "Code",
+      onSelect: () => onJumpToSection("code"),
+    },
+    {
+      name: "Playground",
+      onSelect: () => onJumpToSection("playground"),
+    },
+  ];
 
   return (
     <InteractiveTutorialContainer>
-      <LocalizationSlides
+      <Slides
         slide={SLIDES[slide]}
         slideNumber={slide}
         totalSlides={totalSlides}
         onBack={onBack}
         onNext={onNext}
-        onJumpToSection={onJumpToSection}
+        jumpToSectionMenu={sections}
+        currentSection={SLIDES[slide].section}
         onReset={onReset}
       />
       <InteractiveContainer

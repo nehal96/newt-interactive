@@ -1,6 +1,6 @@
 import { Code, InlineCode, Popover, PopoverContent } from "../../components";
 import { GetSlideParams, Slides } from "./types";
-import { ActionButton, Playground } from "./LocalizationSlides";
+import LocalizationPlayground, { ActionButton } from "./LocalizationPlayground";
 
 export function getSlides({
   onSense,
@@ -177,10 +177,10 @@ export function getSlides({
           </p>
         </>
       ),
-      onNext: ["reset", "show under the hood"],
+      onNextActions: ["reset", "show under the hood"],
     },
     11: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <p>
@@ -215,10 +215,10 @@ export function getSlides({
           </p>
         </>
       ),
-      onBack: ["hide under the hood"],
+      onBackActions: ["hide under the hood"],
     },
     12: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <p>
@@ -257,7 +257,7 @@ export function getSlides({
       ),
     },
     13: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <Code
@@ -298,7 +298,7 @@ export function getSlides({
       ),
     },
     14: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <p>
@@ -344,7 +344,7 @@ export function getSlides({
       ),
     },
     15: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <p>
@@ -362,7 +362,7 @@ export function getSlides({
       ),
     },
     16: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <p>
@@ -387,7 +387,7 @@ export function getSlides({
       ),
     },
     17: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <p>
@@ -405,7 +405,7 @@ export function getSlides({
       ),
     },
     18: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <p>
@@ -423,10 +423,10 @@ export function getSlides({
           <p>Ofcourse, this is a highly simplified model, but it's a start.</p>
         </>
       ),
-      onNext: ["reset"],
+      onNextActions: ["reset"],
     },
     19: {
-      section: "code-explain",
+      section: "code",
       text: (
         <>
           <p>In the beginning we set out some initial conditions:</p>
@@ -444,7 +444,7 @@ export function getSlides({
       section: "playground",
       text: (
         <>
-          <Playground values={playgroundValues} />
+          <LocalizationPlayground values={playgroundValues} />
           <ActionButton onClick={() => onSense(false)}>Sense</ActionButton>
           <ActionButton onClick={() => onMove(null, false)}>Move</ActionButton>
         </>

@@ -11,7 +11,7 @@ export type GridPositionChange = {
   dy: number;
 };
 
-export type Section = "overview" | "code-explain" | "playground";
+export type Section = "overview" | "code" | "playground";
 export type NextAction =
   | "reset"
   | "show under the hood"
@@ -31,8 +31,8 @@ export type GetSlideParams = {
 type Slide = {
   section: Section;
   text: React.ReactNode;
-  onNext?: NextAction[];
-  onBack?: BackAction[];
+  onNextActions?: NextAction[];
+  onBackActions?: BackAction[];
 };
 export type Slides = {
   [index: number]: Slide;

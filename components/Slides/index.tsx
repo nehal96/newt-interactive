@@ -7,8 +7,8 @@ import styles from "./Slides.module.css";
 
 type Slide = {
   text: React.ReactNode;
-  onBack?: Function;
-  onNext?: Function;
+  onBackActions?: string[];
+  onNextActions?: string[];
 };
 export type JumpToSectionMenu = {
   name: string;
@@ -87,7 +87,7 @@ const Slides = ({
             <Button
               variant="secondary"
               className="mr-2 px-4"
-              onClick={() => onBack(slide?.onBack)}
+              onClick={() => onBack(slide?.onBackActions)}
             >
               Back
             </Button>
@@ -96,7 +96,7 @@ const Slides = ({
             <Button
               variant="secondary"
               className="ml-2 px-4"
-              onClick={() => onNext(slide?.onNext)}
+              onClick={() => onNext(slide?.onNextActions)}
             >
               Next
             </Button>

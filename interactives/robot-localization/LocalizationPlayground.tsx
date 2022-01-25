@@ -1,16 +1,14 @@
-import styles from "./LocalizationSimulation.module.css";
-import { Button, Code, InlineCode, TextContainer } from "../../components";
+import { Button, Code, InlineCode } from "../../components";
 import {
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
 } from "@reach/accordion";
-import { Menu, MenuButton, MenuList, MenuItem } from "@reach/menu-button";
 import { FiChevronDown, FiInfo } from "react-icons/fi";
 import "@reach/accordion/styles.css";
 import "@reach/menu-button/styles.css";
-import { LocalizationSlidesProps, PlaygroundValues, Section } from "./types";
+import { PlaygroundValues } from "./types";
 
 export const ActionButton = ({ children, onClick }) => {
   return (
@@ -24,7 +22,7 @@ export const ActionButton = ({ children, onClick }) => {
   );
 };
 
-export const Playground = ({ values }: { values: PlaygroundValues }) => {
+const LocalizationPlayground = ({ values }: { values: PlaygroundValues }) => {
   const { pHit, setPHit, pMiss, setPMiss } = values;
   const incorrectSenseProb = pMiss / (pHit + pMiss);
 
@@ -108,105 +106,4 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
   );
 };
 
-const LocalizationSlides = ({
-  slide,
-  slideNumber,
-  totalSlides,
-  onBack,
-  onNext,
-  onReset,
-  onJumpToSection,
-}: LocalizationSlidesProps) => {
-  const getSectionName = (section: Section) => {
-    switch (section) {
-      case "overview":
-        return "Overview";
-      case "code-explain":
-        return "Code";
-      case "playground":
-        return "Playground";
-      default:
-        return "";
-    }
-  };
-
-  return (
-    <TextContainer
-      className={slide?.section === "overview" ? "lg:w-3/5" : "lg:w-1/2"}
-    >
-      <div className="flex items-center justify-between text-slate-400 mb-6">
-        <div>
-          <Menu>
-            <MenuButton className="inline-flex text-xs items-center hover:text-slate-500">
-              {getSectionName(slide?.section)}{" "}
-              <span>
-                <FiChevronDown className="ml-1" />
-              </span>
-            </MenuButton>
-            <MenuList className="rounded-md">
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("overview")}
-              >
-                Overview
-              </MenuItem>
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("code-explain")}
-              >
-                Code
-              </MenuItem>
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("playground")}
-              >
-                Playground
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </div>
-        <div>
-          <Button
-            variant="outline"
-            className="mr-2 text-xs hover:text-slate-500 md:mr-4 md:text-sm"
-            onClick={onReset}
-          >
-            Reset
-          </Button>
-          <span className="text-xs md:text-sm">{`${slideNumber} / ${totalSlides}`}</span>
-        </div>
-      </div>
-      <div className="flex flex-col justify-between h-full">
-        <div className="flex flex-col">
-          {/* Slide text */}
-          <div className={styles["slide-text"]}>
-            {slide?.text ? slide.text : null}
-          </div>
-        </div>
-        {/* Back + Next buttons */}
-        <div className="flex justify-center">
-          {slideNumber > 1 ? (
-            <Button
-              variant="secondary"
-              className="mr-2 px-4"
-              onClick={() => onBack(slide?.onBack)}
-            >
-              Back
-            </Button>
-          ) : null}
-          {slideNumber < totalSlides ? (
-            <Button
-              variant="secondary"
-              className="ml-2 px-4"
-              onClick={() => onNext(slide?.onNext)}
-            >
-              Next
-            </Button>
-          ) : null}
-        </div>
-      </div>
-    </TextContainer>
-  );
-};
-
-export default LocalizationSlides;
+export default LocalizationPlayground;

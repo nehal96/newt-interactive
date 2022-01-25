@@ -1,20 +1,7 @@
-
 .grid {
   @apply border-collapse text-2xl flex self-center;
 }
 
 .cell {
   @apply w-[60px] h-[60px] sm:w-[75px] sm:h-[75px] border border-slate-800;
-}
-
-.slide-text {
-  @apply flex flex-col;
-}
-
-.slide-text > p {
-  @apply mb-4 text-slate-800;
-}
-
-.menu-item[data-reach-menu-item][data-selected] {
-  @apply bg-slate-600 text-white;
 }
