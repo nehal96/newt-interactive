@@ -4,7 +4,7 @@ import {
   Popover,
   PopoverContent,
 } from "../../components";
-import { ActionButton } from "../robot-localization/LocalizationSlides";
+import { ActionButton } from "../robot-localization/LocalizationPlayground";
 import { GaussianName, Playground } from "./GaussianParameterUpdatePlayground";
 import { GetSlidesParams, Slides } from "./types";
 
