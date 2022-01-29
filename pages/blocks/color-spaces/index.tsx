@@ -7,10 +7,16 @@ import {
   Navbar,
   Title,
 } from "../../../components";
+import img from "../../../public/images/puppies.jpg";
 
 const ColorSpacePage = () => {
   const convertImg = async () => {
-    const res = await fetch("/api/blocks/color-spaces/test");
+    const body = new FormData();
+    body.append("file", img);
+    const res = await fetch("/api/blocks/color-spaces/test", {
+      method: "POST",
+      body,
+    });
     res.json().then((stuff) => console.log(stuff));
   };
 
