@@ -72,7 +72,7 @@ export default function Home() {
             </a>
           </Link>
           <Link href="/blocks/kalman-filters">
-            <a className="w-28 sm:w-40 mb-6 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+            <a className="w-28 sm:w-40 mr-6 sm:mr-12 mb-6 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <Image
                 src="/images/kalman-1d.jpg"
                 height={160}
@@ -84,6 +84,15 @@ export default function Home() {
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
                   1D Kalman Filters
+                </h3>
+              </div>
+            </a>
+          </Link>
+          <Link href="/blocks/edge-detection-filters">
+            <a className="w-28 sm:w-40 mb-6 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+              <div className="p-3 sm:p-5">
+                <h3 className="sm:text-lg font-medium text-slate-800">
+                  Edge Detection Filters
                 </h3>
               </div>
             </a>
