@@ -44,7 +44,11 @@ const Slides = ({
 
   return (
     <TextContainer className={className}>
-      <div className="flex items-center justify-between text-slate-400 mb-6">
+      <div
+        className={`flex items-center ${
+          isEmpty(jumpToSectionMenu) ? "justify-end" : "justify-between"
+        } text-slate-400 mb-6`}
+      >
         {!isEmpty(jumpToSectionMenu) ? (
           <div>
             <Menu>

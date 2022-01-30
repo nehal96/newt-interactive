@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ArticleContainer, Lede, Navbar, Title } from "../../../components";
+import { EdgeDetectionTutorial } from "../../../interactives/edge-detection";
 
 const EdgeDetectionFilters = () => {
   return (
@@ -11,6 +12,7 @@ const EdgeDetectionFilters = () => {
       <ArticleContainer>
         <Title>Edge Detection Filters</Title>
         <Lede>kernal convoltions, sobel, cool stuff</Lede>
+        <EdgeDetectionTutorial />
       </ArticleContainer>
     </>
   );
