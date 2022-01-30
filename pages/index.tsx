@@ -88,7 +88,7 @@ export default function Home() {
               </div>
             </a>
           </Link>
-          <Link href="/blocks/edge-detection-filters">
+          <Link href="/blocks/edge-detection">
             <a className="w-28 sm:w-40 mb-6 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
