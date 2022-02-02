@@ -369,7 +369,7 @@ export function getSlides({
                   bottom of the page)
                 </PopoverContent>
               }
-              highlightColor="newt-blue-100"
+              highlightColor="bg-newt-blue-100"
               placement="bottom"
             >
               (In some future version, I'll derive those two formulas so you can

@@ -74,7 +74,7 @@ export function getSlides({
                   please Reset and Sense again
                 </PopoverContent>
               }
-              highlightColor="newt-blue-100"
+              highlightColor="bg-newt-blue-100"
             >
               The robot sensed it was on an orange tile
             </Popover>
@@ -206,7 +206,7 @@ export function getSlides({
                   The first row or column is denoted by the number 0
                 </PopoverContent>
               }
-              highlightColor="newt-blue-100"
+              highlightColor="bg-newt-blue-100"
             >
               zero-indexed
             </Popover>{" "}
@@ -241,7 +241,7 @@ export function getSlides({
                   and pMiss = 1 - pHit, you'll see the reason in the next slide
                 </PopoverContent>
               }
-              highlightColor="newt-blue-100"
+              highlightColor="bg-newt-blue-100"
             >
               With these values
             </Popover>
@@ -274,7 +274,7 @@ export function getSlides({
                   multiplier
                 </PopoverContent>
               }
-              highlightColor="newt-blue-100"
+              highlightColor="bg-newt-blue-100"
             >
               we multiply the belief by{" "}
               <InlineCode variant="medium">pHit</InlineCode>. Otherwise, we
@@ -320,7 +320,7 @@ export function getSlides({
                   read
                 </PopoverContent>
               }
-              highlightColor="newt-blue-100"
+              highlightColor="bg-newt-blue-100"
             >
               should be <InlineCode>0.09</InlineCode> and others{" "}
               <InlineCode>0.0009</InlineCode>.

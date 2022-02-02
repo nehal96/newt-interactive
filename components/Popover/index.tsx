@@ -20,16 +20,14 @@ const Popover = ({
   content,
   interactive = true,
   interactiveBorder = 20,
-  highlightColor = "newt-blue-50",
+  highlightColor = "bg-newt-blue-50",
   ...props
 }: PopoverProps) => {
   const [isShown, setIsShown] = useState(false);
 
   return (
     <>
-      <span className={isShown ? `bg-${highlightColor}` : null}>
-        {children}
-      </span>
+      <span className={isShown ? `${highlightColor}` : null}>{children}</span>
       <Tippy
         content={content}
         interactive={interactive}
