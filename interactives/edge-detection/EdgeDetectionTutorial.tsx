@@ -1,10 +1,12 @@
 import { useState } from "react";
+import Image from "next/image";
 import {
   InteractiveContainer,
   InteractiveTutorialContainer,
   Slides,
 } from "../../components";
 import { getSlides } from "./slides";
+import slsAmgPic from "../../public/images/sls-amg-black-series.jpeg";
 
 const EdgeDetectionTutorial = () => {
   const [slide, setSlide] = useState(1);
@@ -25,7 +27,7 @@ const EdgeDetectionTutorial = () => {
         onReset={onReset}
       />
       <InteractiveContainer className="lg:w-3/5">
-        <div>stuff</div>
+        <Image src={slsAmgPic} height={635} width={1128} />
       </InteractiveContainer>
     </InteractiveTutorialContainer>
   );
