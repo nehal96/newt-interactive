@@ -50,15 +50,36 @@ export function getSlides() {
             In the picture, you can see these values for a small{" "}
             <InlineCode>4x4</InlineCode> section on the roof of the car. There's
             a distinct jump between the white of the car and the grays of the
-            mountain backdrop &mdash; an edge.
-          </p>
-          <p>
-            In the coming slides, we're going to see how we can make these edges
-            more visually prominent.
+            mountain backdrop &mdash; an <b>edge</b>.
           </p>
         </>
       ),
       imgSrc: slsAmgWithGrayscaleValuesPic,
+    },
+    3: {
+      text: (
+        <>
+          <p>
+            So, over any small section, we can <i>roughly</i> categorize a sharp
+            change in pixel intensity as an edge, and zero to little change in
+            intensity as a non-edge.
+          </p>
+          <p>
+            That means for any given pixel, a good measure of whether it's an
+            edge or not is by calculating the <i>rate of change of intensity</i>{" "}
+            with its surrounding pixels.
+          </p>
+          <p>Let's dive into what that means.</p>
+        </>
+      ),
+      imgSrc: slsAmgWithGrayscaleValuesPic,
+    },
+    4: {
+      text: (
+        <>
+          <p>4</p>
+        </>
+      ),
     },
   };
 }
