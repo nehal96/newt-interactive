@@ -25,9 +25,14 @@ const EdgeDetectionTutorial = () => {
         onBack={goToPreviousSlide}
         onNext={goToNextSlide}
         onReset={onReset}
+        className="lg:w-2/5"
       />
       <InteractiveContainer className="lg:w-3/5">
-        <Image src={slsAmgPic} height={635} width={1128} />
+        <Image
+          src={SLIDES[slide].imgSrc ?? slsAmgPic}
+          height={635}
+          width={1128}
+        />
       </InteractiveContainer>
     </InteractiveTutorialContainer>
   );
