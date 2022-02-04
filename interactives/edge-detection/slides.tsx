@@ -1,6 +1,7 @@
 import { InlineCode, Popover, PopoverContent } from "../../components";
 import slsAmgPic from "../../public/images/sls-amg-black-series.jpeg";
 import slsAmgWithGrayscaleValuesPic from "../../public/images/sls-amg-with-grayscale-values.png";
+import slsAmgWithKernel from "../../public/images/sls-amg-with-kernel.png";
 
 export function getSlides() {
   return {
@@ -77,7 +78,27 @@ export function getSlides() {
     4: {
       text: (
         <>
-          <p>4</p>
+          <p>
+            One way to approximate this rate of change is to use a{" "}
+            <b>convolutional kernel</b>.
+          </p>
+          <p>
+            In image processing, a kernel is a small matrix used to modify pixel
+            values in an image, usually through a mathematical process called a
+            convolution.
+          </p>
+          <p>
+            Showing how it works with this <InlineCode>1148 x 665</InlineCode>{" "}
+            image will be a lot, so let's start with something smaller.
+          </p>
+        </>
+      ),
+      imgSrc: slsAmgWithKernel,
+    },
+    5: {
+      text: (
+        <>
+          <p>5</p>
         </>
       ),
     },
