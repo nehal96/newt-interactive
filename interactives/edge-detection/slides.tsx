@@ -2,8 +2,10 @@ import { InlineCode, Popover, PopoverContent } from "../../components";
 import slsAmgPic from "../../public/images/sls-amg-black-series.jpeg";
 import slsAmgWithGrayscaleValuesPic from "../../public/images/sls-amg-with-grayscale-values.png";
 import slsAmgWithKernel from "../../public/images/sls-amg-with-kernel.png";
+import slsTinySection from "../../public/images/sls-tiny-portion.png";
+import { Slides } from "./types";
 
-export function getSlides() {
+export function getSlides(): Slides {
   return {
     1: {
       text: (
@@ -34,7 +36,11 @@ export function getSlides() {
           </ol>
         </>
       ),
-      imgSrc: slsAmgPic,
+      image: {
+        src: slsAmgPic,
+        height: 635,
+        width: 1128,
+      },
     },
     2: {
       text: (
@@ -55,7 +61,11 @@ export function getSlides() {
           </p>
         </>
       ),
-      imgSrc: slsAmgWithGrayscaleValuesPic,
+      image: {
+        src: slsAmgWithGrayscaleValuesPic,
+        height: 635,
+        width: 1128,
+      },
     },
     3: {
       text: (
@@ -73,7 +83,11 @@ export function getSlides() {
           <p>Let's dive into what that means.</p>
         </>
       ),
-      imgSrc: slsAmgWithGrayscaleValuesPic,
+      image: {
+        src: slsAmgWithGrayscaleValuesPic,
+        height: 635,
+        width: 1128,
+      },
     },
     4: {
       text: (
@@ -93,7 +107,11 @@ export function getSlides() {
           </p>
         </>
       ),
-      imgSrc: slsAmgWithKernel,
+      image: {
+        src: slsAmgWithKernel,
+        height: 635,
+        width: 1128,
+      },
     },
     5: {
       text: (
@@ -101,6 +119,12 @@ export function getSlides() {
           <p>5</p>
         </>
       ),
+      image: {
+        src: slsTinySection,
+        height: 100,
+        width: 100,
+        layout: "fixed",
+      },
     },
   };
 }

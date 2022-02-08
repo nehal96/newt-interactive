@@ -27,11 +27,15 @@ const EdgeDetectionTutorial = () => {
         onReset={onReset}
         className="lg:w-2/5"
       />
-      <InteractiveContainer className="lg:w-3/5">
+      <InteractiveContainer
+        className="lg:w-3/5 items-center"
+        innerDivClassName="items-center"
+      >
         <Image
-          src={SLIDES[slide].imgSrc ?? slsAmgPic}
-          height={635}
-          width={1128}
+          src={SLIDES[slide].image?.src ?? slsAmgPic}
+          height={SLIDES[slide].image?.height}
+          width={SLIDES[slide].image?.width}
+          layout={SLIDES[slide].image?.layout || "intrinsic"}
         />
       </InteractiveContainer>
     </InteractiveTutorialContainer>
