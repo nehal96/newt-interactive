@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ArticleContainer, Lede, Navbar, Title } from "../../../components";
+import { AnimationsSection } from "../../../interactives/notes/threejs-journey";
 
 const ThreeJSJourneyPage = () => {
   return (
@@ -41,6 +42,7 @@ const ThreeJSJourneyPage = () => {
             ThreeJS Journey
           </a>
         </Lede>
+        <AnimationsSection />
       </ArticleContainer>
     </>
   );
