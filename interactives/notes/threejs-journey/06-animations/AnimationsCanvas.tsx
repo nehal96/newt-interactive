@@ -1,19 +1,23 @@
+import { PerspectiveCamera } from "@react-three/drei";
 import { Suspense } from "react";
 import { Canvas } from "react-three-fiber";
 
+const Box = (props) => {
+  return (
+    <mesh {...props}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshBasicMaterial color="orange" />
+    </mesh>
+  );
+};
+
 const AnimationsCanvas = () => {
   return (
-    <Canvas
-      concurrent
-      camera={{
-        fov: 75,
-        near: 0.1,
-        far: 1000,
-        position: [3, 3, 3],
-      }}
-    >
+    <Canvas className="bg-black" concurrent>
       <Suspense fallback={null}>
-        <gridHelper args={[20, 40, "#334155", "#64748b"]} />
+        <PerspectiveCamera fov={75} position={[0, 0, 3]} />
+        <ambientLight />
+        <Box />
       </Suspense>
     </Canvas>
   );

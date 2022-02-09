@@ -12,7 +12,7 @@ const Animations = () => {
   return (
     <>
       <InteractiveTutorialContainer>
-        <InteractiveContainer>
+        <InteractiveContainer className="w-[400px] h-[400px]">
           <AnimationsCanvas />
         </InteractiveContainer>
       </InteractiveTutorialContainer>
