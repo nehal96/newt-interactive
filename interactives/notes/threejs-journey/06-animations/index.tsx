@@ -32,7 +32,7 @@ const Animations = () => {
           className="lg:w-1/2"
         />
         <InteractiveContainer className="lg:w-1/2 self-center w-[400px] h-[400px]">
-          <AnimationsCanvas />
+          <AnimationsCanvas slideNumber={slide} />
         </InteractiveContainer>
       </InteractiveTutorialContainer>
     </>
