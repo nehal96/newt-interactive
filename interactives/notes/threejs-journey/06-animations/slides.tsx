@@ -13,10 +13,19 @@ export function getSlides() {
       text: (
         <>
           <p>Animating by manually changing mesh rotation:</p>
-          <Code
-            variant="dark"
-            className="mb-4"
-          >{`const mesh = useRef(null)\n\nuseFrame(() => {\n  mesh.current.rotation.y += 0.01\n})\n\n// Box code\n...`}</Code>
+          <Code variant="dark" className="mb-4">
+            {`const mesh = useRef(null)\n\nuseFrame(() => {\n  mesh.current.rotation.y += 0.01\n})\n\n// Box code\n...`}
+          </Code>
+        </>
+      ),
+    },
+    3: {
+      text: (
+        <>
+          <p>Adapting animation to framerate</p>
+          <Code variant="dark" className="mb-4">
+            {`const mesh = useRef(null)\nlet time = Date.now()\n\nuseFrame(() => {\n  const currentTime = Date.now()\n  const deltaTime = currentTime - time\n  time = currentTime\n\n  mesh.current.rotation.y += 0.01 * deltaTime\n})\n\n// Box code\n...`}
+          </Code>
         </>
       ),
     },

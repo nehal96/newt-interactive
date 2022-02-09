@@ -4,10 +4,18 @@ import { Canvas, useFrame } from "react-three-fiber";
 
 const Box = ({ slideNumber, ...props }) => {
   const mesh = useRef(null);
+  
+  let time = Date.now();
 
   useFrame(() => {
     if (slideNumber === 2) {
       mesh.current.rotation.y += 0.01;
+    } else if (slideNumber === 3) {
+      const currentTime = Date.now();
+      const deltaTime = currentTime - time;
+      time = currentTime;
+
+      mesh.current.rotation.y += 0.01 * deltaTime;
     }
   });
 
