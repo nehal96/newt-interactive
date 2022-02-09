@@ -19,7 +19,20 @@ const Box = ({ slideNumber, ...props }) => {
     } else if (slideNumber === 4) {
       const elapsedTime = clock.elapsedTime;
 
+      // reset position
+      mesh.current.position.x = 0;
+      mesh.current.position.y = 0;
+      // rotation
       mesh.current.rotation.y = elapsedTime;
+    } else if (slideNumber === 5) {
+      const elapsedTime = clock.elapsedTime;
+
+      // reset rotation
+      mesh.current.rotation.y = 0;
+      // animate position
+      mesh.current.position.x = Math.cos(elapsedTime);
+      mesh.current.position.y = Math.sin(elapsedTime);
+    } else {
     }
   });
 

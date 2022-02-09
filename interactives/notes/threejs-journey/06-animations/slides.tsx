@@ -39,5 +39,15 @@ export function getSlides() {
         </>
       ),
     },
+    5: {
+      text: (
+        <>
+          <p>Clock + trigonometry</p>
+          <Code variant="dark" className="mb-4">
+            {`const mesh = useRef(null)\n\nuseFrame(({ clock }) => {\n  const elapsedTime = clock.elapsedTime;\n\n  mesh.current.position.x = Math.cos(elapsedTime);\n  mesh.current.position.y = Math.sin(elapsedTime);\n})\n\n// Box code\n...`}
+          </Code>
+        </>
+      ),
+    },
   };
 }
