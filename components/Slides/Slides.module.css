@@ -1,0 +1,11 @@
+.slide-text {
+  @apply flex flex-col;
+}
+
+.slide-text > p {
+  @apply mb-4 text-slate-800;
+}
+
+.menu-item[data-reach-menu-item][data-selected] {
+  @apply bg-slate-600 text-white;
+}
