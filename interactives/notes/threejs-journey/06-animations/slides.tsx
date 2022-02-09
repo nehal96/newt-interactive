@@ -29,5 +29,15 @@ export function getSlides() {
         </>
       ),
     },
+    4: {
+      text: (
+        <>
+          <p>Using Three.js Clock:</p>
+          <Code variant="dark" className="mb-4">
+            {`const mesh = useRef(null)\n\nuseFrame(({ clock }) => {\n  const elapsedTime = clock.elapsedTime;\n\n  mesh.current.rotation.y = elapsedTime;\n})\n\n// Box code\n...`}
+          </Code>
+        </>
+      ),
+    },
   };
 }

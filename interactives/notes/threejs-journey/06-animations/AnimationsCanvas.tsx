@@ -7,7 +7,7 @@ const Box = ({ slideNumber, ...props }) => {
   
   let time = Date.now();
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (slideNumber === 2) {
       mesh.current.rotation.y += 0.01;
     } else if (slideNumber === 3) {
@@ -16,6 +16,10 @@ const Box = ({ slideNumber, ...props }) => {
       time = currentTime;
 
       mesh.current.rotation.y += 0.01 * deltaTime;
+    } else if (slideNumber === 4) {
+      const elapsedTime = clock.elapsedTime;
+
+      mesh.current.rotation.y = elapsedTime;
     }
   });
 
