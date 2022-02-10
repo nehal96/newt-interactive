@@ -3,6 +3,7 @@ import { Code } from "../../../../components";
 export function getSlides() {
   return {
     1: {
+      section: "Static",
       text: (
         <>
           <p>The setup: no animation</p>
@@ -10,6 +11,7 @@ export function getSlides() {
       ),
     },
     2: {
+      section: "Manual rotation",
       text: (
         <>
           <p>Animating by manually changing mesh rotation:</p>
@@ -20,6 +22,7 @@ export function getSlides() {
       ),
     },
     3: {
+      section: "Animating at frame rate",
       text: (
         <>
           <p>Adapting animation to framerate</p>
@@ -30,6 +33,7 @@ export function getSlides() {
       ),
     },
     4: {
+      section: "Animating with Three.js Clock",
       text: (
         <>
           <p>Using Three.js Clock:</p>
@@ -40,6 +44,7 @@ export function getSlides() {
       ),
     },
     5: {
+      section: "Animating with Clock and trigonometry",
       text: (
         <>
           <p>Clock + trigonometry</p>
@@ -50,6 +55,7 @@ export function getSlides() {
       ),
     },
     6: {
+      section: "Animating the camera",
       text: (
         <>
           <p>Clock + trigonometry for camera</p>

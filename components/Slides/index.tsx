@@ -1,9 +1,10 @@
 import { Menu, MenuButton, MenuItem, MenuList } from "@reach/menu-button";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 import { Button, TextContainer } from "..";
-import { isEmpty, capitalize } from "lodash";
+import { isEmpty } from "lodash";
 import { FiChevronDown } from "react-icons/fi";
 import styles from "./Slides.module.css";
+import "@reach/menu-button/styles.css";
 
 type Slide = {
   text: React.ReactNode;
@@ -53,7 +54,7 @@ const Slides = ({
           <div>
             <Menu>
               <MenuButton className="inline-flex text-xs items-center hover:text-slate-500">
-                {capitalize(currentSection)}
+                {currentSection}
                 <span>
                   <FiChevronDown className="ml-1" />
                 </span>
@@ -65,7 +66,7 @@ const Slides = ({
                     onSelect={section.onSelect}
                     key={section.name}
                   >
-                    {capitalize(section.name)}
+                    {section.name}
                   </MenuItem>
                 ))}
               </MenuList>

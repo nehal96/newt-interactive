@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import _ from "lodash";
 import {
   InteractiveContainer,
   InteractiveTutorialContainer,
@@ -20,6 +21,13 @@ const Animations = () => {
   const goToPreviousSlide = () => setSlide(slide - 1);
   const onReset = () => setSlide(1);
 
+  const sections = _.chain(SLIDES)
+    .map((slide, key) => ({
+      name: slide.section,
+      onSelect: () => setSlide(Number(key)),
+    }))
+    .value();
+
   return (
     <>
       <InteractiveTutorialContainer>
@@ -29,6 +37,8 @@ const Animations = () => {
           onBack={goToPreviousSlide}
           onNext={goToNextSlide}
           onReset={onReset}
+          jumpToSectionMenu={sections}
+          currentSection={SLIDES[slide].section}
           className="lg:w-1/2"
         />
         <InteractiveContainer className="lg:w-1/2 self-center w-[400px] h-[400px]">
