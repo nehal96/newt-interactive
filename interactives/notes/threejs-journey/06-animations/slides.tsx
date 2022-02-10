@@ -49,5 +49,15 @@ export function getSlides() {
         </>
       ),
     },
+    6: {
+      text: (
+        <>
+          <p>Clock + trigonometry for camera</p>
+          <Code variant="dark" className="mb-4">
+            {`const mesh = useRef(null)\n\nuseFrame(({ clock, camera }) => {\n  const elapsedTime = clock.elapsedTime;\n\n  camera.position.x = Math.cos(elapsedTime);\n  camera.position.y = Math.sin(elapsedTime);\n  camera.lookAt(mesh.current.position);\n  camera.updateProjectionMatrix();\n})\n\n// Box code\n...`}
+          </Code>
+        </>
+      ),
+    },
   };
 }
