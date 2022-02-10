@@ -1,5 +1,12 @@
 import Head from "next/head";
-import { ArticleContainer, Lede, Navbar, Title } from "../../../components";
+import {
+  ArticleContainer,
+  Lede,
+  Navbar,
+  Paragraph,
+  Subheader,
+  Title,
+} from "../../../components";
 import { AnimationsSection } from "../../../interactives/notes/threejs-journey";
 
 const ThreeJSJourneyPage = () => {
@@ -42,6 +49,12 @@ const ThreeJSJourneyPage = () => {
             ThreeJS Journey
           </a>
         </Lede>
+        <Subheader>06 &mdash; Animations</Subheader>
+        <Paragraph>
+          Animations in Three.js work like stop motion &mdash; each time an
+          object moves, you render the changes. Take a look at a few ways you
+          can animate a yellow box below:
+        </Paragraph>
         <AnimationsSection />
       </ArticleContainer>
     </>
