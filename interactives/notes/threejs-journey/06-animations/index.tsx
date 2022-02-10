@@ -7,6 +7,7 @@ import {
   Slides,
 } from "../../../../components";
 import { getSlides } from "./slides";
+import { Slide } from "./types";
 
 const AnimationsCanvas = dynamic(() => import("./AnimationsCanvas"), {
   ssr: false,
@@ -22,7 +23,7 @@ const Animations = () => {
   const onReset = () => setSlide(1);
 
   const sections = _.chain(SLIDES)
-    .map((slide, key) => ({
+    .map((slide: Slide, key: string) => ({
       name: slide.section,
       onSelect: () => setSlide(Number(key)),
     }))
@@ -42,7 +43,7 @@ const Animations = () => {
           className="lg:w-1/2"
         />
         <InteractiveContainer className="lg:w-1/2 self-center w-[400px] h-[400px]">
-          <AnimationsCanvas slideNumber={slide} />
+          <AnimationsCanvas animationCode={SLIDES[slide].code ?? null} />
         </InteractiveContainer>
       </InteractiveTutorialContainer>
     </>

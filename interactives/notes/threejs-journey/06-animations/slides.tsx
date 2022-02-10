@@ -1,6 +1,8 @@
+import { Euler } from "three";
 import { Code } from "../../../../components";
+import { Slides } from "./types";
 
-export function getSlides() {
+export function getSlides(): Slides {
   return {
     1: {
       section: "Static",
@@ -20,6 +22,9 @@ export function getSlides() {
           </Code>
         </>
       ),
+      code: ({ mesh }) => {
+        mesh.current.rotation.y += 0.01;
+      },
     },
     3: {
       section: "Animating at frame rate",
@@ -31,6 +36,13 @@ export function getSlides() {
           </Code>
         </>
       ),
+      code: ({ mesh, time, setTime }) => {
+        const currentTime = Date.now();
+        const deltaTime = currentTime - time;
+        setTime(currentTime);
+
+        mesh.current.rotation.y += 0.01 * deltaTime;
+      },
     },
     4: {
       section: "Animating with Three.js Clock",
@@ -42,6 +54,15 @@ export function getSlides() {
           </Code>
         </>
       ),
+      code: ({ mesh, clock }) => {
+        const elapsedTime = clock.elapsedTime;
+
+        // reset position
+        mesh.current.position.x = 0;
+        mesh.current.position.y = 0;
+        // rotation
+        mesh.current.rotation.y = elapsedTime;
+      },
     },
     5: {
       section: "Animating with Clock and trigonometry",
@@ -53,6 +74,22 @@ export function getSlides() {
           </Code>
         </>
       ),
+      code: ({ mesh, clock, camera }) => {
+        const elapsedTime = clock.elapsedTime;
+
+        // reset rotation
+        mesh.current.rotation.y = 0;
+        // reset camera
+        camera.position.x = 0;
+        camera.position.y = 0;
+        // reset camera rotation
+        const rotationResetEuler = new Euler(0, 0, 0, "XYZ");
+        camera.setRotationFromEuler(rotationResetEuler);
+        camera.updateProjectionMatrix();
+        // animate position
+        mesh.current.position.x = Math.cos(elapsedTime);
+        mesh.current.position.y = Math.sin(elapsedTime);
+      },
     },
     6: {
       section: "Animating the camera",
@@ -64,6 +101,14 @@ export function getSlides() {
           </Code>
         </>
       ),
+      code: ({ mesh, clock, camera }) => {
+        const elapsedTime = clock.elapsedTime;
+
+        camera.position.x = Math.cos(elapsedTime);
+        camera.position.y = Math.sin(elapsedTime);
+        camera.lookAt(mesh.current.position);
+        camera.updateProjectionMatrix();
+      },
     },
   };
 }
