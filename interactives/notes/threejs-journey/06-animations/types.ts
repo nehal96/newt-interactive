@@ -20,9 +20,17 @@ export type Slides = {
 export type GetSlidesParams = {
   boxArgs: BoxGeometryProps["args"];
   setBoxArgs: Dispatch<SetStateAction<BoxGeometryProps["args"]>>;
+  rps: number;
+  setRps: Dispatch<SetStateAction<number>>;
 };
 
 export type BoxParams = MeshProps & {
   boxArgs: BoxGeometryProps["args"];
   animationCode?: (params: CodeParams) => void;
+};
+export type BoxAnimationsPlaygroundProps = {
+  boxArgs: BoxGeometryProps["args"];
+  setBoxArgs: Dispatch<SetStateAction<BoxGeometryProps["args"]>>;
+  rps: number;
+  setRps: Dispatch<SetStateAction<number>>;
 };

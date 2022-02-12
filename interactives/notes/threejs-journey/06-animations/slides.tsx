@@ -1,9 +1,14 @@
 import { Euler } from "three";
 import { Code } from "../../../../components";
 import BoxAnimationsPlayground from "./Playground";
-import { Slides } from "./types";
+import { GetSlidesParams, Slides } from "./types";
 
-export function getSlides({ boxArgs, setBoxArgs }): Slides {
+export function getSlides({
+  boxArgs,
+  setBoxArgs,
+  rps,
+  setRps,
+}: GetSlidesParams): Slides {
   return {
     1: {
       section: "Static",
@@ -118,8 +123,23 @@ export function getSlides({ boxArgs, setBoxArgs }): Slides {
     7: {
       section: "Playground",
       text: (
-        <BoxAnimationsPlayground boxArgs={boxArgs} setBoxArgs={setBoxArgs} />
+        <BoxAnimationsPlayground
+          boxArgs={boxArgs}
+          setBoxArgs={setBoxArgs}
+          rps={rps}
+          setRps={setRps}
+        />
       ),
+      code: ({ mesh, time, setTime }) => {
+        const currentTime = Date.now();
+        const deltaTime = currentTime - time;
+        setTime(currentTime);
+
+        // one rotation per second
+        const rotation = (2 * Math.PI * deltaTime) / 1000;
+
+        mesh.current.rotation.y += rps * rotation;
+      },
     },
   };
 }

@@ -19,12 +19,13 @@ const Animations = () => {
   const [boxArgs, setBoxArgs] = useState<BoxGeometryProps["args"]>([
     1.5, 1.5, 1.5,
   ]);
+  const [rps, setRps] = useState(1);
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
   const onReset = () => setSlide(1);
 
-  const SLIDES = getSlides({ boxArgs, setBoxArgs });
+  const SLIDES = getSlides({ boxArgs, setBoxArgs, rps, setRps });
   const sections = _.chain(SLIDES)
     .map((slide: Slide, key: string) => ({
       name: slide.section,
