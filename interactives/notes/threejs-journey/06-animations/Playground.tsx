@@ -1,3 +1,4 @@
+import { Switch } from "../../../../components";
 import { BoxAnimationsPlaygroundProps } from "./types";
 
 const BoxAnimationsPlayground = ({
@@ -46,6 +47,10 @@ const BoxAnimationsPlayground = ({
           />
           <span className="w-8 ml-2">{rps}</span>
         </div>
+      </div>
+      <div className="mb-6 flex items-center">
+        <label className="font-medium mr-8">Enable Orbit Controls</label>
+        <Switch />
       </div>
     </>
   );

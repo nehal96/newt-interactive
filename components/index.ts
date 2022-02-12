@@ -17,6 +17,7 @@ export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
 export { default as Slides } from "./Slides";
 export { default as Subheader } from "./Subheader";
 export { default as SubscribeForm } from "./SubscribeForm";
+export { default as Switch } from "./Switch";
 export { default as Title } from "./Title";
 
 // 3-D Models
