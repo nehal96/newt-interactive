@@ -1,9 +1,14 @@
 import { PerspectiveCamera } from "@react-three/drei";
 import { Suspense, useRef } from "react";
-import { Canvas, useFrame } from "react-three-fiber";
-import { Slide } from "./types";
+import { BoxGeometryProps, Canvas, useFrame } from "react-three-fiber";
+import { BoxParams, Slide } from "./types";
 
-const Box = ({ animationCode, ...props }) => {
+interface AnimationCanvasProps {
+  boxArgs: BoxGeometryProps["args"];
+  animationCode?: Slide["code"];
+}
+
+const Box = ({ boxArgs, animationCode, ...props }: BoxParams) => {
   const mesh = useRef(null);
 
   let time = Date.now();
@@ -20,23 +25,19 @@ const Box = ({ animationCode, ...props }) => {
 
   return (
     <mesh ref={mesh} {...props}>
-      <boxGeometry args={[1.5, 1.5, 1.5]} />
+      <boxGeometry args={boxArgs} />
       <meshBasicMaterial color="orange" />
     </mesh>
   );
 };
 
-const AnimationsCanvas = ({
-  animationCode,
-}: {
-  animationCode?: Slide["code"];
-}) => {
+const AnimationsCanvas = ({ boxArgs, animationCode }: AnimationCanvasProps) => {
   return (
     <Canvas className="bg-black" concurrent>
       <Suspense fallback={null}>
         <PerspectiveCamera fov={75} position={[0, 0, 3]} />
         <ambientLight />
-        <Box animationCode={animationCode} />
+        <Box boxArgs={boxArgs} animationCode={animationCode} />
       </Suspense>
     </Canvas>
   );

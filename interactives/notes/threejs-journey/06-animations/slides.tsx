@@ -1,8 +1,9 @@
 import { Euler } from "three";
 import { Code } from "../../../../components";
+import BoxAnimationsPlayground from "./Playground";
 import { Slides } from "./types";
 
-export function getSlides(): Slides {
+export function getSlides({ boxArgs, setBoxArgs }): Slides {
   return {
     1: {
       section: "Static",
@@ -113,6 +114,12 @@ export function getSlides(): Slides {
         camera.lookAt(mesh.current.position);
         camera.updateProjectionMatrix();
       },
+    },
+    7: {
+      section: "Playground",
+      text: (
+        <BoxAnimationsPlayground boxArgs={boxArgs} setBoxArgs={setBoxArgs} />
+      ),
     },
   };
 }

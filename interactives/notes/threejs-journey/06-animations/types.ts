@@ -1,5 +1,5 @@
-import React, { MutableRefObject } from "react";
-import { Camera } from "react-three-fiber";
+import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { BoxGeometryProps, Camera, MeshProps } from "react-three-fiber";
 import { Clock } from "three";
 
 type CodeParams = {
@@ -16,4 +16,13 @@ export type Slide = {
 };
 export type Slides = {
   [index: number]: Slide;
+};
+export type GetSlidesParams = {
+  boxArgs: BoxGeometryProps["args"];
+  setBoxArgs: Dispatch<SetStateAction<BoxGeometryProps["args"]>>;
+};
+
+export type BoxParams = MeshProps & {
+  boxArgs: BoxGeometryProps["args"];
+  animationCode?: (params: CodeParams) => void;
 };

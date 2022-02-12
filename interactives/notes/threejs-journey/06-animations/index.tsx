@@ -8,20 +8,23 @@ import {
 } from "../../../../components";
 import { getSlides } from "./slides";
 import { Slide } from "./types";
+import { BoxGeometryProps } from "react-three-fiber";
 
 const AnimationsCanvas = dynamic(() => import("./AnimationsCanvas"), {
   ssr: false,
 });
 
-const SLIDES = getSlides();
-
 const Animations = () => {
   const [slide, setSlide] = useState(1);
+  const [boxArgs, setBoxArgs] = useState<BoxGeometryProps["args"]>([
+    1.5, 1.5, 1.5,
+  ]);
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
   const onReset = () => setSlide(1);
 
+  const SLIDES = getSlides({ boxArgs, setBoxArgs });
   const sections = _.chain(SLIDES)
     .map((slide: Slide, key: string) => ({
       name: slide.section,
@@ -43,7 +46,10 @@ const Animations = () => {
           className="lg:w-1/2"
         />
         <InteractiveContainer className="lg:w-1/2 self-center w-[400px] h-[400px]">
-          <AnimationsCanvas animationCode={SLIDES[slide].code ?? null} />
+          <AnimationsCanvas
+            boxArgs={boxArgs}
+            animationCode={SLIDES[slide].code ?? null}
+          />
         </InteractiveContainer>
       </InteractiveTutorialContainer>
     </>
