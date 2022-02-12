@@ -6,6 +6,8 @@ const BoxAnimationsPlayground = ({
   setBoxArgs,
   rps,
   setRps,
+  enableOrbitControls,
+  setEnableOrbitControls,
 }: BoxAnimationsPlaygroundProps) => {
   return (
     <>
@@ -48,9 +50,18 @@ const BoxAnimationsPlayground = ({
           <span className="w-8 ml-2">{rps}</span>
         </div>
       </div>
-      <div className="mb-6 flex items-center">
-        <label className="font-medium mr-8">Enable Orbit Controls</label>
-        <Switch />
+      <div className="mb-6 flex items-center justify-between">
+        <div className="flex flex-col">
+          <label className="font-medium mr-8">Enable Orbit Controls:</label>
+          <span className="text-xs text-slate-500">
+            Controls to rotate or zoom in the canvas
+          </span>
+        </div>
+
+        <Switch
+          checked={enableOrbitControls}
+          onCheckedChange={(checked) => setEnableOrbitControls(checked)}
+        />
       </div>
     </>
   );

@@ -1,10 +1,11 @@
-import { PerspectiveCamera } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Suspense, useRef } from "react";
 import { BoxGeometryProps, Canvas, useFrame } from "react-three-fiber";
 import { BoxParams, Slide } from "./types";
 
 interface AnimationCanvasProps {
   boxArgs: BoxGeometryProps["args"];
+  enableOrbitControls: boolean;
   animationCode?: Slide["code"];
 }
 
@@ -31,13 +32,18 @@ const Box = ({ boxArgs, animationCode, ...props }: BoxParams) => {
   );
 };
 
-const AnimationsCanvas = ({ boxArgs, animationCode }: AnimationCanvasProps) => {
+const AnimationsCanvas = ({
+  boxArgs,
+  enableOrbitControls,
+  animationCode,
+}: AnimationCanvasProps) => {
   return (
     <Canvas className="bg-black" concurrent>
       <Suspense fallback={null}>
         <PerspectiveCamera fov={75} position={[0, 0, 3]} />
         <ambientLight />
         <Box boxArgs={boxArgs} animationCode={animationCode} />
+        {enableOrbitControls ? <OrbitControls /> : null}
       </Suspense>
     </Canvas>
   );

@@ -20,12 +20,20 @@ const Animations = () => {
     1.5, 1.5, 1.5,
   ]);
   const [rps, setRps] = useState(1);
+  const [enableOrbitControls, setEnableOrbitControls] = useState(false);
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
   const onReset = () => setSlide(1);
 
-  const SLIDES = getSlides({ boxArgs, setBoxArgs, rps, setRps });
+  const SLIDES = getSlides({
+    boxArgs,
+    setBoxArgs,
+    rps,
+    setRps,
+    enableOrbitControls,
+    setEnableOrbitControls,
+  });
   const sections = _.chain(SLIDES)
     .map((slide: Slide, key: string) => ({
       name: slide.section,
@@ -49,6 +57,7 @@ const Animations = () => {
         <InteractiveContainer className="lg:w-1/2 self-center w-[400px] h-[400px]">
           <AnimationsCanvas
             boxArgs={boxArgs}
+            enableOrbitControls={enableOrbitControls}
             animationCode={SLIDES[slide].code ?? null}
           />
         </InteractiveContainer>

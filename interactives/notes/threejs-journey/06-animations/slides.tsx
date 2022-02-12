@@ -8,6 +8,8 @@ export function getSlides({
   setBoxArgs,
   rps,
   setRps,
+  enableOrbitControls,
+  setEnableOrbitControls,
 }: GetSlidesParams): Slides {
   return {
     1: {
@@ -128,6 +130,8 @@ export function getSlides({
           setBoxArgs={setBoxArgs}
           rps={rps}
           setRps={setRps}
+          enableOrbitControls={enableOrbitControls}
+          setEnableOrbitControls={setEnableOrbitControls}
         />
       ),
       code: ({ mesh, time, setTime }) => {

@@ -22,6 +22,8 @@ export type GetSlidesParams = {
   setBoxArgs: Dispatch<SetStateAction<BoxGeometryProps["args"]>>;
   rps: number;
   setRps: Dispatch<SetStateAction<number>>;
+  enableOrbitControls: boolean;
+  setEnableOrbitControls: Dispatch<SetStateAction<boolean>>;
 };
 
 export type BoxParams = MeshProps & {
@@ -33,4 +35,6 @@ export type BoxAnimationsPlaygroundProps = {
   setBoxArgs: Dispatch<SetStateAction<BoxGeometryProps["args"]>>;
   rps: number;
   setRps: Dispatch<SetStateAction<number>>;
+  enableOrbitControls: boolean;
+  setEnableOrbitControls: Dispatch<SetStateAction<boolean>>;
 };
