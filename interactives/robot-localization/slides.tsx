@@ -230,7 +230,7 @@ export function getSlides({
             probability of all light-blue tiles.
           </p>
           <p>First, how did we get that 99% value? Here's the math:</p>
-          <Code variant="dark" className="mb-4">
+          <Code language="python" className="mb-4">
             {`pHit = 99\npMiss = 1\nincorrectSenseProbability = pMiss / (pHit + pMiss)`}
           </Code>
           <p>
@@ -261,7 +261,7 @@ export function getSlides({
       text: (
         <>
           <Code
-            variant="dark"
+            language="python"
             className="mb-4"
           >{`pHit = 99\npMiss = 1\n`}</Code>
           <p>
@@ -430,7 +430,7 @@ export function getSlides({
       text: (
         <>
           <p>In the beginning we set out some initial conditions:</p>
-          <Code variant="dark" className="mb-4">
+          <Code language="python" className="mb-4">
             {`pHit = 99\npMiss = 1\n`}
           </Code>
           <p>

@@ -1,6 +1,12 @@
-import { DetailedHTMLProps, HTMLAttributes, useEffect } from "react";
+import {
+  DetailedHTMLProps,
+  FunctionComponent,
+  HTMLAttributes,
+  useEffect,
+} from "react";
 import Prism from "prismjs";
 import "prismjs/components/prism-jsx.min";
+import "prismjs/components/prism-python.min";
 import { CodeVariant, getStyles } from "./helpers";
 
 type CodeProps = DetailedHTMLProps<
@@ -20,14 +26,14 @@ type CodeProps = DetailedHTMLProps<
       }
   );
 
-const Code = ({
+const Code: FunctionComponent<CodeProps> = ({
   children,
   withSyntaxHighlighting = true,
   language,
   variant,
   className,
   ...props
-}: CodeProps) => {
+}) => {
   useEffect(() => {
     if (withSyntaxHighlighting) {
       Prism.highlightAll();
@@ -37,7 +43,7 @@ const Code = ({
   return (
     <pre
       className={`p-4 rounded-md overflow-auto ${className} ${
-        !withSyntaxHighlighting ? getStyles(variant) : null
+        !withSyntaxHighlighting ? getStyles(variant) : ""
       }`}
       {...props}
     >
