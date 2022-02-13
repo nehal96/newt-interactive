@@ -22,10 +22,13 @@ const ThreeJSJourneyPage = () => {
         <meta property="twitter:card" content="summary_large_image" />
         <meta
           property="twitter:url"
-          content="https://www.newtinteractive.com/blocks/robot-localization"
+          content="https://www.newtinteractive.com/notes/threejs-journey"
         />
         <meta property="twitter:creator" content="@nehaludyavar" />
-        <meta property="twitter:title" content="Newt Interactive" />
+        <meta
+          property="twitter:title"
+          content="ThreeJS Journey Notes / Newt Interactive"
+        />
         <meta
           property="twitter:description"
           content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
