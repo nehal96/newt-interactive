@@ -1,20 +1,49 @@
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import { DetailedHTMLProps, HTMLAttributes, useEffect } from "react";
+import Prism from "prismjs";
+import "prismjs/components/prism-jsx.min";
 import { CodeVariant, getStyles } from "./helpers";
 
-interface CodeProps
-  extends DetailedHTMLProps<HTMLAttributes<HTMLPreElement>, HTMLPreElement> {
-  variant?: CodeVariant;
-}
+type CodeProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLPreElement>,
+  HTMLPreElement
+> &
+  (
+    | {
+        withSyntaxHighlighting?: true;
+        language: string;
+        variant?: never;
+      }
+    | {
+        withSyntaxHighlighting: false;
+        variant: CodeVariant;
+        language?: never;
+      }
+  );
 
-const Code = ({ children, variant, className, ...props }: CodeProps) => {
+const Code = ({
+  children,
+  withSyntaxHighlighting = true,
+  language,
+  variant,
+  className,
+  ...props
+}: CodeProps) => {
+  useEffect(() => {
+    if (withSyntaxHighlighting) {
+      Prism.highlightAll();
+    }
+  }, [children]);
+
   return (
     <pre
-      className={`p-4 rounded-md overflow-auto ${getStyles(
-        variant
-      )} ${className}`}
+      className={`p-4 rounded-md overflow-auto ${className} ${
+        !withSyntaxHighlighting ? getStyles(variant) : null
+      }`}
       {...props}
     >
-      <code>{children}</code>
+      <code className={withSyntaxHighlighting ? `language-${language}` : null}>
+        {children}
+      </code>
     </pre>
   );
 };
