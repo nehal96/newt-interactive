@@ -7,7 +7,10 @@ import {
   Subheader,
   Title,
 } from "../../../components";
-import { AnimationsSection } from "../../../interactives/notes/threejs-journey";
+import {
+  AnimationsSection,
+  CamerasSection,
+} from "../../../interactives/notes/threejs-journey";
 
 const ThreeJSJourneyPage = () => {
   return (
@@ -59,6 +62,12 @@ const ThreeJSJourneyPage = () => {
           can animate a yellow box below:
         </Paragraph>
         <AnimationsSection />
+        <Subheader className="mt-16">07 &mdash; Cameras</Subheader>
+        <Paragraph>
+          A camera is, as you can imagine, what you use to see the scene in
+          Three.js.
+        </Paragraph>
+        <CamerasSection />
       </ArticleContainer>
     </>
   );
