@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import {
   InteractiveContainer,
@@ -6,6 +7,9 @@ import {
 } from "../../../../components";
 import { getSlides } from "./slides";
 
+const CameraCanvas = dynamic(() => import("./CameraCanvas"), {
+  ssr: false,
+});
 const SLIDES = getSlides();
 
 const CamerasSection = () => {
@@ -25,7 +29,7 @@ const CamerasSection = () => {
         className="lg:w-1/2"
       />
       <InteractiveContainer className="lg:w-1/2 self-center w-[400px] h-[400px]">
-        cameras
+        <CameraCanvas />
       </InteractiveContainer>
     </InteractiveTutorialContainer>
   );
