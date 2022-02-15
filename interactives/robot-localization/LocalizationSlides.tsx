@@ -76,6 +76,7 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
       </div>
       <div className="mb-6">
         <Code
+          withSyntaxHighlighting={false}
           variant="medium"
           className="text-sm"
         >{`incorrectSenseProbability = ${incorrectSenseProb.toPrecision(
@@ -91,7 +92,7 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
             </AccordionButton>
           </div>
           <AccordionPanel className="mt-2 pl-3 border-l-2 border-l-slate-300">
-            <Code variant="dark" className="text-sm mb-2">
+            <Code language="jsx" className="text-sm mb-2">
               {`const newBelief = beliefs[i][j] * (isHit * pHit + (1 - isHit) * pMiss);`}
             </Code>
             <blockquote className="text-xs sm:text-sm text-slate-800">
