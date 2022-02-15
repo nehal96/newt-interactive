@@ -12,6 +12,7 @@ export function getSlides({
 }) {
   return {
     1: {
+      section: "Intro",
       text: (
         <>
           <p>
@@ -23,6 +24,7 @@ export function getSlides({
       ),
     },
     2: {
+      section: "Perspective Camera intro",
       text: (
         <>
           <p>
@@ -42,6 +44,7 @@ export function getSlides({
       ),
     },
     3: {
+      section: "Perspective Camera parameters",
       text: (
         <>
           <ol className="list-outside list-decimal">
@@ -69,6 +72,7 @@ export function getSlides({
       ),
     },
     4: {
+      section: "Perspective Camera playground",
       text: (
         <>
           <p>Try playing around with different values below:</p>
