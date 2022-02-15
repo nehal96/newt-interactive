@@ -1,6 +1,15 @@
-import { Code, InlineCode } from "../../../../components";
+import { Code, InlineCode, Switch } from "../../../../components";
 
-export function getSlides({ fov, setFov, near, setNear, far, setFar }) {
+export function getSlides({
+  fov,
+  setFov,
+  near,
+  setNear,
+  far,
+  setFar,
+  showHelper,
+  setShowHelper,
+}) {
   return {
     1: {
       text: (
@@ -111,6 +120,20 @@ export function getSlides({ fov, setFov, near, setNear, far, setFar }) {
               />
               <span className="w-8 ml-2">{far}</span>
             </div>
+          </div>
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex flex-col">
+              <label className="font-medium mr-8">Enable Camera Helper:</label>
+              <span className="text-xs text-slate-500">
+                View a diagram of how the Perspective camera views the scene.
+                When enabled, use orbit controls to move around and zoom in the
+                canvas.
+              </span>
+            </div>
+            <Switch
+              checked={showHelper}
+              onCheckedChange={(checked) => setShowHelper(checked)}
+            />
           </div>
         </>
       ),

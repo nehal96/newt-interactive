@@ -1,5 +1,5 @@
 .switch-root {
-  @apply w-[42px] h-[25px] bg-slate-400 rounded-full relative;
+  @apply min-w-[42px] min-h-[25px] bg-slate-400 rounded-full relative;
 }
 .switch-root:focus {
   box-shadow: 0 0 0 2px black;

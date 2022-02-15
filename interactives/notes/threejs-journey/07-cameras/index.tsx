@@ -16,12 +16,22 @@ const CamerasSection = () => {
   const [fov, setFov] = useState(75);
   const [near, setNear] = useState(0.1);
   const [far, setFar] = useState(100);
+  const [showHelper, setShowHelper] = useState(false);
 
   const goToNextSlide = () => setSlide(slide + 1);
   const goToPreviousSlide = () => setSlide(slide - 1);
   const onReset = () => setSlide(1);
 
-  const SLIDES = getSlides({ fov, setFov, near, setNear, far, setFar });
+  const SLIDES = getSlides({
+    fov,
+    setFov,
+    near,
+    setNear,
+    far,
+    setFar,
+    showHelper,
+    setShowHelper,
+  });
 
   return (
     <InteractiveTutorialContainer>
@@ -34,7 +44,7 @@ const CamerasSection = () => {
         className="lg:w-1/2"
       />
       <InteractiveContainer className="lg:w-1/2 self-center w-[400px] h-[400px]">
-        <CameraCanvas fov={fov} near={near} far={far} />
+        <CameraCanvas fov={fov} near={near} far={far} showHelper={showHelper} />
       </InteractiveContainer>
     </InteractiveTutorialContainer>
   );
