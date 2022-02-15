@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera, useHelper } from "@react-three/drei";
 import { Suspense } from "react";
 import { Canvas } from "react-three-fiber";
 
@@ -11,12 +11,20 @@ const Box = (props) => {
   );
 };
 
-const CameraCanvas = () => {
+const CameraCanvas = ({ fov, near, far }) => {
   return (
     <Canvas className="bg-black" concurrent>
       <Suspense fallback={null}>
-        <PerspectiveCamera fov={75} position={[0, 0, 3]} />
+        <PerspectiveCamera
+          makeDefault
+          fov={fov}
+          aspect={2}
+          near={near}
+          far={far}
+          position={[0, 0, 3]}
+        />
         <ambientLight />
+        <OrbitControls />
         <Box />
       </Suspense>
     </Canvas>

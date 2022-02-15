@@ -1,6 +1,6 @@
-import { InlineCode } from "../../../../components";
+import { Code, InlineCode } from "../../../../components";
 
-export function getSlides() {
+export function getSlides({ fov, setFov, near, setNear, far, setFar }) {
   return {
     1: {
       text: (
@@ -56,6 +56,62 @@ export function getSlides() {
               is <InlineCode variant="medium">2000</InlineCode>.
             </li>
           </ol>
+        </>
+      ),
+    },
+    4: {
+      text: (
+        <>
+          <p>Try playing around with different values below:</p>
+          <Code language="jsx">{`<PerspectiveCamera\n  fov={${fov}}\n  aspect={1}\n  near={${near}}\n  far={${far}}\n  position={[0, 0, 3]}\n/>`}</Code>
+          <div className="my-6">
+            <label className="font-medium">FoV:</label>
+            <div className="flex">
+              <input
+                name="fov"
+                type="range"
+                value={fov}
+                min={1}
+                max={100}
+                step={1}
+                onChange={(e) => setFov(Number(e.target.value))}
+                className="flex-auto"
+              />
+              <span className="w-8 ml-2">{fov}</span>
+            </div>
+          </div>
+          <div className="mb-6">
+            <label className="font-medium">Near:</label>
+            <div className="flex">
+              <input
+                name="near"
+                type="range"
+                value={near}
+                min={0.1}
+                max={10}
+                step={0.1}
+                onChange={(e) => setNear(Number(e.target.value))}
+                className="flex-auto"
+              />
+              <span className="w-8 ml-2">{near}</span>
+            </div>
+          </div>
+          <div className="mb-6">
+            <label className="font-medium">Far:</label>
+            <div className="flex">
+              <input
+                name="far"
+                type="range"
+                value={far}
+                min={1}
+                max={100}
+                step={1}
+                onChange={(e) => setFar(Number(e.target.value))}
+                className="flex-auto"
+              />
+              <span className="w-8 ml-2">{far}</span>
+            </div>
+          </div>
         </>
       ),
     },
