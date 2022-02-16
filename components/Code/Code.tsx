@@ -38,7 +38,7 @@ const Code: FunctionComponent<CodeProps> = ({
     if (withSyntaxHighlighting) {
       Prism.highlightAll();
     }
-  }, [children]);
+  }, [children, language]);
 
   return (
     <pre
