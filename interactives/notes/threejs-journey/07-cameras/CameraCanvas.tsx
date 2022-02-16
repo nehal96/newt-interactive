@@ -63,9 +63,8 @@ const Scene: FunctionComponent<CameraCanvasProps> = ({
           position={[0, 0, 3]}
         />
       )}
-      <OrbitControls />
       <ambientLight />
-      {showHelper ? <OrbitControls /> : null}
+      {showHelper || useOrthographic ? <OrbitControls /> : null}
       <Box />
     </>
   );
