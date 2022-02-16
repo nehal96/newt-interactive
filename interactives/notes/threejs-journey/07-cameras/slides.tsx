@@ -1,4 +1,5 @@
 import { Code, InlineCode, Switch } from "../../../../components";
+import { GetSlidesParams, Slides } from "./types";
 
 export function getSlides({
   fov,
@@ -9,7 +10,7 @@ export function getSlides({
   setFar,
   showHelper,
   setShowHelper,
-}) {
+}: GetSlidesParams): Slides {
   return {
     1: {
       section: "Intro",
@@ -139,6 +140,49 @@ export function getSlides({
               onCheckedChange={(checked) => setShowHelper(checked)}
             />
           </div>
+        </>
+      ),
+    },
+    5: {
+      section: "Orthographic Camera intro",
+      text: (
+        <>
+          <p>
+            Another camera you can use is the{" "}
+            <span className="font-medium">Orthographic camera</span>, which
+            renders scenes without perspective. This means the size of the
+            object remains the same however far it is from the camera.
+          </p>
+          <p>
+            If you're familiar with isometric art, this is what you can use to
+            achieve that effect.
+          </p>
+          <p>You can try moving around the scene using Orbit controls.</p>
+        </>
+      ),
+    },
+    6: {
+      section: "Orthographic Camera parameters",
+      text: (
+        <>
+          <p>Orthographic cameras take a few different parameters:</p>
+          <ol className="list-outside list-decimal">
+            <li className="ml-6 mb-4">
+              <span className="font-medium">Left, right, top, bottom</span>: How
+              far the camera can see in each direction. (Use aspect ratio to
+              prevent distorted images).
+            </li>
+            <li className="ml-6 mb-4">
+              <span className="font-medium">Near</span>: How close the camera
+              can see. Any object closer than the value won't be rendered.
+              Default is <InlineCode variant="medium">0.1</InlineCode>.
+            </li>
+            <li className="ml-6 mb-4">
+              <span className="font-medium">Far</span>: How far the camera can
+              see. Any object further than the value won't be rendered. Default
+              is <InlineCode variant="medium">2000</InlineCode>.
+            </li>
+          </ol>
         </>
       ),
     },

@@ -39,6 +39,8 @@ const CamerasSection = () => {
       onSelect: () => setSlide(Number(key)),
     }))
     .value();
+  const currentSection = SLIDES[slide].section;
+  const useOrthographic = currentSection.split(" ")[0] === "Orthographic";
 
   return (
     <InteractiveTutorialContainer>
@@ -49,11 +51,17 @@ const CamerasSection = () => {
         onNext={goToNextSlide}
         onReset={onReset}
         jumpToSectionMenu={sections}
-        currentSection={SLIDES[slide].section}
+        currentSection={currentSection}
         className="lg:w-1/2"
       />
       <InteractiveContainer className="lg:w-1/2 self-center w-[400px] h-[400px]">
-        <CameraCanvas fov={fov} near={near} far={far} showHelper={showHelper} />
+        <CameraCanvas
+          fov={fov}
+          near={near}
+          far={far}
+          showHelper={showHelper}
+          useOrthographic={useOrthographic}
+        />
       </InteractiveContainer>
     </InteractiveTutorialContainer>
   );

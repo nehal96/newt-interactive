@@ -1,8 +1,14 @@
-import { OrbitControls, PerspectiveCamera, useHelper } from "@react-three/drei";
-import { Suspense, useEffect, useRef, useState } from "react";
+import {
+  OrbitControls,
+  OrthographicCamera,
+  PerspectiveCamera,
+  useHelper,
+} from "@react-three/drei";
+import { Suspense, useRef } from "react";
 import { Canvas } from "react-three-fiber";
 import {
   CameraHelper,
+  OrthographicCamera as OrthographicCameraType,
   PerspectiveCamera as PerspectiveCameraType,
 } from "three";
 
@@ -15,8 +21,10 @@ const Box = (props) => {
   );
 };
 
-const Scene = ({ fov, near, far, showHelper }) => {
+const Scene = ({ fov, near, far, showHelper, useOrthographic }) => {
   const camera = useRef<PerspectiveCameraType>(null);
+  const orthographicCamera = useRef<OrthographicCameraType>(null);
+
   useHelper(showHelper && camera, CameraHelper, 1, "royalblue");
 
   return (
@@ -27,15 +35,28 @@ const Scene = ({ fov, near, far, showHelper }) => {
         fov={75}
         position={[3, 0, 4]}
       />
-      <PerspectiveCamera
-        makeDefault={!showHelper}
-        ref={camera}
-        fov={fov}
-        aspect={2}
-        near={near}
-        far={far}
-        position={[0, 0, 3]}
-      />
+      {useOrthographic ? (
+        <OrthographicCamera
+          ref={orthographicCamera}
+          makeDefault
+          position={[2, 1, 3]}
+          args={[-10, 10, 10, -10]}
+          near={0.1}
+          far={100}
+          zoom={70}
+        />
+      ) : (
+        <PerspectiveCamera
+          makeDefault={!showHelper}
+          ref={camera}
+          fov={fov}
+          aspect={2}
+          near={near}
+          far={far}
+          position={[0, 0, 3]}
+        />
+      )}
+      <OrbitControls />
       <ambientLight />
       {showHelper ? <OrbitControls /> : null}
       <Box />
@@ -43,11 +64,17 @@ const Scene = ({ fov, near, far, showHelper }) => {
   );
 };
 
-const CameraCanvas = ({ fov, near, far, showHelper }) => {
+const CameraCanvas = ({ fov, near, far, showHelper, useOrthographic }) => {
   return (
     <Canvas className="bg-black" concurrent>
       <Suspense fallback={null}>
-        <Scene fov={fov} near={near} far={far} showHelper={showHelper} />
+        <Scene
+          fov={fov}
+          near={near}
+          far={far}
+          showHelper={showHelper}
+          useOrthographic={useOrthographic}
+        />
       </Suspense>
     </Canvas>
   );
