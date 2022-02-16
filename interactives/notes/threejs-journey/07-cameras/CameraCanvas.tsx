@@ -4,13 +4,14 @@ import {
   PerspectiveCamera,
   useHelper,
 } from "@react-three/drei";
-import { Suspense, useRef } from "react";
+import { FunctionComponent, Suspense, useRef } from "react";
 import { Canvas } from "react-three-fiber";
 import {
   CameraHelper,
   OrthographicCamera as OrthographicCameraType,
   PerspectiveCamera as PerspectiveCameraType,
 } from "three";
+import { CameraCanvasProps } from "./types";
 
 const Box = (props) => {
   return (
@@ -21,7 +22,13 @@ const Box = (props) => {
   );
 };
 
-const Scene = ({ fov, near, far, showHelper, useOrthographic }) => {
+const Scene: FunctionComponent<CameraCanvasProps> = ({
+  fov,
+  near,
+  far,
+  showHelper,
+  useOrthographic,
+}) => {
   const camera = useRef<PerspectiveCameraType>(null);
   const orthographicCamera = useRef<OrthographicCameraType>(null);
 
@@ -64,7 +71,13 @@ const Scene = ({ fov, near, far, showHelper, useOrthographic }) => {
   );
 };
 
-const CameraCanvas = ({ fov, near, far, showHelper, useOrthographic }) => {
+const CameraCanvas: FunctionComponent<CameraCanvasProps> = ({
+  fov,
+  near,
+  far,
+  showHelper,
+  useOrthographic,
+}) => {
   return (
     <Canvas className="bg-black" concurrent>
       <Suspense fallback={null}>

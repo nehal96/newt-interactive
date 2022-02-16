@@ -17,3 +17,11 @@ export type Slide = {
 export type Slides = {
   [index: number]: Slide;
 };
+
+export type CameraCanvasProps = {
+  fov: number;
+  near: number;
+  far: number;
+  showHelper: boolean;
+  useOrthographic: boolean;
+};
