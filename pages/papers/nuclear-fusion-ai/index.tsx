@@ -1,5 +1,11 @@
 import Head from "next/head";
-import { ArticleContainer, Lede, Navbar, Title } from "../../../components";
+import {
+  ArticleContainer,
+  Lede,
+  Navbar,
+  PaperMetadata,
+  Title,
+} from "../../../components";
 
 const NuclearFusionAIPage = () => {
   return (
@@ -37,6 +43,13 @@ const NuclearFusionAIPage = () => {
           Magnetic control of tokamak plasmas through deep reinforcement
           learning by DeepMind
         </Lede>
+        <PaperMetadata
+          title="Magnetic control of tokamak plasmas through deep reinforcement learning"
+          authors={["DeepMind", "Swiss Plasma Center"]}
+          datePublished="16 Feb 2022"
+          paperLink="https://www.nature.com/articles/s41586-021-04301-9"
+          blogLink="https://www.deepmind.com/blog/article/Accelerating-fusion-science-through-learned-plasma-control"
+        />
       </ArticleContainer>
     </>
   );

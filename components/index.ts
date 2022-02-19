@@ -11,6 +11,7 @@ export { default as Lede } from "./Lede";
 export { default as MathFormula } from "./MathFormula";
 export { default as Navbar } from "./Navbar";
 export { default as OrderedList } from "./OrderedList";
+export { default as PaperMetadata } from "./PaperMetadata";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover, PopoverContent } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
