@@ -14,6 +14,7 @@ import {
   Paragraph,
   Subheader,
   Title,
+  YoutubeEmbed,
 } from "../../../components";
 
 const NuclearFusionAIPage = () => {
@@ -70,9 +71,12 @@ const NuclearFusionAIPage = () => {
               <FiChevronDown />
             </AccordionButton>
             <AccordionPanel className="bg-slate-50 py-2">
-              <Paragraph className="font-base mb-0">
-                Nuclear fusion is..
+              <Paragraph className="font-base mb-2">
+                Nuclear fusion is a reaction that involves merging two atomic
+                nuclei to make one larger one. This Kurzgesagt video, as usual,
+                does a great job of explaining nuclear fusion:
               </Paragraph>
+              <YoutubeEmbed embedId="mZsaaturR6E" />
             </AccordionPanel>
           </AccordionItem>
           <AccordionItem>
@@ -83,7 +87,13 @@ const NuclearFusionAIPage = () => {
               <FiChevronDown />
             </AccordionButton>
             <AccordionPanel className="bg-slate-50 py-2">
-              <Paragraph className="font-base mb-0">Plasma is..</Paragraph>
+              <Paragraph className="font-base mb-0">
+                Plasma is superheated matter &mdash; a soup of positively and
+                negatively charged particles (ions and electrons). Just like you
+                can heat up ice (a solid) to get water (a liquid), which you can
+                then further heat up to get steam (a gas), you can futher heat
+                up a gas to get plasma, the fourth state of matter.
+              </Paragraph>
             </AccordionPanel>
           </AccordionItem>
           <AccordionItem>
@@ -94,7 +104,12 @@ const NuclearFusionAIPage = () => {
               <FiChevronDown />
             </AccordionButton>
             <AccordionPanel className="bg-slate-50 py-2">
-              <Paragraph className="font-base mb-0">A tokamak is..</Paragraph>
+              <Paragraph className="font-base mb-2">
+                A tokamak is a machine that confines and controls plasma using
+                magnetic fields. This video shows you what a tokamak looks like,
+                and how it works (0:41 &ndash; 1:38):
+              </Paragraph>
+              <YoutubeEmbed embedId="xu7aY5xCGvc" start={41} />
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
