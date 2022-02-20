@@ -28,6 +28,7 @@ const PaperMetadata = ({
   datePublished,
   paperLink,
   blogLink,
+  className,
 }: PaperMetadataProps) => {
   const isMd = useScreenBreakpoint("md");
   const [index, setIndex] = useState(-1);
@@ -36,7 +37,7 @@ const PaperMetadata = ({
     <Accordion
       index={index}
       onChange={(value) => setIndex(value === index ? -1 : value)}
-      className="max-w-5xl self-center w-full"
+      className={`max-w-5xl self-center w-full ${className}`}
     >
       <AccordionItem>
         <AccordionButton className="flex items-center text-xs sm:text-sm text-slate-500 mb-2">
