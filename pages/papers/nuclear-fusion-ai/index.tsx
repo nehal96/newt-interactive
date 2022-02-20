@@ -64,14 +64,14 @@ const NuclearFusionAIPage = () => {
         <Subheader>Pre-requisite Questions</Subheader>
         <Accordion collapsible className="w-full self-center max-w-3xl">
           <AccordionItem>
-            <AccordionButton className="w-full flex self-start justify-between items-center border-b bprder-slate-100 py-1 md:py-2 hover:bg-slate-50">
-              <h4 className="font-medium text-lg self-start text-slate-700 md:text-xl md:tracking-wide">
+            <AccordionButton className="w-full flex justify-between items-center border-b bprder-slate-100 py-1 md:py-2 hover:bg-slate-50">
+              <h4 className="font-medium text-lg text-left text-slate-700 md:text-xl md:tracking-wide">
                 What is nuclear fusion?
               </h4>
               <FiChevronDown />
             </AccordionButton>
             <AccordionPanel className="bg-slate-50 py-2">
-              <Paragraph className="font-base mb-2">
+              <Paragraph className="font-base mb-4">
                 Nuclear fusion is a reaction that involves merging two atomic
                 nuclei to make one larger one. This Kurzgesagt video, as usual,
                 does a great job of explaining nuclear fusion:
@@ -80,8 +80,8 @@ const NuclearFusionAIPage = () => {
             </AccordionPanel>
           </AccordionItem>
           <AccordionItem>
-            <AccordionButton className="w-full flex self-start justify-between items-center border-b bprder-slate-100 py-1 md:py-2 hover:bg-slate-50">
-              <h4 className="font-medium text-lg self-start text-slate-700 md:text-xl md:tracking-wide">
+            <AccordionButton className="w-full flex justify-between items-center border-b bprder-slate-100 py-1 md:py-2 hover:bg-slate-50">
+              <h4 className="font-medium text-lg text-left text-slate-700 md:text-xl md:tracking-wide">
                 What is plasma?
               </h4>
               <FiChevronDown />
@@ -97,19 +97,38 @@ const NuclearFusionAIPage = () => {
             </AccordionPanel>
           </AccordionItem>
           <AccordionItem>
-            <AccordionButton className="w-full flex self-start justify-between items-center border-b bprder-slate-100 py-1 md:py-2 hover:bg-slate-50">
-              <h4 className="font-medium text-lg self-start text-slate-700 md:text-xl md:tracking-wide">
+            <AccordionButton className="w-full flex justify-between items-center border-b bprder-slate-100 py-1 md:py-2 hover:bg-slate-50">
+              <h4 className="font-medium text-lg text-left text-slate-700 md:text-xl md:tracking-wide">
                 What is a tokamak?
               </h4>
               <FiChevronDown />
             </AccordionButton>
             <AccordionPanel className="bg-slate-50 py-2">
-              <Paragraph className="font-base mb-2">
+              <Paragraph className="font-base mb-4">
                 A tokamak is a machine that confines and controls plasma using
                 magnetic fields. This video shows you what a tokamak looks like,
                 and how it works (0:41 &ndash; 1:38):
               </Paragraph>
               <YoutubeEmbed embedId="xu7aY5xCGvc" start={41} />
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionButton className="w-full flex justify-between items-center border-b bprder-slate-100 py-1 md:py-2 hover:bg-slate-50">
+              <h4 className="font-medium text-lg text-left text-slate-700 md:text-xl md:tracking-wide">
+                What do you mean by shaping and maintaining plasma?
+              </h4>
+              <FiChevronDown />
+            </AccordionButton>
+            <AccordionPanel className="bg-slate-50 py-2">
+              <Paragraph className="font-base mb-4">
+                If plasma touches the walls of a tokamak, it can cause a{" "}
+                <i>disruption</i> and potentially damage the tokamak and stop
+                the reaction. To prevent this, toroidal (horizontal) and
+                poloidal (vertical) magnetic coils are used to generate magnetic
+                fields to shape and maintain the plasma inside. This video
+                illustrates it well (0:54 &ndash; 1:31):
+              </Paragraph>
+              <YoutubeEmbed embedId="I8hXBrEhxKU" start={54} />
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
