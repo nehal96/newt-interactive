@@ -49,7 +49,7 @@ const PaperMetadata = ({
         </AccordionButton>
         <hr className="mb-2 border-slate-100"></hr>
         <AccordionPanel>
-          <table className="text-slate-400  text-xs md:text-sm table-fixed w-full">
+          <table className="text-slate-400 text-xs md:text-sm table-fixed w-full">
             <tbody>
               <tr className="border-b border-slate-100">
                 <th className="text-left pb-2 pr-2">Title</th>
@@ -61,7 +61,10 @@ const PaperMetadata = ({
                 <>
                   <tr className="border-b border-slate-100">
                     <th className="text-left py-1 pr-2">Authors</th>
-                    <td className="py-1 pr-2 border-r" colSpan={2}>
+                    <td
+                      className="py-1 pr-2 border-r border-slate-100"
+                      colSpan={2}
+                    >
                       {authors?.join(", ")}
                     </td>
                     <th className="text-left py-1 px-2">Date Published</th>
@@ -91,7 +94,7 @@ const PaperMetadata = ({
                   <tr className="border-b border-slate-100">
                     <th className="text-left py-1 pr-2">Paper link</th>
                     <td
-                      className="py-1 pr-2 border-r truncate md:whitespace-normal"
+                      className="py-1 pr-2 border-r border-slate-100 truncate md:whitespace-normal"
                       colSpan={2}
                     >
                       <a
