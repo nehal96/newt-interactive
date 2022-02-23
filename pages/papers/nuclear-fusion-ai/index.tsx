@@ -62,7 +62,7 @@ const NuclearFusionAIPage = () => {
           className="mb-8"
         />
         <Subheader>Pre-requisite Questions</Subheader>
-        <Accordion collapsible className="w-full self-center max-w-3xl">
+        <Accordion collapsible className="w-full self-center max-w-3xl mb-12">
           <AccordionItem>
             <AccordionButton className="w-full flex justify-between items-center border-b bprder-slate-100 py-1 md:py-2 hover:bg-slate-50">
               <h4 className="font-medium text-lg text-left text-slate-700 md:text-xl md:tracking-wide">
@@ -89,10 +89,10 @@ const NuclearFusionAIPage = () => {
             <AccordionPanel className="bg-slate-50 py-2">
               <Paragraph className="font-base mb-0">
                 Plasma is superheated matter &mdash; a soup of positively and
-                negatively charged particles (ions and electrons). Just like you
-                can heat up ice (a solid) to get water (a liquid), which you can
-                then further heat up to get steam (a gas), you can futher heat
-                up a gas to get plasma, the fourth state of matter.
+                negatively charged particles (or ions and electrons). Just like
+                you can heat up ice (a solid) to get water (a liquid), which you
+                can then further heat up to get steam (a gas), you can then
+                further heat up a gas to get plasma, the fourth state of matter.
               </Paragraph>
             </AccordionPanel>
           </AccordionItem>
@@ -132,6 +132,36 @@ const NuclearFusionAIPage = () => {
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
+        <Subheader>Intro</Subheader>
+        <Paragraph>
+          Can we replicate the reaction that powers the Sun right here on Earth?
+          For nearly a century, physicists and engineers have been trying to
+          answer this question. Nuclear fusion has the potential to provide
+          clean, near-limitless energy, but its journey from potential to
+          reality has been sluggish. Admittedly, creating the conditions for
+          nuclear fusion is an extremely complex physics and engineering
+          problem. Maybe building our artificial sun could use some artificial
+          help?
+        </Paragraph>
+        <Paragraph>
+          Enter DeepMind, the Alphabet-owned AI research lab. DeepMind recently
+          collaborated with the Swiss Plasma Center and EPFL to develop AI that
+          helps control nuclear fusion. Together, they created a reinforcement
+          learning (RL) algorithm to control a tokamak's magnetic coils and
+          contain and shape the plasma.{" "}
+          <a
+            href="https://www.nature.com/articles/s41586-021-04301-9"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+          >
+            Their paper
+          </a>{" "}
+          is astounding, but can be quite difficult to understand without some
+          background knowledge in nuclear physics and artificial intelligence.
+          My goal here is to explain the essentials of their paper with minimal
+          pre-requisite knowledge.
+        </Paragraph>
       </ArticleContainer>
     </>
   );
