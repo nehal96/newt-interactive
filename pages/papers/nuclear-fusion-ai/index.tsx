@@ -4,10 +4,12 @@ import {
   AccordionItem,
   AccordionPanel,
 } from "@reach/accordion";
+import Image from "next/image";
 import Head from "next/head";
 import { FiChevronDown } from "react-icons/fi";
 import {
   ArticleContainer,
+  ImageContainer,
   Lede,
   Navbar,
   PaperMetadata,
@@ -162,6 +164,18 @@ const NuclearFusionAIPage = () => {
           My goal here is to explain the essentials of their paper with minimal
           pre-requisite knowledge.
         </Paragraph>
+        <Paragraph>
+          In their blog post, DeepMind even shared a clip of their RL algorithm
+          shaping and controlling plasma (in slow-motion):
+        </Paragraph>
+        <ImageContainer>
+          <Image
+            src="/images/tokamak-rl-plasma.gif"
+            width={800}
+            height={465}
+            layout="responsive"
+          />
+        </ImageContainer>
       </ArticleContainer>
     </>
   );
