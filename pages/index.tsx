@@ -31,6 +31,18 @@ export default function Home() {
       </Head>
       <Navbar />
       <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-12">
+        <h1 className="text-4xl font-bold text-slate-800 mb-8">Articles</h1>
+        <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200 mb-12">
+          <Link href="/articles/nuclear-fusion-part-one">
+            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+              <div className="p-3 sm:p-5">
+                <h3 className="sm:text-lg font-medium text-slate-800">
+                  Nuclear Fusion: Part One
+                </h3>
+              </div>
+            </a>
+          </Link>
+        </div>
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
           <Link href="/blocks/robot-localization">
