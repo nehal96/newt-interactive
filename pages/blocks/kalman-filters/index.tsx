@@ -45,7 +45,7 @@ const KalmanFilterPage = () => {
         </Lede>
         <Paragraph>
           In the{" "}
-          <Link href="/blocks/robot-localization">
+          <Link href="/blocks/robot-localization" legacyBehavior>
             <a className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700">
               Simple Robot Localization block
             </a>

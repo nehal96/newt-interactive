@@ -33,7 +33,7 @@ export default function Home() {
       <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-12">
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
-          <Link href="/blocks/robot-localization">
+          <Link href="/blocks/robot-localization" legacyBehavior>
             <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <div>
                 <Image
@@ -52,7 +52,7 @@ export default function Home() {
               </div>
             </a>
           </Link>
-          <Link href="/blocks/dna">
+          <Link href="/blocks/dna" legacyBehavior>
             <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <div>
                 <Image
@@ -71,7 +71,7 @@ export default function Home() {
               </div>
             </a>
           </Link>
-          <Link href="/blocks/kalman-filters">
+          <Link href="/blocks/kalman-filters" legacyBehavior>
             <a className="w-28 sm:w-40 mb-6 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <Image
                 src="/images/kalman-1d.jpg"
