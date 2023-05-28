@@ -8,7 +8,7 @@ import {
 } from "../../../../components";
 import { getSlides } from "./slides";
 import { Slide } from "./types";
-import { BoxGeometryProps } from "react-three-fiber";
+import { BoxGeometryProps } from "@react-three/fiber";
 
 const AnimationsCanvas = dynamic(() => import("./AnimationsCanvas"), {
   ssr: false,

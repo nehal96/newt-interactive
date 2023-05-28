@@ -1,5 +1,5 @@
 import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
-import { BoxGeometryProps, Camera, MeshProps } from "react-three-fiber";
+import { BoxGeometryProps, Camera, MeshProps } from "@react-three/fiber";
 import { Clock } from "three";
 
 type CodeParams = {
