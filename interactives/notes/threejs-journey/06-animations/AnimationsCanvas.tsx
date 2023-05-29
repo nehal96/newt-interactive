@@ -1,6 +1,6 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Suspense, useRef } from "react";
-import { BoxGeometryProps, Canvas, useFrame } from "react-three-fiber";
+import { BoxGeometryProps, Canvas, useFrame } from "@react-three/fiber";
 import { BoxParams, Slide } from "./types";
 
 interface AnimationCanvasProps {

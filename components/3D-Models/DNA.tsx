@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { Vector3 } from "three";
-import { useFrame } from "react-three-fiber";
+import { useFrame } from "@react-three/fiber";
 
 // Loading GLTF files in Next is a mess (can't be in pages), so here's a
 // commit that works

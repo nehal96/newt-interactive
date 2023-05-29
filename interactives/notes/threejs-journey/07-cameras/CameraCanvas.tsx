@@ -5,7 +5,7 @@ import {
   useHelper,
 } from "@react-three/drei";
 import { FunctionComponent, Suspense, useRef } from "react";
-import { Canvas } from "react-three-fiber";
+import { Canvas } from "@react-three/fiber";
 import {
   CameraHelper,
   OrthographicCamera as OrthographicCameraType,

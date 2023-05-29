@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { Canvas } from "react-three-fiber";
+import { Canvas } from "@react-three/fiber";
 import { Suspense, useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { DNA } from "../components";

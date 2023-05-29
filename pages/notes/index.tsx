@@ -35,7 +35,7 @@ const NotesPage = () => {
           Random stuff I'm learning from courses, tutorials, books, etc.
         </h2>
         <div className="flex flex-wrap pb-12 sm:pb-16">
-          <Link href="/notes/threejs-journey">
+          <Link href="/notes/threejs-journey" legacyBehavior>
             <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
