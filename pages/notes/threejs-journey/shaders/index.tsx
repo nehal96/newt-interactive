@@ -9,12 +9,17 @@ import {
   Subheader,
   Title,
 } from "../../../../components";
+import {
+  indexHtmlFile,
+  indexJsFile,
+  stylesCssFile,
+} from "../../../../interactives/notes/threejs-journey/28-shaders";
 
 const ShadersPage = () => {
   const files = {
-    "/index.js": `import "./styles.css"
-    
-document.getElementById("app").innerHTML = '<h1>Hello there</h1>'`,
+    "/index.html": indexHtmlFile(),
+    "/index.js": indexJsFile(),
+    "/styles.css": stylesCssFile(),
   };
 
   return (
@@ -61,7 +66,25 @@ document.getElementById("app").innerHTML = '<h1>Hello there</h1>'`,
         </Lede>
         <Subheader>28 &mdash; Shaders</Subheader>
         <Paragraph>Shaders</Paragraph>
-        <Sandpack files={files} theme={atomDark} template="vanilla" />
+        <Sandpack
+          files={files}
+          theme={atomDark}
+          template="vanilla"
+          options={{
+            showLineNumbers: true,
+            editorHeight: 500,
+          }}
+          customSetup={{
+            dependencies: {
+              three: "0.151.3",
+            },
+            devDependencies: {
+              "@babel/core": "7.2.0",
+              "parcel-bundler": "^1.6.1",
+            },
+            entry: "index.html",
+          }}
+        />
       </ArticleContainer>
     </>
   );
