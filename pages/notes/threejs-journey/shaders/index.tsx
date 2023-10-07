@@ -13,13 +13,17 @@ import {
   indexHtmlFile,
   indexJsFile,
   stylesCssFile,
+  vertexGlslFile,
+  fragmentGlslFile,
 } from "../../../../interactives/notes/threejs-journey/28-shaders";
 
 const ShadersPage = () => {
   const files = {
     "/index.html": indexHtmlFile(),
-    "/index.js": indexJsFile(),
+    "/index.js": indexJsFile(`${vertexGlslFile()}`, fragmentGlslFile()),
     "/styles.css": stylesCssFile(),
+    "/vertex.glsl": vertexGlslFile(),
+    "/fragment.glsl": fragmentGlslFile(),
   };
 
   return (
