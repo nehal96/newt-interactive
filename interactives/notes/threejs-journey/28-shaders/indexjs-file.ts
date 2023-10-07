@@ -1,4 +1,4 @@
-const indexJsFile = () => {
+const indexJsFile = (vertexGlslFile: string, fragmentGlslFile: string) => {
   return `import styles from "./styles.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -27,9 +27,10 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(0.25, -0.25, 1);
 
 const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
-const material = new THREE.MeshBasicMaterial({
-  color: "pink"
-});
+const material = new THREE.RawShaderMaterial({
+  vertexShader: \`${vertexGlslFile}\`,
+  fragmentShader: \`${fragmentGlslFile}\`
+})
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
