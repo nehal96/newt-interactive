@@ -19,9 +19,15 @@ import {
 
 const ShadersPage = () => {
   const files = {
-    "/index.html": indexHtmlFile(),
+    "/index.html": {
+      code: indexHtmlFile(),
+      hidden: true,
+    },
     "/index.js": indexJsFile(`${vertexGlslFile()}`, fragmentGlslFile()),
-    "/styles.css": stylesCssFile(),
+    "/styles.css": {
+      code: stylesCssFile(),
+      hidden: true,
+    },
     "/vertex.glsl": vertexGlslFile(),
     "/fragment.glsl": fragmentGlslFile(),
   };
