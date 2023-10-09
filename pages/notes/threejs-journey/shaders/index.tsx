@@ -9,6 +9,7 @@ import {
   Subheader,
   Title,
 } from "../../../../components";
+import ShaderPatternsCodeSandbox from "../../../../interactives/notes/threejs-journey/29-shader-patterns";
 import {
   indexHtmlFile,
   indexJsFile,
@@ -95,6 +96,8 @@ const ShadersPage = () => {
             entry: "index.html",
           }}
         />
+        <Subheader>28 &mdash; Shaders</Subheader>
+        <ShaderPatternsCodeSandbox />
       </ArticleContainer>
     </>
   );
