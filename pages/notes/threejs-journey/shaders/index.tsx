@@ -3,6 +3,7 @@ import { Sandpack } from "@codesandbox/sandpack-react";
 import { atomDark } from "@codesandbox/sandpack-themes";
 import {
   ArticleContainer,
+  Button,
   Lede,
   Navbar,
   Paragraph,
@@ -17,8 +18,11 @@ import {
   vertexGlslFile,
   fragmentGlslFile,
 } from "../../../../interactives/notes/threejs-journey/28-shaders";
+import { useState } from "react";
 
 const ShadersPage = () => {
+  const [selectedShaderPattern, setSelectedShaderPattern] = useState(0);
+
   const files = {
     "/index.html": {
       code: indexHtmlFile(),
@@ -97,7 +101,14 @@ const ShadersPage = () => {
           }}
         />
         <Subheader>28 &mdash; Shaders</Subheader>
-        <ShaderPatternsCodeSandbox />
+        <Button
+          variant="outline"
+          className="max-w-sm"
+          onClick={() => setSelectedShaderPattern(1)}
+        >
+          1
+        </Button>
+        <ShaderPatternsCodeSandbox shaderPattern={selectedShaderPattern} />
       </ArticleContainer>
     </>
   );

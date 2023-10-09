@@ -6,19 +6,25 @@ import indexJsFile from "./indexjs-file";
 import vertexGlslFile from "./vertexglsl-file";
 import fragmentGlslFile from "./fragmentglsl-file";
 
-const ShaderPatternsCodeSandbox = () => {
+const ShaderPatternsCodeSandbox = ({ shaderPattern }) => {
   const files = {
     "/index.html": {
       code: indexHtmlFile(),
       hidden: true,
     },
-    "/index.js": indexJsFile(`${vertexGlslFile()}`, fragmentGlslFile()),
+    "/index.js": indexJsFile(
+      `${vertexGlslFile()}`,
+      fragmentGlslFile(shaderPattern)
+    ),
     "/styles.css": {
       code: stylesCssFile(),
       hidden: true,
     },
     "/vertex.glsl": vertexGlslFile(),
-    "/fragment.glsl": fragmentGlslFile(),
+    "/fragment.glsl": {
+      code: fragmentGlslFile(shaderPattern),
+      active: true,
+    },
   };
 
   return (
