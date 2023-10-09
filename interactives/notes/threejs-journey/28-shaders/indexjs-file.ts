@@ -3,8 +3,6 @@ const indexJsFile = (vertexGlslFile: string, fragmentGlslFile: string) => {
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-document.getElementById("app").innerHTML = '<h1>Hello there</h1>';
-
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
