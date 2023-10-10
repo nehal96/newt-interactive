@@ -3,7 +3,6 @@ import { Sandpack } from "@codesandbox/sandpack-react";
 import { atomDark } from "@codesandbox/sandpack-themes";
 import {
   ArticleContainer,
-  Button,
   Lede,
   Navbar,
   Paragraph,
@@ -11,6 +10,7 @@ import {
   Title,
 } from "../../../../components";
 import ShaderPatternsCodeSandbox from "../../../../interactives/notes/threejs-journey/29-shader-patterns";
+import { shaderPatterns } from "../../../../interactives/notes/threejs-journey/29-shader-patterns/shader-patterns";
 import {
   indexHtmlFile,
   indexJsFile,
@@ -19,9 +19,14 @@ import {
   fragmentGlslFile,
 } from "../../../../interactives/notes/threejs-journey/28-shaders";
 import { useState } from "react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@reach/menu-button";
+import { FiChevronDown } from "react-icons/fi";
+import styles from "./shaders.module.css";
 
 const ShadersPage = () => {
-  const [selectedShaderPattern, setSelectedShaderPattern] = useState(0);
+  const [selectedShaderPattern, setSelectedShaderPattern] = useState(
+    shaderPatterns[0]
+  );
 
   const files = {
     "/index.html": {
@@ -100,14 +105,26 @@ const ShadersPage = () => {
             entry: "index.html",
           }}
         />
-        <Subheader>28 &mdash; Shaders</Subheader>
-        <Button
-          variant="outline"
-          className="max-w-sm"
-          onClick={() => setSelectedShaderPattern(1)}
-        >
-          1
-        </Button>
+        <Subheader className="mt-20">29 &mdash; Shader patterns</Subheader>
+        <Menu>
+          <MenuButton className="p-4 border border-slate-300 rounded-t-md max-w-sm inline-flex text-base items-center mb-4">
+            {selectedShaderPattern.name}
+            <span>
+              <FiChevronDown className="ml-1" />
+            </span>
+          </MenuButton>
+          <MenuList className="rounded-b-md w-64">
+            {shaderPatterns.map((pattern) => (
+              <MenuItem
+                className={styles["menu-item"]}
+                key={pattern.name}
+                onSelect={() => setSelectedShaderPattern(pattern)}
+              >
+                {pattern.name}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
         <ShaderPatternsCodeSandbox shaderPattern={selectedShaderPattern} />
       </ArticleContainer>
     </>
