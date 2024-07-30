@@ -1,14 +1,9 @@
+import React from "react";
 import styles from "./LocalizationSimulation.module.css";
 import { Button, Code, InlineCode, TextContainer } from "../../components";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-} from "@reach/accordion";
+import * as Accordion from "@radix-ui/react-accordion";
 import { Menu, MenuButton, MenuList, MenuItem } from "@reach/menu-button";
 import { FiChevronDown, FiInfo } from "react-icons/fi";
-import "@reach/accordion/styles.css";
 import "@reach/menu-button/styles.css";
 import { LocalizationSlidesProps, PlaygroundValues, Section } from "./types";
 
@@ -83,15 +78,13 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
           3
         )}`}</Code>
       </div>
-      <Accordion collapsible className="mb-8">
-        <AccordionItem>
-          <div>
-            <AccordionButton className="flex items-center text-xs sm:text-sm text-slate-600 hover:text-slate-800">
-              <FiInfo className="mr-1.5" /> See how the values are used to
-              update beliefs <FiChevronDown className="ml-1" />
-            </AccordionButton>
-          </div>
-          <AccordionPanel className="mt-2 pl-3 border-l-2 border-l-slate-300">
+      <Accordion.Root className="rounded-md mb-8" type="single" collapsible>
+        <Accordion.Item value="item-1">
+          <Accordion.Trigger className="flex items-center text-xs sm:text-sm text-slate-600 hover:text-slate-800">
+            <FiInfo className="mr-1.5" /> See how the values are used to update
+            beliefs <FiChevronDown className="ml-1" />
+          </Accordion.Trigger>
+          <Accordion.Content className="mt-2 pl-3 border-l-2 border-l-slate-300">
             <Code language="jsx" className="text-sm mb-2">
               {`const newBelief = beliefs[i][j] * (isHit * pHit + (1 - isHit) * pMiss);`}
             </Code>
@@ -102,9 +95,9 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
               <InlineCode variant="medium">isHit</InlineCode> is either 1 or 0
               depending on whether the sensed color is correct or not.
             </blockquote>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+          </Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
     </>
   );
 };
