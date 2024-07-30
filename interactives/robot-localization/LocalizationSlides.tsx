@@ -2,9 +2,8 @@ import React from "react";
 import styles from "./LocalizationSimulation.module.css";
 import { Button, Code, InlineCode, TextContainer } from "../../components";
 import * as Accordion from "@radix-ui/react-accordion";
-import { Menu, MenuButton, MenuList, MenuItem } from "@reach/menu-button";
-import { FiChevronDown, FiInfo } from "react-icons/fi";
-import "@reach/menu-button/styles.css";
+import * as Select from "@radix-ui/react-select";
+import { FiChevronDown, FiInfo, FiCheck } from "react-icons/fi";
 import { LocalizationSlidesProps, PlaygroundValues, Section } from "./types";
 
 export const ActionButton = ({ children, onClick }) => {
@@ -130,34 +129,49 @@ const LocalizationSlides = ({
     >
       <div className="flex items-center justify-between text-slate-400 mb-6">
         <div>
-          <Menu>
-            <MenuButton className="inline-flex text-xs items-center hover:text-slate-500">
-              {getSectionName(slide?.section)}{" "}
-              <span>
+          <Select.Root
+            onValueChange={(value: Section) => onJumpToSection(value)}
+          >
+            <Select.Trigger className="inline-flex items-center justify-center leading-none data-[placeholder]:text-slate-600 outline-none text-sm hover:text-slate-600">
+              <Select.Value placeholder={getSectionName(slide?.section)} />
+              <Select.Icon>
                 <FiChevronDown className="ml-1" />
-              </span>
-            </MenuButton>
-            <MenuList className="rounded-md">
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("overview")}
-              >
-                Overview
-              </MenuItem>
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("code-explain")}
-              >
-                Code
-              </MenuItem>
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("playground")}
-              >
-                Playground
-              </MenuItem>
-            </MenuList>
-          </Menu>
+              </Select.Icon>
+            </Select.Trigger>
+            <Select.Portal>
+              <Select.Content className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
+                <Select.Viewport className="p-[5px]">
+                  <Select.Item
+                    className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
+                    value="overview"
+                  >
+                    <Select.ItemText>Overview</Select.ItemText>
+                    <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+                      <FiCheck />
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                  <Select.Item
+                    className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
+                    value="code-explain"
+                  >
+                    <Select.ItemText>Code</Select.ItemText>
+                    <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+                      <FiCheck />
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                  <Select.Item
+                    className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
+                    value="playground"
+                  >
+                    <Select.ItemText>Playground</Select.ItemText>
+                    <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+                      <FiCheck />
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                </Select.Viewport>
+              </Select.Content>
+            </Select.Portal>
+          </Select.Root>
         </div>
         <div>
           <Button
