@@ -203,7 +203,11 @@ const GaussianParameterUpdateSlides = ({
               </Select.Icon>
             </Select.Trigger>
             <Select.Portal>
-              <Select.Content className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
+              <Select.Content
+                position="popper"
+                sideOffset={6}
+                className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
+              >
                 <Select.Viewport className="p-[5px]">
                   <Select.Item
                     className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
