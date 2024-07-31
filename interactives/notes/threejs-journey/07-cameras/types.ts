@@ -12,6 +12,7 @@ export type GetSlidesParams = {
 };
 export type Slide = {
   section: string;
+  number: number;
   text: React.ReactNode;
 };
 export type Slides = {

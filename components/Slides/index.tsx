@@ -1,10 +1,9 @@
-import { Menu, MenuButton, MenuItem, MenuList } from "@reach/menu-button";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 import { Button, TextContainer } from "..";
 import { isEmpty } from "lodash";
-import { FiChevronDown } from "react-icons/fi";
+import * as Select from "@radix-ui/react-select";
+import { FiCheck, FiChevronDown } from "react-icons/fi";
 import styles from "./Slides.module.css";
-import "@reach/menu-button/styles.css";
 
 type Slide = {
   text: React.ReactNode;
@@ -16,7 +15,6 @@ type Slides = {
 };
 export type JumpToSectionMenu = {
   name: string;
-  onSelect: () => void;
 }[];
 interface SlidesProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -25,6 +23,7 @@ interface SlidesProps
   onBack: (callback?: any) => void;
   onNext: (callback?: any) => void;
   onReset: () => void;
+  onJumpToSection: (value: string) => void;
   jumpToSectionMenu?: JumpToSectionMenu;
   currentSection?: string;
 }
@@ -36,6 +35,7 @@ const Slides = ({
   onBack,
   onNext,
   onReset,
+  onJumpToSection,
   jumpToSectionMenu,
   currentSection,
   className,
@@ -52,25 +52,38 @@ const Slides = ({
       >
         {!isEmpty(jumpToSectionMenu) ? (
           <div>
-            <Menu>
-              <MenuButton className="inline-flex text-xs items-center hover:text-slate-500">
-                {currentSection}
-                <span>
+            <Select.Root value={currentSection} onValueChange={onJumpToSection}>
+              <Select.Trigger className="inline-flex items-center justify-center leading-none data-[placeholder]:text-slate-600 outline-none text-sm hover:text-slate-600">
+                <Select.Value aria-label={currentSection}>
+                  {currentSection}
+                </Select.Value>
+                <Select.Icon>
                   <FiChevronDown className="ml-1" />
-                </span>
-              </MenuButton>
-              <MenuList className="rounded-md">
-                {jumpToSectionMenu.map((section) => (
-                  <MenuItem
-                    className={styles["menu-item"]}
-                    onSelect={section.onSelect}
-                    key={section.name}
-                  >
-                    {section.name}
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
+                </Select.Icon>
+              </Select.Trigger>
+              <Select.Portal>
+                <Select.Content
+                  position="popper"
+                  sideOffset={6}
+                  className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
+                >
+                  <Select.Viewport className="p-[5px]">
+                    {jumpToSectionMenu.map((section, index) => (
+                      <Select.Item
+                        className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
+                        value={section.name}
+                        key={section.name}
+                      >
+                        <Select.ItemText>{section.name}</Select.ItemText>
+                        <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+                          <FiCheck />
+                        </Select.ItemIndicator>
+                      </Select.Item>
+                    ))}
+                  </Select.Viewport>
+                </Select.Content>
+              </Select.Portal>
+            </Select.Root>
           </div>
         ) : null}
         <div>
