@@ -41,6 +41,15 @@ const Animations = () => {
     }))
     .value();
 
+  const onJumpToSection = (section) => {
+    const slide = _.find(SLIDES, (slide) => {
+      return slide.section === section;
+    });
+    const number = slide?.number || 1;
+
+    setSlide(number);
+  };
+
   return (
     <>
       <InteractiveTutorialContainer>
@@ -50,6 +59,7 @@ const Animations = () => {
           onBack={goToPreviousSlide}
           onNext={goToNextSlide}
           onReset={onReset}
+          onJumpToSection={onJumpToSection}
           jumpToSectionMenu={sections}
           currentSection={SLIDES[slide].section}
           className="lg:w-1/2"

@@ -11,6 +11,7 @@ type CodeParams = {
 };
 export type Slide = {
   section: string;
+  number: number;
   text: React.ReactNode;
   code?: (params: CodeParams) => void;
 };

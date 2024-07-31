@@ -1,15 +1,9 @@
+import React from "react";
 import styles from "./LocalizationSimulation.module.css";
 import { Button, Code, InlineCode, TextContainer } from "../../components";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-} from "@reach/accordion";
-import { Menu, MenuButton, MenuList, MenuItem } from "@reach/menu-button";
-import { FiChevronDown, FiInfo } from "react-icons/fi";
-import "@reach/accordion/styles.css";
-import "@reach/menu-button/styles.css";
+import * as Accordion from "@radix-ui/react-accordion";
+import * as Select from "@radix-ui/react-select";
+import { FiChevronDown, FiInfo, FiCheck } from "react-icons/fi";
 import { LocalizationSlidesProps, PlaygroundValues, Section } from "./types";
 
 export const ActionButton = ({ children, onClick }) => {
@@ -83,15 +77,13 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
           3
         )}`}</Code>
       </div>
-      <Accordion collapsible className="mb-8">
-        <AccordionItem>
-          <div>
-            <AccordionButton className="flex items-center text-xs sm:text-sm text-slate-600 hover:text-slate-800">
-              <FiInfo className="mr-1.5" /> See how the values are used to
-              update beliefs <FiChevronDown className="ml-1" />
-            </AccordionButton>
-          </div>
-          <AccordionPanel className="mt-2 pl-3 border-l-2 border-l-slate-300">
+      <Accordion.Root className="rounded-md mb-8" type="single" collapsible>
+        <Accordion.Item value="item-1">
+          <Accordion.Trigger className="flex items-center text-xs sm:text-sm text-slate-600 hover:text-slate-800">
+            <FiInfo className="mr-1.5" /> See how the values are used to update
+            beliefs <FiChevronDown className="ml-1" />
+          </Accordion.Trigger>
+          <Accordion.Content className="mt-2 pl-3 border-l-2 border-l-slate-300">
             <Code language="jsx" className="text-sm mb-2">
               {`const newBelief = beliefs[i][j] * (isHit * pHit + (1 - isHit) * pMiss);`}
             </Code>
@@ -102,9 +94,9 @@ export const Playground = ({ values }: { values: PlaygroundValues }) => {
               <InlineCode variant="medium">isHit</InlineCode> is either 1 or 0
               depending on whether the sensed color is correct or not.
             </blockquote>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+          </Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
     </>
   );
 };
@@ -137,34 +129,56 @@ const LocalizationSlides = ({
     >
       <div className="flex items-center justify-between text-slate-400 mb-6">
         <div>
-          <Menu>
-            <MenuButton className="inline-flex text-xs items-center hover:text-slate-500">
-              {getSectionName(slide?.section)}{" "}
-              <span>
+          <Select.Root
+            value={slide?.section}
+            onValueChange={(value: Section) => onJumpToSection(value)}
+          >
+            <Select.Trigger className="inline-flex items-center justify-center leading-none data-[placeholder]:text-slate-600 outline-none text-sm hover:text-slate-600">
+              <Select.Value aria-label={getSectionName(slide?.section)}>
+                {getSectionName(slide?.section)}
+              </Select.Value>
+              <Select.Icon>
                 <FiChevronDown className="ml-1" />
-              </span>
-            </MenuButton>
-            <MenuList className="rounded-md">
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("overview")}
+              </Select.Icon>
+            </Select.Trigger>
+            <Select.Portal>
+              <Select.Content
+                position="popper"
+                sideOffset={6}
+                className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
               >
-                Overview
-              </MenuItem>
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("code-explain")}
-              >
-                Code
-              </MenuItem>
-              <MenuItem
-                className={styles["menu-item"]}
-                onSelect={() => onJumpToSection("playground")}
-              >
-                Playground
-              </MenuItem>
-            </MenuList>
-          </Menu>
+                <Select.Viewport className="p-[5px]">
+                  <Select.Item
+                    className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
+                    value="overview"
+                  >
+                    <Select.ItemText>Overview</Select.ItemText>
+                    <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+                      <FiCheck />
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                  <Select.Item
+                    className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
+                    value="code-explain"
+                  >
+                    <Select.ItemText>Code</Select.ItemText>
+                    <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+                      <FiCheck />
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                  <Select.Item
+                    className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
+                    value="playground"
+                  >
+                    <Select.ItemText>Playground</Select.ItemText>
+                    <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+                      <FiCheck />
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                </Select.Viewport>
+              </Select.Content>
+            </Select.Portal>
+          </Select.Root>
         </div>
         <div>
           <Button
