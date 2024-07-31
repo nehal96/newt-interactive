@@ -191,10 +191,13 @@ const GaussianParameterUpdateSlides = ({
       <div className="flex items-center justify-between text-slate-400 mb-6">
         <div>
           <Select.Root
+            value={slide?.section}
             onValueChange={(value: Section) => onJumpToSection(value)}
           >
             <Select.Trigger className="inline-flex items-center justify-center leading-none data-[placeholder]:text-slate-600 outline-none text-sm hover:text-slate-600">
-              <Select.Value placeholder={capitalize(slide?.section)} />
+              <Select.Value aria-label={slide?.section}>
+                {capitalize(slide?.section)}
+              </Select.Value>
               <Select.Icon>
                 <FiChevronDown className="ml-1" />
               </Select.Icon>
