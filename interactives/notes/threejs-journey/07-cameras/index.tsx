@@ -42,6 +42,15 @@ const CamerasSection = () => {
   const currentSection = SLIDES[slide].section;
   const useOrthographic = currentSection.split(" ")[0] === "Orthographic";
 
+  const onJumpToSection = (section) => {
+    const slide = _.find(SLIDES, (slide) => {
+      return slide.section === section;
+    });
+    const number = slide?.number || 1;
+
+    setSlide(number);
+  };
+
   return (
     <InteractiveTutorialContainer>
       <Slides
@@ -50,6 +59,7 @@ const CamerasSection = () => {
         onBack={goToPreviousSlide}
         onNext={goToNextSlide}
         onReset={onReset}
+        onJumpToSection={onJumpToSection}
         jumpToSectionMenu={sections}
         currentSection={currentSection}
         className="lg:w-1/2"
