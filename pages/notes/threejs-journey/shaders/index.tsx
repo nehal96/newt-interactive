@@ -19,14 +19,21 @@ import {
   fragmentGlslFile,
 } from "../../../../interactives/notes/threejs-journey/28-shaders";
 import { useState } from "react";
-import { Menu, MenuButton, MenuItem, MenuList } from "@reach/menu-button";
-import { FiChevronDown } from "react-icons/fi";
-import styles from "./shaders.module.css";
+import * as Select from "@radix-ui/react-select";
+import { FiCheck, FiChevronDown } from "react-icons/fi";
+import _ from "lodash";
 
 const ShadersPage = () => {
   const [selectedShaderPattern, setSelectedShaderPattern] = useState(
     shaderPatterns[0]
   );
+  const onValueChange = (patternName) => {
+    const patternObj = _.find(shaderPatterns, (pattern) => {
+      return patternName === pattern.name;
+    });
+
+    setSelectedShaderPattern(patternObj);
+  };
 
   const files = {
     "/index.html": {
@@ -106,25 +113,39 @@ const ShadersPage = () => {
           }}
         />
         <Subheader className="mt-20">29 &mdash; Shader patterns</Subheader>
-        <Menu>
-          <MenuButton className="p-4 border border-slate-300 rounded-t-md max-w-sm inline-flex text-base items-center mb-4">
-            {selectedShaderPattern.name}
-            <span>
+        <Select.Root
+          value={selectedShaderPattern.name}
+          onValueChange={onValueChange}
+        >
+          <Select.Trigger className="inline-flex leading-none rounded data-[placeholder]:text-slate-600 outline-none text-sm py-1">
+            <Select.Value aria-label={selectedShaderPattern.name}>
+              {selectedShaderPattern.name}
+            </Select.Value>
+            <Select.Icon>
               <FiChevronDown className="ml-1" />
-            </span>
-          </MenuButton>
-          <MenuList className="rounded-b-md w-64">
-            {shaderPatterns.map((pattern) => (
-              <MenuItem
-                className={styles["menu-item"]}
-                key={pattern.name}
-                onSelect={() => setSelectedShaderPattern(pattern)}
-              >
-                {pattern.name}
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
+            </Select.Icon>
+          </Select.Trigger>
+          <Select.Portal>
+            <Select.Content
+              position="popper"
+              className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
+            >
+              <Select.Viewport className="p-[5px]">
+                {shaderPatterns.map((pattern) => (
+                  <Select.Item
+                    className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
+                    value={pattern.name}
+                  >
+                    <Select.ItemText>{pattern.name}</Select.ItemText>
+                    <Select.ItemIndicator className="absolute left-0 w-[25px] inline-flex items-center justify-center">
+                      <FiCheck />
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                ))}
+              </Select.Viewport>
+            </Select.Content>
+          </Select.Portal>
+        </Select.Root>
         <ShaderPatternsCodeSandbox shaderPattern={selectedShaderPattern} />
       </ArticleContainer>
     </>
