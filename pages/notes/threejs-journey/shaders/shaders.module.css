@@ -1,7 +1,0 @@
-.menu-item {
-  @apply text-base;
-}
-
-.menu-item[data-reach-menu-item][data-selected] {
-  @apply bg-indigo-400 text-white;
-}
