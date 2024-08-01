@@ -1,5 +1,6 @@
 import Head from "next/head";
 import "../styles/globals.css";
+import "molstar/lib/mol-plugin-ui/skin/light.scss";
 
 function MyApp({ Component, pageProps }) {
   return (

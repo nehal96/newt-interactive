@@ -1,5 +1,6 @@
 const withTM = require("next-transpile-modules")([
   "@codesandbox/sandpack-react",
+  "molstar",
 ]);
 
 module.exports = withTM({

@@ -1,0 +1,11 @@
+#molstar-container {
+  position: absolute;
+  width: 600px;
+  height: 400px;
+}
+
+
+#molstar-container .msp-plugin {
+  position: absolute;
+  height: 80%;
+}
