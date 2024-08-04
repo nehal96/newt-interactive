@@ -8,6 +8,7 @@ import { createPluginUI } from "molstar/lib/mol-plugin-ui";
 import { renderReact18 } from "molstar/lib/mol-plugin-ui/react18";
 import { PluginUIContext } from "molstar/lib/mol-plugin-ui/context";
 import { PluginConfig } from "molstar/lib/mol-plugin/config";
+import { Structure } from "molstar/lib/mol-model/structure";
 import { ArticleContainer, Navbar } from "../../../components";
 import "./molecule-viewer.module.css";
 
@@ -21,12 +22,12 @@ const mySpec: PluginUISpec = {
   ...DefaultPluginUISpec(),
   config: [
     [PluginConfig.VolumeStreaming.Enabled, false],
-    [PluginConfig.Viewport.ShowExpand, false],
-    [PluginConfig.Viewport.ShowControls, false],
-    [PluginConfig.Viewport.ShowSettings, false],
-    [PluginConfig.Viewport.ShowSelectionMode, false],
-    [PluginConfig.Viewport.ShowTrajectoryControls, false],
-    [PluginConfig.Viewport.ShowAnimation, false],
+    // [PluginConfig.Viewport.ShowExpand, false],
+    // [PluginConfig.Viewport.ShowControls, false],
+    // [PluginConfig.Viewport.ShowSettings, false],
+    // [PluginConfig.Viewport.ShowSelectionMode, false],
+    // [PluginConfig.Viewport.ShowTrajectoryControls, false],
+    // [PluginConfig.Viewport.ShowAnimation, false],
   ],
 };
 
@@ -45,7 +46,7 @@ export function MolStarWrapper() {
 
       const data = await window.molstar.builders.data.download(
         {
-          url: "https://files.rcsb.org/download/3PTB.pdb",
+          url: "https://files.rcsb.org/download/4TNA.pdb",
         } /* replace with your URL */,
         { state: { isGhost: true } }
       );
@@ -57,6 +58,17 @@ export function MolStarWrapper() {
       );
     }
     init();
+
+    // window.molstar?.behaviors.interaction.click.subscribe((event) => {
+    //   const selections = Array.from(
+    //     window.molstar.managers.structure.selection.entries.values()
+    //   );
+
+    //   for (const { structure } of selections) {
+    //     console.log("structure: ", structure);
+    //   }
+    // });
+
     return () => {
       window.molstar?.dispose();
       window.molstar = undefined;
@@ -73,6 +85,22 @@ export function MolStarWrapper() {
 }
 
 const MoleculeViewerPage = () => {
+  const onClick = () => {
+    const ligandData =
+      window.molstar.managers.structure.hierarchy.selection.structures[0]
+        .components[1]?.cell.obj?.data;
+    const ligandLoci = Structure.toStructureElementLoci(ligandData);
+
+    window.molstar.managers.camera.focusLoci(ligandLoci);
+    window.molstar.managers.interactivity.lociSelects.select({
+      loci: ligandLoci,
+    });
+
+    const mol = window.molstar.managers.structure.hierarchy;
+
+    console.log("mol", mol);
+  };
+
   return (
     <>
       <Head>
@@ -104,6 +132,13 @@ const MoleculeViewerPage = () => {
       <Navbar />
       <ArticleContainer>
         <MolStarWrapper />
+        <button
+          onClick={onClick}
+          className="p-2 border-black border-solid border rounded"
+          style={{ position: "absolute", zIndex: 10000, bottom: 10, right: 10 }}
+        >
+          focus
+        </button>
       </ArticleContainer>
     </>
   );
