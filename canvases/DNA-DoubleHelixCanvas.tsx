@@ -42,7 +42,6 @@ const Lights = () => {
 const GeneticsComponent = () => {
   return (
     <Canvas
-      concurrent
       camera={{
         fov: 60,
         near: 0.1,

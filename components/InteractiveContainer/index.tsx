@@ -1,10 +1,12 @@
 import { DetailedHTMLProps, FunctionComponent, HTMLAttributes } from "react";
 
-export const InteractiveTutorialContainer: FunctionComponent = ({
-  children,
-}) => {
+export const InteractiveTutorialContainer: FunctionComponent<
+  DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+> = ({ children, className }) => {
   return (
-    <div className="flex flex-col-reverse w-full my-8 mx-auto justify-center lg:flex-row lg:my-12">
+    <div
+      className={`flex flex-col-reverse w-full my-8 mx-auto justify-center lg:flex-row lg:my-12 ${className}`}
+    >
       {children}
     </div>
   );
