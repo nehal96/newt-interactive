@@ -7,6 +7,7 @@ import {
   NestedInteractiveTextContainer,
   DNA,
   Button,
+  Hemoglobin,
 } from "../../../components";
 import { OrbitControls } from "@react-three/drei";
 import * as Select from "@radix-ui/react-select";
@@ -52,12 +53,13 @@ const HemoglobinStructureTutorial = () => {
             fov: 60,
             near: 0.1,
             far: 1000,
-            position: [30, 30, 100],
+            position: [1, 0.45, 0],
           }}
           className="bg-slate-200/50 rounded-lg backdrop-blur-lg"
         >
           <Suspense fallback={null}>
-            <HemoglobinModel />
+            <Hemoglobin />
+            {/* <HemoglobinModel /> */}
             {/* <gridHelper args={[20, 40, "#334155", "#64748b"]} /> */}
             <spotLight
               ref={spotlight1}

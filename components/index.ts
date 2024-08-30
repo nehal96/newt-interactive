@@ -27,3 +27,5 @@ export { default as Title } from "./Title";
 
 // 3-D Models
 export { DNA } from "./3D-Models";
+export { Hemoglobin } from "./3D-Models";
+
