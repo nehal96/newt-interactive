@@ -53,7 +53,7 @@ const HemoglobinStructureTutorial = () => {
             fov: 60,
             near: 0.1,
             far: 1000,
-            position: [1, 0.45, 0],
+            position: [50, 50, 50],
           }}
           className="bg-slate-200/50 rounded-lg backdrop-blur-lg"
         >
@@ -64,12 +64,32 @@ const HemoglobinStructureTutorial = () => {
             <spotLight
               ref={spotlight1}
               intensity={4}
-              position={[10, 10, 10]}
-              distance={30}
+              position={[40, 40, 40]}
+              distance={60}
               shadow-bias={-0.00005}
               angle={Math.PI / 6}
               shadow-mapSize-width={2048}
               shadow-mapSize-height={2048}
+            />
+            {/* <ambientLight intensity={0.25} /> */}
+            <rectAreaLight
+              intensity={4}
+              position={[40, 40, 40]}
+              width={50}
+              height={50}
+              helper={true}
+            />
+            <rectAreaLight
+              intensity={4}
+              position={[-40, 40, -40]}
+              width={50}
+              height={50}
+            />
+            <rectAreaLight
+              intensity={4}
+              position={[-5, -50, 20]}
+              width={50}
+              height={50}
             />
             <OrbitControls target={new Vector3(0, 0, 0)} />
           </Suspense>

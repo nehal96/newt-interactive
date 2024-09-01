@@ -2,7 +2,9 @@ import { lazy } from "react";
 import { Vector3 } from "three";
 import { useFrame } from "@react-three/fiber";
 
-const HemoglobinModel = lazy(() => import("../../r3f-models/Hemoglobin"));
+// const HemoglobinModel = lazy(() => import("../../r3f-models/Hemoglobin"));
+const HemoglobinModel = lazy(() => import("../../r3f-models/Hemoglobin-pdb"));
+// const HemoglobinModel = lazy(() => import("../../r3f-models/Hemoglobin-pdb-spacefill"));
 
 interface Hemoglobin {
   exploreMode?: Boolean;
