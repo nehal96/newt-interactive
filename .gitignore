@@ -31,8 +31,8 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# 3d models
-/public/*.bin
+# 3D models
+/public/hemoglobin-pdb-spacefill_data.bin
 
 # vercel
 .vercel
