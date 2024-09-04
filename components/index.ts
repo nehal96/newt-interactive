@@ -10,6 +10,11 @@ export {
 export { default as Lede } from "./Lede";
 export { default as MathFormula } from "./MathFormula";
 export { default as Navbar } from "./Navbar";
+export {
+  NestedInteractiveContainer,
+  NestedInteractiveTextContainer,
+  NestedInteractiveCanvasContainer,
+} from "./NestedInteractiveContainer";
 export { default as OrderedList } from "./OrderedList";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover, PopoverContent } from "./Popover";
