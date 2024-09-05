@@ -7,6 +7,7 @@ import {
   Title,
   PostArticleSubscribe,
 } from "../../../components";
+import { TranscriptionNetworkTutorial } from "../../../interactives/transcription-networks";
 
 const TranscriptionNetworkPage = () => {
   return (
@@ -43,6 +44,7 @@ const TranscriptionNetworkPage = () => {
           expression in cells. They consist of transcription factors (TFs) that
           bind to DNA and control the transcription of genes.
         </Paragraph>
+        <TranscriptionNetworkTutorial />
         <PostArticleSubscribe />
       </ArticleContainer>
     </>
