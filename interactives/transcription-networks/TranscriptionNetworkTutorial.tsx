@@ -1,6 +1,11 @@
 import { useState } from "react";
-import { MathFormula, SlideDeck } from "../../components";
-import { VictoryChart, VictoryLine, VictoryAxis } from "victory";
+import {
+  ChartXAxis,
+  ChartYAxis,
+  MathFormula,
+  SlideDeck,
+} from "../../components";
+import { VictoryChart, VictoryLine } from "victory";
 
 const getActivatorHillFunctionData = (
   beta = 10,
@@ -138,30 +143,9 @@ const TranscriptionNetworkTutorial = () => {
         </>
       ),
       interactive: (
-        <VictoryChart domain={{ x: [0, 20], y: [0, 20] }}>
-          <VictoryAxis
-            crossAxis
-            domain={[0, 20]}
-            standalone={false}
-            style={{
-              axis: { stroke: "#090a0b" },
-              axisLabel: { padding: 30 },
-              tickLabels: { fontSize: 14, fill: "#334155" },
-              ticks: { stroke: "#94a3b8", size: 4 },
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            crossAxis
-            domain={[0, 20]}
-            style={{
-              axis: { stroke: "#94a3b8" },
-              axisLabel: { padding: 30 },
-              tickLabels: { fontSize: 14, fill: "#334155" },
-              ticks: { stroke: "#94a3b8", size: 4 },
-            }}
-            standalone={false}
-          />
+        <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
+          <ChartXAxis standalone={false} />
+          <ChartYAxis standalone={false} />
           <VictoryLine
             style={{
               data: { stroke: "#c43a31" },
@@ -239,29 +223,8 @@ const TranscriptionNetworkTutorial = () => {
       ),
       interactive: (
         <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
-          <VictoryAxis
-            crossAxis
-            domain={[0, 22]}
-            standalone={false}
-            style={{
-              axis: { stroke: "#090a0b" },
-              axisLabel: { padding: 30 },
-              tickLabels: { fontSize: 14, fill: "#334155" },
-              ticks: { stroke: "#94a3b8", size: 4 },
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            crossAxis
-            domain={[0, 22]}
-            style={{
-              axis: { stroke: "#94a3b8" },
-              axisLabel: { padding: 30 },
-              tickLabels: { fontSize: 14, fill: "#334155" },
-              ticks: { stroke: "#94a3b8", size: 4 },
-            }}
-            standalone={false}
-          />
+          <ChartXAxis standalone={false} />
+          <ChartYAxis standalone={false} />
           <VictoryLine
             style={{
               data: { stroke: "#3b82f6" },

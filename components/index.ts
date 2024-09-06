@@ -1,5 +1,6 @@
 export { default as ArticleContainer } from "./ArticleContainer";
 export { default as Button } from "./Button";
+export { ChartXAxis, ChartYAxis } from "./Chart";
 export { Code, InlineCode } from "./Code";
 export { default as Footer } from "./Footer";
 export {
