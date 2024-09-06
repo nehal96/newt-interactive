@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { MathFormula, SlideDeck } from "../../components";
-import { VictoryChart, VictoryLine, VictoryAxis, VictoryTheme } from "victory";
+import { VictoryChart, VictoryLine, VictoryAxis } from "victory";
 
-const getHillFunctionData = (
+const getActivatorHillFunctionData = (
   beta = 10,
   K = 1,
   n = 1,
@@ -11,12 +11,33 @@ const getHillFunctionData = (
 ) => {
   const data = [];
 
-  const hillFunction = (x) => {
+  const activatorHillFunction = (x) => {
     return (beta * x ** n) / (K ** n + x ** n);
   };
 
   for (let x = domainMin; x <= domainMax; x++) {
-    const y = hillFunction(x);
+    const y = activatorHillFunction(x);
+    data.push({ x, y });
+  }
+
+  return data;
+};
+
+const getRepressorHillFunctionData = (
+  beta = 10,
+  K = 1,
+  n = 1,
+  domainMin = 0,
+  domainMax = 20
+) => {
+  const data = [];
+
+  const repressorHillFunction = (x) => {
+    return (beta * K ** n) / (K ** n + x ** n);
+  };
+
+  for (let x = domainMin; x <= domainMax; x++) {
+    const y = repressorHillFunction(x);
     data.push({ x, y });
   }
 
@@ -24,14 +45,31 @@ const getHillFunctionData = (
 };
 
 const TranscriptionNetworkTutorial = () => {
-  const [beta, setBeta] = useState(10);
-  const [K, setK] = useState(1);
-  const [n, setN] = useState(1);
+  const [activatorBeta, setActivatorBeta] = useState(10);
+  const [activatorK, setActivatorK] = useState(1);
+  const [activatorN, setActivatorN] = useState(1);
+  const [repressorBeta, setRepressorBeta] = useState(10);
+  const [repressorK, setRepressorK] = useState(1);
+  const [repressorN, setRepressorN] = useState(1);
 
-  const hillFunctionData = getHillFunctionData(beta, K, n, 0, 20);
+  const activatorHillFunctionData = getActivatorHillFunctionData(
+    activatorBeta,
+    activatorK,
+    activatorN,
+    0,
+    20
+  );
+  const repressorHillFunctionData = getRepressorHillFunctionData(
+    repressorBeta,
+    repressorK,
+    repressorN,
+    0,
+    20
+  );
 
   const slides = [
     {
+      section: "Functions",
       text: (
         <>
           <div>
@@ -53,7 +91,7 @@ const TranscriptionNetworkTutorial = () => {
           <div>
             <div className="mt-4">
               <label htmlFor="beta-slider" className="font-medium block">
-                <MathFormula tex="\beta" />: {beta}
+                <MathFormula tex="\beta" />: {activatorBeta}
               </label>
               <input
                 type="range"
@@ -61,14 +99,14 @@ const TranscriptionNetworkTutorial = () => {
                 min="0"
                 max="20"
                 step="0.1"
-                value={beta}
-                onChange={(e) => setBeta(parseFloat(e.target.value))}
+                value={activatorBeta}
+                onChange={(e) => setActivatorBeta(parseFloat(e.target.value))}
                 className="w-11/12 flex-auto cursor-pointer"
               />
             </div>
             <div className="mt-4">
               <label htmlFor="K-slider" className="font-medium block">
-                <MathFormula tex="K" />: {K}
+                <MathFormula tex="K" />: {activatorK}
               </label>
               <input
                 type="range"
@@ -76,14 +114,14 @@ const TranscriptionNetworkTutorial = () => {
                 min="0.1"
                 max="10"
                 step="0.1"
-                value={K}
-                onChange={(e) => setK(parseFloat(e.target.value))}
+                value={activatorK}
+                onChange={(e) => setActivatorK(parseFloat(e.target.value))}
                 className="w-11/12 flex-auto cursor-pointer"
               />
             </div>
             <div className="mt-4">
               <label htmlFor="n-slider" className="font-medium block">
-                <MathFormula tex="n" />: {n}
+                <MathFormula tex="n" />: {activatorN}
               </label>
               <input
                 type="range"
@@ -91,8 +129,8 @@ const TranscriptionNetworkTutorial = () => {
                 min="0.1"
                 max="4"
                 step="0.1"
-                value={n}
-                onChange={(e) => setN(parseFloat(e.target.value))}
+                value={activatorN}
+                onChange={(e) => setActivatorN(parseFloat(e.target.value))}
                 className="w-11/12 flex-auto cursor-pointer"
               />
             </div>
@@ -116,7 +154,6 @@ const TranscriptionNetworkTutorial = () => {
             dependentAxis
             crossAxis
             domain={[0, 20]}
-            theme={VictoryTheme.material}
             style={{
               axis: { stroke: "#94a3b8" },
               axisLabel: { padding: 30 },
@@ -130,7 +167,107 @@ const TranscriptionNetworkTutorial = () => {
               data: { stroke: "#c43a31" },
               parent: { border: "1px solid #ccc" },
             }}
-            data={hillFunctionData}
+            data={activatorHillFunctionData}
+            interpolation="basis"
+          />
+        </VictoryChart>
+      ),
+    },
+    {
+      section: "Functions",
+      text: (
+        <>
+          <p className="mb-4">
+            Now let's look at the Hill function for a repressor. The equation
+            for a repressor is:
+          </p>
+          <div className="flex items-center justify-center">
+            <MathFormula tex="f(X^*) = \beta \frac{K^n}{K^n + X^{*n}}" />
+          </div>
+          <p className="my-4">
+            Adjust the sliders to see how the parameters affect the repressor
+            function:
+          </p>
+          <div>
+            <div className="mt-4">
+              <label htmlFor="beta-slider" className="font-medium block">
+                <MathFormula tex="\beta" />: {repressorBeta}
+              </label>
+              <input
+                type="range"
+                id="beta-slider"
+                min="0"
+                max="20"
+                step="0.1"
+                value={repressorBeta}
+                onChange={(e) => setRepressorBeta(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="K-slider" className="font-medium block">
+                <MathFormula tex="K" />: {repressorK}
+              </label>
+              <input
+                type="range"
+                id="K-slider"
+                min="0.1"
+                max="10"
+                step="0.1"
+                value={repressorK}
+                onChange={(e) => setRepressorK(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="n-slider" className="font-medium block">
+                <MathFormula tex="n" />: {repressorN}
+              </label>
+              <input
+                type="range"
+                id="n-slider"
+                min="0.1"
+                max="4"
+                step="0.1"
+                value={repressorN}
+                onChange={(e) => setRepressorN(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+          </div>
+        </>
+      ),
+      interactive: (
+        <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
+          <VictoryAxis
+            crossAxis
+            domain={[0, 22]}
+            standalone={false}
+            style={{
+              axis: { stroke: "#090a0b" },
+              axisLabel: { padding: 30 },
+              tickLabels: { fontSize: 14, fill: "#334155" },
+              ticks: { stroke: "#94a3b8", size: 4 },
+            }}
+          />
+          <VictoryAxis
+            dependentAxis
+            crossAxis
+            domain={[0, 22]}
+            style={{
+              axis: { stroke: "#94a3b8" },
+              axisLabel: { padding: 30 },
+              tickLabels: { fontSize: 14, fill: "#334155" },
+              ticks: { stroke: "#94a3b8", size: 4 },
+            }}
+            standalone={false}
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#3b82f6" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={repressorHillFunctionData}
             interpolation="basis"
           />
         </VictoryChart>
