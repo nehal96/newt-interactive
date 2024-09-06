@@ -100,24 +100,22 @@ const SlideDeck = ({ slides }) => {
         />
         {slides[slideIndex].text}
         <div className="flex justify-center mt-6">
-          {slideIndex > 0 ? (
-            <Button
-              variant="secondary"
-              className="mr-2 px-4"
-              onClick={goToPreviousSlide}
-            >
-              Back
-            </Button>
-          ) : null}
-          {slideIndex < totalSlides - 1 ? (
-            <Button
-              variant="secondary"
-              className="ml-2 px-4"
-              onClick={goToNextSlide}
-            >
-              Next
-            </Button>
-          ) : null}
+          <Button
+            variant="secondary"
+            disabled={slideIndex === 0}
+            className="mr-2 px-4"
+            onClick={goToPreviousSlide}
+          >
+            Back
+          </Button>
+          <Button
+            variant="secondary"
+            disabled={slideIndex === totalSlides - 1}
+            className="ml-2 px-4"
+            onClick={goToNextSlide}
+          >
+            Next
+          </Button>
         </div>
       </NestedInteractiveTextContainer>
       <NestedInteractiveCanvasContainer className="bg-white">

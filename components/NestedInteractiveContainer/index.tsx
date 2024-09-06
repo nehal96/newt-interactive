@@ -5,7 +5,7 @@ export const NestedInteractiveContainer: FunctionComponent<
 > = ({ children, className }) => {
   return (
     <div
-      className={`flex flex-col-reverse w-full my-8 mx-auto justify-center lg:flex-row lg:my-12 bg-slate-100/60 backdrop-blur-3xl rounded-lg shadow-lg p-6 lg:p-8 ${className}`}
+      className={`flex flex-col-reverse w-full min-w-[350px] my-8 mx-auto justify-center lg:flex-row lg:my-12 bg-slate-100/60 backdrop-blur-3xl rounded-lg shadow-lg p-6 lg:p-8 ${className}`}
     >
       {children}
     </div>
