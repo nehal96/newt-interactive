@@ -6,6 +6,8 @@ import {
   SlideDeck,
 } from "../../components";
 import { VictoryChart, VictoryLine } from "victory";
+import { ReactFlow, Controls, Background } from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
 
 const getActivatorHillFunctionData = (
   beta = 10,
@@ -71,6 +73,23 @@ const TranscriptionNetworkTutorial = () => {
     0,
     20
   );
+
+  const nodes = [
+    {
+      id: "1",
+      type: "input",
+      position: { x: 0, y: 0 },
+      data: { label: "1" },
+    },
+    {
+      id: "2",
+      type: "output",
+      position: { x: 200, y: 0 },
+      data: { label: "2" },
+    },
+  ];
+
+  const edges = [{ id: "1->2", source: "1", target: "2" }];
 
   const slides = [
     {
@@ -234,6 +253,18 @@ const TranscriptionNetworkTutorial = () => {
             interpolation="basis"
           />
         </VictoryChart>
+      ),
+    },
+    {
+      section: "Network",
+      text: "network diagram experiment",
+      interactive: (
+        <div style={{ height: 400 }}>
+          <ReactFlow nodes={nodes} edges={edges}>
+            <Background />
+            <Controls />
+          </ReactFlow>
+        </div>
       ),
     },
   ];
