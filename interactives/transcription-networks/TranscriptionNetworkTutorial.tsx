@@ -6,7 +6,15 @@ import {
   SlideDeck,
 } from "../../components";
 import { VictoryChart, VictoryLine } from "victory";
-import { ReactFlow, Controls, Background } from "@xyflow/react";
+import {
+  ReactFlow,
+  Controls,
+  Background,
+  Node,
+  Handle,
+  Position,
+  MarkerType,
+} from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 const getActivatorHillFunctionData = (
@@ -51,6 +59,33 @@ const getRepressorHillFunctionData = (
   return data;
 };
 
+// Update the CircleNode component
+const CircleNode = ({ data, isConnectable }) => (
+  <div
+    style={{
+      width: 25,
+      height: 25,
+      border: "1px solid #020617",
+      borderRadius: "50%",
+      backgroundColor: data.color || "#cbd5e1",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <Handle
+      type="target"
+      position={Position.Top}
+      isConnectable={isConnectable}
+    />
+    <Handle
+      type="source"
+      position={Position.Bottom}
+      isConnectable={isConnectable}
+    />
+  </div>
+);
+
 const TranscriptionNetworkTutorial = () => {
   const [activatorBeta, setActivatorBeta] = useState(10);
   const [activatorK, setActivatorK] = useState(1);
@@ -74,22 +109,49 @@ const TranscriptionNetworkTutorial = () => {
     20
   );
 
-  const nodes = [
+  const nodeTypes = {
+    circle: CircleNode,
+  };
+
+  const nodes: Node[] = [
     {
       id: "1",
-      type: "input",
-      position: { x: 0, y: 0 },
-      data: { label: "1" },
+      type: "circle",
+      position: { x: 250, y: 20 },
+      data: {
+        color: "#020617",
+      },
     },
     {
       id: "2",
-      type: "output",
-      position: { x: 200, y: 0 },
-      data: { label: "2" },
+      type: "circle",
+      position: { x: 120, y: 150 },
+      data: {
+        color: "#020617",
+      },
+    },
+    {
+      id: "3",
+      type: "circle",
+      position: { x: 380, y: 150 },
+      data: {
+        color: "#fafafa",
+      },
     },
   ];
 
-  const edges = [{ id: "1->2", source: "1", target: "2" }];
+  const edges = [
+    {
+      id: "1->2",
+      source: "1",
+      target: "2",
+    },
+    {
+      id: "1->3",
+      source: "1",
+      target: "3",
+    },
+  ];
 
   const slides = [
     {
@@ -260,7 +322,24 @@ const TranscriptionNetworkTutorial = () => {
       text: "network diagram experiment",
       interactive: (
         <div style={{ height: 400 }}>
-          <ReactFlow nodes={nodes} edges={edges}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            defaultEdgeOptions={{
+              type: "default",
+              markerEnd: {
+                type: MarkerType.ArrowClosed,
+                width: 12,
+                height: 12,
+                color: "#020617",
+              },
+              style: {
+                strokeWidth: 2,
+                stroke: "#020617",
+              },
+            }}
+          >
             <Background />
             <Controls />
           </ReactFlow>
