@@ -22,7 +22,7 @@ export default function useSlides(slides) {
       .value();
 
   const onJumpToSection = (section) => {
-    const sectionIndex = slides.indexOf(section);
+    const sectionIndex = _.findIndex(slides, { section });
     setSlideIndex(sectionIndex);
   };
 

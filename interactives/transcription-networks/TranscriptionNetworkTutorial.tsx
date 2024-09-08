@@ -77,11 +77,17 @@ const CircleNode = ({ data, isConnectable }) => (
       type="target"
       position={Position.Top}
       isConnectable={isConnectable}
+      style={{
+        visibility: "hidden",
+      }}
     />
     <Handle
       type="source"
       position={Position.Bottom}
       isConnectable={isConnectable}
+      style={{
+        visibility: "hidden",
+      }}
     />
   </div>
 );
