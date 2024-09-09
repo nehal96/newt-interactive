@@ -410,6 +410,76 @@ const TranscriptionNetworkTutorial = () => {
       ),
     },
     {
+      section: "Functions",
+      text: (
+        <>
+          <p className="mb-4">
+            Now let's look at the logical approximation function for a
+            repressor:
+          </p>
+          <div className="flex items-center justify-center mb-4">
+            <MathFormula tex="f(X^*) = \beta \theta(X^* < K)" />
+          </div>
+        </>
+      ),
+      interactive: (
+        <VictoryChart
+          domain={{ x: [0, 20], y: [0, 22] }}
+          domainPadding={{ x: 40 }}
+        >
+          <ChartXAxis standalone={false} label="Repressor concentration (X*)" />
+          <ChartYAxis standalone={false} label="Promoter activity" />
+          <VictoryLine
+            style={{
+              data: { stroke: "#cbd5e1" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getRepressorHillFunctionData(20, 10, 1)}
+            interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 1" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+            }
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#cbd5e1" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getRepressorHillFunctionData(20, 10, 2)}
+            interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 2" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+            }
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#cbd5e1" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getRepressorHillFunctionData(20, 10, 4)}
+            interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 4" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+            }
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#3b82f6", strokeWidth: 2 },
+            }}
+            data={[
+              { x: 0, y: 20 },
+              { x: 10, y: 20 },
+              { x: 10, y: 0.1 },
+              { x: 20, y: 0.1 },
+            ]}
+          />
+        </VictoryChart>
+      ),
+    },
+    {
       section: "Network",
       text: "network diagram experiment",
       interactive: (
