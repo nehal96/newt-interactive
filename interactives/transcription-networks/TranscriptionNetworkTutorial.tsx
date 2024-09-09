@@ -5,7 +5,7 @@ import {
   MathFormula,
   SlideDeck,
 } from "../../components";
-import { VictoryChart, VictoryLine } from "victory";
+import { VictoryChart, VictoryLabel, VictoryLine } from "victory";
 import {
   ReactFlow,
   Controls,
@@ -57,6 +57,15 @@ const getRepressorHillFunctionData = (
   }
 
   return data;
+};
+
+const getActivatorStepFunctionData = (beta = 20, K = 10) => {
+  return [
+    { x: 0, y: 0.1 },
+    { x: K, y: 0.1 },
+    { x: K, y: beta },
+    { x: 20, y: beta },
+  ];
 };
 
 // Update the CircleNode component
@@ -231,8 +240,8 @@ const TranscriptionNetworkTutorial = () => {
       ),
       interactive: (
         <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
-          <ChartXAxis standalone={false} />
-          <ChartYAxis standalone={false} />
+          <ChartXAxis standalone={false} label="Activator concentration (X*)" />
+          <ChartYAxis standalone={false} label="Promoter activity" />
           <VictoryLine
             style={{
               data: { stroke: "#c43a31" },
@@ -310,8 +319,8 @@ const TranscriptionNetworkTutorial = () => {
       ),
       interactive: (
         <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
-          <ChartXAxis standalone={false} />
-          <ChartYAxis standalone={false} />
+          <ChartXAxis standalone={false} label="Repressor concentration (X*)" />
+          <ChartYAxis standalone={false} label="Promoter activity" />
           <VictoryLine
             style={{
               data: { stroke: "#3b82f6" },
@@ -319,6 +328,83 @@ const TranscriptionNetworkTutorial = () => {
             }}
             data={repressorHillFunctionData}
             interpolation="basis"
+          />
+        </VictoryChart>
+      ),
+    },
+    {
+      section: "Functions",
+      text: (
+        <>
+          <p className="mb-4">
+            Sometimes, rather than using full mathematical functions, its easier
+            to use simpler functions that approximate the essential behaviors.
+          </p>
+          <p className="mb-4">
+            Hill functions describe a transition from high to low, or low to
+            high -- we can approximate that transition with a step function.
+            Essentially, a jump from high to low, or low to high rather than a
+            smooth ascent or descent.
+          </p>
+          <p className="mb-4">
+            For activators, the logic input function can be described using a
+            step-function <MathFormula tex="\theta(X^* > K)" /> that makes a
+            step when <MathFormula tex="X^*" />
+            exceeds the threshold <MathFormula tex="K" />:
+          </p>
+          <div className="flex items-center justify-center">
+            <MathFormula tex="f(X^*) = \beta \theta(X^* > K)" />
+          </div>
+        </>
+      ),
+      interactive: (
+        <VictoryChart
+          domain={{ x: [0, 20], y: [0, 22] }}
+          domainPadding={{ x: 40 }}
+        >
+          <ChartXAxis standalone={false} label="Activator concentration (X*)" />
+          <ChartYAxis standalone={false} label="Promoter activity" />
+          <VictoryLine
+            style={{
+              data: { stroke: "#cbd5e1" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getActivatorHillFunctionData(20, 10, 1)}
+            interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 1" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+            }
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#cbd5e1" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getActivatorHillFunctionData(20, 10, 2)}
+            interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 2" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+            }
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#cbd5e1" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getActivatorHillFunctionData(20, 10, 4)}
+            interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 4" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+            }
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#c43a31", strokeWidth: 2 },
+            }}
+            data={getActivatorStepFunctionData()}
           />
         </VictoryChart>
       ),
