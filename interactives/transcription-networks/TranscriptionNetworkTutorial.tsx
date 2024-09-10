@@ -222,22 +222,78 @@ const TranscriptionNetworkTutorial = () => {
       section: "Functions",
       text: (
         <>
-          <div>
-            This graph shows the Hill function for an activator:
-            <div className="my-4 flex items-center justify-center">
-              <MathFormula tex="f(X^*) = \beta \frac{X^{*n}}{K^n + X^{*n}}" />
-            </div>
-            where:
-            <br />
-            <MathFormula tex="\beta" /> is the maximal promoter activity
-            <br />
-            <MathFormula tex="K" /> is the activation coefficient
-            <br />
-            <MathFormula tex="n" /> is the Hill coefficient
-            <br />
-            <MathFormula tex="X^*" /> is the concentration of transcription
-            factor in its active form
+          <p className="mb-4">
+            The Hill function for an activator is described by:
+          </p>
+          <div className="mb-6 flex items-center justify-center">
+            <MathFormula tex="f(X^*) = \beta \frac{X^{*n}}{K^n + X^{*n}}" />
           </div>
+          <div className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-3 mb-4">
+            <div className="w-10">
+              <MathFormula tex="X^*" />
+            </div>
+            <div>
+              is the concentration of the transcription factor in its active
+              form
+            </div>
+            <div className="w-10">
+              <MathFormula tex="\beta" />
+            </div>
+            <div>
+              is the{" "}
+              <span className="font-bold">maximal promoter activity</span>, the
+              maximum rate of production of <MathFormula tex="Y" />
+            </div>
+            <div className="w-10">
+              <MathFormula tex="K" />
+            </div>
+            <div>
+              is the <span className="font-bold">activation coefficient</span>
+              , the concentration of <MathFormula tex="X^*" /> needed to
+              activate expression
+            </div>
+            <div className="w-10">
+              <MathFormula tex="n" />
+            </div>
+            <div>
+              is the <span className="font-bold">Hill coefficient</span>, which
+              determines the steepness of the curve
+            </div>
+          </div>
+          <p className="mb-4">
+            Maximal promoter activity is achieved at high activator
+            concentrations because the activator is more likely to bind to the
+            promoter and enable RNAp to produce mRNA.
+          </p>
+          <p className="mb-4">
+            On the next slide, you can adjust the parameters of the Hill
+            function to see how they affect the curve.
+          </p>
+        </>
+      ),
+      interactive: (
+        <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
+          <ChartXAxis standalone={false} label="Activator concentration (X*)" />
+          <ChartYAxis standalone={false} label="Promoter activity" />
+          <VictoryLine
+            style={{
+              data: { stroke: "#c43a31" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={activatorHillFunctionData}
+            interpolation="basis"
+          />
+        </VictoryChart>
+      ),
+    },
+    {
+      section: "Functions",
+      text: (
+        <>
+          <p className="mb-4">
+            Adjust the sliders to see how the parameters affect the activator
+            function:
+          </p>
           <div>
             <div className="mt-4">
               <label htmlFor="beta-slider" className="font-medium block">
