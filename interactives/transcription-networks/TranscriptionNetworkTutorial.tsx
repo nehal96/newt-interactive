@@ -16,59 +16,13 @@ import {
   MarkerType,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import Image from "next/image";
+import {
+  getActivatorHillFunctionData,
+  getRepressorHillFunctionData,
+  getActivatorStepFunctionData,
+} from "./helpers";
 
-const getActivatorHillFunctionData = (
-  beta = 10,
-  K = 1,
-  n = 1,
-  domainMin = 0,
-  domainMax = 20
-) => {
-  const data = [];
-
-  const activatorHillFunction = (x) => {
-    return (beta * x ** n) / (K ** n + x ** n);
-  };
-
-  for (let x = domainMin; x <= domainMax; x++) {
-    const y = activatorHillFunction(x);
-    data.push({ x, y });
-  }
-
-  return data;
-};
-
-const getRepressorHillFunctionData = (
-  beta = 10,
-  K = 1,
-  n = 1,
-  domainMin = 0,
-  domainMax = 20
-) => {
-  const data = [];
-
-  const repressorHillFunction = (x) => {
-    return (beta * K ** n) / (K ** n + x ** n);
-  };
-
-  for (let x = domainMin; x <= domainMax; x++) {
-    const y = repressorHillFunction(x);
-    data.push({ x, y });
-  }
-
-  return data;
-};
-
-const getActivatorStepFunctionData = (beta = 20, K = 10) => {
-  return [
-    { x: 0, y: 0.1 },
-    { x: K, y: 0.1 },
-    { x: K, y: beta },
-    { x: 20, y: beta },
-  ];
-};
-
-// Update the CircleNode component
 const CircleNode = ({ data, isConnectable }) => (
   <div
     style={{
@@ -102,10 +56,10 @@ const CircleNode = ({ data, isConnectable }) => (
 );
 
 const TranscriptionNetworkTutorial = () => {
-  const [activatorBeta, setActivatorBeta] = useState(10);
+  const [activatorBeta, setActivatorBeta] = useState(20);
   const [activatorK, setActivatorK] = useState(1);
   const [activatorN, setActivatorN] = useState(1);
-  const [repressorBeta, setRepressorBeta] = useState(10);
+  const [repressorBeta, setRepressorBeta] = useState(20);
   const [repressorK, setRepressorK] = useState(1);
   const [repressorN, setRepressorN] = useState(1);
 
@@ -169,6 +123,53 @@ const TranscriptionNetworkTutorial = () => {
   ];
 
   const slides = [
+    {
+      section: "Network",
+      text: (
+        <>
+          <p>example transcription network diagram</p>
+        </>
+      ),
+      interactive: (
+        <div className="flex justify-center py-4">
+          <Image
+            src="/images/transcription-network-systems-biology.png"
+            alt="Transcription Network"
+            width={500}
+            height={500}
+          />
+        </div>
+      ),
+    },
+    {
+      section: "Network",
+      text: "network diagram, closer look",
+      interactive: (
+        <div style={{ height: 400 }}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            defaultEdgeOptions={{
+              type: "default",
+              markerEnd: {
+                type: MarkerType.ArrowClosed,
+                width: 12,
+                height: 12,
+                color: "#020617",
+              },
+              style: {
+                strokeWidth: 2,
+                stroke: "#020617",
+              },
+            }}
+          >
+            <Background />
+            <Controls />
+          </ReactFlow>
+        </div>
+      ),
+    },
     {
       section: "Functions",
       text: (
@@ -477,35 +478,6 @@ const TranscriptionNetworkTutorial = () => {
             ]}
           />
         </VictoryChart>
-      ),
-    },
-    {
-      section: "Network",
-      text: "network diagram experiment",
-      interactive: (
-        <div style={{ height: 400 }}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            nodeTypes={nodeTypes}
-            defaultEdgeOptions={{
-              type: "default",
-              markerEnd: {
-                type: MarkerType.ArrowClosed,
-                width: 12,
-                height: 12,
-                color: "#020617",
-              },
-              style: {
-                strokeWidth: 2,
-                stroke: "#020617",
-              },
-            }}
-          >
-            <Background />
-            <Controls />
-          </ReactFlow>
-        </div>
       ),
     },
   ];
