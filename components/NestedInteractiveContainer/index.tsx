@@ -16,7 +16,7 @@ export const NestedInteractiveTextContainer: FunctionComponent<
   DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 > = ({ children, className }) => {
   return (
-    <div className={`w-full mt-8 pr-4 lg:mt-0 lg:w-1/2 ${className}`}>
+    <div className={`w-full mt-8 pr-5 lg:mt-0 lg:w-1/2 ${className}`}>
       {children}
     </div>
   );

@@ -175,6 +175,54 @@ const TranscriptionNetworkTutorial = () => {
       text: (
         <>
           <div>
+            <p className="mb-4">
+              The arrows not only have signs, but also numbers that determine
+              the <span className="font-bold">strength</span> of the
+              interaction. The strength of the effect of a transcription factor
+              on a target gene is described by an input function.
+            </p>
+            <p className="mb-4">
+              This input function describes the relationship between the
+              concentration of a transcription factor in its active form,{" "}
+              <MathFormula tex="X^*" />, and the rate of production of the
+              protein that it regulates, <MathFormula tex="Y" />
+            </p>
+            <div className="mb-6 flex items-center justify-center">
+              <MathFormula tex="\text{rate of production of } Y = f(X^*)" />
+            </div>
+            <p className="mb-4">
+              When X is an activator, it is an increasing function, and when X
+              is a repressor, it is a decreasing function.
+            </p>
+            <p className="mb-4">
+              A function that realistically describes many gene interactions is
+              called the <span className="font-bold">Hill Function</span>. The
+              chart on the right shows a Hill function for an activator, and is
+              explained more in the next slide.
+            </p>
+          </div>
+        </>
+      ),
+      interactive: (
+        <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
+          <ChartXAxis standalone={false} label="Activator concentration (X*)" />
+          <ChartYAxis standalone={false} label="Promoter activity" />
+          <VictoryLine
+            style={{
+              data: { stroke: "#c43a31" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={activatorHillFunctionData}
+            interpolation="basis"
+          />
+        </VictoryChart>
+      ),
+    },
+    {
+      section: "Functions",
+      text: (
+        <>
+          <div>
             This graph shows the Hill function for an activator:
             <div className="my-4 flex items-center justify-center">
               <MathFormula tex="f(X^*) = \beta \frac{X^{*n}}{K^n + X^{*n}}" />
