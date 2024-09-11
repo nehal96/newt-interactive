@@ -212,7 +212,7 @@ const TranscriptionNetworkTutorial = () => {
               data: { stroke: "#c43a31" },
               parent: { border: "1px solid #ccc" },
             }}
-            data={activatorHillFunctionData}
+            data={getActivatorHillFunctionData(20, 5, 1)}
             interpolation="basis"
           />
         </VictoryChart>
@@ -272,16 +272,47 @@ const TranscriptionNetworkTutorial = () => {
         </>
       ),
       interactive: (
-        <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
+        <VictoryChart
+          domain={{ x: [0, 20], y: [0, 22] }}
+          domainPadding={{ x: 40 }}
+        >
           <ChartXAxis standalone={false} label="Activator concentration (X*)" />
           <ChartYAxis standalone={false} label="Promoter activity" />
+          <VictoryLine
+            style={{
+              data: { stroke: "#cbd5e1" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getActivatorHillFunctionData(20, 5, 2)}
+            interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 2" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+            }
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#cbd5e1" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getActivatorHillFunctionData(20, 5, 4)}
+            interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 4" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+            }
+          />
           <VictoryLine
             style={{
               data: { stroke: "#c43a31" },
               parent: { border: "1px solid #ccc" },
             }}
-            data={activatorHillFunctionData}
+            data={getActivatorHillFunctionData(20, 5, 1)}
             interpolation="basis"
+            labels={({ datum }) => (datum.x === 20 ? "n = 1" : "")}
+            labelComponent={
+              <VictoryLabel dx={18} dy={5} style={{ fill: "#334155" }} />
+            }
           />
         </VictoryChart>
       ),
