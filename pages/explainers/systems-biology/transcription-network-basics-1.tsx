@@ -6,6 +6,7 @@ import {
   Paragraph,
   Title,
   PostArticleSubscribe,
+  MathFormula,
 } from "../../../components";
 import Image from "next/image";
 import { useState } from "react";
@@ -20,12 +21,22 @@ const TranscriptionNetworkBasicsPartOne = () => {
       alt: "Gene Expression Diagram 3",
       width: 870,
       height: 428,
+      caption: (
+        <div>
+          Here the signal <MathFormula tex={"S_x"} /> transforms{" "}
+          <MathFormula tex={"X"} /> into its active state,{" "}
+          <MathFormula tex={"X^*"} />. <MathFormula tex={"X^*"} /> then binds to
+          its binding site, which enables gene expression for protein{" "}
+          <MathFormula tex={"Y"} />.
+        </div>
+      ),
     },
     {
       src: "/images/gene-expression-diagram-full.svg",
       alt: "Full Gene Expression Diagram",
       width: 870,
       height: 454,
+      caption: <div className="mb-5">And here's the fully labeled diagram</div>,
     },
   ];
 
@@ -106,15 +117,15 @@ const TranscriptionNetworkBasicsPartOne = () => {
           or mRNA for short. This process is called{" "}
           <strong>transcription</strong>. The mRNA is transported to the
           ribosome, the cell's molecular factory, where it is used to synthesize
-          &mdash; amino acid by amino acid &mdash; the new protein. This process
-          is called <strong>translation</strong>. The newly minted protein is
+          &mdash; amino acid by amino acid &mdash; the new protein, in a process
+          known as <strong>translation</strong>. The newly minted protein is
           then transported, either inside or outside the cell, where it can
           begin its job.
         </Paragraph>
         <Paragraph>
           We can update our diagram to include some of these details:
         </Paragraph>
-        <div className="flex justify-center mt-4 mb-12">
+        <div className="flex flex-col justify-center mt-4 mb-12">
           <div className="max-w-[500px] w-full mx-auto">
             <Image
               src="/images/gene-expression-diagram-2.svg"
@@ -123,6 +134,10 @@ const TranscriptionNetworkBasicsPartOne = () => {
               width={745}
               height={323}
             />
+          </div>
+          <div className="max-w-[550px] w-full mx-auto text-center my-2 text-xs text-gray-500">
+            The horizontal line represents DNA. Gene Y labels the portion of DNA
+            that encodes the gene for protein Y.
           </div>
         </div>
         <Paragraph>
@@ -144,7 +159,10 @@ const TranscriptionNetworkBasicsPartOne = () => {
           they play a very important role acting as a bridge between a signal
           and a change in protein production.
         </Paragraph>
-        <Paragraph>Let’s update our diagram again:</Paragraph>
+        <Paragraph>
+          Let’s update our diagram again. The first shows just the changes, the
+          second is the fully labeled diagram:
+        </Paragraph>
         <div className="flex flex-col items-center mt-4 mb-12">
           <div
             className={`max-w-[550px] w-full mx-auto ${
@@ -159,6 +177,11 @@ const TranscriptionNetworkBasicsPartOne = () => {
               height={images[currentImage].height || 500}
             />
           </div>
+          {images[currentImage].caption && (
+            <div className="max-w-[550px] w-full mx-auto text-center my-2 text-xs text-gray-500">
+              {images[currentImage].caption}
+            </div>
+          )}
           <div className="flex justify-center mt-4 mb-2">
             {images.map((_, index) => (
               <div
@@ -190,10 +213,10 @@ const TranscriptionNetworkBasicsPartOne = () => {
         <Paragraph>
           This is a simple model of how a cell responds to a signal. Our
           example, membrane damage, is just one of the many signals cells can
-          send to communicate changes in their environment, including higher
-          temperature, an influx of nutrients or toxins, damage to DNA, and even
-          signaling molecules from other cells (hormones are one example of
-          this). All these signals interact with transcription factors.
+          send to communicate changes in their environment. Higher temperature,
+          an influx of nutrients or toxins, damage to DNA, and even signaling
+          molecules from other cells (hormones are one example of this) all have
+          their own signals that interact with transcription factors.
         </Paragraph>
         <Paragraph>
           Transcription factors are also proteins, so they themselves are
@@ -202,9 +225,9 @@ const TranscriptionNetworkBasicsPartOne = () => {
           factors, and so on. This creates a pretty complex set of interactions,
           and can be modeled as a network &mdash;{" "}
           <strong>transcription networks</strong>. As we will uncover in this
-          series, combining transcription factors results in some very
+          series, combining transcription factors result in some very
           interesting properties and incredible solutions life has found for
-          problems it faces. We’ll explore how cells can respond instantly or
+          problems it faces. We’ll explore how cells can respond instantly, or
           with a delay when necessary; how they can perform logical operations,
           their own version of OR and AND gates from computers; how different
           network structures keep showing up in different forms of life and how
@@ -219,14 +242,17 @@ const TranscriptionNetworkBasicsPartOne = () => {
             height={600}
           />
         </div>
+        <div className="max-w-[550px] w-full mx-auto text-center mb-9 text-xs text-gray-500">
+          Taken from An Introduction to Systems Biology (Uri Alon, 2006)
+        </div>
         <Paragraph>
           For now, I’ll leave you with this picture of a transcription network
-          that includes about 20% of the genes in E. coli. It’s pretty complex,
-          but we’ll break them into smaller networks and find understandable
-          patterns in the series. In Part Two, we’ll identify the two types of
-          transcription factors, mathematically model increases or decreases in
-          protein production, and take a closer look at what those arrows in the
-          network represent.
+          that includes about 20% of the genes in <i>E. coli</i>. It’s pretty
+          complex, but we’ll break them into smaller networks and find
+          understandable patterns in the series. In Part Two, we’ll learn about
+          the two types of transcription factors, mathematically model increases
+          or decreases in protein production, and take a closer look at what
+          those arrows in the network represent.
         </Paragraph>
         <PostArticleSubscribe />
       </ArticleContainer>
