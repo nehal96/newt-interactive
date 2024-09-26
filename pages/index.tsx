@@ -31,6 +31,28 @@ export default function Home() {
       </Head>
       <Navbar />
       <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-12">
+        <h1 className="text-4xl font-bold text-slate-800 mb-8">Series</h1>
+        <div className="flex flex-wrap pb-12 sm:pb-16">
+          <Link href="/series/systems-biology" legacyBehavior>
+            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+              <div>
+                <Image
+                  src="/images/genetic-circuit.png"
+                  height={160}
+                  width={160}
+                  layout="responsive"
+                  className="rounded-t-xl"
+                  alt="cartoon robot"
+                />
+              </div>
+              <div className="p-3 sm:p-5">
+                <h3 className="sm:text-lg font-medium text-slate-800">
+                  Systems Biology
+                </h3>
+              </div>
+            </a>
+          </Link>
+        </div>
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
           <Link href="/blocks/robot-localization" legacyBehavior>
