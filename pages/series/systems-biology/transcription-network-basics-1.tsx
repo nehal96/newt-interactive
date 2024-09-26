@@ -61,8 +61,7 @@ const TranscriptionNetworkBasicsPartOne = () => {
       <ArticleContainer>
         <Title>Transcription Network Basics: Part One</Title>
         <Lede>
-          Understanding the fundamental concepts of transcription networks in
-          systems biology
+          Understanding the fundamental concepts of transcription networks
         </Lede>
         <Paragraph>
           Let's say that in one of your cells, the membrane that houses the cell
@@ -249,10 +248,10 @@ const TranscriptionNetworkBasicsPartOne = () => {
           For now, I’ll leave you with this picture of a transcription network
           that includes about 20% of the genes in <i>E. coli</i>. It’s pretty
           complex, but we’ll break them into smaller networks and find
-          understandable patterns in the series. In Part Two, we’ll learn about
-          the two types of transcription factors, mathematically model increases
-          or decreases in protein production, and take a closer look at what
-          those arrows in the network represent.
+          understandable patterns in this upcoming series. In Part Two, we’ll
+          learn about the two types of transcription factors, mathematically
+          model increases or decreases in protein production, and take a closer
+          look at what those arrows in the network represent.
         </Paragraph>
         <PostArticleSubscribe />
       </ArticleContainer>
