@@ -8,8 +8,35 @@ import {
   PostArticleSubscribe,
 } from "../../../components";
 import Image from "next/image";
+import { useState } from "react";
+import Button from "../../../components/Button";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 const TranscriptionNetworkBasicsPartOne = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [
+    {
+      src: "/images/gene-expression-diagram-3.svg",
+      alt: "Gene Expression Diagram 3",
+      width: 870,
+      height: 435,
+    },
+    {
+      src: "/images/gene-expression-diagram-full.svg",
+      alt: "Full Gene Expression Diagram",
+      width: 870,
+      height: 454,
+    },
+  ];
+
+  const handlePrev = () => {
+    setCurrentImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentImage((prev) => (prev === images.length - 1 ? prev : prev + 1));
+  };
+
   return (
     <>
       <Head>
@@ -118,26 +145,42 @@ const TranscriptionNetworkBasicsPartOne = () => {
           and a change in protein production.
         </Paragraph>
         <Paragraph>Let’s update our diagram again:</Paragraph>
-        <div className="flex justify-center mt-4 mb-12">
+        <div className="flex flex-col items-center mt-4 mb-12">
           <div className="max-w-[550px] w-full mx-auto">
             <Image
-              src="/images/gene-expression-diagram-3.svg"
-              alt="Gene Expression Diagram 3"
+              src={images[currentImage].src}
+              alt={images[currentImage].alt}
               layout="responsive"
-              width={870}
-              height={454}
+              width={images[currentImage].width || 500}
+              height={images[currentImage].height || 500}
             />
           </div>
-        </div>
-        <div className="flex justify-center mt-4 mb-12">
-          <div className="max-w-[550px] w-full mx-auto">
-            <Image
-              src="/images/gene-expression-diagram-full.svg"
-              alt="Full Gene Expression Diagram"
-              layout="responsive"
-              width={870}
-              height={454}
-            />
+          <div className="flex justify-center mt-4 mb-2">
+            {images.map((_, index) => (
+              <div
+                key={index}
+                className={`w-2 h-2 mx-1 rounded-full ${
+                  index === currentImage ? "bg-black" : "bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+          <div className="flex justify-center w-full max-w-[550px] mt-2">
+            <Button
+              variant="secondary"
+              onClick={handlePrev}
+              className="mr-4"
+              disabled={currentImage === 0}
+            >
+              <FiArrowLeft size={18} className="my-1" />
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={handleNext}
+              disabled={currentImage === images.length - 1}
+            >
+              <FiArrowRight size={18} className="my-1" />
+            </Button>
           </div>
         </div>
         <Paragraph>
