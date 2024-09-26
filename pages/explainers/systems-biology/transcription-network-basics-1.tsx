@@ -19,7 +19,7 @@ const TranscriptionNetworkBasicsPartOne = () => {
       src: "/images/gene-expression-diagram-3.svg",
       alt: "Gene Expression Diagram 3",
       width: 870,
-      height: 435,
+      height: 428,
     },
     {
       src: "/images/gene-expression-diagram-full.svg",
@@ -146,7 +146,11 @@ const TranscriptionNetworkBasicsPartOne = () => {
         </Paragraph>
         <Paragraph>Let’s update our diagram again:</Paragraph>
         <div className="flex flex-col items-center mt-4 mb-12">
-          <div className="max-w-[550px] w-full mx-auto">
+          <div
+            className={`max-w-[550px] w-full mx-auto ${
+              currentImage === 0 ? "mb-4 md:mb-5" : "mb-1"
+            }`}
+          >
             <Image
               src={images[currentImage].src}
               alt={images[currentImage].alt}
