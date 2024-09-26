@@ -7,11 +7,13 @@ import {
   Title,
   PostArticleSubscribe,
   MathFormula,
+  Button,
 } from "../../../components";
 import Image from "next/image";
 import { useState } from "react";
-import Button from "../../../components/Button";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { FiChevronRight } from "react-icons/fi";
+import Link from "next/link";
 
 const TranscriptionNetworkBasicsPartOne = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -253,6 +255,20 @@ const TranscriptionNetworkBasicsPartOne = () => {
           model increases or decreases in protein production, and take a closer
           look at what those arrows in the network represent.
         </Paragraph>
+        <div className="flex justify-end max-w-3xl w-full mx-auto mt-10 mb-4">
+          <Link
+            href="/series/systems-biology/transcription-network-basics-2"
+            legacyBehavior
+          >
+            <a className="flex flex-col text-lg font-medium border-b border-b-transparent hover:border-b-slate-300">
+              <span className="text-slate-500 text-sm mb-2">Next</span>
+              <div className="inline-flex items-center text-slate-800">
+                Transcription Network Basics: Part Two
+                <FiChevronRight className="ml-2" />
+              </div>
+            </a>
+          </Link>
+        </div>
         <PostArticleSubscribe />
       </ArticleContainer>
     </>
