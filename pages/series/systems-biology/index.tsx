@@ -4,7 +4,6 @@ import {
   ArticleContainer,
   Lede,
   Navbar,
-  Paragraph,
   Title,
   OrderedList,
 } from "../../../components";
@@ -26,10 +25,6 @@ const SystemsBiologyExplainersPage = () => {
           Dive deep into complex biological systems through interactive
           explainers
         </Lede>
-        <Paragraph>
-          Explore our collection of interactive explainers on systems biology
-          topics:
-        </Paragraph>
         <OrderedList>
           <li>
             <Link href="/series/systems-biology/transcription-network-basics-1">
