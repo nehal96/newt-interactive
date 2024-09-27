@@ -23,3 +23,6 @@ export { default as Title } from "./Title";
 
 // 3-D Models
 export { DNA } from "./3D-Models";
+
+// Other
+export { axisStyle, getDottedLineStyle, getGridLineStyle } from "./Chart/styles";

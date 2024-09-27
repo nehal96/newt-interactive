@@ -11,16 +11,10 @@ import {
   OrderedList,
 } from "../../../components";
 import { useState } from "react";
-import {
-  VictoryAxis,
-  VictoryChart,
-  VictoryContainer,
-  VictoryLabel,
-  VictoryLine,
-  VictoryScatter,
-} from "victory";
+import { VictoryChart, VictoryLine } from "victory";
 import Link from "next/link";
 import { FiChevronLeft } from "react-icons/fi";
+import { ActivatorGraph } from "../../../interactives/systems-biology";
 
 const getActivatorHillFunctionData = (
   beta = 10,
@@ -86,22 +80,6 @@ const TranscriptionNetworkBasicsPartTwo = () => {
     0,
     20
   );
-
-  const axisStyle = {
-    axis: { stroke: "#1e293b", strokeWidth: 2 },
-    axisLabel: {
-      fontFamily: "avenir",
-      fontSize: 14,
-      padding: 30,
-      fill: "#1e293b",
-    },
-    tickLabels: {
-      fontSize: 14,
-      fill: "#1e293b",
-      padding: 5,
-    },
-    ticks: { stroke: "#1e293b", size: 5 },
-  };
 
   return (
     <>
@@ -223,88 +201,11 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           </li>
         </OrderedList>
         <div className="flex flex-col justify-center max-w-3xl h-[400px] mt-4 mb-12 mx-auto">
-          <VictoryChart
-            domain={{ x: [0, 20], y: [0, 22] }}
-            containerComponent={<VictoryContainer responsive={true} />}
-          >
-            <VictoryAxis
-              label="X*"
-              style={axisStyle}
-              tickValues={[activatorK]}
-              tickFormat={() => "K"}
-              axisLabelComponent={<VictoryLabel dy={-37} dx={190} />}
-            />
-            <VictoryAxis
-              dependentAxis
-              style={axisStyle}
-              tickValues={[activatorBeta / 2, activatorBeta]}
-              tickFormat={(t) =>
-                t == activatorBeta ? "β" : activatorBeta > 3.5 ? "β/2" : ""
-              }
-            />
-            <VictoryLine
-              style={{
-                data: { stroke: "#c43a31" },
-                parent: { border: "1px solid #ccc" },
-              }}
-              data={activatorHillFunctionData}
-              interpolation="basis"
-            />
-
-            {/* Add dotted line */}
-            <VictoryLine
-              style={{
-                data: {
-                  stroke: "#1e293b",
-                  strokeDasharray: "4,4",
-                  strokeWidth: 1,
-                },
-              }}
-              data={[
-                { x: activatorK, y: 0 },
-                { x: activatorK, y: activatorBeta / 2 },
-              ]}
-            />
-            <VictoryLine
-              style={{
-                data: {
-                  stroke: "#1e293b",
-                  strokeDasharray: "4,4",
-                  strokeWidth: 1,
-                },
-              }}
-              data={[
-                { x: 0, y: activatorBeta / 2 },
-                { x: activatorK, y: activatorBeta / 2 },
-              ]}
-            />
-            <VictoryLine
-              style={{
-                data: {
-                  stroke: "#e5e7eb",
-                  strokeWidth: 1,
-                },
-              }}
-              data={[
-                { x: 0, y: activatorBeta },
-                { x: 20, y: activatorBeta },
-              ]}
-            />
-
-            {/* Add point at intersection */}
-            <VictoryScatter
-              style={{
-                data: { stroke: "#1e293b", strokeWidth: 1, fill: "white" },
-              }}
-              size={4}
-              data={[
-                {
-                  x: activatorK,
-                  y: activatorBeta / 2,
-                },
-              ]}
-            />
-          </VictoryChart>
+          <ActivatorGraph
+            activatorBeta={activatorBeta}
+            activatorK={activatorK}
+            activatorHillFunctionData={activatorHillFunctionData}
+          />
         </div>
         <Paragraph>
           Play around with the sliders for K, B, and n to see how they affect
