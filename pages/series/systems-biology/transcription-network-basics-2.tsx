@@ -11,10 +11,12 @@ import {
   OrderedList,
 } from "../../../components";
 import { useState } from "react";
-import { VictoryChart, VictoryLine } from "victory";
 import Link from "next/link";
 import { FiChevronLeft } from "react-icons/fi";
-import { ActivatorGraph } from "../../../interactives/systems-biology";
+import {
+  ActivatorGraph,
+  RepressorGraph,
+} from "../../../interactives/systems-biology";
 
 const getActivatorHillFunctionData = (
   beta = 10,
@@ -63,7 +65,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
   const [activatorK, setActivatorK] = useState(4);
   const [activatorN, setActivatorN] = useState(1);
   const [repressorBeta, setRepressorBeta] = useState(20);
-  const [repressorK, setRepressorK] = useState(1);
+  const [repressorK, setRepressorK] = useState(4);
   const [repressorN, setRepressorN] = useState(1);
 
   const activatorHillFunctionData = getActivatorHillFunctionData(
@@ -272,16 +274,11 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           found at X* = K.
         </Paragraph>
         <div className="flex flex-col justify-center max-w-3xl h-[400px] mt-4 mb-12 mx-auto">
-          <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
-            <VictoryLine
-              style={{
-                data: { stroke: "#3b82f6" },
-                parent: { border: "1px solid #ccc" },
-              }}
-              data={repressorHillFunctionData}
-              interpolation="basis"
-            />
-          </VictoryChart>
+          <RepressorGraph
+            repressorBeta={repressorBeta}
+            repressorK={repressorK}
+            repressorHillFunctionData={repressorHillFunctionData}
+          />
         </div>
         <div className="flex flex-col justify-center max-w-3xl w-full mt-4 mb-12 mx-auto">
           <div>
@@ -307,7 +304,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
               <input
                 type="range"
                 id="K-slider"
-                min="0.1"
+                min="1"
                 max="10"
                 step="0.1"
                 value={repressorK}
@@ -322,7 +319,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
               <input
                 type="range"
                 id="n-slider"
-                min="0.1"
+                min="1"
                 max="4"
                 step="0.1"
                 value={repressorN}
