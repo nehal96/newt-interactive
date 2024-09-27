@@ -9,11 +9,18 @@ import {
   PostArticleSubscribe,
   MathFormula,
   OrderedList,
-  ChartXAxis,
-  ChartYAxis,
 } from "../../../components";
 import { useState } from "react";
-import { VictoryChart, VictoryLabel, VictoryLine } from "victory";
+import {
+  VictoryAxis,
+  VictoryChart,
+  VictoryContainer,
+  VictoryLabel,
+  VictoryLine,
+  VictoryScatter,
+} from "victory";
+import Link from "next/link";
+import { FiChevronLeft } from "react-icons/fi";
 
 const getActivatorHillFunctionData = (
   beta = 10,
@@ -59,7 +66,7 @@ export const getRepressorHillFunctionData = (
 
 const TranscriptionNetworkBasicsPartTwo = () => {
   const [activatorBeta, setActivatorBeta] = useState(20);
-  const [activatorK, setActivatorK] = useState(1);
+  const [activatorK, setActivatorK] = useState(4);
   const [activatorN, setActivatorN] = useState(1);
   const [repressorBeta, setRepressorBeta] = useState(20);
   const [repressorK, setRepressorK] = useState(1);
@@ -79,6 +86,22 @@ const TranscriptionNetworkBasicsPartTwo = () => {
     0,
     20
   );
+
+  const axisStyle = {
+    axis: { stroke: "#1e293b", strokeWidth: 2 },
+    axisLabel: {
+      fontFamily: "avenir",
+      fontSize: 14,
+      padding: 30,
+      fill: "#1e293b",
+    },
+    tickLabels: {
+      fontSize: 14,
+      fill: "#1e293b",
+      padding: 5,
+    },
+    ticks: { stroke: "#1e293b", size: 5 },
+  };
 
   return (
     <>
@@ -200,12 +223,25 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           </li>
         </OrderedList>
         <div className="flex flex-col justify-center max-w-3xl h-[400px] mt-4 mb-12 mx-auto">
-          <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
-            <ChartXAxis
-              standalone={false}
-              label="Activator concentration (X*)"
+          <VictoryChart
+            domain={{ x: [0, 20], y: [0, 22] }}
+            containerComponent={<VictoryContainer responsive={true} />}
+          >
+            <VictoryAxis
+              label="X*"
+              style={axisStyle}
+              tickValues={[activatorK]}
+              tickFormat={() => "K"}
+              axisLabelComponent={<VictoryLabel dy={-37} dx={190} />}
             />
-            <ChartYAxis standalone={false} label="Promoter activity" />
+            <VictoryAxis
+              dependentAxis
+              style={axisStyle}
+              tickValues={[activatorBeta / 2, activatorBeta]}
+              tickFormat={(t) =>
+                t == activatorBeta ? "β" : activatorBeta > 3.5 ? "β/2" : ""
+              }
+            />
             <VictoryLine
               style={{
                 data: { stroke: "#c43a31" },
@@ -213,6 +249,60 @@ const TranscriptionNetworkBasicsPartTwo = () => {
               }}
               data={activatorHillFunctionData}
               interpolation="basis"
+            />
+
+            {/* Add dotted line */}
+            <VictoryLine
+              style={{
+                data: {
+                  stroke: "#1e293b",
+                  strokeDasharray: "4,4",
+                  strokeWidth: 1,
+                },
+              }}
+              data={[
+                { x: activatorK, y: 0 },
+                { x: activatorK, y: activatorBeta / 2 },
+              ]}
+            />
+            <VictoryLine
+              style={{
+                data: {
+                  stroke: "#1e293b",
+                  strokeDasharray: "4,4",
+                  strokeWidth: 1,
+                },
+              }}
+              data={[
+                { x: 0, y: activatorBeta / 2 },
+                { x: activatorK, y: activatorBeta / 2 },
+              ]}
+            />
+            <VictoryLine
+              style={{
+                data: {
+                  stroke: "#e5e7eb",
+                  strokeWidth: 1,
+                },
+              }}
+              data={[
+                { x: 0, y: activatorBeta },
+                { x: 20, y: activatorBeta },
+              ]}
+            />
+
+            {/* Add point at intersection */}
+            <VictoryScatter
+              style={{
+                data: { stroke: "#1e293b", strokeWidth: 1, fill: "white" },
+              }}
+              size={4}
+              data={[
+                {
+                  x: activatorK,
+                  y: activatorBeta / 2,
+                },
+              ]}
             />
           </VictoryChart>
         </div>
@@ -244,7 +334,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             <input
               type="range"
               id="K-slider"
-              min="0.1"
+              min="1"
               max="10"
               step="0.1"
               value={activatorK}
@@ -259,7 +349,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             <input
               type="range"
               id="n-slider"
-              min="0.1"
+              min="1"
               max="4"
               step="0.1"
               value={activatorN}
@@ -282,11 +372,6 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         </Paragraph>
         <div className="flex flex-col justify-center max-w-3xl h-[400px] mt-4 mb-12 mx-auto">
           <VictoryChart domain={{ x: [0, 20], y: [0, 22] }}>
-            <ChartXAxis
-              standalone={false}
-              label="Repressor concentration (X*)"
-            />
-            <ChartYAxis standalone={false} label="Promoter activity" />
             <VictoryLine
               style={{
                 data: { stroke: "#3b82f6" },
@@ -366,6 +451,20 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           for a sugar-inducible transcription factor is added in front of the
           GFP gene, the bacteria only turns green when the sugar is present.
         </Paragraph>
+        <div className="flex justify-start max-w-3xl w-full mx-auto mt-10 mb-4">
+          <Link
+            href="/series/systems-biology/transcription-network-basics-1"
+            legacyBehavior
+          >
+            <a className="flex flex-col text-lg font-medium border-b border-b-transparent hover:border-b-slate-300">
+              <span className="text-slate-500 text-sm mb-2 ml-7">Previous</span>
+              <div className="inline-flex items-center text-slate-800">
+                <FiChevronLeft className="mr-2" />
+                Transcription Network Basics: Part One
+              </div>
+            </a>
+          </Link>
+        </div>
         <PostArticleSubscribe />
       </ArticleContainer>
     </>
