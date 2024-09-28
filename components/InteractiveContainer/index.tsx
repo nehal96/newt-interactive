@@ -28,7 +28,7 @@ export const TextContainer: FunctionComponent<
 > = ({ children, className = "lg:w-3/5", ...props }) => {
   return (
     <div
-      className={`flex flex-col justify-start p-6 mx-0 my-4 border border-slate-300 bg-slate-50 rounded-xl md:mx-4 lg:my-0 ${className}`}
+      className={`flex flex-col justify-start p-6 mx-0 my-4 bg-slate-50 rounded-xl md:mx-4 lg:my-0 ${className}`}
       {...props}
     >
       {children}

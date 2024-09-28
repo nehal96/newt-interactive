@@ -9,6 +9,9 @@ import {
   PostArticleSubscribe,
   MathFormula,
   OrderedList,
+  InteractiveTutorialContainer,
+  TextContainer,
+  InteractiveContainer,
 } from "../../../components";
 import { useState } from "react";
 import Link from "next/link";
@@ -202,13 +205,16 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             (typically n is between 1 and 4)
           </li>
         </OrderedList>
-        <div className="flex flex-col justify-center max-w-3xl h-[400px] mt-4 mb-12 mx-auto">
-          <ActivatorGraph
-            activatorBeta={activatorBeta}
-            activatorK={activatorK}
-            activatorHillFunctionData={activatorHillFunctionData}
-          />
-        </div>
+        <InteractiveTutorialContainer>
+          <TextContainer>hello</TextContainer>
+          <InteractiveContainer className="lg:w-3/5">
+            <ActivatorGraph
+              activatorBeta={activatorBeta}
+              activatorK={activatorK}
+              activatorHillFunctionData={activatorHillFunctionData}
+            />
+          </InteractiveContainer>
+        </InteractiveTutorialContainer>
         <Paragraph>
           Play around with the sliders for K, B, and n to see how they affect
           the curve. You might notice that at X* = K, you get half the maximum
@@ -273,13 +279,16 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           when X* = 0. Just like with the activator, half maximal expression if
           found at X* = K.
         </Paragraph>
-        <div className="flex flex-col justify-center max-w-3xl h-[400px] mt-4 mb-12 mx-auto">
-          <RepressorGraph
-            repressorBeta={repressorBeta}
-            repressorK={repressorK}
-            repressorHillFunctionData={repressorHillFunctionData}
-          />
-        </div>
+        <InteractiveTutorialContainer>
+          <TextContainer>hello</TextContainer>
+          <InteractiveContainer className="lg:w-3/5">
+            <RepressorGraph
+              repressorBeta={repressorBeta}
+              repressorK={repressorK}
+              repressorHillFunctionData={repressorHillFunctionData}
+            />
+          </InteractiveContainer>
+        </InteractiveTutorialContainer>
         <div className="flex flex-col justify-center max-w-3xl w-full mt-4 mb-12 mx-auto">
           <div>
             <div className="mt-4">
