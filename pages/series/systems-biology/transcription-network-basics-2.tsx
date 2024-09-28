@@ -13,6 +13,7 @@ import {
   TextContainer,
   InteractiveContainer,
   ImageSeries,
+  Subheader,
 } from "../../../components";
 import { useState } from "react";
 import Link from "next/link";
@@ -170,13 +171,23 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         <Paragraph>
           We can represent this activating or repressing relationship in network
           diagrams as well. Activators are denoted by a regular arrow: X → Y,
-          and repressors are denoted by a blunt-headed arrow, X—Y. This notation
-          wil be used throughout to denote whether transcription factors are
-          activators or repressors.
+          and repressors are denoted by a blunt-headed arrow,{" "}
+          <MathFormula tex="X \Rightarrow Y" />. This notation will be used
+          throughout to denote whether transcription factors are activators or
+          repressors.
         </Paragraph>
         <div className="flex flex-col justify-center mt-4 mb-12">
-          <div className="w-[500px] h-[200px] border border-gray-700 mx-auto"></div>
+          <div className="max-w-[500px] w-full mx-auto">
+            <Image
+              src="/images/activator-repressor-notation.svg"
+              alt="Activator and Repressor Notation"
+              layout="responsive"
+              width={593}
+              height={184}
+            />
+          </div>
         </div>
+        <Subheader>Mathematical Models</Subheader>
         <Paragraph>
           So far, we’ve talked about transcription factors like they’re a
           switch; they turn genes on or off. In reality, they’re more like a
