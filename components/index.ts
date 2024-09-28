@@ -3,6 +3,7 @@ export { default as Button } from "./Button";
 export { Code, InlineCode } from "./Code";
 export { ChartXAxis, ChartYAxis } from "./Chart";
 export { default as Footer } from "./Footer";
+export { default as ImageSeries } from "./ImageSeries";
 export {
   InteractiveTutorialContainer,
   InteractiveContainer,

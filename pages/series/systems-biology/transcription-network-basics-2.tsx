@@ -12,6 +12,7 @@ import {
   InteractiveTutorialContainer,
   TextContainer,
   InteractiveContainer,
+  ImageSeries,
 } from "../../../components";
 import { useState } from "react";
 import Link from "next/link";
@@ -86,6 +87,23 @@ const TranscriptionNetworkBasicsPartTwo = () => {
     20
   );
 
+  const repressorImages = [
+    {
+      src: "/images/repressor-on-diagram.svg",
+      alt: "Repressor On Diagram",
+      width: 748,
+      height: 395,
+      caption: "When the repressor is not bound, gene expression is ON.",
+    },
+    {
+      src: "/images/repressor-off-diagram.svg",
+      alt: "Repressor Off Diagram",
+      width: 749,
+      height: 403,
+      caption: "When the repressor is bound, gene expression is OFF.",
+    },
+  ];
+
   return (
     <>
       <Head>
@@ -144,9 +162,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           simple diagram representing a repressor would look something like
           this:
         </Paragraph>
-        <div className="flex flex-col justify-center mt-4 mb-12">
-          <div className="w-[500px] h-[200px] border border-gray-700 mx-auto"></div>
-        </div>
+        <ImageSeries images={repressorImages} />
         <Paragraph>
           (Note that, for an activator, when the TF is not bound, as gene
           expression is OFF).

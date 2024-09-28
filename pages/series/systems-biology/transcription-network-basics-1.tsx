@@ -7,16 +7,13 @@ import {
   Title,
   PostArticleSubscribe,
   MathFormula,
-  Button,
+  ImageSeries,
 } from "../../../components";
 import Image from "next/image";
-import { useState } from "react";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { FiChevronRight } from "react-icons/fi";
 import Link from "next/link";
 
 const TranscriptionNetworkBasicsPartOne = () => {
-  const [currentImage, setCurrentImage] = useState(0);
   const images = [
     {
       src: "/images/gene-expression-diagram-3.svg",
@@ -41,14 +38,6 @@ const TranscriptionNetworkBasicsPartOne = () => {
       caption: <div className="mb-5">And here's the fully labeled diagram</div>,
     },
   ];
-
-  const handlePrev = () => {
-    setCurrentImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentImage((prev) => (prev === images.length - 1 ? prev : prev + 1));
-  };
 
   return (
     <>
@@ -164,53 +153,7 @@ const TranscriptionNetworkBasicsPartOne = () => {
           Let’s update our diagram again. The first shows just the changes, the
           second is the fully labeled diagram:
         </Paragraph>
-        <div className="flex flex-col items-center mt-4 mb-12">
-          <div
-            className={`max-w-[550px] w-full mx-auto ${
-              currentImage === 0 ? "mb-4 md:mb-5" : "mb-1"
-            }`}
-          >
-            <Image
-              src={images[currentImage].src}
-              alt={images[currentImage].alt}
-              layout="responsive"
-              width={images[currentImage].width || 500}
-              height={images[currentImage].height || 500}
-            />
-          </div>
-          {images[currentImage].caption && (
-            <div className="max-w-[550px] w-full mx-auto text-center my-2 text-xs text-gray-500">
-              {images[currentImage].caption}
-            </div>
-          )}
-          <div className="flex justify-center mt-4 mb-2">
-            {images.map((_, index) => (
-              <div
-                key={index}
-                className={`w-2 h-2 mx-1 rounded-full ${
-                  index === currentImage ? "bg-black" : "bg-gray-300"
-                }`}
-              />
-            ))}
-          </div>
-          <div className="flex justify-center w-full max-w-[550px] mt-2">
-            <Button
-              variant="secondary"
-              onClick={handlePrev}
-              className="mr-4"
-              disabled={currentImage === 0}
-            >
-              <FiArrowLeft size={18} className="my-1" />
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={handleNext}
-              disabled={currentImage === images.length - 1}
-            >
-              <FiArrowRight size={18} className="my-1" />
-            </Button>
-          </div>
-        </div>
+        <ImageSeries images={images} />
         <Paragraph>
           This is a simple model of how a cell responds to a signal. Our
           example, membrane damage, is just one of the many signals cells can
