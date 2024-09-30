@@ -14,6 +14,8 @@ import {
   InteractiveContainer,
   ImageSeries,
   Subheader,
+  InlineCode,
+  Slides,
 } from "../../../components";
 import { useState } from "react";
 import Link from "next/link";
@@ -72,6 +74,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
   const [repressorBeta, setRepressorBeta] = useState(20);
   const [repressorK, setRepressorK] = useState(4);
   const [repressorN, setRepressorN] = useState(1);
+  const [currentSlideNumber, setCurrentSlideNumber] = useState(1);
 
   const activatorHillFunctionData = getActivatorHillFunctionData(
     activatorBeta,
@@ -104,6 +107,135 @@ const TranscriptionNetworkBasicsPartTwo = () => {
       caption: "When the repressor is bound, gene expression is OFF.",
     },
   ];
+
+  const slides = {
+    1: {
+      text: (
+        <>
+          <p>
+            When{" "}
+            <InlineCode variant="medium">
+              <MathFormula tex="n = 1" />
+            </InlineCode>{" "}
+            the curve looks something like this &mdash; a quick ascent, and then
+            a gradual tapering off when the concentration gets very high.
+          </p>
+          <p>
+            The saturation of the Hill function at high levels of{" "}
+            <MathFormula tex="X^*" /> makes sense; the maximum probability of{" "}
+            <MathFormula tex="X^*" /> binding to the promoter is 1, and so after
+            a certain point, more <MathFormula tex="X^*" />
+            doesn’t mean more proteins. In other words, protein production will
+            eventually be bottle-necked by genes.
+          </p>
+        </>
+      ),
+    },
+    2: {
+      text: (
+        <>
+          <p>
+            Changing{" "}
+            <InlineCode variant="medium">
+              <MathFormula tex="n" />
+            </InlineCode>{" "}
+            changes the shape of the curve. As it goes from 2 and then to 4, it
+            starts looking more like an S-shape, a shape that comes with some
+            interesting properties that we’ll explore in future lessons.
+          </p>
+          <p>
+            Notice also that there’s a steeper ascent, and the saturation
+            reaches closer to the maximal activity <MathFormula tex="\beta" />.
+          </p>
+        </>
+      ),
+    },
+    3: {
+      text: (
+        <>
+          <p>
+            Play around with the values for <MathFormula tex="\beta" />,{" "}
+            <MathFormula tex="K" />, and <MathFormula tex="n" /> and see how it
+            changes the curve.
+          </p>
+          <div>
+            <div className="mt-4">
+              <label htmlFor="beta-slider" className="font-medium block">
+                <MathFormula tex="\beta" />: {activatorBeta}
+              </label>
+              <input
+                type="range"
+                id="beta-slider"
+                min="0"
+                max="20"
+                step="0.1"
+                value={activatorBeta}
+                onChange={(e) => setActivatorBeta(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="K-slider" className="font-medium block">
+                <MathFormula tex="K" />: {activatorK}
+              </label>
+              <input
+                type="range"
+                id="K-slider"
+                min="1"
+                max="10"
+                step="0.1"
+                value={activatorK}
+                onChange={(e) => setActivatorK(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4 mb-6">
+              <label htmlFor="n-slider" className="font-medium block">
+                <MathFormula tex="n" />: {activatorN}
+              </label>
+              <input
+                type="range"
+                id="n-slider"
+                min="1"
+                max="4"
+                step="0.1"
+                value={activatorN}
+                onChange={(e) => setActivatorN(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+          </div>
+        </>
+      ),
+    },
+    4: {
+      text: (
+        <>
+          <p>
+            You might notice, either from the curve or the equation, that half
+            the maximal promoter activity,{" "}
+            <MathFormula tex="\dfrac{\beta}{2}" />, occurs when{" "}
+            <MathFormula tex="X^* = K" />. Click on the toggle to see this
+            illustrated on the chart.
+          </p>
+        </>
+      ),
+    },
+  };
+
+  const handleBack = () => {
+    setCurrentSlideNumber((prev) => Math.max(1, prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentSlideNumber((prev) =>
+      Math.min(Object.keys(slides).length, prev + 1)
+    );
+  };
+
+  const handleReset = () => {
+    setCurrentSlideNumber(1);
+  };
 
   return (
     <>
@@ -233,7 +365,14 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           </li>
         </OrderedList>
         <InteractiveTutorialContainer>
-          <TextContainer>hello</TextContainer>
+          <Slides
+            slides={slides}
+            currentSlideNumber={currentSlideNumber}
+            onBack={handleBack}
+            onNext={handleNext}
+            onReset={handleReset}
+            onJumpToSection={() => {}}
+          />
           <InteractiveContainer className="lg:w-3/5">
             <ActivatorGraph
               activatorBeta={activatorBeta}
@@ -242,58 +381,6 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             />
           </InteractiveContainer>
         </InteractiveTutorialContainer>
-        <Paragraph>
-          Play around with the sliders for K, B, and n to see how they affect
-          the curve. You might notice that at X* = K, you get half the maximum
-          production of Y, or B/2.
-        </Paragraph>
-        <div className="flex flex-col justify-center max-w-3xl w-full mt-4 mb-12 mx-auto">
-          <div className="mt-4">
-            <label htmlFor="beta-slider" className="font-medium block">
-              <MathFormula tex="\beta" />: {activatorBeta}
-            </label>
-            <input
-              type="range"
-              id="beta-slider"
-              min="0"
-              max="20"
-              step="0.1"
-              value={activatorBeta}
-              onChange={(e) => setActivatorBeta(parseFloat(e.target.value))}
-              className="w-11/12 flex-auto cursor-pointer"
-            />
-          </div>
-          <div className="mt-4">
-            <label htmlFor="K-slider" className="font-medium block">
-              <MathFormula tex="K" />: {activatorK}
-            </label>
-            <input
-              type="range"
-              id="K-slider"
-              min="1"
-              max="10"
-              step="0.1"
-              value={activatorK}
-              onChange={(e) => setActivatorK(parseFloat(e.target.value))}
-              className="w-11/12 flex-auto cursor-pointer"
-            />
-          </div>
-          <div className="mt-4">
-            <label htmlFor="n-slider" className="font-medium block">
-              <MathFormula tex="n" />: {activatorN}
-            </label>
-            <input
-              type="range"
-              id="n-slider"
-              min="1"
-              max="4"
-              step="0.1"
-              value={activatorN}
-              onChange={(e) => setActivatorN(parseFloat(e.target.value))}
-              className="w-11/12 flex-auto cursor-pointer"
-            />
-          </div>
-        </div>
         <Paragraph>
           For a repressor, the Hill function decreases as we increase the
           concentration of X*, as described by the equation:
