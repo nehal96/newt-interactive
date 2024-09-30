@@ -15,13 +15,12 @@ import {
   ImageSeries,
   Subheader,
   InlineCode,
-  Slides,
 } from "../../../components";
 import { useState } from "react";
 import Link from "next/link";
 import { FiChevronLeft } from "react-icons/fi";
 import {
-  ActivatorGraph,
+  ActivatorTutorial,
   RepressorGraph,
 } from "../../../interactives/systems-biology";
 
@@ -364,23 +363,11 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             (typically n is between 1 and 4)
           </li>
         </OrderedList>
-        <InteractiveTutorialContainer>
-          <Slides
-            slides={slides}
-            currentSlideNumber={currentSlideNumber}
-            onBack={handleBack}
-            onNext={handleNext}
-            onReset={handleReset}
-            onJumpToSection={() => {}}
-          />
-          <InteractiveContainer className="lg:w-3/5">
-            <ActivatorGraph
-              activatorBeta={activatorBeta}
-              activatorK={activatorK}
-              activatorHillFunctionData={activatorHillFunctionData}
-            />
-          </InteractiveContainer>
-        </InteractiveTutorialContainer>
+        <ActivatorTutorial
+          activatorBeta={activatorBeta}
+          activatorK={activatorK}
+          activatorHillFunctionData={activatorHillFunctionData}
+        />
         <Paragraph>
           For a repressor, the Hill function decreases as we increase the
           concentration of X*, as described by the equation:

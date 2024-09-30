@@ -11,21 +11,41 @@ import {
   axisStyle,
   getDottedLineStyle,
   getGridLineStyle,
+  InlineCode,
+  MathFormula,
+  SlideDeck,
 } from "../../components";
 
 interface ActivatorGraphProps {
   activatorBeta: number;
   activatorK: number;
   activatorHillFunctionData: { x: number; y: number }[];
+  chartOptions?: {
+    showKIndicator?: boolean;
+  };
 }
 
 export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
   activatorBeta,
   activatorK,
   activatorHillFunctionData,
+  chartOptions,
 }) => {
   const dottedLineStyle = getDottedLineStyle();
   const gridLineStyle = getGridLineStyle();
+  const noTicksStyle = {
+    ...axisStyle,
+    ticks: { ...axisStyle.ticks, size: 0 },
+  };
+
+  const XAxisStyle = chartOptions?.showKIndicator ? axisStyle : noTicksStyle;
+  const XAxisTickValues = chartOptions?.showKIndicator ? [activatorK] : [];
+  const XAxisTickFormat = chartOptions?.showKIndicator ? () => "K" : () => "";
+  const YAxisTickValues = chartOptions?.showKIndicator
+    ? [activatorBeta / 2, activatorBeta]
+    : [activatorBeta];
+
+  const { showKIndicator } = chartOptions;
 
   return (
     <VictoryChart
@@ -34,15 +54,15 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
     >
       <VictoryAxis
         label="X*"
-        style={axisStyle}
-        tickValues={[activatorK]}
-        tickFormat={() => "K"}
+        style={XAxisStyle}
+        tickValues={XAxisTickValues}
+        tickFormat={XAxisTickFormat}
         axisLabelComponent={<VictoryLabel dy={-37} dx={190} />}
       />
       <VictoryAxis
         dependentAxis
         style={axisStyle}
-        tickValues={[activatorBeta / 2, activatorBeta]}
+        tickValues={YAxisTickValues}
         tickFormat={(t) =>
           t == activatorBeta ? "β" : activatorBeta > 3.5 ? "β/2" : ""
         }
@@ -55,42 +75,125 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
         data={activatorHillFunctionData}
         interpolation="basis"
       />
-
-      <VictoryLine
-        style={dottedLineStyle}
-        data={[
-          { x: activatorK, y: 0 },
-          { x: activatorK, y: activatorBeta / 2 },
-        ]}
-      />
-      <VictoryLine
-        style={dottedLineStyle}
-        data={[
-          { x: 0, y: activatorBeta / 2 },
-          { x: activatorK, y: activatorBeta / 2 },
-        ]}
-      />
       <VictoryLine
         style={gridLineStyle}
         data={[
-          { x: 0, y: activatorBeta },
+          { x: 0.05, y: activatorBeta },
           { x: 20, y: activatorBeta },
         ]}
       />
-      <VictoryScatter
-        style={{
-          data: { stroke: "#1e293b", strokeWidth: 1, fill: "white" },
-        }}
-        size={4}
-        data={[
-          {
-            x: activatorK,
-            y: activatorBeta / 2,
-          },
-        ]}
-      />
+      {showKIndicator && (
+        <VictoryLine
+          style={dottedLineStyle}
+          data={[
+            { x: activatorK, y: 0 },
+            { x: activatorK, y: activatorBeta / 2 },
+          ]}
+          animate={{
+            onLoad: { duration: 1500 },
+          }}
+        />
+      )}
+      {showKIndicator && (
+        <VictoryLine
+          style={dottedLineStyle}
+          data={[
+            { x: 0, y: activatorBeta / 2 },
+            { x: activatorK, y: activatorBeta / 2 },
+          ]}
+          animate={{
+            onLoad: { duration: 1500 },
+          }}
+        />
+      )}
+      {showKIndicator && (
+        <VictoryScatter
+          style={{
+            data: { stroke: "#1e293b", strokeWidth: 1, fill: "white" },
+          }}
+          size={4}
+          data={[
+            {
+              x: activatorK,
+              y: activatorBeta / 2,
+            },
+          ]}
+        />
+      )}
     </VictoryChart>
   );
+};
+
+export const ActivatorTutorial = ({
+  activatorBeta,
+  activatorK,
+  activatorHillFunctionData,
+}: ActivatorGraphProps) => {
+  const slides = [
+    {
+      text: (
+        <>
+          <p>
+            When{" "}
+            <InlineCode variant="medium">
+              <MathFormula tex="n = 1" />
+            </InlineCode>{" "}
+            the curve looks something like this &mdash; a quick ascent, and then
+            a gradual tapering off when the concentration gets very high.
+          </p>
+          <p>
+            The saturation of the Hill function at high levels of{" "}
+            <MathFormula tex="X^*" /> makes sense; the maximum probability of{" "}
+            <MathFormula tex="X^*" /> binding to the promoter is 1, and so after
+            a certain point, more <MathFormula tex="X^*" />
+            doesn’t mean more proteins. In other words, protein production will
+            eventually be bottle-necked by genes.
+          </p>
+        </>
+      ),
+      interactive: (
+        <ActivatorGraph
+          activatorBeta={activatorBeta}
+          activatorK={activatorK}
+          activatorHillFunctionData={activatorHillFunctionData}
+          chartOptions={{
+            showKIndicator: false,
+          }}
+        />
+      ),
+    },
+    {
+      text: (
+        <>
+          <p>
+            Changing{" "}
+            <InlineCode variant="medium">
+              <MathFormula tex="n" />
+            </InlineCode>{" "}
+            changes the shape of the curve. As it goes from 2 and then to 4, it
+            starts looking more like an S-shape, a shape that comes with some
+            interesting properties that we’ll explore in future lessons.
+          </p>
+          <p>
+            Notice also that there’s a steeper ascent, and the saturation
+            reaches closer to the maximal activity <MathFormula tex="\beta" />.
+          </p>
+        </>
+      ),
+      interactive: (
+        <ActivatorGraph
+          activatorBeta={activatorBeta}
+          activatorK={activatorK}
+          activatorHillFunctionData={activatorHillFunctionData}
+          chartOptions={{
+            showKIndicator: false,
+          }}
+        />
+      ),
+    },
+  ];
+
+  return <SlideDeck slides={slides} />;
 };
 
 export const RepressorGraph = ({
