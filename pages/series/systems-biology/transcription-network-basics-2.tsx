@@ -23,28 +23,7 @@ import {
   ActivatorTutorial,
   RepressorGraph,
 } from "../../../interactives/systems-biology";
-
-const getActivatorHillFunctionData = (
-  beta = 10,
-  K = 1,
-  n = 1,
-  domainMin = 0,
-  domainMax = 20
-) => {
-  const data = [];
-
-  const activatorHillFunction = (x) => {
-    return (beta * x ** n) / (K ** n + x ** n);
-  };
-
-  for (let x = domainMin; x <= domainMax; x++) {
-    const y = activatorHillFunction(x);
-    data.push({ x, y });
-  }
-
-  return data;
-};
-
+import { getActivatorHillFunctionData } from "../../../interactives/systems-biology/helpers";
 export const getRepressorHillFunctionData = (
   beta = 10,
   K = 1,
@@ -68,10 +47,10 @@ export const getRepressorHillFunctionData = (
 
 const TranscriptionNetworkBasicsPartTwo = () => {
   const [activatorBeta, setActivatorBeta] = useState(20);
-  const [activatorK, setActivatorK] = useState(4);
+  const [activatorK, setActivatorK] = useState(5);
   const [activatorN, setActivatorN] = useState(1);
   const [repressorBeta, setRepressorBeta] = useState(20);
-  const [repressorK, setRepressorK] = useState(4);
+  const [repressorK, setRepressorK] = useState(5);
   const [repressorN, setRepressorN] = useState(1);
   const [currentSlideNumber, setCurrentSlideNumber] = useState(1);
 

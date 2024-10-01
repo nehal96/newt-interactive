@@ -15,6 +15,7 @@ import {
   MathFormula,
   SlideDeck,
 } from "../../components";
+import { getActivatorHillFunctionData } from "./helpers";
 
 interface ActivatorGraphProps {
   activatorBeta: number;
@@ -22,6 +23,7 @@ interface ActivatorGraphProps {
   activatorHillFunctionData: { x: number; y: number }[];
   chartOptions?: {
     showKIndicator?: boolean;
+    showNComparisonCurves?: boolean;
   };
 }
 
@@ -45,11 +47,12 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
     ? [activatorBeta / 2, activatorBeta]
     : [activatorBeta];
 
-  const { showKIndicator } = chartOptions;
+  const { showKIndicator, showNComparisonCurves } = chartOptions;
 
   return (
     <VictoryChart
       domain={{ x: [0, 20], y: [0, 22] }}
+      domainPadding={{ x: showNComparisonCurves ? 40 : 0 }}
       containerComponent={<VictoryContainer responsive={true} />}
     >
       <VictoryAxis
@@ -67,6 +70,40 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
           t == activatorBeta ? "β" : activatorBeta > 3.5 ? "β/2" : ""
         }
       />
+      {showNComparisonCurves && (
+        <VictoryLine
+          style={{
+            data: { stroke: "#cbd5e1" },
+            parent: { border: "1px solid #ccc" },
+          }}
+          data={getActivatorHillFunctionData(20, 5, 2)}
+          interpolation="basis"
+          labels={({ datum }) => (datum.x === 20 ? "n = 2" : "")}
+          labelComponent={
+            <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+          }
+          animate={{
+            onLoad: { duration: 1500 },
+          }}
+        />
+      )}
+      {showNComparisonCurves && (
+        <VictoryLine
+          style={{
+            data: { stroke: "#cbd5e1" },
+            parent: { border: "1px solid #ccc" },
+          }}
+          data={getActivatorHillFunctionData(20, 5, 4)}
+          interpolation="basis"
+          labels={({ datum }) => (datum.x === 20 ? "n = 4" : "")}
+          labelComponent={
+            <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
+          }
+          animate={{
+            onLoad: { duration: 1500 },
+          }}
+        />
+      )}
       <VictoryLine
         style={{
           data: { stroke: "#c43a31" },
@@ -158,6 +195,7 @@ export const ActivatorTutorial = ({
           activatorHillFunctionData={activatorHillFunctionData}
           chartOptions={{
             showKIndicator: false,
+            showNComparisonCurves: false,
           }}
         />
       ),
@@ -187,6 +225,7 @@ export const ActivatorTutorial = ({
           activatorHillFunctionData={activatorHillFunctionData}
           chartOptions={{
             showKIndicator: false,
+            showNComparisonCurves: true,
           }}
         />
       ),
