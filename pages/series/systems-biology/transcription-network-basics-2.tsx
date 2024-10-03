@@ -172,10 +172,6 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
           <MathFormula tex="f(X^*) = \dfrac{K^{n}}{K^n + X^{*n}}" />
         </div>
-        <Paragraph>
-          Since it represses gene expression, we get maximum promoter activity
-          when X* = 0.
-        </Paragraph>
         <RepressorTutorial />
         <Paragraph>
           Evolution can tinker with these numbers through mutations in DNA. For

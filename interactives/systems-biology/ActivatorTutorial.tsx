@@ -176,6 +176,13 @@ export const ActivatorTutorial = ({
 
   const [showKIndicator, setShowKIndicator] = useState(true);
 
+  const initialActivatorHillFunctionData = getActivatorHillFunctionData(
+    initialActivatorBeta,
+    initialActivatorK,
+    initialActivatorN,
+    0,
+    20
+  );
   const activatorHillFunctionData = getActivatorHillFunctionData(
     activatorBeta,
     activatorK,
@@ -208,9 +215,9 @@ export const ActivatorTutorial = ({
       ),
       interactive: (
         <ActivatorGraph
-          activatorBeta={activatorBeta}
-          activatorK={activatorK}
-          activatorHillFunctionData={activatorHillFunctionData}
+          activatorBeta={initialActivatorBeta}
+          activatorK={initialActivatorK}
+          activatorHillFunctionData={initialActivatorHillFunctionData}
           chartOptions={{
             showKIndicator: false,
             showNComparisonCurves: false,
@@ -238,9 +245,9 @@ export const ActivatorTutorial = ({
       ),
       interactive: (
         <ActivatorGraph
-          activatorBeta={activatorBeta}
-          activatorK={activatorK}
-          activatorHillFunctionData={activatorHillFunctionData}
+          activatorBeta={initialActivatorBeta}
+          activatorK={initialActivatorK}
+          activatorHillFunctionData={initialActivatorHillFunctionData}
           chartOptions={{
             showKIndicator: false,
             showNComparisonCurves: true,

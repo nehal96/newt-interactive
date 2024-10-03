@@ -138,6 +138,13 @@ export const RepressorTutorial = ({
   const [repressorN, setRepressorN] = useState(initialRepressorN);
   const [showKIndicator, setShowKIndicator] = useState(false);
 
+  const initialRepressorHillFunctionData = getRepressorHillFunctionData(
+    initialRepressorBeta,
+    initialRepressorK,
+    initialRepressorN,
+    0,
+    20
+  );
   const repressorHillFunctionData = getRepressorHillFunctionData(
     repressorBeta,
     repressorK,
@@ -168,9 +175,9 @@ export const RepressorTutorial = ({
       ),
       interactive: (
         <RepressorGraph
-          repressorBeta={repressorBeta}
-          repressorK={repressorK}
-          repressorHillFunctionData={repressorHillFunctionData}
+          repressorBeta={initialRepressorBeta}
+          repressorK={initialRepressorK}
+          repressorHillFunctionData={initialRepressorHillFunctionData}
           chartOptions={{
             showKIndicator,
           }}
