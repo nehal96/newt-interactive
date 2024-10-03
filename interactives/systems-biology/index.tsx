@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   VictoryAxis,
   VictoryChart,
@@ -25,6 +25,12 @@ interface ActivatorGraphProps {
     showKIndicator?: boolean;
     showNComparisonCurves?: boolean;
   };
+}
+
+interface ActivatorTutorialProps {
+  initialActivatorBeta?: number;
+  initialActivatorK?: number;
+  initialActivatorN?: number;
 }
 
 export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
@@ -126,9 +132,6 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
             { x: activatorK, y: 0 },
             { x: activatorK, y: activatorBeta / 2 },
           ]}
-          animate={{
-            onLoad: { duration: 1500 },
-          }}
         />
       )}
       {showKIndicator && (
@@ -138,9 +141,6 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
             { x: 0, y: activatorBeta / 2 },
             { x: activatorK, y: activatorBeta / 2 },
           ]}
-          animate={{
-            onLoad: { duration: 1500 },
-          }}
         />
       )}
       {showKIndicator && (
@@ -162,15 +162,27 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
 };
 
 export const ActivatorTutorial = ({
-  activatorBeta,
-  activatorK,
-  activatorHillFunctionData,
-}: ActivatorGraphProps) => {
+  initialActivatorBeta = 20,
+  initialActivatorK = 5,
+  initialActivatorN = 1,
+}: ActivatorTutorialProps) => {
+  const [activatorBeta, setActivatorBeta] = useState(initialActivatorBeta);
+  const [activatorK, setActivatorK] = useState(initialActivatorK);
+  const [activatorN, setActivatorN] = useState(initialActivatorN);
+
+  const activatorHillFunctionData = getActivatorHillFunctionData(
+    activatorBeta,
+    activatorK,
+    activatorN,
+    0,
+    20
+  );
+
   const slides = [
     {
       text: (
         <>
-          <p>
+          <p className="mb-4">
             When{" "}
             <InlineCode variant="medium">
               <MathFormula tex="n = 1" />
@@ -203,7 +215,7 @@ export const ActivatorTutorial = ({
     {
       text: (
         <>
-          <p>
+          <p className="mb-4">
             Changing{" "}
             <InlineCode variant="medium">
               <MathFormula tex="n" />
@@ -226,6 +238,75 @@ export const ActivatorTutorial = ({
           chartOptions={{
             showKIndicator: false,
             showNComparisonCurves: true,
+          }}
+        />
+      ),
+    },
+    {
+      text: (
+        <>
+          <p>
+            Play around with the values for <MathFormula tex="\beta" />,{" "}
+            <MathFormula tex="K" />, and <MathFormula tex="n" /> and see how it
+            changes the curve.
+          </p>
+          <div>
+            <div className="mt-4">
+              <label htmlFor="beta-slider" className="font-medium block">
+                <MathFormula tex="\beta" />: {activatorBeta}
+              </label>
+              <input
+                type="range"
+                id="beta-slider"
+                min="0"
+                max="20"
+                step="0.1"
+                value={activatorBeta}
+                onChange={(e) => setActivatorBeta(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="K-slider" className="font-medium block">
+                <MathFormula tex="K" />: {activatorK}
+              </label>
+              <input
+                type="range"
+                id="K-slider"
+                min="1"
+                max="10"
+                step="0.1"
+                value={activatorK}
+                onChange={(e) => setActivatorK(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4 mb-6">
+              <label htmlFor="n-slider" className="font-medium block">
+                <MathFormula tex="n" />: {activatorN}
+              </label>
+              <input
+                type="range"
+                id="n-slider"
+                min="1"
+                max="4"
+                step="0.1"
+                value={activatorN}
+                onChange={(e) => setActivatorN(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+          </div>
+        </>
+      ),
+      interactive: (
+        <ActivatorGraph
+          activatorBeta={activatorBeta}
+          activatorK={activatorK}
+          activatorHillFunctionData={activatorHillFunctionData}
+          chartOptions={{
+            showKIndicator: false,
+            showNComparisonCurves: false,
           }}
         />
       ),
