@@ -14,6 +14,7 @@ import {
   InlineCode,
   MathFormula,
   SlideDeck,
+  Switch,
 } from "../../components";
 import { getActivatorHillFunctionData } from "./helpers";
 
@@ -37,7 +38,10 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
   activatorBeta,
   activatorK,
   activatorHillFunctionData,
-  chartOptions,
+  chartOptions = {
+    showKIndicator: false,
+    showNComparisonCurves: false,
+  },
 }) => {
   const dottedLineStyle = getDottedLineStyle();
   const gridLineStyle = getGridLineStyle();
@@ -169,6 +173,8 @@ export const ActivatorTutorial = ({
   const [activatorBeta, setActivatorBeta] = useState(initialActivatorBeta);
   const [activatorK, setActivatorK] = useState(initialActivatorK);
   const [activatorN, setActivatorN] = useState(initialActivatorN);
+
+  const [showKIndicator, setShowKIndicator] = useState(true);
 
   const activatorHillFunctionData = getActivatorHillFunctionData(
     activatorBeta,
@@ -306,6 +312,86 @@ export const ActivatorTutorial = ({
           activatorHillFunctionData={activatorHillFunctionData}
           chartOptions={{
             showKIndicator: false,
+            showNComparisonCurves: false,
+          }}
+        />
+      ),
+    },
+    {
+      text: (
+        <>
+          <p className="mb-8">
+            You might notice, either from the curve or the equation, that half
+            the maximal promoter activity,{" "}
+            <MathFormula tex="\dfrac{\beta}{2}" />, occurs when{" "}
+            <MathFormula tex="X^* = K" />. Play around with the sliders again to
+            see how they remain the same:
+          </p>
+          <div className="flex justify-between mb-6 w-11/12">
+            <label className="flex-start mr-8">
+              Show <MathFormula tex="K" /> indicator:
+            </label>
+            <Switch
+              checked={showKIndicator}
+              onCheckedChange={(checked) => setShowKIndicator(checked)}
+            />
+          </div>
+          <div>
+            <div className="mt-4">
+              <label htmlFor="beta-slider" className="font-medium block">
+                <MathFormula tex="\beta" />: {activatorBeta}
+              </label>
+              <input
+                type="range"
+                id="beta-slider"
+                min="0"
+                max="20"
+                step="0.1"
+                value={activatorBeta}
+                onChange={(e) => setActivatorBeta(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="K-slider" className="font-medium block">
+                <MathFormula tex="K" />: {activatorK}
+              </label>
+              <input
+                type="range"
+                id="K-slider"
+                min="1"
+                max="10"
+                step="0.1"
+                value={activatorK}
+                onChange={(e) => setActivatorK(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4 mb-6">
+              <label htmlFor="n-slider" className="font-medium block">
+                <MathFormula tex="n" />: {activatorN}
+              </label>
+              <input
+                type="range"
+                id="n-slider"
+                min="1"
+                max="4"
+                step="0.1"
+                value={activatorN}
+                onChange={(e) => setActivatorN(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+          </div>
+        </>
+      ),
+      interactive: (
+        <ActivatorGraph
+          activatorBeta={activatorBeta}
+          activatorK={activatorK}
+          activatorHillFunctionData={activatorHillFunctionData}
+          chartOptions={{
+            showKIndicator,
             showNComparisonCurves: false,
           }}
         />

@@ -48,7 +48,6 @@ const TranscriptionNetworkBasicsPartTwo = () => {
   const [repressorBeta, setRepressorBeta] = useState(20);
   const [repressorK, setRepressorK] = useState(5);
   const [repressorN, setRepressorN] = useState(1);
-  const [currentSlideNumber, setCurrentSlideNumber] = useState(1);
 
   const repressorHillFunctionData = getRepressorHillFunctionData(
     repressorBeta,
@@ -74,22 +73,6 @@ const TranscriptionNetworkBasicsPartTwo = () => {
       caption: "When the repressor is bound, gene expression is OFF.",
     },
   ];
-
-  const slides = {
-    4: {
-      text: (
-        <>
-          <p>
-            You might notice, either from the curve or the equation, that half
-            the maximal promoter activity,{" "}
-            <MathFormula tex="\dfrac{\beta}{2}" />, occurs when{" "}
-            <MathFormula tex="X^* = K" />. Click on the toggle to see this
-            illustrated on the chart.
-          </p>
-        </>
-      ),
-    },
-  };
 
   return (
     <>
