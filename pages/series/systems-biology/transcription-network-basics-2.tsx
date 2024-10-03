@@ -174,8 +174,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         </div>
         <Paragraph>
           Since it represses gene expression, we get maximum promoter activity
-          when X* = 0. Just like with the activator, half maximal expression if
-          found at X* = K.
+          when X* = 0.
         </Paragraph>
         <RepressorTutorial />
         <Paragraph>

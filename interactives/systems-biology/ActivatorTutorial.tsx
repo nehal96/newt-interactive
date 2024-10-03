@@ -320,14 +320,14 @@ export const ActivatorTutorial = ({
     {
       text: (
         <>
-          <p className="mb-8">
+          <p>
             You might notice, either from the curve or the equation, that half
             the maximal promoter activity,{" "}
             <MathFormula tex="\dfrac{\beta}{2}" />, occurs when{" "}
             <MathFormula tex="X^* = K" />. Play around with the sliders again to
             see how they remain the same:
           </p>
-          <div className="flex justify-between mb-6 w-11/12">
+          <div className="flex justify-between mt-8 w-11/12">
             <label className="flex-start mr-8">
               Show <MathFormula tex="K" /> indicator:
             </label>

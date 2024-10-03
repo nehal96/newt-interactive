@@ -11,6 +11,7 @@ import {
   axisStyle,
   getDottedLineStyle,
   getGridLineStyle,
+  InlineCode,
   MathFormula,
   SlideDeck,
   Switch,
@@ -150,10 +151,49 @@ export const RepressorTutorial = ({
       text: (
         <>
           <p>
-            This is the repressor Hill function. Play around with the values for{" "}
-            <MathFormula tex="\beta" />, <MathFormula tex="K" />, and{" "}
-            <MathFormula tex="n" /> to see how they affect the curve.
+            When{" "}
+            <InlineCode variant="medium">
+              <MathFormula tex="n" /> = 1
+            </InlineCode>
+            , the Hill function for a repressor gradually reduces as the
+            concentration of <MathFormula tex="X^*" /> increases, starting at
+            the maximal expression, <MathFormula tex="\beta" />, and going to
+            zero &mdash; the opposite of the activator Hill function.
           </p>
+          <p className="mt-4">
+            Just like with the activator, however, half maximal expression is
+            found at <MathFormula tex="X^* = K" />.
+          </p>
+        </>
+      ),
+      interactive: (
+        <RepressorGraph
+          repressorBeta={repressorBeta}
+          repressorK={repressorK}
+          repressorHillFunctionData={repressorHillFunctionData}
+          chartOptions={{
+            showKIndicator,
+          }}
+        />
+      ),
+    },
+    {
+      text: (
+        <>
+          <p>
+            Play around with the values for <MathFormula tex="\beta" />,{" "}
+            <MathFormula tex="K" />, and <MathFormula tex="n" /> to see how they
+            affect the curve:
+          </p>
+          <div className="flex justify-between mt-6 w-11/12">
+            <label className="flex-start mr-8">
+              Show <MathFormula tex="K" /> indicator:
+            </label>
+            <Switch
+              checked={showKIndicator}
+              onCheckedChange={(checked) => setShowKIndicator(checked)}
+            />
+          </div>
           <div>
             <div className="mt-4">
               <label htmlFor="beta-slider" className="font-medium block">
@@ -198,15 +238,6 @@ export const RepressorTutorial = ({
                 value={repressorN}
                 onChange={(e) => setRepressorN(parseFloat(e.target.value))}
                 className="w-11/12 flex-auto cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-between mb-6 w-11/12">
-              <label className="flex-start mr-8">
-                Show <MathFormula tex="K" /> indicator:
-              </label>
-              <Switch
-                checked={showKIndicator}
-                onCheckedChange={(checked) => setShowKIndicator(checked)}
               />
             </div>
           </div>
