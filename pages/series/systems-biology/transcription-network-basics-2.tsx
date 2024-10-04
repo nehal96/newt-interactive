@@ -51,15 +51,18 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         <Title>Transcription Network Basics: Part Two</Title>
         <Lede>Lede</Lede>
         <Paragraph>
-          In Part One, we provided the context for and introduced the topic of
-          transcription networks. In short, they describe the interactions
-          between transcription factors and genes. In this segment, we'll look a
-          little deeper at how transcription factors affect gene expression;
-          namely, how they can increase or decrease the transcription rate of a
-          gene. We'll also introduce simple network diagrams to illustrate
-          transcription factor-gene relationships, and finally, look at the
-          mathematical relationships between transcription factors and their
-          corresponding proteins.
+          In Part One, we described what transcription factors are and
+          introduced the topic of transcription networks. In short,
+          transcription factors are special proteins that increase or decrease
+          the rate of gene expression, and transcription networks illustrate and
+          explain the complex interactions between transcription factors and
+          genes. In this segment, we'll look a little deeper at how
+          transcription factors affect gene expression; namely, how they can
+          increase or decrease the transcription rate of a gene. We'll also
+          introduce simple network diagrams to illustrate transcription
+          factor-gene relationships, and finally, look at the mathematical
+          relationships between transcription factors and their corresponding
+          proteins.
         </Paragraph>
         <Paragraph>
           In the previous section, we built our way up to the following diagram:
@@ -82,31 +85,29 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         <Paragraph>
           A signal <MathFormula tex="S_x" /> transforms the transcription factor{" "}
           <MathFormula tex="X" /> into its active state{" "}
-          <MathFormula tex="X^*" />, which binds to its binding site and enables
-          RNA polymerase to bind to its binding site and begin transcribing DNA
-          into mRNA, which is translated into the protein{" "}
-          <MathFormula tex="Y" />.
+          <MathFormula tex="X^*" />, which binds to its binding site enabling
+          RNA polymerase to begin transcribing DNA into mRNA, which is
+          translated into the protein <MathFormula tex="Y" />.
         </Paragraph>
         <Paragraph>
-          This diagram describes one type of transcription factors: the{" "}
-          <strong>activator</strong>, which, when bound to DNA, increases the
-          transcription rate of a gene. There's another type, the{" "}
-          <strong>repressor</strong>, that decreases the transcription rate. A
-          simple diagram representing a repressor would look something like
-          this:
+          This diagram describes one type of transcription factor, the{" "}
+          <strong>activator</strong>, which, when bound to DNA, <i>increases</i>{" "}
+          the transcription rate of a gene. There's another type, the{" "}
+          <strong>repressor</strong>, that decreases the transcription rate. For
+          repressors, gene expression is on by default; the binding of a
+          repressor turns it off. These simple diagram illustrate what on and
+          off look like:
         </Paragraph>
         <ImageSeries images={repressorImages} />
         <Paragraph>
-          (Note that, for an activator, when the TF is not bound, as gene
-          expression is OFF).
+          (Just to note: for an activator, when the transcription factor is not
+          bound, gene expression is off. It is the binding in its active state
+          that turns on gene expression.)
         </Paragraph>
         <Paragraph>
           We can represent this activating or repressing relationship in network
-          diagrams as well. Activators are denoted by a regular arrow: X → Y,
-          and repressors are denoted by a blunt-headed arrow,{" "}
-          <MathFormula tex="X \Rightarrow Y" />. This notation will be used
-          throughout to denote whether transcription factors are activators or
-          repressors.
+          diagrams as well. Activators are denoted by a regular arrow, and
+          repressors are denoted by a blunt-headed arrow:
         </Paragraph>
         <div className="flex flex-col justify-center mt-4 mb-12">
           <div className="max-w-[500px] w-full mx-auto">
@@ -123,45 +124,98 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         <Paragraph>
           So far, we’ve talked about transcription factors like they’re a
           switch; they turn genes on or off. In reality, they’re more like a
-          valve; they increase (for activators) or decrease (for repressors) the
-          rate of production of a protein. This may include turning it on or
-          off, but ramping up or ramping down production paints a more accurate
-          picture. The arrows, in effect, don’t only signify the positive or
-          negative relationship, but the strength of that relationship as well.
+          valve; they increase or decrease the rate of production of a protein.
+          This may include turning it on or off, but ramping up or ramping down
+          production paints a more accurate picture. The arrows, in effect,
+          don’t only signify the positive or negative relationship, but the
+          strength of that relationship as well.
         </Paragraph>
         <Paragraph>
-          We can describe the strength of the effect of a TF on a target gene
-          with an input function. X → Y represents that the number of molecules
-          of protein Y produced per unit of time is a function of the
-          concentration of X in its active form, X*.{" "}
+          Before we dive into some math, it’s important to understand its
+          context: the inner workings of a cell. Cells are a crowded place,
+          stuffed with molecules large and small: proteins, nucleic acids, amino
+          acids, sugars, ATP, and other small molecules, all surrounded by
+          water. Moving inside a cell involves a lot of bumping into one another
+          constantly, like hastily making your way across a crowded nightclub
+          floor.{" "}
         </Paragraph>
-        <Paragraph>Mathematically, we can write this as:</Paragraph>
+        <div className="flex flex-col justify-center mt-4 mb-12">
+          <div className="max-w-[500px] w-full mx-auto">
+            <Image
+              src="/images/e-coli-goodsell.png"
+              alt="E. coli Cell"
+              layout="responsive"
+              width={500}
+              height={500}
+            />
+          </div>
+          <div className="max-w-[600px] w-full mx-auto text-center my-2 text-xs text-gray-500">
+            This painting shows a cross-section through an{" "}
+            <i>Escherichia coli</i> cell. Illustration by David S. Goodsell,
+            RCSB Protein Data Bank. doi: 10.2210/rcsb_pdb/goodsell-gallery-028
+          </div>
+        </div>
+        <Paragraph>
+          It is this bumping, however, that enables the molecular interactions
+          that sustain life. Molecular interactions occur at specific
+          orientations: the atoms or molecules connect best at some specific
+          region, like two adjacent puzzle pieces. The crowded environment means
+          two elements will spend more time next to each other, shuffling and
+          bumping, which increases the <i>likelihood</i> of reactions.
+        </Paragraph>
+        <Paragraph>
+          “Crowded” and “likelihood” hint towards two features that we can use
+          mathematically: concentration and probability. The higher the
+          concentration of a molecule in a cell, the more there is of it given
+          some volume, and so the higher the chance of the right kind of
+          molecular interaction.
+        </Paragraph>
+        <Paragraph>
+          We can use this when we think of interactions with transcription
+          factors. The number of molecules of protein <MathFormula tex="Y" />{" "}
+          produced per unit of time is dependant on the concentration of{" "}
+          <MathFormula tex="X" /> in its active form, <MathFormula tex="X^*" />.
+        </Paragraph>
+        <Paragraph>
+          Mathematically, we can write this as as an{" "}
+          <strong>input function</strong>:
+        </Paragraph>
         <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
           <MathFormula tex="\text{rate of production of Y} = f(X^*)" />
         </div>
         <Paragraph>
-          It is an increasing function when X is an activator and a decreasing
-          function when X is a repressor. One function that realistically
-          represents protein production is the Hill function, which is defined
-          as:
+          It is an increasing function when <MathFormula tex="X" /> is an
+          activator and a decreasing function when <MathFormula tex="X" /> is a
+          repressor.
+        </Paragraph>
+        <Paragraph>
+          One function that realistically represents protein production is the
+          Hill function. Let’s look at activators first. The Hill function for
+          an activator is defined as:
         </Paragraph>
         <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
           <MathFormula tex="f(X^*) = \dfrac{X^{*n}}{K^n + X^{*n}}" />
         </div>
-        <Paragraph>Let’s take a look at the parameters:</Paragraph>
+        <Paragraph>where:</Paragraph>
         <OrderedList>
           <li>
-            K is the activation coefficient; it defines the concentration of X*,
-            the active form of X, needed to significantly activate expression.
+            <MathFormula tex="K" /> is the{" "}
+            <strong>activation coefficient</strong>; it defines the
+            concentration of <MathFormula tex="X^*" />, the active form of{" "}
+            <MathFormula tex="X" />, needed to significantly activate
+            expression.
           </li>
           <li>
-            β is the maximal promoter activity: the maximum rate of production
-            of Y, achieved at very high concentrations of X* (higher probability
-            of binding)
+            <MathFormula tex="\beta" /> is the{" "}
+            <strong>maximal promoter activity</strong>: the maximum rate of
+            production of <MathFormula tex="Y" />, achieved at very high
+            concentrations of <MathFormula tex="X^*" /> (higher probability of
+            binding)
           </li>
           <li>
-            n is the Hill coefficient, and determines the steepness of the curve
-            (typically n is between 1 and 4)
+            <MathFormula tex="n" /> is the <strong>Hill coefficient</strong>,
+            and determines the steepness of the curve (typically{" "}
+            <MathFormula tex="n" /> is between 1 and 4)
           </li>
         </OrderedList>
         <ActivatorTutorial />
