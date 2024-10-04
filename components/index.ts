@@ -21,7 +21,7 @@ export { default as Subheader } from "./Subheader";
 export { default as SubscribeForm } from "./SubscribeForm";
 export { default as Switch } from "./Switch";
 export { default as Title } from "./Title";
-
+export { default as UnorderedList } from "./UnorderedList";
 // 3-D Models
 export { DNA } from "./3D-Models";
 

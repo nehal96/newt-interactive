@@ -8,7 +8,7 @@ import {
   Paragraph,
   PostArticleSubscribe,
   MathFormula,
-  OrderedList,
+  UnorderedList,
   ImageSeries,
   Subheader,
 } from "../../../components";
@@ -197,7 +197,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           <MathFormula tex="f(X^*) = \dfrac{X^{*n}}{K^n + X^{*n}}" />
         </div>
         <Paragraph>where:</Paragraph>
-        <OrderedList>
+        <UnorderedList>
           <li>
             <MathFormula tex="K" /> is the{" "}
             <strong>activation coefficient</strong>; it defines the
@@ -214,10 +214,14 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           </li>
           <li>
             <MathFormula tex="n" /> is the <strong>Hill coefficient</strong>,
-            and determines the steepness of the curve (typically{" "}
-            <MathFormula tex="n" /> is between 1 and 4)
+            and determines the steepness of the curve (typically between 1 and
+            4)
           </li>
-        </OrderedList>
+        </UnorderedList>
+        <Paragraph>
+          Let's take a look at what this looks like graphically and what that
+          means:
+        </Paragraph>
         <ActivatorTutorial />
         <Paragraph>
           For a repressor, the Hill function decreases as we increase the

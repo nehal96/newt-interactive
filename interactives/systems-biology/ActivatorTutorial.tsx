@@ -201,15 +201,14 @@ export const ActivatorTutorial = ({
               <MathFormula tex="n = 1" />
             </InlineCode>{" "}
             the curve looks something like this &mdash; a quick ascent, and then
-            a gradual tapering off when the concentration gets very high.
+            a gradual tapering off when the concentration gets very high,
+            trending towards <MathFormula tex="\beta" />.
           </p>
           <p>
-            The saturation of the Hill function at high levels of{" "}
-            <MathFormula tex="X^*" /> makes sense; the maximum probability of{" "}
-            <MathFormula tex="X^*" /> binding to the promoter is 1, and so after
-            a certain point, more <MathFormula tex="X^*" />
-            doesn’t mean more proteins. In other words, protein production will
-            eventually be bottle-necked by genes.
+            The Hill function gets saturated at high levels of{" "}
+            <MathFormula tex="X^*" />, so more <MathFormula tex="X^*" /> leads
+            to less and less additional proteins until it levels off at the
+            maximum.
           </p>
         </>
       ),
@@ -234,12 +233,13 @@ export const ActivatorTutorial = ({
               <MathFormula tex="n" />
             </InlineCode>{" "}
             changes the shape of the curve. As it goes from 2 and then to 4, it
-            starts looking more like an S-shape, a shape that comes with some
-            interesting properties that we’ll explore in future lessons.
+            gets more of an S-shape &mdash; a shape that comes with some
+            interesting properties that we’ll explore in future posts.
           </p>
           <p>
-            Notice also that there’s a steeper ascent, and the saturation
-            reaches closer to the maximal activity <MathFormula tex="\beta" />.
+            Notice also that there’s a steeper ascent, albeit with a little
+            delay, and maximal activity <MathFormula tex="\beta" /> is reached
+            quicker.
           </p>
         </>
       ),
@@ -329,10 +329,10 @@ export const ActivatorTutorial = ({
         <>
           <p>
             You might notice, either from the curve or the equation, that half
-            the maximal promoter activity,{" "}
-            <MathFormula tex="\dfrac{\beta}{2}" />, occurs when{" "}
-            <MathFormula tex="X^* = K" />. Play around with the sliders again to
-            see how they remain the same:
+            the maximal promoter activity, <MathFormula tex="\beta / 2" />,
+            occurs when <MathFormula tex="X^* = K" />. (This halfway value will
+            play an important role when we look at{" "}
+            <strong>response time</strong> in the next part).
           </p>
           <div className="flex justify-between mt-8 w-11/12">
             <label className="flex-start mr-8">
