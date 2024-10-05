@@ -13,6 +13,7 @@ import {
   getGridLineStyle,
   InlineCode,
   MathFormula,
+  Popover,
   SlideDeck,
   Switch,
 } from "../../components";
@@ -33,6 +34,23 @@ interface ActivatorTutorialProps {
   initialActivatorK?: number;
   initialActivatorN?: number;
 }
+
+const EquationPopoverContent = () => (
+  <div className="flex flex-col text-md w-[350px]">
+    <p className="mb-6">we have:</p>
+    <div>
+      <MathFormula tex="f(X^*) = \beta\dfrac{X^{*n}}{K^{n} + X^{*n}}" />, where{" "}
+      <MathFormula tex="X^* = K" />
+    </div>
+    <p className="my-6">so:</p>
+    <MathFormula tex="f(K) = \beta\dfrac{X^{*n}}{X^{*n} + X^{*n}}" />
+    <MathFormula
+      className="my-6"
+      tex="f(K) = \beta\dfrac{\cancel{X^{*n}}}{2\cancel{X^{*n}}}"
+    />
+    <MathFormula tex="f(K) = \dfrac{\beta}{2}" />
+  </div>
+);
 
 export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
   activatorBeta,
@@ -328,11 +346,22 @@ export const ActivatorTutorial = ({
       text: (
         <>
           <p>
-            You might notice, either from the curve or the equation, that half
-            the maximal promoter activity, <MathFormula tex="\beta / 2" />,
-            occurs when <MathFormula tex="X^* = K" />. (This halfway value will
-            play an important role when we look at{" "}
-            <strong>response time</strong> in the next part).
+            You might notice, either from the curve or the{" "}
+            <Popover
+              trigger={
+                <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+                  equation
+                </span>
+              }
+              content={<EquationPopoverContent />}
+              side="top"
+              triggerOnHover={true}
+            />
+            , that half the maximal promoter activity,{" "}
+            <MathFormula tex="\beta / 2" />, occurs when{" "}
+            <MathFormula tex="X^* = K" />. (This halfway value will play an
+            important role when we look at <strong>response time</strong> in the
+            next post in the series).
           </p>
           <div className="flex justify-between mt-8 w-11/12">
             <label className="flex-start mr-8">

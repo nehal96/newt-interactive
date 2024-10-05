@@ -13,6 +13,7 @@ export { default as MathFormula } from "./MathFormula";
 export { default as Navbar } from "./Navbar";
 export { default as OrderedList } from "./OrderedList";
 export { default as Paragraph } from "./Paragraph";
+export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
 export { default as Slides } from "./Slides";
 export { default as SlideDeck } from "./SlideDeck";
