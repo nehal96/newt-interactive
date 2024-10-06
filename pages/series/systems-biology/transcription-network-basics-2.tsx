@@ -49,7 +49,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
       <Navbar />
       <ArticleContainer>
         <Title>Transcription Network Basics: Part Two</Title>
-        <Lede>Lede</Lede>
+        <Lede>Activators, repressors, and how to model gene expression.</Lede>
         <Paragraph>
           In Part One, we described what transcription factors are and
           introduced the topic of transcription networks. In short,
@@ -77,10 +77,10 @@ const TranscriptionNetworkBasicsPartTwo = () => {
               height={323}
             />
           </div>
-          {/* <div className="max-w-[550px] w-full mx-auto text-center my-2 text-xs text-gray-500">
+          <div className="max-w-[550px] w-full mx-auto text-center my-2 text-xs text-gray-500">
             The horizontal line represents DNA. Gene Y labels the portion of DNA
             that encodes the gene for protein Y.
-          </div> */}
+          </div>
         </div>
         <Paragraph>
           A signal <MathFormula tex="S_x" /> transforms the transcription factor{" "}
@@ -224,32 +224,56 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         </Paragraph>
         <ActivatorTutorial />
         <Paragraph>
-          For a repressor, the Hill function decreases as we increase the
-          concentration of X*, as described by the equation:
+          Repressors are the opposite &mdash; the function decreases as we
+          increase the concentration of <MathFormula tex="X^*" />. So, the Hill
+          function for a repressor is defined as:
         </Paragraph>
         <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
           <MathFormula tex="f(X^*) = \dfrac{K^{n}}{K^n + X^{*n}}" />
         </div>
-        <RepressorTutorial />
         <Paragraph>
-          Evolution can tinker with these numbers through mutations in DNA. For
-          example, a mutation in the transcription factor binding site can
-          strengthen the bonds between the transcription factor and the site,
-          thus increasing the likelihood of bonding and lowering the values of K
-          (less concentration needed for significant gene expression). Shifting
-          around the promoter region can also change the value of K. Mutations
-          in the RNA polymerase binding site can change the value of B.
+          Let's take a look at what this looks like as well:
+        </Paragraph>
+        <RepressorTutorial />
+        <Subheader>The Real World</Subheader>
+        <Paragraph>
+          The values for <MathFormula tex="K" /> and <MathFormula tex="\beta" />{" "}
+          in real-world biology depend on the organism, and don't remain
+          constant either. Evolution can tinker with these numbers through
+          mutations in DNA. For example, a mutation in the transcription factor
+          binding site can strengthen the bonds between the transcription factor
+          and the site, and therefore increase the likelihood of bonding and
+          lower the values of <MathFormula tex="K" /> (less concentration is
+          needed for significant gene expression). Shifting around the promoter
+          region within DNA can also change the value of <MathFormula tex="K" />
+          , and mutations in the RNA polymerase binding site can change the
+          value of <MathFormula tex="\beta" />.
         </Paragraph>
         <Paragraph>
-          Scientists can also use the same phenomena to tinker and engineer
-          biological changes. Genes are modular; you can take a gene from one
-          organism and express it in another. One gene that is very often used
-          in biological experiments is the gene for the green fluorescent
-          protein (GFP), taken from a jellyfish. When introduced into bacteria,
-          it expresses the gene and turns green. You can also regulate its
-          expression by adding a promoter region. For example, when the promoter
-          for a sugar-inducible transcription factor is added in front of the
-          GFP gene, the bacteria only turns green when the sugar is present.
+          Scientists can also harness this phenomenon to engineer precise
+          biological changes. One remarkable aspect of genes is their
+          modularity; a gene from one organism can be expressed in another. The
+          gene encoding green fluorescent protein (GFP), originally isolated
+          from jellyfish, is a prime example. When introduced into bacteria, the
+          GFP gene is expressed, causing the bacteria to produce fluorescent
+          green proteins. This technique has become a staple in biological
+          research for visualizing and quantifying gene expression.
+        </Paragraph>
+        <Paragraph>
+          GFP's versatility extends beyond simple expression studies. By pairing
+          the GFP gene with specific regulatory elements, researchers can
+          investigate complex gene regulation mechanisms. For instance, when the
+          GFP gene is placed under the control of a sugar-responsive promoter,
+          the bacteria only fluoresce in the presence of the specific sugar.
+          This elegant system allows scientists to directly observe and measure
+          the activity of regulatory elements in real-time, providing valuable
+          insights into gene regulation dynamics.
+        </Paragraph>
+        <Paragraph>
+          In the next part, we'll introduce logical approximations of these Hill
+          functions, which enable us to look at genes regulated by multiple
+          transcription factors, and also explore the dynamics of transcription
+          networks, or how to model gene expression as a function of time.
         </Paragraph>
         <div className="flex justify-start max-w-3xl w-full mx-auto mt-10 mb-4">
           <Link

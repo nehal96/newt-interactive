@@ -188,9 +188,9 @@ export const RepressorTutorial = ({
       text: (
         <>
           <p>
-            Play around with the values for <MathFormula tex="\beta" />,{" "}
-            <MathFormula tex="K" />, and <MathFormula tex="n" /> to see how they
-            affect the curve:
+            Feel free to play around with the values for{" "}
+            <MathFormula tex="\beta" />, <MathFormula tex="K" />, and{" "}
+            <MathFormula tex="n" /> to see how they affect the curve:
           </p>
           <div className="flex justify-between mt-6 w-11/12">
             <label className="flex-start mr-8">
