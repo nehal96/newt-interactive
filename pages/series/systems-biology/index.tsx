@@ -33,6 +33,13 @@ const SystemsBiologyExplainersPage = () => {
               </a>
             </Link>
           </li>
+          <li>
+            <Link href="/series/systems-biology/transcription-network-basics-2">
+              <a className="text-blue-600 hover:underline">
+                Transcription Network Basics: Part Two
+              </a>
+            </Link>
+          </li>
         </OrderedList>
       </ArticleContainer>
     </>

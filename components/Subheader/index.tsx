@@ -5,7 +5,7 @@ const Subheader: FunctionComponent<
 > = ({ children, className }) => {
   return (
     <h3
-      className={`font-body text-2xl w-full text-slate-800 self-center max-w-3xl mb-8 md:text-3xl md:tracking-wide ${className}`}
+      className={`font-body font-medium text-xl w-full text-slate-800 self-center max-w-3xl mb-8 md:text-2xl md:tracking-wide ${className}`}
     >
       {children}
     </h3>

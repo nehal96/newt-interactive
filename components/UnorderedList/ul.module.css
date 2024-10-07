@@ -1,0 +1,8 @@
+.ul {
+  @apply font-body text-lg w-full text-slate-700 self-center list-disc 
+    list-outside max-w-3xl mb-8 md:text-xl md:tracking-wide;
+}
+
+.ul > li {
+  @apply mb-3 ml-6 pl-3
+}

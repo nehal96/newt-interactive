@@ -1,48 +1,35 @@
-import Tippy, { TippyProps } from "@tippyjs/react";
-import { ReactNode, useState } from "react";
-import "tippy.js/dist/tippy.css";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { ReactNode } from "react";
 
-interface PopoverProps extends Omit<TippyProps, "children"> {
-  children?: React.ReactNode;
+interface PopoverProps {
+  trigger: ReactNode;
   content: ReactNode;
-  highlightColor?: string;
+  align?: "start" | "center" | "end";
+  side?: "top" | "right" | "bottom" | "left";
+  triggerOnHover?: boolean;
 }
-interface PopoverContentProps {
-  children: React.ReactNode;
-}
-
-export const PopoverContent = ({ children }: PopoverContentProps) => {
-  return <div className="p-2">{children}</div>;
-};
 
 const Popover = ({
-  children,
+  trigger,
   content,
-  interactive = true,
-  interactiveBorder = 20,
-  highlightColor = "newt-blue-50",
-  ...props
+  align = "center",
+  side = "bottom",
 }: PopoverProps) => {
-  const [isShown, setIsShown] = useState(false);
-
   return (
-    <>
-      <span className={isShown ? `bg-${highlightColor}` : null}>
-        {children}
-      </span>
-      <Tippy
-        content={content}
-        interactive={interactive}
-        interactiveBorder={interactiveBorder}
-        onShow={() => setIsShown(true)}
-        onHide={() => setIsShown(false)}
-        {...props}
-      >
-        <span className="relative bg-newt-blue-100 px-1.5 text-xs font-medium rounded-full ml-0.5 -top-2">
-          i
-        </span>
-      </Tippy>
-    </>
+    <PopoverPrimitive.Root>
+      <PopoverPrimitive.Trigger asChild>{trigger}</PopoverPrimitive.Trigger>
+      <PopoverPrimitive.Portal>
+        <PopoverPrimitive.Content
+          align={align}
+          side={side}
+          sideOffset={5}
+          className="bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] p-6 max-w-[400px] z-50"
+        >
+          {content}
+          <PopoverPrimitive.Arrow className="fill-white" />
+        </PopoverPrimitive.Content>
+      </PopoverPrimitive.Portal>
+    </PopoverPrimitive.Root>
   );
 };
 
