@@ -57,7 +57,10 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           property="og:description"
           content="Dive deep into transcription factors, network diagrams, and mathematical models of gene expression. Learn about activators, repressors, and the Hill function in systems biology."
         />
-        <meta property="og:image" content="https://ibb.co/n8t4xsL" />
+        <meta
+          property="og:image"
+          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
+        />
         <meta
           property="og:url"
           content="https://newtinteractive.com/series/systems-biology/transcription-network-basics-2"
@@ -66,13 +69,16 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Transcription Network Basics: Part Two | Gene Expression Modeling"
+          content="Transcription Network Basics: Part Two / Newt Interactive"
         />
         <meta
           name="twitter:description"
           content="Learn about activators, repressors, and mathematical models of gene expression in systems biology."
         />
-        <meta name="twitter:image" content="https://ibb.co/n8t4xsL" />
+        <meta
+          name="twitter:image"
+          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
+        />
       </Head>
       <Navbar />
       <ArticleContainer>

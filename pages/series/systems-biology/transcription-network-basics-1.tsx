@@ -59,7 +59,10 @@ const TranscriptionNetworkBasicsPartOne = () => {
           property="og:description"
           content="Explore the fundamental concepts of transcription networks in systems biology. Learn about gene expression, transcription factors, and how cells respond to signals."
         />
-        <meta property="og:image" content="https://ibb.co/n8t4xsL" />
+        <meta
+          property="og:image"
+          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
+        />
         <meta
           property="og:url"
           content="https://newtinteractive.com/series/systems-biology/transcription-network-basics-1"
@@ -68,13 +71,16 @@ const TranscriptionNetworkBasicsPartOne = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Transcription Network Basics: Part One | Introduction to Gene Expression"
+          content="Transcription Network Basics: Part One / Newt Interactive"
         />
         <meta
           name="twitter:description"
           content="Learn about the basics of transcription networks, gene expression, and how cells respond to signals in systems biology."
         />
-        <meta name="twitter:image" content="https://ibb.co/n8t4xsL" />
+        <meta
+          name="twitter:image"
+          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
+        />
       </Head>
       <Navbar />
       <ArticleContainer>
