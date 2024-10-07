@@ -64,7 +64,7 @@ export default function Home() {
           </Link>
         </div>
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
-        <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
+        <div className="flex flex-wrap pb-12 sm:pb-16">
           <Link href="/blocks/robot-localization" legacyBehavior>
             <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
               <div>
@@ -116,6 +116,28 @@ export default function Home() {
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
                   1D Kalman Filters
+                </h3>
+              </div>
+            </a>
+          </Link>
+        </div>
+        <h1 className="text-4xl font-bold text-slate-800 mb-8">Notes</h1>
+        <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
+          <Link href="/notes/threejs-journey" legacyBehavior>
+            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
+              <div>
+                <Image
+                  src="/images/threejs-journey-card-pic.png"
+                  height={160}
+                  width={160}
+                  layout="responsive"
+                  className="rounded-t-xl"
+                  alt="cartoon robot"
+                />
+              </div>
+              <div className="p-3 sm:p-5">
+                <h3 className="sm:text-lg font-medium text-slate-800">
+                  ThreeJS Journey
                 </h3>
               </div>
             </a>
