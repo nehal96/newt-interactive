@@ -17,24 +17,40 @@ const KalmanFilterPage = () => {
         <title>Kalman Filters / Newt Interactive</title>
         <meta
           name="description"
-          content="Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions"
-        />
-        {/* <!-- Twitter --> */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:creator" content="@nehaludyavar" />
-        <meta
-          property="twitter:url"
-          content="https://www.newtinteractive.com/"
-        />
-        <meta property="twitter:title" content="1D Kalman Filters" />
-        <meta
-          property="twitter:description"
-          content="Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions"
+          content="Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions in a continuously changing 1D environment"
         />
         <meta
-          property="twitter:image"
-          content="https://i.ibb.co/cg0H2N1/kalman.jpg"
+          name="keywords"
+          content="Kalman filters, uncertainty, predictions, continuous environment, algorithm, interactive explainer"
         />
+        <meta property="og:title" content="Kalman Filters / Newt Interactive" />
+        <meta
+          property="og:description"
+          content="Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions in a continuously changing 1D environment"
+        />
+        <meta
+          property="og:image"
+          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+        />
+        <meta
+          property="og:url"
+          content="https://newtinteractive.com/blocks/kalman-filters"
+        />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Kalman Filters / Newt Interactive"
+        />
+        <meta
+          name="twitter:description"
+          content="Learn about efficiently combining uncertain information to make predictions in a continuously changing 1D environment"
+        />
+        <meta
+          name="twitter:image"
+          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+        />
+        <meta name="twitter:creator" content="@nehaludyavar" />
       </Head>
       <Navbar />
       <ArticleContainer>

@@ -20,24 +20,37 @@ const DNAPage = () => {
         <title>DNA in 3D / Newt Interactive</title>
         <meta
           name="description"
-          content="Explorable 3D model of simplified DNA molecule"
-        />
-        {/* <!-- Twitter --> */}
-        <meta property="twitter:card" content="summary" />
-        <meta
-          property="twitter:url"
-          content="https://www.newtinteractive.com/blocks/dna"
-        />
-        <meta property="twitter:creator" content="@nehaludyavar" />
-        <meta property="twitter:title" content="DNA in 3D" />
-        <meta
-          property="twitter:description"
-          content="Explorable 3D model of simplified DNA molecule"
+          content="Explore a simplified 3D model of a DNA molecule. Interact with this visual representation to better understand the structure of DNA."
         />
         <meta
-          property="twitter:image"
+          name="keywords"
+          content="DNA, 3D model, molecular structure, genetics, biology, interactive visualization"
+        />
+        <meta property="og:title" content="DNA in 3D / Newt Interactive" />
+        <meta
+          property="og:description"
+          content="Explore a simplified 3D model of a DNA molecule. Interact with this visual representation to better understand the structure of DNA."
+        />
+        <meta
+          property="og:image"
           content="https://i.ibb.co/JQp3PZk/DNA3d.jpg"
         />
+        <meta
+          property="og:url"
+          content="https://www.newtinteractive.com/blocks/dna"
+        />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="DNA in 3D / Newt Interactive" />
+        <meta
+          name="twitter:description"
+          content="Explore a simplified 3D model of a DNA molecule. Interact with this visual representation to better understand the structure of DNA."
+        />
+        <meta
+          name="twitter:image"
+          content="https://i.ibb.co/JQp3PZk/DNA3d.jpg"
+        />
+        <meta name="twitter:creator" content="@nehaludyavar" />
       </Head>
       <Navbar />
       <ArticleContainer>

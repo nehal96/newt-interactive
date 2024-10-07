@@ -58,27 +58,43 @@ const ThreeJSJourneyPage = () => {
         <title>ThreeJS Journey Notes / Newt Interactive</title>
         <meta
           name="description"
-          content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
+          content="Interactive, educational explainers and playgrounds on topics from Bruno Simon's ThreeJS Journey course, including animations, cameras, shaders, and more."
         />
-        {/* <!-- Twitter --> */}
-        <meta property="twitter:card" content="summary_large_image" />
         <meta
-          property="twitter:url"
-          content="https://www.newtinteractive.com/notes/threejs-journey"
+          name="keywords"
+          content="ThreeJS, 3D graphics, web development, animations, cameras, shaders, interactive learning"
         />
-        <meta property="twitter:creator" content="@nehaludyavar" />
         <meta
-          property="twitter:title"
+          property="og:title"
           content="ThreeJS Journey Notes / Newt Interactive"
         />
         <meta
-          property="twitter:description"
-          content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
+          property="og:description"
+          content="Interactive, educational explainers and playgrounds on topics from Bruno Simon's ThreeJS Journey course, including animations, cameras, shaders, and more."
         />
         <meta
-          property="twitter:image"
+          property="og:image"
           content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
         />
+        <meta
+          property="og:url"
+          content="https://www.newtinteractive.com/notes/threejs-journey"
+        />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="ThreeJS Journey Notes / Newt Interactive"
+        />
+        <meta
+          name="twitter:description"
+          content="Learn about ThreeJS concepts with interactive examples and playgrounds."
+        />
+        <meta
+          name="twitter:image"
+          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+        />
+        <meta name="twitter:creator" content="@nehaludyavar" />
       </Head>
       <Navbar />
       <ArticleContainer>
