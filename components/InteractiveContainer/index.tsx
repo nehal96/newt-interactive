@@ -18,7 +18,9 @@ export const InteractiveContainer: FunctionComponent<
       className={`flex justify-center mx-0 my-4 md:mx-4 lg:my-0 ${className}`}
       {...props}
     >
-      <div className="flex flex-col justify-center w-full">{children}</div>
+      <div className="flex flex-col justify-center w-full max-w-[550px]">
+        {children}
+      </div>
     </div>
   );
 };

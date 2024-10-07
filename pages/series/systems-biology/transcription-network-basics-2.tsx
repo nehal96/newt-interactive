@@ -56,19 +56,21 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           transcription factors are special proteins that increase or decrease
           the rate of gene expression, and transcription networks illustrate and
           explain the complex interactions between transcription factors and
-          genes. In this segment, we'll look a little deeper at how
-          transcription factors affect gene expression; namely, how they can
-          increase or decrease the transcription rate of a gene. We'll also
-          introduce simple network diagrams to illustrate transcription
-          factor-gene relationships, and finally, look at the mathematical
-          relationships between transcription factors and their corresponding
-          proteins.
+          genes.
+        </Paragraph>
+        <Paragraph>
+          In this segment, we'll look a little deeper at how transcription
+          factors affect gene expression; namely, how they can increase or
+          decrease the transcription rate of a gene. We'll also introduce simple
+          network diagrams to illustrate transcription factor-gene
+          relationships, and finally, look at the mathematical relationships
+          between transcription factors and their corresponding proteins.
         </Paragraph>
         <Paragraph>
           In the previous section, we built our way up to the following diagram:
         </Paragraph>
         <div className="flex flex-col justify-center mt-4 mb-12">
-          <div className="max-w-[550px] w-full mx-auto">
+          <div className="max-w-[600px] w-full mx-auto">
             <Image
               src="/images/gene-expression-diagram-full.svg"
               alt="Full Gene Expression Diagram"
@@ -77,7 +79,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
               height={323}
             />
           </div>
-          <div className="max-w-[550px] w-full mx-auto text-center my-2 text-xs text-gray-500">
+          <div className="max-w-[650px] w-full mx-auto text-center my-2 text-xs text-gray-500">
             The horizontal line represents DNA. Gene Y labels the portion of DNA
             that encodes the gene for protein Y.
           </div>
@@ -95,15 +97,10 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           the transcription rate of a gene. There's another type, the{" "}
           <strong>repressor</strong>, that decreases the transcription rate. For
           repressors, gene expression is on by default; the binding of a
-          repressor turns it off. These simple diagram illustrate what on and
+          repressor turns it off. These simple diagrams illustrate what on and
           off look like:
         </Paragraph>
         <ImageSeries images={repressorImages} />
-        <Paragraph>
-          (Just to note: for an activator, when the transcription factor is not
-          bound, gene expression is off. It is the binding in its active state
-          that turns on gene expression.)
-        </Paragraph>
         <Paragraph>
           We can represent this activating or repressing relationship in network
           diagrams as well. Activators are denoted by a regular arrow, and
@@ -223,7 +220,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           means:
         </Paragraph>
         <ActivatorTutorial />
-        <Paragraph>
+        <Paragraph className="mt-8">
           Repressors are the opposite &mdash; the function decreases as we
           increase the concentration of <MathFormula tex="X^*" />. So, the Hill
           function for a repressor is defined as:
@@ -235,7 +232,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           Let's take a look at what this looks like as well:
         </Paragraph>
         <RepressorTutorial />
-        <Subheader>The Real World</Subheader>
+        <Subheader className="mt-8">The Real World</Subheader>
         <Paragraph>
           The values for <MathFormula tex="K" /> and <MathFormula tex="\beta" />{" "}
           in real-world biology depend on the organism, and don't remain
@@ -255,9 +252,10 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           modularity; a gene from one organism can be expressed in another. The
           gene encoding green fluorescent protein (GFP), originally isolated
           from jellyfish, is a prime example. When introduced into bacteria, the
-          GFP gene is expressed, causing the bacteria to produce fluorescent
-          green proteins. This technique has become a staple in biological
-          research for visualizing and quantifying gene expression.
+          GFP gene is expressed, causing the bacteria to produce the proteins,
+          glowing with small specks of fluoroscent green. This technique has
+          become a staple in biological research for visualizing and quantifying
+          gene expression.
         </Paragraph>
         <Paragraph>
           GFP's versatility extends beyond simple expression studies. By pairing
@@ -270,10 +268,10 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           insights into gene regulation dynamics.
         </Paragraph>
         <Paragraph>
-          In the next part, we'll introduce logical approximations of these Hill
-          functions, which enable us to look at genes regulated by multiple
-          transcription factors, and also explore the dynamics of transcription
-          networks, or how to model gene expression as a function of time.
+          In the next part, we'll begin taking a closer look at these dynamics,
+          including how to analyze genes that are regulated by multiple
+          transcription factors, and how to model gene expression as a function
+          of time.
         </Paragraph>
         <div className="flex justify-start max-w-3xl w-full mx-auto mt-10 mb-4">
           <Link
