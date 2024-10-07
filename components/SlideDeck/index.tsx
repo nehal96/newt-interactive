@@ -100,7 +100,7 @@ const SlideDeck = ({ slides }) => {
         />
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col">{slides[slideIndex].text}</div>
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-6">
             <Button
               variant="secondary"
               disabled={slideIndex === 0}

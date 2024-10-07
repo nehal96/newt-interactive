@@ -38,7 +38,9 @@ const SubscribeForm = () => {
     nameInputEl.current.value = "";
     emailInputEl.current.value = "";
     setIsError(false);
-    setMessage("Success! Thanks for subscribing.");
+    setMessage(
+      "Success! Thanks for subscribing, check your email for a confirmation link."
+    );
     setTimeout(() => setMessage(""), 3000);
   };
 
