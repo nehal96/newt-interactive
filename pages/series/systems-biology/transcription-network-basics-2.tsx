@@ -43,8 +43,36 @@ const TranscriptionNetworkBasicsPartTwo = () => {
         <title>Transcription Network Basics: Part Two / Newt Interactive</title>
         <meta
           name="description"
-          content="Exploring types of transcription factors and mathematical modeling of protein production in transcription networks"
+          content="Dive deep into transcription factors, network diagrams, and mathematical models of gene expression. Learn about activators, repressors, and the Hill function in systems biology."
         />
+        <meta
+          name="keywords"
+          content="transcription factors, gene expression, activators, repressors, Hill function, systems biology, mathematical modeling"
+        />
+        <meta
+          property="og:title"
+          content="Transcription Network Basics: Part Two / Newt Interactive"
+        />
+        <meta
+          property="og:description"
+          content="Dive deep into transcription factors, network diagrams, and mathematical models of gene expression. Learn about activators, repressors, and the Hill function in systems biology."
+        />
+        <meta property="og:image" content="https://ibb.co/n8t4xsL" />
+        <meta
+          property="og:url"
+          content="https://newtinteractive.com/series/systems-biology/transcription-network-basics-2"
+        />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Transcription Network Basics: Part Two | Gene Expression Modeling"
+        />
+        <meta
+          name="twitter:description"
+          content="Learn about activators, repressors, and mathematical models of gene expression in systems biology."
+        />
+        <meta name="twitter:image" content="https://ibb.co/n8t4xsL" />
       </Head>
       <Navbar />
       <ArticleContainer>
@@ -73,7 +101,7 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           <div className="max-w-[600px] w-full mx-auto">
             <Image
               src="/images/gene-expression-diagram-full.svg"
-              alt="Full Gene Expression Diagram"
+              alt="Detailed diagram of gene expression process from DNA to protein production"
               layout="responsive"
               width={745}
               height={323}

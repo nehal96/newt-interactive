@@ -17,7 +17,7 @@ const TranscriptionNetworkBasicsPartOne = () => {
   const images = [
     {
       src: "/images/gene-expression-diagram-3.svg",
-      alt: "Gene Expression Diagram 3",
+      alt: "Diagram showing signal activation of transcription factor X and its role in gene Y expression",
       width: 870,
       height: 428,
       caption: (
@@ -32,7 +32,7 @@ const TranscriptionNetworkBasicsPartOne = () => {
     },
     {
       src: "/images/gene-expression-diagram-full.svg",
-      alt: "Full Gene Expression Diagram",
+      alt: "Comprehensive diagram of gene expression process from signal to protein production",
       width: 870,
       height: 454,
       caption: <div className="mb-5">And here's the fully labeled diagram</div>,
@@ -45,8 +45,36 @@ const TranscriptionNetworkBasicsPartOne = () => {
         <title>Transcription Network Basics: Part One / Newt Interactive</title>
         <meta
           name="description"
-          content="Interactive explainer on the basics of transcription networks in systems biology"
+          content="Explore the fundamental concepts of transcription networks in systems biology. Learn about gene expression, transcription factors, and how cells respond to signals."
         />
+        <meta
+          name="keywords"
+          content="transcription networks, gene expression, transcription factors, systems biology, cell signaling"
+        />
+        <meta
+          property="og:title"
+          content="Transcription Network Basics: Part One / Newt Interactive"
+        />
+        <meta
+          property="og:description"
+          content="Explore the fundamental concepts of transcription networks in systems biology. Learn about gene expression, transcription factors, and how cells respond to signals."
+        />
+        <meta property="og:image" content="https://ibb.co/n8t4xsL" />
+        <meta
+          property="og:url"
+          content="https://newtinteractive.com/series/systems-biology/transcription-network-basics-1"
+        />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Transcription Network Basics: Part One | Introduction to Gene Expression"
+        />
+        <meta
+          name="twitter:description"
+          content="Learn about the basics of transcription networks, gene expression, and how cells respond to signals in systems biology."
+        />
+        <meta name="twitter:image" content="https://ibb.co/n8t4xsL" />
       </Head>
       <Navbar />
       <ArticleContainer>
@@ -91,7 +119,7 @@ const TranscriptionNetworkBasicsPartOne = () => {
           <div className="max-w-[400px] w-full mx-auto">
             <Image
               src="/images/gene-expression-diagram-1.svg"
-              alt="Gene Expression Diagram"
+              alt="Simple diagram illustrating signal-induced gene expression"
               layout="responsive"
               width={755}
               height={190}
@@ -119,7 +147,7 @@ const TranscriptionNetworkBasicsPartOne = () => {
           <div className="max-w-[500px] w-full mx-auto">
             <Image
               src="/images/gene-expression-diagram-2.svg"
-              alt="Updated Gene Expression Diagram"
+              alt="Detailed diagram of gene expression process from DNA to protein production"
               layout="responsive"
               width={745}
               height={323}
@@ -181,7 +209,7 @@ const TranscriptionNetworkBasicsPartOne = () => {
         <div className="flex justify-center mt-4 mb-12">
           <Image
             src="/images/transcription-network-systems-biology.png"
-            alt="Transcription Network in E. coli"
+            alt="Complex transcription network diagram of E. coli showing interconnected genes and regulatory elements"
             width={600}
             height={600}
           />
