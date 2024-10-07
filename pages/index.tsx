@@ -12,20 +12,30 @@ export default function Home() {
           name="description"
           content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
         />
-        {/* <!-- Twitter --> */}
-        <meta property="twitter:card" content="summary_large_image" />
         <meta
-          property="twitter:url"
-          content="https://www.newtinteractive.com/blocks/robot-localization"
+          name="keywords"
+          content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
         />
-        <meta property="twitter:creator" content="@nehaludyavar" />
-        <meta property="twitter:title" content="Newt Interactive" />
+        <meta property="og:title" content="Newt Interactive" />
         <meta
-          property="twitter:description"
+          property="og:description"
           content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
         />
         <meta
-          property="twitter:image"
+          property="og:image"
+          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+        />
+        <meta property="og:url" content="https://www.newtinteractive.com" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@nehaludyavar" />
+        <meta name="twitter:title" content="Newt Interactive" />
+        <meta
+          name="twitter:description"
+          content="Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math"
+        />
+        <meta
+          name="twitter:image"
           content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
         />
       </Head>

@@ -15,7 +15,41 @@ const SystemsBiologyExplainersPage = () => {
         <title>Systems Biology / Newt Interactive</title>
         <meta
           name="description"
-          content="Interactive explainers on systems biology concepts"
+          content="Explore interactive explainers on systems biology concepts"
+        />
+        <meta
+          name="keywords"
+          content="systems biology, interactive explainers, transcription networks, gene expression, biological systems"
+        />
+        <meta
+          property="og:title"
+          content="Systems Biology / Newt Interactive"
+        />
+        <meta
+          property="og:description"
+          content="Explore interactive explainers on systems biology concepts"
+        />
+        <meta
+          property="og:image"
+          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
+        />
+        <meta
+          property="og:url"
+          content="https://newtinteractive.com/series/systems-biology"
+        />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Systems Biology / Newt Interactive"
+        />
+        <meta
+          name="twitter:description"
+          content="Explore interactive explainers on systems biology concepts"
+        />
+        <meta
+          name="twitter:image"
+          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
         />
       </Head>
       <Navbar />
