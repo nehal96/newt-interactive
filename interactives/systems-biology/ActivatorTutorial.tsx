@@ -312,7 +312,7 @@ export const ActivatorTutorial = ({
                 className="w-11/12 flex-auto cursor-pointer"
               />
             </div>
-            <div className="mt-4 mb-6">
+            <div className="mt-4">
               <label htmlFor="n-slider" className="font-medium block">
                 <MathFormula tex="n" />: {activatorN}
               </label>
@@ -403,7 +403,7 @@ export const ActivatorTutorial = ({
                 className="w-11/12 flex-auto cursor-pointer"
               />
             </div>
-            <div className="mt-4 mb-6">
+            <div className="mt-4">
               <label htmlFor="n-slider" className="font-medium block">
                 <MathFormula tex="n" />: {activatorN}
               </label>
