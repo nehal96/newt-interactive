@@ -1,6 +1,7 @@
 import Head from "next/head";
 import {
-  HomepageTopicCard,
+  TopicCard,
+  TopicHeader,
   Navbar,
   Paragraph,
   SubscribeForm,
@@ -44,44 +45,52 @@ export default function Home() {
       </Head>
       <Navbar />
       <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-4 sm:p-8 md:p-12">
-        <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-6 sm:mb-8">
-          Series
-        </h1>
-        <div className="flex flex-wrap pb-8 sm:pb-12 md:pb-16">
-          <HomepageTopicCard
-            href="/series/systems-biology"
-            imageSrc="/images/genetic-circuit.png"
-            title="Systems Biology"
-          />
+        <div className="flex flex-col mb-12 sm:mb-16 mt-12">
+          <TopicHeader>Series</TopicHeader>
+          <div className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory -mx-4 sm:-mx-8 md:-mx-12">
+            <TopicCard
+              href="/series/systems-biology"
+              imageSrc="/images/genetic-circuit.png"
+              title="Systems Biology"
+              className="pl-4 sm:pl-8 md:pl-12"
+            />
+          </div>
         </div>
-        <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
-        <div className="flex flex-wrap pb-12 sm:pb-16">
-          <HomepageTopicCard
-            href="/blocks/robot-localization"
-            imageSrc="/images/lost-looking-robot.png"
-            title="Simple Robot Localization"
-          />
-          <HomepageTopicCard
-            href="/blocks/dna"
-            imageSrc="/images/glossy-dna-model.png"
-            title="3D Model of DNA"
-            darkText
-          />
-          <HomepageTopicCard
-            href="/blocks/kalman-filters"
-            imageSrc="/images/probability-distribution-artwork.png"
-            title="1D Kalman Filters"
-            darkText
-          />
+        <div className="flex flex-col mb-12 sm:mb-16">
+          <TopicHeader>Blocks</TopicHeader>
+          <div className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory -mx-4 sm:-mx-8 md:-mx-12">
+            <TopicCard
+              href="/blocks/robot-localization"
+              imageSrc="/images/lost-looking-robot.png"
+              title="Simple Robot Localization"
+              className="pl-4 sm:pl-8 md:pl-12"
+            />
+            <TopicCard
+              href="/blocks/dna"
+              imageSrc="/images/glossy-dna-model.png"
+              title="3D Model of DNA"
+              darkText
+            />
+            <TopicCard
+              href="/blocks/kalman-filters"
+              imageSrc="/images/probability-distribution-artwork.png"
+              title="1D Kalman Filters"
+              darkText
+            />
+          </div>
         </div>
-        <h1 className="text-4xl font-bold text-slate-800 mb-8">Notes</h1>
-        <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
-          <HomepageTopicCard
-            href="/notes/threejs-journey"
-            imageSrc="/images/3d-cube-and-sphere.png"
-            title="Three.js Journey"
-          />
+        <div className="flex flex-col mb-12 sm:mb-16">
+          <TopicHeader>Notes</TopicHeader>
+          <div className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory -mx-4 sm:-mx-8 md:-mx-12">
+            <TopicCard
+              href="/notes/threejs-journey"
+              imageSrc="/images/3d-cube-and-sphere.png"
+              title="Three.js Journey"
+              className="pl-4 sm:pl-8 md:pl-12"
+            />
+          </div>
         </div>
+        <div className="md:mt-4 border-b border-slate-200"></div>
         <Paragraph className="mt-12 md:mt-16">
           Welcome to Newt Interactive.
         </Paragraph>
