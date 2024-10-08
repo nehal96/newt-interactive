@@ -1,7 +1,10 @@
 import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
-import { Navbar, Paragraph, SubscribeForm, HomeTopicCard } from "../components";
+import {
+  HomepageTopicCard,
+  Navbar,
+  Paragraph,
+  SubscribeForm,
+} from "../components";
 
 export default function Home() {
   return (
@@ -40,44 +43,44 @@ export default function Home() {
         />
       </Head>
       <Navbar />
-      <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-12">
-        <h1 className="text-4xl font-bold text-slate-800 mb-8">Series</h1>
-        <div className="flex flex-wrap pb-12 sm:pb-16">
-          <HomeTopicCard
+      <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-4 sm:p-8 md:p-12">
+        <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-6 sm:mb-8">
+          Series
+        </h1>
+        <div className="flex flex-wrap pb-8 sm:pb-12 md:pb-16">
+          <HomepageTopicCard
             href="/series/systems-biology"
             imageSrc="/images/genetic-circuit.png"
             title="Systems Biology"
-            altText="Genetic circuit illustration"
           />
         </div>
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16">
-          <HomeTopicCard
+          <HomepageTopicCard
             href="/blocks/robot-localization"
             imageSrc="/images/robot.jpg"
             title="Simple Robot Localization"
-            altText="cartoon robot"
+            darkText
           />
-          <HomeTopicCard
+          <HomepageTopicCard
             href="/blocks/dna"
             imageSrc="/images/DNA3d.jpg"
             title="3D Model of DNA"
-            altText="3D model of DNA"
           />
-          <HomeTopicCard
+          <HomepageTopicCard
             href="/blocks/kalman-filters"
-            imageSrc="/images/probability-distribution-artwork.png"
+            imageSrc="/images/kalman-1d.jpg"
             title="1D Kalman Filters"
-            altText="1D Kalman filter"
+            darkText
           />
         </div>
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Notes</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
-          <HomeTopicCard
+          <HomepageTopicCard
             href="/notes/threejs-journey"
             imageSrc="/images/threejs-journey-card-pic.png"
-            title="ThreeJS Journey"
-            altText="ThreeJS Journey illustration"
+            title="Three.js Journey"
+            darkText
           />
         </div>
         <Paragraph className="mt-12 md:mt-16">
