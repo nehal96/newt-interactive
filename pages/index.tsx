@@ -58,18 +58,18 @@ export default function Home() {
         <div className="flex flex-wrap pb-12 sm:pb-16">
           <HomepageTopicCard
             href="/blocks/robot-localization"
-            imageSrc="/images/robot.jpg"
+            imageSrc="/images/lost-looking-robot.png"
             title="Simple Robot Localization"
-            darkText
           />
           <HomepageTopicCard
             href="/blocks/dna"
-            imageSrc="/images/DNA3d.jpg"
+            imageSrc="/images/glossy-dna-model.png"
             title="3D Model of DNA"
+            darkText
           />
           <HomepageTopicCard
             href="/blocks/kalman-filters"
-            imageSrc="/images/kalman-1d.jpg"
+            imageSrc="/images/probability-distribution-artwork.png"
             title="1D Kalman Filters"
             darkText
           />
@@ -78,9 +78,8 @@ export default function Home() {
         <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
           <HomepageTopicCard
             href="/notes/threejs-journey"
-            imageSrc="/images/threejs-journey-card-pic.png"
+            imageSrc="/images/3d-cube-and-sphere.png"
             title="Three.js Journey"
-            darkText
           />
         </div>
         <Paragraph className="mt-12 md:mt-16">
