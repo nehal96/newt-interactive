@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Navbar, Paragraph, SubscribeForm } from "../components";
 
 export default function Home() {
@@ -105,15 +105,14 @@ export default function Home() {
           </Link>
           <Link href="/blocks/kalman-filters" legacyBehavior>
             <a className="w-28 sm:w-40 mb-6 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
-              <div className="h-40 w-full relative">
-                <Image
-                  src="/images/kalman-1d.jpg"
-                  fill
-                  style={{ objectFit: "cover" }}
-                  className="rounded-t-xl"
-                  alt="1D Kalman filter"
-                />
-              </div>
+              <Image
+                src="/images/kalman-1d.jpg"
+                height={160}
+                width={160}
+                layout="responsive"
+                className="rounded-t-xl"
+                alt="1D Kalman filter"
+              />
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
                   1D Kalman Filters

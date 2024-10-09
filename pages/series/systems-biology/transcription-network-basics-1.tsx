@@ -9,7 +9,7 @@ import {
   MathFormula,
   ImageSeries,
 } from "../../../components";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { FiChevronRight } from "react-icons/fi";
 import Link from "next/link";
 
