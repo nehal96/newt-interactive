@@ -9,7 +9,7 @@ import {
   MathFormula,
   ImageSeries,
 } from "../../../components";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { FiChevronRight } from "react-icons/fi";
 import Link from "next/link";
 
@@ -126,9 +126,13 @@ const TranscriptionNetworkBasicsPartOne = () => {
             <Image
               src="/images/gene-expression-diagram-1.svg"
               alt="Simple diagram illustrating signal-induced gene expression"
-              layout="responsive"
               width={755}
               height={190}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
           </div>
         </div>
@@ -154,9 +158,13 @@ const TranscriptionNetworkBasicsPartOne = () => {
             <Image
               src="/images/gene-expression-diagram-2.svg"
               alt="Detailed diagram of gene expression process from DNA to protein production"
-              layout="responsive"
               width={745}
               height={323}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
           </div>
           <div className="max-w-[550px] w-full mx-auto text-center my-2 text-xs text-gray-500">
@@ -218,6 +226,10 @@ const TranscriptionNetworkBasicsPartOne = () => {
             alt="Complex transcription network diagram of E. coli showing interconnected genes and regulatory elements"
             width={600}
             height={600}
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+            }}
           />
         </div>
         <div className="max-w-[550px] w-full mx-auto text-center mb-9 text-xs text-gray-500">

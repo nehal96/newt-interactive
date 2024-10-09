@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import {
   ArticleContainer,
   Lede,
@@ -108,9 +108,13 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             <Image
               src="/images/gene-expression-diagram-full.svg"
               alt="Detailed diagram of gene expression process from DNA to protein production"
-              layout="responsive"
               width={745}
               height={323}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
           </div>
           <div className="max-w-[650px] w-full mx-auto text-center my-2 text-xs text-gray-500">
@@ -145,9 +149,13 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             <Image
               src="/images/activator-repressor-notation.svg"
               alt="Activator and Repressor Notation"
-              layout="responsive"
               width={593}
               height={184}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
           </div>
         </div>
@@ -175,9 +183,13 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             <Image
               src="/images/e-coli-goodsell.png"
               alt="E. coli Cell"
-              layout="responsive"
               width={500}
               height={500}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
           </div>
           <div className="max-w-[600px] w-full mx-auto text-center my-2 text-xs text-gray-500">

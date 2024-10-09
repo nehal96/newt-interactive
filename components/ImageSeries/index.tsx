@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useState } from "react";
 import { Button } from "..";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
@@ -38,10 +38,13 @@ const ImageSeries: React.FC<ImageSeriesProps> = ({
         <Image
           src={images[currentImage].src}
           alt={images[currentImage].alt}
-          layout="responsive"
           width={images[currentImage].width || 500}
           height={images[currentImage].height || 500}
-        />
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "auto"
+          }} />
       </div>
       {images[currentImage].caption && (
         <div className="max-w-[550px] w-full mx-auto text-center my-2 text-xs text-gray-500">

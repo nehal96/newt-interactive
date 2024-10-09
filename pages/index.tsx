@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { Navbar, Paragraph, SubscribeForm } from "../components";
 
 export default function Home() {
@@ -50,10 +50,13 @@ export default function Home() {
                   src="/images/genetic-circuit.png"
                   height={160}
                   width={160}
-                  layout="responsive"
                   className="rounded-t-xl"
                   alt="cartoon robot"
-                />
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "auto"
+                  }} />
               </div>
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
@@ -72,10 +75,13 @@ export default function Home() {
                   src="/images/robot.jpg"
                   height={160}
                   width={160}
-                  layout="responsive"
                   className="rounded-t-xl"
                   alt="cartoon robot"
-                />
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "auto"
+                  }} />
               </div>
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
@@ -91,10 +97,13 @@ export default function Home() {
                   src="/images/DNA3d.jpg"
                   height={160}
                   width={160}
-                  layout="responsive"
                   className="rounded-t-xl"
                   alt="3D model of DNA"
-                />
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "auto"
+                  }} />
               </div>
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
@@ -109,10 +118,13 @@ export default function Home() {
                 src="/images/kalman-1d.jpg"
                 height={160}
                 width={160}
-                layout="responsive"
                 className="rounded-t-xl"
                 alt="1D Kalman filter"
-              />
+                sizes="100vw"
+                style={{
+                  width: "100%",
+                  height: "auto"
+                }} />
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
                   1D Kalman Filters
@@ -130,10 +142,13 @@ export default function Home() {
                   src="/images/threejs-journey-card-pic.png"
                   height={160}
                   width={160}
-                  layout="responsive"
                   className="rounded-t-xl"
                   alt="cartoon robot"
-                />
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "auto"
+                  }} />
               </div>
               <div className="p-3 sm:p-5">
                 <h3 className="sm:text-lg font-medium text-slate-800">
