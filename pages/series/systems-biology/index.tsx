@@ -61,14 +61,20 @@ const SystemsBiologyExplainersPage = () => {
         </Lede>
         <OrderedList>
           <li>
-            <Link href="/series/systems-biology/transcription-network-basics-1">
+            <Link
+              href="/series/systems-biology/transcription-network-basics-1"
+              legacyBehavior
+            >
               <a className="text-blue-600 hover:underline">
                 Transcription Network Basics: Part One
               </a>
             </Link>
           </li>
           <li>
-            <Link href="/series/systems-biology/transcription-network-basics-2">
+            <Link
+              href="/series/systems-biology/transcription-network-basics-2"
+              legacyBehavior
+            >
               <a className="text-blue-600 hover:underline">
                 Transcription Network Basics: Part Two
               </a>
