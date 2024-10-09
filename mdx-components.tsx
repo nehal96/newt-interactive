@@ -1,5 +1,5 @@
 import type { MDXComponents } from "mdx/types";
-import { Lede, Paragraph, Subheader, Title } from "./components";
+import { Lede, OrderedList, Paragraph, Subheader, Title } from "./components";
 import Link from "next/link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -16,6 +16,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </Link>
     ),
+    ol: ({ children }) => <OrderedList>{children}</OrderedList>,
     ...components,
   };
 }
