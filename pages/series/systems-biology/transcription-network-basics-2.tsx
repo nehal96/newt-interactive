@@ -108,9 +108,13 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             <Image
               src="/images/gene-expression-diagram-full.svg"
               alt="Detailed diagram of gene expression process from DNA to protein production"
-              layout="responsive"
               width={745}
               height={323}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
           </div>
           <div className="max-w-[650px] w-full mx-auto text-center my-2 text-xs text-gray-500">
@@ -145,9 +149,13 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             <Image
               src="/images/activator-repressor-notation.svg"
               alt="Activator and Repressor Notation"
-              layout="responsive"
               width={593}
               height={184}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
           </div>
         </div>
@@ -175,9 +183,13 @@ const TranscriptionNetworkBasicsPartTwo = () => {
             <Image
               src="/images/e-coli-goodsell.png"
               alt="E. coli Cell"
-              layout="responsive"
               width={500}
               height={500}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
           </div>
           <div className="max-w-[600px] w-full mx-auto text-center my-2 text-xs text-gray-500">
@@ -308,17 +320,14 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           of time.
         </Paragraph>
         <div className="flex justify-start max-w-3xl w-full mx-auto mt-10 mb-4">
-          <Link
-            href="/series/systems-biology/transcription-network-basics-1"
-            legacyBehavior
-          >
-            <a className="flex flex-col text-lg font-medium border-b border-b-transparent hover:border-b-slate-300">
+          <Link href="/series/systems-biology/transcription-network-basics-1">
+            <div className="flex flex-col text-lg font-medium border-b border-b-transparent hover:border-b-slate-300">
               <span className="text-slate-500 text-sm mb-2 ml-7">Previous</span>
               <div className="inline-flex items-center text-slate-800">
                 <FiChevronLeft className="mr-2" />
                 Transcription Network Basics: Part One
               </div>
-            </a>
+            </div>
           </Link>
         </div>
         <PostArticleSubscribe />

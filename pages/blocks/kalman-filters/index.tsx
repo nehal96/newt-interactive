@@ -61,10 +61,11 @@ const KalmanFilterPage = () => {
         </Lede>
         <Paragraph>
           In the{" "}
-          <Link href="/blocks/robot-localization" legacyBehavior>
-            <a className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700">
-              Simple Robot Localization block
-            </a>
+          <Link
+            href="/blocks/robot-localization"
+            className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+          >
+            Simple Robot Localization block
           </Link>
           , we saw how we combined uncertainty in a robot's position and robot's
           movement to eventually gain more confidence about the location of the

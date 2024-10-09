@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { Navbar, Paragraph, SubscribeForm } from "../components";
+import { Navbar, Paragraph, SubscribeForm, HomeTopicCard } from "../components";
 
 export default function Home() {
   return (
@@ -43,105 +43,42 @@ export default function Home() {
       <main className="flex flex-col flex-auto h-full w-full max-w-5xl p-12">
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Series</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16">
-          <Link href="/series/systems-biology" legacyBehavior>
-            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
-              <div>
-                <Image
-                  src="/images/genetic-circuit.png"
-                  height={160}
-                  width={160}
-                  layout="responsive"
-                  className="rounded-t-xl"
-                  alt="cartoon robot"
-                />
-              </div>
-              <div className="p-3 sm:p-5">
-                <h3 className="sm:text-lg font-medium text-slate-800">
-                  Systems Biology
-                </h3>
-              </div>
-            </a>
-          </Link>
+          <HomeTopicCard
+            href="/series/systems-biology"
+            imageSrc="/images/genetic-circuit.png"
+            title="Systems Biology"
+            altText="Genetic circuit illustration"
+          />
         </div>
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Blocks</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16">
-          <Link href="/blocks/robot-localization" legacyBehavior>
-            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
-              <div>
-                <Image
-                  src="/images/robot.jpg"
-                  height={160}
-                  width={160}
-                  layout="responsive"
-                  className="rounded-t-xl"
-                  alt="cartoon robot"
-                />
-              </div>
-              <div className="p-3 sm:p-5">
-                <h3 className="sm:text-lg font-medium text-slate-800">
-                  Simple Robot Localization
-                </h3>
-              </div>
-            </a>
-          </Link>
-          <Link href="/blocks/dna" legacyBehavior>
-            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
-              <div>
-                <Image
-                  src="/images/DNA3d.jpg"
-                  height={160}
-                  width={160}
-                  layout="responsive"
-                  className="rounded-t-xl"
-                  alt="3D model of DNA"
-                />
-              </div>
-              <div className="p-3 sm:p-5">
-                <h3 className="sm:text-lg font-medium text-slate-800">
-                  3D Model of DNA
-                </h3>
-              </div>
-            </a>
-          </Link>
-          <Link href="/blocks/kalman-filters" legacyBehavior>
-            <a className="w-28 sm:w-40 mb-6 flex-wrap bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
-              <Image
-                src="/images/kalman-1d.jpg"
-                height={160}
-                width={160}
-                layout="responsive"
-                className="rounded-t-xl"
-                alt="1D Kalman filter"
-              />
-              <div className="p-3 sm:p-5">
-                <h3 className="sm:text-lg font-medium text-slate-800">
-                  1D Kalman Filters
-                </h3>
-              </div>
-            </a>
-          </Link>
+          <HomeTopicCard
+            href="/blocks/robot-localization"
+            imageSrc="/images/robot.jpg"
+            title="Simple Robot Localization"
+            altText="cartoon robot"
+          />
+          <HomeTopicCard
+            href="/blocks/dna"
+            imageSrc="/images/DNA3d.jpg"
+            title="3D Model of DNA"
+            altText="3D model of DNA"
+          />
+          <HomeTopicCard
+            href="/blocks/kalman-filters"
+            imageSrc="/images/probability-distribution-artwork.png"
+            title="1D Kalman Filters"
+            altText="1D Kalman filter"
+          />
         </div>
         <h1 className="text-4xl font-bold text-slate-800 mb-8">Notes</h1>
         <div className="flex flex-wrap pb-12 sm:pb-16 border-b border-b-slate-200">
-          <Link href="/notes/threejs-journey" legacyBehavior>
-            <a className="w-28 sm:w-40 mr-6 mb-6 sm:mr-12 bg-white rounded-xl shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
-              <div>
-                <Image
-                  src="/images/threejs-journey-card-pic.png"
-                  height={160}
-                  width={160}
-                  layout="responsive"
-                  className="rounded-t-xl"
-                  alt="cartoon robot"
-                />
-              </div>
-              <div className="p-3 sm:p-5">
-                <h3 className="sm:text-lg font-medium text-slate-800">
-                  ThreeJS Journey
-                </h3>
-              </div>
-            </a>
-          </Link>
+          <HomeTopicCard
+            href="/notes/threejs-journey"
+            imageSrc="/images/threejs-journey-card-pic.png"
+            title="ThreeJS Journey"
+            altText="ThreeJS Journey illustration"
+          />
         </div>
         <Paragraph className="mt-12 md:mt-16">
           Welcome to Newt Interactive.

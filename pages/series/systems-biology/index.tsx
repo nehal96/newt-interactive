@@ -61,17 +61,19 @@ const SystemsBiologyExplainersPage = () => {
         </Lede>
         <OrderedList>
           <li>
-            <Link href="/series/systems-biology/transcription-network-basics-1">
-              <a className="text-blue-600 hover:underline">
-                Transcription Network Basics: Part One
-              </a>
+            <Link
+              href="/series/systems-biology/transcription-network-basics-1"
+              className="text-blue-600 hover:underline"
+            >
+              Transcription Network Basics: Part One
             </Link>
           </li>
           <li>
-            <Link href="/series/systems-biology/transcription-network-basics-2">
-              <a className="text-blue-600 hover:underline">
-                Transcription Network Basics: Part Two
-              </a>
+            <Link
+              href="/series/systems-biology/transcription-network-basics-2"
+              className="text-blue-600 hover:underline"
+            >
+              Transcription Network Basics: Part Two
             </Link>
           </li>
         </OrderedList>
