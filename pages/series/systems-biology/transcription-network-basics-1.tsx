@@ -245,17 +245,14 @@ const TranscriptionNetworkBasicsPartOne = () => {
           look at what those arrows in the network represent.
         </Paragraph>
         <div className="flex justify-end max-w-3xl w-full mx-auto mt-10 mb-4">
-          <Link
-            href="/series/systems-biology/transcription-network-basics-2"
-            legacyBehavior
-          >
-            <a className="flex flex-col text-lg font-medium border-b border-b-transparent hover:border-b-slate-300">
+          <Link href="/series/systems-biology/transcription-network-basics-2">
+            <div className="flex flex-col text-lg font-medium border-b border-b-transparent hover:border-b-slate-300">
               <span className="text-slate-500 text-sm mb-2">Next</span>
               <div className="inline-flex items-center text-slate-800">
                 Transcription Network Basics: Part Two
                 <FiChevronRight className="ml-2" />
               </div>
-            </a>
+            </div>
           </Link>
         </div>
         <PostArticleSubscribe />

@@ -320,17 +320,14 @@ const TranscriptionNetworkBasicsPartTwo = () => {
           of time.
         </Paragraph>
         <div className="flex justify-start max-w-3xl w-full mx-auto mt-10 mb-4">
-          <Link
-            href="/series/systems-biology/transcription-network-basics-1"
-            legacyBehavior
-          >
-            <a className="flex flex-col text-lg font-medium border-b border-b-transparent hover:border-b-slate-300">
+          <Link href="/series/systems-biology/transcription-network-basics-1">
+            <div className="flex flex-col text-lg font-medium border-b border-b-transparent hover:border-b-slate-300">
               <span className="text-slate-500 text-sm mb-2 ml-7">Previous</span>
               <div className="inline-flex items-center text-slate-800">
                 <FiChevronLeft className="mr-2" />
                 Transcription Network Basics: Part One
               </div>
-            </a>
+            </div>
           </Link>
         </div>
         <PostArticleSubscribe />
