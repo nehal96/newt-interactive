@@ -1,5 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 import { Lede, Paragraph, Subheader, Title } from "./components";
+import Link from "next/link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -7,6 +8,14 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     h2: ({ children }) => <Lede>{children}</Lede>,
     h3: ({ children }) => <Subheader>{children}</Subheader>,
     p: ({ children }) => <Paragraph>{children}</Paragraph>,
+    a: ({ children, href }) => (
+      <Link
+        href={href}
+        className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+      >
+        {children}
+      </Link>
+    ),
     ...components,
   };
 }
