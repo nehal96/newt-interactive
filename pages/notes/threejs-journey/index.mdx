@@ -1,0 +1,85 @@
+import Head from "next/head";
+import * as Select from "@radix-ui/react-select";
+import { MdxLayout, PostArticleSubscribe } from "../../../components";
+import { AnimationsSection, CamerasSection, ShadersCodeSandbox, ShaderPatternsCodeSandbox } from "../../../interactives/notes/threejs-journey";
+
+# ThreeJS Journey Notes
+
+## Random stuff from Bruno Simon's course, [ThreeJS Journey](https://threejs-journey.com/)
+
+### 06 &mdash; Animations
+
+Animations in Three.js work like stop motion &mdash; each time an object moves, you render the changes. Take a look at a few ways you can animate a yellow box below:
+
+<AnimationsSection />
+<div className="h-16" />
+
+### 07 &mdash; Cameras
+
+A camera is, as you can imagine, what you use to see the scene in Three.js.
+
+<CamerasSection />
+<div className="h-16" />
+
+### 28 &mdash; Shaders
+
+<ShadersCodeSandbox />
+<div className="h-20" />
+
+
+### 29 &mdash; Shader patterns
+<ShaderPatternsCodeSandbox />
+
+<PostArticleSubscribe />
+
+export default function MDXPage({ children }) {
+  return (
+    <>
+    <Head>
+      <title>ThreeJS Journey Notes / Newt Interactive</title>
+      <meta
+        name="description"
+        content="Interactive, educational explainers and playgrounds on topics from Bruno Simon's ThreeJS Journey course, including animations, cameras, shaders, and more."
+      />
+      <meta
+        name="keywords"
+        content="ThreeJS, 3D graphics, web development, animations, cameras, shaders, interactive learning"
+      />
+      <meta
+        property="og:title"
+        content="ThreeJS Journey Notes / Newt Interactive"
+      />
+      <meta
+        property="og:description"
+        content="Interactive, educational explainers and playgrounds on topics from Bruno Simon's ThreeJS Journey course, including animations, cameras, shaders, and more."
+      />
+      <meta
+        property="og:image"
+        content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+      />
+      <meta
+        property="og:url"
+        content="https://www.newtinteractive.com/notes/threejs-journey"
+      />
+      <meta property="og:type" content="article" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:title"
+        content="ThreeJS Journey Notes / Newt Interactive"
+      />
+      <meta
+        name="twitter:description"
+        content="Learn about ThreeJS concepts with interactive examples and playgrounds."
+      />
+      <meta
+        name="twitter:image"
+        content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
+      />
+      <meta name="twitter:creator" content="@nehaludyavar" />
+    </Head>
+    <MdxLayout>
+      {children}
+    </MdxLayout>
+  </>
+  )
+}
