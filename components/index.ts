@@ -17,6 +17,7 @@ export { default as OrderedList } from "./OrderedList";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
+export { NextArticleLink, PreviousArticleLink } from "./SeriesNavigation";
 export { default as Slides } from "./Slides";
 export { default as SlideDeck } from "./SlideDeck";
 export { default as Subheader } from "./Subheader";
