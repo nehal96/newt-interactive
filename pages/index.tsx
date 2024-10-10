@@ -46,7 +46,7 @@ export default function Home() {
       </Head>
       <Navbar />
       <main className="flex flex-col flex-auto h-full w-full">
-        <TopicCardContainer title="Series" className="mt-16">
+        <TopicCardContainer title="Series" className="mt-10 sm:mt-16">
           <TopicCard
             href="/series/systems-biology"
             imageSrc="/images/genetic-circuit.png"
