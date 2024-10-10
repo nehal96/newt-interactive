@@ -15,21 +15,28 @@ interface MdxLayoutProps {
 }
 
 export default function MdxLayout({ children, metadata }: MdxLayoutProps) {
+  const { title, description, keywords, ogImage, url } = metadata;
+  const pageTitle = title ? `${title} / Newt Interactive` : "Newt Interactive";
+
   return (
     <>
       <Head>
-        <title>{metadata.title} / Newt Interactive</title>
-        <meta name="description" content={metadata.description} />
-        <meta name="keywords" content={metadata.keywords} />
-        <meta property="og:title" content={metadata.title} />
-        <meta property="og:description" content={metadata.description} />
-        <meta property="og:image" content={metadata.ogImage} />
-        <meta property="og:url" content={metadata.url} />
+        <title>{pageTitle}</title>
+        {description && <meta name="description" content={description} />}
+        {keywords && <meta name="keywords" content={keywords} />}
+        <meta property="og:title" content={pageTitle} />
+        {description && (
+          <meta property="og:description" content={description} />
+        )}
+        {ogImage && <meta property="og:image" content={ogImage} />}
+        {url && <meta property="og:url" content={url} />}
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={metadata.title} />
-        <meta name="twitter:description" content={metadata.description} />
-        <meta name="twitter:image" content={metadata.ogImage} />
+        <meta name="twitter:title" content={pageTitle} />
+        {description && (
+          <meta name="twitter:description" content={description} />
+        )}
+        {ogImage && <meta name="twitter:image" content={ogImage} />}
         <meta name="twitter:creator" content="@nehaludyavar" />
       </Head>
       <Navbar />
