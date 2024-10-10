@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 interface TopicCardProps {
   href: string;
@@ -31,25 +31,22 @@ export const TopicCard: React.FC<TopicCardProps> = ({
   const textColor = darkText ? "text-slate-800" : "text-white";
 
   return (
-    <Link href={href} legacyBehavior>
-      <a className={`mr-4 snap-start flex-shrink-0 ${className}`}>
-        <div className="relative aspect-[3/4] h-[300px] lg:h-[350px] overflow-hidden rounded-md shadow-md transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-[1.02]">
-          <Image
-            src={imageSrc}
-            layout="fill"
-            objectFit="cover"
-            className="transition-transform duration-300 ease-in-out hover:scale-105"
-            alt={title}
-          />
-          <div>
-            <h3
-              className={`absolute bottom-4 left-4 text-lg font-semibold ${textColor}`}
-            >
-              {title}
-            </h3>
-          </div>
+    <Link href={href} className={`mr-4 snap-start flex-shrink-0 ${className}`}>
+      <div className="relative aspect-[3/4] h-[300px] lg:h-[350px] overflow-hidden rounded-md shadow-md hover:shadow-lg">
+        <Image
+          src={imageSrc}
+          layout="fill"
+          className="transition-transform duration-300 ease-in-out hover:scale-105 object-cover"
+          alt={title}
+        />
+        <div>
+          <h3
+            className={`absolute bottom-4 left-4 text-lg font-semibold ${textColor}`}
+          >
+            {title}
+          </h3>
         </div>
-      </a>
+      </div>
     </Link>
   );
 };
