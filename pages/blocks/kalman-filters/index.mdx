@@ -1,0 +1,31 @@
+import Head from "next/head";
+import { MdxLayout, PostArticleSubscribe } from "../../../components";
+import { GaussianParameterUpdateTutorial } from "../../../interactives/kalman-filters";
+
+export const metadata = {
+  title: "Kalman Filters / Newt Interactive",
+  description: "Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions in a continuously changing 1D environment",
+  keywords: "Kalman filters, uncertainty, predictions, continuous environment, algorithm, interactive explainer",
+  ogImage: "https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png",
+  url: "https://newtinteractive.com/blocks/kalman-filters",
+};
+
+# Kalman Filters
+
+## How to efficiently combine uncertain information to make predictions in a continuously changing 1D environment
+
+In the [Simple Robot Localization block](/blocks/robot-localization), we saw how we combined uncertainty in a robot's position and robot's movement to eventually gain more confidence about the location of the robot.
+
+But this was for **discrete** movement. In the real world, movement is **continuous**. Cars and ice skaters don't instantaneously teleport from one position to another &mdash; they drive gradually over a road or glide gracefully over ice.
+
+In this block, we're going to introduce a simplified version of a very powerful algorithm that combines uncertainty of position and uncertainty of measurement to make predictions with increased confidence: the Kalman filter.
+
+<GaussianParameterUpdateTutorial />
+
+<PostArticleSubscribe />
+
+export default function MDXPage({ children }) {
+  return (
+    <MdxLayout metadata={metadata}>{children}</MdxLayout>
+  );
+}

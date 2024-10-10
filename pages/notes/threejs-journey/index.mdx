@@ -1,0 +1,47 @@
+import Head from "next/head";
+import * as Select from "@radix-ui/react-select";
+import { MdxLayout, PostArticleSubscribe } from "../../../components";
+import { AnimationsSection, CamerasSection, ShadersCodeSandbox, ShaderPatternsCodeSandbox } from "../../../interactives/notes/threejs-journey";
+
+export const metadata = {
+  title: "ThreeJS Journey Notes / Newt Interactive",
+  description: "Learn about ThreeJS concepts with interactive examples and playgrounds.",
+  keywords: "ThreeJS, 3D graphics, web development, animations, cameras, shaders, interactive learning",
+  ogImage: "https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png",
+  url: "https://www.newtinteractive.com/notes/threejs-journey",
+};
+
+# ThreeJS Journey Notes
+
+## Random stuff from Bruno Simon's course, [ThreeJS Journey](https://threejs-journey.com/)
+
+### 06 &mdash; Animations
+
+Animations in Three.js work like stop motion &mdash; each time an object moves, you render the changes. Take a look at a few ways you can animate a yellow box below:
+
+<AnimationsSection />
+<div className="h-16" />
+
+### 07 &mdash; Cameras
+
+A camera is, as you can imagine, what you use to see the scene in Three.js.
+
+<CamerasSection />
+<div className="h-16" />
+
+### 28 &mdash; Shaders
+
+<ShadersCodeSandbox />
+<div className="h-20" />
+
+
+### 29 &mdash; Shader patterns
+<ShaderPatternsCodeSandbox />
+
+<PostArticleSubscribe />
+
+export default function MDXPage({ children }) {
+  return (
+    <MdxLayout metadata={metadata}>{children}</MdxLayout>
+  );
+}
