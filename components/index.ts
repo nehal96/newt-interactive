@@ -3,6 +3,7 @@ export { default as Button } from "./Button";
 export { Code, InlineCode } from "./Code";
 export { default as Footer } from "./Footer";
 export { TopicCard, TopicHeader } from "./Homepage";
+export { HomeTopicCard } from "./HomeTopicCard";
 export { default as ImageSeries } from "./ImageSeries";
 export {
   InteractiveTutorialContainer,
