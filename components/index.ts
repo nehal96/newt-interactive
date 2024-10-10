@@ -2,7 +2,7 @@ export { default as ArticleContainer } from "./ArticleContainer";
 export { default as Button } from "./Button";
 export { Code, InlineCode } from "./Code";
 export { default as Footer } from "./Footer";
-export { TopicCard, TopicHeader } from "./Homepage";
+export { TopicCard, TopicHeader, TopicCardContainer } from "./Homepage";
 export { HomeTopicCard } from "./HomeTopicCard";
 export { default as ImageSeries } from "./ImageSeries";
 export {

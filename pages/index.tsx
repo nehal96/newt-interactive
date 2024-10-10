@@ -5,6 +5,7 @@ import {
   Navbar,
   Paragraph,
   SubscribeForm,
+  TopicCardContainer,
 } from "../components";
 
 export default function Home() {
@@ -45,85 +46,39 @@ export default function Home() {
       </Head>
       <Navbar />
       <main className="flex flex-col flex-auto h-full w-full">
-        <div className="overflow-hidden mb-12 sm:mb-16 mt-12">
-          <div className="max-container">
-            <TopicHeader>Series</TopicHeader>
-          </div>
-          <div className="w-full max-container">
-            <div
-              className="flex w-[var(--document-width)]"
-              style={{
-                marginLeft: "calc(-1 * var(--gutter-size)",
-              }}
-            >
-              <div className="flex scroll-px-[var(--gutter-size)] min-w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar relative">
-                <div className="shrink-0 w-[var(--gutter-size)]"></div>
-                <TopicCard
-                  href="/series/systems-biology"
-                  imageSrc="/images/genetic-circuit.png"
-                  title="Systems Biology"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="overflow-hidden mb-12 sm:mb-16">
-          <div className="max-container">
-            <TopicHeader>Blocks</TopicHeader>
-          </div>
-          <div className="w-full max-container">
-            <div
-              className="flex w-[var(--document-width)]"
-              style={{
-                marginLeft: "calc(-1 * var(--gutter-size)",
-              }}
-            >
-              <div className="flex scroll-px-[var(--gutter-size)] min-w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar relative">
-                <div className="shrink-0 w-[var(--gutter-size)]"></div>
-                <TopicCard
-                  href="/blocks/robot-localization"
-                  imageSrc="/images/lost-looking-robot.png"
-                  title="Simple Robot Localization"
-                />
-                <TopicCard
-                  href="/blocks/dna"
-                  imageSrc="/images/glossy-dna-model.png"
-                  title="3D Model of DNA"
-                  darkText
-                />
-                <TopicCard
-                  href="/blocks/kalman-filters"
-                  imageSrc="/images/probability-distribution-artwork.png"
-                  title="1D Kalman Filters"
-                  darkText
-                />
-                <div className="shrink-0 w-[var(--gutter-size)]"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="overflow-hidden mb-12 sm:mb-16">
-          <div className="max-container">
-            <TopicHeader>Notes</TopicHeader>
-          </div>
-          <div className="w-full max-container">
-            <div
-              className="flex w-[var(--document-width)]"
-              style={{
-                marginLeft: "calc(-1 * var(--gutter-size)",
-              }}
-            >
-              <div className="flex scroll-px-[var(--gutter-size)] min-w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar relative">
-                <div className="shrink-0 w-[var(--gutter-size)]"></div>
-                <TopicCard
-                  href="/notes/threejs-journey"
-                  imageSrc="/images/3d-cube-and-sphere.png"
-                  title="Three.js Journey"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <TopicCardContainer title="Series" className="mt-16">
+          <TopicCard
+            href="/series/systems-biology"
+            imageSrc="/images/genetic-circuit.png"
+            title="Systems Biology"
+          />
+        </TopicCardContainer>
+        <TopicCardContainer title="Blocks">
+          <TopicCard
+            href="/blocks/robot-localization"
+            imageSrc="/images/lost-looking-robot.png"
+            title="Simple Robot Localization"
+          />
+          <TopicCard
+            href="/blocks/dna"
+            imageSrc="/images/glossy-dna-model.png"
+            title="3D Model of DNA"
+            darkText
+          />
+          <TopicCard
+            href="/blocks/kalman-filters"
+            imageSrc="/images/probability-distribution-artwork.png"
+            title="1D Kalman Filters"
+            darkText
+          />
+        </TopicCardContainer>
+        <TopicCardContainer title="Notes">
+          <TopicCard
+            href="/notes/threejs-journey"
+            imageSrc="/images/3d-cube-and-sphere.png"
+            title="Three.js Journey"
+          />
+        </TopicCardContainer>
         <div className="flex flex-col flex-auto max-w-5xl w-full px-5 self-center mb-12">
           <div className="md:mt-4 border-b border-slate-200" />
           <Paragraph className="mt-12 md:mt-16">
