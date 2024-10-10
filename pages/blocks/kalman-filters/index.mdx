@@ -2,6 +2,13 @@ import Head from "next/head";
 import { MdxLayout, PostArticleSubscribe } from "../../../components";
 import { GaussianParameterUpdateTutorial } from "../../../interactives/kalman-filters";
 
+export const metadata = {
+  title: "Kalman Filters / Newt Interactive",
+  description: "Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions in a continuously changing 1D environment",
+  keywords: "Kalman filters, uncertainty, predictions, continuous environment, algorithm, interactive explainer",
+  ogImage: "https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png",
+  url: "https://newtinteractive.com/blocks/kalman-filters",
+};
 
 # Kalman Filters
 
@@ -19,47 +26,6 @@ In this block, we're going to introduce a simplified version of a very powerful 
 
 export default function MDXPage({ children }) {
   return (
-    <>
-      <Head>
-        <title>Kalman Filters / Newt Interactive</title>
-        <meta
-          name="description"
-          content="Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions in a continuously changing 1D environment"
-        />
-        <meta
-          name="keywords"
-          content="Kalman filters, uncertainty, predictions, continuous environment, algorithm, interactive explainer"
-        />
-        <meta property="og:title" content="Kalman Filters / Newt Interactive" />
-        <meta
-          property="og:description"
-          content="Interactive explainer on the algorithm behind efficiently combining uncertain information to make predictions in a continuously changing 1D environment"
-        />
-        <meta
-          property="og:image"
-          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
-        />
-        <meta
-          property="og:url"
-          content="https://newtinteractive.com/blocks/kalman-filters"
-        />
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Kalman Filters / Newt Interactive"
-        />
-        <meta
-          name="twitter:description"
-          content="Learn about efficiently combining uncertain information to make predictions in a continuously changing 1D environment"
-        />
-        <meta
-          name="twitter:image"
-          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
-        />
-        <meta name="twitter:creator" content="@nehaludyavar" />
-      </Head>
-      <MdxLayout>{children}</MdxLayout>
-    </>
+    <MdxLayout metadata={metadata}>{children}</MdxLayout>
   );
 }

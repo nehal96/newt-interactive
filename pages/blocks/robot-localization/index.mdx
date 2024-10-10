@@ -2,6 +2,14 @@ import Head from "next/head";
 import { MdxLayout, PostArticleSubscribe } from "../../../components";
 import { RobotLocalization } from "../../../interactives/robot-localization";
 
+export const metadata = {
+  title: "Simple Robot Localization / Newt Interactive",
+  description: "Explore an interactive explainer on how robots find their location in a simple environment. Learn about sensing, movement, and the algorithm behind robot localization.",
+  keywords: "robot localization, interactive explainer, sensing, movement, algorithm, robotics",
+  ogImage: "https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png",
+  url: "https://newtinteractive.com/blocks/robot-localization",
+};
+
 # Simple Robot Localization
 
 ## The algorithm behind how a robot finds its location in a simple environment
@@ -21,50 +29,6 @@ The interactive below has three sections: a general overview, a walkthrough expl
 
 export default function MDXPage({ children }) {
   return (
-    <>
-      <Head>
-        <title>Simple Robot Localization / Newt Interactive</title>
-        <meta
-          name="description"
-          content="Explore an interactive explainer on how robots find their location in a simple environment. Learn about sensing, movement, and the algorithm behind robot localization."
-        />
-        <meta
-          name="keywords"
-          content="robot localization, interactive explainer, sensing, movement, algorithm, robotics"
-        />
-        <meta
-          property="og:title"
-          content="Simple Robot Localization / Newt Interactive"
-        />
-        <meta
-          property="og:description"
-          content="Explore an interactive explainer on how robots find their location in a simple environment. Learn about sensing, movement, and the algorithm behind robot localization."
-        />
-        <meta
-          property="og:image"
-          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
-        />
-        <meta
-          property="og:url"
-          content="https://www.newtinteractive.com/blocks/robot-localization"
-        />
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Simple Robot Localization / Newt Interactive"
-        />
-        <meta
-          name="twitter:description"
-          content="Learn about the algorithm behind how robots find their location in a simple environment through an interactive explainer."
-        />
-        <meta
-          name="twitter:image"
-          content="https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png"
-        />
-        <meta name="twitter:creator" content="@nehaludyavar" />
-      </Head>
-      <MdxLayout>{children}</MdxLayout>
-    </>
+    <MdxLayout metadata={metadata}>{children}</MdxLayout>
   );
 }

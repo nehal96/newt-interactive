@@ -29,12 +29,8 @@ const ImageSeries: React.FC<ImageSeriesProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center mt-4 mb-12">
-      <div
-        className={`max-w-[${maxWidth}] w-full mx-auto ${
-          currentImage === 0 ? "mb-4 md:mb-5" : "mb-1"
-        }`}
-      >
+    <div className="flex flex-col items-center mt-4 mb-12 max-w-3xl self-center">
+      <div className="w-full mx-auto mb-2">
         <Image
           src={images[currentImage].src}
           alt={images[currentImage].alt}
@@ -44,6 +40,8 @@ const ImageSeries: React.FC<ImageSeriesProps> = ({
           style={{
             width: "100%",
             height: "auto",
+            margin: "0 auto",
+            maxWidth,
           }}
         />
       </div>

@@ -5,6 +5,14 @@ import { FiChevronLeft } from "react-icons/fi";
 import { MdxLayout, PostArticleSubscribe, MathFormula, ImageSeries, UnorderedList } from "../../../components";
 import { ActivatorTutorial, RepressorTutorial } from "../../../interactives/systems-biology";
 
+export const metadata = {
+  title: "Transcription Network Basics: Part Two",
+  description: "Dive deep into transcription factors, network diagrams, and mathematical models of gene expression. Learn about activators, repressors, and the Hill function in systems biology.",
+  keywords: "transcription factors, gene expression, activators, repressors, Hill function, systems biology, mathematical modeling",
+  ogImage: "https://i.ibb.co/Nnbfc6y/genetic-circuit.png",
+  url: "https://newtinteractive.com/series/systems-biology/transcription-network-basics-2",
+};
+
 # Transcription Network Basics: Part Two
 
 ## Activators, repressors, and how to model gene expression
@@ -53,21 +61,17 @@ This diagram describes one type of transcription factor, the **activator**, whic
 
 We can represent this activating or repressing relationship in network diagrams as well. Activators are denoted by a regular arrow, and repressors are denoted by a blunt-headed arrow:
 
-<div className="flex flex-col justify-center mt-4 mb-12">
-  <div className="max-w-[500px] w-full mx-auto">
-    <Image
-      src="/images/activator-repressor-notation.svg"
-      alt="Activator and Repressor Notation"
-      width={593}
-      height={184}
-      sizes="100vw"
-      style={{
-        width: "100%",
-        height: "auto",
-      }}
-    />
-  </div>
-</div>
+<ImageSeries
+  images={[
+    {
+      src: "/images/activator-repressor-notation.svg",
+      alt: "Activator and Repressor Notation",
+      width: 593,
+      height: 184,
+    }
+  ]}
+  maxWidth="500px"
+/>
 
 ### Mathematical Models
 
@@ -162,49 +166,6 @@ In the next part, we'll begin taking a closer look at these dynamics, including 
 
 export default function MDXPage({ children }) {
   return (
-    <>
-      <Head>
-        <title>Transcription Network Basics: Part Two / Newt Interactive</title>
-        <meta
-          name="description"
-          content="Dive deep into transcription factors, network diagrams, and mathematical models of gene expression. Learn about activators, repressors, and the Hill function in systems biology."
-        />
-        <meta
-          name="keywords"
-          content="transcription factors, gene expression, activators, repressors, Hill function, systems biology, mathematical modeling"
-        />
-        <meta
-          property="og:title"
-          content="Transcription Network Basics: Part Two / Newt Interactive"
-        />
-        <meta
-          property="og:description"
-          content="Dive deep into transcription factors, network diagrams, and mathematical models of gene expression. Learn about activators, repressors, and the Hill function in systems biology."
-        />
-        <meta
-          property="og:image"
-          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
-        />
-        <meta
-          property="og:url"
-          content="https://newtinteractive.com/series/systems-biology/transcription-network-basics-2"
-        />
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Transcription Network Basics: Part Two / Newt Interactive"
-        />
-        <meta
-          name="twitter:description"
-          content="Learn about activators, repressors, and mathematical models of gene expression in systems biology."
-        />
-        <meta
-          name="twitter:image"
-          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
-        />
-      </Head>
-      <MdxLayout>{children}</MdxLayout>
-    </>
+    <MdxLayout metadata={metadata}>{children}</MdxLayout>
   );
 }
