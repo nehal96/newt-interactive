@@ -1,0 +1,59 @@
+import { MathFormula, MdxLayout } from "../../../components";
+import { ActivatorStepFunctionTutorial } from "../../../interactives/systems-biology";
+
+export const metadata = {
+  title: "Transcription Network Basics: Part Three",
+};
+
+# Transcription Network Basics: Part Three
+
+## Logic approximations, handling multiple inputs, and the dynamics of transcription networks
+
+In Part Two, we looked at the two basic types of transcription factors, activators and repressors, and introduced an input function that mathematically models their behavior, the Hill function.
+
+In this article, we'll introduce approximating this input function &mdash; capturing its essence rather than its details &mdash; so that we can more easily analyze more complex input functions, like what happens when multiple transcription factors regulate a gene. Finally, we'll introduce the topic of transcription network dynamics, or how a cell's response (to produce or not produce a protein) looks like over time.
+
+### Logic approximations
+
+The essence of an input function is a transition between two values &mdash; from high to low for an activator, and low to high for a repressor &mdash; and a threshold that defines when the transition occurs.
+
+In its simplest form, this function can be like a switch: either **off**, <MathFormula className="text-lg" tex="f(X^*) = 0" />, or maximally **on**, <MathFormula className="text-lg" tex="f(X^*) = \beta" />, with the threshold for turning on or off occuring at <MathFormula className="text-lg" tex="X^* = K" />. This kind of approximation is known as a **logic approximation**, and it greatly simplifies the behavior of the Hill function, or any other input function.
+
+Mathematically, we can write this logic approximation using a **step function**. For an activator, this looks like:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula className="text-lg" tex="f(X^*) = \beta \cdot \theta(X^* > K)" />
+</div>
+
+where <MathFormula className="text-lg" tex="\theta(X^* > K)" />, the step function, is either 0 or 1 depending on whether the logical expression, <MathFormula className="text-lg" tex="X^* > K" />, is true or false. 
+
+{/* Create a info section for this additional information */}
+{/* The step function part can be written as:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula tex="\theta(X^* > K) = \begin{cases} 0 & \text{if } X^* < K \\ 1 & \text{if } X^* \geq K \end{cases}" />
+</div>
+
+or, put together:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula tex="f(X^*) = \begin{cases} 0 & \text{if } X^* < K \\ \beta & \text{if } X^* \geq K \end{cases}" />
+</div> */}
+
+For a repressor, the logic is reversed: being on, or 1, until the threshold is reached, after which it is off, or 0. This can be written as:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula className="text-lg" tex="f(X^*) = \beta \cdot \theta(X^* < K)" />
+</div>
+
+Let's take a look at this graphically and compare it to the Hill function:
+
+<ActivatorStepFunctionTutorial />
+
+
+
+export default function MDXPage({ children }) {
+  return (
+    <MdxLayout metadata={metadata}>{children}</MdxLayout>
+  );
+}

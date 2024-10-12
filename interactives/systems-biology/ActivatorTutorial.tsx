@@ -23,6 +23,7 @@ interface ActivatorGraphProps {
   activatorBeta: number;
   activatorK: number;
   activatorHillFunctionData: { x: number; y: number }[];
+  children?: React.ReactNode;
   chartOptions?: {
     showKIndicator?: boolean;
     showNComparisonCurves?: boolean;
@@ -56,6 +57,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
   activatorBeta,
   activatorK,
   activatorHillFunctionData,
+  children,
   chartOptions = {
     showKIndicator: false,
     showNComparisonCurves: false,
@@ -104,7 +106,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
             data: { stroke: "#cbd5e1" },
             parent: { border: "1px solid #ccc" },
           }}
-          data={getActivatorHillFunctionData(20, 5, 2)}
+          data={getActivatorHillFunctionData(20, activatorK, 2)}
           interpolation="basis"
           labels={({ datum }) => (datum.x === 20 ? "n = 2" : "")}
           labelComponent={
@@ -121,7 +123,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
             data: { stroke: "#cbd5e1" },
             parent: { border: "1px solid #ccc" },
           }}
-          data={getActivatorHillFunctionData(20, 5, 4)}
+          data={getActivatorHillFunctionData(20, activatorK, 4)}
           interpolation="basis"
           labels={({ datum }) => (datum.x === 20 ? "n = 4" : "")}
           labelComponent={
@@ -147,6 +149,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
           { x: 20, y: activatorBeta },
         ]}
       />
+      {children}
       {showKIndicator && (
         <VictoryLine
           style={dottedLineStyle}
