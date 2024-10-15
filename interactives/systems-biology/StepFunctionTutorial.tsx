@@ -7,11 +7,15 @@ import {
   TabsTrigger,
 } from "../../components";
 import ActivatorGraph from "./ActivatorGraph";
-import { getActivatorHillFunctionData } from "./helpers";
+import RepressorGraph from "./RepressorGraph";
+import {
+  getActivatorHillFunctionData,
+  getRepressorHillFunctionData,
+} from "./helpers";
 import { VictoryLabel, VictoryLine } from "victory";
 import { Tabs } from "../../components/Tabs";
 
-export default function ActivatorStepFunctionTutorial() {
+export default function StepFunctionTutorial() {
   const [activatorN, setActivatorN] = useState(1);
 
   const slides = [
@@ -201,6 +205,62 @@ export default function ActivatorStepFunctionTutorial() {
             ]}
           />
         </ActivatorGraph>
+      ),
+    },
+    {
+      text: (
+        <>
+          <p>
+            Alternatively, for a repressor, the step function drops from the
+            maximum value <MathFormula tex="\beta" /> to 0 at the threshold,{" "}
+            <MathFormula tex="K" />.
+          </p>
+        </>
+      ),
+      interactive: (
+        <RepressorGraph
+          repressorBeta={20}
+          repressorK={8}
+          repressorHillFunctionData={getRepressorHillFunctionData(
+            20,
+            8,
+            1,
+            0,
+            20
+          )}
+          mainLineColor="#cbd5e1"
+        >
+          <VictoryLine
+            style={{
+              data: { stroke: "#3b82f6" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={[
+              { x: 0, y: 20 },
+              { x: 8, y: 20 },
+            ]}
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#3b82f6" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={[
+              { x: 8, y: 20 },
+              { x: 8, y: 0.1 },
+            ]}
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#3b82f6" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={[
+              { x: 8, y: 0.1 },
+              { x: 20, y: 0.1 },
+            ]}
+          />
+        </RepressorGraph>
       ),
     },
   ];
