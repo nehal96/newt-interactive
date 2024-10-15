@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MathFormula, SlideDeck } from "../../components";
-import { ActivatorGraph } from "./ActivatorTutorial";
+import ActivatorGraph from "./ActivatorGraph";
 import { getActivatorHillFunctionData } from "./helpers";
 import { VictoryLabel, VictoryLine } from "victory";
 
