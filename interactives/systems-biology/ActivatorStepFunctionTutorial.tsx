@@ -1,8 +1,15 @@
 import { useState } from "react";
-import { MathFormula, SlideDeck } from "../../components";
+import {
+  InlineCode,
+  MathFormula,
+  SlideDeck,
+  TabsList,
+  TabsTrigger,
+} from "../../components";
 import ActivatorGraph from "./ActivatorGraph";
 import { getActivatorHillFunctionData } from "./helpers";
 import { VictoryLabel, VictoryLine } from "victory";
+import { Tabs } from "../../components/Tabs";
 
 export default function ActivatorStepFunctionTutorial() {
   const [activatorN, setActivatorN] = useState(1);
@@ -113,52 +120,42 @@ export default function ActivatorStepFunctionTutorial() {
     {
       text: (
         <>
-          <div className="mt-4">
-            <label htmlFor="beta-slider" className="font-medium block">
-              <MathFormula tex="\beta" />: {20}
-            </label>
-            <input
-              type="range"
-              id="beta-slider"
-              min="0"
-              max="20"
-              step="0.1"
-              value={20}
-              disabled
-              className="w-11/12 flex-auto cursor-pointer"
-            />
-          </div>
-          <div className="mt-4">
-            <label htmlFor="K-slider" className="font-medium block">
-              <MathFormula tex="K" />: {5}
-            </label>
-            <input
-              type="range"
-              id="K-slider"
-              min="1"
-              max="10"
-              step="0.1"
-              value={5}
-              disabled
-              // onChange={(e) => setActivatorK(parseFloat(e.target.value))}
-              className="w-11/12 flex-auto cursor-pointer"
-            />
-          </div>
-          <div className="mt-4">
-            <label htmlFor="n-slider" className="font-medium block">
-              <MathFormula tex="n" />: {activatorN}
-            </label>
-            <input
-              type="range"
-              id="n-slider"
-              min="1"
-              max="100"
-              step="1"
-              value={activatorN}
-              onChange={(e) => setActivatorN(parseFloat(e.target.value))}
-              className="w-11/12 flex-auto cursor-pointer"
-            />
-          </div>
+          <p>
+            Try different values of{" "}
+            <InlineCode variant="medium">
+              <MathFormula tex="n" />
+            </InlineCode>{" "}
+            to see how it changes the curve:
+          </p>
+          <Tabs
+            onValueChange={(value) => setActivatorN(Number(value))}
+            defaultValue="1"
+            className="mt-2"
+          >
+            <TabsList className="w-full">
+              <TabsTrigger className="grow" value="1">
+                1
+              </TabsTrigger>
+              <TabsTrigger className="grow" value="2">
+                2
+              </TabsTrigger>
+              <TabsTrigger className="grow" value="4">
+                4
+              </TabsTrigger>
+              <TabsTrigger className="grow" value="10">
+                10
+              </TabsTrigger>
+              <TabsTrigger className="grow" value="50">
+                50
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <p className="mt-8">
+            You'll notice that as <MathFormula tex="n" /> gets large, the curve
+            becomes more and more like the step function. In fact, the step
+            function is equivalent to the Hill function as{" "}
+            <MathFormula tex="n\to\infty" />.
+          </p>
         </>
       ),
       interactive: (

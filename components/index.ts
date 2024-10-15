@@ -24,6 +24,7 @@ export { default as SlideDeck } from "./SlideDeck";
 export { default as Subheader } from "./Subheader";
 export { default as SubscribeForm } from "./SubscribeForm";
 export { default as Switch } from "./Switch";
+export { TabsList, TabsTrigger } from "./Tabs";
 export { default as Title } from "./Title";
 export { default as Tooltip, TooltipContent } from "./Tooltip";
 export { default as UnorderedList } from "./UnorderedList";
