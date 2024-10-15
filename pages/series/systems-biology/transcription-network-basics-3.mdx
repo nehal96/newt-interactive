@@ -17,7 +17,7 @@ In this article, we'll introduce approximating this input function &mdash; captu
 
 The essence of an input function is a transition between two values &mdash; from high to low for an activator, and from low to high for a repressor &mdash; and a threshold that defines when the transition occurs.
 
-In its simplest form, this function can be like a switch: either **off**, <MathFormula className="text-lg" tex="f(X^*) = 0" />, or maximally **on**, <MathFormula className="text-lg" tex="f(X^*) = \beta" />, with the threshold for turning on or off occuring at <MathFormula className="text-lg" tex="X^* = K" />. This kind of approximation is known as a **logic approximation**, and it greatly simplifies the behavior of the Hill function, or any other input function.
+In its simplest form, this function can be like a switch: either **off**, <MathFormula className="text-lg" tex="f(X^*) = 0" />, or maximally **on**, <MathFormula className="text-lg" tex="f(X^*) = \beta" />, with the threshold for turning on or off occurring at <MathFormula className="text-lg" tex="X^* = K" />. This kind of approximation is known as a **logic approximation**, and it greatly simplifies the behavior of the Hill function, or any other input function.
 
 Mathematically, we can write this logic approximation using a **step function**. For an activator, this looks like:
 
@@ -49,6 +49,34 @@ For a repressor, the logic is reversed: being on, or 1, until the threshold is r
 Let's take a look at this graphically and compare it to the Hill function:
 
 <StepFunctionTutorial />
+
+### Multiple Inputs
+
+The primary benefit or logical approximations is that we can evaluate more complex input functions more easily. We can begin to look at genes that are regulated by multiple transcription factors and gauge their behavior with unnecessarily long calculations.
+
+Let's look at the example of genes that are regulated by two activators. One gene might require that *both* activators are bound to the promoter in order to enable high levels of expression &mdash; like an AND gate:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula className="text-lg" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X) \cdot \theta(Y^* > K_Y) \qquad \text{\textasciitilde} X^* \text{ AND } Y^*" />
+</div>
+
+Here, both <MathFormula className="text-lg" tex="\theta(X^* > K_X)" /> and <MathFormula className="text-lg" tex="\theta(Y^* > K_Y)" /> need to be 1 for the gene to express at the level <MathFormula className="text-lg" tex="\beta" />. If any one is 0, the gene is not expressed.
+
+For another gene, *either* one binding will suffice &mdash; like an OR gate:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula className="text-lg" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X \hspace{0.75em} \text{OR} \hspace{0.75em} Y^* > K_Y) \qquad \text{\textasciitilde} X^* \text{ OR } Y^*" />
+</div>
+
+The combinations are not limited to Boolean operations. Transcription factors can also combine in an additive way:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula className="text-lg" tex="f(X^*, Y^*) = \beta_X X^* + \beta_Y Y^*" />
+</div>
+
+Genes in multi-cellular organisms can have many inputs, occasionally more than a dozen, so you might see how quickly this can get complicated.
+
+Even with just two transcription factors, the combinations above look pretty abstract. This section just introduces the concept; in future articles, we'll look at how exactly these logical operations &mdash; the AND and OR gates &mdash; are performed in organisms, and the benefits they provide. (We generally associate AND and OR gates with computers, but chemistry beat it by several billion years. In fact, if you think about it, a biological computer designed the non-biological one using pretty similar design principles).
 
 
 
