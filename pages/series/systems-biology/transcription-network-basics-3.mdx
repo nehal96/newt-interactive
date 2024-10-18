@@ -80,6 +80,42 @@ Even with just two transcription factors, the combinations above look pretty abs
 
 ### Dynamics and Response Time
 
+So far, we've looked at how protein production is affected by transcription factors, but we haven't yet considered how it does so over time. The speed and way in which a cell responds to signals is extremely vital, which makes analyzing the dynamics and response time of transcription networks a fundamental task in systems biology.
+
+Let's start with a basic transcription interaction in a network, <MathFormula className="text-lg" tex="X" /> → <MathFormula className="text-lg" tex="Y" />. Recollect that <MathFormula className="text-lg" tex="X" /> → <MathFormula className="text-lg" tex="Y" /> describes gene regulation; a short way of saying that when signal <MathFormula className="text-lg" tex="S_X" /> appears, it transforms <MathFormula className="text-lg" tex="X" /> into its active state <MathFormula className="text-lg" tex="X^*" /> and binds to the promoter of gene <MathFormula className="text-lg" tex="Y" />, which enables transcription of <MathFormula className="text-lg" tex="Y" />, and then translation, resulting finally in protein <MathFormula className="text-lg" tex="Y" /> accumulating in the cell. 
+
+Protein <MathFormula className="text-lg" tex="Y" /> is produced at a rate <MathFormula className="text-lg" tex="\beta" />, which has units of concentration per unit time time (keep note of the units, they're important when looking at the calculations).
+
+This only covers protein production, but cells lost proteins as well. There are two processes that balance <MathFormula className="text-lg" tex="Y" /> production: protein degradation (intentional destruction by other specialized proteins) and dilution (reduction in concentration due to an increase in cell volume).
+
+Both processes reduce the concentration of <MathFormula className="text-lg" tex="Y" /> in a cell. The degradation rate is <MathFormula className="text-lg" tex="\alpha_{deg}" />, and the dilution rate is <MathFormula className="text-lg" tex="\alpha_{dil}" />, both with units of <MathFormula className="text-lg" tex="1/time" />. The total removal rate <MathFormula className="text-lg" tex="\alpha" /> is the just the sum of the two:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula className="text-lg" tex="\alpha = \alpha_{deg} + \alpha_{dil}" />
+</div>
+
+A change in the concentration of <MathFormula className="text-lg" tex="Y" /> in a cell over time, <MathFormula className="text-lg" tex="\frac{dY}{dt}" />, is given by the difference between its production and its removal:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula className="text-lg" tex="\dfrac{dY}{dt} = \beta - \alpha Y" />
+</div>
+
+where <MathFormula className="text-lg" tex="Y" /> is the concentration of protein at any given time. <MathFormula className="text-lg" tex="\beta" /> has units of concentration per unit time, and <MathFormula className="text-lg" tex="\alpha Y" />, the removal rate, has units of <MathFormula className="text-lg" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.
+
+When the production rate matches the removal rate, a steady state is reached. The cell maintains a consistent concentration of <MathFormula className="text-lg" tex="Y" />, denoted by <MathFormula className="text-lg" tex="Y_{st}" />. Consistent concentration means of a change of <MathFormula className="text-lg" tex="0" />, so this can be found by solving for <MathFormula className="text-lg" tex="\dfrac{dY}{dt} = 0" />:
+
+<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+  <MathFormula className="text-lg" tex="Y_{st} = \dfrac{\beta}{\alpha}" />
+</div>
+
+If we keep the removal rate <MathFormula className="text-lg" tex="\alpha" /> constant, the higher the production rate <MathFormula className="text-lg" tex="\beta" />, the higher the steady state concentration of <MathFormula className="text-lg" tex="Y" />. Keep <MathFormula className="text-lg" tex="\beta" /> constant, and a higher removal rate <MathFormula className="text-lg" tex="\alpha" /> will result in a lower steady state concentration. Makes sense.
+
+We now have the basic equations that describe the dynamics of simple regulation, or how the concentration of a protein <MathFormula className="text-lg" tex="Y" /> behaves over time.
+
+Let's use these to analyze some cellular scenarios. Scenario one: what happens when the input signal <MathFormula className="text-lg" tex="S_X" /> is gone, and so the production of <MathFormula className="text-lg" tex="Y" /> stops (<MathFormula className="text-lg" tex="\beta = 0" />)? How does <MathFormula className="text-lg" tex="Y" /> concentration deplete over time?
+
+
+
 <ProteinDecayResponseTimeTutorial />
 
 
