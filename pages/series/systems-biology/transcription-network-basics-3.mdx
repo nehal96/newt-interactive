@@ -1,5 +1,5 @@
 import { MathFormula, MdxLayout } from "../../../components";
-import { StepFunctionTutorial } from "../../../interactives/systems-biology";
+import { StepFunctionTutorial, ProteinDecayResponseTimeTutorial } from "../../../interactives/systems-biology";
 
 export const metadata = {
   title: "Transcription Network Basics: Part Three",
@@ -78,6 +78,9 @@ Genes in multi-cellular organisms can have many inputs, occasionally more than a
 
 Even with just two transcription factors, the combinations above look pretty abstract. This section just introduces the concept; in future articles, we'll look at how exactly these logical operations &mdash; the AND and OR gates &mdash; are performed in organisms, and the benefits they provide. (We generally associate AND and OR gates with computers, but chemistry beat it by several billion years. In fact, if you think about it, a biological computer designed the non-biological one using pretty similar design principles).
 
+### Dynamics and Response Time
+
+<ProteinDecayResponseTimeTutorial />
 
 
 export default function MDXPage({ children }) {
