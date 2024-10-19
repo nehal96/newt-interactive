@@ -2,9 +2,16 @@ import {
   VictoryAxis,
   VictoryChart,
   VictoryContainer,
+  VictoryLabel,
   VictoryLine,
+  VictoryScatter,
 } from "victory";
-import { MathFormula, Popover, SlideDeck } from "../../components";
+import {
+  getDottedLineStyle,
+  MathFormula,
+  Popover,
+  SlideDeck,
+} from "../../components";
 import { axisStyle } from "../../components";
 
 const ExponentialDecayEquationPopoverContent = () => (
@@ -38,11 +45,36 @@ const ExponentialDecayEquationPopoverContent = () => (
   </div>
 );
 
-const ProteinDecayResponseTimeChart = () => {
+const ProteinDecayResponseTimeChart = ({
+  steadyState = 100,
+  alpha = 0.25,
+  chartOptions = {
+    showHalfLifeIndicator: false,
+  },
+}) => {
+  const dottedLineStyle = getDottedLineStyle();
   const noTicksStyle = {
     ...axisStyle,
     ticks: { ...axisStyle.ticks, size: 0 },
   };
+
+  const XAxisStyle = chartOptions?.showHalfLifeIndicator
+    ? axisStyle
+    : noTicksStyle;
+  const XAxisTickValues = chartOptions?.showHalfLifeIndicator
+    ? [Math.log(2) / alpha]
+    : [];
+  const XAxisTickFormat = chartOptions?.showHalfLifeIndicator
+    ? () => "T 1/2"
+    : () => "";
+  const YAxisTickValues = chartOptions?.showHalfLifeIndicator
+    ? [steadyState / 2, steadyState]
+    : [steadyState];
+  const YAxisTickFormat = chartOptions?.showHalfLifeIndicator
+    ? (t) => (t === steadyState / 2 ? "Y_st/2" : "Y_st")
+    : (t) => (t === steadyState ? "Y_st" : "");
+
+  const { showHalfLifeIndicator } = chartOptions;
 
   const proteinDecayResponseTimeFunction = (t, alpha = 2, steadyState = 10) => {
     return steadyState * Math.exp(-alpha * t);
@@ -68,12 +100,18 @@ const ProteinDecayResponseTimeChart = () => {
 
   return (
     <VictoryChart containerComponent={<VictoryContainer responsive={true} />}>
-      <VictoryAxis style={noTicksStyle} tickValues={[]} tickFormat={() => ""} />
+      <VictoryAxis
+        label="time"
+        style={XAxisStyle}
+        tickValues={XAxisTickValues}
+        tickFormat={XAxisTickFormat}
+        axisLabelComponent={<VictoryLabel dy={-39} dx={195} />}
+      />
       <VictoryAxis
         dependentAxis
-        style={noTicksStyle}
-        tickValues={[]}
-        tickFormat={() => ""}
+        style={axisStyle}
+        tickValues={YAxisTickValues}
+        tickFormat={YAxisTickFormat}
       />
       <VictoryLine
         style={{
@@ -83,6 +121,33 @@ const ProteinDecayResponseTimeChart = () => {
         data={data}
         interpolation="basis"
       />
+      {showHalfLifeIndicator && (
+        <VictoryLine
+          style={dottedLineStyle}
+          data={[
+            { x: Math.log(2) / alpha, y: 0 },
+            { x: Math.log(2) / alpha, y: steadyState / 2 },
+          ]}
+        />
+      )}
+      {showHalfLifeIndicator && (
+        <VictoryLine
+          style={dottedLineStyle}
+          data={[
+            { x: 0, y: steadyState / 2 },
+            { x: Math.log(2) / alpha, y: steadyState / 2 },
+          ]}
+        />
+      )}
+      {showHalfLifeIndicator && (
+        <VictoryScatter
+          style={{
+            data: { stroke: "#1e293b", strokeWidth: 1, fill: "white" },
+          }}
+          size={4}
+          data={[{ x: Math.log(2) / alpha, y: steadyState / 2 }]}
+        />
+      )}
     </VictoryChart>
   );
 };
@@ -126,6 +191,22 @@ export const ProteinDecayResponseTimeTutorial = () => {
         </>
       ),
       interactive: <ProteinDecayResponseTimeChart />,
+    },
+    {
+      text: (
+        <>
+          <p>
+            The time it takes for the concentration to decay to half of its
+            steady state value is known as the half-life, or{" "}
+            <MathFormula className="text-lg" tex="T_{1/2}" />.
+          </p>
+        </>
+      ),
+      interactive: (
+        <ProteinDecayResponseTimeChart
+          chartOptions={{ showHalfLifeIndicator: true }}
+        />
+      ),
     },
   ];
 
