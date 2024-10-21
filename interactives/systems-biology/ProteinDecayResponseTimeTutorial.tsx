@@ -45,6 +45,37 @@ const ExponentialDecayEquationPopoverContent = () => (
   </div>
 );
 
+const ResponseTimePopoverContent = () => (
+  <div className="flex flex-col text-md w-[350px] text-sm">
+    <p className="mb-3">starting with:</p>
+    <MathFormula
+      className="ml-6"
+      tex="Y(t) = Y_{st} e^{-\alpha t} \qquad \text{where} \thickspace Y(t) = \dfrac{Y_{st}}{2}"
+    />
+    <p className="mt-6 mb-2">we get:</p>
+    <MathFormula
+      className="mt-3 ml-6"
+      tex="\dfrac{Y_{st}}{2} = Y_{st} e^{-\alpha t}"
+    />
+    <p className="mt-6 mb-2">
+      dividing both sides by <MathFormula tex="Y_{st}" />:
+    </p>
+    <MathFormula className="mt-3 ml-6" tex="\dfrac{1}{2} = e^{-\alpha t}" />
+    <p className="mt-6 mb-2">
+      taking the natural log of both sides to solve for <MathFormula tex="t" />:
+    </p>
+    <MathFormula
+      className="mt-3 ml-6"
+      tex="\ln \left( \dfrac{1}{2} \right) = -\alpha t"
+    />
+    <MathFormula
+      className="mt-3 ml-6"
+      tex="t = \dfrac{\ln \left( \dfrac{1}{2} \right)}{-\alpha}"
+    />
+    <MathFormula className="mt-3 ml-6" tex="t = \dfrac{\ln 2}{\alpha}" />
+  </div>
+);
+
 const ProteinDecayResponseTimeChart = ({
   steadyState = 100,
   alpha = 0.25,
@@ -159,11 +190,8 @@ export const ProteinDecayResponseTimeTutorial = () => {
         <>
           <p>
             Starting with the equation{" "}
-            <MathFormula
-              className="text-lg"
-              tex="\dfrac{dY}{dt} = \beta - \alpha Y"
-            />{" "}
-            and setting <MathFormula className="text-lg" tex="\beta = 0" />,{" "}
+            <MathFormula tex="\dfrac{dY}{dt} = \beta - \alpha Y" /> and setting{" "}
+            <MathFormula tex="\beta = 0" />,{" "}
             <Popover
               trigger={
                 <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
@@ -177,16 +205,12 @@ export const ProteinDecayResponseTimeTutorial = () => {
             to the following equation:
           </p>
           <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
-            <MathFormula
-              className="text-lg"
-              tex="Y(t) = Y_{st} e^{-\alpha t}"
-            />
+            <MathFormula tex="Y(t) = Y_{st} \thinspace e^{-\alpha t}" />
           </div>
           <p>
             which describes the exponential decay of concentration{" "}
-            <MathFormula className="text-lg" tex="Y" /> over time, as shown in
-            the graph. <MathFormula className="text-lg" tex="Y_{st}" /> is the
-            steady state concentration.
+            <MathFormula tex="Y" /> over time, as shown in the graph.{" "}
+            <MathFormula tex="Y_{st}" /> is the steady state concentration.
           </p>
         </>
       ),
@@ -196,9 +220,53 @@ export const ProteinDecayResponseTimeTutorial = () => {
       text: (
         <>
           <p>
-            The time it takes for the concentration to decay to half of its
-            steady state value is known as the half-life, or{" "}
-            <MathFormula className="text-lg" tex="T_{1/2}" />.
+            It's important to know how quickly <MathFormula tex="Y" /> levels
+            decay in a cell. The measure for this is known as the{" "}
+            <strong>response time</strong>, which is defined as the time it
+            takes for the concentration to decay to half of its steady state
+            value, denoted as <MathFormula tex="T_{1/2}" />.
+          </p>
+          <p className="mt-4">
+            The halfway point for concentration that starts at{" "}
+            <MathFormula tex="Y_{st}" /> and ends at <MathFormula tex="0" /> is
+            <MathFormula tex="\dfrac{Y_{st}}{2}" />.{" "}
+            <Popover
+              trigger={
+                <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+                  Using this in the previous formula
+                </span>
+              }
+              content={<ResponseTimePopoverContent />}
+            />{" "}
+            we can find the formula for response time:
+          </p>
+          <div className="flex flex-col justify-center mt-4 mx-auto">
+            <MathFormula tex="T_{1/2} = \dfrac{\ln(2)}{\alpha}" />
+          </div>
+        </>
+      ),
+      interactive: (
+        <ProteinDecayResponseTimeChart
+          chartOptions={{ showHalfLifeIndicator: true }}
+        />
+      ),
+    },
+    {
+      text: (
+        <>
+          <div className="flex flex-col justify-center mb-4 mx-auto">
+            <MathFormula tex="T_{1/2} = \dfrac{\ln(2)}{\alpha}" />
+          </div>
+          <p className="mt-4">
+            As the formula shows, the response time for decay only depends on
+            the removal rate <MathFormula tex="\alpha" />. A high removal rate
+            means a fast decay, but it also means a high production rate to
+            maintain the steady-state concentration.
+          </p>
+          <p className="mt-4">
+            Quickly producing and quickly destroying proteins doesn't seem
+            efficient, but it does give the cell the ability to adapt quickly,
+            which we'll see is quite an important feature.
           </p>
         </>
       ),
