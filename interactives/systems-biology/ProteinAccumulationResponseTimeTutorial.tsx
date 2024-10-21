@@ -88,6 +88,42 @@ const ProteinAccumulationEquationPopoverContent = () => (
   </div>
 );
 
+const ProteinAccumulationResponseTimePopoverContent = () => (
+  <div className="flex flex-col text-md w-[350px] text-sm">
+    <p className="mb-3">starting with:</p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="Y(t) = Y_{st} \thinspace (1 - e^{-\alpha t}) \qquad \text{where} \thickspace Y(t) = \dfrac{Y_{st}}{2}"
+    />
+    <p className="mt-6 mb-2">we get:</p>
+    <MathFormula
+      className="mt-3 ml-6"
+      tex="\dfrac{Y_{st}}{2} = Y_{st} \thinspace (1 - e^{-\alpha t})"
+    />
+    <p className="mt-6 mb-2">
+      dividing both sides by <MathFormula tex="Y_{st}" />:
+    </p>
+    <MathFormula className="mt-3 ml-6" tex="\dfrac{1}{2} = 1 - e^{-\alpha t}" />
+    <MathFormula className="mt-3 ml-6" tex="e^{-\alpha t} = \dfrac{1}{2}" />
+    <p className="mt-6 mb-2">taking the natural log of both sides:</p>
+    <MathFormula
+      className="mt-3 ml-6"
+      tex="\ln \left( e^{-\alpha t} \right) = \ln \left( \dfrac{1}{2} \right)"
+    />
+    <MathFormula
+      className="mt-3 ml-6"
+      tex="-\alpha t = \ln \left( \dfrac{1}{2} \right)"
+    />
+    <MathFormula className="mt-3 ml-6" tex="-\alpha t = - \ln (2)" />
+    <MathFormula className="mt-3 ml-6" tex="t = \dfrac{\ln (2)}{\alpha}" />
+    <p className="mt-6">therefore:</p>
+    <MathFormula
+      className="self-center outline outline-indigo-500 py-2 px-4 ml-6 mt-3"
+      tex="T_{1/2} = \dfrac{\ln (2)}{\alpha}"
+    />
+  </div>
+);
+
 const ProteinAccumulationResponseTimeChart = ({
   steadyState = 100,
   alpha = 0.25,
@@ -221,6 +257,40 @@ const ProteinAccumulationResponseTimeTutorial = () => {
         </>
       ),
       interactive: <ProteinAccumulationResponseTimeChart />,
+    },
+    {
+      text: (
+        <>
+          <p>
+            Using this equation,{" "}
+            <Popover
+              trigger={
+                <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+                  we can similarly find
+                </span>
+              }
+              content={<ProteinAccumulationResponseTimePopoverContent />}
+            />{" "}
+            the response time:
+          </p>
+          <div className="flex flex-col justify-center my-8 mx-auto">
+            <MathFormula tex="T_{1/2} = \dfrac{\ln 2}{\alpha}" />
+          </div>
+          <p>
+            which, as it turns out, is exactly the same as the decay response
+            time. Both scenarios &mdash; increasing and decreasing protein
+            levels &mdash; only depend on the removal rate{" "}
+            <MathFormula tex="\alpha" />.
+          </p>
+        </>
+      ),
+      interactive: (
+        <ProteinAccumulationResponseTimeChart
+          chartOptions={{
+            showHalfLifeIndicator: true,
+          }}
+        />
+      ),
     },
   ];
 
