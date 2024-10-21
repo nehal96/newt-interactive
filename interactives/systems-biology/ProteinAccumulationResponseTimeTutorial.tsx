@@ -6,7 +6,87 @@ import {
   VictoryLine,
   VictoryScatter,
 } from "victory";
-import { axisStyle, getDottedLineStyle, SlideDeck } from "../../components";
+import {
+  axisStyle,
+  getDottedLineStyle,
+  MathFormula,
+  Popover,
+  SlideDeck,
+} from "../../components";
+
+const ProteinAccumulationEquationPopoverContent = () => (
+  <div className="flex flex-col text-md w-[350px] text-sm">
+    <p>starting with</p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="\dfrac{dY}{dt} = \beta - \alpha Y"
+    />
+    <p className="mt-6">we can rearrange to</p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="\dfrac{dY}{dt} + \alpha Y = \beta"
+    />
+    <p className="mt-6">
+      to integrate both sides, let's first define an integrating factor:
+    </p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="\mu(t) = e^{\int \alpha \thinspace dt} = e^{\alpha t}"
+    />
+    <p className="mt-6">then multiply both sides by the integrating factor:</p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="e^{\alpha t} \dfrac{dY}{dt} + \alpha e^{\alpha t} Y = \beta e^{\alpha t}"
+    />
+    <p className="mt-6">
+      the left-hand side can now be expressed as the derivative of the product:
+    </p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="\dfrac{d}{dt} (e^{\alpha t} Y) = \beta e^{\alpha t}"
+    />
+    <p className="mt-6">
+      integrating both sides with respect to <MathFormula tex="t" />:
+    </p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="\int \dfrac{d}{dt} (e^{\alpha t} Y) \thinspace dt = \int \beta e^{\alpha t} \thinspace dt"
+    />
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="e^{\alpha t} Y = \int \beta e^{\alpha t} \thinspace dt"
+    />
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="e^{\alpha t} Y = \dfrac{\beta}{\alpha} e^{\alpha t} + C"
+    />
+    <p className="mt-6">
+      now, we can solve for <MathFormula tex="Y" />. dividing both sides by{" "}
+      <MathFormula tex="e^{\alpha t}" />:
+    </p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="Y = \dfrac{\beta}{\alpha} + C e^{-\alpha t}"
+    />
+    <p className="mt-6">
+      recollect that <MathFormula tex="\dfrac{\beta}{\alpha}" /> is the steady
+      state value <MathFormula tex="Y_{st}" />. The second term describes the
+      exponential decay of <MathFormula tex="Y" />, so the constant{" "}
+      <MathFormula tex="C" /> is the starting point of the decay, or{" "}
+      <MathFormula tex="Y_{st}" />. Since it represents decay, the term is
+      negative. So, we get:
+    </p>
+    <MathFormula
+      className="ml-6 mt-3"
+      tex="Y(t) = Y_{st} - Y_{st} e^{-\alpha t}"
+    />
+    <p className="mt-6">which evaluates to:</p>
+    <MathFormula
+      className="self-center outline outline-indigo-500 py-2 px-4 ml-6 mt-3"
+      tex="Y(t) = Y_{st} \thinspace (1 - e^{-\alpha t})"
+    />
+  </div>
+);
 
 const ProteinAccumulationResponseTimeChart = ({
   steadyState = 100,
@@ -114,7 +194,30 @@ const ProteinAccumulationResponseTimeTutorial = () => {
     {
       text: (
         <>
-          <p>Protein Accumulation Response Time</p>
+          <p>
+            Again, starting with the equation{" "}
+            <MathFormula tex="\dfrac{dY}{dt} = \beta - \alpha Y" /> (but keeping{" "}
+            <MathFormula tex="\beta" /> as is this time),{" "}
+            <Popover
+              trigger={
+                <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+                  we can work our way
+                </span>
+              }
+              content={<ProteinAccumulationEquationPopoverContent />}
+              side="top"
+              triggerOnHover={true}
+            />{" "}
+            to the following equation:
+          </p>
+          <div className="flex flex-col justify-center mt-8 mb-8 mx-auto">
+            <MathFormula tex="Y(t) = Y_{st} \thinspace (1 - e^{-\alpha t})" />
+          </div>
+          <p>
+            which describes how protein concentration <MathFormula tex="Y" />
+            rises quickly at first, and then gradually converges to the steady
+            state <MathFormula tex="Y_{st}" />, as shown in the graph.
+          </p>
         </>
       ),
       interactive: <ProteinAccumulationResponseTimeChart />,
