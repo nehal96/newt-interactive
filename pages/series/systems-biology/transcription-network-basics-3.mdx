@@ -1,5 +1,5 @@
 import { MathFormula, MdxLayout } from "../../../components";
-import { StepFunctionTutorial, ProteinDecayResponseTimeTutorial } from "../../../interactives/systems-biology";
+import { StepFunctionTutorial, ProteinDecayResponseTimeTutorial, ProteinAccumulationResponseTimeTutorial } from "../../../interactives/systems-biology";
 
 export const metadata = {
   title: "Transcription Network Basics: Part Three",
@@ -116,6 +116,10 @@ Let's use these to analyze some cellular scenarios. Scenario one: what happens w
 
 
 <ProteinDecayResponseTimeTutorial />
+
+So, the loss of a signal leads to an exponential decay in protein concentration. Now let's consider the reverse scenario: what happens when a signal <MathFormula tex="S_X" /> is introduced to a cell where protein production hasn't yet started (<MathFormula tex="Y = 0" />)? How does protein <MathFormula tex="Y" /> increase over time?
+
+<ProteinAccumulationResponseTimeTutorial />
 
 
 export default function MDXPage({ children }) {
