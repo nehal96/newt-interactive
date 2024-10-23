@@ -26,6 +26,26 @@ interface ActivatorGraphProps {
   };
 }
 
+export const SecondaryLine = ({
+  data,
+  showLabel = true,
+  label,
+  domainMax = 20,
+  ...props
+}) => (
+  <VictoryLine
+    {...props}
+    style={{
+      data: { stroke: "#cbd5e1" },
+      parent: { border: "1px solid #ccc" },
+    }}
+    data={data}
+    interpolation="basis"
+    labels={({ datum }) => (showLabel && datum.x === domainMax ? label : "")}
+    labelComponent={<VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />}
+  />
+);
+
 export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
   activatorBeta,
   activatorK,
@@ -84,36 +104,20 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
         }
       />
       {showNComparisonCurves && (
-        <VictoryLine
-          style={{
-            data: { stroke: "#cbd5e1" },
-            parent: { border: "1px solid #ccc" },
-          }}
+        <SecondaryLine
           data={getActivatorHillFunctionData(20, activatorK, 2)}
-          interpolation="basis"
-          labels={({ datum }) => (datum.x === 20 ? "n = 2" : "")}
-          labelComponent={
-            <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
-          }
+          label="n = 2"
           animate={{
-            onLoad: { duration: 1500 },
+            onLoad: { duration: 500 },
           }}
         />
       )}
       {showNComparisonCurves && (
-        <VictoryLine
-          style={{
-            data: { stroke: "#cbd5e1" },
-            parent: { border: "1px solid #ccc" },
-          }}
+        <SecondaryLine
           data={getActivatorHillFunctionData(20, activatorK, 4)}
-          interpolation="basis"
-          labels={({ datum }) => (datum.x === 20 ? "n = 4" : "")}
-          labelComponent={
-            <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
-          }
+          label="n = 4"
           animate={{
-            onLoad: { duration: 1500 },
+            onLoad: { duration: 500 },
           }}
         />
       )}
@@ -133,6 +137,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
         ]}
       />
       {children}
+      {/* not grouped so the changes are smooth when values are changed (otherwise there's a small delay) */}
       {showKIndicator && (
         <VictoryLine
           style={dottedLineStyle}
