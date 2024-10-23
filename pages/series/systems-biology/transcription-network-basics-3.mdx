@@ -9,15 +9,15 @@ export const metadata = {
 
 ## Logic approximations, handling multiple inputs, and the dynamics of transcription networks
 
-In Part Two, we looked at the two basic types of transcription factors, activators and repressors, and introduced an input function that mathematically models their behavior, the Hill function.
+In Part Two, we looked at the two basic types of transcription factors &mdash; activators and repressors &mdash; and introduced an input function that mathematically models their behavior: the Hill function.
 
-In this article, we'll introduce approximating this input function &mdash; capturing its essence rather than its details &mdash; so that we can more easily analyze more complex input functions, like what happens when multiple transcription factors regulate a gene. Finally, we'll introduce the topic of transcription network dynamics, or how a cell's response (to produce or not produce a protein) looks like over time.
+In this article, we'll introduce approximating this input function &mdash; capturing its essence rather than its details &mdash; so that we can easily analyze more complex input functions, like what happens when multiple transcription factors regulate a gene. Finally, we'll introduce the topic of transcription network dynamics, or how a cell's response (to produce or not produce a protein) looks like over time.
 
 ### Logic approximations
 
 The essence of an input function is a transition between two values &mdash; from high to low for an activator, and from low to high for a repressor &mdash; and a threshold that defines when the transition occurs.
 
-In its simplest form, this function can be like a switch: either **off**, <MathFormula className="text-lg" tex="f(X^*) = 0" />, or maximally **on**, <MathFormula className="text-lg" tex="f(X^*) = \beta" />, with the threshold for turning on or off occurring at <MathFormula className="text-lg" tex="X^* = K" />. This kind of approximation is known as a **logic approximation**, and it greatly simplifies the behavior of the Hill function, or any other input function.
+The Hill functions we introduced in Part Two achieve this with a smooth, sigmoidal shape. In its simplest form, however, this function can be like a switch: either **off**, <MathFormula className="text-lg" tex="f(X^*) = 0" />, or maximally **on**, <MathFormula className="text-lg" tex="f(X^*) = \beta" />, with the threshold for turning on or off occurring at <MathFormula className="text-lg" tex="X^* = K" />. This kind of approximation is known as a **logic approximation**, and it greatly simplifies the behavior of the Hill function, or any other input function.
 
 Mathematically, we can write this logic approximation using a **step function**. For an activator, this looks like:
 
@@ -46,15 +46,15 @@ For a repressor, the logic is reversed: being on, or 1, until the threshold is r
   <MathFormula className="text-lg" tex="f(X^*) = \beta \cdot \theta(X^* < K)" />
 </div>
 
-Let's take a look at this graphically and compare it to the Hill function:
+Let's take a look at this graphically:
 
 <StepFunctionTutorial />
 
 ### Multiple Inputs
 
-The primary benefit or logical approximations is that we can evaluate more complex input functions more easily. We can begin to look at genes that are regulated by multiple transcription factors and gauge their behavior with unnecessarily long calculations.
+The primary benefit of logical approximations is that we can evaluate more complex input functions more easily. We can begin to look at genes that are regulated by multiple transcription factors and gauge their behavior without doing unnecessarily long calculations.
 
-Let's look at the example of genes that are regulated by two activators. One gene might require that *both* activators are bound to the promoter in order to enable high levels of expression &mdash; like an AND gate:
+Let's look at the example of genes that are regulated by two activators. One gene might require that *both* activators are bound to the promoter in order to enable high levels of expression; just one is not enough. This represents an AND gate:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula className="text-lg" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X) \cdot \theta(Y^* > K_Y) \qquad \text{\textasciitilde} X^* \text{ AND } Y^*" />
@@ -86,7 +86,7 @@ Let's start with a basic transcription interaction in a network, <MathFormula cl
 
 Protein <MathFormula className="text-lg" tex="Y" /> is produced at a rate <MathFormula className="text-lg" tex="\beta" />, which has units of concentration per unit time time (keep note of the units, they're important when looking at the calculations).
 
-This only covers protein production, but cells lost proteins as well. There are two processes that balance <MathFormula className="text-lg" tex="Y" /> production: protein degradation (intentional destruction by other specialized proteins) and dilution (reduction in concentration due to an increase in cell volume).
+This only covers protein production, but cells lose proteins as well. There are two processes that balance <MathFormula className="text-lg" tex="Y" /> production: protein degradation (intentional destruction by other specialized proteins) and dilution (reduction in concentration due to an increase in cell volume).
 
 Both processes reduce the concentration of <MathFormula className="text-lg" tex="Y" /> in a cell. The degradation rate is <MathFormula className="text-lg" tex="\alpha_{deg}" />, and the dilution rate is <MathFormula className="text-lg" tex="\alpha_{dil}" />, both with units of <MathFormula className="text-lg" tex="1/time" />. The total removal rate <MathFormula className="text-lg" tex="\alpha" /> is the just the sum of the two:
 

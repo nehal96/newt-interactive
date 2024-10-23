@@ -22,7 +22,7 @@ export default function StepFunctionTutorial() {
     {
       text: (
         <>
-          <p>Let's re-visit the Hill function for an activator:</p>
+          <p>First, let's re-visit the Hill function for an activator:</p>
           <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
             <MathFormula
               className="mt-6"
@@ -31,7 +31,7 @@ export default function StepFunctionTutorial() {
           </div>
           <p>
             and look at it graphically for different values of{" "}
-            <MathFormula tex="n" />.
+            <MathFormula tex="n" />. Notice its smooth shape.
           </p>
         </>
       ),
@@ -59,6 +59,11 @@ export default function StepFunctionTutorial() {
             Now let's look at what the step function looks like for an
             activator.
           </p>
+          <p className="mt-4">
+            The smooth curve is replaced with a jump, or step, from{" "}
+            <MathFormula tex="0" /> to <MathFormula tex="\beta" /> at the
+            threshold <MathFormula tex="K" />.
+          </p>
         </>
       ),
       interactive: (
@@ -74,6 +79,8 @@ export default function StepFunctionTutorial() {
           )}
           chartOptions={{
             showNComparisonCurves: true,
+            xAxisTickValues: [8],
+            xAxisTickFormat: () => "K",
           }}
         >
           <VictoryLine
@@ -125,6 +132,10 @@ export default function StepFunctionTutorial() {
       text: (
         <>
           <p>
+            One interesting aspect is that the Hill function and the step
+            function are related.
+          </p>
+          <p className="mt-4">
             Try different values of{" "}
             <InlineCode variant="medium">
               <MathFormula tex="n" />
@@ -173,6 +184,10 @@ export default function StepFunctionTutorial() {
             0,
             20
           )}
+          chartOptions={{
+            xAxisTickValues: [8],
+            xAxisTickFormat: () => "K",
+          }}
         >
           <VictoryLine
             style={{
@@ -211,8 +226,9 @@ export default function StepFunctionTutorial() {
       text: (
         <>
           <p>
-            Alternatively, for a repressor, the step function drops from the
-            maximum value <MathFormula tex="\beta" /> to 0 at the threshold,{" "}
+            The phenomena works exactly the same for the repressor, except that
+            the step function drops from the maximum value{" "}
+            <MathFormula tex="\beta" /> to 0 at the threshold,{" "}
             <MathFormula tex="K" />.
           </p>
         </>

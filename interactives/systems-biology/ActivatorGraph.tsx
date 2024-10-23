@@ -19,6 +19,8 @@ interface ActivatorGraphProps {
   activatorHillFunctionData: { x: number; y: number }[];
   children?: React.ReactNode;
   chartOptions?: {
+    xAxisTickValues?: (number | string)[];
+    xAxisTickFormat?: (t: number | string) => string;
     showKIndicator?: boolean;
     showNComparisonCurves?: boolean;
   };
@@ -31,6 +33,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
   children,
   chartOptions = {
     xAxisTickValues: null,
+    xAxisTickFormat: null,
     showKIndicator: false,
     showNComparisonCurves: false,
   },
@@ -43,8 +46,16 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
   };
 
   const XAxisStyle = chartOptions?.showKIndicator ? axisStyle : noTicksStyle;
-  const XAxisTickValues = chartOptions?.showKIndicator ? [activatorK] : [];
-  const XAxisTickFormat = chartOptions?.showKIndicator ? () => "K" : () => "";
+  const XAxisTickValues = chartOptions.xAxisTickValues
+    ? chartOptions.xAxisTickValues
+    : chartOptions?.showKIndicator
+    ? [activatorK]
+    : [];
+  const XAxisTickFormat = chartOptions.xAxisTickFormat
+    ? chartOptions.xAxisTickFormat
+    : chartOptions?.showKIndicator
+    ? () => "K"
+    : () => "";
   const YAxisTickValues = chartOptions?.showKIndicator
     ? [activatorBeta / 2, activatorBeta]
     : [activatorBeta];
