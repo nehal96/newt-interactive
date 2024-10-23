@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   VictoryAxis,
   VictoryChart,
@@ -8,9 +9,11 @@ import {
 } from "victory";
 import {
   getDottedLineStyle,
+  InlineCode,
   MathFormula,
   Popover,
   SlideDeck,
+  Switch,
 } from "../../components";
 import { axisStyle } from "../../components";
 
@@ -127,10 +130,13 @@ const ProteinDecayResponseTimeChart = ({
     return data;
   };
 
-  const data = getProteinDecayResponseTimeData();
+  const data = getProteinDecayResponseTimeData(alpha, steadyState);
 
   return (
-    <VictoryChart containerComponent={<VictoryContainer responsive={true} />}>
+    <VictoryChart
+      domain={{ x: [0, 20], y: [0, 110] }}
+      containerComponent={<VictoryContainer responsive={true} />}
+    >
       <VictoryAxis
         label="time"
         style={XAxisStyle}
@@ -184,6 +190,10 @@ const ProteinDecayResponseTimeChart = ({
 };
 
 export const ProteinDecayResponseTimeTutorial = () => {
+  const [steadyState, setSteadyState] = useState(100);
+  const [alpha, setAlpha] = useState(0.25);
+  const [showHalfLifeIndicator, setShowHalfLifeIndicator] = useState(true);
+
   const slides = [
     {
       text: (
@@ -273,6 +283,73 @@ export const ProteinDecayResponseTimeTutorial = () => {
       interactive: (
         <ProteinDecayResponseTimeChart
           chartOptions={{ showHalfLifeIndicator: true }}
+        />
+      ),
+    },
+    {
+      text: (
+        <>
+          <p>
+            Experiment with different values for the steady state concentration{" "}
+            <MathFormula tex="Y_{st}" /> and the removal rate{" "}
+            <MathFormula tex="\alpha" /> to see how they affect the protein
+            decay curve and the response time.
+          </p>
+          <div className="flex justify-between mt-8 w-11/12">
+            <label className="flex-start mr-8">Show half-life indicator:</label>
+            <Switch
+              checked={showHalfLifeIndicator}
+              onCheckedChange={(checked) => setShowHalfLifeIndicator(checked)}
+            />
+          </div>
+          <div>
+            <div className="mt-4">
+              <label
+                htmlFor="steady-state-slider"
+                className="font-medium block"
+              >
+                <MathFormula tex="Y_{st}" />: {steadyState}
+              </label>
+              <input
+                type="range"
+                id="steady-state-slider"
+                min="20"
+                max="100"
+                step="1"
+                value={steadyState}
+                onChange={(e) => setSteadyState(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="alpha-slider" className="font-medium block">
+                <MathFormula tex="\alpha" />: {alpha.toFixed(2)}
+              </label>
+              <input
+                type="range"
+                id="alpha-slider"
+                min="0.1"
+                max="1"
+                step="0.01"
+                value={alpha}
+                onChange={(e) => setAlpha(parseFloat(e.target.value))}
+                className="w-11/12 flex-auto cursor-pointer"
+              />
+            </div>
+          </div>
+          <p className="mt-4">
+            Response time <MathFormula tex="T_{1/2}" />:{" "}
+            <InlineCode className="ml-2" variant="medium">
+              {(Math.log(2) / alpha).toFixed(2)}
+            </InlineCode>
+          </p>
+        </>
+      ),
+      interactive: (
+        <ProteinDecayResponseTimeChart
+          steadyState={steadyState}
+          alpha={alpha}
+          chartOptions={{ showHalfLifeIndicator }}
         />
       ),
     },
