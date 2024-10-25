@@ -1,4 +1,4 @@
-import { MathFormula, MdxLayout } from "../../../components";
+import { MathFormula, MdxLayout, Tooltip, TooltipContent } from "../../../components";
 import { StepFunctionTutorial, ProteinDecayResponseTimeTutorial, ProteinAccumulationResponseTimeTutorial } from "../../../interactives/systems-biology";
 
 export const metadata = {
@@ -17,15 +17,15 @@ In this article, we'll introduce approximating this input function &mdash; captu
 
 The essence of an input function is a transition between two values &mdash; from high to low for an activator, and from low to high for a repressor &mdash; and a threshold that defines when the transition occurs.
 
-The Hill functions we introduced in Part Two achieve this with a smooth, sigmoidal shape. In its simplest form, however, this function can be like a switch: either **off**, <MathFormula className="text-lg" tex="f(X^*) = 0" />, or maximally **on**, <MathFormula className="text-lg" tex="f(X^*) = \beta" />, with the threshold for turning on or off occurring at <MathFormula className="text-lg" tex="X^* = K" />. This kind of approximation is known as a **logic approximation**, and it greatly simplifies the behavior of the Hill function, or any other input function.
+The Hill functions we introduced in Part Two achieve this transition with a smooth, sigmoidal shape. In its simplest form, however, this function can be like a switch: either on or off, with a threshold for when turning on or off occurs. This kind of approximation is known as a **logic approximation**, and it greatly simplifies the behavior of the Hill function, or any other input function.
 
-Mathematically, we can write this logic approximation using a **step function**. For an activator, this looks like:
+Mathematically, **off** can be represented as no proteins being produced, or <MathFormula className="text-lg" tex="f(X^*) = 0" />, **on** as proteins being produced at the maximum level, or <MathFormula className="text-lg" tex="f(X^*) = \beta" />, and the threshold as <MathFormula className="text-lg" tex="X^* = K" />. Then, we can write this logic approximation using a **step function**. For an activator, this looks like:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula className="text-lg" tex="f(X^*) = \beta \cdot \theta(X^* > K)" />
 </div>
 
-where <MathFormula className="text-lg" tex="\theta(X^* > K)" />, the step function, is either 0 or 1 depending on whether the logical expression, <MathFormula className="text-lg" tex="X^* > K" />, is true or false. 
+where <MathFormula className="text-lg" tex="\theta(X^* > K)" />, the step function, is either 0 or 1 depending on whether the active concentration <MathFormula className="text-lg" tex="X^*" /> is greater than the threshold <MathFormula className="text-lg" tex="K" /> or not. 
 
 {/* Create a info section for this additional information */}
 {/* The step function part can be written as:
@@ -40,7 +40,7 @@ or, put together:
   <MathFormula tex="f(X^*) = \begin{cases} 0 & \text{if } X^* < K \\ \beta & \text{if } X^* \geq K \end{cases}" />
 </div> */}
 
-For a repressor, the logic is reversed: being on, or 1, until the threshold is reached, after which it is off, or 0. This can be written as:
+For a repressor, the logic is reversed: being on until the threshold is reached, after which it is off. This can be written as:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula className="text-lg" tex="f(X^*) = \beta \cdot \theta(X^* < K)" />
@@ -76,15 +76,15 @@ The combinations are not limited to Boolean operations. Transcription factors ca
 
 Genes in multi-cellular organisms can have many inputs, occasionally more than a dozen, so you might see how quickly this can get complicated.
 
-Even with just two transcription factors, the combinations above look pretty abstract. This section just introduces the concept; in future articles, we'll look at how exactly these logical operations &mdash; the AND and OR gates &mdash; are performed in organisms, and the benefits they provide. (We generally associate AND and OR gates with computers, but chemistry beat it by several billion years. In fact, if you think about it, a biological computer designed the non-biological one using pretty similar design principles).
+Even with just two transcription factors, the combinations above look pretty abstract. This section just introduces the concept; in future articles, we'll look at how exactly these logical operations &mdash; the AND and OR gates &mdash; are performed in organisms, and the benefits they provide.<Tooltip content={<TooltipContent>We generally associate AND and OR gates with computers, but chemistry beat it by several billion years. In fact, if you think about it, a biological computer designed the non-biological one, and using pretty similar design principles at that.</TooltipContent>} />
 
 ### Dynamics and Response Time
 
-So far, we've looked at how protein production is affected by transcription factors, but we haven't yet considered how it does so over time. The speed and way in which a cell responds to signals is extremely vital, which makes analyzing the dynamics and response time of transcription networks a fundamental task in systems biology.
+So far, we've looked at how protein production is affected by transcription factors, but we haven't yet considered how it does so over time. When a cell receives membrane damage signals, how quickly does it make the repair proteins? The speed and way in which a cell responds to signals is extremely vital, which makes analyzing the dynamics and response time of transcription networks a fundamental task in systems biology.
 
 Let's start with a basic transcription interaction in a network, <MathFormula className="text-lg" tex="X" /> → <MathFormula className="text-lg" tex="Y" />. Recollect that <MathFormula className="text-lg" tex="X" /> → <MathFormula className="text-lg" tex="Y" /> describes gene regulation; a short way of saying that when signal <MathFormula className="text-lg" tex="S_X" /> appears, it transforms <MathFormula className="text-lg" tex="X" /> into its active state <MathFormula className="text-lg" tex="X^*" /> and binds to the promoter of gene <MathFormula className="text-lg" tex="Y" />, which enables transcription of <MathFormula className="text-lg" tex="Y" />, and then translation, resulting finally in protein <MathFormula className="text-lg" tex="Y" /> accumulating in the cell. 
 
-Protein <MathFormula className="text-lg" tex="Y" /> is produced at a rate <MathFormula className="text-lg" tex="\beta" />, which has units of concentration per unit time time (keep note of the units, they're important when looking at the calculations).
+But how quickly does protein <MathFormula className="text-lg" tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula className="text-lg" tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula className="text-lg" tex="\beta" />.<Tooltip content={<TooltipContent>The units of <MathFormula tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TooltipContent>} />
 
 This only covers protein production, but cells lose proteins as well. There are two processes that balance <MathFormula className="text-lg" tex="Y" /> production: protein degradation (intentional destruction by other specialized proteins) and dilution (reduction in concentration due to an increase in cell volume).
 
@@ -94,21 +94,22 @@ Both processes reduce the concentration of <MathFormula className="text-lg" tex=
   <MathFormula className="text-lg" tex="\alpha = \alpha_{deg} + \alpha_{dil}" />
 </div>
 
-A change in the concentration of <MathFormula className="text-lg" tex="Y" /> in a cell over time, <MathFormula className="text-lg" tex="\dfrac{dY}{dt}" />, is given by the difference between its production and its removal:
+Now let's look at how concentration changes. A change in the concentration of <MathFormula className="text-lg" tex="Y" /> in a cell over time, <MathFormula className="text-lg" tex="{dY}/{dt}" />, is given by the difference between its production and its removal:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula className="text-lg" tex="\dfrac{dY}{dt} = \beta - \alpha Y" />
 </div>
 
-where <MathFormula className="text-lg" tex="Y" /> is the concentration of protein at any given time. <MathFormula className="text-lg" tex="\beta" /> has units of concentration per unit time, and <MathFormula className="text-lg" tex="\alpha Y" />, the removal rate, has units of <MathFormula className="text-lg" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.
+{/* TODO: Add a box for the units */}
+{/* where <MathFormula className="text-lg" tex="Y" /> is the concentration of protein at any given time. <MathFormula className="text-lg" tex="\beta" /> has units of concentration per unit time, and <MathFormula className="text-lg" tex="\alpha Y" />, the removal rate, has units of <MathFormula className="text-lg" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time. */}
 
-When the production rate matches the removal rate, a steady state is reached. The cell maintains a consistent concentration of <MathFormula className="text-lg" tex="Y" />, denoted by <MathFormula className="text-lg" tex="Y_{st}" />. Consistent concentration means of a change of <MathFormula className="text-lg" tex="0" />, so this can be found by solving for <MathFormula className="text-lg" tex="\dfrac{dY}{dt} = 0" />:
+When the production rate matches the removal rate, a steady state is reached. The cell maintains a consistent concentration of <MathFormula className="text-lg" tex="Y" />, denoted by <MathFormula className="text-lg" tex="Y_{st}" />. Consistent concentration means of a change of <MathFormula className="text-lg" tex="0" />, so this can be found by solving for <MathFormula className="text-lg" tex="{dY}/{dt} = 0" />:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula className="text-lg" tex="Y_{st} = \dfrac{\beta}{\alpha}" />
 </div>
 
-If we keep the removal rate <MathFormula className="text-lg" tex="\alpha" /> constant, the higher the production rate <MathFormula className="text-lg" tex="\beta" />, the higher the steady state concentration of <MathFormula className="text-lg" tex="Y" />. Keep <MathFormula className="text-lg" tex="\beta" /> constant, and a higher removal rate <MathFormula className="text-lg" tex="\alpha" /> will result in a lower steady state concentration. Makes sense.
+If we keep the removal rate <MathFormula className="text-lg" tex="\alpha" /> constant, the higher the production rate <MathFormula className="text-lg" tex="\beta" />, the higher the steady state concentration is. Keep <MathFormula className="text-lg" tex="\beta" /> constant, and a higher removal rate <MathFormula className="text-lg" tex="\alpha" /> will result in a lower <MathFormula className="text-lg" tex="Y_{st}" />.
 
 We now have the basic equations that describe the dynamics of simple regulation, or how the concentration of a protein <MathFormula className="text-lg" tex="Y" /> behaves over time.
 

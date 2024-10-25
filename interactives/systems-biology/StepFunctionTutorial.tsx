@@ -6,7 +6,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../components";
-import ActivatorGraph from "./ActivatorGraph";
+import ActivatorGraph, { SecondaryLine } from "./ActivatorGraph";
 import RepressorGraph from "./RepressorGraph";
 import {
   getActivatorHillFunctionData,
@@ -22,7 +22,10 @@ export default function StepFunctionTutorial() {
     {
       text: (
         <>
-          <p>First, let's re-visit the Hill function for an activator:</p>
+          <p>
+            Before we look at the step function, let's re-visit the Hill
+            function for an activator:
+          </p>
           <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
             <MathFormula
               className="mt-6"
@@ -81,19 +84,12 @@ export default function StepFunctionTutorial() {
             showNComparisonCurves: true,
             xAxisTickValues: [8],
             xAxisTickFormat: () => "K",
+            hideMainCurve: true,
           }}
         >
-          <VictoryLine
-            style={{
-              data: { stroke: "#cbd5e1" },
-              parent: { border: "1px solid #ccc" },
-            }}
+          <SecondaryLine
             data={getActivatorHillFunctionData(20, 8, 1)}
-            interpolation="basis"
-            labels={({ datum }) => (datum.x === 20 ? "n = 1" : "")}
-            labelComponent={
-              <VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />
-            }
+            label="n = 1"
           />
           <VictoryLine
             style={{
@@ -187,6 +183,7 @@ export default function StepFunctionTutorial() {
           chartOptions={{
             xAxisTickValues: [8],
             xAxisTickFormat: () => "K",
+            hideMainCurve: true,
           }}
         >
           <VictoryLine
@@ -218,6 +215,14 @@ export default function StepFunctionTutorial() {
               { x: 8, y: 20 },
               { x: 20, y: 20 },
             ]}
+          />
+          <VictoryLine
+            style={{
+              data: { stroke: "#c43a31" },
+              parent: { border: "1px solid #ccc" },
+            }}
+            data={getActivatorHillFunctionData(20, 8, activatorN)}
+            interpolation="basis"
           />
         </ActivatorGraph>
       ),

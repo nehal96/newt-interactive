@@ -23,6 +23,7 @@ interface ActivatorGraphProps {
     xAxisTickFormat?: (t: number | string) => string;
     showKIndicator?: boolean;
     showNComparisonCurves?: boolean;
+    hideMainCurve?: boolean;
   };
 }
 
@@ -56,6 +57,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
     xAxisTickFormat: null,
     showKIndicator: false,
     showNComparisonCurves: false,
+    hideMainCurve: false,
   },
 }) => {
   const dottedLineStyle = getDottedLineStyle();
@@ -80,7 +82,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
     ? [activatorBeta / 2, activatorBeta]
     : [activatorBeta];
 
-  const { showKIndicator, showNComparisonCurves } = chartOptions;
+  const { showKIndicator, showNComparisonCurves, hideMainCurve } = chartOptions;
 
   return (
     <VictoryChart
@@ -121,14 +123,16 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
           }}
         />
       )}
-      <VictoryLine
-        style={{
-          data: { stroke: "#c43a31" },
-          parent: { border: "1px solid #ccc" },
-        }}
-        data={activatorHillFunctionData}
-        interpolation="basis"
-      />
+      {!hideMainCurve && (
+        <VictoryLine
+          style={{
+            data: { stroke: "#c43a31" },
+            parent: { border: "1px solid #ccc" },
+          }}
+          data={activatorHillFunctionData}
+          interpolation="basis"
+        />
+      )}
       <VictoryLine
         style={gridLineStyle}
         data={[

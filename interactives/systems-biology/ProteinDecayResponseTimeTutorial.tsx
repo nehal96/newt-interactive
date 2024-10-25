@@ -69,6 +69,10 @@ const ResponseTimePopoverContent = () => (
     </p>
     <MathFormula
       className="mt-3 ml-6"
+      tex="\ln \left( \dfrac{1}{2} \right) = \ln \left( e^{-\alpha t} \right)"
+    />
+    <MathFormula
+      className="mt-3 ml-6"
       tex="\ln \left( \dfrac{1}{2} \right) = -\alpha t"
     />
     <MathFormula
@@ -218,9 +222,8 @@ export const ProteinDecayResponseTimeTutorial = () => {
             <MathFormula tex="Y(t) = Y_{st} \thinspace e^{-\alpha t}" />
           </div>
           <p>
-            which describes the exponential decay of concentration{" "}
-            <MathFormula tex="Y" /> over time, as shown in the graph.{" "}
-            <MathFormula tex="Y_{st}" /> is the steady state concentration.
+            which reveals that the concentration decays exponentially over time,
+            as shown in the graph.
           </p>
         </>
       ),
@@ -231,24 +234,24 @@ export const ProteinDecayResponseTimeTutorial = () => {
         <>
           <p>
             It's important to know how quickly <MathFormula tex="Y" /> levels
-            decay in a cell. The measure for this is known as the{" "}
-            <strong>response time</strong>, which is defined as the time it
+            decay in a cell. The measure for this is defined as the time it
             takes for the concentration to decay to half of its steady state
-            value, denoted as <MathFormula tex="T_{1/2}" />.
+            value. This is known as the <strong>response time</strong>, and is
+            denoted as <MathFormula tex="T_{1/2}" />.
           </p>
           <p className="mt-4">
             The halfway point for concentration that starts at{" "}
-            <MathFormula tex="Y_{st}" /> and ends at <MathFormula tex="0" /> is
-            <MathFormula tex="\dfrac{Y_{st}}{2}" />.{" "}
+            <MathFormula tex="Y_{st}" /> and ends at <MathFormula tex="0" /> is{" "}
+            <MathFormula tex="Y_{st}/2" />.{" "}
             <Popover
               trigger={
                 <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
-                  Using this in the previous formula
+                  Using this in the previous formula we can find
                 </span>
               }
               content={<ResponseTimePopoverContent />}
             />{" "}
-            we can find the formula for response time:
+            the formula for response time:
           </p>
           <div className="flex flex-col justify-center mt-4 mx-auto">
             <MathFormula tex="T_{1/2} = \dfrac{\ln(2)}{\alpha}" />
