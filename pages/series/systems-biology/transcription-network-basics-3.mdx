@@ -58,7 +58,7 @@ The primary benefit of logical approximations is that we can evaluate more compl
 Let's look at the example of genes that are regulated by two activators. One gene might require that *both* activators are bound to the promoter in order to enable high levels of expression; just one is not enough. This represents an AND gate:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
-  <MathFormula tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X) \cdot \theta(Y^* > K_Y) \qquad \text{\textasciitilde} X^* \text{ AND } Y^*" />
+  <MathFormula variant="popover" className="md:text-lg" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X) \cdot \theta(Y^* > K_Y)" />
 </div>
 
 Here, both <MathFormula tex="\theta(X^* > K_X)" /> and <MathFormula tex="\theta(Y^* > K_Y)" /> need to be 1 for the gene to express at the level <MathFormula tex="\beta" />. If any one is 0, the gene is not expressed.
@@ -66,7 +66,7 @@ Here, both <MathFormula tex="\theta(X^* > K_X)" /> and <MathFormula tex="\theta(
 For another gene, *either* one binding will suffice &mdash; like an OR gate:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
-  <MathFormula tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X \hspace{0.75em} \text{OR} \hspace{0.75em} Y^* > K_Y) \qquad \text{\textasciitilde} X^* \text{ OR } Y^*" />
+  <MathFormula variant="popover" className="md:text-lg" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X \hspace{0.75em} \text{OR} \hspace{0.75em} Y^* > K_Y)" />
 </div>
 
 The combinations are not limited to Boolean operations. Transcription factors can also combine in an additive way:
