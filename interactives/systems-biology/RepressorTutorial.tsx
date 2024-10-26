@@ -43,16 +43,17 @@ export const RepressorTutorial = ({
           <p>
             When{" "}
             <InlineCode variant="medium">
-              <MathFormula tex="n" /> = 1
+              <MathFormula variant="tutorial" tex="n" /> = 1
             </InlineCode>
             , the Hill function for a repressor gradually reduces as the
-            concentration of <MathFormula tex="X^*" /> increases, starting at
-            the maximal expression, <MathFormula tex="\beta" />, and going to
-            zero &mdash; the opposite of the activator Hill function.
+            concentration of <MathFormula variant="tutorial" tex="X^*" />
+            increases, starting at the maximal expression,{" "}
+            <MathFormula variant="tutorial" tex="\beta" />, and going to zero
+            &mdash; the opposite of the activator Hill function.
           </p>
           <p className="mt-4">
             Just like with the activator, however, half maximal expression is
-            found at <MathFormula tex="X^* = K" />.
+            found at <MathFormula variant="tutorial" tex="X^* = K" />.
           </p>
         </>
       ),
@@ -72,12 +73,14 @@ export const RepressorTutorial = ({
         <>
           <p>
             Feel free to play around with the values for{" "}
-            <MathFormula tex="\beta" />, <MathFormula tex="K" />, and{" "}
-            <MathFormula tex="n" /> to see how they affect the curve:
+            <MathFormula variant="tutorial" tex="\beta" />,{" "}
+            <MathFormula variant="tutorial" tex="K" />, and{" "}
+            <MathFormula variant="tutorial" tex="n" /> to see how they affect
+            the curve:
           </p>
           <div className="flex justify-between mt-6 w-11/12">
             <label className="flex-start mr-8">
-              Show <MathFormula tex="K" /> indicator:
+              Show <MathFormula variant="tutorial" tex="K" /> indicator:
             </label>
             <Switch
               checked={showKIndicator}

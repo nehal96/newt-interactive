@@ -20,22 +20,38 @@ import { axisStyle } from "../../components";
 const ExponentialDecayEquationPopoverContent = () => (
   <div className="flex flex-col text-md w-[350px] text-sm">
     <p className="mb-3">starting with:</p>
-    <MathFormula tex="\dfrac{dY}{dt} = 0 - \alpha Y" />
+    <MathFormula variant="popover" tex="\dfrac{dY}{dt} = 0 - \alpha Y" />
     <p className="mt-6 mb-3">we can rearrange to:</p>
-    <MathFormula tex="\dfrac{dY}{Y} = -\alpha \thinspace dt" />
+    <MathFormula
+      variant="popover"
+      tex="\dfrac{dY}{Y} = -\alpha \thinspace dt"
+    />
     <p className="mt-6 mb-3">integrating both sides:</p>
-    <MathFormula tex="\int \dfrac{dY}{Y} = \int -\alpha \thinspace dt" />
-    <MathFormula className="mt-3" tex="\ln |Y| = -\alpha t + C" />
+    <MathFormula
+      variant="popover"
+      tex="\int \dfrac{dY}{Y} = \int -\alpha \thinspace dt"
+    />
+    <MathFormula
+      className="mt-3"
+      variant="popover"
+      tex="\ln |Y| = -\alpha t + C"
+    />
     <p className="mt-6 mb-3">
-      we can expontiate both sides to solve for <MathFormula tex="Y" />:
+      we can expontiate both sides to solve for{" "}
+      <MathFormula variant="popover" tex="Y" />:
     </p>
-    <MathFormula tex="e^{\ln |Y|} = e^{-\alpha t + C}" />
-    <MathFormula className="mt-3" tex="|Y| = e^{-\alpha t} \cdot e^C" />
+    <MathFormula variant="popover" tex="e^{\ln |Y|} = e^{-\alpha t + C}" />
+    <MathFormula
+      className="mt-3"
+      variant="popover"
+      tex="|Y| = e^{-\alpha t} \cdot e^C"
+    />
     <p className="mt-6 mb-3">
-      the constant <MathFormula tex="e^C" /> is the starting point of the decay,
-      known as the initial condition. Since this is describing the decay of{" "}
-      <MathFormula tex="Y" />, we can assume this to be the steady state
-      concentration <MathFormula tex="Y_{st}" />.
+      the constant <MathFormula variant="popover" tex="e^C" /> is the starting
+      point of the decay, known as the initial condition. Since this is
+      describing the decay of <MathFormula variant="popover" tex="Y" />, we can
+      assume this to be the steady state concentration{" "}
+      <MathFormula variant="popover" tex="Y_{st}" />.
     </p>
     <p className="mb-4">
       We can also remove the absolute value since the equation doesn't go below
@@ -43,6 +59,7 @@ const ExponentialDecayEquationPopoverContent = () => (
     </p>
     <MathFormula
       className="self-center outline outline-indigo-500 py-2 px-4"
+      variant="popover"
       tex="Y(t) = Y_{st} e^{-\alpha t}"
     />
   </div>
@@ -53,33 +70,47 @@ const ResponseTimePopoverContent = () => (
     <p className="mb-3">starting with:</p>
     <MathFormula
       className="ml-6"
+      variant="popover"
       tex="Y(t) = Y_{st} e^{-\alpha t} \qquad \text{where} \thickspace Y(t) = \dfrac{Y_{st}}{2}"
     />
     <p className="mt-6 mb-2">we get:</p>
     <MathFormula
       className="mt-3 ml-6"
+      variant="popover"
       tex="\dfrac{Y_{st}}{2} = Y_{st} e^{-\alpha t}"
     />
     <p className="mt-6 mb-2">
-      dividing both sides by <MathFormula tex="Y_{st}" />:
-    </p>
-    <MathFormula className="mt-3 ml-6" tex="\dfrac{1}{2} = e^{-\alpha t}" />
-    <p className="mt-6 mb-2">
-      taking the natural log of both sides to solve for <MathFormula tex="t" />:
+      dividing both sides by <MathFormula variant="popover" tex="Y_{st}" />:
     </p>
     <MathFormula
       className="mt-3 ml-6"
+      variant="popover"
+      tex="\dfrac{1}{2} = e^{-\alpha t}"
+    />
+    <p className="mt-6 mb-2">
+      taking the natural log of both sides to solve for{" "}
+      <MathFormula variant="popover" tex="t" />:
+    </p>
+    <MathFormula
+      className="mt-3 ml-6"
+      variant="popover"
       tex="\ln \left( \dfrac{1}{2} \right) = \ln \left( e^{-\alpha t} \right)"
     />
     <MathFormula
       className="mt-3 ml-6"
+      variant="popover"
       tex="\ln \left( \dfrac{1}{2} \right) = -\alpha t"
     />
     <MathFormula
       className="mt-3 ml-6"
+      variant="popover"
       tex="t = \dfrac{\ln \left( \dfrac{1}{2} \right)}{-\alpha}"
     />
-    <MathFormula className="mt-3 ml-6" tex="t = \dfrac{\ln 2}{\alpha}" />
+    <MathFormula
+      className="mt-3 ml-6"
+      variant="popover"
+      tex="t = \dfrac{\ln 2}{\alpha}"
+    />
   </div>
 );
 
@@ -204,8 +235,12 @@ export const ProteinDecayResponseTimeTutorial = () => {
         <>
           <p>
             Starting with the equation{" "}
-            <MathFormula tex="\dfrac{dY}{dt} = \beta - \alpha Y" /> and setting{" "}
-            <MathFormula tex="\beta = 0" />,{" "}
+            <MathFormula
+              variant="tutorial"
+              className="text-sm md:text-base"
+              tex="\dfrac{dY}{dt} = \beta - \alpha Y"
+            />{" "}
+            and setting <MathFormula variant="tutorial" tex="\beta = 0" />,{" "}
             <Popover
               trigger={
                 <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
@@ -218,8 +253,11 @@ export const ProteinDecayResponseTimeTutorial = () => {
             />{" "}
             to the following equation:
           </p>
-          <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
-            <MathFormula tex="Y(t) = Y_{st} \thinspace e^{-\alpha t}" />
+          <div className="flex flex-col justify-center mt-8 mb-8 mx-auto">
+            <MathFormula
+              variant="tutorial"
+              tex="Y(t) = Y_{st} \thinspace e^{-\alpha t}"
+            />
           </div>
           <p>
             which reveals that the concentration decays exponentially over time,
@@ -233,16 +271,18 @@ export const ProteinDecayResponseTimeTutorial = () => {
       text: (
         <>
           <p>
-            It's important to know how quickly <MathFormula tex="Y" /> levels
-            decay in a cell. The measure for this is defined as the time it
-            takes for the concentration to decay to half of its steady state
-            value. This is known as the <strong>response time</strong>, and is
-            denoted as <MathFormula tex="T_{1/2}" />.
+            It's important to know how quickly{" "}
+            <MathFormula variant="tutorial" tex="Y" /> levels decay in a cell.
+            The measure for this is defined as the time it takes for the
+            concentration to decay to half of its steady state value. This is
+            known as the <strong>response time</strong>, and is denoted as{" "}
+            <MathFormula variant="tutorial" tex="T_{1/2}" />.
           </p>
           <p className="mt-4">
             The halfway point for concentration that starts at{" "}
-            <MathFormula tex="Y_{st}" /> and ends at <MathFormula tex="0" /> is{" "}
-            <MathFormula tex="Y_{st}/2" />.{" "}
+            <MathFormula variant="tutorial" tex="Y_{st}" /> and ends at{" "}
+            <MathFormula variant="tutorial" tex="0" /> is{" "}
+            <MathFormula variant="tutorial" tex="Y_{st}/2" />.{" "}
             <Popover
               trigger={
                 <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
@@ -254,7 +294,10 @@ export const ProteinDecayResponseTimeTutorial = () => {
             the formula for response time:
           </p>
           <div className="flex flex-col justify-center mt-4 mx-auto">
-            <MathFormula tex="T_{1/2} = \dfrac{\ln(2)}{\alpha}" />
+            <MathFormula
+              variant="tutorial"
+              tex="T_{1/2} = \dfrac{\ln(2)}{\alpha}"
+            />
           </div>
         </>
       ),
@@ -268,13 +311,16 @@ export const ProteinDecayResponseTimeTutorial = () => {
       text: (
         <>
           <div className="flex flex-col justify-center mb-4 mx-auto">
-            <MathFormula tex="T_{1/2} = \dfrac{\ln(2)}{\alpha}" />
+            <MathFormula
+              variant="tutorial"
+              tex="T_{1/2} = \dfrac{\ln(2)}{\alpha}"
+            />
           </div>
           <p className="mt-4">
             As the formula shows, the response time for decay only depends on
-            the removal rate <MathFormula tex="\alpha" />. A high removal rate
-            means a fast decay, but it also means a high production rate to
-            maintain the steady-state concentration.
+            the removal rate <MathFormula variant="tutorial" tex="\alpha" />. A
+            high removal rate means a fast decay, but it also means a high
+            production rate to maintain the steady-state concentration.
           </p>
           <p className="mt-4">
             Quickly producing and quickly destroying proteins doesn't seem
@@ -294,9 +340,9 @@ export const ProteinDecayResponseTimeTutorial = () => {
         <>
           <p>
             Experiment with different values for the steady state concentration{" "}
-            <MathFormula tex="Y_{st}" /> and the removal rate{" "}
-            <MathFormula tex="\alpha" /> to see how they affect the protein
-            decay curve and the response time.
+            <MathFormula variant="tutorial" tex="Y_{st}" /> and the removal rate{" "}
+            <MathFormula variant="tutorial" tex="\alpha" /> to see how they
+            affect the protein decay curve and the response time.
           </p>
           <div className="flex justify-between mt-8 w-11/12">
             <label className="flex-start mr-8">Show half-life indicator:</label>
@@ -311,7 +357,7 @@ export const ProteinDecayResponseTimeTutorial = () => {
                 htmlFor="steady-state-slider"
                 className="font-medium block"
               >
-                <MathFormula tex="Y_{st}" />: {steadyState}
+                <MathFormula variant="tutorial" tex="Y_{st}" />: {steadyState}
               </label>
               <input
                 type="range"
@@ -326,7 +372,8 @@ export const ProteinDecayResponseTimeTutorial = () => {
             </div>
             <div className="mt-4">
               <label htmlFor="alpha-slider" className="font-medium block">
-                <MathFormula tex="\alpha" />: {alpha.toFixed(2)}
+                <MathFormula variant="tutorial" tex="\alpha" />:{" "}
+                {alpha.toFixed(2)}
               </label>
               <input
                 type="range"
@@ -341,7 +388,7 @@ export const ProteinDecayResponseTimeTutorial = () => {
             </div>
           </div>
           <p className="mt-4">
-            Response time <MathFormula tex="T_{1/2}" />:{" "}
+            Response time <MathFormula variant="tutorial" tex="T_{1/2}" />:{" "}
             <InlineCode className="ml-2" variant="medium">
               {(Math.log(2) / alpha).toFixed(2)}
             </InlineCode>

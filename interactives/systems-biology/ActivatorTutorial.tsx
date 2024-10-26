@@ -17,18 +17,31 @@ interface ActivatorTutorialProps {
 
 const EquationPopoverContent = () => (
   <div className="flex flex-col text-md w-[350px]">
-    <p className="mb-6">we have:</p>
+    <p className="mb-3">we have:</p>
     <div>
-      <MathFormula tex="f(X^*) = \beta\dfrac{X^{*n}}{K^{n} + X^{*n}}" />, where{" "}
-      <MathFormula tex="X^* = K" />
+      <MathFormula
+        variant="popover"
+        className="ml-6"
+        tex="f(X^*) = \beta\dfrac{X^{*n}}{K^{n} + X^{*n}}"
+      />
+      , where <MathFormula variant="popover" tex="X^* = K" />
     </div>
-    <p className="my-6">so:</p>
-    <MathFormula tex="f(K) = \beta\dfrac{X^{*n}}{X^{*n} + X^{*n}}" />
+    <p className="mt-6 mb-3">so:</p>
     <MathFormula
-      className="my-6"
+      variant="popover"
+      className="ml-6"
+      tex="f(K) = \beta\dfrac{X^{*n}}{X^{*n} + X^{*n}}"
+    />
+    <MathFormula
+      className="ml-6 mt-3"
+      variant="popover"
       tex="f(K) = \beta\dfrac{\cancel{X^{*n}}}{2\cancel{X^{*n}}}"
     />
-    <MathFormula tex="f(K) = \dfrac{\beta}{2}" />
+    <MathFormula
+      variant="popover"
+      className="ml-6 mt-3"
+      tex="f(K) = \dfrac{\beta}{2}"
+    />
   </div>
 );
 
@@ -65,17 +78,17 @@ export const ActivatorTutorial = ({
           <p className="mb-4">
             When{" "}
             <InlineCode variant="medium">
-              <MathFormula tex="n = 1" />
+              <MathFormula variant="tutorial" tex="n = 1" />
             </InlineCode>{" "}
             the curve looks something like this &mdash; a quick ascent, and then
             a gradual tapering off when the concentration gets very high,
-            trending towards <MathFormula tex="\beta" />.
+            trending towards <MathFormula variant="tutorial" tex="\beta" />.
           </p>
           <p>
             The Hill function gets saturated at high levels of{" "}
-            <MathFormula tex="X^*" />, so more <MathFormula tex="X^*" /> leads
-            to less and less additional proteins until it levels off at the
-            maximum.
+            <MathFormula variant="tutorial" tex="X^*" />, so more{" "}
+            <MathFormula variant="tutorial" tex="X^*" /> leads to less and less
+            additional proteins until it levels off at the maximum.
           </p>
         </>
       ),
@@ -97,7 +110,7 @@ export const ActivatorTutorial = ({
           <p className="mb-4">
             Changing{" "}
             <InlineCode variant="medium">
-              <MathFormula tex="n" />
+              <MathFormula variant="tutorial" tex="n" />
             </InlineCode>{" "}
             changes the shape of the curve. As it goes from 2 and then to 4, it
             gets more of an S-shape &mdash; a shape that comes with some
@@ -105,8 +118,8 @@ export const ActivatorTutorial = ({
           </p>
           <p>
             Notice also that there’s a steeper ascent, albeit with a little
-            delay, and maximal activity <MathFormula tex="\beta" /> is reached
-            quicker.
+            delay, and maximal activity{" "}
+            <MathFormula variant="tutorial" tex="\beta" /> is reached quicker.
           </p>
         </>
       ),
@@ -126,9 +139,11 @@ export const ActivatorTutorial = ({
       text: (
         <>
           <p>
-            Play around with the values for <MathFormula tex="\beta" />,{" "}
-            <MathFormula tex="K" />, and <MathFormula tex="n" /> and see how it
-            changes the curve.
+            Play around with the values for{" "}
+            <MathFormula variant="tutorial" tex="\beta" />,{" "}
+            <MathFormula variant="tutorial" tex="K" />, and{" "}
+            <MathFormula variant="tutorial" tex="n" /> and see how it changes
+            the curve.
           </p>
           <div>
             <div className="mt-4">
@@ -207,14 +222,14 @@ export const ActivatorTutorial = ({
               triggerOnHover={true}
             />
             , that half the maximal promoter activity,{" "}
-            <MathFormula tex="\beta / 2" />, occurs when{" "}
-            <MathFormula tex="X^* = K" />. (This halfway value will play an
-            important role when we look at <strong>response time</strong> in the
-            next post in the series).
+            <MathFormula variant="tutorial" tex="\beta / 2" />, occurs when{" "}
+            <MathFormula variant="tutorial" tex="X^* = K" />. (This halfway
+            value will play an important role when we look at{" "}
+            <strong>response time</strong> in the next post in the series).
           </p>
           <div className="flex justify-between mt-8 w-11/12">
             <label className="flex-start mr-8">
-              Show <MathFormula tex="K" /> indicator:
+              Show <MathFormula variant="tutorial" tex="K" /> indicator:
             </label>
             <Switch
               checked={showKIndicator}

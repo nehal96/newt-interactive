@@ -29,6 +29,7 @@
     "@react-three/fiber": "^7.0.29",
     "@tippyjs/react": "^4.2.6",
     "@types/mdx": "^2.0.13",
+    "clsx": "^2.1.1",
     "eslint-config-next": "^14.2.15",
     "katex": "^0.16.7",
     "lodash": "^4.17.21",
@@ -38,6 +39,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^4.3.1",
+    "tailwind-merge": "^2.5.4",
     "three": "^0.139.2",
     "victory": "^36.6.10"
   },

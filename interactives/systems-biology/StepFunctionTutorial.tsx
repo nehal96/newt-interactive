@@ -12,7 +12,7 @@ import {
   getActivatorHillFunctionData,
   getRepressorHillFunctionData,
 } from "./helpers";
-import { VictoryLabel, VictoryLine } from "victory";
+import { VictoryLine } from "victory";
 import { Tabs } from "../../components/Tabs";
 
 export default function StepFunctionTutorial() {
@@ -26,15 +26,15 @@ export default function StepFunctionTutorial() {
             Before we look at the step function, let's re-visit the Hill
             function for an activator:
           </p>
-          <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+          <div className="flex flex-col justify-center my-8 mx-auto">
             <MathFormula
-              className="mt-6"
+              variant="tutorial"
               tex="f(X^*) = \dfrac{X^{*n}}{K^n + X^{*n}}"
             />
           </div>
           <p>
             and look at it graphically for different values of{" "}
-            <MathFormula tex="n" />. Notice its smooth shape.
+            <MathFormula variant="tutorial" tex="n" />. Notice its smooth shape.
           </p>
         </>
       ),
@@ -64,8 +64,9 @@ export default function StepFunctionTutorial() {
           </p>
           <p className="mt-4">
             The smooth curve is replaced with a jump, or step, from{" "}
-            <MathFormula tex="0" /> to <MathFormula tex="\beta" /> at the
-            threshold <MathFormula tex="K" />.
+            <MathFormula variant="tutorial" tex="0" /> to{" "}
+            <MathFormula variant="tutorial" tex="\beta" /> at the threshold{" "}
+            <MathFormula variant="tutorial" tex="K" />.
           </p>
         </>
       ),
@@ -134,7 +135,7 @@ export default function StepFunctionTutorial() {
           <p className="mt-4">
             Try different values of{" "}
             <InlineCode variant="medium">
-              <MathFormula tex="n" />
+              <MathFormula variant="tutorial" tex="n" />
             </InlineCode>{" "}
             to see how it changes the curve:
           </p>
@@ -165,7 +166,7 @@ export default function StepFunctionTutorial() {
             You'll notice that as <MathFormula tex="n" /> gets large, the curve
             becomes more and more like the step function. In fact, the step
             function is equivalent to the Hill function as{" "}
-            <MathFormula tex="n\to\infty" />.
+            <MathFormula variant="tutorial" tex="n\to\infty" />.
           </p>
         </>
       ),
@@ -233,8 +234,9 @@ export default function StepFunctionTutorial() {
           <p>
             The phenomena works exactly the same for the repressor, except that
             the step function drops from the maximum value{" "}
-            <MathFormula tex="\beta" /> to 0 at the threshold,{" "}
-            <MathFormula tex="K" />.
+            <MathFormula variant="tutorial" tex="\beta" /> to{" "}
+            <MathFormula variant="tutorial" tex="0" /> at the threshold{" "}
+            <MathFormula variant="tutorial" tex="K" />.
           </p>
         </>
       ),
