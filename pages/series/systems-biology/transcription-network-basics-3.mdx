@@ -1,4 +1,4 @@
-import { ImageSeries, MathFormula, MdxLayout, Tooltip, TooltipContent } from "../../../components";
+import { ImageSeries, MathFormula, MdxLayout, Tooltip, TooltipContent, PostArticleSubscribe, PreviousArticleLink, ArticleNavigationContainer } from "../../../components";
 import { StepFunctionTutorial, ProteinDecayResponseTimeTutorial, ProteinAccumulationResponseTimeTutorial } from "../../../interactives/systems-biology";
 
 export const metadata = {
@@ -155,6 +155,15 @@ In these three introductory articles, we've explored several important concepts 
 These concepts form the foundation for understanding more complex transcription networks and their behavior in living cells. They help us analyze how quickly cells can respond to environmental changes and how they maintain appropriate protein levels.
 
 In future articles, we'll build upon these basics to explore more intricate network motifs like auto-regulation and feedback loops, and how cells use these principles to create sophisticated regulatory systems. We'll also look at real-world examples of how these networks function in various biological processes and how understanding them can lead to advances in fields like medicine and biotechnology.
+
+<ArticleNavigationContainer>
+  <PreviousArticleLink 
+    href="/series/systems-biology/transcription-network-basics-2"
+    title="Transcription Network Basics: Part Two"
+  />
+</ArticleNavigationContainer>
+
+<PostArticleSubscribe />
 
 export default function MDXPage({ children }) {
   return (

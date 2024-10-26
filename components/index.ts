@@ -18,7 +18,11 @@ export { default as OrderedList } from "./OrderedList";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
-export { NextArticleLink, PreviousArticleLink } from "./SeriesNavigation";
+export {
+  NextArticleLink,
+  PreviousArticleLink,
+  ArticleNavigationContainer,
+} from "./SeriesNavigation";
 export {
   Sheet,
   SheetPortal,

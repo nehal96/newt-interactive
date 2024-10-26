@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { FiChevronLeft } from "react-icons/fi";
-import { MdxLayout, PostArticleSubscribe, MathFormula, ImageSeries, UnorderedList, PreviousArticleLink } from "../../../components";
+import { MdxLayout, PostArticleSubscribe, MathFormula, ImageSeries, UnorderedList, PreviousArticleLink, NextArticleLink, ArticleNavigationContainer } from "../../../components";
 import { ActivatorTutorial, RepressorTutorial } from "../../../interactives/systems-biology";
 
 export const metadata = {
@@ -150,12 +149,16 @@ GFP's versatility extends beyond simple expression studies. By pairing the GFP g
 
 In the next part, we'll begin taking a closer look at these dynamics, including how to analyze genes that are regulated by multiple transcription factors, and how to model gene expression as a function of time.
 
-<div className="flex justify-start max-w-3xl w-full mx-auto mt-10 mb-4">
+<ArticleNavigationContainer>
   <PreviousArticleLink 
     href="/series/systems-biology/transcription-network-basics-1"
     title="Transcription Network Basics: Part One"
   />
-</div>
+  <NextArticleLink 
+    href="/series/systems-biology/transcription-network-basics-3"
+    title="Transcription Network Basics: Part Three"
+  />
+</ArticleNavigationContainer>
 
 <PostArticleSubscribe />
 
