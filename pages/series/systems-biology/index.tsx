@@ -6,6 +6,7 @@ import {
   Navbar,
   Title,
   OrderedList,
+  H2,
 } from "../../../components";
 
 const SystemsBiologyExplainersPage = () => {
@@ -59,13 +60,14 @@ const SystemsBiologyExplainersPage = () => {
           Dive deep into complex biological systems through interactive
           explainers
         </Lede>
+        <H2>Introduction to Transcription Networks</H2>
         <OrderedList>
           <li>
             <Link
               href="/series/systems-biology/transcription-network-basics-1"
               className="text-blue-600 hover:underline"
             >
-              Transcription Network Basics: Part One
+              Transcription Network Basics
             </Link>
           </li>
           <li>
@@ -73,7 +75,7 @@ const SystemsBiologyExplainersPage = () => {
               href="/series/systems-biology/transcription-network-basics-2"
               className="text-blue-600 hover:underline"
             >
-              Transcription Network Basics: Part Two
+              Activators and Repressors
             </Link>
           </li>
           <li>
@@ -81,7 +83,7 @@ const SystemsBiologyExplainersPage = () => {
               href="/series/systems-biology/transcription-network-basics-3"
               className="text-blue-600 hover:underline"
             >
-              Transcription Network Basics: Part Three
+              Transcription Network Dynamics
             </Link>
           </li>
         </OrderedList>
