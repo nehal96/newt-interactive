@@ -83,7 +83,7 @@ const SystemsBiologyExplainersPage = () => {
               href="/series/systems-biology/transcription-network-basics-3"
               className="text-blue-600 hover:underline"
             >
-              Transcription Network Dynamics
+              Dynamics and Response Time
             </Link>
           </li>
         </OrderedList>
