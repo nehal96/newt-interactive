@@ -11,13 +11,14 @@ import {
   getDottedLineStyle,
   InlineCode,
   MathFormula,
-  Popover,
   Sheet,
   SheetContent,
+  SheetTitle,
   SheetTrigger,
   SlideDeck,
   Switch,
 } from "../../components";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { axisStyle } from "../../components";
 
 const ExponentialDecayEquationSheet = () => (
@@ -28,6 +29,9 @@ const ExponentialDecayEquationSheet = () => (
       </span>
     </SheetTrigger>
     <SheetContent>
+      <VisuallyHidden>
+        <SheetTitle>Protein Decay Equation</SheetTitle>
+      </VisuallyHidden>
       <div className="flex flex-col text-md text-sm">
         <p className="mb-3">starting with:</p>
         <MathFormula
@@ -96,6 +100,9 @@ const ResponseTimeSheet = () => (
       </span>
     </SheetTrigger>
     <SheetContent>
+      <VisuallyHidden>
+        <SheetTitle>Protein Decay Response Time Equation</SheetTitle>
+      </VisuallyHidden>
       <div className="flex flex-col text-md text-sm">
         <p className="mb-3">starting with:</p>
         <MathFormula

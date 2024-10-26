@@ -18,7 +18,9 @@ import {
   Sheet,
   SheetTrigger,
   SheetContent,
+  SheetTitle,
 } from "../../components";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const ProteinAccumulationEquationSheet = () => (
   <Sheet>
@@ -28,6 +30,9 @@ const ProteinAccumulationEquationSheet = () => (
       </span>
     </SheetTrigger>
     <SheetContent>
+      <VisuallyHidden>
+        <SheetTitle>Protein Accumulation Equation</SheetTitle>
+      </VisuallyHidden>
       <div className="flex flex-col text-md text-sm">
         <p>starting with</p>
         <MathFormula
@@ -128,6 +133,9 @@ const ProteinAccumulationResponseTimeSheet = () => (
       </span>
     </SheetTrigger>
     <SheetContent>
+      <VisuallyHidden>
+        <SheetTitle>Protein Accumulation Response Time Equation</SheetTitle>
+      </VisuallyHidden>
       <div className="flex flex-col text-md text-sm">
         <p className="mb-3">starting with:</p>
         <MathFormula
