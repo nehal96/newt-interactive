@@ -307,9 +307,10 @@ export const ProteinDecayResponseTimeTutorial = () => {
           <p>
             It's important to know how quickly{" "}
             <MathFormula variant="tutorial" tex="Y" /> levels decay in a cell.
-            The measure for this is defined as the time it takes for the
-            concentration to decay to half of its steady state value. This is
-            known as the <strong>response time</strong>, and is denoted as{" "}
+            It can often take a really long time to get to zero, so the measure
+            for this is defined as the time it takes for the concentration to
+            decay to half of its steady state value. This is known as the{" "}
+            <strong>response time</strong>, and is denoted as{" "}
             <MathFormula variant="tutorial" tex="T_{1/2}" />.
           </p>
           <p className="mt-4">

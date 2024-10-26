@@ -33,7 +33,7 @@ export {
 } from "./Sheet";
 export { default as Slides } from "./Slides";
 export { default as SlideDeck } from "./SlideDeck";
-export { default as Subheader } from "./Subheader";
+export { H2, H3 } from "./Headings";
 export { default as SubscribeForm } from "./SubscribeForm";
 export { default as Switch } from "./Switch";
 export { TabsList, TabsTrigger } from "./Tabs";

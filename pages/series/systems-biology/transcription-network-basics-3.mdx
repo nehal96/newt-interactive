@@ -82,7 +82,7 @@ Even with just two transcription factors, the combinations above look pretty abs
 
 ### Dynamics and Response Time
 
-So far, we've looked at how protein production is affected by transcription factors, but we haven't yet considered how it does so over time. When a cell receives membrane damage signals, how quickly does it make the repair proteins? The speed and way in which a cell responds to signals is extremely vital, which makes analyzing the dynamics and response time of transcription networks a fundamental task in systems biology.
+So far, we've looked at how protein production is affected by transcription factors, but we haven't yet considered how it does so over time. When a cell receives membrane damage signals, how quickly does it make the repair proteins? The speed and way in which a cell responds to signals is extremely vital, which makes analyzing the dynamics and response time of transcription networks an important task in systems biology.
 
 Let's start with a basic transcription interaction in a network, <MathFormula tex="X" /> → <MathFormula tex="Y" />. Recollect that <MathFormula tex="X" /> → <MathFormula tex="Y" /> describes gene regulation; a short way of saying that when signal <MathFormula tex="S_X" /> appears, it transforms <MathFormula tex="X" /> into its active state <MathFormula tex="X^*" /> and binds to the promoter of gene <MathFormula tex="Y" />, which enables transcription of <MathFormula tex="Y" />, and then translation, resulting finally in protein <MathFormula tex="Y" /> accumulating in the cell. 
 
@@ -99,7 +99,7 @@ Let's start with a basic transcription interaction in a network, <MathFormula te
   maxWidth="600px"
 />
 
-But how quickly does protein <MathFormula tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula tex="\beta" />.<Tooltip content={<TooltipContent>The units of <MathFormula tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TooltipContent>} />
+But how quickly does protein <MathFormula tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula tex="\beta" />.<Tooltip content={<TooltipContent>The units of <MathFormula variant="popover" tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TooltipContent>} />
 
 This only covers protein production, but cells lose proteins as well. There are two processes that balance <MathFormula tex="Y" /> production: protein degradation (intentional destruction by other specialized proteins) and dilution (reduction in concentration due to an increase in cell volume).
 
@@ -109,7 +109,7 @@ Both processes reduce the concentration of <MathFormula tex="Y" /> in a cell. Th
   <MathFormula tex="\alpha = \alpha_{deg} + \alpha_{dil}" />
 </div>
 
-Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<Tooltip content={<TooltipContent>where <MathFormula tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula tex="\beta" /> has units of concentration per unit time, and <MathFormula tex="\alpha Y" />, the removal rate, has units of <MathFormula tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TooltipContent>} />
+Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<Tooltip content={<TooltipContent>where <MathFormula variant="popover" tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula variant="popover" tex="\beta" /> has units of concentration per unit time, and <MathFormula variant="popover" tex="\alpha Y" />, the removal rate, has units of <MathFormula variant="popover" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TooltipContent>} />
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula tex="\dfrac{dY}{dt} = \beta - \alpha Y" />
@@ -121,8 +121,9 @@ When the production rate matches the removal rate, a steady state is reached. Th
   <MathFormula tex="Y_{st} = \dfrac{\beta}{\alpha}" />
 </div>
 
-If we keep the removal rate <MathFormula tex="\alpha" /> constant, the higher the production rate <MathFormula tex="\beta" />, the higher the steady state concentration is. Keep <MathFormula tex="\beta" /> constant, and a higher removal rate <MathFormula tex="\alpha" /> will result in a lower <MathFormula tex="Y_{st}" />.
+The equation shows that the steady state is a ratio of the production rate and the removal rate. This makes sense: if the production rate is high, a high removal rate is required to keep the same steady state concentration.
 
+#### Decay and accumulation
 We now have the basic equations that describe the dynamics of simple regulation, or how the concentration of a protein <MathFormula tex="Y" /> behaves over time.
 
 Let's use these to analyze some cellular scenarios. Scenario one: what happens when the input signal <MathFormula tex="S_X" /> is gone, and so the production of <MathFormula tex="Y" /> stops (<MathFormula tex="\beta = 0" />)? How does <MathFormula tex="Y" /> concentration deplete over time?
@@ -134,6 +135,26 @@ So, the loss of a signal leads to an exponential decay in protein concentration.
 
 <ProteinAccumulationResponseTimeTutorial />
 
+These equations set the baseline for how quickly a cell can respond to signals. In future articles, we'll look at how cells can speed up or slow down this response with different network structures, and why that might be important, if not crucial, in an organism's survival.
+<div className="mb-8" />
+
+### Summary
+
+In these three introductory articles, we've explored several important concepts in transcription networks:
+
+1. **Transcription factors and gene expression**: We introduced the concept of transcription factors as proteins that regulate gene expression in response to signals.
+
+2. **Transcription networks**: We showed how transcription factors and genes form complex networks of interactions within cells and introduced simple notation and diagrams.
+
+3. **Activators and repressors**: We explored the two main types of transcription factors and how they increase or decrease gene expression.
+
+4. **Mathematical models**: We examined the Hill function as a way to mathematically model the relationship between transcription factor concentration and protein production rate, as well as the step function as a simplified representation of it.
+
+5. **Dynamics and response time**: We explored how protein concentrations change over time with different production and removal rates, and how quickly a cell can respond to signals.
+
+These concepts form the foundation for understanding more complex transcription networks and their behavior in living cells. They help us analyze how quickly cells can respond to environmental changes and how they maintain appropriate protein levels.
+
+In future articles, we'll build upon these basics to explore more intricate network motifs like auto-regulation and feedback loops, and how cells use these principles to create sophisticated regulatory systems. We'll also look at real-world examples of how these networks function in various biological processes and how understanding them can lead to advances in fields like medicine and biotechnology.
 
 export default function MDXPage({ children }) {
   return (

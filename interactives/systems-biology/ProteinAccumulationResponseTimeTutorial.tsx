@@ -103,11 +103,11 @@ const ProteinAccumulationEquationSheet = () => (
           recollect that{" "}
           <MathFormula variant="popover" tex="\dfrac{\beta}{\alpha}" /> is the
           steady state value <MathFormula variant="popover" tex="Y_{st}" />. The
-          second term describes the exponential decay of{" "}
+          second term describes the removal of{" "}
           <MathFormula variant="popover" tex="Y" />, so the constant{" "}
           <MathFormula variant="popover" tex="C" /> is the starting point of the
           decay, or <MathFormula variant="popover" tex="Y_{st}" />. Since it
-          represents decay, the term is negative. So, we get:
+          represents removal, the term is negative. So, we get:
         </p>
         <MathFormula
           variant="popover"
