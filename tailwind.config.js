@@ -22,6 +22,7 @@ module.exports = {
     },
   },
   plugins: [
+    require("tailwindcss-animate"),
     plugin(function ({ addUtilities }) {
       addUtilities({
         ".no-scrollbar": {

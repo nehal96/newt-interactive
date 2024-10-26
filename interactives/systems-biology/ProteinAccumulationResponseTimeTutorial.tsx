@@ -15,150 +15,175 @@ import {
   Popover,
   SlideDeck,
   Switch,
+  Sheet,
+  SheetTrigger,
+  SheetContent,
 } from "../../components";
 
-const ProteinAccumulationEquationPopoverContent = () => (
-  <div className="flex flex-col text-md w-[350px] text-sm">
-    <p>starting with</p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="\dfrac{dY}{dt} = \beta - \alpha Y"
-    />
-    <p className="mt-6">we can rearrange to</p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="\dfrac{dY}{dt} + \alpha Y = \beta"
-    />
-    <p className="mt-6">
-      to integrate both sides, let's first define an integrating factor:
-    </p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="\mu(t) = e^{\int \alpha \thinspace dt} = e^{\alpha t}"
-    />
-    <p className="mt-6">then multiply both sides by the integrating factor:</p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="e^{\alpha t} \dfrac{dY}{dt} + \alpha e^{\alpha t} Y = \beta e^{\alpha t}"
-    />
-    <p className="mt-6">
-      the left-hand side can now be expressed as the derivative of the product:
-    </p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="\dfrac{d}{dt} (e^{\alpha t} Y) = \beta e^{\alpha t}"
-    />
-    <p className="mt-6">
-      integrating both sides with respect to <MathFormula tex="t" />:
-    </p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="\int \dfrac{d}{dt} (e^{\alpha t} Y) \thinspace dt = \int \beta e^{\alpha t} \thinspace dt"
-    />
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="e^{\alpha t} Y = \int \beta e^{\alpha t} \thinspace dt"
-    />
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="e^{\alpha t} Y = \dfrac{\beta}{\alpha} e^{\alpha t} + C"
-    />
-    <p className="mt-6">
-      now, we can solve for <MathFormula variant="popover" tex="Y" />. dividing
-      both sides by <MathFormula variant="popover" tex="e^{\alpha t}" />:
-    </p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="Y = \dfrac{\beta}{\alpha} + C e^{-\alpha t}"
-    />
-    <p className="mt-6">
-      recollect that{" "}
-      <MathFormula variant="popover" tex="\dfrac{\beta}{\alpha}" /> is the
-      steady state value <MathFormula variant="popover" tex="Y_{st}" />. The
-      second term describes the exponential decay of{" "}
-      <MathFormula variant="popover" tex="Y" />, so the constant{" "}
-      <MathFormula variant="popover" tex="C" /> is the starting point of the
-      decay, or <MathFormula variant="popover" tex="Y_{st}" />. Since it
-      represents decay, the term is negative. So, we get:
-    </p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="Y(t) = Y_{st} - Y_{st} e^{-\alpha t}"
-    />
-    <p className="mt-6">which evaluates to:</p>
-    <MathFormula
-      variant="popover"
-      className="self-center outline outline-indigo-500 py-2 px-4 ml-6 mt-3"
-      tex="Y(t) = Y_{st} \thinspace (1 - e^{-\alpha t})"
-    />
-  </div>
+const ProteinAccumulationEquationSheet = () => (
+  <Sheet>
+    <SheetTrigger asChild>
+      <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+        we can work our way
+      </span>
+    </SheetTrigger>
+    <SheetContent>
+      <div className="flex flex-col text-md text-sm">
+        <p>starting with</p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="\dfrac{dY}{dt} = \beta - \alpha Y"
+        />
+        <p className="mt-6">we can rearrange to</p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="\dfrac{dY}{dt} + \alpha Y = \beta"
+        />
+        <p className="mt-6">
+          to integrate both sides, let's first define an integrating factor:
+        </p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="\mu(t) = e^{\int \alpha \thinspace dt} = e^{\alpha t}"
+        />
+        <p className="mt-6">
+          then multiply both sides by the integrating factor:
+        </p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="e^{\alpha t} \dfrac{dY}{dt} + \alpha e^{\alpha t} Y = \beta e^{\alpha t}"
+        />
+        <p className="mt-6">
+          the left-hand side can now be expressed as the derivative of the
+          product:
+        </p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="\dfrac{d}{dt} (e^{\alpha t} Y) = \beta e^{\alpha t}"
+        />
+        <p className="mt-6">
+          integrating both sides with respect to <MathFormula tex="t" />:
+        </p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="\int \dfrac{d}{dt} (e^{\alpha t} Y) \thinspace dt = \int \beta e^{\alpha t} \thinspace dt"
+        />
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="e^{\alpha t} Y = \int \beta e^{\alpha t} \thinspace dt"
+        />
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="e^{\alpha t} Y = \dfrac{\beta}{\alpha} e^{\alpha t} + C"
+        />
+        <p className="mt-6">
+          now, we can solve for <MathFormula variant="popover" tex="Y" />.
+          dividing both sides by{" "}
+          <MathFormula variant="popover" tex="e^{\alpha t}" />:
+        </p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="Y = \dfrac{\beta}{\alpha} + C e^{-\alpha t}"
+        />
+        <p className="mt-6">
+          recollect that{" "}
+          <MathFormula variant="popover" tex="\dfrac{\beta}{\alpha}" /> is the
+          steady state value <MathFormula variant="popover" tex="Y_{st}" />. The
+          second term describes the exponential decay of{" "}
+          <MathFormula variant="popover" tex="Y" />, so the constant{" "}
+          <MathFormula variant="popover" tex="C" /> is the starting point of the
+          decay, or <MathFormula variant="popover" tex="Y_{st}" />. Since it
+          represents decay, the term is negative. So, we get:
+        </p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="Y(t) = Y_{st} - Y_{st} e^{-\alpha t}"
+        />
+        <p className="mt-6">which evaluates to:</p>
+        <MathFormula
+          variant="popover"
+          className="self-center outline outline-indigo-500 py-2 px-4 ml-6 mt-3"
+          tex="Y(t) = Y_{st} \thinspace (1 - e^{-\alpha t})"
+        />
+      </div>
+    </SheetContent>
+  </Sheet>
 );
 
-const ProteinAccumulationResponseTimePopoverContent = () => (
-  <div className="flex flex-col text-md w-[350px] text-sm">
-    <p className="mb-3">starting with:</p>
-    <MathFormula
-      variant="popover"
-      className="ml-6 mt-3"
-      tex="Y(t) = Y_{st} \thinspace (1 - e^{-\alpha t}) \qquad \text{where} \thickspace Y(t) = \dfrac{Y_{st}}{2}"
-    />
-    <p className="mt-6 mb-2">we get:</p>
-    <MathFormula
-      variant="popover"
-      className="mt-3 ml-6"
-      tex="\dfrac{Y_{st}}{2} = Y_{st} \thinspace (1 - e^{-\alpha t})"
-    />
-    <p className="mt-6 mb-2">
-      dividing both sides by <MathFormula variant="popover" tex="Y_{st}" />:
-    </p>
-    <MathFormula
-      variant="popover"
-      className="mt-3 ml-6"
-      tex="\dfrac{1}{2} = 1 - e^{-\alpha t}"
-    />
-    <MathFormula
-      variant="popover"
-      className="mt-3 ml-6"
-      tex="e^{-\alpha t} = \dfrac{1}{2}"
-    />
-    <p className="mt-6 mb-2">taking the natural log of both sides:</p>
-    <MathFormula
-      variant="popover"
-      className="mt-3 ml-6"
-      tex="\ln \left( e^{-\alpha t} \right) = \ln \left( \dfrac{1}{2} \right)"
-    />
-    <MathFormula
-      variant="popover"
-      className="mt-3 ml-6"
-      tex="-\alpha t = \ln \left( \dfrac{1}{2} \right)"
-    />
-    <MathFormula
-      variant="popover"
-      className="mt-3 ml-6"
-      tex="-\alpha t = - \ln (2)"
-    />
-    <MathFormula
-      variant="popover"
-      className="mt-3 ml-6"
-      tex="t = \dfrac{\ln (2)}{\alpha}"
-    />
-    <p className="mt-6">therefore:</p>
-    <MathFormula
-      variant="popover"
-      className="self-center outline outline-indigo-500 py-2 px-4 ml-6 mt-3"
-      tex="T_{1/2} = \dfrac{\ln (2)}{\alpha}"
-    />
-  </div>
+const ProteinAccumulationResponseTimeSheet = () => (
+  <Sheet>
+    <SheetTrigger asChild>
+      <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+        we can similarly find
+      </span>
+    </SheetTrigger>
+    <SheetContent>
+      <div className="flex flex-col text-md text-sm">
+        <p className="mb-3">starting with:</p>
+        <MathFormula
+          variant="popover"
+          className="ml-6 mt-3"
+          tex="Y(t) = Y_{st} \thinspace (1 - e^{-\alpha t}) \qquad \text{where} \thickspace Y(t) = \dfrac{Y_{st}}{2}"
+        />
+        <p className="mt-6 mb-2">we get:</p>
+        <MathFormula
+          variant="popover"
+          className="mt-3 ml-6"
+          tex="\dfrac{Y_{st}}{2} = Y_{st} \thinspace (1 - e^{-\alpha t})"
+        />
+        <p className="mt-6 mb-2">
+          dividing both sides by <MathFormula variant="popover" tex="Y_{st}" />:
+        </p>
+        <MathFormula
+          variant="popover"
+          className="mt-3 ml-6"
+          tex="\dfrac{1}{2} = 1 - e^{-\alpha t}"
+        />
+        <MathFormula
+          variant="popover"
+          className="mt-3 ml-6"
+          tex="e^{-\alpha t} = \dfrac{1}{2}"
+        />
+        <p className="mt-6 mb-2">taking the natural log of both sides:</p>
+        <MathFormula
+          variant="popover"
+          className="mt-3 ml-6"
+          tex="\ln \left( e^{-\alpha t} \right) = \ln \left( \dfrac{1}{2} \right)"
+        />
+        <MathFormula
+          variant="popover"
+          className="mt-3 ml-6"
+          tex="-\alpha t = \ln \left( \dfrac{1}{2} \right)"
+        />
+        <MathFormula
+          variant="popover"
+          className="mt-3 ml-6"
+          tex="-\alpha t = - \ln (2)"
+        />
+        <MathFormula
+          variant="popover"
+          className="mt-3 ml-6"
+          tex="t = \dfrac{\ln (2)}{\alpha}"
+        />
+        <p className="mt-6">therefore:</p>
+        <MathFormula
+          variant="popover"
+          className="self-center outline outline-indigo-500 py-2 px-4 ml-6 mt-3"
+          tex="T_{1/2} = \dfrac{\ln (2)}{\alpha}"
+        />
+      </div>
+    </SheetContent>
+  </Sheet>
 );
 
 const ProteinAccumulationResponseTimeChart = ({
@@ -282,18 +307,8 @@ const ProteinAccumulationResponseTimeTutorial = () => {
               tex="\dfrac{dY}{dt} = \beta - \alpha Y"
             />{" "}
             (but keeping <MathFormula variant="tutorial" tex="\beta" /> as is
-            this time),{" "}
-            <Popover
-              trigger={
-                <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
-                  we can work our way
-                </span>
-              }
-              content={<ProteinAccumulationEquationPopoverContent />}
-              side="top"
-              triggerOnHover={true}
-            />{" "}
-            to the following equation:
+            this time), <ProteinAccumulationEquationSheet /> to the following
+            equation:
           </p>
           <div className="flex flex-col justify-center mt-8 mb-8 mx-auto">
             <MathFormula
@@ -316,16 +331,8 @@ const ProteinAccumulationResponseTimeTutorial = () => {
       text: (
         <>
           <p>
-            Using this equation,{" "}
-            <Popover
-              trigger={
-                <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
-                  we can similarly find
-                </span>
-              }
-              content={<ProteinAccumulationResponseTimePopoverContent />}
-            />{" "}
-            the response time:
+            Using this equation, <ProteinAccumulationResponseTimeSheet /> the
+            response time:
           </p>
           <div className="flex flex-col justify-center my-8 mx-auto">
             <MathFormula

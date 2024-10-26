@@ -16,6 +16,7 @@
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.2.15",
     "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-switch": "^1.0.3",
@@ -29,6 +30,7 @@
     "@react-three/fiber": "^7.0.29",
     "@tippyjs/react": "^4.2.6",
     "@types/mdx": "^2.0.13",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "eslint-config-next": "^14.2.15",
     "katex": "^0.16.7",
@@ -55,6 +57,7 @@
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.5",
     "tailwindcss": "^3.0.7",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.0.4"
   }
 }

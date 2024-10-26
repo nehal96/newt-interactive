@@ -19,6 +19,18 @@ export { default as Paragraph } from "./Paragraph";
 export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
 export { NextArticleLink, PreviousArticleLink } from "./SeriesNavigation";
+export {
+  Sheet,
+  SheetPortal,
+  SheetOverlay,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from "./Sheet";
 export { default as Slides } from "./Slides";
 export { default as SlideDeck } from "./SlideDeck";
 export { default as Subheader } from "./Subheader";

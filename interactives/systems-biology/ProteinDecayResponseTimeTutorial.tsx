@@ -12,106 +12,143 @@ import {
   InlineCode,
   MathFormula,
   Popover,
+  Sheet,
+  SheetContent,
+  SheetTrigger,
   SlideDeck,
   Switch,
 } from "../../components";
 import { axisStyle } from "../../components";
 
-const ExponentialDecayEquationPopoverContent = () => (
-  <div className="flex flex-col text-md w-[350px] text-sm">
-    <p className="mb-3">starting with:</p>
-    <MathFormula variant="popover" tex="\dfrac{dY}{dt} = 0 - \alpha Y" />
-    <p className="mt-6 mb-3">we can rearrange to:</p>
-    <MathFormula
-      variant="popover"
-      tex="\dfrac{dY}{Y} = -\alpha \thinspace dt"
-    />
-    <p className="mt-6 mb-3">integrating both sides:</p>
-    <MathFormula
-      variant="popover"
-      tex="\int \dfrac{dY}{Y} = \int -\alpha \thinspace dt"
-    />
-    <MathFormula
-      className="mt-3"
-      variant="popover"
-      tex="\ln |Y| = -\alpha t + C"
-    />
-    <p className="mt-6 mb-3">
-      we can expontiate both sides to solve for{" "}
-      <MathFormula variant="popover" tex="Y" />:
-    </p>
-    <MathFormula variant="popover" tex="e^{\ln |Y|} = e^{-\alpha t + C}" />
-    <MathFormula
-      className="mt-3"
-      variant="popover"
-      tex="|Y| = e^{-\alpha t} \cdot e^C"
-    />
-    <p className="mt-6 mb-3">
-      the constant <MathFormula variant="popover" tex="e^C" /> is the starting
-      point of the decay, known as the initial condition. Since this is
-      describing the decay of <MathFormula variant="popover" tex="Y" />, we can
-      assume this to be the steady state concentration{" "}
-      <MathFormula variant="popover" tex="Y_{st}" />.
-    </p>
-    <p className="mb-4">
-      We can also remove the absolute value since the equation doesn't go below
-      zero, giving us:
-    </p>
-    <MathFormula
-      className="self-center outline outline-indigo-500 py-2 px-4"
-      variant="popover"
-      tex="Y(t) = Y_{st} e^{-\alpha t}"
-    />
-  </div>
+const ExponentialDecayEquationSheet = () => (
+  <Sheet>
+    <SheetTrigger asChild>
+      <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+        we can work our way
+      </span>
+    </SheetTrigger>
+    <SheetContent>
+      <div className="flex flex-col text-md text-sm">
+        <p className="mb-3">starting with:</p>
+        <MathFormula
+          variant="popover"
+          className="ml-6"
+          tex="\dfrac{dY}{dt} = 0 - \alpha Y"
+        />
+        <p className="mt-6 mb-3">we can rearrange to:</p>
+        <MathFormula
+          className="ml-6"
+          variant="popover"
+          tex="\dfrac{dY}{Y} = -\alpha \thinspace dt"
+        />
+        <p className="mt-6 mb-3">integrating both sides:</p>
+        <MathFormula
+          className="ml-6"
+          variant="popover"
+          tex="\int \dfrac{dY}{Y} = \int -\alpha \thinspace dt"
+        />
+        <MathFormula
+          className="mt-3 ml-6"
+          variant="popover"
+          tex="\ln |Y| = -\alpha t + C"
+        />
+        <p className="mt-6 mb-3">
+          we can expontiate both sides to solve for{" "}
+          <MathFormula variant="popover" tex="Y" />:
+        </p>
+        <MathFormula
+          className="ml-6"
+          variant="popover"
+          tex="e^{\ln |Y|} = e^{-\alpha t + C}"
+        />
+        <MathFormula
+          className="mt-3 ml-6"
+          variant="popover"
+          tex="|Y| = e^{-\alpha t} \cdot e^C"
+        />
+        <p className="mt-6 mb-3">
+          the constant <MathFormula variant="popover" tex="e^C" /> is the
+          starting point of the decay, known as the initial condition. Since
+          this is describing the decay of{" "}
+          <MathFormula variant="popover" tex="Y" />, we can assume this to be
+          the steady state concentration{" "}
+          <MathFormula variant="popover" tex="Y_{st}" />.
+        </p>
+        <p className="mb-4">
+          We can also remove the absolute value since the equation doesn't go
+          below zero, giving us:
+        </p>
+        <MathFormula
+          className="self-center outline outline-indigo-500 py-2 px-4"
+          variant="popover"
+          tex="Y(t) = Y_{st} e^{-\alpha t}"
+        />
+      </div>
+    </SheetContent>
+  </Sheet>
 );
 
-const ResponseTimePopoverContent = () => (
-  <div className="flex flex-col text-md w-[350px] text-sm">
-    <p className="mb-3">starting with:</p>
-    <MathFormula
-      className="ml-6"
-      variant="popover"
-      tex="Y(t) = Y_{st} e^{-\alpha t} \qquad \text{where} \thickspace Y(t) = \dfrac{Y_{st}}{2}"
-    />
-    <p className="mt-6 mb-2">we get:</p>
-    <MathFormula
-      className="mt-3 ml-6"
-      variant="popover"
-      tex="\dfrac{Y_{st}}{2} = Y_{st} e^{-\alpha t}"
-    />
-    <p className="mt-6 mb-2">
-      dividing both sides by <MathFormula variant="popover" tex="Y_{st}" />:
-    </p>
-    <MathFormula
-      className="mt-3 ml-6"
-      variant="popover"
-      tex="\dfrac{1}{2} = e^{-\alpha t}"
-    />
-    <p className="mt-6 mb-2">
-      taking the natural log of both sides to solve for{" "}
-      <MathFormula variant="popover" tex="t" />:
-    </p>
-    <MathFormula
-      className="mt-3 ml-6"
-      variant="popover"
-      tex="\ln \left( \dfrac{1}{2} \right) = \ln \left( e^{-\alpha t} \right)"
-    />
-    <MathFormula
-      className="mt-3 ml-6"
-      variant="popover"
-      tex="\ln \left( \dfrac{1}{2} \right) = -\alpha t"
-    />
-    <MathFormula
-      className="mt-3 ml-6"
-      variant="popover"
-      tex="t = \dfrac{\ln \left( \dfrac{1}{2} \right)}{-\alpha}"
-    />
-    <MathFormula
-      className="mt-3 ml-6"
-      variant="popover"
-      tex="t = \dfrac{\ln 2}{\alpha}"
-    />
-  </div>
+const ResponseTimeSheet = () => (
+  <Sheet>
+    <SheetTrigger asChild>
+      <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+        Using this in the previous formula we can find
+      </span>
+    </SheetTrigger>
+    <SheetContent>
+      <div className="flex flex-col text-md text-sm">
+        <p className="mb-3">starting with:</p>
+        <MathFormula
+          className="ml-6"
+          variant="popover"
+          tex="Y(t) = Y_{st} e^{-\alpha t} \qquad \text{where} \thickspace Y(t) = \dfrac{Y_{st}}{2}"
+        />
+        <p className="mt-6 mb-2">we get:</p>
+        <MathFormula
+          className="mt-3 ml-6"
+          variant="popover"
+          tex="\dfrac{Y_{st}}{2} = Y_{st} e^{-\alpha t}"
+        />
+        <p className="mt-6 mb-2">
+          dividing both sides by <MathFormula variant="popover" tex="Y_{st}" />:
+        </p>
+        <MathFormula
+          className="mt-3 ml-6"
+          variant="popover"
+          tex="\dfrac{1}{2} = e^{-\alpha t}"
+        />
+        <p className="mt-6 mb-2">
+          taking the natural log of both sides to solve for{" "}
+          <MathFormula variant="popover" tex="t" />:
+        </p>
+        <MathFormula
+          className="mt-3 ml-6"
+          variant="popover"
+          tex="\ln \left( \dfrac{1}{2} \right) = \ln \left( e^{-\alpha t} \right)"
+        />
+        <MathFormula
+          className="mt-3 ml-6"
+          variant="popover"
+          tex="\ln \left( \dfrac{1}{2} \right) = -\alpha t"
+        />
+        <MathFormula
+          className="mt-3 ml-6"
+          variant="popover"
+          tex="t = \dfrac{\ln \left( \dfrac{1}{2} \right)}{-\alpha}"
+        />
+        <MathFormula
+          className="mt-3 ml-6"
+          variant="popover"
+          tex="t = \dfrac{\ln 2}{\alpha}"
+        />
+        <MathFormula
+          className="mt-3 self-center outline outline-indigo-500 py-2 px-4"
+          variant="popover"
+          tex="T_{1/2} = \dfrac{\ln 2}{\alpha}"
+        />
+      </div>
+    </SheetContent>
+  </Sheet>
 );
 
 const ProteinDecayResponseTimeChart = ({
@@ -241,17 +278,7 @@ export const ProteinDecayResponseTimeTutorial = () => {
               tex="\dfrac{dY}{dt} = \beta - \alpha Y"
             />{" "}
             and setting <MathFormula variant="tutorial" tex="\beta = 0" />,{" "}
-            <Popover
-              trigger={
-                <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
-                  we can work our way
-                </span>
-              }
-              content={<ExponentialDecayEquationPopoverContent />}
-              side="top"
-              triggerOnHover={true}
-            />{" "}
-            to the following equation:
+            <ExponentialDecayEquationSheet /> to the following equation:
           </p>
           <div className="flex flex-col justify-center mt-8 mb-8 mx-auto">
             <MathFormula
@@ -283,15 +310,7 @@ export const ProteinDecayResponseTimeTutorial = () => {
             <MathFormula variant="tutorial" tex="Y_{st}" /> and ends at{" "}
             <MathFormula variant="tutorial" tex="0" /> is{" "}
             <MathFormula variant="tutorial" tex="Y_{st}/2" />.{" "}
-            <Popover
-              trigger={
-                <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
-                  Using this in the previous formula we can find
-                </span>
-              }
-              content={<ResponseTimePopoverContent />}
-            />{" "}
-            the formula for response time:
+            <ResponseTimeSheet /> the formula for response time:
           </p>
           <div className="flex flex-col justify-center mt-4 mx-auto">
             <MathFormula
