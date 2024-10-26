@@ -76,6 +76,14 @@ const SystemsBiologyExplainersPage = () => {
               Transcription Network Basics: Part Two
             </Link>
           </li>
+          <li>
+            <Link
+              href="/series/systems-biology/transcription-network-basics-3"
+              className="text-blue-600 hover:underline"
+            >
+              Transcription Network Basics: Part Three
+            </Link>
+          </li>
         </OrderedList>
       </ArticleContainer>
     </>

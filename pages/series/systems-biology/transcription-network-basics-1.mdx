@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { FiChevronRight } from "react-icons/fi";
-import { MdxLayout, PostArticleSubscribe, MathFormula, ImageSeries, NextArticleLink } from "../../../components";
+import { MdxLayout, PostArticleSubscribe, MathFormula, ImageSeries, NextArticleLink, ArticleNavigationContainer } from "../../../components";
 
 export const metadata = {
   title: "Transcription Network Basics: Part One",
@@ -101,12 +100,12 @@ Transcription factors are also proteins, so they themselves are encoded in genes
 
 For now, I'll leave you with this picture of a transcription network that includes about 20% of the genes in *E. coli*. It's pretty complex, but we'll break them into smaller networks and find understandable patterns in this upcoming series. In Part Two, we'll learn about the two types of transcription factors, mathematically model increases or decreases in protein production, and take a closer look at what those arrows in the network represent.
 
-<div className="flex justify-end max-w-3xl w-full mx-auto mt-10 mb-4">
+<ArticleNavigationContainer>
   <NextArticleLink 
     href="/series/systems-biology/transcription-network-basics-2"
     title="Transcription Network Basics: Part Two"
   />
-</div>
+</ArticleNavigationContainer>
 
 <PostArticleSubscribe />
 

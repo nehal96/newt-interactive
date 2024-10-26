@@ -2,9 +2,9 @@ const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./interactives/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./interactives/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -22,6 +22,7 @@ module.exports = {
     },
   },
   plugins: [
+    require("tailwindcss-animate"),
     plugin(function ({ addUtilities }) {
       addUtilities({
         ".no-scrollbar": {

@@ -18,12 +18,29 @@ export { default as OrderedList } from "./OrderedList";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
-export { NextArticleLink, PreviousArticleLink } from "./SeriesNavigation";
+export {
+  NextArticleLink,
+  PreviousArticleLink,
+  ArticleNavigationContainer,
+} from "./SeriesNavigation";
+export {
+  Sheet,
+  SheetPortal,
+  SheetOverlay,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from "./Sheet";
 export { default as Slides } from "./Slides";
 export { default as SlideDeck } from "./SlideDeck";
-export { default as Subheader } from "./Subheader";
+export { H2, H3 } from "./Headings";
 export { default as SubscribeForm } from "./SubscribeForm";
 export { default as Switch } from "./Switch";
+export { TabsList, TabsTrigger } from "./Tabs";
 export { default as Title } from "./Title";
 export { default as Tooltip, TooltipContent } from "./Tooltip";
 export { default as UnorderedList } from "./UnorderedList";
