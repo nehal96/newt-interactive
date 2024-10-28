@@ -55,6 +55,11 @@ export default function Home() {
         </TopicCardContainer>
         <TopicCardContainer title="Blocks">
           <TopicCard
+            href="/blocks/erdos-renyi-graph"
+            imageSrc="/images/deconstructed-graph.png"
+            title="Erdős-Rényi Graphs"
+          />
+          <TopicCard
             href="/blocks/robot-localization"
             imageSrc="/images/lost-looking-robot.png"
             title="Simple Robot Localization"
