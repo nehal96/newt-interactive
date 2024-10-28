@@ -9,6 +9,7 @@ import {
 } from "@xyflow/react";
 import { InteractiveContainer } from "../../components";
 import "@xyflow/react/dist/style.css";
+import { FloatingEdge } from "../../components";
 
 const CircleNode = ({ data, isConnectable }) => (
   <div
@@ -46,6 +47,9 @@ const ErdosRenyiGNMNetwork = () => {
   const nodeTypes = {
     circle: CircleNode,
   };
+  const edgeTypes = {
+    floating: FloatingEdge,
+  };
 
   const nodes: Node[] = [
     {
@@ -79,11 +83,13 @@ const ErdosRenyiGNMNetwork = () => {
       id: "1->2",
       source: "1",
       target: "2",
+      type: "floating",
     },
     {
       id: "1->3",
       source: "1",
       target: "3",
+      type: "floating",
     },
   ];
 
@@ -94,8 +100,9 @@ const ErdosRenyiGNMNetwork = () => {
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           defaultEdgeOptions={{
-            type: "default",
+            type: "floating",
             markerEnd: {
               type: MarkerType.ArrowClosed,
               width: 12,
