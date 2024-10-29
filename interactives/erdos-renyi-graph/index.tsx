@@ -19,9 +19,19 @@ import {
   InteractiveTutorialContainer,
   Slider,
   TextContainer,
+  Tabs,
+  TabsList,
+  TabsTrigger,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
 import { FloatingEdge } from "../../components";
+import {
+  getUndirectedAndSelfLoopsMaxEdges,
+  getMaxEdges,
+  generateAllPossibleEdges,
+  generateNodePositions,
+  GraphType,
+} from "./utils";
 
 const CircleNode = ({ data, isConnectable }) => (
   <div
@@ -112,6 +122,7 @@ const initialEdges: Edge[] = [
 ];
 
 const ErdosRenyiGNMNetwork = () => {
+  const [graphType, setGraphType] = useState<GraphType>("undirected");
   const [numNodes, setNumNodes] = useState(10);
   const [numEdges, setNumEdges] = useState(14);
 
@@ -120,38 +131,8 @@ const ErdosRenyiGNMNetwork = () => {
 
   const { fitView } = useReactFlow();
 
-  const getUndirectedAndSelfLoopsMaxEdges = (n: number) => {
-    return Math.floor((n * (n + 1)) / 2);
-  };
-
   // Calculate maximum possible edges including self-loops
-  const maxEdges = getUndirectedAndSelfLoopsMaxEdges(numNodes);
-
-  const generateAllPossibleEdges = (n: number) => {
-    const allPossibleEdges = [];
-
-    for (let i = 0; i < n; i++) {
-      // include self-loops
-      allPossibleEdges.push({
-        id: `${i}->${i}`,
-        source: `${i}`,
-        target: `${i}`,
-        type: "floating",
-      });
-
-      // include all other edges
-      for (let j = i + 1; j < n; j++) {
-        allPossibleEdges.push({
-          id: `${i}->${j}`,
-          source: `${i}`,
-          target: `${j}`,
-          type: "floating",
-        });
-      }
-    }
-
-    return allPossibleEdges;
-  };
+  const maxEdges = getMaxEdges(numNodes, graphType);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -170,7 +151,11 @@ const ErdosRenyiGNMNetwork = () => {
     const nodePositions = generateNodePositions(numNodes);
 
     // generate all possible edges and shuffle them
-    const allPossibleEdges = generateAllPossibleEdges(numNodes);
+    const allPossibleEdges = generateAllPossibleEdges(
+      numNodes,
+      graphType,
+      true
+    );
     const shuffledEdges = shuffleArray([...allPossibleEdges]);
 
     // take first m edges
@@ -185,33 +170,60 @@ const ErdosRenyiGNMNetwork = () => {
     }, 0);
   }, [numNodes, numEdges, maxEdges]);
 
-  const generateNodePositions = (n: number, radius: number = 200) => {
-    const nodes: Node[] = [];
-    const angleStep = (2 * Math.PI) / n;
-
-    for (let i = 0; i < n; i++) {
-      const angle = i * angleStep;
-      // Calculate x and y coordinates on the circle
-      const x = radius * Math.cos(angle) + radius;
-      const y = radius * Math.sin(angle) + radius;
-
-      nodes.push({
-        id: `${i}`,
-        type: "circle",
-        position: { x, y },
-        data: {
-          color: "#3f3f46",
-        },
-      });
+  const onGraphTypeChange = (value: GraphType) => {
+    setGraphType(value);
+    // Update number of edges if it exceeds new maximum
+    const newMaxEdges = getMaxEdges(numNodes, value);
+    if (numEdges > newMaxEdges) {
+      setNumEdges(newMaxEdges);
     }
+  };
 
-    return nodes;
+  const edgeOptions = {
+    type: "floating",
+    style: {
+      strokeWidth: 2,
+      stroke: "#a1a1aa",
+    },
+    ...(graphType === "directed" && {
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 12,
+        height: 12,
+        color: "#a1a1aa",
+      },
+    }),
   };
 
   return (
     <InteractiveTutorialContainer className="flex-col">
       <TextContainer className="lg:w-1/2 bg-white border border-gray-200 rounded-md w-full max-w-[550px] self-center">
         <div className="space-y-4">
+          <div className="space-x-4 flex items-center">
+            <label className="text-sm font-medium">Graph type:</label>
+            <Tabs
+              defaultValue="directed"
+              value={graphType}
+              onValueChange={(value: GraphType) => {
+                onGraphTypeChange(value);
+              }}
+            >
+              <TabsList className="bg-slate-100">
+                <TabsTrigger
+                  className="data-[state=active]:bg-white"
+                  value="directed"
+                >
+                  Directed
+                </TabsTrigger>
+                <TabsTrigger
+                  className="data-[state=active]:bg-white"
+                  value="undirected"
+                >
+                  Undirected
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">
               Number of nodes (n): {numNodes}
@@ -262,19 +274,7 @@ const ErdosRenyiGNMNetwork = () => {
             edges={edges}
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
-            defaultEdgeOptions={{
-              type: "floating",
-              markerEnd: {
-                type: MarkerType.ArrowClosed,
-                width: 12,
-                height: 12,
-                color: "#a1a1aa",
-              },
-              style: {
-                strokeWidth: 2,
-                stroke: "#a1a1aa",
-              },
-            }}
+            defaultEdgeOptions={edgeOptions}
           >
             <Background />
             <Controls />

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { cn } from "../../lib/utils";
 
 const Tabs = TabsPrimitive.Root;
 
@@ -11,7 +12,10 @@ const TabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
-    className={`inline-flex h-10 items-center justify-center rounded-md p-1 bg-slate-200 ${className}`}
+    className={cn(
+      "inline-flex h-10 items-center justify-center rounded-md p-1 bg-slate-200",
+      className
+    )}
     {...props}
   />
 ));
@@ -23,7 +27,10 @@ const TabsTrigger = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
-    className={`inline-flex items-center justify-center whitespace-nowrap rounded px-3 py-1.5 mx-[2px] first:ml-0 last:mr-0 text-sm text-slate-900 font-medium ring-offset-slate-50 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-slate-50 data-[state=active]:text-slate-900 data-[state=active]:shadow-sm ${className}`}
+    className={cn(
+      "inline-flex items-center justify-center whitespace-nowrap rounded px-3 py-1.5 mx-[2px] first:ml-0 last:mr-0 text-sm text-slate-900 font-medium ring-offset-slate-50 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-slate-50 data-[state=active]:text-slate-900 data-[state=active]:shadow-sm",
+      className
+    )}
     {...props}
   />
 ));
