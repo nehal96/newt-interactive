@@ -13,7 +13,13 @@ import {
   useReactFlow,
   ReactFlowProvider,
 } from "@xyflow/react";
-import { Button, InteractiveContainer } from "../../components";
+import {
+  Button,
+  InteractiveContainer,
+  InteractiveTutorialContainer,
+  Slider,
+  TextContainer,
+} from "../../components";
 import "@xyflow/react/dist/style.css";
 import { FloatingEdge } from "../../components";
 
@@ -22,7 +28,7 @@ const CircleNode = ({ data, isConnectable }) => (
     style={{
       width: 25,
       height: 25,
-      border: "1px solid #020617",
+      border: `1px solid ${data.color || "#cbd5e1"}`,
       borderRadius: "50%",
       backgroundColor: data.color || "#cbd5e1",
       display: "flex",
@@ -79,7 +85,7 @@ const initialNodes: Node[] = [
     type: "circle",
     position: { x: 380, y: 150 },
     data: {
-      color: "#fafafa",
+      color: "#020617",
     },
   },
 ];
@@ -114,9 +120,12 @@ const ErdosRenyiGNMNetwork = () => {
 
   const { fitView } = useReactFlow();
 
+  const getUndirectedAndSelfLoopsMaxEdges = (n: number) => {
+    return Math.floor((n * (n + 1)) / 2);
+  };
+
   // Calculate maximum possible edges including self-loops
-  const maxEdges = Math.floor((numNodes * (numNodes + 1)) / 2);
-  // const maxEdges = (numNodes * (numNodes - 1)) / 2;
+  const maxEdges = getUndirectedAndSelfLoopsMaxEdges(numNodes);
 
   const generateAllPossibleEdges = (n: number) => {
     const allPossibleEdges = [];
@@ -191,7 +200,7 @@ const ErdosRenyiGNMNetwork = () => {
         type: "circle",
         position: { x, y },
         data: {
-          color: "#020617",
+          color: "#3f3f46",
         },
       });
     }
@@ -200,15 +209,49 @@ const ErdosRenyiGNMNetwork = () => {
   };
 
   return (
-    <>
-      <Button
-        variant="outline"
-        className="max-w-fit self-center mb-2"
-        onClick={generateRandomNetwork}
-      >
-        Generate Network
-      </Button>
-      <InteractiveContainer className="lg:w-full">
+    <InteractiveTutorialContainer className="flex-col">
+      <TextContainer className="lg:w-1/2 bg-white border border-gray-200 rounded-md w-full max-w-[550px] self-center">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Number of nodes (n): {numNodes}
+            </label>
+            <Slider
+              value={[numNodes]}
+              onValueChange={([value]) => {
+                setNumNodes(value);
+                setNumEdges(
+                  Math.min(numEdges, getUndirectedAndSelfLoopsMaxEdges(value))
+                );
+              }}
+              min={2}
+              max={20}
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Number of edges (m): {numEdges}
+              <span className="text-xs text-slate-400 float-right mt-2">
+                max: {maxEdges}
+              </span>
+            </label>
+            <Slider
+              value={[numEdges]}
+              onValueChange={([value]) => setNumEdges(value)}
+              min={0}
+              max={maxEdges}
+            />
+          </div>
+        </div>
+        <Button
+          variant="outline"
+          className="max-w-fit mt-4 self-center mb-2"
+          onClick={generateRandomNetwork}
+        >
+          Generate Network
+        </Button>
+      </TextContainer>
+      <InteractiveContainer className="lg:w-1/2">
         <div className="h-[400px] p-3 border border-gray-200 rounded-md">
           <ReactFlow
             fitView
@@ -225,11 +268,11 @@ const ErdosRenyiGNMNetwork = () => {
                 type: MarkerType.ArrowClosed,
                 width: 12,
                 height: 12,
-                color: "#020617",
+                color: "#a1a1aa",
               },
               style: {
                 strokeWidth: 2,
-                stroke: "#020617",
+                stroke: "#a1a1aa",
               },
             }}
           >
@@ -238,7 +281,7 @@ const ErdosRenyiGNMNetwork = () => {
           </ReactFlow>
         </div>
       </InteractiveContainer>
-    </>
+    </InteractiveTutorialContainer>
   );
 };
 

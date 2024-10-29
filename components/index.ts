@@ -36,6 +36,7 @@ export {
   SheetTitle,
   SheetDescription,
 } from "./Sheet";
+export { Slider } from "./Slider";
 export { default as Slides } from "./Slides";
 export { default as SlideDeck } from "./SlideDeck";
 export { H2, H3 } from "./Headings";
