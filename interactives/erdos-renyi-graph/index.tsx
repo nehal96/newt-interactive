@@ -23,6 +23,9 @@ import {
   TabsList,
   TabsTrigger,
   Switch,
+  TooltipTrigger,
+  Tooltip,
+  TooltipContent,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
 import { FloatingEdge } from "../../components";
@@ -33,6 +36,7 @@ import {
   generateNodePositions,
   GraphType,
 } from "./utils";
+import { FiInfo } from "react-icons/fi";
 
 const CircleNode = ({ data, isConnectable }) => (
   <div
@@ -64,6 +68,34 @@ const CircleNode = ({ data, isConnectable }) => (
       }}
     />
   </div>
+);
+
+const GraphTypeTooltip = () => (
+  <Tooltip>
+    <TooltipTrigger>
+      <FiInfo size={14} className="ml-[3px] -translate-y-1 inline-block" />
+    </TooltipTrigger>
+    <TooltipContent>
+      <p>
+        In a <strong>directed</strong> graph, the connections (edges) between
+        nodes have a specific direction. A → B is different from B → A.
+      </p>
+      <p className="mt-2">
+        In an <strong>undirected</strong> graph, the edges don't have a
+        direction. A → B is the same as B → A.
+      </p>
+    </TooltipContent>
+  </Tooltip>
+);
+const AllowSelfLoopsTooltip = () => (
+  <Tooltip>
+    <TooltipTrigger>
+      <FiInfo size={14} className="ml-[3px] -translate-y-1 inline-block" />
+    </TooltipTrigger>
+    <TooltipContent>
+      <p>A self-loop is an edge that connects a node to itself</p>
+    </TooltipContent>
+  </Tooltip>
 );
 
 const nodeTypes = {
@@ -210,7 +242,10 @@ const ErdosRenyiGNMNetwork = () => {
       <TextContainer className="lg:w-1/2 bg-white border border-gray-200 rounded-md w-full max-w-[550px] self-center">
         <div className="space-y-4">
           <div className="justify-between flex items-center">
-            <label className="text-sm font-medium">Graph type:</label>
+            <label className="text-sm font-medium">
+              Graph type
+              <GraphTypeTooltip />
+            </label>
             <Tabs
               defaultValue="directed"
               value={graphType}
@@ -233,7 +268,10 @@ const ErdosRenyiGNMNetwork = () => {
             </Tabs>
           </div>
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Allow self-loops</label>
+            <label className="text-sm font-medium">
+              Allow self-loops
+              <AllowSelfLoopsTooltip />
+            </label>
             <Switch
               checked={withSelfLoops}
               onCheckedChange={onWithSelfLoopsChange}
@@ -271,8 +309,8 @@ const ErdosRenyiGNMNetwork = () => {
           </div>
         </div>
         <Button
-          variant="outline"
-          className="max-w-fit mt-4 self-center mb-2"
+          variant="primary"
+          className="max-w-fit px-4 mt-10 self-center mb-2 bg-zinc-700 hover:bg-zinc-800"
           onClick={generateRandomNetwork}
         >
           Generate Network

@@ -44,6 +44,12 @@ export { default as SubscribeForm } from "./SubscribeForm";
 export { default as Switch } from "./Switch";
 export { Tabs, TabsList, TabsTrigger } from "./Tabs";
 export { default as Title } from "./Title";
+export {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "./Tooltip";
 export { default as TippyTooltip, TippyTooltipContent } from "./TippyTooltip";
 export { default as UnorderedList } from "./UnorderedList";
 // 3-D Models
