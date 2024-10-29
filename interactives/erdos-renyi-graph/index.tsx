@@ -78,8 +78,8 @@ const GraphTypeTooltip = () => (
     </TooltipTrigger>
     <TooltipContent>
       <p>
-        In a <strong>directed</strong> graph, the connections (edges) between
-        nodes have a specific direction. A → B is different from B → A.
+        In a <strong>directed</strong> graph, the connections between nodes
+        (edges) have a specific direction. A → B is different from B → A.
       </p>
       <p className="mt-2">
         In an <strong>undirected</strong> graph, the edges don't have a
@@ -240,7 +240,7 @@ const ErdosRenyiGNMNetwork = () => {
 
   return (
     <InteractiveTutorialContainer className="flex-col">
-      <TextContainer className="lg:w-1/2 bg-white border border-gray-200 rounded-md w-full max-w-[550px] self-center">
+      <TextContainer className="lg:w-1/2 w-full max-w-[550px] self-center">
         <div className="space-y-4">
           <div className="justify-between flex items-center">
             <label className="text-sm font-medium">
@@ -252,15 +252,12 @@ const ErdosRenyiGNMNetwork = () => {
               value={graphType}
               onValueChange={onGraphTypeChange}
             >
-              <TabsList className="bg-slate-100">
-                <TabsTrigger
-                  className="data-[state=active]:bg-white"
-                  value="directed"
-                >
+              <TabsList className="bg-slate-150">
+                <TabsTrigger className="hover:bg-transparent" value="directed">
                   Directed
                 </TabsTrigger>
                 <TabsTrigger
-                  className="data-[state=active]:bg-white"
+                  className="hover:bg-transparent"
                   value="undirected"
                 >
                   Undirected
@@ -301,7 +298,7 @@ const ErdosRenyiGNMNetwork = () => {
               Number of edges (
               <MathFormula variant="tutorial" tex="M" />
               ): {numEdges}
-              <span className="text-xs text-slate-400 float-right mt-2">
+              <span className="text-xs text-slate-500 float-right mt-2">
                 max: {maxEdges}
               </span>
             </label>

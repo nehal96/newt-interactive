@@ -7,6 +7,7 @@ interface TopicCardProps {
   title: string;
   darkText?: boolean;
   className?: string;
+  withTitleBlur?: boolean;
 }
 
 interface TopicHeaderProps {
@@ -37,18 +38,22 @@ export const TopicCard: React.FC<TopicCardProps> = ({
   title,
   darkText = false,
   className = "",
+  withTitleBlur = false,
 }) => {
   const textColor = darkText ? "text-slate-800" : "text-white";
 
   return (
     <Link href={href} className={`mr-4 snap-start flex-shrink-0 ${className}`}>
-      <div className="relative aspect-[3/4] h-[300px] lg:h-[350px] overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 ease-in-out">
+      <div className="relative aspect-[3/4] h-[300px] lg:h-[350px] overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 ease-in-out group">
         <Image
           src={imageSrc}
           layout="fill"
-          className="transition-transform duration-300 ease-in-out hover:scale-105 object-cover"
+          className="transition-transform duration-300 ease-in-out group-hover:scale-105 object-cover"
           alt={title}
         />
+        {withTitleBlur && (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        )}
         <div>
           <h3
             className={`absolute bottom-4 left-4 text-lg font-semibold ${textColor}`}
