@@ -2,28 +2,28 @@ import Tippy, { TippyProps } from "@tippyjs/react";
 import { ReactNode, useState } from "react";
 import "tippy.js/dist/tippy.css";
 
-interface TooltipProps extends Omit<TippyProps, "children"> {
+interface TippyTooltipProps extends Omit<TippyProps, "children"> {
   children?: React.ReactNode;
   content: ReactNode;
   highlightColor?: string;
 }
 
-interface TooltipContentProps {
+interface TippyTooltipContentProps {
   children: React.ReactNode;
 }
 
-export const TooltipContent = ({ children }: TooltipContentProps) => {
+export const TippyTooltipContent = ({ children }: TippyTooltipContentProps) => {
   return <div className="p-2">{children}</div>;
 };
 
-const Tooltip = ({
+const TippyTooltip = ({
   children,
   content,
   interactive = true,
   interactiveBorder = 20,
   highlightColor = "newt-blue-50",
   ...props
-}: TooltipProps) => {
+}: TippyTooltipProps) => {
   const [isShown, setIsShown] = useState(false);
 
   return (
@@ -47,4 +47,4 @@ const Tooltip = ({
   );
 };
 
-export default Tooltip;
+export default TippyTooltip;

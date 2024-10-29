@@ -1,4 +1,9 @@
-import { Code, InlineCode, Tooltip, TooltipContent } from "../../components";
+import {
+  Code,
+  InlineCode,
+  TippyTooltip,
+  TippyTooltipContent,
+} from "../../components";
 import { GetSlideParams, Slides } from "./types";
 import { ActionButton, Playground } from "./LocalizationSlides";
 
@@ -67,17 +72,17 @@ export function getSlides({
         <>
           <p>Did you notice what happened?</p>
           <p>
-            <Tooltip
+            <TippyTooltip
               content={
-                <TooltipContent>
+                <TippyTooltipContent>
                   there's a 1% chance you'll get an erroneous blue tile. If so,
                   please Reset and Sense again
-                </TooltipContent>
+                </TippyTooltipContent>
               }
               highlightColor="newt-blue-100"
             >
               The robot sensed it was on an orange tile
-            </Tooltip>
+            </TippyTooltip>
             , and then updated its <b>beliefs</b> about where it was on the
             grid.
           </p>
@@ -200,16 +205,16 @@ export function getSlides({
             which has the fields <InlineCode variant="medium">row</InlineCode>{" "}
             and <InlineCode variant="medium">col</InlineCode> representing the
             row and column. The values are{" "}
-            <Tooltip
+            <TippyTooltip
               content={
-                <TooltipContent>
+                <TippyTooltipContent>
                   The first row or column is denoted by the number 0
-                </TooltipContent>
+                </TippyTooltipContent>
               }
               highlightColor="newt-blue-100"
             >
               zero-indexed
-            </Tooltip>{" "}
+            </TippyTooltip>{" "}
             because arrays are zero-indexed, which why the current position has
             a value of <InlineCode variant="medium">(4, 2)</InlineCode>.
           </p>
@@ -234,17 +239,17 @@ export function getSlides({
             {`pHit = 99\npMiss = 1\nincorrectSenseProbability = pMiss / (pHit + pMiss)`}
           </Code>
           <p>
-            <Tooltip
+            <TippyTooltip
               content={
-                <TooltipContent>
+                <TippyTooltipContent>
                   If you're wondering why not just use decimals like pHit = 0.99
                   and pMiss = 1 - pHit, you'll see the reason in the next slide
-                </TooltipContent>
+                </TippyTooltipContent>
               }
               highlightColor="newt-blue-100"
             >
               With these values
-            </Tooltip>
+            </TippyTooltip>
             , the probability the robot senses incorrectly is{" "}
             <InlineCode variant="medium">1/100</InlineCode> or 1%, which means
             the probability it senses correctly is 99%.
@@ -267,19 +272,19 @@ export function getSlides({
           <p>
             So now, after taking a measurment, we go over each cell in the grid,
             and if the true color matches the measured color,{" "}
-            <Tooltip
+            <TippyTooltip
               content={
-                <TooltipContent>
+                <TippyTooltipContent>
                   here's the reason &mdash; the values are also used as a belief
                   multiplier
-                </TooltipContent>
+                </TippyTooltipContent>
               }
               highlightColor="newt-blue-100"
             >
               we multiply the belief by{" "}
               <InlineCode variant="medium">pHit</InlineCode>. Otherwise, we
               multiply with <InlineCode variant="medium">pMiss</InlineCode>.
-            </Tooltip>
+            </TippyTooltip>
           </p>
           <p>
             So in this example, if the robot senses{" "}
@@ -313,18 +318,18 @@ export function getSlides({
           <p>
             Take a look at the <InlineCode variant="medium">beliefs</InlineCode>{" "}
             array. It was previously all <code>0.04</code>. Now, some{" "}
-            <Tooltip
+            <TippyTooltip
               content={
-                <TooltipContent>
+                <TippyTooltipContent>
                   I've rounded the digits to 2 sigfigs to make them easier to
                   read
-                </TooltipContent>
+                </TippyTooltipContent>
               }
               highlightColor="newt-blue-100"
             >
               should be <InlineCode>0.09</InlineCode> and others{" "}
               <InlineCode>0.0009</InlineCode>.
-            </Tooltip>
+            </TippyTooltip>
           </p>
           <p>
             We've updated our beliefs about where the robot is, and if you got

@@ -1,4 +1,4 @@
-import { ImageSeries, MathFormula, MdxLayout, Tooltip, TooltipContent, PostArticleSubscribe, PreviousArticleLink, ArticleNavigationContainer } from "../../../components";
+import { ImageSeries, MathFormula, MdxLayout, TippyTooltip, TippyTooltipContent, PostArticleSubscribe, PreviousArticleLink, ArticleNavigationContainer } from "../../../components";
 import { StepFunctionTutorial, ProteinDecayResponseTimeTutorial, ProteinAccumulationResponseTimeTutorial } from "../../../interactives/systems-biology";
 
 export const metadata = {
@@ -81,7 +81,7 @@ The combinations are not limited to Boolean operations. Transcription factors ca
 
 Genes in multi-cellular organisms can have many inputs, occasionally more than a dozen, so you might see how quickly this can get complicated.
 
-Even with just two transcription factors, the combinations above look pretty abstract. This section just introduces the concept; in future articles, we'll look at how exactly these logical operations &mdash; the AND and OR gates &mdash; are performed in organisms, and the benefits they provide.<Tooltip content={<TooltipContent>We generally associate AND and OR gates with computers, but chemistry beat it by several billion years. In fact, if you think about it, a biological computer designed the non-biological one, and using pretty similar design principles at that.</TooltipContent>} />
+Even with just two transcription factors, the combinations above look pretty abstract. This section just introduces the concept; in future articles, we'll look at how exactly these logical operations &mdash; the AND and OR gates &mdash; are performed in organisms, and the benefits they provide.<TippyTooltip content={<TippyTooltipContent>We generally associate AND and OR gates with computers, but chemistry beat it by several billion years. In fact, if you think about it, a biological computer designed the non-biological one, and using pretty similar design principles at that.</TippyTooltipContent>} />
 <div className="mb-8" />
 
 ### Dynamics and Response Time
@@ -103,7 +103,7 @@ Let's start with a basic transcription interaction in a network, <MathFormula te
   maxWidth="600px"
 />
 
-But how quickly does protein <MathFormula tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula tex="\beta" />.<Tooltip content={<TooltipContent>The units of <MathFormula variant="popover" tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TooltipContent>} />
+But how quickly does protein <MathFormula tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula tex="\beta" />.<TippyTooltip content={<TippyTooltipContent>The units of <MathFormula variant="popover" tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TippyTooltipContent>} />
 
 This only covers protein production, but cells lose proteins as well. There are two processes that balance <MathFormula tex="Y" /> production: protein degradation (intentional destruction by other specialized proteins) and dilution (reduction in concentration due to an increase in cell volume).
 
@@ -113,7 +113,7 @@ Both processes reduce the concentration of <MathFormula tex="Y" /> in a cell. Th
   <MathFormula tex="\alpha = \alpha_{deg} + \alpha_{dil}" />
 </div>
 
-Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<Tooltip content={<TooltipContent>where <MathFormula variant="popover" tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula variant="popover" tex="\beta" /> has units of concentration per unit time, and <MathFormula variant="popover" tex="\alpha Y" />, the removal rate, has units of <MathFormula variant="popover" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TooltipContent>} />
+Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<TippyTooltip content={<TippyTooltipContent>where <MathFormula variant="popover" tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula variant="popover" tex="\beta" /> has units of concentration per unit time, and <MathFormula variant="popover" tex="\alpha Y" />, the removal rate, has units of <MathFormula variant="popover" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TippyTooltipContent>} />
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula tex="\dfrac{dY}{dt} = \beta - \alpha Y" />
