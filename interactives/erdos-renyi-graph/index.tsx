@@ -22,6 +22,7 @@ import {
   Tabs,
   TabsList,
   TabsTrigger,
+  Switch,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
 import { FloatingEdge } from "../../components";
@@ -123,6 +124,8 @@ const initialEdges: Edge[] = [
 
 const ErdosRenyiGNMNetwork = () => {
   const [graphType, setGraphType] = useState<GraphType>("undirected");
+  const [withSelfLoops, setWithSelfLoops] = useState(true);
+
   const [numNodes, setNumNodes] = useState(10);
   const [numEdges, setNumEdges] = useState(14);
 
@@ -132,7 +135,7 @@ const ErdosRenyiGNMNetwork = () => {
   const { fitView } = useReactFlow();
 
   // Calculate maximum possible edges including self-loops
-  const maxEdges = getMaxEdges(numNodes, graphType);
+  const maxEdges = getMaxEdges(numNodes, graphType, withSelfLoops);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -154,7 +157,7 @@ const ErdosRenyiGNMNetwork = () => {
     const allPossibleEdges = generateAllPossibleEdges(
       numNodes,
       graphType,
-      true
+      withSelfLoops
     );
     const shuffledEdges = shuffleArray([...allPossibleEdges]);
 
@@ -168,12 +171,19 @@ const ErdosRenyiGNMNetwork = () => {
     setTimeout(() => {
       fitView({ maxZoom: 0.7, duration: 150 });
     }, 0);
-  }, [numNodes, numEdges, maxEdges]);
+  }, [numNodes, numEdges, maxEdges, withSelfLoops, graphType]);
 
   const onGraphTypeChange = (value: GraphType) => {
     setGraphType(value);
     // Update number of edges if it exceeds new maximum
-    const newMaxEdges = getMaxEdges(numNodes, value);
+    const newMaxEdges = getMaxEdges(numNodes, value, withSelfLoops);
+    if (numEdges > newMaxEdges) {
+      setNumEdges(newMaxEdges);
+    }
+  };
+  const onWithSelfLoopsChange = (checked: boolean) => {
+    setWithSelfLoops(checked);
+    const newMaxEdges = getMaxEdges(numNodes, graphType, checked);
     if (numEdges > newMaxEdges) {
       setNumEdges(newMaxEdges);
     }
@@ -199,14 +209,12 @@ const ErdosRenyiGNMNetwork = () => {
     <InteractiveTutorialContainer className="flex-col">
       <TextContainer className="lg:w-1/2 bg-white border border-gray-200 rounded-md w-full max-w-[550px] self-center">
         <div className="space-y-4">
-          <div className="space-x-4 flex items-center">
+          <div className="justify-between flex items-center">
             <label className="text-sm font-medium">Graph type:</label>
             <Tabs
               defaultValue="directed"
               value={graphType}
-              onValueChange={(value: GraphType) => {
-                onGraphTypeChange(value);
-              }}
+              onValueChange={onGraphTypeChange}
             >
               <TabsList className="bg-slate-100">
                 <TabsTrigger
@@ -223,6 +231,13 @@ const ErdosRenyiGNMNetwork = () => {
                 </TabsTrigger>
               </TabsList>
             </Tabs>
+          </div>
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-medium">Allow self-loops</label>
+            <Switch
+              checked={withSelfLoops}
+              onCheckedChange={onWithSelfLoopsChange}
+            />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">

@@ -10,10 +10,28 @@ export const getDirectedAndSelfLoopsMaxEdges = (n: number) => {
   return n * n;
 };
 
-export const getMaxEdges = (n: number, graphType: GraphType) => {
-  return graphType === "directed"
-    ? getDirectedAndSelfLoopsMaxEdges(n)
-    : getUndirectedAndSelfLoopsMaxEdges(n);
+export const getUndirectedMaxEdgesNoSelfLoops = (n: number) => {
+  return Math.floor((n * (n - 1)) / 2);
+};
+
+export const getDirectedMaxEdgesNoSelfLoops = (n: number) => {
+  return n * (n - 1);
+};
+
+export const getMaxEdges = (
+  n: number,
+  graphType: GraphType,
+  withSelfLoops: boolean
+) => {
+  if (graphType === "directed") {
+    return withSelfLoops
+      ? getDirectedAndSelfLoopsMaxEdges(n)
+      : getDirectedMaxEdgesNoSelfLoops(n);
+  }
+
+  return withSelfLoops
+    ? getUndirectedAndSelfLoopsMaxEdges(n)
+    : getUndirectedMaxEdgesNoSelfLoops(n);
 };
 
 export const generateAllPossibleUndirectedAndSelfLoopsEdges = (n: number) => {
@@ -29,6 +47,23 @@ export const generateAllPossibleUndirectedAndSelfLoopsEdges = (n: number) => {
     });
 
     // include all other edges
+    for (let j = i + 1; j < n; j++) {
+      allPossibleEdges.push({
+        id: `${i}->${j}`,
+        source: `${i}`,
+        target: `${j}`,
+        type: "floating",
+      });
+    }
+  }
+
+  return allPossibleEdges;
+};
+
+export const generateAllPossibleUndirectedEdgesNoSelfLoops = (n: number) => {
+  const allPossibleEdges = [];
+
+  for (let i = 0; i < n; i++) {
     for (let j = i + 1; j < n; j++) {
       allPossibleEdges.push({
         id: `${i}->${j}`,
@@ -59,18 +94,37 @@ export const generateAllPossibleDirectedAndSelfLoopsEdges = (n: number) => {
   return allPossibleEdges;
 };
 
+export const generateAllPossibleDirectedEdgesNoSelfLoops = (n: number) => {
+  const allPossibleEdges = [];
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (i !== j) {
+        allPossibleEdges.push({
+          id: `${i}->${j}`,
+          source: `${i}`,
+          target: `${j}`,
+          type: "floating",
+        });
+      }
+    }
+  }
+  return allPossibleEdges;
+};
+
 export const generateAllPossibleEdges = (
   n: number,
   graphType: GraphType,
   withSelfLoops: boolean
 ) => {
-  if (graphType === "undirected" && withSelfLoops) {
-    return generateAllPossibleUndirectedAndSelfLoopsEdges(n);
-  } else if (graphType === "directed" && withSelfLoops) {
-    return generateAllPossibleDirectedAndSelfLoopsEdges(n);
+  if (graphType === "directed") {
+    return withSelfLoops
+      ? generateAllPossibleDirectedAndSelfLoopsEdges(n)
+      : generateAllPossibleDirectedEdgesNoSelfLoops(n);
   }
 
-  return [];
+  return withSelfLoops
+    ? generateAllPossibleUndirectedAndSelfLoopsEdges(n)
+    : generateAllPossibleUndirectedEdgesNoSelfLoops(n);
 };
 
 export const generateNodePositions = (n: number, radius: number = 200) => {
