@@ -1,4 +1,4 @@
-import { MdxLayout } from "../../../components";
+import { MdxLayout, MathFormula } from "../../../components";
 import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
 
 export const metadata = {
@@ -12,6 +12,15 @@ export const metadata = {
 # Erdős-Rényi Graphs
 
 ## How to model random networks
+
+The **Erdős-Rényi model** is a simple way to generate random graphs. The model, named after Hungarian mathematicians Paul Erdős and Alfréd Rényi, is useful for simulating and analyzing the properties of random networks, which can be compared to real-world phenomena like social networks, communication networks, and biological networks.
+
+The model comes in two variants:
+
+1. <MathFormula tex="G(n, p)" />: start with <MathFormula tex="n" /> nodes and then connect each pair of nodes (create an edge between them) with a probability <MathFormula tex="p" />, independent of all other pairs.
+2. <MathFormula tex="G(n, M)" />: start with <MathFormula tex="n" /> nodes and randomly select <MathFormula tex="M" /> edges (from all possible edges) to connect the nodes. Useful for generating graphs with a specific number of edges.
+
+Below is a Erdős-Rényi graph generator for the <MathFormula tex="G(n, M)" /> model:
 
 <ErdosRenyiGNMNetworkWithProvider />
 

@@ -26,6 +26,7 @@ import {
   TooltipTrigger,
   Tooltip,
   TooltipContent,
+  MathFormula,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
 import { FloatingEdge } from "../../components";
@@ -93,7 +94,7 @@ const AllowSelfLoopsTooltip = () => (
       <FiInfo size={14} className="ml-[3px] -translate-y-1 inline-block" />
     </TooltipTrigger>
     <TooltipContent>
-      <p>A self-loop is an edge that connects a node to itself</p>
+      <p>Allow a node to connect to itself.</p>
     </TooltipContent>
   </Tooltip>
 );
@@ -279,7 +280,9 @@ const ErdosRenyiGNMNetwork = () => {
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">
-              Number of nodes (n): {numNodes}
+              Number of nodes (
+              <MathFormula variant="tutorial" tex="n" />
+              ): {numNodes}
             </label>
             <Slider
               value={[numNodes]}
@@ -295,7 +298,9 @@ const ErdosRenyiGNMNetwork = () => {
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">
-              Number of edges (m): {numEdges}
+              Number of edges (
+              <MathFormula variant="tutorial" tex="M" />
+              ): {numEdges}
               <span className="text-xs text-slate-400 float-right mt-2">
                 max: {maxEdges}
               </span>
