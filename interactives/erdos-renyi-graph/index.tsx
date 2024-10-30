@@ -1,16 +1,11 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import {
   ReactFlow,
   Controls,
   Background,
-  Node,
   Handle,
   Position,
   MarkerType,
-  Edge,
-  useEdgesState,
-  useNodesState,
-  useReactFlow,
   ReactFlowProvider,
 } from "@xyflow/react";
 import {
@@ -30,15 +25,9 @@ import {
 } from "../../components";
 import "@xyflow/react/dist/style.css";
 import { FloatingEdge } from "../../components";
-import {
-  getUndirectedAndSelfLoopsMaxEdges,
-  getMaxEdges,
-  generateAllPossibleEdges,
-  generateNodePositions,
-  shuffleArray,
-  GraphType,
-} from "./utils";
+import { getMaxEdges, GraphType } from "./utils";
 import { FiInfo } from "react-icons/fi";
+import { useRandomGNMNetwork } from "./hooks";
 
 const CircleNode = ({ data, isConnectable }) => (
   <div
@@ -114,41 +103,16 @@ const ErdosRenyiGNMNetwork = () => {
   const [numNodes, setNumNodes] = useState(10);
   const [numEdges, setNumEdges] = useState(14);
 
-  const [nodes, setNodes] = useNodesState([]);
-  const [edges, setEdges] = useEdgesState([]);
-
-  const { fitView } = useReactFlow();
-
   // Calculate maximum possible edges including self-loops
   const maxEdges = getMaxEdges(numNodes, graphType, withSelfLoops);
 
-  const generateRandomNetwork = useCallback(() => {
-    if (numEdges > maxEdges) {
-      alert("Number of edges cannot exceed maximum possible edges");
-    }
-
-    // set node positions
-    const nodePositions = generateNodePositions(numNodes);
-
-    // generate all possible edges and shuffle them
-    const allPossibleEdges = generateAllPossibleEdges(
-      numNodes,
-      graphType,
-      withSelfLoops
-    );
-    const shuffledEdges = shuffleArray([...allPossibleEdges]);
-
-    // take first m edges
-    const selectedEdges = shuffledEdges.slice(0, numEdges);
-
-    setNodes(nodePositions);
-    setEdges(selectedEdges);
-
-    // Add setTimeout to ensure the nodes are rendered before fitting view
-    setTimeout(() => {
-      fitView({ maxZoom: 0.7, duration: 150 });
-    }, 0);
-  }, [numNodes, numEdges, maxEdges, withSelfLoops, graphType]);
+  const { nodes, edges, generateNetwork } = useRandomGNMNetwork({
+    numNodes,
+    numEdges,
+    maxEdges,
+    graphType,
+    withSelfLoops,
+  });
 
   const onGraphTypeChange = (value: GraphType) => {
     setGraphType(value);
@@ -161,6 +125,13 @@ const ErdosRenyiGNMNetwork = () => {
   const onWithSelfLoopsChange = (checked: boolean) => {
     setWithSelfLoops(checked);
     const newMaxEdges = getMaxEdges(numNodes, graphType, checked);
+    if (numEdges > newMaxEdges) {
+      setNumEdges(newMaxEdges);
+    }
+  };
+  const onNumNodesChange = (value: number) => {
+    setNumNodes(value);
+    const newMaxEdges = getMaxEdges(value, graphType, withSelfLoops);
     if (numEdges > newMaxEdges) {
       setNumEdges(newMaxEdges);
     }
@@ -227,12 +198,7 @@ const ErdosRenyiGNMNetwork = () => {
             </label>
             <Slider
               value={[numNodes]}
-              onValueChange={([value]) => {
-                setNumNodes(value);
-                setNumEdges(
-                  Math.min(numEdges, getUndirectedAndSelfLoopsMaxEdges(value))
-                );
-              }}
+              onValueChange={([value]) => onNumNodesChange(value)}
               min={2}
               max={20}
             />
@@ -257,7 +223,7 @@ const ErdosRenyiGNMNetwork = () => {
         <Button
           variant="primary"
           className="max-w-fit px-4 mt-10 self-center mb-2 bg-zinc-700 hover:bg-zinc-800"
-          onClick={generateRandomNetwork}
+          onClick={generateNetwork}
         >
           Generate Network
         </Button>
