@@ -7,8 +7,12 @@ interface ULProps
     HTMLOListElement
   > {}
 
-const OrderedList = ({ children }: ULProps) => {
-  return <ol className={styles.ol}>{children}</ol>;
+const OrderedList = ({ children, ...props }: ULProps) => {
+  return (
+    <ol className={styles.ol} {...props}>
+      {children}
+    </ol>
+  );
 };
 
 export default OrderedList;
