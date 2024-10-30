@@ -13,6 +13,9 @@ module.exports = {
           50: "#e9f9ff",
           100: "#d5f5ff",
         },
+        slate: {
+          150: "#e9eef4",
+        },
       },
       fontFamily: {
         body: ["avenir"],

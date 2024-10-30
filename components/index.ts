@@ -10,6 +10,7 @@ export {
   InteractiveContainer,
   TextContainer,
 } from "./InteractiveContainer";
+export { FloatingEdge, FloatingConnectionLine } from "./Flow";
 export { default as Lede } from "./Lede";
 export { default as MathFormula } from "./MathFormula";
 export { default as MdxLayout } from "./MdxLayout";
@@ -35,14 +36,21 @@ export {
   SheetTitle,
   SheetDescription,
 } from "./Sheet";
+export { Slider } from "./Slider";
 export { default as Slides } from "./Slides";
 export { default as SlideDeck } from "./SlideDeck";
 export { H2, H3 } from "./Headings";
 export { default as SubscribeForm } from "./SubscribeForm";
 export { default as Switch } from "./Switch";
-export { TabsList, TabsTrigger } from "./Tabs";
+export { Tabs, TabsList, TabsTrigger } from "./Tabs";
 export { default as Title } from "./Title";
-export { default as Tooltip, TooltipContent } from "./Tooltip";
+export {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "./Tooltip";
+export { default as TippyTooltip, TippyTooltipContent } from "./TippyTooltip";
 export { default as UnorderedList } from "./UnorderedList";
 // 3-D Models
 export { DNA } from "./3D-Models";

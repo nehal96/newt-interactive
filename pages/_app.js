@@ -1,6 +1,7 @@
 import Head from "next/head";
 import "../styles/globals.css";
 import { useEffect } from "react";
+import { TooltipProvider } from "../components";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -27,7 +28,9 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      <TooltipProvider delayDuration={300}>
+        <Component {...pageProps} />
+      </TooltipProvider>
     </>
   );
 }

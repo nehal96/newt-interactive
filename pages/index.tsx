@@ -55,15 +55,22 @@ export default function Home() {
         </TopicCardContainer>
         <TopicCardContainer title="Blocks">
           <TopicCard
+            href="/blocks/erdos-renyi-graph"
+            imageSrc="/images/circle-in-a-circle-kandinsky.jpg"
+            title="Erdős-Rényi Graph Generator"
+            withTitleBlur
+          />
+          <TopicCard
             href="/blocks/robot-localization"
             imageSrc="/images/lost-looking-robot.png"
             title="Simple Robot Localization"
+            withTitleBlur
           />
           <TopicCard
             href="/blocks/dna"
             imageSrc="/images/glossy-dna-model.png"
             title="3D Model of DNA"
-            darkText
+            withTitleBlur
           />
           <TopicCard
             href="/blocks/kalman-filters"

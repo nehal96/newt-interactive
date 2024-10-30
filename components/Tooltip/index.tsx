@@ -1,50 +1,31 @@
-import Tippy, { TippyProps } from "@tippyjs/react";
-import { ReactNode, useState } from "react";
-import "tippy.js/dist/tippy.css";
+"use client";
 
-interface TooltipProps extends Omit<TippyProps, "children"> {
-  children?: React.ReactNode;
-  content: ReactNode;
-  highlightColor?: string;
-}
+import * as React from "react";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 
-interface TooltipContentProps {
-  children: React.ReactNode;
-}
+import { cn } from "../../lib/utils";
 
-export const TooltipContent = ({ children }: TooltipContentProps) => {
-  return <div className="p-2">{children}</div>;
-};
+const TooltipProvider = TooltipPrimitive.Provider;
 
-const Tooltip = ({
-  children,
-  content,
-  interactive = true,
-  interactiveBorder = 20,
-  highlightColor = "newt-blue-50",
-  ...props
-}: TooltipProps) => {
-  const [isShown, setIsShown] = useState(false);
+const Tooltip = TooltipPrimitive.Root;
 
-  return (
-    <>
-      <span className={isShown ? `bg-${highlightColor}` : null}>
-        {children}
-      </span>
-      <Tippy
-        content={content}
-        interactive={interactive}
-        interactiveBorder={interactiveBorder}
-        onShow={() => setIsShown(true)}
-        onHide={() => setIsShown(false)}
-        {...props}
-      >
-        <span className="relative bg-newt-blue-100 px-1.5 text-xs font-medium rounded-full ml-0.5 -top-2">
-          i
-        </span>
-      </Tippy>
-    </>
-  );
-};
+const TooltipTrigger = TooltipPrimitive.Trigger;
 
-export default Tooltip;
+const TooltipContent = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
+>(({ className, sideOffset = 4, collisionPadding = 10, ...props }, ref) => (
+  <TooltipPrimitive.Content
+    ref={ref}
+    sideOffset={sideOffset}
+    collisionPadding={collisionPadding}
+    className={cn(
+      "z-50 overflow-hidden max-w-96 rounded-md border bg-white px-3 py-1.5 text-sm text-zinc-900 shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      className
+    )}
+    {...props}
+  />
+));
+TooltipContent.displayName = TooltipPrimitive.Content.displayName;
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

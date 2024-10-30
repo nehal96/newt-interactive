@@ -1,8 +1,8 @@
 import {
   InlineCode,
   MathFormula,
-  Tooltip,
-  TooltipContent,
+  TippyTooltip,
+  TippyTooltipContent,
 } from "../../components";
 import { ActionButton } from "../robot-localization/LocalizationSlides";
 import { GaussianName, Playground } from "./GaussianParameterUpdateSlides";
@@ -184,12 +184,12 @@ export function getSlides({
           </p>
           <p>
             Here's the formulas
-            <Tooltip
+            <TippyTooltip
               content={
-                <TooltipContent>
+                <TippyTooltipContent>
                   In some future version I'll prove/derive these formulas. If
                   you'd like to see it earlier, reach out to me.
-                </TooltipContent>
+                </TippyTooltipContent>
               }
             />
             :
@@ -362,19 +362,19 @@ export function getSlides({
             ...our <GaussianName name="Posterior" />!
           </p>
           <p>
-            <Tooltip
+            <TippyTooltip
               content={
-                <TooltipContent>
+                <TippyTooltipContent>
                   If you're interested in this, reach out to me (info at the
                   bottom of the page)
-                </TooltipContent>
+                </TippyTooltipContent>
               }
               highlightColor="newt-blue-100"
               placement="bottom"
             >
               (In some future version, I'll derive those two formulas so you can
               better understand where it comes from and why it works).
-            </Tooltip>
+            </TippyTooltip>
           </p>
           <p>
             For now, just know that the beauty and power of the Kalman filter is
