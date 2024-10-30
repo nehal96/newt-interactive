@@ -57,7 +57,7 @@ export default function Home() {
           <TopicCard
             href="/blocks/erdos-renyi-graph"
             imageSrc="/images/circle-in-a-circle-kandinsky.jpg"
-            title="Erdős-Rényi Graphs"
+            title="Erdős-Rényi Graph Generator"
             withTitleBlur
           />
           <TopicCard

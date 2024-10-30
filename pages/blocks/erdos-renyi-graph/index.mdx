@@ -1,11 +1,11 @@
-import { MdxLayout, MathFormula } from "../../../components";
+import { MdxLayout, MathFormula, PostArticleSubscribe } from "../../../components";
 import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
 
 export const metadata = {
   title: "Erdős-Rényi Graphs / Newt Interactive",
   description: "How to model random networks",
   keywords: "Erdős-Rényi graphs, random networks, graph theory, probability",
-  // ogImage: "https://i.ibb.co/Nnbfc6y/genetic-circuit.png",
+  ogImage: "https://i.ibb.co/0jWX5dr/circle-in-a-circle-kandinsky.jpg",
   url: "https://newtinteractive.com/blocks/erdos-renyi-graph",
 };
 
@@ -23,6 +23,8 @@ The model comes in two variants:
 Below is a Erdős-Rényi graph generator for the <MathFormula tex="G(n, M)" /> model:
 
 <ErdosRenyiGNMNetworkWithProvider />
+
+<PostArticleSubscribe />
 
 export default function MDXPage({ children }) {
   return (

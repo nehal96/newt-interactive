@@ -35,6 +35,7 @@ import {
   getMaxEdges,
   generateAllPossibleEdges,
   generateNodePositions,
+  shuffleArray,
   GraphType,
 } from "./utils";
 import { FiInfo } from "react-icons/fi";
@@ -105,55 +106,6 @@ const nodeTypes = {
 const edgeTypes = {
   floating: FloatingEdge,
 };
-const initialNodes: Node[] = [
-  {
-    id: "1",
-    type: "circle",
-    position: { x: 250, y: 20 },
-    data: {
-      color: "#020617",
-    },
-    sourcePosition: Position.Left,
-    targetPosition: Position.Right,
-  },
-  {
-    id: "2",
-    type: "circle",
-    position: { x: 120, y: 150 },
-    data: {
-      color: "#020617",
-    },
-  },
-  {
-    id: "3",
-    type: "circle",
-    position: { x: 380, y: 150 },
-    data: {
-      color: "#020617",
-    },
-  },
-];
-
-const initialEdges: Edge[] = [
-  {
-    id: "1->1",
-    source: "1",
-    target: "1",
-    type: "floating",
-  },
-  {
-    id: "1->2",
-    source: "1",
-    target: "2",
-    type: "floating",
-  },
-  {
-    id: "1->3",
-    source: "1",
-    target: "3",
-    type: "floating",
-  },
-];
 
 const ErdosRenyiGNMNetwork = () => {
   const [graphType, setGraphType] = useState<GraphType>("undirected");
@@ -162,21 +114,13 @@ const ErdosRenyiGNMNetwork = () => {
   const [numNodes, setNumNodes] = useState(10);
   const [numEdges, setNumEdges] = useState(14);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes] = useNodesState([]);
+  const [edges, setEdges] = useEdgesState([]);
 
   const { fitView } = useReactFlow();
 
   // Calculate maximum possible edges including self-loops
   const maxEdges = getMaxEdges(numNodes, graphType, withSelfLoops);
-
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
 
   const generateRandomNetwork = useCallback(() => {
     if (numEdges > maxEdges) {
@@ -323,7 +267,7 @@ const ErdosRenyiGNMNetwork = () => {
           <ReactFlow
             fitView
             fitViewOptions={{
-              maxZoom: 0.8,
+              maxZoom: 0.7,
             }}
             nodes={nodes}
             edges={edges}
