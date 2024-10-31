@@ -1,16 +1,16 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useNodesState, useEdgesState, useReactFlow } from "@xyflow/react";
 import {
   generateNodePositions,
   generateAllPossibleEdges,
   shuffleArray,
   GraphType,
+  getMaxEdges,
 } from "./utils";
 
 interface UseRandomGNMNetworkProps {
   numNodes: number;
   numEdges: number;
-  maxEdges: number;
   graphType: GraphType;
   withSelfLoops: boolean;
 }
@@ -18,13 +18,18 @@ interface UseRandomGNMNetworkProps {
 export function useRandomGNMNetwork({
   numNodes,
   numEdges,
-  maxEdges,
   graphType,
   withSelfLoops,
 }: UseRandomGNMNetworkProps) {
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
   const { fitView } = useReactFlow();
+
+  // Calculate maximum possible edges including self-loops
+  const maxEdges = useMemo(
+    () => getMaxEdges(numNodes, graphType, withSelfLoops),
+    [numNodes, graphType, withSelfLoops]
+  );
 
   const generateNetwork = useCallback(() => {
     if (numEdges > maxEdges) {
@@ -51,6 +56,7 @@ export function useRandomGNMNetwork({
   return {
     nodes,
     edges,
+    maxEdges,
     generateNetwork,
   };
 }

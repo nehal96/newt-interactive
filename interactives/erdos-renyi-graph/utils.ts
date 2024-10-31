@@ -1,6 +1,22 @@
-import { Node } from "@xyflow/react";
+import { MarkerType, Node } from "@xyflow/react";
 
 export type GraphType = "directed" | "undirected";
+
+export const getEdgeOptions = (graphType: GraphType) => ({
+  type: "floating",
+  style: {
+    strokeWidth: 2,
+    stroke: "#a1a1aa",
+  },
+  ...(graphType === "directed" && {
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      width: 12,
+      height: 12,
+      color: "#a1a1aa",
+    },
+  }),
+});
 
 export const getUndirectedAndSelfLoopsMaxEdges = (n: number) => {
   return Math.floor((n * (n + 1)) / 2);
