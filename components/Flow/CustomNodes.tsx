@@ -5,9 +5,9 @@ export const CircleNode = ({ data, isConnectable }) => (
     style={{
       width: 25,
       height: 25,
-      border: `1px solid ${data.color || "#cbd5e1"}`,
+      border: `1px solid ${data?.color || "#cbd5e1"}`,
       borderRadius: "50%",
-      backgroundColor: data.color || "#cbd5e1",
+      backgroundColor: data?.color || "#cbd5e1",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",

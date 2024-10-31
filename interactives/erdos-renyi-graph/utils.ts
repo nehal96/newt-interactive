@@ -150,8 +150,8 @@ export const generateNodePositions = (n: number, radius: number = 200) => {
   for (let i = 0; i < n; i++) {
     const angle = i * angleStep;
     // Calculate x and y coordinates on the circle
-    const x = radius * Math.cos(angle) + radius;
-    const y = radius * Math.sin(angle) + radius;
+    const x = radius * Math.cos(angle);
+    const y = radius * Math.sin(angle);
 
     nodes.push({
       id: `${i}`,

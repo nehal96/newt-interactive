@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRandomGNMNetwork } from "../erdos-renyi-graph/hooks";
 import {
   ReactFlow,
   Background,
   Controls,
   ReactFlowProvider,
+  useReactFlow,
 } from "@xyflow/react";
 import {
   CircleNode,
@@ -15,14 +16,106 @@ import {
 import { getEdgeOptions } from "../erdos-renyi-graph/utils";
 import "@xyflow/react/dist/style.css";
 
-export const ErdosRenyiRandomNetwork = () => {
-  const [numNodes] = useState(10);
-  const [numEdges] = useState(14);
+const NUM_NODES = 10;
+const NUM_EDGES = 14;
+const edgeOptions = getEdgeOptions("directed");
+const nodeTypes = {
+  circle: CircleNode,
+};
+const edgeTypes = {
+  floating: FloatingEdge,
+};
 
-  const { nodes, edges, generateNetwork } = useRandomGNMNetwork({
-    numNodes,
-    numEdges,
-    graphType: "undirected",
+const REAL_NETWORK_POSITIONS = [
+  { x: 250, y: 0 },
+  { x: 150, y: 100 },
+  { x: 350, y: 100 },
+  { x: 50, y: 200 },
+  { x: 150, y: 200 },
+  { x: 250, y: 200 },
+  { x: 350, y: 200 },
+  { x: 450, y: 200 },
+  { x: 300, y: 300 },
+  { x: 400, y: 300 },
+] as const;
+const REAL_NETWORK_EXAMPLE_NODES = REAL_NETWORK_POSITIONS.map(
+  (position, index) => ({
+    id: index.toString(),
+    type: "circle",
+    data: { color: "#3f3f46" },
+    position,
+  })
+);
+const REAL_NETWORK_EDGES = [
+  { id: "0->0", source: "0", target: "0", type: "floating" },
+  { id: "0->1", source: "0", target: "1", type: "floating" },
+  { id: "0->2", source: "0", target: "2", type: "floating" },
+  { id: "0->5", source: "0", target: "5", type: "floating" },
+  { id: "1->1", source: "1", target: "1", type: "floating" },
+  { id: "1->3", source: "1", target: "3", type: "floating" },
+  { id: "1->4", source: "1", target: "4", type: "floating" },
+  { id: "1->5", source: "1", target: "5", type: "floating" },
+  { id: "2->2", source: "2", target: "2", type: "floating" },
+  { id: "2->6", source: "2", target: "6", type: "floating" },
+  { id: "2->7", source: "2", target: "7", type: "floating" },
+  { id: "5->5", source: "5", target: "5", type: "floating" },
+  { id: "6->8", source: "6", target: "8", type: "floating" },
+  { id: "6->9", source: "6", target: "9", type: "floating" },
+];
+
+const RANDOM_NETWORK_POSITIONS = [
+  { x: 250, y: 0 },
+  { x: 100, y: 100 },
+  { x: 400, y: 100 },
+  { x: 300, y: 150 },
+  { x: 25, y: 175 },
+  { x: 200, y: 225 },
+  { x: 450, y: 250 },
+  { x: 100, y: 325 },
+  { x: 400, y: 350 },
+  { x: 250, y: 400 },
+] as const;
+const RANDOM_NETWORK_NODES = RANDOM_NETWORK_POSITIONS.map(
+  (position, index) => ({
+    id: index.toString(),
+    type: "circle",
+    data: { color: "#3f3f46" },
+    position,
+  })
+);
+
+const ExampleRealNetwork = () => {
+  const { fitView } = useReactFlow();
+
+  useEffect(() => {
+    setTimeout(() => {
+      fitView({
+        padding: 0.4,
+      });
+    }, 0);
+  }, []);
+
+  return (
+    <div className="h-[350px] p-3 border border-gray-200 rounded-md">
+      <ReactFlow
+        nodes={REAL_NETWORK_EXAMPLE_NODES}
+        edges={REAL_NETWORK_EDGES}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        defaultEdgeOptions={edgeOptions}
+      >
+        <Background />
+        <Controls />
+      </ReactFlow>
+    </div>
+  );
+};
+
+const ErdosRenyiRandomNetwork = () => {
+  const { edges, generateNetwork } = useRandomGNMNetwork({
+    numNodes: NUM_NODES,
+    numEdges: NUM_EDGES,
+    graphType: "directed",
     withSelfLoops: true,
   });
 
@@ -30,43 +123,39 @@ export const ErdosRenyiRandomNetwork = () => {
     generateNetwork();
   }, []);
 
-  const edgeOptions = getEdgeOptions("undirected");
-
-  const nodeTypes = {
-    circle: CircleNode,
-  };
-  const edgeTypes = {
-    floating: FloatingEdge,
-  };
-
   return (
-    <InteractiveTutorialContainer>
-      <InteractiveContainer className="lg:w-1/2">
-        <div className="h-[350px] p-3 border border-gray-200 rounded-md">
-          <ReactFlow
-            fitView
-            fitViewOptions={{
-              maxZoom: 0.7,
-            }}
-            nodes={nodes}
-            edges={edges}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-            defaultEdgeOptions={edgeOptions}
-          >
-            <Background />
-            <Controls />
-          </ReactFlow>
-        </div>
-      </InteractiveContainer>
-    </InteractiveTutorialContainer>
+    <div className="h-[350px] p-3 border border-gray-200 rounded-md">
+      <ReactFlow
+        fitView
+        fitViewOptions={{
+          maxZoom: 0.7,
+        }}
+        nodes={RANDOM_NETWORK_NODES}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        defaultEdgeOptions={edgeOptions}
+      >
+        <Background />
+        <Controls />
+      </ReactFlow>
+    </div>
   );
 };
 
-export const ErdosRenyiRandomNetworkWithProvider = () => {
+export const AutoregulationNetworkComparisonTutorial = () => {
   return (
-    <ReactFlowProvider>
-      <ErdosRenyiRandomNetwork />
-    </ReactFlowProvider>
+    <InteractiveTutorialContainer className="flex-col">
+      <InteractiveContainer className="lg:w-1/2">
+        <ReactFlowProvider>
+          <ExampleRealNetwork />
+        </ReactFlowProvider>
+      </InteractiveContainer>
+      <InteractiveContainer className="lg:w-1/2">
+        <ReactFlowProvider>
+          <ErdosRenyiRandomNetwork />
+        </ReactFlowProvider>
+      </InteractiveContainer>
+    </InteractiveTutorialContainer>
   );
 };
