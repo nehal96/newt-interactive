@@ -4,6 +4,7 @@ import {
   Controls,
   Background,
   ReactFlowProvider,
+  useReactFlow,
 } from "@xyflow/react";
 import {
   Button,
@@ -68,6 +69,8 @@ const ErdosRenyiGNMNetwork = () => {
   const [numNodes, setNumNodes] = useState(10);
   const [numEdges, setNumEdges] = useState(14);
 
+  const { fitView } = useReactFlow();
+
   const { nodes, edges, maxEdges, generateNetwork } = useRandomGNMNetwork({
     numNodes,
     numEdges,
@@ -99,6 +102,15 @@ const ErdosRenyiGNMNetwork = () => {
   };
 
   const edgeOptions = getEdgeOptions(graphType);
+
+  const callback = () => {
+    setTimeout(() => {
+      fitView({
+        padding: 0.4,
+        duration: 350,
+      });
+    }, 0);
+  };
 
   return (
     <InteractiveTutorialContainer className="flex-col">
@@ -170,7 +182,7 @@ const ErdosRenyiGNMNetwork = () => {
         <Button
           variant="primary"
           className="max-w-fit px-4 mt-10 self-center mb-2 bg-zinc-700 hover:bg-zinc-800"
-          onClick={generateNetwork}
+          onClick={() => generateNetwork(callback)}
         >
           Generate Network
         </Button>

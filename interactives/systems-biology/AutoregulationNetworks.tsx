@@ -8,6 +8,7 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import {
+  Button,
   CircleNode,
   FloatingEdge,
   InteractiveContainer,
@@ -15,7 +16,7 @@ import {
 } from "../../components";
 import { getEdgeOptions } from "../erdos-renyi-graph/utils";
 import "@xyflow/react/dist/style.css";
-
+import { FiRefreshCw } from "react-icons/fi";
 const NUM_NODES = 10;
 const NUM_EDGES = 14;
 const edgeOptions = getEdgeOptions("directed");
@@ -85,19 +86,13 @@ const RANDOM_NETWORK_NODES = RANDOM_NETWORK_POSITIONS.map(
 );
 
 const ExampleRealNetwork = () => {
-  const { fitView } = useReactFlow();
-
-  useEffect(() => {
-    setTimeout(() => {
-      fitView({
-        padding: 0.4,
-      });
-    }, 0);
-  }, []);
-
   return (
     <div className="h-[350px] p-3 border border-gray-200 rounded-md">
       <ReactFlow
+        fitView
+        fitViewOptions={{
+          padding: 0.4,
+        }}
         nodes={REAL_NETWORK_EXAMPLE_NODES}
         edges={REAL_NETWORK_EDGES}
         nodeTypes={nodeTypes}
@@ -118,28 +113,50 @@ const ErdosRenyiRandomNetwork = () => {
     graphType: "directed",
     withSelfLoops: true,
   });
+  const { fitView } = useReactFlow();
 
   useEffect(() => {
     generateNetwork();
   }, []);
 
+  const callback = () => {
+    setTimeout(() => {
+      fitView({
+        padding: 0.2,
+        duration: 350,
+      });
+    }, 0);
+  };
+
   return (
-    <div className="h-[350px] p-3 border border-gray-200 rounded-md">
-      <ReactFlow
-        fitView
-        fitViewOptions={{
-          maxZoom: 0.7,
-        }}
-        nodes={RANDOM_NETWORK_NODES}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        defaultEdgeOptions={edgeOptions}
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
-    </div>
+    <>
+      <div className="relative">
+        <Button
+          variant="outline"
+          className="absolute bg-white inline-flex items-center py-3 px-3 -top-3 -right-3 sm:px-3 sm:py-1 sm:-top-4 sm:-right-4"
+          onClick={() => generateNetwork(callback)}
+        >
+          <span className="hidden sm:inline-block">Regenerate Network</span>
+          <FiRefreshCw size={16} className="sm:ml-1.5" />
+        </Button>
+      </div>
+      <div className="h-[350px] p-3 border border-gray-200 rounded-md">
+        <ReactFlow
+          fitView
+          fitViewOptions={{
+            padding: 0.2,
+          }}
+          nodes={RANDOM_NETWORK_NODES}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          defaultEdgeOptions={edgeOptions}
+        >
+          <Background />
+          <Controls />
+        </ReactFlow>
+      </div>
+    </>
   );
 };
 
