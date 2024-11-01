@@ -87,22 +87,28 @@ const RANDOM_NETWORK_NODES = RANDOM_NETWORK_POSITIONS.map(
 
 const ExampleRealNetwork = () => {
   return (
-    <div className="h-[350px] p-3 border border-gray-200 rounded-md">
-      <ReactFlow
-        fitView
-        fitViewOptions={{
-          padding: 0.4,
-        }}
-        nodes={REAL_NETWORK_EXAMPLE_NODES}
-        edges={REAL_NETWORK_EDGES}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        defaultEdgeOptions={edgeOptions}
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
-    </div>
+    <>
+      <div className="relative">
+        <span className="absolute inset-x-4 inset-y-3 text-sm sm:text-base text-zinc-800 font-mono font-medium">
+          Real Network
+        </span>
+      </div>
+      <div className="h-[350px] p-3 border border-gray-200 rounded-md">
+        <ReactFlow
+          fitView
+          fitViewOptions={{
+            padding: 0.4,
+          }}
+          nodes={REAL_NETWORK_EXAMPLE_NODES}
+          edges={REAL_NETWORK_EDGES}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          defaultEdgeOptions={edgeOptions}
+        >
+          <Background />
+        </ReactFlow>
+      </div>
+    </>
   );
 };
 
@@ -131,9 +137,12 @@ const ErdosRenyiRandomNetwork = () => {
   return (
     <>
       <div className="relative">
+        <span className="absolute inset-x-4 inset-y-3 text-sm sm:text-base text-zinc-800 font-mono font-medium">
+          Random Network
+        </span>
         <Button
           variant="outline"
-          className="absolute bg-white inline-flex items-center py-3 px-3 -top-3 -right-3 sm:px-3 sm:py-1 sm:-top-4 sm:-right-4"
+          className="absolute z-10 bg-white inline-flex items-center py-3 px-3 -top-3 -right-3 sm:px-3 sm:py-1 sm:-top-4 sm:-right-4"
           onClick={() => generateNetwork(callback)}
         >
           <span className="hidden sm:inline-block">Regenerate Network</span>
@@ -153,7 +162,6 @@ const ErdosRenyiRandomNetwork = () => {
           defaultEdgeOptions={edgeOptions}
         >
           <Background />
-          <Controls />
         </ReactFlow>
       </div>
     </>

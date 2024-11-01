@@ -1,5 +1,6 @@
-import { MdxLayout, MathFormula } from "../../../components";
+import { MdxLayout, MathFormula, ImageSeries, Quote } from "../../../components";
 import { AutoregulationNetworkComparisonTutorial } from "../../../interactives/systems-biology";
+import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
 
 export const metadata = {
   title: "Autoregulation: Part One",
@@ -11,7 +12,44 @@ export const metadata = {
 
 # Autoregulation: Part One
 
-## How a cell regulates its own gene expression
+## How a gene regulates its own expression
+
+In the previous section, we looked at a single interaction in a transcription network, X → Y, what it represents, and its dynamics. Now, let's look at an actual transcription network &mdash; the same one we introduced at the end of Part One: a network of about 20% of *E.Coli*'s genes.
+
+<ImageSeries
+  images={[
+    {
+      src: "/images/transcription-network-systems-biology.png",
+      alt: "Complex transcription network diagram of E. coli showing interconnected genes and regulatory elements",
+      width: 400,
+      height: 400,
+      caption: "Taken from An Introduction to Systems Biology (Uri Alon, 2006)",
+    }
+  ]}
+/>
+
+Even with just 20% of the genes, the network looks pretty complex. In order to understand it, we'll break it down into smaller networks and look for patterns &mdash; patterns that will hopefully help us understand the dynamics of the whole network.
+
+Before we jump into breaking down this graph though, it's important to understand some context behind it.
+
+The graph above is a snapshot in time. But cells, particularly bacterial ones, are a dynamic place. They divide. And mutate. In the right conditions, relentlessly and endlessly. As Uri Alon calculates in *An Introduction to Systems Biology*:
+
+> A single bacterium placed in a test tube with 10 mL of liquid nutrient grows and divides to reach a saturating population of about 10 billion cells within less than a day. This population therefore underwent 10 billion DNA replications. Since the mutation rate is about one in a million per letter per replication, the population will include, for each letter in the genome, 10 different bacteria with a mutation in that letter. Thus, a change of any DNA letter can be rapidly reached in bacterial populations.
+
+<div className="mt-8" />
+A single letter mutation in the DNA sequence of a promoter can prevent the usual binding of a transcription factor, and thus erase an arrow from the network. Similarly, mutations in the binding site, or repositioning or insertions of DNA (genetic recombination) can create new binding sites for transcription factors, and thus add arrows to the network.
+
+So, arrows can be lost or added pretty easily and quite often. This means that arrows that are preserved across long timescales have to constantly be selected for against the random forces of mutations. It also means that if a pattern does emerge much more often than it would at random, then it must provide some evolutionary advantage to the organism. The loss of a pathway that's crucial for glucose metabolism, for example, would be detrimental, so we're likely to see that pathway preserved in the network.
+
+<div className="mt-8" />
+### Random Networks and Network Motifs
+
+Patterns that occur in a real network significantly more than they would at random are called **network motifs**. In order to determine this statistical significance, the real network needs to be compared to a random network; i.e. a network with the same parameters (number of nodes and arrows), but where the connections are assigned randomly.
+
+There are a number of random network models, but we'll use the simplest one: the Erdős-Rényi model. Try playing around with the Erdős-Rényi network generator below to get a feel for random networks:
+
+<ErdosRenyiGNMNetworkWithProvider />
+
 
 <AutoregulationNetworkComparisonTutorial />
 
