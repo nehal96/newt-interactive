@@ -22,6 +22,9 @@ module.exports = {
         title: ["DM Serif Display"],
         logo: ["Righteous"],
       },
+      maxWidth: {
+        prose: "45rem",
+      },
     },
   },
   plugins: [
