@@ -26,6 +26,9 @@ module.exports = {
       maxWidth: {
         prose: "45rem",
       },
+      maxWidth: {
+        prose: "45rem",
+      },
     },
   },
   plugins: [
