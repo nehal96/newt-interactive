@@ -20,7 +20,7 @@ export function ErdosReyniAccordion() {
           <FiInfo className="mr-1.5" /> A Note on calculating Erdős-Rényi Networks <FiChevronDown className="ml-1" />
         </Accordion.Trigger>
         <Accordion.Content className="mt-4 py-3 border-t border-slate-200">
-          <span className="text-base text-slate-800 mb-3">The model comes in two variants, each with a different method of generating the random network:</span>
+          <span className="text-base text-slate-800 mb-3">The ER model comes in two variants, each with a different method of generating the random network:</span>
 
           <UnorderedList className="text-base text-slate-800 mt-3 mb-0">
             <li className="text-base">
@@ -30,6 +30,9 @@ export function ErdosReyniAccordion() {
               <MathFormula variant="tutorial" tex="G(n, M)" />: start with <MathFormula variant="tutorial" tex="n" /> nodes and randomly select <MathFormula variant="tutorial" tex="M" /> edges (from all possible edges) to connect the nodes. Useful for generating graphs with a specific number of edges.
             </li>
           </UnorderedList>
+          <span className="text-base text-slate-800 mt-3">
+            The interactive above uses the <MathFormula variant="tutorial" tex="G(n, M)" /> method.
+          </span>
         </Accordion.Content>
       </Accordion.Item>
     </Accordion.Root>
@@ -72,14 +75,13 @@ So, arrows can be lost or added pretty easily and quite often. This means that a
 
 Patterns that occur in a real network significantly more than they would at random are called **network motifs**. In order to determine this statistical significance, the real network needs to be compared to a random network; i.e. a network with the same parameters (number of nodes and arrows), but where the connections are assigned randomly.
 
-There are a number of random network models, but we'll use the simplest one: the Erdős-Rényi model. Try playing around with the Erdős-Rényi network generator below to get a feel for random networks:
+There are a number of random network models, but we'll use the simplest one: the Erdős-Rényi (ER) model. The way it works is fairly simple: for every pair of nodes, the decision to connect them or not is made at random. 
 
-<ErdosRenyiGNMNetworkWithProvider />
-
-<ErdosReyniAccordion />
-
+As an example, below is a comparison between a 'real' network and a random network for 14 nodes and 20 arrows (in mathematics, these 'arrows', or connections, are called edges). Try regenerating the random network to see different possibilities. Take note of the number of self-looped arrows in the random one &mdash; how many are usually there, and how does it compare to the 'real' one?
 
 <AutoregulationNetworkComparisonTutorial />
+
+<ErdosReyniAccordion />
 
 export default function MDXPage({ children }) {
   return (
