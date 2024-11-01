@@ -1,4 +1,5 @@
 import { DetailedHTMLProps, HTMLAttributes } from "react";
+import { cn } from "../../lib/utils";
 
 interface ParagraphProps
   extends DetailedHTMLProps<
@@ -9,7 +10,10 @@ interface ParagraphProps
 const Paragraph = ({ children, className }: ParagraphProps) => {
   return (
     <p
-      className={`font-body text-lg w-full text-slate-700 self-center max-w-3xl mb-8 md:text-xl md:tracking-wide ${className}`}
+      className={cn(
+        "font-body text-base w-full text-slate-700 self-center max-w-prose mb-5 md:mb-8 md:text-lg md:tracking-wide",
+        className
+      )}
     >
       {children}
     </p>
