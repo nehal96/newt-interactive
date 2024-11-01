@@ -1,6 +1,8 @@
-import { MdxLayout, MathFormula, ImageSeries, Quote } from "../../../components";
+import { MdxLayout, MathFormula, ImageSeries, Quote, UnorderedList } from "../../../components";
 import { AutoregulationNetworkComparisonTutorial } from "../../../interactives/systems-biology";
 import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
+import * as Accordion from "@radix-ui/react-accordion";
+import { FiInfo, FiChevronDown } from "react-icons/fi";
 
 export const metadata = {
   title: "Autoregulation: Part One",
@@ -9,6 +11,30 @@ export const metadata = {
   // ogImage: "https://i.ibb.co/0jWX5dr/circle-in-a-circle-kandinsky.jpg",
   url: "https://newtinteractive.com/series/systems-biology/autoregulation-1",
 };
+
+export function ErdosReyniAccordion() {
+  return (
+    <Accordion.Root type="single" collapsible className="w-full bg-slate-50 rounded-md max-w-3xl self-center px-5 md:px-6 py-4 md:py-5">
+      <Accordion.Item className="text-sm md:text-base font-body" value="item-1">
+        <Accordion.Trigger className="flex items-center text-base">
+          <FiInfo className="mr-1.5" /> A Note on calculating Erdős-Rényi Networks <FiChevronDown className="ml-1" />
+        </Accordion.Trigger>
+        <Accordion.Content className="mt-4 py-3 border-t border-slate-200">
+          <span className="text-base text-slate-800 mb-3">The model comes in two variants, each with a different method of generating the random network:</span>
+
+          <UnorderedList className="text-base text-slate-800 mt-3 mb-0">
+            <li className="text-base">
+              <MathFormula variant="tutorial" tex="G(n, p)" />: start with <MathFormula variant="tutorial" tex="n" /> nodes and then connect each pair of nodes (create an edge between them) with a probability <MathFormula variant="tutorial" tex="p" />, independent of all other pairs.
+            </li>
+            <li className="text-base">
+              <MathFormula variant="tutorial" tex="G(n, M)" />: start with <MathFormula variant="tutorial" tex="n" /> nodes and randomly select <MathFormula variant="tutorial" tex="M" /> edges (from all possible edges) to connect the nodes. Useful for generating graphs with a specific number of edges.
+            </li>
+          </UnorderedList>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>
+  )
+}
 
 # Autoregulation: Part One
 
@@ -49,6 +75,8 @@ Patterns that occur in a real network significantly more than they would at rand
 There are a number of random network models, but we'll use the simplest one: the Erdős-Rényi model. Try playing around with the Erdős-Rényi network generator below to get a feel for random networks:
 
 <ErdosRenyiGNMNetworkWithProvider />
+
+<ErdosReyniAccordion />
 
 
 <AutoregulationNetworkComparisonTutorial />

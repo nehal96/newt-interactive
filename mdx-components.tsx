@@ -28,7 +28,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </Link>
     ),
     ol: ({ children }) => <OrderedList>{children}</OrderedList>,
-    ul: ({ children }) => <UnorderedList>{children}</UnorderedList>,
+    ul: ({ children, ...props }) => (
+      <UnorderedList {...props}>{children}</UnorderedList>
+    ),
     ...components,
   };
 }
