@@ -31,6 +31,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ul: ({ children, ...props }) => (
       <UnorderedList {...props}>{children}</UnorderedList>
     ),
+    hr: () => <hr className="my-8 md:my-12 border-slate-200" />,
     ...components,
   };
 }

@@ -2,10 +2,19 @@ import Tippy, { TippyProps } from "@tippyjs/react";
 import { ReactNode, useState } from "react";
 import "tippy.js/dist/tippy.css";
 
+type HighlightColorType =
+  | "newt-blue-50"
+  | "newt-blue-100"
+  | "slate-50"
+  | "slate-100"
+  | "indigo-50"
+  | "indigo-100";
+
 interface TippyTooltipProps extends Omit<TippyProps, "children"> {
   children?: React.ReactNode;
   content: ReactNode;
-  highlightColor?: string;
+  highlightColor?: HighlightColorType;
+  iconColor?: HighlightColorType;
 }
 
 interface TippyTooltipContentProps {
@@ -22,15 +31,14 @@ const TippyTooltip = ({
   interactive = true,
   interactiveBorder = 20,
   highlightColor = "newt-blue-50",
+  iconColor = "newt-blue-100",
   ...props
 }: TippyTooltipProps) => {
   const [isShown, setIsShown] = useState(false);
 
   return (
     <>
-      <span className={isShown ? `bg-${highlightColor}` : null}>
-        {children}
-      </span>
+      <span className={isShown ? `bg-${highlightColor}` : ""}>{children}</span>
       <Tippy
         content={content}
         interactive={interactive}
@@ -39,7 +47,9 @@ const TippyTooltip = ({
         onHide={() => setIsShown(false)}
         {...props}
       >
-        <span className="relative bg-newt-blue-100 px-1.5 text-xs font-medium rounded-full ml-0.5 -top-2">
+        <span
+          className={`relative bg-${iconColor} px-1.5 text-xs font-medium rounded-full ml-0.5 -top-2`}
+        >
           i
         </span>
       </Tippy>

@@ -1,4 +1,4 @@
-import { MdxLayout, MathFormula, ImageSeries, Quote, UnorderedList } from "../../../components";
+import { MdxLayout, MathFormula, ImageSeries, Quote, UnorderedList, TippyTooltip, TippyTooltipContent, PostArticleSubscribe } from "../../../components";
 import { AutoregulationNetworkComparisonTutorial } from "../../../interactives/systems-biology";
 import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
 import * as Accordion from "@radix-ui/react-accordion";
@@ -11,6 +11,18 @@ export const metadata = {
   // ogImage: "https://i.ibb.co/0jWX5dr/circle-in-a-circle-kandinsky.jpg",
   url: "https://newtinteractive.com/series/systems-biology/autoregulation-1",
 };
+
+export function CalculationTooltip() {
+  return (
+    <TippyTooltip
+      highlightColor="indigo-50"
+      iconColor="indigo-100"
+      content={<TippyTooltipContent>I replaced the scientific notation numbers (<MathFormula variant="popover" tex="10^{10}" />) with words (10 billion) for ease of reading.</TippyTooltipContent>}
+    >
+      As Uri Alon calculates in <i>An Introduction to Systems Biology</i>
+    </TippyTooltip>
+  )
+}
 
 export function ErdosReyniAccordion() {
   return (
@@ -31,7 +43,7 @@ export function ErdosReyniAccordion() {
             </li>
           </UnorderedList>
           <span className="text-base text-slate-800 mt-3">
-            The interactive above uses the <MathFormula variant="tutorial" tex="G(n, M)" /> method.
+            The interactive above uses the <MathFormula variant="tutorial" tex="G(n, M)" /> method. The math that follows works for both.
           </span>
         </Accordion.Content>
       </Accordion.Item>
@@ -43,41 +55,42 @@ export function ErdosReyniAccordion() {
 
 ## How a gene regulates its own expression
 
-In the previous section, we looked at a single interaction in a transcription network, X → Y, what it represents, and its dynamics. Now, let's look at an actual transcription network &mdash; the same one we introduced at the end of Part One: a network of about 20% of *E.Coli*'s genes.
+In the previous section, we looked at a single interaction in a transcription network X → Y, what it represents, and its dynamics. Now, let's look at an actual transcription network &mdash; the same one we introduced at the end of Part One: a network of about 20% of *E.Coli*'s genes.
 
 <ImageSeries
   images={[
     {
-      src: "/images/transcription-network-systems-biology.png",
+      src: "/images/transcription-network-with-autoregulation.png",
       alt: "Complex transcription network diagram of E. coli showing interconnected genes and regulatory elements",
       width: 400,
       height: 400,
-      caption: "Taken from An Introduction to Systems Biology (Uri Alon, 2006)",
+      caption: <span>20% of <i>E.Coli</i>'s transcription network, with the transcription factors split into ones with and without autoregulation. Taken from <i>An Introduction to Systems Biology</i> (Uri Alon, 2006)</span>,
     }
   ]}
+  maxWidth="575px"
 />
 
-Even with just 20% of the genes, the network looks pretty complex. In order to understand it, we'll break it down into smaller networks and look for patterns &mdash; patterns that will hopefully help us understand the dynamics of the whole network.
+Even with just 20% of the genes, the network looks pretty complex. In order to understand it, let's break it down into smaller networks and look for patterns &mdash; patterns that will hopefully help us understand the dynamics of the whole network.
 
 Before we jump into breaking down this graph though, it's important to understand some context behind it.
 
-The graph above is a snapshot in time. But cells, particularly bacterial ones, are a dynamic place. They divide. And mutate. In the right conditions, relentlessly and endlessly. As Uri Alon calculates in *An Introduction to Systems Biology*:
+The graph above is a snapshot in time. But cells, particularly bacterial ones, are a dynamic place. They divide. And mutate. In the right conditions, relentlessly and endlessly. <CalculationTooltip />
 
 > A single bacterium placed in a test tube with 10 mL of liquid nutrient grows and divides to reach a saturating population of about 10 billion cells within less than a day. This population therefore underwent 10 billion DNA replications. Since the mutation rate is about one in a million per letter per replication, the population will include, for each letter in the genome, 10 different bacteria with a mutation in that letter. Thus, a change of any DNA letter can be rapidly reached in bacterial populations.
 
 <div className="mt-8" />
-A single letter mutation in the DNA sequence of a promoter can prevent the usual binding of a transcription factor, and thus erase an arrow from the network. Similarly, mutations in the binding site, or repositioning or insertions of DNA (genetic recombination) can create new binding sites for transcription factors, and thus add arrows to the network.
+A single letter mutation in the DNA sequence of a promoter can prevent the usual binding of a transcription factor, and thus erase an arrow from the network. Similarly, mutations in the binding site, repositioning of DNA segments, or insertions of DNA from other sources (genetic recombination) can create new binding sites for transcription factors, and so, add arrows to the network.
 
-So, arrows can be lost or added pretty easily and quite often. This means that arrows that are preserved across long timescales have to constantly be selected for against the random forces of mutations. It also means that if a pattern does emerge much more often than it would at random, then it must provide some evolutionary advantage to the organism. The loss of a pathway that's crucial for glucose metabolism, for example, would be detrimental, so we're likely to see that pathway preserved in the network.
+Arrows, then, can be lost or added pretty easily and quite often. This means that pathways that are preserved across evolutionary timescales have to constantly be selected for against the random forces of mutations. In other words, if a pattern does emerge much more often than it would at random, then it must provide some evolutionary advantage to the organism. The loss of a pathway that's crucial for glucose metabolism, for example, would be detrimental to the cell's survival, so we're likely to see that pathway preserved in the network.
 
 <div className="mt-8" />
 ### Random Networks and Network Motifs
 
 Patterns that occur in a real network significantly more than they would at random are called **network motifs**. In order to determine this statistical significance, the real network needs to be compared to a random network; i.e. a network with the same parameters (number of nodes and arrows), but where the connections are assigned randomly.
 
-There are a number of random network models, but we'll use the simplest one: the Erdős-Rényi (ER) model. The way it works is fairly simple: for every pair of nodes, the decision to connect them or not is made at random. 
+There are a number of random network models, but we'll use the simplest one: the Erdős-Rényi (ER) model. The way it works is fairly simple: for every pair of nodes, the decision to connect them or not is made at random.
 
-As an example, below is a comparison between a 'real' network and a random network for 14 nodes and 20 arrows (in mathematics, these 'arrows', or connections, are called edges). Try regenerating the random network to see different possibilities. Take note of the number of self-looped arrows &mdash; arrows that connect a node to itself &mdash; in the random one. How many are usually there, and how does it compare to the 'real' network? Later, we'll use the incidence of self-arrows as a starting point to compare networks.
+As an example, below is a comparison between a 'real' network and a random network for 14 nodes and 20 arrows (in mathematics, these 'arrows', or connections or pathways, are called edges). Try regenerating the random network to see different possibilities. Take note of the number of self-arrows &mdash; arrows that connect a node to itself &mdash; in the random one. How many are usually there, and how does it compare to the 'real' network? Later, we'll use the incidence of self-arrows as a starting point to compare networks and determine motifs.
 
 <AutoregulationNetworkComparisonTutorial />
 
@@ -86,7 +99,7 @@ As an example, below is a comparison between a 'real' network and a random netwo
 
 ### Autoregulation
 
-The self-arrows in the network denote a gene that regulates its own expression, a process known as **autoregulation**. In the *E.coli* transcription network image at the very top, the black circles represent genes that encode a transcription factor. Let's update that diagram to differentiate between transcription factor genes with and without autoregulation:
+The self-arrows in the network denote a gene that regulates its own expression, a process known as **autoregulation**. In the *E.coli* transcription network image (reproduced below), the black circles represent transcription factor genes with autoregulation, and the grey circles represent transcription without.
 
 <ImageSeries
   images={[
@@ -101,17 +114,20 @@ The self-arrows in the network denote a gene that regulates its own expression, 
   maxWidth="575px"
 />
 
-In this image, the black circles now represent transcription factor genes with autoregulation. There are 40 such genes in this network. Thirty-four of these autoregulatory transcription factors are repressers &mdash; proteins that repress their own expression:  **negative autoregulation**.
+There are 40 autoregulatory transcription factors in this network. Thirty-four of these are repressers &mdash; proteins that repress their own expression:  **negative autoregulation**.
 
-Does autoregulation occur in this network significantly more often than it would at random? To answer that question, we'll need to compare to the average number of self-arrows that would occur in an ER network of the same size.
+Does autoregulation occur in this network significantly more often than it would at random? To answer that question, we'll need to compare it to the average number of self-arrows that would occur in an Erdős-Rényi network of the same size.
 
-Let's say we have two nodes, <MathFormula variant="regular" tex="A" /> and <MathFormula variant="regular" tex="B" />, and we start on node <MathFormula variant="regular" tex="A" />. There are two possible arrows: either it points to itself, or it points to <MathFormula variant="regular" tex="B" />. There probability of a self-arrow, therefore, is <MathFormula variant="regular" tex="1/2" />. If there are 3 nodes, then there are three possible arrows from <MathFormula variant="regular" tex="A" />, and the probability of a self-arrow is <MathFormula variant="regular" tex="1/3" />. Following this logic, if there are <MathFormula variant="regular" tex="n" /> nodes, then the probability of a self arrow for any given node is:
+---
+<div className="mt-8" />
+
+Let's say we have two nodes, <MathFormula variant="regular" tex="A" /> and <MathFormula variant="regular" tex="B" />, and we start on node <MathFormula variant="regular" tex="A" />. There are two possible arrows: either it points to itself, or it points to <MathFormula variant="regular" tex="B" />. If we pick at random, the probability of a self-arrow is <MathFormula variant="regular" tex="1/2" />. If there are 3 nodes, then there are three possible arrows from <MathFormula variant="regular" tex="A" />, and the probability of a self-arrow is <MathFormula variant="regular" tex="1/3" />. Following this logic, if there are <MathFormula variant="regular" tex="n" /> nodes, then the probability of a self arrow for any given node is:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula variant="regular" tex="p_{self} = \dfrac{1}{n}" />
 </div>
 
-The random network needs to have the same number of arrows as well, which we'll denote <MathFormula variant="regular" tex="M" />. If the <MathFormula variant="regular" tex="M" /> arrows are placed randomly, then the average number of self-arrows is:
+The random network needs to have the same number of arrows as the real network for the comparison to be valid. Let's denote this number <MathFormula variant="regular" tex="M" />. If the <MathFormula variant="regular" tex="M" /> arrows are placed randomly, then the average number of self-arrows we'll get is just the number of arrows multiplied by the probability of a self-arrow, so:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula variant="regular" tex="\lang N_{self} \rang_{rand} = M \times p_{self} = \dfrac{M}{n}" />
@@ -130,13 +146,15 @@ For the *E.coli* network above, the number of nodes and arrows are <MathFormula 
   <MathFormula variant="regular" className="self-center ml-5 md:ml-6" tex="\sigma_{N_{self}} = \sqrt{\dfrac{519}{424}} \approx 1.11" />
 </div>
 
-The real network, remember, has 40 self-arrows, which is about 35 standard deviations away from the expected value. That's a very high statistical significance. 
+A random network with 424 nodes and 519 arrows expects only a little over 1 self-arrow. The real network, remember, has 40 self-arrows, which is about 35 standard deviations away from the expected value. That's a very high statistical significance.
 
-Negative autoregulation itself, with 34 self-arrows, is about 30 standard deviations away. Thus, autoregulation, and in particular, negative autoregulation, is a network motif in transcription networks. Remember, earlier, we said that a network motif implies some evolutionary advantage. What advantage, then, does negative autoregulation provide?
+Negative autoregulation itself, with 34 self-arrows, is about 30 standard deviations away. It's safe to say, then, that autoregulation, and in particular, negative autoregulation, is a network motif in transcription networks. Remember, earlier, we said that a network motif implies some evolutionary advantage. What advantage, then, does negative autoregulation provide?
 
 We'll explore this question in the next article. For now, feel free to play around with an Erdős-Rényi network generator below and see how the network changes when you change some parameters.
 
 <ErdosRenyiGNMNetworkWithProvider />
+
+<PostArticleSubscribe />
 
 export default function MDXPage({ children }) {
   return (
