@@ -1,4 +1,4 @@
-import { MdxLayout, MathFormula, ImageSeries, Quote, UnorderedList, TippyTooltip, TippyTooltipContent, PostArticleSubscribe, Sheet, SheetTrigger, SheetContent, SheetTitle } from "../../../components";
+import { MdxLayout, MathFormula, ImageSeries, Quote, UnorderedList, TippyTooltip, TippyTooltipContent, PostArticleSubscribe, Sheet, SheetTrigger, SheetContent, SheetTitle, PreviousArticleLink, ArticleNavigationContainer } from "../../../components";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { AutoregulationNetworkComparisonTutorial } from "../../../interactives/systems-biology";
 import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
@@ -7,9 +7,9 @@ import { FiInfo, FiChevronDown } from "react-icons/fi";
 
 export const metadata = {
   title: "Autoregulation: Part One",
-  description: "Explore the fundamental concepts of autoregulation in systems biology.",
-  keywords: "autoregulation, gene expression, transcription factors, systems biology, cell signaling",
-  // ogImage: "https://i.ibb.co/0jWX5dr/circle-in-a-circle-kandinsky.jpg",
+  description: "Explore the concepts of network motifs, random networks and autoregulation in systems biology.",
+  keywords: "network motifs, random networks, autoregulation, gene expression, transcription factors, systems biology, cell signaling",
+  ogImage: "https://i.ibb.co/Nnbfc6y/genetic-circuit.png",
   url: "https://newtinteractive.com/series/systems-biology/autoregulation-1",
 };
 
@@ -92,9 +92,9 @@ export function ErdosReyniAccordion() {
   )
 }
 
-# Autoregulation: Part One
+# Autoregulation as a Network Motif
 
-## How a gene regulates its own expression
+## Random networks, finding patterns, and genes that regulate their own expression
 
 In the previous section, we looked at a single interaction in a transcription network X → Y, what it represents, and its dynamics. Now, let's look at an actual transcription network &mdash; the same one we introduced at the end of Part One: a network of about 20% of *E.Coli*'s genes.
 
@@ -103,12 +103,11 @@ In the previous section, we looked at a single interaction in a transcription ne
     {
       src: "/images/transcription-network-with-autoregulation.png",
       alt: "Complex transcription network diagram of E. coli showing interconnected genes and regulatory elements",
-      width: 400,
-      height: 400,
+      width: 500,
+      height: 500,
       caption: <span>20% of <i>E.Coli</i>'s transcription network, with the transcription factors split into ones with and without autoregulation. Taken from <i>An Introduction to Systems Biology</i> (Uri Alon, 2006)</span>,
     }
   ]}
-  maxWidth="575px"
 />
 
 Even with just 20% of the genes, the network looks pretty complex. In order to understand it, let's break it down into smaller networks and look for patterns &mdash; patterns that will hopefully help us understand the dynamics of the whole network.
@@ -147,12 +146,11 @@ The self-arrows in the network denote a gene that regulates its own expression, 
     {
       src: "/images/transcription-network-with-autoregulation.png",
       alt: "Complex transcription network diagram of E. coli showing interconnected genes and regulatory elements",
-      width: 400,
-      height: 400,
+      width: 500,
+      height: 500,
       caption: "Taken from An Introduction to Systems Biology (Uri Alon, 2006)",
     }
   ]}
-  maxWidth="575px"
 />
 
 There are 40 autoregulatory transcription factors in this network. Thirty-four of these are repressers &mdash; proteins that repress their own expression:  **negative autoregulation**.
@@ -168,7 +166,7 @@ Let's say we have two nodes, <MathFormula variant="regular" tex="A" /> and <Math
   <MathFormula variant="regular" tex="p_{self} = \dfrac{1}{n}" />
 </div>
 
-The random network needs to have the same number of arrows as the real network for the comparison to be valid. Let's denote this number <MathFormula variant="regular" tex="M" />. If the <MathFormula variant="regular" tex="M" /> arrows are placed randomly, then the average number of self-arrows we'll get is just the number of arrows multiplied by the probability of a self-arrow, so:
+The random network needs to have the same number of arrows as the real network for the comparison to be valid. Let's denote this number of arrows as <MathFormula variant="regular" tex="M" />. If the <MathFormula variant="regular" tex="M" /> arrows are placed randomly, then the average number of self-arrows we'll get is just the number of arrows multiplied by the probability of a self-arrow, which gives:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula variant="regular" tex="\lang N_{self} \rang_{rand} = M \times p_{self} = \dfrac{M}{n}" />
@@ -191,9 +189,16 @@ A random network with 424 nodes and 519 arrows expects only a little over 1 self
 
 Negative autoregulation itself, with 34 self-arrows, is about 30 standard deviations away. It's safe to say, then, that autoregulation, and in particular, negative autoregulation, is a network motif in transcription networks. Remember, earlier, we said that a network motif implies some evolutionary advantage &mdash; what's the advantage that negative autoregulation provides?
 
-We'll explore this question in the next article. For now, feel free to play around with an Erdős-Rényi network generator below and see how the network changes when you change some parameters.
+We'll explore this question in the next article. For now, feel free to play around with an Erdős-Rényi network generator below and see how the network changes when you change some parameters. You can also check it out <a className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700" href="/blocks/erdos-renyi-graph">in its own page</a>.
 
 <ErdosRenyiGNMNetworkWithProvider />
+
+<ArticleNavigationContainer>
+  <PreviousArticleLink 
+    href="/series/systems-biology/transcription-network-basics-3"
+    title="Transcription Network Basics: Part Three"
+  />
+</ArticleNavigationContainer>
 
 <PostArticleSubscribe />
 
