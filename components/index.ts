@@ -10,7 +10,7 @@ export {
   InteractiveContainer,
   TextContainer,
 } from "./InteractiveContainer";
-export { FloatingEdge, FloatingConnectionLine } from "./Flow";
+export { FloatingEdge, FloatingConnectionLine, CircleNode } from "./Flow";
 export { default as Lede } from "./Lede";
 export { default as MathFormula } from "./MathFormula";
 export { default as MdxLayout } from "./MdxLayout";
@@ -19,6 +19,7 @@ export { default as OrderedList } from "./OrderedList";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
+export { default as Quote } from "./Quote";
 export {
   NextArticleLink,
   PreviousArticleLink,

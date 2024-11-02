@@ -87,6 +87,17 @@ const SystemsBiologyExplainersPage = () => {
             </Link>
           </li>
         </OrderedList>
+        <H2>Autoregulation</H2>
+        <OrderedList start={4}>
+          <li>
+            <Link
+              href="/series/systems-biology/autoregulation-1"
+              className="text-blue-600 hover:underline"
+            >
+              Autoregulation as a Network Motif
+            </Link>
+          </li>
+        </OrderedList>
       </ArticleContainer>
     </>
   );

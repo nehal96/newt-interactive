@@ -3,10 +3,8 @@ import {
   ReactFlow,
   Controls,
   Background,
-  Handle,
-  Position,
-  MarkerType,
   ReactFlowProvider,
+  useReactFlow,
 } from "@xyflow/react";
 import {
   Button,
@@ -24,42 +22,10 @@ import {
   MathFormula,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
-import { FloatingEdge } from "../../components";
-import { getMaxEdges, GraphType } from "./utils";
+import { FloatingEdge, CircleNode } from "../../components";
+import { getMaxEdges, GraphType, getEdgeOptions } from "./utils";
 import { FiInfo } from "react-icons/fi";
 import { useRandomGNMNetwork } from "./hooks";
-
-const CircleNode = ({ data, isConnectable }) => (
-  <div
-    style={{
-      width: 25,
-      height: 25,
-      border: `1px solid ${data.color || "#cbd5e1"}`,
-      borderRadius: "50%",
-      backgroundColor: data.color || "#cbd5e1",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    <Handle
-      type="target"
-      position={Position.Top}
-      isConnectable={isConnectable}
-      style={{
-        visibility: "hidden",
-      }}
-    />
-    <Handle
-      type="source"
-      position={Position.Bottom}
-      isConnectable={isConnectable}
-      style={{
-        visibility: "hidden",
-      }}
-    />
-  </div>
-);
 
 const GraphTypeTooltip = () => (
   <Tooltip>
@@ -103,13 +69,11 @@ const ErdosRenyiGNMNetwork = () => {
   const [numNodes, setNumNodes] = useState(10);
   const [numEdges, setNumEdges] = useState(14);
 
-  // Calculate maximum possible edges including self-loops
-  const maxEdges = getMaxEdges(numNodes, graphType, withSelfLoops);
+  const { fitView } = useReactFlow();
 
-  const { nodes, edges, generateNetwork } = useRandomGNMNetwork({
+  const { nodes, edges, maxEdges, generateNetwork } = useRandomGNMNetwork({
     numNodes,
     numEdges,
-    maxEdges,
     graphType,
     withSelfLoops,
   });
@@ -137,20 +101,15 @@ const ErdosRenyiGNMNetwork = () => {
     }
   };
 
-  const edgeOptions = {
-    type: "floating",
-    style: {
-      strokeWidth: 2,
-      stroke: "#a1a1aa",
-    },
-    ...(graphType === "directed" && {
-      markerEnd: {
-        type: MarkerType.ArrowClosed,
-        width: 12,
-        height: 12,
-        color: "#a1a1aa",
-      },
-    }),
+  const edgeOptions = getEdgeOptions(graphType);
+
+  const callback = () => {
+    setTimeout(() => {
+      fitView({
+        padding: 0.4,
+        duration: 350,
+      });
+    }, 0);
   };
 
   return (
@@ -223,7 +182,7 @@ const ErdosRenyiGNMNetwork = () => {
         <Button
           variant="primary"
           className="max-w-fit px-4 mt-10 self-center mb-2 bg-zinc-700 hover:bg-zinc-800"
-          onClick={generateNetwork}
+          onClick={() => generateNetwork(callback)}
         >
           Generate Network
         </Button>

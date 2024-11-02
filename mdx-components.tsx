@@ -7,6 +7,7 @@ import {
   UnorderedList,
   H2,
   H3,
+  Quote,
 } from "./components";
 import Link from "next/link";
 
@@ -16,6 +17,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     h2: ({ children }) => <Lede>{children}</Lede>,
     h3: ({ children }) => <H2>{children}</H2>,
     h4: ({ children }) => <H3>{children}</H3>,
+    blockquote: ({ children }) => <Quote>{children}</Quote>,
     p: ({ children }) => <Paragraph>{children}</Paragraph>,
     a: ({ children, href }) => (
       <Link
@@ -26,7 +28,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </Link>
     ),
     ol: ({ children }) => <OrderedList>{children}</OrderedList>,
-    ul: ({ children }) => <UnorderedList>{children}</UnorderedList>,
+    ul: ({ children, ...props }) => (
+      <UnorderedList {...props}>{children}</UnorderedList>
+    ),
+    hr: () => <hr className="my-8 md:my-12 border-slate-200" />,
     ...components,
   };
 }

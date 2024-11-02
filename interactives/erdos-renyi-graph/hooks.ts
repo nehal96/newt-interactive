@@ -1,16 +1,16 @@
-import { useCallback } from "react";
-import { useNodesState, useEdgesState, useReactFlow } from "@xyflow/react";
+import { useCallback, useMemo } from "react";
+import { useNodesState, useEdgesState } from "@xyflow/react";
 import {
   generateNodePositions,
   generateAllPossibleEdges,
   shuffleArray,
   GraphType,
+  getMaxEdges,
 } from "./utils";
 
 interface UseRandomGNMNetworkProps {
   numNodes: number;
   numEdges: number;
-  maxEdges: number;
   graphType: GraphType;
   withSelfLoops: boolean;
 }
@@ -18,39 +18,45 @@ interface UseRandomGNMNetworkProps {
 export function useRandomGNMNetwork({
   numNodes,
   numEdges,
-  maxEdges,
   graphType,
   withSelfLoops,
 }: UseRandomGNMNetworkProps) {
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
-  const { fitView } = useReactFlow();
 
-  const generateNetwork = useCallback(() => {
-    if (numEdges > maxEdges) {
-      alert("Number of edges cannot exceed maximum possible edges");
-    }
+  // Calculate maximum possible edges including self-loops
+  const maxEdges = useMemo(
+    () => getMaxEdges(numNodes, graphType, withSelfLoops),
+    [numNodes, graphType, withSelfLoops]
+  );
 
-    const nodePositions = generateNodePositions(numNodes);
-    const allPossibleEdges = generateAllPossibleEdges(
-      numNodes,
-      graphType,
-      withSelfLoops
-    );
-    const shuffledEdges = shuffleArray([...allPossibleEdges]);
-    const selectedEdges = shuffledEdges.slice(0, numEdges);
+  const generateNetwork = useCallback(
+    (callback?: () => void) => {
+      if (numEdges > maxEdges) {
+        alert("Number of edges cannot exceed maximum possible edges");
+      }
 
-    setNodes(nodePositions);
-    setEdges(selectedEdges);
+      const nodePositions = generateNodePositions(numNodes);
+      const allPossibleEdges = generateAllPossibleEdges(
+        numNodes,
+        graphType,
+        withSelfLoops
+      );
+      const shuffledEdges = shuffleArray([...allPossibleEdges]);
+      const selectedEdges = shuffledEdges.slice(0, numEdges);
 
-    setTimeout(() => {
-      fitView({ maxZoom: 0.7, duration: 150 });
-    }, 0);
-  }, [numNodes, numEdges, maxEdges, withSelfLoops, graphType, fitView]);
+      setNodes(nodePositions);
+      setEdges(selectedEdges);
+
+      callback?.();
+    },
+    [numNodes, numEdges, maxEdges, withSelfLoops, graphType]
+  );
 
   return {
     nodes,
     edges,
+    maxEdges,
     generateNetwork,
   };
 }

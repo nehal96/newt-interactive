@@ -40,4 +40,12 @@ module.exports = {
       });
     }),
   ],
+  safelist: [
+    "bg-newt-blue-50",
+    "bg-newt-blue-100",
+    "bg-slate-50",
+    "bg-slate-100",
+    "bg-indigo-50",
+    "bg-indigo-100",
+  ],
 };
