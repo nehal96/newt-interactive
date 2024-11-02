@@ -1,4 +1,5 @@
-import { MdxLayout, MathFormula, ImageSeries, Quote, UnorderedList, TippyTooltip, TippyTooltipContent, PostArticleSubscribe } from "../../../components";
+import { MdxLayout, MathFormula, ImageSeries, Quote, UnorderedList, TippyTooltip, TippyTooltipContent, PostArticleSubscribe, Sheet, SheetTrigger, SheetContent, SheetTitle } from "../../../components";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { AutoregulationNetworkComparisonTutorial } from "../../../interactives/systems-biology";
 import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
 import * as Accordion from "@radix-ui/react-accordion";
@@ -22,6 +23,46 @@ export function CalculationTooltip() {
       As Uri Alon calculates in <i>An Introduction to Systems Biology</i>
     </TippyTooltip>
   )
+}
+
+export function StandardDeviationSheet() {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <span className="underline decoration-indigo-500 decoration-2 underline-offset-[3px] hover:bg-indigo-100 cursor-pointer">
+          approximately the square root of the mean
+        </span>
+      </SheetTrigger>
+      <SheetContent>
+        <VisuallyHidden>
+          <SheetTitle>Standard Deviation in Random Networks</SheetTitle>
+        </VisuallyHidden>
+        <div className="flex flex-col text-md text-sm">
+          <span className="mb-3 mt-3">
+            this comes from the binomial distribution. Whether an edge is drawn in the network is like a yes-no question, where the probability of yes is <MathFormula variant="popover" tex="p" /> and the probability of no is <MathFormula variant="popover" tex="q = 1 - p" />.
+          </span>
+          <span className="mb-3">
+            In such cases, with <MathFormula variant="popover" tex="n" /> trials, the mean is:
+          </span>
+          <MathFormula className="ml-6" variant="popover" tex="\mu = n \times p" />
+          <span className="mt-6 mb-3">
+            which is the same as the <MathFormula variant="popover" tex="\lang N_{self} \rang_{rand}" /> formula we have. The standard deviation is:
+          </span>
+          <MathFormula className="ml-6" variant="popover" tex="\sigma = \sqrt{n \times p \times q}" />
+          <MathFormula className="ml-6" variant="popover" tex="\sigma = \sqrt{n \times p \times (1 - p)}" />
+          <span className="mt-6 mb-3">
+            in our example, probability is <MathFormula variant="popover" tex="1/n" />, and number of trials (number of connections) is <MathFormula variant="popover" tex="M" />, so:
+          </span>
+          <MathFormula className="ml-6" variant="popover" tex="\sigma = \sqrt{M \times \dfrac{1}{n} \times \left(1 - \dfrac{1}{n}\right)}" />
+          <MathFormula className="ml-6" variant="popover" tex="\sigma = \sqrt{\dfrac{M}{n} \times \left(1 - \dfrac{1}{n}\right)}" />
+          <span className="mt-6 mb-3">
+            for large <MathFormula variant="popover" tex="n" />, <MathFormula variant="popover" tex="\left(1 - \dfrac{1}{n}\right)" /> is approximately 1, so that gives:
+          </span>
+          <MathFormula className="ml-6" variant="popover" tex="\sigma \approx \sqrt{\dfrac{M}{n}}" />
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
 }
 
 export function ErdosReyniAccordion() {
@@ -133,7 +174,7 @@ The random network needs to have the same number of arrows as the real network f
   <MathFormula variant="regular" tex="\lang N_{self} \rang_{rand} = M \times p_{self} = \dfrac{M}{n}" />
 </div>
 
-and the standard deviation is approximately the square root of the mean, so:
+and the standard deviation is <StandardDeviationSheet />, so:
 
 <div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
   <MathFormula variant="regular" tex="\sigma_{N_{self}} = \sqrt{\lang N_{self} \rang_{rand}} = \sqrt{\dfrac{M}{n}}" />
@@ -148,7 +189,7 @@ For the *E.coli* network above, the number of nodes and arrows are <MathFormula 
 
 A random network with 424 nodes and 519 arrows expects only a little over 1 self-arrow. The real network, remember, has 40 self-arrows, which is about 35 standard deviations away from the expected value. That's a very high statistical significance.
 
-Negative autoregulation itself, with 34 self-arrows, is about 30 standard deviations away. It's safe to say, then, that autoregulation, and in particular, negative autoregulation, is a network motif in transcription networks. Remember, earlier, we said that a network motif implies some evolutionary advantage. What advantage, then, does negative autoregulation provide?
+Negative autoregulation itself, with 34 self-arrows, is about 30 standard deviations away. It's safe to say, then, that autoregulation, and in particular, negative autoregulation, is a network motif in transcription networks. Remember, earlier, we said that a network motif implies some evolutionary advantage &mdash; what's the advantage that negative autoregulation provides?
 
 We'll explore this question in the next article. For now, feel free to play around with an Erdős-Rényi network generator below and see how the network changes when you change some parameters.
 
