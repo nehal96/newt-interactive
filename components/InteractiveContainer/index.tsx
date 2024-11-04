@@ -38,7 +38,7 @@ export const TextContainer: FunctionComponent<
   return (
     <div
       className={cn(
-        "flex flex-col justify-start p-6 mx-0 my-4 bg-slate-50 rounded-xl md:mx-4 lg:my-0",
+        "flex flex-col justify-start p-5 md:p-6 mx-0 my-2 bg-slate-50 rounded-xl md:mx-4 lg:my-0",
         className
       )}
       {...props}

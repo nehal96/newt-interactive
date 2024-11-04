@@ -3,7 +3,7 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export function NextArticleLink({ href, title }) {
   return (
-    <div className="flex justify-end max-w-3xl w-full mx-auto mt-10 mb-4">
+    <div className="flex justify-end max-w-3xl w-full mx-auto mb-4">
       <Link href={href}>
         <div className="flex flex-col font-medium border-b border-b-transparent hover:border-b-slate-300">
           <span className="text-slate-500 text-sm mb-2">Next</span>
@@ -19,7 +19,7 @@ export function NextArticleLink({ href, title }) {
 
 export function PreviousArticleLink({ href, title }) {
   return (
-    <div className="flex justify-start max-w-3xl w-full mx-auto mt-10 mb-4">
+    <div className="flex justify-start max-w-3xl w-full mx-auto mb-4">
       <Link href={href}>
         <div className="flex flex-col font-medium border-b border-b-transparent hover:border-b-slate-300">
           <span className="text-slate-500 text-sm mb-2 ml-5 sm:ml-6">
@@ -37,7 +37,7 @@ export function PreviousArticleLink({ href, title }) {
 
 export function ArticleNavigationContainer({ children }) {
   return (
-    <div className="grid grid-flow-col grid-rows-1 auto-cols-auto gap-4 max-w-3xl w-full mx-auto mt-10 mb-4">
+    <div className="grid grid-flow-col grid-rows-1 auto-cols-auto gap-4 max-w-3xl w-full mx-auto mt-10">
       {children}
     </div>
   );

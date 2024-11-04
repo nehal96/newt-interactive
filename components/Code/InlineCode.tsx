@@ -1,5 +1,5 @@
+import { cn } from "../../lib/utils";
 import { CodeVariant, getStyles } from "./helpers";
-
 interface InlineCodeProps
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLElement>,
@@ -16,7 +16,7 @@ const InlineCode = ({
 }: InlineCodeProps) => {
   return (
     <code
-      className={`px-1 py-0.5 rounded-md ${getStyles(variant)} ${className}`}
+      className={cn("px-1 py-0.5 rounded-md", getStyles(variant), className)}
       {...props}
     >
       {children}
