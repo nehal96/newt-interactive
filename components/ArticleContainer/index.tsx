@@ -11,7 +11,7 @@ interface ArticleSectionProps {
 
 const ArticleContainer = ({ children }: ArticleContainer) => {
   return (
-    <article className="flex flex-col max-w-7xl px-4 mx-auto mb-12 sm:px-10 py-10 md:py-16 md:px-12">
+    <article className="flex flex-col max-w-7xl px-4 mx-auto sm:px-10 pt-12 pb-20 md:pt-16 md:px-12">
       {children}
     </article>
   );

@@ -73,7 +73,7 @@ export function ErdosReyniAccordion() {
   return (
     <Accordion.Root type="single" collapsible className="w-full bg-slate-50 rounded-md max-w-prose self-center px-5 md:px-6 py-4 md:py-5">
       <Accordion.Item className="text-sm md:text-base font-body" value="item-1">
-        <Accordion.Trigger className="flex items-center text-base">
+        <Accordion.Trigger className="flex items-center text-sm sm:text-base">
           <FiInfo className="mr-1.5" /> A Note on calculating Erdős-Rényi Networks <FiChevronDown className="ml-1" />
         </Accordion.Trigger>
         <Accordion.Content className="mt-4 py-3 border-t border-slate-200">
@@ -138,7 +138,7 @@ There are a number of random network models, but we'll use the simplest one: the
 
 As an example, below is a comparison between a 'real' network and a random network for 14 nodes and 20 arrows (in mathematics, these 'arrows', or connections or pathways, are called edges). Try regenerating the random network to see different possibilities. Take note of the number of self-arrows &mdash; arrows that connect a node to itself &mdash; in the random one. How many are usually there, and how does it compare to the 'real' network? Later, we'll use the incidence of self-arrows as a starting point to compare networks and determine motifs.
 
-<ArticleSection variant="large" className="mt-9 md:mt-8">
+<ArticleSection variant="medium">
   <AutoregulationNetworkComparisonTutorial />
 </ArticleSection>
 
