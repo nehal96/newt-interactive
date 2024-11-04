@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
+import { cn } from "../../lib/utils";
 
 interface TopicCardProps {
   href: string;
@@ -43,7 +44,10 @@ export const TopicCard: React.FC<TopicCardProps> = ({
   const textColor = darkText ? "text-slate-800" : "text-white";
 
   return (
-    <Link href={href} className={`mr-4 snap-start flex-shrink-0 ${className}`}>
+    <Link
+      href={href}
+      className={cn("mr-4 snap-start flex-shrink-0", className)}
+    >
       <div className="relative aspect-[3/4] h-[300px] lg:h-[350px] overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 ease-in-out group">
         <Image
           src={imageSrc}
@@ -93,7 +97,7 @@ export const TopicCardContainer: React.FC<TopicCardContainerProps> = ({
   className = "",
 }) => {
   return (
-    <div className={`overflow-hidden mb-14 sm:mb-20 ${className}`}>
+    <div className={cn("overflow-hidden mb-14 sm:mb-20", className)}>
       <div className="max-container">
         <TopicHeader>{title}</TopicHeader>
       </div>

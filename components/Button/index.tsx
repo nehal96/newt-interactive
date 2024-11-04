@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import { cn } from "../../lib/utils";
 
 interface ButtonProps
   extends DetailedHTMLProps<
@@ -26,7 +27,7 @@ const Button = ({ variant, children, className, ...props }: ButtonProps) => {
   };
   return (
     <button
-      className={`py-1 px-2 rounded-md ${getButtonStyles()} ${className}`}
+      className={cn("py-1 px-2 rounded-md", getButtonStyles(), className)}
       {...props}
     >
       {children}
