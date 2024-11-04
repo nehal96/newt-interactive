@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { MdxLayout, PostArticleSubscribe } from "../../../components";
+import { MdxLayout, PostArticleSubscribe, ArticleSection } from "../../../components";
 import { RobotLocalization } from "../../../interactives/robot-localization";
 
 export const metadata = {
@@ -23,7 +23,9 @@ In the interactive explainer below, we're going to see how this works in a very 
 
 The interactive below has three sections: a general overview, a walkthrough explaining the algorithm, and a playground to experiment. Enjoy!
 
-<RobotLocalization />
+<ArticleSection variant="large">
+  <RobotLocalization />
+</ArticleSection>
 
 <PostArticleSubscribe />
 

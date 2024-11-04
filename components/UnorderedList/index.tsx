@@ -12,7 +12,7 @@ const UnorderedList = ({ children, className, ...props }: ULProps) => {
   return (
     <ul
       className={cn(
-        "font-body text-lg w-full text-slate-700 self-center list-disc list-outside max-w-3xl mb-8 md:text-xl md:tracking-wide",
+        "font-body text-lg w-full text-slate-700 self-center list-disc list-outside max-w-prose mb-8 md:text-lg md:tracking-wide",
         styles.ul,
         className
       )}

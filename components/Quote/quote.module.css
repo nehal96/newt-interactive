@@ -1,7 +1,7 @@
 .quote {
-  @apply border-l-[6px] border-l-indigo-300 max-w-3xl self-center my-8 px-10 md:px-12;
+  @apply border-l-[6px] border-l-indigo-300 max-w-prose self-center my-8 px-10 md:px-12;
 }
 
 .quote > p {
-  @apply m-0 font-serif font-thin leading-relaxed text-base md:text-lg text-slate-500;
+  @apply m-0 font-quote font-thin text-sm leading-6 md:text-[15px] md:leading-7 text-slate-500;
 }

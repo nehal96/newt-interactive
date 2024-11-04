@@ -8,6 +8,7 @@ import {
   InteractiveTutorialContainer,
   TextContainer,
 } from "../InteractiveContainer";
+import { cn } from "../../lib/utils";
 
 const SlideDeckNavBar = ({
   slide,
@@ -22,9 +23,10 @@ const SlideDeckNavBar = ({
 
   return (
     <div
-      className={`flex items-center ${
+      className={cn(
+        "flex items-center text-slate-400 mb-6",
         isEmpty(jumpToSectionMenu) ? "justify-end" : "justify-between"
-      } text-slate-400 mb-6`}
+      )}
     >
       {!isEmpty(jumpToSectionMenu) ? (
         <div>
@@ -99,7 +101,9 @@ const SlideDeck = ({ slides }) => {
           onJumpToSection={onJumpToSection}
         />
         <div className="flex flex-col justify-between h-full">
-          <div className="flex flex-col">{slides[slideIndex].text}</div>
+          <div className="font-body flex flex-col *:text-base md:*:text-base">
+            {slides[slideIndex].text}
+          </div>
           <div className="flex justify-center mt-6">
             <Button
               variant="secondary"

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import * as Select from "@radix-ui/react-select";
-import { MdxLayout, PostArticleSubscribe } from "../../../components";
+import { MdxLayout, PostArticleSubscribe, ArticleSection } from "../../../components";
 import { AnimationsSection, CamerasSection, ShadersCodeSandbox, ShaderPatternsCodeSandbox } from "../../../interactives/notes/threejs-journey";
 
 export const metadata = {
@@ -19,24 +19,30 @@ export const metadata = {
 
 Animations in Three.js work like stop motion &mdash; each time an object moves, you render the changes. Take a look at a few ways you can animate a yellow box below:
 
-<AnimationsSection />
-<div className="h-16" />
+<ArticleSection variant="large" className="mt-5 md:mt-4">
+  <AnimationsSection />
+</ArticleSection>
 
 ### 07 &mdash; Cameras
 
 A camera is, as you can imagine, what you use to see the scene in Three.js.
 
-<CamerasSection />
-<div className="h-16" />
+<ArticleSection variant="large" className="mt-5 md:mt-4">
+  <CamerasSection />
+</ArticleSection>
 
 ### 28 &mdash; Shaders
 
-<ShadersCodeSandbox />
-<div className="h-20" />
+<ArticleSection variant="large" className="mt-5 md:mt-4">
+  <ShadersCodeSandbox />
+</ArticleSection>
 
 
 ### 29 &mdash; Shader patterns
-<ShaderPatternsCodeSandbox />
+
+<ArticleSection variant="large" className="mt-5 md:mt-4">
+  <ShaderPatternsCodeSandbox />
+</ArticleSection>
 
 <PostArticleSubscribe />
 

@@ -1,6 +1,6 @@
 .ol {
   @apply font-body text-lg w-full text-slate-700 self-center list-decimal 
-    list-outside max-w-3xl mb-8 md:text-xl md:tracking-wide;
+    list-outside max-w-prose mb-8 md:text-xl md:tracking-wide;
 }
 
 .ol > li {

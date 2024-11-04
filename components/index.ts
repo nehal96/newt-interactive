@@ -1,4 +1,7 @@
-export { default as ArticleContainer } from "./ArticleContainer";
+export {
+  default as ArticleContainer,
+  ArticleSection,
+} from "./ArticleContainer";
 export { default as Button } from "./Button";
 export { Code, InlineCode } from "./Code";
 export { default as Footer } from "./Footer";
@@ -21,6 +24,7 @@ export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
 export { default as Quote } from "./Quote";
 export {
+  SeriesTitleLink,
   NextArticleLink,
   PreviousArticleLink,
   ArticleNavigationContainer,
@@ -57,4 +61,8 @@ export { default as UnorderedList } from "./UnorderedList";
 export { DNA } from "./3D-Models";
 
 // Other
-export { axisStyle, getDottedLineStyle, getGridLineStyle } from "./Chart/styles";
+export {
+  axisStyle,
+  getDottedLineStyle,
+  getGridLineStyle,
+} from "./Chart/styles";

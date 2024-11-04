@@ -152,7 +152,7 @@ const ErdosRenyiGNMNetwork = () => {
           <div className="space-y-2">
             <label className="text-sm font-medium">
               Number of nodes (
-              <MathFormula variant="tutorial" tex="n" />
+              <MathFormula variant="small" tex="n" />
               ): {numNodes}
             </label>
             <Slider
@@ -165,7 +165,7 @@ const ErdosRenyiGNMNetwork = () => {
           <div className="space-y-2">
             <label className="text-sm font-medium">
               Number of edges (
-              <MathFormula variant="tutorial" tex="M" />
+              <MathFormula variant="small" tex="M" />
               ): {numEdges}
               <span className="text-xs text-slate-500 float-right mt-2">
                 max: {maxEdges}

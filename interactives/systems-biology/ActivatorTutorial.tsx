@@ -20,25 +20,25 @@ const EquationPopoverContent = () => (
     <p className="mb-3">we have:</p>
     <div>
       <MathFormula
-        variant="popover"
+        variant="small"
         className="ml-6"
         tex="f(X^*) = \beta\dfrac{X^{*n}}{K^{n} + X^{*n}}"
       />
-      , where <MathFormula variant="popover" tex="X^* = K" />
+      , where <MathFormula variant="small" tex="X^* = K" />
     </div>
     <p className="mt-6 mb-3">so:</p>
     <MathFormula
-      variant="popover"
+      variant="small"
       className="ml-6"
       tex="f(K) = \beta\dfrac{X^{*n}}{X^{*n} + X^{*n}}"
     />
     <MathFormula
       className="ml-6 mt-3"
-      variant="popover"
+      variant="small"
       tex="f(K) = \beta\dfrac{\cancel{X^{*n}}}{2\cancel{X^{*n}}}"
     />
     <MathFormula
-      variant="popover"
+      variant="small"
       className="ml-6 mt-3"
       tex="f(K) = \dfrac{\beta}{2}"
     />
@@ -78,16 +78,16 @@ export const ActivatorTutorial = ({
           <p className="mb-4">
             When{" "}
             <InlineCode variant="medium">
-              <MathFormula variant="tutorial" tex="n = 1" />
+              <MathFormula variant="small" tex="n = 1" />
             </InlineCode>{" "}
             the curve looks something like this &mdash; a quick ascent, and then
             a gradual tapering off when the concentration gets very high,
-            trending towards <MathFormula variant="tutorial" tex="\beta" />.
+            trending towards <MathFormula variant="small" tex="\beta" />.
           </p>
           <p>
             The Hill function gets saturated at high levels of{" "}
-            <MathFormula variant="tutorial" tex="X^*" />, so more{" "}
-            <MathFormula variant="tutorial" tex="X^*" /> leads to less and less
+            <MathFormula variant="small" tex="X^*" />, so more{" "}
+            <MathFormula variant="small" tex="X^*" /> leads to less and less
             additional proteins until it levels off at the maximum.
           </p>
         </>
@@ -110,7 +110,7 @@ export const ActivatorTutorial = ({
           <p className="mb-4">
             Changing{" "}
             <InlineCode variant="medium">
-              <MathFormula variant="tutorial" tex="n" />
+              <MathFormula variant="small" tex="n" />
             </InlineCode>{" "}
             changes the shape of the curve. As it goes from 2 and then to 4, it
             gets more of an S-shape &mdash; a shape that comes with some
@@ -119,7 +119,7 @@ export const ActivatorTutorial = ({
           <p>
             Notice also that there’s a steeper ascent, albeit with a little
             delay, and maximal activity{" "}
-            <MathFormula variant="tutorial" tex="\beta" /> is reached quicker.
+            <MathFormula variant="small" tex="\beta" /> is reached quicker.
           </p>
         </>
       ),
@@ -140,10 +140,10 @@ export const ActivatorTutorial = ({
         <>
           <p>
             Play around with the values for{" "}
-            <MathFormula variant="tutorial" tex="\beta" />,{" "}
-            <MathFormula variant="tutorial" tex="K" />, and{" "}
-            <MathFormula variant="tutorial" tex="n" /> and see how it changes
-            the curve.
+            <MathFormula variant="small" tex="\beta" />,{" "}
+            <MathFormula variant="small" tex="K" />, and{" "}
+            <MathFormula variant="small" tex="n" /> and see how it changes the
+            curve.
           </p>
           <div>
             <div className="mt-4">
@@ -222,14 +222,14 @@ export const ActivatorTutorial = ({
               triggerOnHover={true}
             />
             , that half the maximal promoter activity,{" "}
-            <MathFormula variant="tutorial" tex="\beta / 2" />, occurs when{" "}
-            <MathFormula variant="tutorial" tex="X^* = K" />. (This halfway
-            value will play an important role when we look at{" "}
+            <MathFormula variant="small" tex="\beta / 2" />, occurs when{" "}
+            <MathFormula variant="small" tex="X^* = K" />. (This halfway value
+            will play an important role when we look at{" "}
             <strong>response time</strong> in the next post in the series).
           </p>
           <div className="flex justify-between mt-8 w-11/12">
             <label className="flex-start mr-8">
-              Show <MathFormula variant="tutorial" tex="K" /> indicator:
+              Show <MathFormula variant="small" tex="K" /> indicator:
             </label>
             <Switch
               checked={showKIndicator}

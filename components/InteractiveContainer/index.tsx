@@ -7,7 +7,7 @@ export const InteractiveTutorialContainer: FunctionComponent<
   return (
     <div
       className={cn(
-        "flex flex-col-reverse w-full my-8 mx-auto justify-center lg:flex-row lg:my-12",
+        "flex flex-col-reverse w-full mx-auto justify-center lg:flex-row",
         className
       )}
       {...props}
@@ -22,7 +22,7 @@ export const InteractiveContainer: FunctionComponent<
 > = ({ children, className = "lg:w-2/5", ...props }) => {
   return (
     <div
-      className={`flex justify-center mx-0 my-4 md:mx-4 lg:my-0 ${className}`}
+      className={cn("flex justify-center mx-0 my-4 md:mx-4 lg:my-0", className)}
       {...props}
     >
       <div className="flex flex-col justify-center w-full max-w-[550px]">
@@ -38,7 +38,7 @@ export const TextContainer: FunctionComponent<
   return (
     <div
       className={cn(
-        "flex flex-col justify-start p-6 mx-0 my-4 bg-slate-50 rounded-xl md:mx-4 lg:my-0",
+        "flex flex-col justify-start p-5 md:p-6 mx-0 my-2 bg-slate-50 rounded-xl md:mx-4 lg:my-0",
         className
       )}
       {...props}

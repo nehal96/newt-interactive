@@ -21,6 +21,10 @@ module.exports = {
         body: ["avenir"],
         title: ["DM Serif Display"],
         logo: ["Righteous"],
+        quote: ["Libre Baskerville"],
+      },
+      maxWidth: {
+        prose: "45rem",
       },
     },
   },

@@ -28,13 +28,13 @@ export default function StepFunctionTutorial() {
           </p>
           <div className="flex flex-col justify-center my-8 mx-auto">
             <MathFormula
-              variant="tutorial"
+              variant="small"
               tex="f(X^*) = \dfrac{X^{*n}}{K^n + X^{*n}}"
             />
           </div>
           <p>
             and look at it graphically for different values of{" "}
-            <MathFormula variant="tutorial" tex="n" />. Notice its smooth shape.
+            <MathFormula variant="small" tex="n" />. Notice its smooth shape.
           </p>
         </>
       ),
@@ -64,9 +64,9 @@ export default function StepFunctionTutorial() {
           </p>
           <p className="mt-4">
             The smooth curve is replaced with a jump, or step, from{" "}
-            <MathFormula variant="tutorial" tex="0" /> to{" "}
-            <MathFormula variant="tutorial" tex="\beta" /> at the threshold{" "}
-            <MathFormula variant="tutorial" tex="K" />.
+            <MathFormula variant="small" tex="0" /> to{" "}
+            <MathFormula variant="small" tex="\beta" /> at the threshold{" "}
+            <MathFormula variant="small" tex="K" />.
           </p>
         </>
       ),
@@ -135,7 +135,7 @@ export default function StepFunctionTutorial() {
           <p className="mt-4">
             Try different values of{" "}
             <InlineCode variant="medium">
-              <MathFormula variant="tutorial" tex="n" />
+              <MathFormula variant="small" tex="n" />
             </InlineCode>{" "}
             to see how it changes the curve:
           </p>
@@ -166,7 +166,7 @@ export default function StepFunctionTutorial() {
             You'll notice that as <MathFormula tex="n" /> gets large, the curve
             becomes more and more like the step function. In fact, the step
             function is equivalent to the Hill function as{" "}
-            <MathFormula variant="tutorial" tex="n\to\infty" />.
+            <MathFormula variant="small" tex="n\to\infty" />.
           </p>
         </>
       ),
@@ -234,9 +234,9 @@ export default function StepFunctionTutorial() {
           <p>
             The phenomena works exactly the same for the repressor, except that
             the step function drops from the maximum value{" "}
-            <MathFormula variant="tutorial" tex="\beta" /> to{" "}
-            <MathFormula variant="tutorial" tex="0" /> at the threshold{" "}
-            <MathFormula variant="tutorial" tex="K" />.
+            <MathFormula variant="small" tex="\beta" /> to{" "}
+            <MathFormula variant="small" tex="0" /> at the threshold{" "}
+            <MathFormula variant="small" tex="K" />.
           </p>
         </>
       ),

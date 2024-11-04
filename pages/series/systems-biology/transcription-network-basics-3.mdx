@@ -1,4 +1,4 @@
-import { ImageSeries, MathFormula, MdxLayout, TippyTooltip, TippyTooltipContent, PostArticleSubscribe, PreviousArticleLink, NextArticleLink, ArticleNavigationContainer } from "../../../components";
+import { ArticleSection, ImageSeries, MathFormula, MdxLayout, TippyTooltip, TippyTooltipContent, PostArticleSubscribe, PreviousArticleLink, NextArticleLink, ArticleNavigationContainer } from "../../../components";
 import { StepFunctionTutorial, ProteinDecayResponseTimeTutorial, ProteinAccumulationResponseTimeTutorial } from "../../../interactives/systems-biology";
 
 export const metadata = {
@@ -7,6 +7,10 @@ export const metadata = {
   keywords: "transcription networks, dynamics, response time, systems biology",
   ogImage: "https://i.ibb.co/Nnbfc6y/genetic-circuit.png",
   url: "https://newtinteractive.com/series/systems-biology/transcription-network-basics-3",
+  series: {
+    name: "Systems Biology",
+    href: "/series/systems-biology",
+  },
 };
 
 # Transcription Network Basics: Part Three
@@ -17,6 +21,8 @@ In Part Two, we looked at the two basic types of transcription factors &mdash; a
 
 In this article, we'll introduce approximating this input function &mdash; capturing its essence rather than its details &mdash; so that we can easily analyze more complex input functions, like what happens when multiple transcription factors regulate a gene. Finally, we'll introduce the topic of transcription network dynamics, or how a cell's response (to produce or not produce a protein) looks like over time.
 
+
+<div className="mt-5" />
 ### Logic approximations
 
 The essence of an input function is a transition between two values &mdash; from high to low for an activator, and from low to high for a repressor &mdash; and a threshold that defines when the transition occurs.
@@ -25,9 +31,9 @@ The Hill functions we introduced in Part Two achieve this transition with a smoo
 
 Mathematically, **off** can be represented as no proteins being produced, or <MathFormula tex="f(X^*) = 0" />, **on** as proteins being produced at the maximum level, or <MathFormula tex="f(X^*) = \beta" />, and the threshold as <MathFormula tex="X^* = K" />. Then, we can write this logic approximation using a **step function**. For an activator, this looks like:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="math">
   <MathFormula tex="f(X^*) = \beta \cdot \theta(X^* > K)" />
-</div>
+</ArticleSection>
 
 where <MathFormula tex="\theta(X^* > K)" />, the step function, is either 0 or 1 depending on whether the active concentration <MathFormula tex="X^*" /> is greater than the threshold concentration <MathFormula tex="K" /> or not. 
 
@@ -46,14 +52,15 @@ or, put together:
 
 For a repressor, the logic is reversed: being on until the threshold is reached, after which it is off. This can be written as:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="math">
   <MathFormula tex="f(X^*) = \beta \cdot \theta(X^* < K)" />
-</div>
+</ArticleSection>
 
 Let's take a look at this graphically:
 
-<StepFunctionTutorial />
-<div className="mb-8" />
+<ArticleSection variant="large" className="mt-9 md:mt-8">
+  <StepFunctionTutorial />
+</ArticleSection>
 
 ### Multiple Inputs
 
@@ -61,69 +68,71 @@ The primary benefit of logical approximations is that we can evaluate more compl
 
 Let's look at the example of genes that are regulated by two activators. One gene might require that *both* activators are bound to the promoter in order to enable high levels of expression; just one is not enough. This represents an AND gate:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="math">
   <MathFormula className="text-sm sm:text-base" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X) \cdot \theta(Y^* > K_Y)" />
-</div>
+</ArticleSection>
 
 Here, both <MathFormula tex="\theta(X^* > K_X)" /> and <MathFormula tex="\theta(Y^* > K_Y)" /> need to be 1 for the gene to express at the level <MathFormula tex="\beta" />. If any one is 0, the gene is not expressed.
 
 For another gene, *either* one binding will suffice &mdash; like an OR gate:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="math">
   <MathFormula className="text-sm sm:text-base" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X \hspace{0.75em} \text{OR} \hspace{0.75em} Y^* > K_Y)" />
-</div>
+</ArticleSection>
 
 The combinations are not limited to Boolean operations. Transcription factors can also combine in an additive way:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="math">
   <MathFormula tex="f(X^*, Y^*) = \beta_X X^* + \beta_Y Y^*" />
-</div>
+</ArticleSection>
 
 Genes in multi-cellular organisms can have many inputs, occasionally more than a dozen, so you might see how quickly this can get complicated.
 
 Even with just two transcription factors, the combinations above look pretty abstract. This section just introduces the concept; in future articles, we'll look at how exactly these logical operations &mdash; the AND and OR gates &mdash; are performed in organisms, and the benefits they provide.<TippyTooltip content={<TippyTooltipContent>We generally associate AND and OR gates with computers, but chemistry beat it by several billion years. In fact, if you think about it, a biological computer designed the non-biological one, and using pretty similar design principles at that.</TippyTooltipContent>} />
-<div className="mb-8" />
 
+<div className="mt-5" />
 ### Dynamics and Response Time
 
 So far, we've looked at how protein production is affected by transcription factors, but we haven't yet considered how it does so over time. When a cell receives membrane damage signals, how quickly does it make the repair proteins? The speed and way in which a cell responds to signals is extremely vital, which makes analyzing the dynamics and response time of transcription networks an important task in systems biology.
 
 Let's start with a basic transcription interaction in a network, <MathFormula tex="X" /> → <MathFormula tex="Y" />. Recollect that <MathFormula tex="X" /> → <MathFormula tex="Y" /> describes gene regulation; a short way of saying that when signal <MathFormula tex="S_X" /> appears, it transforms <MathFormula tex="X" /> into its active state <MathFormula tex="X^*" /> and binds to the promoter of gene <MathFormula tex="Y" />, which enables transcription of <MathFormula tex="Y" />, and then translation, resulting finally in protein <MathFormula tex="Y" /> accumulating in the cell. 
 
-<ImageSeries
-  images={[
+<ArticleSection variant="medium" className="mt-5 md:mt-4">
+  <ImageSeries
+    images={[
     {
       src: "/images/gene-expression-diagram-full.svg",
       alt: "Detailed diagram of gene expression process from DNA to protein production",
       width: 745,
       height: 323,
       caption: "Simple diagram of gene expression, described by X → Y.",
-    }
-  ]}
-  maxWidth="600px"
-/>
+      }
+    ]}
+    maxWidth="600px"
+  />
+</ArticleSection>
 
-But how quickly does protein <MathFormula tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula tex="\beta" />.<TippyTooltip content={<TippyTooltipContent>The units of <MathFormula variant="popover" tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TippyTooltipContent>} />
+But how quickly does protein <MathFormula tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula tex="\beta" />.<TippyTooltip content={<TippyTooltipContent>The units of <MathFormula variant="small" tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TippyTooltipContent>} />
 
 This only covers protein production, but cells lose proteins as well. There are two processes that balance <MathFormula tex="Y" /> production: protein degradation (intentional destruction by other specialized proteins) and dilution (reduction in concentration due to an increase in cell volume).
 
 Both processes reduce the concentration of <MathFormula tex="Y" /> in a cell. The degradation rate is <MathFormula tex="\alpha_{deg}" />, and the dilution rate is <MathFormula tex="\alpha_{dil}" />, both with units of <MathFormula tex="1/time" />. The total removal rate <MathFormula tex="\alpha" /> is the just the sum of the two:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="math">
   <MathFormula tex="\alpha = \alpha_{deg} + \alpha_{dil}" />
-</div>
+</ArticleSection>
 
-Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<TippyTooltip content={<TippyTooltipContent>where <MathFormula variant="popover" tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula variant="popover" tex="\beta" /> has units of concentration per unit time, and <MathFormula variant="popover" tex="\alpha Y" />, the removal rate, has units of <MathFormula variant="popover" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TippyTooltipContent>} />
+Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<TippyTooltip content={<TippyTooltipContent>where <MathFormula variant="small" tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula variant="small" tex="\beta" /> has units of concentration per unit time, and <MathFormula variant="small" tex="\alpha Y" />, the removal rate, has units of <MathFormula variant="small" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TippyTooltipContent>} />
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="math">
   <MathFormula tex="\dfrac{dY}{dt} = \beta - \alpha Y" />
-</div>
+</ArticleSection>
 
 When the production rate matches the removal rate, a steady state is reached. The cell maintains a consistent concentration of <MathFormula tex="Y" />, denoted by <MathFormula tex="Y_{st}" />. Consistent concentration means of a change of <MathFormula tex="0" />, so this can be found by solving for <MathFormula tex="{dY}/{dt} = 0" />:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="math">
   <MathFormula tex="Y_{st} = \dfrac{\beta}{\alpha}" />
-</div>
+</ArticleSection>
 
 The equation shows that the steady state is a ratio of the production rate and the removal rate. This makes sense: if the production rate is high, a high removal rate is required to keep the same steady state concentration.
 
@@ -132,16 +141,19 @@ We now have the basic equations that describe the dynamics of simple regulation,
 
 Let's use these to analyze some cellular scenarios. Scenario one: what happens when the input signal <MathFormula tex="S_X" /> is gone, and so the production of <MathFormula tex="Y" /> stops (<MathFormula tex="\beta = 0" />)? How does <MathFormula tex="Y" /> concentration deplete over time?
 
-
-<ProteinDecayResponseTimeTutorial />
+<ArticleSection variant="large" className="mt-9 md:mt-8">
+  <ProteinDecayResponseTimeTutorial />
+</ArticleSection>
 
 So, the loss of a signal leads to an exponential decay in protein concentration. Now let's consider the reverse scenario: what happens when a signal <MathFormula tex="S_X" /> is introduced to a cell where protein production hasn't yet started (<MathFormula tex="Y = 0" />)? How does protein <MathFormula tex="Y" /> increase over time?
 
-<ProteinAccumulationResponseTimeTutorial />
+<ArticleSection variant="large" className="mt-9 md:mt-8">
+  <ProteinAccumulationResponseTimeTutorial />
+</ArticleSection>
 
 These equations set the baseline for how quickly a cell can respond to signals. In future articles, we'll look at how cells can speed up or slow down this response with different network structures, and why that might be important, if not crucial, in an organism's survival.
-<div className="mb-8" />
 
+<div className="mt-5" />
 ### Summary
 
 In these three introductory articles, we've explored several important concepts in transcription networks:
@@ -160,16 +172,18 @@ These concepts form the foundation for understanding more complex transcription 
 
 In future articles, we'll build upon these basics to explore more intricate network motifs like auto-regulation and feedback loops, and how cells use these principles to create sophisticated regulatory systems. We'll also look at real-world examples of how these networks function in various biological processes and how understanding them can lead to advances in fields like medicine and biotechnology.
 
-<ArticleNavigationContainer>
-  <PreviousArticleLink 
+<ArticleSection variant="medium" className="mb-0 md:mb-0">  
+  <ArticleNavigationContainer>
+    <PreviousArticleLink 
     href="/series/systems-biology/transcription-network-basics-2"
     title="Transcription Network Basics: Part Two"
-  />
-  <NextArticleLink
-    href="/series/systems-biology/autoregulation-1"
-    title="Autoregulation as a Network Motif"
-  />
-</ArticleNavigationContainer>
+    />
+    <NextArticleLink
+      href="/series/systems-biology/autoregulation-1"
+      title="Autoregulation as a Network Motif"
+    />
+  </ArticleNavigationContainer>
+</ArticleSection>
 
 <PostArticleSubscribe />
 

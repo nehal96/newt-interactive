@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { MdxLayout, PostArticleSubscribe } from "../../../components";
+import { MdxLayout, PostArticleSubscribe, ArticleSection } from "../../../components";
 import { GaussianParameterUpdateTutorial } from "../../../interactives/kalman-filters";
 
 export const metadata = {
@@ -20,7 +20,9 @@ But this was for **discrete** movement. In the real world, movement is **continu
 
 In this block, we're going to introduce a simplified version of a very powerful algorithm that combines uncertainty of position and uncertainty of measurement to make predictions with increased confidence: the Kalman filter.
 
-<GaussianParameterUpdateTutorial />
+<ArticleSection variant="large">
+  <GaussianParameterUpdateTutorial />
+</ArticleSection>
 
 <PostArticleSubscribe />
 

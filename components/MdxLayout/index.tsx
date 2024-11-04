@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ArticleContainer, Navbar } from "..";
+import { SeriesTitleLink } from "..";
 
 interface Metadata {
   title: string;
@@ -7,6 +8,10 @@ interface Metadata {
   keywords: string;
   ogImage: string;
   url: string;
+  series?: {
+    name: string;
+    href: string;
+  };
 }
 
 interface MdxLayoutProps {
@@ -49,7 +54,15 @@ export default function MdxLayout({ children, metadata }: MdxLayoutProps) {
         <meta name="twitter:creator" content="@nehaludyavar" />
       </Head>
       <Navbar />
-      <ArticleContainer>{children}</ArticleContainer>
+      <ArticleContainer>
+        {metadata.series && (
+          <SeriesTitleLink
+            href={metadata.series?.href}
+            seriesName={metadata.series?.name}
+          />
+        )}
+        {children}
+      </ArticleContainer>
     </>
   );
 }

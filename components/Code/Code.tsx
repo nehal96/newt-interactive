@@ -8,6 +8,7 @@ import Prism from "prismjs";
 import "prismjs/components/prism-jsx.min";
 import "prismjs/components/prism-python.min";
 import { CodeVariant, getStyles } from "./helpers";
+import { cn } from "../../lib/utils";
 
 type CodeProps = DetailedHTMLProps<
   HTMLAttributes<HTMLPreElement>,
@@ -42,9 +43,11 @@ const Code: FunctionComponent<CodeProps> = ({
 
   return (
     <pre
-      className={`p-4 rounded-md overflow-auto ${className} ${
-        !withSyntaxHighlighting ? getStyles(variant) : ""
-      }`}
+      className={cn(
+        "p-4 rounded-md overflow-auto",
+        !withSyntaxHighlighting && getStyles(variant),
+        className
+      )}
       {...props}
     >
       <code className={withSyntaxHighlighting ? `language-${language}` : null}>

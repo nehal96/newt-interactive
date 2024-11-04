@@ -29,8 +29,8 @@ const ImageSeries: React.FC<ImageSeriesProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center mt-4 mb-12 max-w-3xl self-center">
-      <div className="w-full mx-auto mb-2">
+    <div className="flex flex-col items-center max-w-prose mx-auto">
+      <div className="w-full mx-auto">
         <Image
           src={images[currentImage].src}
           alt={images[currentImage].alt}
@@ -52,7 +52,7 @@ const ImageSeries: React.FC<ImageSeriesProps> = ({
       )}
       {images.length > 1 && (
         <>
-          <div className="flex justify-center mt-4 mb-2">
+          <div className="flex justify-center mt-2 mb-2 md:mt-4">
             {images.map((_, index) => (
               <div
                 key={index}
