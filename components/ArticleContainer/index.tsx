@@ -4,7 +4,7 @@ interface ArticleContainer {
   children: React.ReactNode;
 }
 interface ArticleSectionProps {
-  variant: "small" | "medium" | "large";
+  variant: "small" | "medium" | "large" | "math";
   children: React.ReactNode;
   className?: string;
 }
@@ -27,6 +27,8 @@ export const ArticleSection = ({
       ? "my-5"
       : variant === "medium"
       ? "my-10 md:my-12"
+      : variant === "math"
+      ? "justify-center mx-auto mt-5 md:mt-4 mb-10 md:mb-12"
       : "my-14 md:my-16";
 
   return (

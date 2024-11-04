@@ -170,25 +170,25 @@ Does autoregulation occur in this network significantly more often than it would
 
 Let's say we have two nodes, <MathFormula variant="regular" tex="A" /> and <MathFormula variant="regular" tex="B" />, and we start on node <MathFormula variant="regular" tex="A" />. There are two possible arrows: either it points to itself, or it points to <MathFormula variant="regular" tex="B" />. If we pick at random, the probability of a self-arrow is <MathFormula variant="regular" tex="1/2" />. If there are 3 nodes, then there are three possible arrows from <MathFormula variant="regular" tex="A" />, and the probability of a self-arrow is <MathFormula variant="regular" tex="1/3" />. Following this logic, if there are <MathFormula variant="regular" tex="n" /> nodes, then the probability of a self arrow for any given node is:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula variant="regular" tex="p_{self} = \dfrac{1}{n}" />
 </ArticleSection>
 
 The random network needs to have the same number of arrows as the real network for the comparison to be valid. Let's denote this number of arrows as <MathFormula variant="regular" tex="M" />. If the <MathFormula variant="regular" tex="M" /> arrows are placed randomly, then the average number of self-arrows we'll get is just the number of arrows multiplied by the probability of a self-arrow, which gives:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula variant="regular" tex="\lang N_{self} \rang_{rand} = M \times p_{self} = \dfrac{M}{n}" />
 </ArticleSection>
 
 and the standard deviation is <StandardDeviationSheet />, so:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula variant="regular" tex="\sigma_{N_{self}} = \sqrt{\lang N_{self} \rang_{rand}} = \sqrt{\dfrac{M}{n}}" />
 </ArticleSection>
 
 For the *E.coli* network above, the number of nodes and arrows are <MathFormula variant="regular" tex="n = 424" /> and <MathFormula variant="regular" tex="M = 519" />. Thus, the average number of self-arrows and its standard deviation are:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula variant="regular" className="mb-6" tex="\lang N_{self} \rang_{rand} = \dfrac{519}{424} \approx 1.23" />
   <MathFormula variant="regular" className="self-center ml-5 md:ml-6" tex="\sigma_{N_{self}} = \sqrt{\dfrac{519}{424}} \approx 1.11" />
 </ArticleSection>

@@ -25,7 +25,7 @@ The Hill functions we introduced in Part Two achieve this transition with a smoo
 
 Mathematically, **off** can be represented as no proteins being produced, or <MathFormula tex="f(X^*) = 0" />, **on** as proteins being produced at the maximum level, or <MathFormula tex="f(X^*) = \beta" />, and the threshold as <MathFormula tex="X^* = K" />. Then, we can write this logic approximation using a **step function**. For an activator, this looks like:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula tex="f(X^*) = \beta \cdot \theta(X^* > K)" />
 </ArticleSection>
 
@@ -46,7 +46,7 @@ or, put together:
 
 For a repressor, the logic is reversed: being on until the threshold is reached, after which it is off. This can be written as:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula tex="f(X^*) = \beta \cdot \theta(X^* < K)" />
 </ArticleSection>
 
@@ -62,7 +62,7 @@ The primary benefit of logical approximations is that we can evaluate more compl
 
 Let's look at the example of genes that are regulated by two activators. One gene might require that *both* activators are bound to the promoter in order to enable high levels of expression; just one is not enough. This represents an AND gate:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula className="text-sm sm:text-base" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X) \cdot \theta(Y^* > K_Y)" />
 </ArticleSection>
 
@@ -70,13 +70,13 @@ Here, both <MathFormula tex="\theta(X^* > K_X)" /> and <MathFormula tex="\theta(
 
 For another gene, *either* one binding will suffice &mdash; like an OR gate:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula className="text-sm sm:text-base" tex="f(X^*, Y^*) = \beta \cdot \theta(X^* > K_X \hspace{0.75em} \text{OR} \hspace{0.75em} Y^* > K_Y)" />
 </ArticleSection>
 
 The combinations are not limited to Boolean operations. Transcription factors can also combine in an additive way:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula tex="f(X^*, Y^*) = \beta_X X^* + \beta_Y Y^*" />
 </ArticleSection>
 
@@ -112,19 +112,19 @@ This only covers protein production, but cells lose proteins as well. There are 
 
 Both processes reduce the concentration of <MathFormula tex="Y" /> in a cell. The degradation rate is <MathFormula tex="\alpha_{deg}" />, and the dilution rate is <MathFormula tex="\alpha_{dil}" />, both with units of <MathFormula tex="1/time" />. The total removal rate <MathFormula tex="\alpha" /> is the just the sum of the two:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula tex="\alpha = \alpha_{deg} + \alpha_{dil}" />
 </ArticleSection>
 
 Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<TippyTooltip content={<TippyTooltipContent>where <MathFormula variant="popover" tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula variant="popover" tex="\beta" /> has units of concentration per unit time, and <MathFormula variant="popover" tex="\alpha Y" />, the removal rate, has units of <MathFormula variant="popover" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TippyTooltipContent>} />
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula tex="\dfrac{dY}{dt} = \beta - \alpha Y" />
 </ArticleSection>
 
 When the production rate matches the removal rate, a steady state is reached. The cell maintains a consistent concentration of <MathFormula tex="Y" />, denoted by <MathFormula tex="Y_{st}" />. Consistent concentration means of a change of <MathFormula tex="0" />, so this can be found by solving for <MathFormula tex="{dY}/{dt} = 0" />:
 
-<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
+<ArticleSection variant="math">
   <MathFormula tex="Y_{st} = \dfrac{\beta}{\alpha}" />
 </ArticleSection>
 
