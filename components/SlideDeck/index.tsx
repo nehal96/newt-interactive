@@ -101,7 +101,7 @@ const SlideDeck = ({ slides }) => {
           onJumpToSection={onJumpToSection}
         />
         <div className="flex flex-col justify-between h-full">
-          <div className="flex flex-col *:text-sm md:*:text-base">
+          <div className="font-body flex flex-col *:text-base md:*:text-base">
             {slides[slideIndex].text}
           </div>
           <div className="flex justify-center mt-6">

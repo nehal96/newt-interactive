@@ -1,6 +1,21 @@
 import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
+export function SeriesTitleLink({ href, seriesName }) {
+  return (
+    href &&
+    seriesName && (
+      <div className="flex w-full justify-center mx-auto mb-4">
+        <Link href={href}>
+          <div className="text-indigo-400 hover:text-indigo-500 transition-colors">
+            <span className="text-sm md:text-base">{seriesName}</span>
+          </div>
+        </Link>
+      </div>
+    )
+  );
+}
+
 export function NextArticleLink({ href, title }) {
   return (
     <div className="flex justify-end max-w-3xl w-full mx-auto mb-4">

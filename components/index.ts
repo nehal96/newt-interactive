@@ -24,6 +24,7 @@ export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
 export { default as Quote } from "./Quote";
 export {
+  SeriesTitleLink,
   NextArticleLink,
   PreviousArticleLink,
   ArticleNavigationContainer,

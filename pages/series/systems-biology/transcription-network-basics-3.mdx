@@ -7,6 +7,10 @@ export const metadata = {
   keywords: "transcription networks, dynamics, response time, systems biology",
   ogImage: "https://i.ibb.co/Nnbfc6y/genetic-circuit.png",
   url: "https://newtinteractive.com/series/systems-biology/transcription-network-basics-3",
+  series: {
+    name: "Systems Biology",
+    href: "/series/systems-biology",
+  },
 };
 
 # Transcription Network Basics: Part Three
@@ -17,6 +21,8 @@ In Part Two, we looked at the two basic types of transcription factors &mdash; a
 
 In this article, we'll introduce approximating this input function &mdash; capturing its essence rather than its details &mdash; so that we can easily analyze more complex input functions, like what happens when multiple transcription factors regulate a gene. Finally, we'll introduce the topic of transcription network dynamics, or how a cell's response (to produce or not produce a protein) looks like over time.
 
+
+<div className="mt-5" />
 ### Logic approximations
 
 The essence of an input function is a transition between two values &mdash; from high to low for an activator, and from low to high for a repressor &mdash; and a threshold that defines when the transition occurs.
@@ -84,7 +90,7 @@ Genes in multi-cellular organisms can have many inputs, occasionally more than a
 
 Even with just two transcription factors, the combinations above look pretty abstract. This section just introduces the concept; in future articles, we'll look at how exactly these logical operations &mdash; the AND and OR gates &mdash; are performed in organisms, and the benefits they provide.<TippyTooltip content={<TippyTooltipContent>We generally associate AND and OR gates with computers, but chemistry beat it by several billion years. In fact, if you think about it, a biological computer designed the non-biological one, and using pretty similar design principles at that.</TippyTooltipContent>} />
 
-<div className="mb-8" />
+<div className="mt-5" />
 ### Dynamics and Response Time
 
 So far, we've looked at how protein production is affected by transcription factors, but we haven't yet considered how it does so over time. When a cell receives membrane damage signals, how quickly does it make the repair proteins? The speed and way in which a cell responds to signals is extremely vital, which makes analyzing the dynamics and response time of transcription networks an important task in systems biology.
@@ -146,8 +152,8 @@ So, the loss of a signal leads to an exponential decay in protein concentration.
 </ArticleSection>
 
 These equations set the baseline for how quickly a cell can respond to signals. In future articles, we'll look at how cells can speed up or slow down this response with different network structures, and why that might be important, if not crucial, in an organism's survival.
-<div className="mb-8" />
 
+<div className="mt-5" />
 ### Summary
 
 In these three introductory articles, we've explored several important concepts in transcription networks:
