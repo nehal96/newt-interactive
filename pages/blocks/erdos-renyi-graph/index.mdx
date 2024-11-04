@@ -1,4 +1,4 @@
-import { MdxLayout, MathFormula, PostArticleSubscribe } from "../../../components";
+import { MdxLayout, MathFormula, PostArticleSubscribe, ArticleSection } from "../../../components";
 import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
 
 export const metadata = {
@@ -22,7 +22,9 @@ The model comes in two variants:
 
 Below is a Erdős-Rényi graph generator for the <MathFormula tex="G(n, M)" /> model:
 
-<ErdosRenyiGNMNetworkWithProvider />
+<ArticleSection variant="large">
+  <ErdosRenyiGNMNetworkWithProvider />
+</ArticleSection>
 
 <PostArticleSubscribe />
 
