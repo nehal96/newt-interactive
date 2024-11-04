@@ -29,7 +29,7 @@ const ImageSeries: React.FC<ImageSeriesProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center mt-5 mb-10 md:mb-12 max-w-3xl self-center">
+    <div className="flex flex-col items-center max-w-prose mx-auto">
       <div className="w-full mx-auto">
         <Image
           src={images[currentImage].src}

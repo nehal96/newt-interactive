@@ -37,7 +37,7 @@ export function PreviousArticleLink({ href, title }) {
 
 export function ArticleNavigationContainer({ children }) {
   return (
-    <div className="grid grid-flow-col grid-rows-1 auto-cols-auto gap-4 max-w-3xl w-full mx-auto mt-10">
+    <div className="grid grid-flow-col grid-rows-1 auto-cols-auto gap-4 max-w-3xl w-full mx-auto">
       {children}
     </div>
   );

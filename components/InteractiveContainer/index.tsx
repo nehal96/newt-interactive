@@ -7,7 +7,7 @@ export const InteractiveTutorialContainer: FunctionComponent<
   return (
     <div
       className={cn(
-        "flex flex-col-reverse w-full my-8 mx-auto justify-center lg:flex-row lg:my-12",
+        "flex flex-col-reverse w-full mx-auto justify-center lg:flex-row",
         className
       )}
       {...props}

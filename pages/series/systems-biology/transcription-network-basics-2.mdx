@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { MdxLayout, PostArticleSubscribe, MathFormula, ImageSeries, UnorderedList, PreviousArticleLink, NextArticleLink, ArticleNavigationContainer } from "../../../components";
+import { MdxLayout, PostArticleSubscribe, MathFormula, ImageSeries, PreviousArticleLink, NextArticleLink, ArticleNavigationContainer, ArticleSection } from "../../../components";
 import { ActivatorTutorial, RepressorTutorial } from "../../../interactives/systems-biology";
 
 export const metadata = {
@@ -22,26 +22,29 @@ In this segment, we'll look a little deeper at how transcription factors affect 
 
 In the previous section, we built our way up to the following diagram:
 
-<ImageSeries
-  images={[
-    {
-      src: "/images/gene-expression-diagram-full.svg",
-      alt: "Detailed diagram of gene expression process from DNA to protein production",
-      width: 745,
-      height: 323,
-      caption: "The horizontal line represents DNA. Gene Y labels the portion of DNA that encodes the gene for protein Y.",
-    }
-  ]}
-  maxWidth="600px"
-/>
+<ArticleSection variant="medium" className="mt-5 md:mt-4">
+  <ImageSeries
+    images={[
+      {
+        src: "/images/gene-expression-diagram-full.svg",
+        alt: "Detailed diagram of gene expression process from DNA to protein production",
+        width: 745,
+        height: 323,
+        caption: "The horizontal line represents DNA. Gene Y labels the portion of DNA that encodes the gene for protein Y.",
+      }
+    ]}
+    maxWidth="600px"
+  />
+</ArticleSection>
 
 A signal <MathFormula tex="S_x" /> transforms the transcription factor <MathFormula tex="X" /> into its active state <MathFormula tex="X^*" />, which binds to its binding site enabling RNA polymerase to begin transcribing DNA into mRNA, which is translated into the protein <MathFormula tex="Y" />.
 
 This diagram describes one type of transcription factor, the **activator**, which, when bound to DNA, *increases* the transcription rate of a gene. There's another type, the **repressor**, that decreases the transcription rate. For repressors, gene expression is on by default; the binding of a repressor turns it off. These simple diagrams illustrate what on and off look like:
 
-<ImageSeries
-  images={[
-    {
+<ArticleSection variant="medium" className="mt-5 md:mt-4">
+  <ImageSeries
+    images={[
+      {
       src: "/images/repressor-on-diagram.svg",
       alt: "Repressor On Diagram",
       width: 748,
@@ -55,31 +58,35 @@ This diagram describes one type of transcription factor, the **activator**, whic
       height: 403,
       caption: "When the repressor is bound, gene expression is OFF.",
     },
-  ]}
-/>
+    ]}
+  />
+</ArticleSection>
 
 We can represent this activating or repressing relationship in network diagrams as well. Activators are denoted by a regular arrow, and repressors are denoted by a blunt-headed arrow:
 
-<ImageSeries
-  images={[
-    {
+<ArticleSection variant="medium" className="mt-5 md:mt-4">
+  <ImageSeries
+    images={[
+      {
       src: "/images/activator-repressor-notation.svg",
       alt: "Activator and Repressor Notation",
       width: 593,
       height: 184,
     }
   ]}
-  maxWidth="500px"
-/>
+    maxWidth="500px"
+  />
+</ArticleSection>
 
 ### Mathematical Models
 
 So far, we've talked about transcription factors like they're a switch; they turn genes on or off. In reality, they're more like a valve; they increase or decrease the rate of production of a protein. This may include turning it on or off, but ramping up or ramping down production paints a more accurate picture. The arrows, in effect, don't only signify the positive or negative relationship, but the strength of that relationship as well.
 
-Before we dive into some math, it's important to understand its context: the inner workings of a cell. Cells are a crowded place, stuffed with molecules large and small: proteins, nucleic acids, amino acids, sugars, ATP, and other small molecules, all surrounded by water. Moving inside a cell involves a lot of bumping into one another constantly, like hastily making your way across a crowded nightclub floor. 
+Before we dive into some math, it's important to understand its context: the inner workings of a cell. Cells are a crowded place, stuffed with molecules large and small: proteins, nucleic acids, amino acids, sugars, ATP, and other small molecules, all surrounded by water. Moving inside a cell involves a lot of bumping into one another constantly, like hastily making your way across a crowded nightclub floor.
 
-<ImageSeries
-  images={[
+<ArticleSection variant="medium" className="mt-5 md:mt-4">
+  <ImageSeries
+    images={[
     {
       src: "/images/e-coli-goodsell.png",
       alt: "E. coli Cell",
@@ -94,8 +101,9 @@ Before we dive into some math, it's important to understand its context: the inn
       ),
     }
   ]}
-  maxWidth="500px"
-/>
+    maxWidth="500px"
+  />
+</ArticleSection>
 
 It is this bumping, however, that enables the molecular interactions that sustain life. Molecular interactions occur at specific orientations: the atoms or molecules connect best at some specific region, like two adjacent puzzle pieces. The crowded environment means two elements will spend more time next to each other, shuffling and bumping, which increases the *likelihood* of reactions.
 
@@ -105,17 +113,17 @@ We can use this when we think of interactions with transcription factors. The nu
 
 Mathematically, we can write this as as an **input function**:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
   <MathFormula tex="\text{rate of production of Y} = f(X^*)" />
-</div>
+</ArticleSection>
 
 It is an increasing function when <MathFormula tex="X" /> is an activator and a decreasing function when <MathFormula tex="X" /> is a repressor.
 
 One function that realistically represents protein production is the Hill function. Let's look at activators first. The Hill function for an activator is defined as:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
   <MathFormula tex="f(X^*) = \dfrac{X^{*n}}{K^n + X^{*n}}" />
-</div>
+</ArticleSection>
 
 where:
 
@@ -125,19 +133,21 @@ where:
 
 Let's take a look at what this looks like graphically and what that means:
 
-<ActivatorTutorial />
-<div className="mt-8" />
+<ArticleSection variant="large" className="mt-9 md:mt-8">
+  <ActivatorTutorial />
+</ArticleSection>
 
 Repressors are the opposite — the function decreases as we increase the concentration of <MathFormula tex="X^*" />. So, the Hill function for a repressor is defined as:
 
-<div className="flex flex-col justify-center mt-4 mb-12 mx-auto">
+<ArticleSection variant="medium" className="justify-center mx-auto mt-5 md:mt-4">
   <MathFormula tex="f(X^*) = \dfrac{K^{n}}{K^n + X^{*n}}" />
-</div>
+</ArticleSection>
 
 Let's take a look at what this looks like as well:
 
-<RepressorTutorial />
-<div className="mt-8" />
+<ArticleSection variant="large" className="mt-9 md:mt-8">
+  <RepressorTutorial />
+</ArticleSection>
 
 ### The Real World
 
@@ -149,8 +159,9 @@ GFP's versatility extends beyond simple expression studies. By pairing the GFP g
 
 In the next part, we'll begin taking a closer look at these dynamics, including how to analyze genes that are regulated by multiple transcription factors, and how to model gene expression as a function of time.
 
-<ArticleNavigationContainer>
-  <PreviousArticleLink 
+<ArticleSection variant="medium" className="mb-0">
+  <ArticleNavigationContainer>
+    <PreviousArticleLink 
     href="/series/systems-biology/transcription-network-basics-1"
     title="Transcription Network Basics: Part One"
   />
@@ -158,7 +169,8 @@ In the next part, we'll begin taking a closer look at these dynamics, including 
     href="/series/systems-biology/transcription-network-basics-3"
     title="Transcription Network Basics: Part Three"
   />
-</ArticleNavigationContainer>
+  </ArticleNavigationContainer>
+</ArticleSection>
 
 <PostArticleSubscribe />
 

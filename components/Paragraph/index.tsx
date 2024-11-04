@@ -11,7 +11,7 @@ const Paragraph = ({ children, className }: ParagraphProps) => {
   return (
     <p
       className={cn(
-        "font-body text-base w-full text-slate-700 self-center max-w-prose mb-5 md:mb-8 md:text-lg md:tracking-wide",
+        "font-body text-lg w-full text-slate-700 self-center max-w-prose mb-5 md:mb-8 md:tracking-wide",
         className
       )}
     >
