@@ -22,7 +22,7 @@ export function CalculationTooltip() {
     <TippyTooltip
       highlightColor="indigo-50"
       iconColor="indigo-100"
-      content={<TippyTooltipContent>I replaced the scientific notation numbers (<MathFormula variant="popover" tex="10^{10}" />) with words (10 billion) for ease of reading.</TippyTooltipContent>}
+      content={<TippyTooltipContent>I replaced the scientific notation numbers (<MathFormula variant="small" tex="10^{10}" />) with words (10 billion) for ease of reading.</TippyTooltipContent>}
     >
       As Uri Alon calculates in <i>An Introduction to Systems Biology</i>
     </TippyTooltip>
@@ -43,26 +43,26 @@ export function StandardDeviationSheet() {
         </VisuallyHidden>
         <div className="flex flex-col text-md text-sm">
           <span className="mb-3 mt-3">
-            this comes from the binomial distribution. Whether an edge is drawn in the network is like a yes-no question, where the probability of yes is <MathFormula variant="popover" tex="p" /> and the probability of no is <MathFormula variant="popover" tex="q = 1 - p" />.
+            this comes from the binomial distribution. Whether an edge is drawn in the network is like a yes-no question, where the probability of yes is <MathFormula variant="small" tex="p" /> and the probability of no is <MathFormula variant="small" tex="q = 1 - p" />.
           </span>
           <span className="mb-3">
-            In such cases, with <MathFormula variant="popover" tex="n" /> trials, the mean is:
+            In such cases, with <MathFormula variant="small" tex="n" /> trials, the mean is:
           </span>
-          <MathFormula className="ml-6" variant="popover" tex="\mu = n \times p" />
+          <MathFormula className="ml-6" variant="small" tex="\mu = n \times p" />
           <span className="mt-6 mb-3">
-            which is the same as the <MathFormula variant="popover" tex="\lang N_{self} \rang_{rand}" /> formula we have. The standard deviation is:
+            which is the same as the <MathFormula variant="small" tex="\lang N_{self} \rang_{rand}" /> formula we have. The standard deviation is:
           </span>
-          <MathFormula className="ml-6" variant="popover" tex="\sigma = \sqrt{n \times p \times q}" />
-          <MathFormula className="ml-6" variant="popover" tex="\sigma = \sqrt{n \times p \times (1 - p)}" />
+          <MathFormula className="ml-6" variant="small" tex="\sigma = \sqrt{n \times p \times q}" />
+          <MathFormula className="ml-6" variant="small" tex="\sigma = \sqrt{n \times p \times (1 - p)}" />
           <span className="mt-6 mb-3">
-            in our example, probability is <MathFormula variant="popover" tex="1/n" />, and number of trials (number of connections) is <MathFormula variant="popover" tex="M" />, so:
+            in our example, probability is <MathFormula variant="small" tex="1/n" />, and number of trials (number of connections) is <MathFormula variant="small" tex="M" />, so:
           </span>
-          <MathFormula className="ml-6" variant="popover" tex="\sigma = \sqrt{M \times \dfrac{1}{n} \times \left(1 - \dfrac{1}{n}\right)}" />
-          <MathFormula className="ml-6" variant="popover" tex="\sigma = \sqrt{\dfrac{M}{n} \times \left(1 - \dfrac{1}{n}\right)}" />
+          <MathFormula className="ml-6" variant="small" tex="\sigma = \sqrt{M \times \dfrac{1}{n} \times \left(1 - \dfrac{1}{n}\right)}" />
+          <MathFormula className="ml-6" variant="small" tex="\sigma = \sqrt{\dfrac{M}{n} \times \left(1 - \dfrac{1}{n}\right)}" />
           <span className="mt-6 mb-3">
-            for large <MathFormula variant="popover" tex="n" />, <MathFormula variant="popover" tex="\left(1 - \dfrac{1}{n}\right)" /> is approximately 1, so that gives:
+            for large <MathFormula variant="small" tex="n" />, <MathFormula variant="small" tex="\left(1 - \dfrac{1}{n}\right)" /> is approximately 1, so that gives:
           </span>
-          <MathFormula className="ml-6" variant="popover" tex="\sigma \approx \sqrt{\dfrac{M}{n}}" />
+          <MathFormula className="ml-6" variant="small" tex="\sigma \approx \sqrt{\dfrac{M}{n}}" />
         </div>
       </SheetContent>
     </Sheet>
@@ -81,14 +81,14 @@ export function ErdosReyniAccordion() {
 
           <UnorderedList className="text-base text-slate-800 mt-3 mb-0">
             <li className="text-base">
-              <MathFormula variant="tutorial" tex="G(n, p)" />: start with <MathFormula variant="tutorial" tex="n" /> nodes and then connect each pair of nodes (create an edge between them) with a probability <MathFormula variant="tutorial" tex="p" />, independent of all other pairs.
+              <MathFormula variant="small" tex="G(n, p)" />: start with <MathFormula variant="small" tex="n" /> nodes and then connect each pair of nodes (create an edge between them) with a probability <MathFormula variant="small" tex="p" />, independent of all other pairs.
             </li>
             <li className="text-base">
-              <MathFormula variant="tutorial" tex="G(n, M)" />: start with <MathFormula variant="tutorial" tex="n" /> nodes and randomly select <MathFormula variant="tutorial" tex="M" /> edges (from all possible edges) to connect the nodes. Useful for generating graphs with a specific number of edges.
+              <MathFormula variant="small" tex="G(n, M)" />: start with <MathFormula variant="small" tex="n" /> nodes and randomly select <MathFormula variant="small" tex="M" /> edges (from all possible edges) to connect the nodes. Useful for generating graphs with a specific number of edges.
             </li>
           </UnorderedList>
           <span className="text-base text-slate-800 mt-3">
-            The interactive above uses the <MathFormula variant="tutorial" tex="G(n, M)" /> method. The math that follows works for both.
+            The interactive above uses the <MathFormula variant="small" tex="G(n, M)" /> method. The math that follows works for both.
           </span>
         </Accordion.Content>
       </Accordion.Item>

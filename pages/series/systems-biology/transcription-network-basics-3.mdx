@@ -112,7 +112,7 @@ Let's start with a basic transcription interaction in a network, <MathFormula te
   />
 </ArticleSection>
 
-But how quickly does protein <MathFormula tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula tex="\beta" />.<TippyTooltip content={<TippyTooltipContent>The units of <MathFormula variant="popover" tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TippyTooltipContent>} />
+But how quickly does protein <MathFormula tex="Y" /> accumulate? We know, from the step function, that after a certain concentration threshold is crossed, the cell produces the maximal <MathFormula tex="\beta" /> amount of protein. If it is produced over a certain time period, we can say that it is produced at a rate <MathFormula tex="\beta" />.<TippyTooltip content={<TippyTooltipContent>The units of <MathFormula variant="small" tex="\beta" /> are concentration per unit time. Keep note of the units, they're important when looking at the calculations</TippyTooltipContent>} />
 
 This only covers protein production, but cells lose proteins as well. There are two processes that balance <MathFormula tex="Y" /> production: protein degradation (intentional destruction by other specialized proteins) and dilution (reduction in concentration due to an increase in cell volume).
 
@@ -122,7 +122,7 @@ Both processes reduce the concentration of <MathFormula tex="Y" /> in a cell. Th
   <MathFormula tex="\alpha = \alpha_{deg} + \alpha_{dil}" />
 </ArticleSection>
 
-Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<TippyTooltip content={<TippyTooltipContent>where <MathFormula variant="popover" tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula variant="popover" tex="\beta" /> has units of concentration per unit time, and <MathFormula variant="popover" tex="\alpha Y" />, the removal rate, has units of <MathFormula variant="popover" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TippyTooltipContent>} />
+Now let's look at how concentration changes. A change in the concentration of <MathFormula tex="Y" /> in a cell over time, <MathFormula tex="{dY}/{dt}" />, is given by the difference between its production and its removal:<TippyTooltip content={<TippyTooltipContent>where <MathFormula variant="small" tex="Y" /> is the concentration of protein at any given time.<br/><MathFormula variant="small" tex="\beta" /> has units of concentration per unit time, and <MathFormula variant="small" tex="\alpha Y" />, the removal rate, has units of <MathFormula variant="small" tex="\dfrac{1}{\text{time}} \cdot \text{concentration}" />, which is also concentration per unit time.</TippyTooltipContent>} />
 
 <ArticleSection variant="math">
   <MathFormula tex="\dfrac{dY}{dt} = \beta - \alpha Y" />

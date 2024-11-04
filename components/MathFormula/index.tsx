@@ -4,7 +4,7 @@ import "katex/dist/katex.min.css";
 
 interface MathFormulaProps {
   tex: string;
-  variant?: "regular" | "tutorial" | "popover";
+  variant?: "regular" | "small";
   className?: string;
 }
 
@@ -15,9 +15,8 @@ const MathFormula = ({
   ...props
 }: MathFormulaProps) => {
   const getClassByVariant = () => {
-    if (variant === "tutorial") return "text-base";
-    if (variant === "popover") return "text-sm";
-    return "text-base md:text-lg";
+    if (variant === "small") return "text-sm";
+    return "text-base";
   };
 
   return (
