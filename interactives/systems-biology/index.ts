@@ -5,3 +5,7 @@ export { ProteinDecayResponseTimeTutorial } from "./ProteinDecayResponseTimeTuto
 export { default as ProteinAccumulationResponseTimeTutorial } from "./ProteinAccumulationResponseTimeTutorial";
 export { AutoregulationNetworkComparisonTutorial } from "./AutoregulationNetworks";
 export { default as FormulaReview } from "./FormulaReview";
+export {
+  NegativeAutoregResponseTimeComparisonTutorial,
+  NegativeAutoregulationResponseTimeChart,
+} from "./NegativeAutoregResponseTimeComparisonTutorial";

@@ -102,7 +102,7 @@ const SystemsBiologyExplainersPage = () => {
               href="/series/systems-biology/autoregulation-2"
               className="text-blue-600 hover:underline"
             >
-              Autoregulation Dynamics
+              Dynamics of Negative Autoregulation
             </Link>
           </li>
         </OrderedList>

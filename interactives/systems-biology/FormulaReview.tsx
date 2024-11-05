@@ -9,8 +9,8 @@ const FormulaReview = () => {
           <p>
             Click Next to go through a review of the key formulas and concepts
             related to transcription network dynamics. Optionally, you can
-            select the specific review from the selection menu above, or skip it
-            entirely if you don't require it.
+            select the specific review from the selection menu above, or skip
+            this entirely if you don't require it.
           </p>
         </>
       ),

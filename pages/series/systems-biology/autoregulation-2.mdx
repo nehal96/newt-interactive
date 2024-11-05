@@ -1,9 +1,12 @@
-import { MdxLayout } from "../../../components";
-import { FormulaReview } from "../../../interactives/systems-biology";
+import { MdxLayout, ArticleSection } from "../../../components";
+import {
+  FormulaReview,
+  NegativeAutoregResponseTimeComparisonTutorial,
+} from "../../../interactives/systems-biology";
 
 export const metadata = {
-  title: "Autoregulation: Part Two",
-  description: "How does a gene regulate its own expression?",
+  title: "Dynamics of Negative Autoregulation",
+  description: "How self-repression speeds up the response time of gene circuits",
   keywords: "network motifs, random networks, autoregulation, gene expression, transcription factors, systems biology, cell signaling",
   ogImage: "https://i.ibb.co/Nnbfc6y/genetic-circuit.png",
   url: "https://newtinteractive.com/series/systems-biology/autoregulation-2",
@@ -13,11 +16,19 @@ export const metadata = {
   },
 };
 
-# Autoregulation Dynamics
+# Dynamics of Negative Autoregulation
 
-## How negative autoregulation speeds up the response time of gene circuits
+## How self-repression speeds up the response time of gene circuits
 
-<FormulaReview />
+In the previous article, we learned that autoregulation, and in particular negative autoregulation, is a motif in biological transcriptional networks; it occurs far more than it would at random. But what, exactly, is negative autoregulation? How does it work, and how does it provide an advantage for organisms?
+
+<ArticleSection variant="interactive">
+  <FormulaReview />
+</ArticleSection>
+
+<ArticleSection variant="interactive">
+  <NegativeAutoregResponseTimeComparisonTutorial />
+</ArticleSection>
 
 
 export default function MDXPage({ children }) {
