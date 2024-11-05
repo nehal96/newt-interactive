@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { InlineCode, MathFormula, SlideDeck, Switch } from "../../components";
+import {
+  InlineCode,
+  MathFormula,
+  SlideDeck,
+  Slider,
+  Switch,
+} from "../../components";
 import RepressorGraph from "./RepressorGraph";
 import { getRepressorHillFunctionData } from "./helpers";
 
@@ -8,8 +14,6 @@ interface RepressorTutorialProps {
   initialRepressorK?: number;
   initialRepressorN?: number;
 }
-
-
 
 export const RepressorTutorial = ({
   initialRepressorBeta = 20,
@@ -89,48 +93,42 @@ export const RepressorTutorial = ({
           </div>
           <div>
             <div className="mt-4">
-              <label htmlFor="beta-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="\beta" />: {repressorBeta}
               </label>
-              <input
-                type="range"
-                id="beta-slider"
-                min="0"
-                max="20"
-                step="0.1"
-                value={repressorBeta}
-                onChange={(e) => setRepressorBeta(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[repressorBeta]}
+                onValueChange={(values) => setRepressorBeta(values[0])}
+                min={0}
+                max={20}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
             <div className="mt-4">
-              <label htmlFor="K-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="K" />: {repressorK}
               </label>
-              <input
-                type="range"
-                id="K-slider"
-                min="1"
-                max="10"
-                step="0.1"
-                value={repressorK}
-                onChange={(e) => setRepressorK(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[repressorK]}
+                onValueChange={(values) => setRepressorK(values[0])}
+                min={1}
+                max={10}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
             <div className="mt-4">
-              <label htmlFor="n-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="n" />: {repressorN}
               </label>
-              <input
-                type="range"
-                id="n-slider"
-                min="1"
-                max="4"
-                step="0.1"
-                value={repressorN}
-                onChange={(e) => setRepressorN(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[repressorN]}
+                onValueChange={(values) => setRepressorN(values[0])}
+                min={1}
+                max={4}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
           </div>
