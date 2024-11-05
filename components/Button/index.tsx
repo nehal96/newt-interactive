@@ -27,7 +27,11 @@ const Button = ({ variant, children, className, ...props }: ButtonProps) => {
   };
   return (
     <button
-      className={cn("py-1 px-2 rounded-md", getButtonStyles(), className)}
+      className={cn(
+        "py-1 px-2 rounded-md transition-colors",
+        getButtonStyles(),
+        className
+      )}
       {...props}
     >
       {children}
