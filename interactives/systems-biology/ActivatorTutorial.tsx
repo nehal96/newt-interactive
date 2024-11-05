@@ -5,6 +5,7 @@ import {
   Popover,
   SlideDeck,
   Switch,
+  Slider,
 } from "../../components";
 import { getActivatorHillFunctionData } from "./helpers";
 import ActivatorGraph from "./ActivatorGraph";
@@ -147,48 +148,42 @@ export const ActivatorTutorial = ({
           </p>
           <div>
             <div className="mt-4">
-              <label htmlFor="beta-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="\beta" />: {activatorBeta}
               </label>
-              <input
-                type="range"
-                id="beta-slider"
-                min="0"
-                max="20"
-                step="0.1"
-                value={activatorBeta}
-                onChange={(e) => setActivatorBeta(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[activatorBeta]}
+                onValueChange={(values) => setActivatorBeta(values[0])}
+                min={0}
+                max={20}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
             <div className="mt-4">
-              <label htmlFor="K-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="K" />: {activatorK}
               </label>
-              <input
-                type="range"
-                id="K-slider"
-                min="1"
-                max="10"
-                step="0.1"
-                value={activatorK}
-                onChange={(e) => setActivatorK(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[activatorK]}
+                onValueChange={(values) => setActivatorK(values[0])}
+                min={1}
+                max={10}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
             <div className="mt-4">
-              <label htmlFor="n-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="n" />: {activatorN}
               </label>
-              <input
-                type="range"
-                id="n-slider"
-                min="1"
-                max="4"
-                step="0.1"
-                value={activatorN}
-                onChange={(e) => setActivatorN(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[activatorN]}
+                onValueChange={(values) => setActivatorN(values[0])}
+                min={1}
+                max={4}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
           </div>
@@ -238,48 +233,42 @@ export const ActivatorTutorial = ({
           </div>
           <div>
             <div className="mt-4">
-              <label htmlFor="beta-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="\beta" />: {activatorBeta}
               </label>
-              <input
-                type="range"
-                id="beta-slider"
-                min="0"
-                max="20"
-                step="0.1"
-                value={activatorBeta}
-                onChange={(e) => setActivatorBeta(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[activatorBeta]}
+                onValueChange={(values) => setActivatorBeta(values[0])}
+                min={0}
+                max={20}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
             <div className="mt-4">
-              <label htmlFor="K-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="K" />: {activatorK}
               </label>
-              <input
-                type="range"
-                id="K-slider"
-                min="1"
-                max="10"
-                step="0.1"
-                value={activatorK}
-                onChange={(e) => setActivatorK(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[activatorK]}
+                onValueChange={(values) => setActivatorK(values[0])}
+                min={1}
+                max={10}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
             <div className="mt-4">
-              <label htmlFor="n-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula tex="n" />: {activatorN}
               </label>
-              <input
-                type="range"
-                id="n-slider"
-                min="1"
-                max="4"
-                step="0.1"
-                value={activatorN}
-                onChange={(e) => setActivatorN(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[activatorN]}
+                onValueChange={(values) => setActivatorN(values[0])}
+                min={1}
+                max={4}
+                step={0.1}
+                className="w-11/12"
               />
             </div>
           </div>

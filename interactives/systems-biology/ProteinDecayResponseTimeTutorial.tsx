@@ -16,6 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
   SlideDeck,
+  Slider,
   Switch,
 } from "../../components";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -378,36 +379,29 @@ export const ProteinDecayResponseTimeTutorial = () => {
           </div>
           <div>
             <div className="mt-4">
-              <label
-                htmlFor="steady-state-slider"
-                className="font-medium block"
-              >
+              <label className="font-medium block mb-1.5">
                 <MathFormula variant="small" tex="Y_{st}" />: {steadyState}
               </label>
-              <input
-                type="range"
-                id="steady-state-slider"
-                min="20"
-                max="100"
-                step="1"
-                value={steadyState}
-                onChange={(e) => setSteadyState(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[steadyState]}
+                onValueChange={(values) => setSteadyState(values[0])}
+                min={20}
+                max={100}
+                step={1}
+                className="w-11/12"
               />
             </div>
             <div className="mt-4">
-              <label htmlFor="alpha-slider" className="font-medium block">
+              <label className="font-medium block mb-1.5">
                 <MathFormula variant="small" tex="\alpha" />: {alpha.toFixed(2)}
               </label>
-              <input
-                type="range"
-                id="alpha-slider"
-                min="0.1"
-                max="1"
-                step="0.01"
-                value={alpha}
-                onChange={(e) => setAlpha(parseFloat(e.target.value))}
-                className="w-11/12 flex-auto cursor-pointer"
+              <Slider
+                value={[alpha]}
+                onValueChange={(values) => setAlpha(values[0])}
+                min={0.1}
+                max={1}
+                step={0.01}
+                className="w-11/12"
               />
             </div>
           </div>
