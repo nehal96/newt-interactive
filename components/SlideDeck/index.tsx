@@ -78,7 +78,11 @@ const SlideDeckNavBar = ({
   );
 };
 
-const SlideDeck = ({ slides }) => {
+const SlideDeck = ({
+  slides,
+  textContainerClass = "lg:w-1/2",
+  interactiveContainerClass = "lg:w-1/2",
+}) => {
   const {
     slideIndex,
     jumpToSectionMenu,
@@ -91,7 +95,7 @@ const SlideDeck = ({ slides }) => {
 
   return (
     <InteractiveTutorialContainer>
-      <TextContainer>
+      <TextContainer className={textContainerClass}>
         <SlideDeckNavBar
           slide={slides[slideIndex]}
           slideIndex={slideIndex}
@@ -124,7 +128,7 @@ const SlideDeck = ({ slides }) => {
           </div>
         </div>
       </TextContainer>
-      <InteractiveContainer className="lg:w-3/5">
+      <InteractiveContainer className={interactiveContainerClass}>
         {slides[slideIndex].interactive}
       </InteractiveContainer>
     </InteractiveTutorialContainer>

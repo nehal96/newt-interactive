@@ -1,0 +1,25 @@
+import { MdxLayout } from "../../../components";
+import { FormulaReview } from "../../../interactives/systems-biology";
+
+export const metadata = {
+  title: "Autoregulation: Part Two",
+  description: "How does a gene regulate its own expression?",
+  keywords: "network motifs, random networks, autoregulation, gene expression, transcription factors, systems biology, cell signaling",
+  ogImage: "https://i.ibb.co/Nnbfc6y/genetic-circuit.png",
+  url: "https://newtinteractive.com/series/systems-biology/autoregulation-2",
+  series: {
+    name: "Systems Biology",
+    href: "/series/systems-biology",
+  },
+};
+
+# Autoregulation Dynamics
+
+## How negative autoregulation speeds up the response time of gene circuits
+
+<FormulaReview />
+
+
+export default function MDXPage({ children }) {
+  return <MdxLayout metadata={metadata}>{children}</MdxLayout>;
+}
