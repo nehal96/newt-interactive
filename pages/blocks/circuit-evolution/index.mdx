@@ -1,0 +1,22 @@
+import { MdxLayout, ArticleSection } from "../../../components";
+import CircuitEvolutionSimulation from "../../../interactives/circuit-evolution/CircuitEvolutionSimulation";
+
+export const metadata = {
+  title: "Circuit Evolution Simulation",
+  description: "How to simulate circuit evolution",
+  keywords: "circuit evolution, simulation, graph theory, probability",
+  ogImage: "https://i.ibb.co/0jWX5dr/circle-in-a-circle-kandinsky.jpg",
+  url: "https://newtinteractive.com/blocks/circuit-evolution",
+};
+
+# Circuit Evolution Simulation
+
+<ArticleSection variant="large">
+  <CircuitEvolutionSimulation />
+</ArticleSection>
+
+export default function MDXPage({ children }) {
+  return (
+    <MdxLayout metadata={metadata}>{children}</MdxLayout>
+  );
+}

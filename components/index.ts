@@ -13,7 +13,12 @@ export {
   InteractiveContainer,
   TextContainer,
 } from "./InteractiveContainer";
-export { FloatingEdge, FloatingConnectionLine, CircleNode } from "./Flow";
+export {
+  FloatingEdge,
+  FloatingConnectionLine,
+  CircleNode,
+  NANDNode,
+} from "./Flow";
 export { default as Lede } from "./Lede";
 export { default as MathFormula } from "./MathFormula";
 export { default as MdxLayout } from "./MdxLayout";
