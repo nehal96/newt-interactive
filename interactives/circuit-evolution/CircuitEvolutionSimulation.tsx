@@ -210,7 +210,7 @@ const CircuitEvolutionSimulation = () => {
     return input1 === 1 && input2 === 1 ? 0 : 1;
   };
 
-  const evaluateCircuit = () => {
+  const evaluateCircuit = (nodes) => {
     const nodeValues = {};
 
     nodes
@@ -232,25 +232,54 @@ const CircuitEvolutionSimulation = () => {
     return nodeValues;
   };
 
+  // (X xor Y) AND (Z xor W) -- programming logic evaluated from https://www.dcode.fr/boolean-expressions-calculator
+  const goal = (x: number, y: number, z: number, w: number) => {
+    return (
+      (w && x && !y && !z) ||
+      (w && !x && y && !z) ||
+      (!w && x && !y && z) ||
+      (!w && !x && y && z)
+    );
+  };
+
   const evaluateGoal = () => {
     const inputValues = nodes
       .filter((node) => node.type === "circle")
       .map((node) => node.data.booleanValue);
 
-    // (X xor Y) AND (Z xor W) -- programming logic evaluated from https://www.dcode.fr/boolean-expressions-calculator
-    const goal = (x: number, y: number, z: number, w: number) => {
-      return (
-        (w && x && !y && !z) ||
-        (w && !x && y && !z) ||
-        (!w && x && !y && z) ||
-        (!w && !x && y && z)
-      );
-    };
-
     return goal(inputValues[0], inputValues[1], inputValues[2], inputValues[3]);
   };
 
-  console.log(evaluateCircuit(), evaluateGoal());
+  const generateTruthTable = () => {
+    const table = [];
+    // Generate all possible combinations of 4 inputs
+    for (let i = 0; i < 16; i++) {
+      const inputs = [(i >> 3) & 1, (i >> 2) & 1, (i >> 1) & 1, i & 1];
+
+      // Update node values temporarily
+      const tempNodes = nodes.map((node) => {
+        if (node.type === "circle") {
+          const index = parseInt(node.id) - 1;
+          return {
+            ...node,
+            data: { ...node.data, booleanValue: inputs[index] },
+          };
+        }
+        return node;
+      });
+
+      // Evaluate circuit with these inputs
+      const circuitOutput = evaluateCircuit(tempNodes);
+      const goalOutput = goal(inputs[0], inputs[1], inputs[2], inputs[3]);
+
+      table.push({
+        inputs,
+        circuitOutput: circuitOutput["9"], // Node 9 is the output
+        goalOutput: goalOutput ? 1 : 0,
+      });
+    }
+    return table;
+  };
 
   return (
     <InteractiveTutorialContainer>
@@ -317,6 +346,40 @@ const CircuitEvolutionSimulation = () => {
                 </td>
               ))}
             </tr>
+          </tbody>
+        </table>
+        <table className="font-mono border border-slate-200 mt-4">
+          <thead>
+            <tr className="border-b border-slate-200">
+              <th className="px-2 border-r border-slate-200">X</th>
+              <th className="px-2 border-r border-slate-200">Y</th>
+              <th className="px-2 border-r border-slate-200">Z</th>
+              <th className="px-2 border-r border-slate-200">W</th>
+              <th className="px-2 border-r border-slate-200">Circuit</th>
+              <th className="px-2">Goal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {generateTruthTable().map((row, i) => (
+              <tr key={i} className="border-b border-slate-200">
+                {row.inputs.map((input, j) => (
+                  <td
+                    key={j}
+                    className="px-2 text-center border-r border-slate-200"
+                  >
+                    {input}
+                  </td>
+                ))}
+                <td
+                  className={`px-2 text-center border-r border-slate-200 ${
+                    row.circuitOutput !== row.goalOutput ? "bg-red-100" : ""
+                  }`}
+                >
+                  {row.circuitOutput}
+                </td>
+                <td className="px-2 text-center">{row.goalOutput}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
