@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 
-const NANDGateSVG = () => (
+const NANDGateSVG = ({ text }) => (
   <svg
     width="40"
     height="40"
@@ -14,10 +14,21 @@ const NANDGateSVG = () => (
       stroke="#3f3f46"
       strokeWidth={1}
     />
+    {text && (
+      <text
+        x="50%"
+        y="16"
+        style={{ fontSize: "10px" }}
+        textAnchor="middle"
+        fill="#3f3f46"
+      >
+        {text}
+      </text>
+    )}
   </svg>
 );
 
-export const CircleNode = ({ data, isConnectable, style = {} }) => (
+export const CircleNode = ({ data, isConnectable }) => (
   <div
     style={{
       width: 25,
@@ -31,6 +42,7 @@ export const CircleNode = ({ data, isConnectable, style = {} }) => (
       ...data?.style,
     }}
   >
+    {data.text && <span className="text-xs text-zinc-700">{data.text}</span>}
     <Handle
       type="target"
       position={Position.Top}
@@ -52,7 +64,7 @@ export const CircleNode = ({ data, isConnectable, style = {} }) => (
 
 export const NANDNode = ({ data, isConnectable }) => (
   <>
-    <NANDGateSVG />
+    <NANDGateSVG text={data?.text} />
     <Handle
       type="target"
       position={Position.Top}

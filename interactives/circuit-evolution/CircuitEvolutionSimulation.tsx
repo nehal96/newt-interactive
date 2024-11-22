@@ -12,7 +12,7 @@ import {
   NANDNode,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -35,6 +35,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 50, y: 25 },
         data: {
           color: "#3f3f46",
+          text: "1",
           style: {
             backgroundColor: "white",
           },
@@ -46,6 +47,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 150, y: 25 },
         data: {
           color: "#3f3f46",
+          text: "2",
           style: {
             backgroundColor: "white",
           },
@@ -57,6 +59,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 250, y: 25 },
         data: {
           color: "#3f3f46",
+          text: "3",
           style: {
             backgroundColor: "white",
           },
@@ -68,6 +71,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 350, y: 25 },
         data: {
           color: "#3f3f46",
+          text: "4",
           style: {
             backgroundColor: "white",
           },
@@ -79,6 +83,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 100, y: 100 },
         data: {
           color: "#3f3f46",
+          text: "5",
         },
       },
       {
@@ -87,6 +92,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 200, y: 100 },
         data: {
           color: "#3f3f46",
+          text: "6",
         },
       },
       {
@@ -95,6 +101,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 150, y: 175 },
         data: {
           color: "#3f3f46",
+          text: "7",
         },
       },
       {
@@ -103,6 +110,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 250, y: 175 },
         data: {
           color: "#3f3f46",
+          text: "8",
         },
       },
       {
@@ -111,6 +119,7 @@ const CircuitEvolutionSimulation = () => {
         position: { x: 200, y: 250 },
         data: {
           color: "#3f3f46",
+          text: "9",
         },
       },
     ]);
@@ -169,6 +178,29 @@ const CircuitEvolutionSimulation = () => {
     ]);
   }, []);
 
+  const getTableData = () => {
+    // Create a map to store inputs for each target node
+    const gateInputs: { [key: string]: string[] } = {};
+
+    // Process edges to group inputs by target
+    edges.forEach((edge) => {
+      if (!gateInputs[edge.target]) {
+        gateInputs[edge.target] = [];
+      }
+      gateInputs[edge.target].push(edge.source);
+    });
+
+    // Sort gates by number
+    const sortedGates = Object.keys(gateInputs).sort(
+      (a, b) => parseInt(a) - parseInt(b)
+    );
+
+    return {
+      gates: sortedGates,
+      inputs: sortedGates.map((gate) => gateInputs[gate].sort()),
+    };
+  };
+
   return (
     <InteractiveTutorialContainer>
       <div className="w-1/2 h-[400px] border border-slate-200 rounded-md">
@@ -193,6 +225,43 @@ const CircuitEvolutionSimulation = () => {
           <Background />
           <Controls />
         </ReactFlow>
+      </div>
+      <div className="w-1/2 lg:ml-4 mb-4 lg:my-0">
+        <table className="font-mono border border-slate-200">
+          <tbody>
+            <tr className="border-b border-slate-200">
+              <th className="text-left pr-2 pl-1 border-r border-slate-200">
+                Inputs
+              </th>
+              {getTableData().inputs.map((inputArray, arrayIndex) => (
+                <Fragment key={`input-array-${arrayIndex}`}>
+                  {inputArray.map((input, idx) => (
+                    <td
+                      key={`input-${arrayIndex}-${idx}`}
+                      className="px-2 text-center border-r border-slate-200"
+                    >
+                      {input}
+                    </td>
+                  ))}
+                </Fragment>
+              ))}
+            </tr>
+            <tr className="border-b border-slate-200">
+              <th className="text-left pr-2 pl-1 border-r border-slate-200">
+                Gate
+              </th>
+              {getTableData().gates.map((gate, index) => (
+                <td
+                  key={`gate-${index}`}
+                  className="px-2 text-center border-r border-slate-200"
+                  colSpan={getTableData().inputs[index].length}
+                >
+                  {gate}
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
       </div>
     </InteractiveTutorialContainer>
   );
