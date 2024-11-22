@@ -8,6 +8,14 @@ import {
 import "@xyflow/react/dist/style.css";
 import { Fragment } from "react";
 import { useCircuitEvolution } from "./hooks";
+import { fitnessChartAxisStyle } from "./utils";
+import {
+  VictoryChart,
+  VictoryLine,
+  VictoryContainer,
+  VictoryAxis,
+  VictoryScatter,
+} from "victory";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -27,6 +35,7 @@ const CircuitEvolutionSimulation = () => {
     tableData,
     truthTable,
     accuracy,
+    chartData,
   } = useCircuitEvolution();
 
   return (
@@ -150,6 +159,42 @@ const CircuitEvolutionSimulation = () => {
             <div className="mt-4">
               Fitness score (assuming <MathFormula tex="\epsilon = 0" />
               ): <MathFormula tex={`${(accuracy / 100).toFixed(3)} `} />
+            </div>
+            <div className="mt-4">Fitness graph:</div>
+            <div className="h-[240px]">
+              <VictoryChart
+                width={200}
+                height={120}
+                padding={{ top: 10, bottom: 30, left: 40, right: 10 }}
+                domain={{ x: [0, 100], y: [0, 1] }}
+                containerComponent={<VictoryContainer responsive={true} />}
+              >
+                <VictoryAxis
+                  label="Generation"
+                  style={fitnessChartAxisStyle}
+                  tickValues={[0, 50, 100]}
+                  tickFormat={(t) => t.toString()}
+                />
+                <VictoryAxis
+                  dependentAxis
+                  style={fitnessChartAxisStyle}
+                  tickValues={[0, 0.5, 1]}
+                />
+                <VictoryLine
+                  style={{
+                    data: { stroke: "#3f3f46" },
+                  }}
+                  data={chartData}
+                  interpolation="basis"
+                />
+                <VictoryScatter
+                  style={{
+                    data: { fill: "#ef4444" },
+                  }}
+                  size={2}
+                  data={chartData}
+                />
+              </VictoryChart>
             </div>
           </div>
         </div>

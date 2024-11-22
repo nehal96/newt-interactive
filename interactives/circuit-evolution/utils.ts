@@ -1,3 +1,5 @@
+import { axisStyle } from "../../components/Chart/styles";
+
 export const evaluateNAND = (input1: number, input2: number): number => {
   return input1 === 1 && input2 === 1 ? 0 : 1;
 };
@@ -33,4 +35,20 @@ export const getTableData = (edges: any[]) => {
     gates: sortedGates,
     inputs: sortedGates.map((gate) => gateInputs[gate].sort()),
   };
+};
+
+export const fitnessChartAxisStyle = {
+  ...axisStyle,
+  axisLabel: {
+    ...axisStyle.axisLabel,
+    fontSize: 11,
+    fontFamily: "monospace",
+    padding: 25,
+  },
+  tickLabels: {
+    ...axisStyle.tickLabels,
+    fontSize: 11,
+    fontFamily: "monospace",
+  },
+  ticks: { ...axisStyle.ticks, size: 0 },
 };

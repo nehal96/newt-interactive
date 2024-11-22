@@ -223,6 +223,12 @@ export const useCircuitEvolution = () => {
     (truthTable.filter((row) => row.circuitOutput === row.goalOutput).length /
       truthTable.length) *
     100;
+  const chartData = [
+    {
+      x: 0,
+      y: accuracy / 100,
+    },
+  ];
 
   return {
     nodes,
@@ -232,5 +238,6 @@ export const useCircuitEvolution = () => {
     tableData,
     truthTable,
     accuracy,
+    chartData,
   };
 };
