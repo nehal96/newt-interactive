@@ -1,11 +1,4 @@
-import {
-  ReactFlow,
-  Background,
-  Controls,
-  useNodesState,
-  useEdgesState,
-  StraightEdge,
-} from "@xyflow/react";
+import { ReactFlow, Background, Controls, StraightEdge } from "@xyflow/react";
 import {
   InteractiveTutorialContainer,
   CircleNode,
@@ -13,7 +6,8 @@ import {
   MathFormula,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
+import { useCircuitEvolution } from "./hooks";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -25,261 +19,15 @@ const edgeTypes = {
 };
 
 const CircuitEvolutionSimulation = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
-  useEffect(() => {
-    setNodes([
-      {
-        id: "1",
-        type: "circle",
-        position: { x: 50, y: 25 },
-        data: {
-          booleanValue: 0,
-          color: "#3f3f46",
-          text: "1",
-          style: {
-            backgroundColor: "white",
-          },
-        },
-      },
-      {
-        id: "2",
-        type: "circle",
-        position: { x: 150, y: 25 },
-        data: {
-          booleanValue: 0,
-          color: "#3f3f46",
-          text: "2",
-          style: {
-            backgroundColor: "white",
-          },
-        },
-      },
-      {
-        id: "3",
-        type: "circle",
-        position: { x: 250, y: 25 },
-        data: {
-          booleanValue: 0,
-          color: "#3f3f46",
-          text: "3",
-          style: {
-            backgroundColor: "white",
-          },
-        },
-      },
-      {
-        id: "4",
-        type: "circle",
-        position: { x: 350, y: 25 },
-        data: {
-          booleanValue: 0,
-          color: "#3f3f46",
-          text: "4",
-          style: {
-            backgroundColor: "white",
-          },
-        },
-      },
-      {
-        id: "5",
-        type: "nandGate",
-        position: { x: 100, y: 100 },
-        data: {
-          color: "#3f3f46",
-          text: "5",
-        },
-      },
-      {
-        id: "6",
-        type: "nandGate",
-        position: { x: 200, y: 100 },
-        data: {
-          color: "#3f3f46",
-          text: "6",
-        },
-      },
-      {
-        id: "7",
-        type: "nandGate",
-        position: { x: 150, y: 175 },
-        data: {
-          color: "#3f3f46",
-          text: "7",
-        },
-      },
-      {
-        id: "8",
-        type: "nandGate",
-        position: { x: 250, y: 175 },
-        data: {
-          color: "#3f3f46",
-          text: "8",
-        },
-      },
-      {
-        id: "9",
-        type: "nandGate",
-        position: { x: 200, y: 250 },
-        data: {
-          color: "#3f3f46",
-          text: "9",
-        },
-      },
-    ]);
-
-    setEdges([
-      {
-        id: "e1-5",
-        source: "1",
-        target: "5",
-      },
-      {
-        id: "e2-5",
-        source: "2",
-        target: "5",
-      },
-      {
-        id: "e2-6",
-        source: "2",
-        target: "6",
-      },
-      {
-        id: "e3-6",
-        source: "3",
-        target: "6",
-      },
-      {
-        id: "e4-8",
-        source: "4",
-        target: "8",
-      },
-      {
-        id: "e5-7",
-        source: "5",
-        target: "7",
-      },
-      {
-        id: "e6-7",
-        source: "6",
-        target: "7",
-      },
-      {
-        id: "e6-8",
-        source: "6",
-        target: "8",
-      },
-      {
-        id: "e7-9",
-        source: "7",
-        target: "9",
-      },
-      {
-        id: "e8-9",
-        source: "8",
-        target: "9",
-      },
-    ]);
-  }, []);
-
-  const getTableData = () => {
-    // Create a map to store inputs for each target node
-    const gateInputs: { [key: string]: string[] } = {};
-
-    // Process edges to group inputs by target
-    edges.forEach((edge) => {
-      if (!gateInputs[edge.target]) {
-        gateInputs[edge.target] = [];
-      }
-      gateInputs[edge.target].push(edge.source);
-    });
-
-    // Sort gates by number
-    const sortedGates = Object.keys(gateInputs).sort(
-      (a, b) => parseInt(a) - parseInt(b)
-    );
-
-    return {
-      gates: sortedGates,
-      inputs: sortedGates.map((gate) => gateInputs[gate].sort()),
-    };
-  };
-
-  const evaluateNAND = (input1: number, input2: number): number => {
-    return input1 === 1 && input2 === 1 ? 0 : 1;
-  };
-
-  const evaluateCircuit = (nodes) => {
-    const nodeValues = {};
-
-    nodes
-      .filter((node) => node.type === "circle")
-      .forEach((node) => {
-        nodeValues[node.id] = node.data.booleanValue;
-      });
-
-    const { gates, inputs } = getTableData();
-
-    gates.forEach((gateId) => {
-      const gateInputs = inputs[gates.indexOf(gateId)];
-      // Get input values and evaluate NAND
-      const input1 = nodeValues[gateInputs[0]];
-      const input2 = nodeValues[gateInputs[1]];
-      nodeValues[gateId] = evaluateNAND(input1, input2);
-    });
-
-    return nodeValues;
-  };
-
-  // (X xor Y) AND (Z xor W) -- programming logic evaluated from https://www.dcode.fr/boolean-expressions-calculator
-  const goal = (x: number, y: number, z: number, w: number) => {
-    return (
-      (w && x && !y && !z) ||
-      (w && !x && y && !z) ||
-      (!w && x && !y && z) ||
-      (!w && !x && y && z)
-    );
-  };
-
-  const evaluateGoal = () => {
-    const inputValues = nodes
-      .filter((node) => node.type === "circle")
-      .map((node) => node.data.booleanValue);
-
-    return goal(inputValues[0], inputValues[1], inputValues[2], inputValues[3]);
-  };
-
-  const generateTruthTable = () => {
-    const table = [];
-    // Generate all possible combinations of 4 inputs
-    for (let i = 0; i < 16; i++) {
-      const inputs = [(i >> 3) & 1, (i >> 2) & 1, (i >> 1) & 1, i & 1];
-
-      // Update node values temporarily
-      const tempNodes = nodes.map((node) => {
-        if (node.type === "circle") {
-          const index = parseInt(node.id) - 1;
-          return {
-            ...node,
-            data: { ...node.data, booleanValue: inputs[index] },
-          };
-        }
-        return node;
-      });
-
-      // Evaluate circuit with these inputs
-      const circuitOutput = evaluateCircuit(tempNodes);
-      const goalOutput = goal(inputs[0], inputs[1], inputs[2], inputs[3]);
-
-      table.push({
-        inputs,
-        circuitOutput: circuitOutput["9"], // Node 9 is the output
-        goalOutput: goalOutput ? 1 : 0,
-      });
-    }
-    return table;
-  };
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    tableData,
+    truthTable,
+    accuracy,
+  } = useCircuitEvolution();
 
   return (
     <InteractiveTutorialContainer>
@@ -319,7 +67,7 @@ const CircuitEvolutionSimulation = () => {
               <th className="text-left pr-2 pl-1 border-r border-slate-200">
                 Inputs
               </th>
-              {getTableData().inputs.map((inputArray, arrayIndex) => (
+              {tableData.inputs.map((inputArray, arrayIndex) => (
                 <Fragment key={`input-array-${arrayIndex}`}>
                   {inputArray.map((input, idx) => (
                     <td
@@ -336,11 +84,11 @@ const CircuitEvolutionSimulation = () => {
               <th className="text-left pr-2 pl-1 border-r border-slate-200">
                 Gate
               </th>
-              {getTableData().gates.map((gate, index) => (
+              {tableData.gates.map((gate, index) => (
                 <td
                   key={`gate-${index}`}
                   className="px-2 text-center border-r border-slate-200"
-                  colSpan={getTableData().inputs[index].length}
+                  colSpan={tableData.inputs[index].length}
                 >
                   {gate}
                 </td>
@@ -348,40 +96,63 @@ const CircuitEvolutionSimulation = () => {
             </tr>
           </tbody>
         </table>
-        <table className="font-mono border border-slate-200 mt-4">
-          <thead>
-            <tr className="border-b border-slate-200">
-              <th className="px-2 border-r border-slate-200">X</th>
-              <th className="px-2 border-r border-slate-200">Y</th>
-              <th className="px-2 border-r border-slate-200">Z</th>
-              <th className="px-2 border-r border-slate-200">W</th>
-              <th className="px-2 border-r border-slate-200">Circuit</th>
-              <th className="px-2">Goal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {generateTruthTable().map((row, i) => (
-              <tr key={i} className="border-b border-slate-200">
-                {row.inputs.map((input, j) => (
-                  <td
-                    key={j}
-                    className="px-2 text-center border-r border-slate-200"
-                  >
-                    {input}
-                  </td>
-                ))}
-                <td
-                  className={`px-2 text-center border-r border-slate-200 ${
-                    row.circuitOutput !== row.goalOutput ? "bg-red-100" : ""
-                  }`}
-                >
-                  {row.circuitOutput}
-                </td>
-                <td className="px-2 text-center">{row.goalOutput}</td>
+        <div className="flex flex-row mt-4">
+          <table className="font-mono border border-slate-200">
+            <thead>
+              <tr className="border-b border-slate-200">
+                <th className="px-2 border-r border-slate-200">X</th>
+                <th className="px-2 border-r border-slate-200">Y</th>
+                <th className="px-2 border-r border-slate-200">Z</th>
+                <th className="px-2 border-r border-slate-200">W</th>
+                <th className="px-2 border-r border-slate-200">Circuit</th>
+                <th className="px-2">Goal</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {truthTable.map((row, i) => (
+                <tr key={i} className="border-b border-slate-200">
+                  {row.inputs.map((input, j) => (
+                    <td
+                      key={j}
+                      className="px-2 text-center border-r border-slate-200"
+                    >
+                      {input}
+                    </td>
+                  ))}
+                  <td
+                    className={`px-2 text-center border-r border-slate-200 ${
+                      row.circuitOutput !== row.goalOutput ? "bg-red-100" : ""
+                    }`}
+                  >
+                    {row.circuitOutput}
+                  </td>
+                  <td className="px-2 text-center">{row.goalOutput}</td>
+                </tr>
+              ))}
+              <tr className="border-t border-slate-200 font-semibold">
+                <td
+                  colSpan={4}
+                  className="px-2 text-right border-r border-slate-200"
+                >
+                  Accuracy:
+                </td>
+                <td colSpan={2} className="px-2 text-right">
+                  {accuracy.toFixed(1)}%
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="ml-4 flex-col font-mono">
+            <div>
+              Fitness formula:{" "}
+              <MathFormula tex="\text{fraction of correct outputs} - \epsilon n" />
+            </div>
+            <div className="mt-4">
+              Fitness score (assuming <MathFormula tex="\epsilon = 0" />
+              ): <MathFormula tex={`${(accuracy / 100).toFixed(3)} `} />
+            </div>
+          </div>
+        </div>
       </div>
     </InteractiveTutorialContainer>
   );
