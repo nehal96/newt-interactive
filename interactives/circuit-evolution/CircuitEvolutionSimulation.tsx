@@ -10,6 +10,7 @@ import {
   InteractiveTutorialContainer,
   CircleNode,
   NANDNode,
+  MathFormula,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
 import { Fragment, useEffect } from "react";
@@ -34,6 +35,7 @@ const CircuitEvolutionSimulation = () => {
         type: "circle",
         position: { x: 50, y: 25 },
         data: {
+          booleanValue: 0,
           color: "#3f3f46",
           text: "1",
           style: {
@@ -46,6 +48,7 @@ const CircuitEvolutionSimulation = () => {
         type: "circle",
         position: { x: 150, y: 25 },
         data: {
+          booleanValue: 0,
           color: "#3f3f46",
           text: "2",
           style: {
@@ -58,6 +61,7 @@ const CircuitEvolutionSimulation = () => {
         type: "circle",
         position: { x: 250, y: 25 },
         data: {
+          booleanValue: 0,
           color: "#3f3f46",
           text: "3",
           style: {
@@ -70,6 +74,7 @@ const CircuitEvolutionSimulation = () => {
         type: "circle",
         position: { x: 350, y: 25 },
         data: {
+          booleanValue: 0,
           color: "#3f3f46",
           text: "4",
           style: {
@@ -201,6 +206,52 @@ const CircuitEvolutionSimulation = () => {
     };
   };
 
+  const evaluateNAND = (input1: number, input2: number): number => {
+    return input1 === 1 && input2 === 1 ? 0 : 1;
+  };
+
+  const evaluateCircuit = () => {
+    const nodeValues = {};
+
+    nodes
+      .filter((node) => node.type === "circle")
+      .forEach((node) => {
+        nodeValues[node.id] = node.data.booleanValue;
+      });
+
+    const { gates, inputs } = getTableData();
+
+    gates.forEach((gateId) => {
+      const gateInputs = inputs[gates.indexOf(gateId)];
+      // Get input values and evaluate NAND
+      const input1 = nodeValues[gateInputs[0]];
+      const input2 = nodeValues[gateInputs[1]];
+      nodeValues[gateId] = evaluateNAND(input1, input2);
+    });
+
+    return nodeValues;
+  };
+
+  const evaluateGoal = () => {
+    const inputValues = nodes
+      .filter((node) => node.type === "circle")
+      .map((node) => node.data.booleanValue);
+
+    // (X xor Y) AND (Z xor W) -- programming logic evaluated from https://www.dcode.fr/boolean-expressions-calculator
+    const goal = (x: number, y: number, z: number, w: number) => {
+      return (
+        (w && x && !y && !z) ||
+        (w && !x && y && !z) ||
+        (!w && x && !y && z) ||
+        (!w && !x && y && z)
+      );
+    };
+
+    return goal(inputValues[0], inputValues[1], inputValues[2], inputValues[3]);
+  };
+
+  console.log(evaluateCircuit(), evaluateGoal());
+
   return (
     <InteractiveTutorialContainer>
       <div className="w-1/2 h-[400px] border border-slate-200 rounded-md">
@@ -227,6 +278,12 @@ const CircuitEvolutionSimulation = () => {
         </ReactFlow>
       </div>
       <div className="w-1/2 lg:ml-4 mb-4 lg:my-0">
+        <div className="mb-4">
+          <p className="font-mono">
+            Circuit goal:{" "}
+            <MathFormula tex="(X \enspace \text{XOR} \enspace Y) \enspace \text{AND} \enspace (Z \enspace \text{XOR} \enspace W)" />
+          </p>
+        </div>
         <table className="font-mono border border-slate-200">
           <tbody>
             <tr className="border-b border-slate-200">
