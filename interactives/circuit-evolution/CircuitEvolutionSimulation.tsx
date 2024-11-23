@@ -4,6 +4,7 @@ import {
   CircleNode,
   NANDNode,
   MathFormula,
+  Button,
 } from "../../components";
 import "@xyflow/react/dist/style.css";
 import { Fragment } from "react";
@@ -36,6 +37,8 @@ const CircuitEvolutionSimulation = () => {
     truthTable,
     accuracy,
     chartData,
+    mutateCircuit,
+    resetCircuit,
   } = useCircuitEvolution();
 
   return (
@@ -196,6 +199,12 @@ const CircuitEvolutionSimulation = () => {
                 />
               </VictoryChart>
             </div>
+            <Button variant="outline" onClick={mutateCircuit}>
+              Simulate a Mutation
+            </Button>
+            <Button className="mt-2" variant="outline" onClick={resetCircuit}>
+              Reset Circuit
+            </Button>
           </div>
         </div>
       </div>

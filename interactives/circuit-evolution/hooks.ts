@@ -1,6 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNodesState, useEdgesState } from "@xyflow/react";
-import { evaluateNAND, goal, getTableData } from "./utils";
+import {
+  evaluateNAND,
+  goal,
+  getTableData,
+  generateValidMutation,
+} from "./utils";
 
 const initialNodes = [
   {
@@ -157,6 +162,7 @@ const initialEdges = [
 export const useCircuitEvolution = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [chartData, setChartData] = useState([{ x: 0, y: 0.438 }]);
 
   useEffect(() => {
     setNodes(initialNodes);
@@ -217,18 +223,42 @@ export const useCircuitEvolution = () => {
     return table;
   };
 
+  const mutateCircuit = () => {
+    const mutation = generateValidMutation(nodes, edges);
+    // console.log("mutation", mutation);
+
+    // Remove old edge and add new edge
+    setEdges((currentEdges) => {
+      const updatedEdges = currentEdges.filter(
+        (edge) => edge.id !== mutation.oldEdge.id
+      );
+      return [...updatedEdges, mutation.newEdge];
+    });
+
+    // Update chart data with new fitness
+    setChartData((currentData) => {
+      const newGeneration = currentData.length;
+      const newFitness = accuracy / 100;
+      // console.log("chartData", [
+      //   ...currentData,
+      //   { x: newGeneration, y: newFitness },
+      // ]);
+      return [...currentData, { x: newGeneration, y: newFitness }];
+    });
+  };
+
+  const resetCircuit = () => {
+    setNodes(initialNodes);
+    setEdges(initialEdges);
+    setChartData([{ x: 0, y: 0.438 }]);
+  };
+
   const tableData = getTableData(edges);
   const truthTable = generateTruthTable();
   const accuracy =
     (truthTable.filter((row) => row.circuitOutput === row.goalOutput).length /
       truthTable.length) *
     100;
-  const chartData = [
-    {
-      x: 0,
-      y: accuracy / 100,
-    },
-  ];
 
   return {
     nodes,
@@ -239,5 +269,7 @@ export const useCircuitEvolution = () => {
     truthTable,
     accuracy,
     chartData,
+    mutateCircuit,
+    resetCircuit,
   };
 };
