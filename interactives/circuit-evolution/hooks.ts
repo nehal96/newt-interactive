@@ -11,6 +11,7 @@ export const useCircuitEvolution = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [chartData, setChartData] = useState([{ x: 0, y: 0.438 }]);
+  const [mutationLogs, setMutationLogs] = useState<string[]>([]);
 
   useEffect(() => {
     setNodes(initialNodes);
@@ -42,6 +43,16 @@ export const useCircuitEvolution = () => {
         return [...currentData, { x: newGeneration, y: newFitness }];
       });
 
+      // Add log entry
+      if (mutation.oldEdge && mutation.newEdge) {
+        setMutationLogs((prev) => [
+          ...prev,
+          `Removed ${mutation.oldEdge.source}->${mutation.oldEdge.target}, Added ${mutation.newEdge.source}->${mutation.newEdge.target}`,
+        ]);
+      } else {
+        setMutationLogs((prev) => [...prev, "No changes in this mutation"]);
+      }
+
       return newEdges;
     });
   };
@@ -50,6 +61,7 @@ export const useCircuitEvolution = () => {
     setNodes(initialNodes);
     setEdges(initialEdges);
     setChartData([{ x: 0, y: 0.438 }]);
+    setMutationLogs([]);
   };
 
   const inputTableData = getInputTableData(edges);
@@ -70,5 +82,6 @@ export const useCircuitEvolution = () => {
     chartData,
     mutateCircuit,
     resetCircuit,
+    mutationLogs,
   };
 };

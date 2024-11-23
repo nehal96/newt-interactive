@@ -33,7 +33,7 @@ const CircuitDisplay = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
   <div className="w-1/2 h-[400px] border border-slate-200 rounded-md">
     <ReactFlow
       fitView
-      fitViewOptions={{ maxZoom: 0.9 }}
+      fitViewOptions={{ padding: 0.3 }}
       nodes={nodes}
       edges={edges}
       onNodesChange={onNodesChange}
@@ -149,7 +149,7 @@ const FitnessInfoPopoverContent = () => (
 
 const FitnessGraph = ({ chartData }) => (
   <>
-    <div className="mt-4">Fitness graph:</div>
+    <div className="mt-4 underline">Fitness graph:</div>
     <div className="h-[200px] w-[350px]">
       <VictoryChart
         width={200}
@@ -188,6 +188,23 @@ const FitnessGraph = ({ chartData }) => (
   </>
 );
 
+const MutationLog = ({ logs }) => (
+  <div className="mt-4">
+    <div className="underline mb-2">Mutation log:</div>
+    <div className="bg-slate-800 text-white p-3 rounded-md font-mono text-sm h-[200px] overflow-y-auto">
+      {logs.length === 0 ? (
+        <div className="opacity-50">No mutations yet...</div>
+      ) : (
+        logs.map((log, index) => (
+          <div key={index} className="mb-1">
+            {`> Mutation ${index + 1}: ${log}`}
+          </div>
+        ))
+      )}
+    </div>
+  </div>
+);
+
 const CircuitEvolutionSimulation = () => {
   const {
     nodes,
@@ -200,6 +217,7 @@ const CircuitEvolutionSimulation = () => {
     chartData,
     mutateCircuit,
     resetCircuit,
+    mutationLogs,
   } = useCircuitEvolution();
 
   return (
@@ -222,7 +240,7 @@ const CircuitEvolutionSimulation = () => {
             <InputTable inputTableData={inputTableData} />
             <div className="flex-col mt-4 font-mono">
               <div className="flex mt-4 items-center">
-                Fitness score
+                <span className="underline">Fitness score:</span>
                 <Popover
                   side="right"
                   trigger={
@@ -259,6 +277,7 @@ const CircuitEvolutionSimulation = () => {
             <TruthTable truthTable={truthTable} accuracy={accuracy} />
           </div>
         </div>
+        <MutationLog logs={mutationLogs} />
       </div>
     </InteractiveTutorialContainer>
   );
