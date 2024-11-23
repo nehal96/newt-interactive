@@ -33,7 +33,7 @@ const CircuitEvolutionSimulation = () => {
     edges,
     onNodesChange,
     onEdgesChange,
-    tableData,
+    inputTableData,
     truthTable,
     accuracy,
     chartData,
@@ -79,7 +79,7 @@ const CircuitEvolutionSimulation = () => {
               <th className="text-left pr-2 pl-1 border-r border-slate-200">
                 Inputs
               </th>
-              {tableData.inputs.map((inputArray, arrayIndex) => (
+              {inputTableData.inputs.map((inputArray, arrayIndex) => (
                 <Fragment key={`input-array-${arrayIndex}`}>
                   {inputArray.map((input, idx) => (
                     <td
@@ -96,11 +96,11 @@ const CircuitEvolutionSimulation = () => {
               <th className="text-left pr-2 pl-1 border-r border-slate-200">
                 Gate
               </th>
-              {tableData.gates.map((gate, index) => (
+              {inputTableData.gates.map((gate, index) => (
                 <td
                   key={`gate-${index}`}
                   className="px-2 text-center border-r border-slate-200"
-                  colSpan={tableData.inputs[index].length}
+                  colSpan={inputTableData.inputs[index].length}
                 >
                   {gate}
                 </td>
@@ -188,14 +188,14 @@ const CircuitEvolutionSimulation = () => {
                     data: { stroke: "#3f3f46" },
                   }}
                   data={chartData}
-                  interpolation="basis"
+                  interpolation="monotoneX"
                 />
                 <VictoryScatter
                   style={{
                     data: { fill: "#ef4444" },
                   }}
                   size={2}
-                  data={chartData}
+                  data={[chartData[chartData.length - 1]]}
                 />
               </VictoryChart>
             </div>

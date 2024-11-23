@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNodesState, useEdgesState } from "@xyflow/react";
 import {
-  evaluateNAND,
-  goal,
-  getTableData,
   generateValidMutation,
+  generateTruthTable,
+  getInputTableData,
 } from "./utils";
 
 const initialNodes = [
@@ -169,81 +168,32 @@ export const useCircuitEvolution = () => {
     setEdges(initialEdges);
   }, []);
 
-  const evaluateCircuit = (nodes) => {
-    const nodeValues = {};
-
-    nodes
-      .filter((node) => node.type === "circle")
-      .forEach((node) => {
-        nodeValues[node.id] = node.data.booleanValue;
-      });
-
-    const { gates, inputs } = getTableData(edges);
-
-    gates.forEach((gateId) => {
-      const gateInputs = inputs[gates.indexOf(gateId)];
-      // Get input values and evaluate NAND
-      const input1 = nodeValues[gateInputs[0]];
-      const input2 = nodeValues[gateInputs[1]];
-      nodeValues[gateId] = evaluateNAND(input1, input2);
-    });
-
-    return nodeValues;
-  };
-
-  const generateTruthTable = () => {
-    const table = [];
-    // Generate all possible combinations of 4 inputs
-    for (let i = 0; i < 16; i++) {
-      const inputs = [(i >> 3) & 1, (i >> 2) & 1, (i >> 1) & 1, i & 1];
-
-      // Update node values temporarily
-      const tempNodes = nodes.map((node) => {
-        if (node.type === "circle") {
-          const index = parseInt(node.id) - 1;
-          return {
-            ...node,
-            data: { ...node.data, booleanValue: inputs[index] },
-          };
-        }
-        return node;
-      });
-
-      // Evaluate circuit with these inputs
-      const circuitOutput = evaluateCircuit(tempNodes);
-      const goalOutput = goal(inputs[0], inputs[1], inputs[2], inputs[3]);
-
-      table.push({
-        inputs,
-        circuitOutput: circuitOutput["9"], // Node 9 is the output
-        goalOutput: goalOutput ? 1 : 0,
-      });
-    }
-
-    return table;
-  };
-
   const mutateCircuit = () => {
     const mutation = generateValidMutation(nodes, edges);
-    // console.log("mutation", mutation);
 
     // Remove old edge and add new edge
     setEdges((currentEdges) => {
       const updatedEdges = currentEdges.filter(
         (edge) => edge.id !== mutation.oldEdge.id
       );
-      return [...updatedEdges, mutation.newEdge];
-    });
+      const newEdges = [...updatedEdges, mutation.newEdge];
 
-    // Update chart data with new fitness
-    setChartData((currentData) => {
-      const newGeneration = currentData.length;
-      const newFitness = accuracy / 100;
-      // console.log("chartData", [
-      //   ...currentData,
-      //   { x: newGeneration, y: newFitness },
-      // ]);
-      return [...currentData, { x: newGeneration, y: newFitness }];
+      // Calculate new fitness here with the updated edges
+      const newTruthTable = generateTruthTable(nodes, newEdges);
+      const newAccuracy =
+        (newTruthTable.filter((row) => row.circuitOutput === row.goalOutput)
+          .length /
+          newTruthTable.length) *
+        100;
+
+      // Update chart data with the new accuracy
+      setChartData((currentData) => {
+        const newGeneration = currentData.length;
+        const newFitness = newAccuracy / 100;
+        return [...currentData, { x: newGeneration, y: newFitness }];
+      });
+
+      return newEdges;
     });
   };
 
@@ -253,8 +203,8 @@ export const useCircuitEvolution = () => {
     setChartData([{ x: 0, y: 0.438 }]);
   };
 
-  const tableData = getTableData(edges);
-  const truthTable = generateTruthTable();
+  const inputTableData = getInputTableData(edges);
+  const truthTable = generateTruthTable(nodes, edges);
   const accuracy =
     (truthTable.filter((row) => row.circuitOutput === row.goalOutput).length /
       truthTable.length) *
@@ -265,7 +215,7 @@ export const useCircuitEvolution = () => {
     edges,
     onNodesChange,
     onEdgesChange,
-    tableData,
+    inputTableData,
     truthTable,
     accuracy,
     chartData,

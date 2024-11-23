@@ -14,7 +14,29 @@ export const goal = (x: number, y: number, z: number, w: number) => {
   );
 };
 
-export const getTableData = (edges: any[]) => {
+export const evaluateCircuit = (nodes: any[], edges: any[]) => {
+  const nodeValues = {};
+
+  nodes
+    .filter((node) => node.type === "circle")
+    .forEach((node) => {
+      nodeValues[node.id] = node.data.booleanValue;
+    });
+
+  const { gates, inputs } = getInputTableData(edges);
+
+  gates.forEach((gateId) => {
+    const gateInputs = inputs[gates.indexOf(gateId)];
+    // Get input values and evaluate NAND
+    const input1 = nodeValues[gateInputs[0]];
+    const input2 = nodeValues[gateInputs[1]];
+    nodeValues[gateId] = evaluateNAND(input1, input2);
+  });
+
+  return nodeValues;
+};
+
+export const getInputTableData = (edges: any[]) => {
   // Create a map to store inputs for each target node
   const gateInputs: { [key: string]: string[] } = {};
 
@@ -35,6 +57,38 @@ export const getTableData = (edges: any[]) => {
     gates: sortedGates,
     inputs: sortedGates.map((gate) => gateInputs[gate].sort()),
   };
+};
+
+export const generateTruthTable = (nodes: any[], edges: any[]) => {
+  const table = [];
+  // Generate all possible combinations of 4 inputs
+  for (let i = 0; i < 16; i++) {
+    const inputs = [(i >> 3) & 1, (i >> 2) & 1, (i >> 1) & 1, i & 1];
+
+    // Update node values temporarily
+    const tempNodes = nodes.map((node) => {
+      if (node.type === "circle") {
+        const index = parseInt(node.id) - 1;
+        return {
+          ...node,
+          data: { ...node.data, booleanValue: inputs[index] },
+        };
+      }
+      return node;
+    });
+
+    // Evaluate circuit with these inputs
+    const circuitOutput = evaluateCircuit(tempNodes, edges);
+    const goalOutput = goal(inputs[0], inputs[1], inputs[2], inputs[3]);
+
+    table.push({
+      inputs,
+      circuitOutput: circuitOutput["9"], // Node 9 is the output
+      goalOutput: goalOutput ? 1 : 0,
+    });
+  }
+
+  return table;
 };
 
 export const fitnessChartAxisStyle = {
