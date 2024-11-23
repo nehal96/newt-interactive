@@ -14,9 +14,11 @@ import {
   NANDNode,
   MathFormula,
   Button,
+  Popover,
 } from "../../components";
 import { useCircuitEvolution } from "./hooks";
 import { fitnessChartAxisStyle } from "./utils";
+import { FiInfo } from "react-icons/fi";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -86,7 +88,7 @@ const InputTable = ({ inputTableData }) => (
 );
 
 const TruthTable = ({ truthTable, accuracy }) => (
-  <table className="font-mono border border-slate-200">
+  <table className="font-mono border border-slate-200 w-full">
     <thead>
       <tr className="border-b border-slate-200">
         <th className="px-2 border-r border-slate-200">X</th>
@@ -127,23 +129,32 @@ const TruthTable = ({ truthTable, accuracy }) => (
   </table>
 );
 
+const FitnessInfoPopoverContent = () => (
+  <div className="text-sm font-mono">
+    <div>
+      <span className="underline">Fitness formula:</span>{" "}
+      <MathFormula
+        variant="small"
+        tex="\text{fraction of correct outputs} - \epsilon n"
+      />
+    </div>
+    <div className="text-sm text-slate-600 font-body">
+      <MathFormula variant="small" tex="\epsilon" /> is the fitness penalty per
+      node, <MathFormula variant="small" tex="n" /> is total number of nodes in
+      the circuit. For simplicity,{" "}
+      <MathFormula variant="small" tex="\epsilon" /> is set to 0.
+    </div>
+  </div>
+);
+
 const FitnessGraph = ({ chartData }) => (
   <>
-    <div>
-      Fitness formula:{" "}
-      <MathFormula tex="\text{fraction of correct outputs} - \epsilon n" />
-    </div>
-    <div className="mt-4">
-      Fitness score (assuming <MathFormula tex="\epsilon = 0" />
-      ):{" "}
-      <MathFormula tex={`${chartData[chartData.length - 1].y.toFixed(3)} `} />
-    </div>
     <div className="mt-4">Fitness graph:</div>
-    <div className="h-[240px]">
+    <div className="h-[200px] w-[350px]">
       <VictoryChart
         width={200}
         height={120}
-        padding={{ top: 10, bottom: 30, left: 40, right: 10 }}
+        padding={{ top: 10, bottom: 40, left: 10, right: 10 }}
         domain={{ x: [0, 100], y: [0, 1] }}
         containerComponent={<VictoryContainer responsive={true} />}
       >
@@ -199,24 +210,53 @@ const CircuitEvolutionSimulation = () => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
       />
-      <div className="w-1/2 lg:ml-4 mb-4 lg:my-0">
+      <div className="w-1/2 lg:ml-4 mb-4 lg:my-0 font-mono">
         <div className="mb-4">
-          <p className="font-mono">
+          <p className="text-center">
             Circuit goal:{" "}
             <MathFormula tex="(X \enspace \text{XOR} \enspace Y) \enspace \text{AND} \enspace (Z \enspace \text{XOR} \enspace W)" />
           </p>
         </div>
-        <InputTable inputTableData={inputTableData} />
-        <div className="flex flex-row mt-4">
-          <TruthTable truthTable={truthTable} accuracy={accuracy} />
-          <div className="ml-4 flex-col font-mono">
-            <FitnessGraph chartData={chartData} />
-            <Button variant="outline" onClick={mutateCircuit}>
-              Simulate a Mutation
-            </Button>
-            <Button className="mt-2" variant="outline" onClick={resetCircuit}>
-              Reset Circuit
-            </Button>
+        <div className="flex font-mono">
+          <div className="flex-col">
+            <InputTable inputTableData={inputTableData} />
+            <div className="flex-col mt-4 font-mono">
+              <div className="flex mt-4 items-center">
+                Fitness score
+                <Popover
+                  side="right"
+                  trigger={
+                    <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
+                      <FiInfo size={16} />
+                    </button>
+                  }
+                  content={<FitnessInfoPopoverContent />}
+                  className="md:max-w-[450px]"
+                />
+                :{" "}
+                <MathFormula
+                  className="ml-2"
+                  tex={`${chartData[chartData.length - 1].y.toFixed(3)} `}
+                />
+              </div>
+              <FitnessGraph chartData={chartData} />
+              <div className="mt-4 flex flex-col">
+                <Button variant="outline" onClick={mutateCircuit}>
+                  Simulate a Mutation
+                </Button>
+                <Button
+                  className="mt-2"
+                  variant="outline"
+                  onClick={resetCircuit}
+                >
+                  Reset Circuit
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="flex-col ml-4">
+            <div className="underline">Truth table:</div>
+            <TruthTable truthTable={truthTable} accuracy={accuracy} />
           </div>
         </div>
       </div>
