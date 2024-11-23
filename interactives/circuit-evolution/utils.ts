@@ -1,11 +1,17 @@
+import { CircuitNode, CircuitEdge, TruthTableRow } from "./types";
 import { axisStyle } from "../../components/Chart/styles";
 
+// Logic Gates
 export const evaluateNAND = (input1: number, input2: number): number => {
   return input1 === 1 && input2 === 1 ? 0 : 1;
 };
 
-// (X xor Y) AND (Z xor W) -- programming logic evaluated from https://www.dcode.fr/boolean-expressions-calculator
-export const goal = (x: number, y: number, z: number, w: number) => {
+export const goal = (
+  x: number,
+  y: number,
+  z: number,
+  w: number
+): number | boolean => {
   return (
     (w && x && !y && !z) ||
     (w && !x && y && !z) ||
@@ -14,20 +20,25 @@ export const goal = (x: number, y: number, z: number, w: number) => {
   );
 };
 
-export const evaluateCircuit = (nodes: any[], edges: any[]) => {
-  const nodeValues = {};
+// Circuit Evaluation
+export const evaluateCircuit = (
+  nodes: CircuitNode[],
+  edges: CircuitEdge[]
+): Record<string, number> => {
+  const nodeValues: Record<string, number> = {};
 
+  // Initialize input values
   nodes
     .filter((node) => node.type === "circle")
     .forEach((node) => {
-      nodeValues[node.id] = node.data.booleanValue;
+      nodeValues[node.id] = node.data.booleanValue ?? 0;
     });
 
   const { gates, inputs } = getInputTableData(edges);
 
+  // Evaluate each gate
   gates.forEach((gateId) => {
     const gateInputs = inputs[gates.indexOf(gateId)];
-    // Get input values and evaluate NAND
     const input1 = nodeValues[gateInputs[0]];
     const input2 = nodeValues[gateInputs[1]];
     nodeValues[gateId] = evaluateNAND(input1, input2);
@@ -36,11 +47,10 @@ export const evaluateCircuit = (nodes: any[], edges: any[]) => {
   return nodeValues;
 };
 
-export const getInputTableData = (edges: any[]) => {
-  // Create a map to store inputs for each target node
-  const gateInputs: { [key: string]: string[] } = {};
+// Input Processing
+export const getInputTableData = (edges: CircuitEdge[]) => {
+  const gateInputs: Record<string, string[]> = {};
 
-  // Process edges to group inputs by target
   edges.forEach((edge) => {
     if (!gateInputs[edge.target]) {
       gateInputs[edge.target] = [];
@@ -48,7 +58,6 @@ export const getInputTableData = (edges: any[]) => {
     gateInputs[edge.target].push(edge.source);
   });
 
-  // Sort gates by number
   const sortedGates = Object.keys(gateInputs).sort(
     (a, b) => parseInt(a) - parseInt(b)
   );
@@ -59,31 +68,22 @@ export const getInputTableData = (edges: any[]) => {
   };
 };
 
-export const generateTruthTable = (nodes: any[], edges: any[]) => {
-  const table = [];
-  // Generate all possible combinations of 4 inputs
+// Truth Table Generation
+export const generateTruthTable = (
+  nodes: CircuitNode[],
+  edges: CircuitEdge[]
+): TruthTableRow[] => {
+  const table: TruthTableRow[] = [];
+
   for (let i = 0; i < 16; i++) {
     const inputs = [(i >> 3) & 1, (i >> 2) & 1, (i >> 1) & 1, i & 1];
-
-    // Update node values temporarily
-    const tempNodes = nodes.map((node) => {
-      if (node.type === "circle") {
-        const index = parseInt(node.id) - 1;
-        return {
-          ...node,
-          data: { ...node.data, booleanValue: inputs[index] },
-        };
-      }
-      return node;
-    });
-
-    // Evaluate circuit with these inputs
+    const tempNodes = updateNodesWithInputs(nodes, inputs);
     const circuitOutput = evaluateCircuit(tempNodes, edges);
     const goalOutput = goal(inputs[0], inputs[1], inputs[2], inputs[3]);
 
     table.push({
       inputs,
-      circuitOutput: circuitOutput["9"], // Node 9 is the output
+      circuitOutput: circuitOutput["9"],
       goalOutput: goalOutput ? 1 : 0,
     });
   }
@@ -91,6 +91,143 @@ export const generateTruthTable = (nodes: any[], edges: any[]) => {
   return table;
 };
 
+const updateNodesWithInputs = (
+  nodes: CircuitNode[],
+  inputs: number[]
+): CircuitNode[] => {
+  return nodes.map((node) => {
+    if (node.type === "circle") {
+      const index = parseInt(node.id) - 1;
+      return {
+        ...node,
+        data: { ...node.data, booleanValue: inputs[index] },
+      };
+    }
+    return node;
+  });
+};
+
+// Mutation Logic
+export const generateValidMutation = (
+  nodes: CircuitNode[],
+  edges: CircuitEdge[]
+) => {
+  const possibleSources = nodes
+    .filter((node) => parseInt(node.id) < 9)
+    .map((node) => node.id);
+
+  const possibleTargets = nodes
+    .filter((node) => node.type === "nandGate")
+    .map((node) => node.id);
+
+  const currentSourceOutputs = countSourceOutputs(edges);
+  const validEdgesToRemove = filterValidEdgesToRemove(
+    edges,
+    currentSourceOutputs
+  );
+  const edgeToMutate =
+    validEdgesToRemove[Math.floor(Math.random() * validEdgesToRemove.length)];
+
+  if (!edgeToMutate) return null;
+
+  const remainingEdges = edges.filter((edge) => edge.id !== edgeToMutate.id);
+  const { newSource, newTarget } = generateNewConnection(
+    possibleSources,
+    possibleTargets,
+    remainingEdges
+  );
+
+  return {
+    oldEdge: edgeToMutate,
+    newEdge: {
+      id: `e${newSource}-${newTarget}`,
+      source: newSource,
+      target: newTarget,
+    },
+  };
+};
+
+const countSourceOutputs = (edges: CircuitEdge[]): Record<string, number> => {
+  return edges.reduce(
+    (acc, edge) => ({
+      ...acc,
+      [edge.source]: (acc[edge.source] || 0) + 1,
+    }),
+    {}
+  );
+};
+
+const filterValidEdgesToRemove = (
+  edges: CircuitEdge[],
+  currentSourceOutputs: Record<string, number>
+): CircuitEdge[] => {
+  return edges.filter((edge) => {
+    const isInputNode = parseInt(edge.source) <= 4;
+    return !isInputNode || currentSourceOutputs[edge.source] > 1;
+  });
+};
+
+const generateNewConnection = (
+  possibleSources: string[],
+  possibleTargets: string[],
+  remainingEdges: CircuitEdge[]
+) => {
+  const targetInputCounts = remainingEdges.reduce(
+    (acc, edge) => ({
+      ...acc,
+      [edge.target]: (acc[edge.target] || 0) + 1,
+    }),
+    {}
+  );
+
+  const existingConnections = new Set(
+    remainingEdges.map((edge) => `${edge.source}-${edge.target}`)
+  );
+
+  const validTargets = possibleTargets.filter(
+    (target) => (targetInputCounts[target] || 0) < 2
+  );
+
+  let attempts = 0;
+  let newSource: string, newTarget: string;
+
+  do {
+    const disconnectedInputs = findDisconnectedInputs(
+      possibleSources,
+      remainingEdges
+    );
+    newSource = selectNewSource(disconnectedInputs, possibleSources);
+    newTarget = validTargets[Math.floor(Math.random() * validTargets.length)];
+    attempts++;
+
+    if (attempts > 100) {
+      throw new Error("No valid mutations available");
+    }
+  } while (existingConnections.has(`${newSource}-${newTarget}`));
+
+  return { newSource, newTarget };
+};
+
+const findDisconnectedInputs = (
+  possibleSources: string[],
+  edges: CircuitEdge[]
+): string[] => {
+  return possibleSources.filter(
+    (source) =>
+      parseInt(source) <= 4 && !edges.some((edge) => edge.source === source)
+  );
+};
+
+const selectNewSource = (
+  disconnectedInputs: string[],
+  possibleSources: string[]
+): string => {
+  return disconnectedInputs.length > 0
+    ? disconnectedInputs[Math.floor(Math.random() * disconnectedInputs.length)]
+    : possibleSources[Math.floor(Math.random() * possibleSources.length)];
+};
+
+// Chart Styling
 export const fitnessChartAxisStyle = {
   ...axisStyle,
   axisLabel: {
@@ -105,94 +242,4 @@ export const fitnessChartAxisStyle = {
     fontFamily: "monospace",
   },
   ticks: { ...axisStyle.ticks, size: 0 },
-};
-
-export const generateValidMutation = (nodes: any[], edges: any[]) => {
-  // Get all possible source nodes (inputs 1-4 and NAND gates 5-8)
-  const possibleSources = nodes
-    .filter((node) => parseInt(node.id) < 9)
-    .map((node) => node.id);
-
-  // Get all possible target nodes (NAND gates 5-9)
-  const possibleTargets = nodes
-    .filter((node) => node.type === "nandGate")
-    .map((node) => node.id);
-
-  // Count current outputs for each source
-  const currentSourceOutputs = edges.reduce((acc, edge) => {
-    acc[edge.source] = (acc[edge.source] || 0) + 1;
-    return acc;
-  }, {});
-
-  // Only allow removing edges that won't disconnect input nodes
-  const validEdgesToRemove = edges.filter((edge) => {
-    const isInputNode = parseInt(edge.source) <= 4;
-    if (!isInputNode) return true;
-    return currentSourceOutputs[edge.source] > 1;
-  });
-
-  // Pick a random edge to mutate from valid options
-  const edgeToMutate =
-    validEdgesToRemove[Math.floor(Math.random() * validEdgesToRemove.length)];
-
-  // Create new edges array without the selected edge
-  const remainingEdges = edges.filter((edge) => edge.id !== edgeToMutate.id);
-
-  // Count inputs for each target after removing the edge
-  const targetInputCounts = remainingEdges.reduce((acc, edge) => {
-    acc[edge.target] = (acc[edge.target] || 0) + 1;
-    return acc;
-  }, {});
-
-  // Create a set of existing connections
-  const existingConnections = new Set(
-    remainingEdges.map((edge) => `${edge.source}-${edge.target}`)
-  );
-
-  // Filter valid targets (those with less than 2 inputs)
-  const validTargets = possibleTargets.filter(
-    (target) => (targetInputCounts[target] || 0) < 2
-  );
-
-  // Generate new connection ensuring it's unique
-  let attempts = 0;
-  let newSource, newTarget;
-
-  do {
-    // Prioritize disconnected inputs
-    const disconnectedInputs = possibleSources.filter(
-      (source) =>
-        parseInt(source) <= 4 &&
-        !remainingEdges.some((edge) => edge.source === source)
-    );
-
-    if (disconnectedInputs.length > 0) {
-      // If there are disconnected inputs, use one of them as the source
-      newSource =
-        disconnectedInputs[
-          Math.floor(Math.random() * disconnectedInputs.length)
-        ];
-    } else {
-      newSource =
-        possibleSources[Math.floor(Math.random() * possibleSources.length)];
-    }
-
-    newTarget = validTargets[Math.floor(Math.random() * validTargets.length)];
-    attempts++;
-
-    // Prevent infinite loop if no valid combinations are available
-    if (attempts > 100) {
-      console.error("No valid mutations available");
-      return null;
-    }
-  } while (existingConnections.has(`${newSource}-${newTarget}`));
-
-  return {
-    oldEdge: edgeToMutate,
-    newEdge: {
-      id: `e${newSource}-${newTarget}`,
-      source: newSource,
-      target: newTarget,
-    },
-  };
 };
