@@ -33,7 +33,6 @@ const CircuitDisplay = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
   <div className="w-1/2 h-[400px] border border-slate-200 rounded-md">
     <ReactFlow
       fitView
-      fitViewOptions={{ padding: 0.3 }}
       nodes={nodes}
       edges={edges}
       onNodesChange={onNodesChange}
@@ -169,20 +168,24 @@ const FitnessGraph = ({ chartData }) => (
           style={fitnessChartAxisStyle}
           tickValues={[0, 0.5, 1]}
         />
-        <VictoryLine
-          style={{
-            data: { stroke: "#3f3f46" },
-          }}
-          data={chartData}
-          interpolation="monotoneX"
-        />
-        <VictoryScatter
-          style={{
-            data: { fill: "#ef4444" },
-          }}
-          size={2}
-          data={[chartData[chartData.length - 1]]}
-        />
+        {chartData.length > 0 && (
+          <VictoryLine
+            style={{
+              data: { stroke: "#3f3f46" },
+            }}
+            data={chartData}
+            interpolation="monotoneX"
+          />
+        )}
+        {chartData.length > 0 && (
+          <VictoryScatter
+            style={{
+              data: { fill: "#ef4444" },
+            }}
+            size={2}
+            data={[chartData?.[chartData.length - 1]]}
+          />
+        )}
       </VictoryChart>
     </div>
   </>
@@ -252,10 +255,12 @@ const CircuitEvolutionSimulation = () => {
                   className="md:max-w-[450px]"
                 />
                 :{" "}
-                <MathFormula
-                  className="ml-2"
-                  tex={`${chartData[chartData.length - 1].y.toFixed(3)} `}
-                />
+                {chartData.length > 0 && (
+                  <MathFormula
+                    className="ml-2"
+                    tex={`${chartData?.[chartData.length - 1]?.y.toFixed(3)} `}
+                  />
+                )}
               </div>
               <FitnessGraph chartData={chartData} />
               <div className="mt-4 flex flex-col">

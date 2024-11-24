@@ -8,14 +8,21 @@ import {
 import { initialNodes, initialEdges } from "./data";
 
 export const useCircuitEvolution = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [chartData, setChartData] = useState([{ x: 0, y: 0.438 }]);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [chartData, setChartData] = useState<Array<{ x: number; y: number }>>(
+    []
+  );
   const [mutationLogs, setMutationLogs] = useState<string[]>([]);
 
+  // Calculate initial fitness on first render
   useEffect(() => {
-    setNodes(initialNodes);
-    setEdges(initialEdges);
+    const initialTruthTable = generateTruthTable(nodes, edges);
+    const initialAccuracy =
+      initialTruthTable.filter((row) => row.circuitOutput === row.goalOutput)
+        .length / initialTruthTable.length;
+
+    setChartData([{ x: 0, y: initialAccuracy }]);
   }, []);
 
   const mutateCircuit = () => {
@@ -60,7 +67,11 @@ export const useCircuitEvolution = () => {
   const resetCircuit = () => {
     setNodes(initialNodes);
     setEdges(initialEdges);
-    setChartData([{ x: 0, y: 0.438 }]);
+    const initialTruthTable = generateTruthTable(initialNodes, initialEdges);
+    const initialAccuracy =
+      initialTruthTable.filter((row) => row.circuitOutput === row.goalOutput)
+        .length / initialTruthTable.length;
+    setChartData([{ x: 0, y: initialAccuracy }]);
     setMutationLogs([]);
   };
 

@@ -74,6 +74,11 @@ export const generateTruthTable = (
   edges: CircuitEdge[]
 ): TruthTableRow[] => {
   const table: TruthTableRow[] = [];
+  // Find the output node (highest numbered NAND gate)
+  const outputNodeId = nodes
+    .filter((node) => node.type === "nandGate")
+    .map((node) => node.id)
+    .sort((a, b) => parseInt(b) - parseInt(a))[0];
 
   for (let i = 0; i < 16; i++) {
     const inputs = [(i >> 3) & 1, (i >> 2) & 1, (i >> 1) & 1, i & 1];
@@ -83,7 +88,7 @@ export const generateTruthTable = (
 
     table.push({
       inputs,
-      circuitOutput: circuitOutput["9"],
+      circuitOutput: circuitOutput[outputNodeId],
       goalOutput: goalOutput ? 1 : 0,
     });
   }
@@ -112,8 +117,15 @@ export const generateValidMutation = (
   nodes: CircuitNode[],
   edges: CircuitEdge[]
 ) => {
+  // Calculate the highest valid source ID (4 inputs + all NAND gates except the last one)
+  const maxSourceId =
+    nodes
+      .filter((node) => node.type === "nandGate")
+      .map((node) => parseInt(node.id))
+      .sort((a, b) => b - a)[0] - 1;
+
   const possibleSources = nodes
-    .filter((node) => parseInt(node.id) < 9)
+    .filter((node) => parseInt(node.id) <= maxSourceId)
     .map((node) => node.id);
 
   const possibleTargets = nodes
