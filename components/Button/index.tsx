@@ -6,7 +6,7 @@ interface ButtonProps
     ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  variant: "primary" | "secondary" | "outline";
+  variant: "primary" | "secondary" | "outline" | "ghost";
 }
 
 const Button = ({ variant, children, className, ...props }: ButtonProps) => {
@@ -21,6 +21,8 @@ const Button = ({ variant, children, className, ...props }: ButtonProps) => {
         return `bg-slate-200 hover:bg-slate-300 text-slate-800 ${disabledStyles}`;
       case "outline":
         return "border border-slate-300 hover:border-slate-400";
+      case "ghost":
+        return "text-slate-600 hover:text-slate-800 hover:bg-slate-100";
       default:
         return "text-slate-800";
     }

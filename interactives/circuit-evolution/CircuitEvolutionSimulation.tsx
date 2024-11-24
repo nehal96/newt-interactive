@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { ReactFlow, Background, Controls, StraightEdge } from "@xyflow/react";
 import {
   VictoryChart,
@@ -18,7 +18,7 @@ import {
 } from "../../components";
 import { useCircuitEvolution } from "./hooks";
 import { fitnessChartAxisStyle } from "./utils";
-import { FiInfo } from "react-icons/fi";
+import { FiInfo, FiX } from "react-icons/fi";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -219,9 +219,14 @@ const FitnessGraph = ({ chartData }) => (
   </>
 );
 
-const MutationLog = ({ logs }) => (
+const MutationLog = ({ logs, onHide }) => (
   <div className="mt-4">
-    <div className="underline mb-2">Mutation log:</div>
+    <div className="flex justify-between items-center underline mb-2">
+      <span>Mutation log:</span>
+      <Button variant="ghost" onClick={onHide} className="text-sm">
+        <FiX size={16} />
+      </Button>
+    </div>
     <div className="bg-slate-800 text-white p-3 rounded-md font-mono text-sm h-[183px] overflow-y-auto">
       {logs.length === 0 ? (
         <div className="opacity-50">No mutations yet...</div>
@@ -250,6 +255,9 @@ const CircuitEvolutionSimulation = () => {
     resetCircuit,
     mutationLogs,
   } = useCircuitEvolution();
+  const [showMutationLog, setShowMutationLog] = useState(false);
+
+  const onToggleMutationLog = () => setShowMutationLog(!showMutationLog);
 
   return (
     <InteractiveTutorialContainer className="flex-col">
@@ -293,7 +301,18 @@ const CircuitEvolutionSimulation = () => {
                 )}
               </div>
               <FitnessGraph chartData={chartData} />
-              <MutationLog logs={mutationLogs} />
+              {!showMutationLog && (
+                <Button
+                  variant="ghost"
+                  onClick={onToggleMutationLog}
+                  className="mt-4 text-sm"
+                >
+                  Show mutation log
+                </Button>
+              )}
+              {showMutationLog && (
+                <MutationLog logs={mutationLogs} onHide={onToggleMutationLog} />
+              )}
             </div>
             <div className="flex-col mt-4">
               <div className="underline">Truth table:</div>
