@@ -6,17 +6,12 @@ export const evaluateNAND = (input1: number, input2: number): number => {
   return input1 === 1 && input2 === 1 ? 0 : 1;
 };
 
-export const goal = (
-  x: number,
-  y: number,
-  z: number,
-  w: number
-): number | boolean => {
-  return (
+export const goal = (x: number, y: number, z: number, w: number): number => {
+  return Number(
     (w && x && !y && !z) ||
-    (w && !x && y && !z) ||
-    (!w && x && !y && z) ||
-    (!w && !x && y && z)
+      (w && !x && y && !z) ||
+      (!w && x && !y && z) ||
+      (!w && !x && y && z)
   );
 };
 
@@ -27,11 +22,13 @@ export const evaluateCircuit = (
 ): Record<string, number> => {
   const nodeValues: Record<string, number> = {};
 
-  // Initialize input values
   nodes
     .filter((node) => node.type === "circle")
     .forEach((node) => {
-      nodeValues[node.id] = node.data.booleanValue ?? 0;
+      if (typeof node.data.booleanValue !== "number") {
+        throw new Error(`Node ${node.id} missing boolean value`);
+      }
+      nodeValues[node.id] = node.data.booleanValue;
     });
 
   const { gates, inputs } = getInputTableData(edges);
@@ -74,9 +71,14 @@ export const generateTruthTable = (
   edges: CircuitEdge[]
 ): TruthTableRow[] => {
   const table: TruthTableRow[] = [];
+  const nandGates = nodes.filter((node) => node.type === "nandGate");
+
+  if (nandGates.length === 0) {
+    throw new Error("No NAND gates found in circuit");
+  }
+
   // Find the output node (highest numbered NAND gate)
-  const outputNodeId = nodes
-    .filter((node) => node.type === "nandGate")
+  const outputNodeId = nandGates
     .map((node) => node.id)
     .sort((a, b) => parseInt(b) - parseInt(a))[0];
 
@@ -215,7 +217,10 @@ const generateNewConnection = (
     if (attempts > 100) {
       throw new Error("No valid mutations available");
     }
-  } while (existingConnections.has(`${newSource}-${newTarget}`));
+  } while (
+    existingConnections.has(`${newSource}-${newTarget}`) ||
+    newSource === newTarget
+  );
 
   return { newSource, newTarget };
 };

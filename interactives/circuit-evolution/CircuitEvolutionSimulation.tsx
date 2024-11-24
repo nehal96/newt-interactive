@@ -65,7 +65,7 @@ const CircuitDisplay = ({
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
     />
-    <div className="mt-6 flex flex-col">
+    <div className="mt-6 flex flex-col font-mono">
       <Button
         variant="primary"
         className="bg-slate-800 hover:bg-slate-900"
@@ -74,7 +74,7 @@ const CircuitDisplay = ({
         Simulate a Mutation
       </Button>
       <Button className="mt-2" variant="outline" onClick={resetCircuit}>
-        Reset Circuit
+        Reset
       </Button>
     </div>
   </div>
@@ -186,7 +186,7 @@ const FitnessGraph = ({ chartData }) => (
         containerComponent={<VictoryContainer responsive={true} />}
       >
         <VictoryAxis
-          label="Generation"
+          label="Mutations"
           style={fitnessChartAxisStyle}
           tickValues={[0, 50, 100]}
           tickFormat={(t) => t.toString()}

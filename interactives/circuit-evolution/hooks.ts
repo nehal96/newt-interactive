@@ -17,51 +17,74 @@ export const useCircuitEvolution = () => {
 
   // Calculate initial fitness on first render
   useEffect(() => {
-    const initialTruthTable = generateTruthTable(nodes, edges);
-    const initialAccuracy =
-      initialTruthTable.filter((row) => row.circuitOutput === row.goalOutput)
-        .length / initialTruthTable.length;
+    try {
+      const initialTruthTable = generateTruthTable(nodes, edges);
+      const initialFitness =
+        initialTruthTable.filter((row) => row.circuitOutput === row.goalOutput)
+          .length / initialTruthTable.length;
 
-    setChartData([{ x: 0, y: initialAccuracy }]);
+      setChartData([{ x: 0, y: initialFitness }]);
+    } catch (error) {
+      console.error("Error calculating initial fitness:", error);
+      setMutationLogs((prev) => [
+        ...prev,
+        `Error calculating initial fitness: ${error.message}`,
+      ]);
+    }
   }, []);
 
   const mutateCircuit = () => {
-    const mutation = generateValidMutation(nodes, edges);
-
-    // Remove old edge and add new edge
-    setEdges((currentEdges) => {
-      const updatedEdges = currentEdges.filter(
-        (edge) => edge.id !== mutation.oldEdge.id
-      );
-      const newEdges = [...updatedEdges, mutation.newEdge];
-
-      // Calculate new fitness here with the updated edges
-      const newTruthTable = generateTruthTable(nodes, newEdges);
-      const newAccuracy =
-        (newTruthTable.filter((row) => row.circuitOutput === row.goalOutput)
-          .length /
-          newTruthTable.length) *
-        100;
-
-      // Update chart data with the new accuracy
-      setChartData((currentData) => {
-        const newGeneration = currentData.length;
-        const newFitness = newAccuracy / 100;
-        return [...currentData, { x: newGeneration, y: newFitness }];
-      });
-
-      // Add log entry
-      if (mutation.oldEdge && mutation.newEdge) {
+    try {
+      const mutation = generateValidMutation(nodes, edges);
+      if (!mutation) {
         setMutationLogs((prev) => [
           ...prev,
-          `Removed ${mutation.oldEdge.source}->${mutation.oldEdge.target}, Added ${mutation.newEdge.source}->${mutation.newEdge.target}`,
+          "Failed to generate valid mutation",
         ]);
-      } else {
-        setMutationLogs((prev) => [...prev, "No changes in this mutation"]);
+        return;
       }
 
-      return newEdges;
-    });
+      setEdges((currentEdges) => {
+        try {
+          const updatedEdges = currentEdges.filter(
+            (edge) => edge.id !== mutation.oldEdge.id
+          );
+          const newEdges = [...updatedEdges, mutation.newEdge];
+
+          const newTruthTable = generateTruthTable(nodes, newEdges);
+          const newFitness =
+            newTruthTable.filter((row) => row.circuitOutput === row.goalOutput)
+              .length / newTruthTable.length;
+
+          setChartData((currentData) => {
+            const newGeneration = currentData.length;
+            return [...currentData, { x: newGeneration, y: newFitness }];
+          });
+
+          if (mutation.oldEdge && mutation.newEdge) {
+            setMutationLogs((prev) => [
+              ...prev,
+              `Removed ${mutation.oldEdge.source}->${mutation.oldEdge.target}, Added ${mutation.newEdge.source}->${mutation.newEdge.target}`,
+            ]);
+          }
+
+          return newEdges;
+        } catch (error) {
+          console.error("Error processing mutation:", error);
+          setMutationLogs((prev) => [
+            ...prev,
+            `Error processing mutation: ${error.message}`,
+          ]);
+          return currentEdges; // Return unchanged edges if there's an error
+        }
+      });
+    } catch (error) {
+      console.error("Error during circuit mutation:", error);
+      setMutationLogs((prev) => [
+        ...prev,
+        `Error during circuit mutation: ${error.message}`,
+      ]);
+    }
   };
 
   const resetCircuit = () => {
