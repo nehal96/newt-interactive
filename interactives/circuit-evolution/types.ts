@@ -24,9 +24,15 @@ export interface TruthTableRow {
   goalOutput: number;
 }
 
+export enum SimulationType {
+  MUTATION = "mutation",
+  GENERATION = "generation",
+}
+
 export interface CircuitState {
   nodes: CircuitNode[];
   edges: CircuitEdge[];
   accuracy: number;
   chartData: { x: number; y: number }[];
+  simulationType: SimulationType;
 }

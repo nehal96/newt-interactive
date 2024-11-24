@@ -6,6 +6,7 @@ import {
   getInputTableData,
 } from "./utils";
 import { initialNodes, initialEdges } from "./data";
+import { SimulationType } from "./types";
 
 export const useCircuitEvolution = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -14,6 +15,9 @@ export const useCircuitEvolution = () => {
     []
   );
   const [mutationLogs, setMutationLogs] = useState<string[]>([]);
+  const [simulationType, setSimulationType] = useState<SimulationType>(
+    SimulationType.MUTATION
+  );
 
   // Calculate initial fitness on first render
   useEffect(() => {
@@ -105,6 +109,88 @@ export const useCircuitEvolution = () => {
       truthTable.length) *
     100;
 
+  const simulateGeneration = () => {
+    try {
+      // Store current circuit state
+      const currentEdges = [...edges];
+      const currentFitness = chartData[chartData.length - 1]?.y ?? 0;
+
+      let bestMutation = null;
+      let bestFitness = currentFitness;
+
+      // Try N mutations and keep track of the best one
+      for (let i = 0; i < 10; i++) {
+        const mutation = generateValidMutation(nodes, currentEdges);
+        if (!mutation) continue;
+
+        // Test this mutation
+        const testEdges = [
+          ...currentEdges.filter((edge) => edge.id !== mutation.oldEdge.id),
+          mutation.newEdge,
+        ];
+
+        const newTruthTable = generateTruthTable(nodes, testEdges);
+        const newFitness =
+          newTruthTable.filter((row) => row.circuitOutput === row.goalOutput)
+            .length / newTruthTable.length;
+
+        if (newFitness > bestFitness) {
+          bestMutation = mutation;
+          bestFitness = newFitness;
+        }
+      }
+
+      // Apply the best mutation if we found one
+      if (bestMutation && bestFitness > currentFitness) {
+        setEdges((currentEdges) => {
+          const updatedEdges = currentEdges.filter(
+            (edge) => edge.id !== bestMutation.oldEdge.id
+          );
+          const newEdges = [...updatedEdges, bestMutation.newEdge];
+
+          setChartData((currentData) => {
+            const newGeneration = currentData.length;
+            return [...currentData, { x: newGeneration, y: bestFitness }];
+          });
+
+          setMutationLogs((prev) => [
+            ...prev,
+            `Removed ${bestMutation.oldEdge.source}->${
+              bestMutation.oldEdge.target
+            }, Added ${bestMutation.newEdge.source}->${
+              bestMutation.newEdge.target
+            } (Fitness: ${bestFitness.toFixed(3)})`,
+          ]);
+
+          return newEdges;
+        });
+      } else {
+        setChartData((currentData) => {
+          const newGeneration = currentData.length;
+          return [...currentData, { x: newGeneration, y: currentFitness }];
+        });
+        setMutationLogs((prev) => [
+          ...prev,
+          `No improvement found after 10 mutations`,
+        ]);
+      }
+    } catch (error) {
+      console.error("Error during generation simulation:", error);
+      setMutationLogs((prev) => [
+        ...prev,
+        `Error during generation simulation: ${error.message}`,
+      ]);
+    }
+  };
+
+  const simulate = () => {
+    if (simulationType === SimulationType.MUTATION) {
+      mutateCircuit();
+    } else {
+      simulateGeneration();
+    }
+  };
+
   return {
     nodes,
     edges,
@@ -117,5 +203,8 @@ export const useCircuitEvolution = () => {
     mutateCircuit,
     resetCircuit,
     mutationLogs,
+    simulate,
+    simulationType,
+    setSimulationType,
   };
 };

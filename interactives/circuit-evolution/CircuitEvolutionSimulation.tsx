@@ -15,10 +15,14 @@ import {
   MathFormula,
   Button,
   Popover,
+  Tabs,
+  TabsTrigger,
+  TabsList,
 } from "../../components";
 import { useCircuitEvolution } from "./hooks";
 import { fitnessChartAxisStyle } from "./utils";
 import { FiInfo, FiX } from "react-icons/fi";
+import { SimulationType } from "./types";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -50,13 +54,27 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
   </div>
 );
 
+const SimulationTypeToggle = ({ simulationType, setSimulationType }) => (
+  <Tabs
+    value={simulationType}
+    onValueChange={(value) => setSimulationType(value as SimulationType)}
+  >
+    <TabsList>
+      <TabsTrigger value={SimulationType.MUTATION}>Mutation</TabsTrigger>
+      <TabsTrigger value={SimulationType.GENERATION}>Generation</TabsTrigger>
+    </TabsList>
+  </Tabs>
+);
+
 const CircuitDisplay = ({
   nodes,
   edges,
   onNodesChange,
   onEdgesChange,
-  mutateCircuit,
+  simulate,
   resetCircuit,
+  simulationType,
+  setSimulationType,
 }) => (
   <div className="flex flex-col w-full lg:w-1/3">
     <Circuit
@@ -66,12 +84,20 @@ const CircuitDisplay = ({
       onEdgesChange={onEdgesChange}
     />
     <div className="mt-6 flex flex-col font-mono">
+      <div className="flex justify-between items-center mb-5">
+        <span>Simulation type:</span>
+        <SimulationTypeToggle
+          simulationType={simulationType}
+          setSimulationType={setSimulationType}
+        />
+      </div>
       <Button
         variant="primary"
         className="bg-slate-800 hover:bg-slate-900"
-        onClick={mutateCircuit}
+        onClick={simulate}
       >
-        Simulate a Mutation
+        Simulate a{" "}
+        {simulationType === SimulationType.MUTATION ? "Mutation" : "Generation"}
       </Button>
       <Button className="mt-2" variant="outline" onClick={resetCircuit}>
         Reset
@@ -174,7 +200,7 @@ const FitnessInfoPopoverContent = () => (
   </div>
 );
 
-const FitnessGraph = ({ chartData }) => (
+const FitnessGraph = ({ simulationType, chartData }) => (
   <>
     <div className="mt-4 underline">Fitness graph:</div>
     <div className="h-[200px] w-[350px]">
@@ -186,7 +212,11 @@ const FitnessGraph = ({ chartData }) => (
         containerComponent={<VictoryContainer responsive={true} />}
       >
         <VictoryAxis
-          label="Mutations"
+          label={
+            simulationType === SimulationType.MUTATION
+              ? "Mutations"
+              : "Generations"
+          }
           style={fitnessChartAxisStyle}
           tickValues={[0, 50, 100]}
           tickFormat={(t) => t.toString()}
@@ -219,7 +249,7 @@ const FitnessGraph = ({ chartData }) => (
   </>
 );
 
-const MutationLog = ({ logs, onHide }) => (
+const MutationLog = ({ simulationType, logs, onHide }) => (
   <div className="mt-4">
     <div className="flex justify-between items-center underline mb-2">
       <span>Mutation log:</span>
@@ -233,7 +263,11 @@ const MutationLog = ({ logs, onHide }) => (
       ) : (
         logs.map((log, index) => (
           <div key={index} className="mb-1">
-            {`> Mutation ${index + 1}: ${log}`}
+            {`> ${
+              simulationType === SimulationType.MUTATION
+                ? "Mutation"
+                : "Generation"
+            } ${index + 1}: ${log}`}
           </div>
         ))
       )}
@@ -251,9 +285,11 @@ const CircuitEvolutionSimulation = () => {
     truthTable,
     accuracy,
     chartData,
-    mutateCircuit,
+    simulate,
     resetCircuit,
     mutationLogs,
+    simulationType,
+    setSimulationType,
   } = useCircuitEvolution();
   const [showMutationLog, setShowMutationLog] = useState(false);
 
@@ -266,8 +302,10 @@ const CircuitEvolutionSimulation = () => {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        mutateCircuit={mutateCircuit}
+        simulate={simulate}
         resetCircuit={resetCircuit}
+        simulationType={simulationType}
+        setSimulationType={setSimulationType}
       />
       <div className="flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 font-mono border border-slate-200 rounded-md p-5">
         <div className="mb-4">
@@ -300,7 +338,10 @@ const CircuitEvolutionSimulation = () => {
                   />
                 )}
               </div>
-              <FitnessGraph chartData={chartData} />
+              <FitnessGraph
+                simulationType={simulationType}
+                chartData={chartData}
+              />
               {!showMutationLog && (
                 <Button
                   variant="ghost"
@@ -311,7 +352,11 @@ const CircuitEvolutionSimulation = () => {
                 </Button>
               )}
               {showMutationLog && (
-                <MutationLog logs={mutationLogs} onHide={onToggleMutationLog} />
+                <MutationLog
+                  simulationType={simulationType}
+                  logs={mutationLogs}
+                  onHide={onToggleMutationLog}
+                />
               )}
             </div>
             <div className="flex-col mt-4">
