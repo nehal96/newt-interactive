@@ -54,16 +54,37 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
   </div>
 );
 
+const SimulationTypeInfoPopoverContent = () => (
+  <div className="text-sm font-body">
+    <div className="mb-2">
+      When <span className="font-semibold">Mutation</span> is selected, a single
+      random change is made to the circuit &mdash; in this case, adding,
+      removing, or modifying a connection.
+    </div>
+    <div>
+      When <span className="font-semibold">Generation</span> is selected,
+      multiple circuit variations are created, each with a single mutation, and
+      the best performing one is chosen, similar to natural selection.
+    </div>
+  </div>
+);
+
 const SimulationTypeToggle = ({ simulationType, setSimulationType }) => (
-  <Tabs
-    value={simulationType}
-    onValueChange={(value) => setSimulationType(value as SimulationType)}
-  >
-    <TabsList>
-      <TabsTrigger value={SimulationType.MUTATION}>Mutation</TabsTrigger>
-      <TabsTrigger value={SimulationType.GENERATION}>Generation</TabsTrigger>
-    </TabsList>
-  </Tabs>
+  <div className="flex items-center">
+    <Tabs
+      value={simulationType}
+      onValueChange={(value) => setSimulationType(value as SimulationType)}
+    >
+      <TabsList>
+        <TabsTrigger className="text-sm" value={SimulationType.MUTATION}>
+          Mutation
+        </TabsTrigger>
+        <TabsTrigger className="text-sm" value={SimulationType.GENERATION}>
+          Generation
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
+  </div>
 );
 
 const CircuitDisplay = ({
@@ -85,7 +106,19 @@ const CircuitDisplay = ({
     />
     <div className="mt-6 flex flex-col font-mono">
       <div className="flex justify-between items-center mb-5">
-        <span>Simulation type:</span>
+        <div className="flex text-sm items-center">
+          Simulation type:
+          <Popover
+            side="right"
+            trigger={
+              <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
+                <FiInfo size={16} />
+              </button>
+            }
+            content={<SimulationTypeInfoPopoverContent />}
+            className="md:max-w-[450px]"
+          />
+        </div>
         <SimulationTypeToggle
           simulationType={simulationType}
           setSimulationType={setSimulationType}
