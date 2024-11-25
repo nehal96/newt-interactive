@@ -25,12 +25,8 @@ const CircuitEvolutionSimulation = () => {
     simulationType,
     setSimulationType,
   } = useCircuitEvolution({ numVariations });
-
-  const [showMutationLog, setShowMutationLog] = useState(false);
   const [showResetWarning, setShowResetWarning] = useState(false);
   const [skipResetWarning, setSkipResetWarning] = useState(false);
-
-  const onToggleMutationLog = () => setShowMutationLog(!showMutationLog);
 
   return (
     <InteractiveTutorialContainer className="flex-col">
@@ -58,8 +54,6 @@ const CircuitEvolutionSimulation = () => {
         accuracy={accuracy}
         chartData={chartData}
         mutationLogs={mutationLogs}
-        showMutationLog={showMutationLog}
-        onToggleMutationLog={onToggleMutationLog}
       />
     </InteractiveTutorialContainer>
   );

@@ -1,4 +1,4 @@
-import { Fragment, memo } from "react";
+import { Fragment, memo, useState } from "react";
 import {
   VictoryAxis,
   VictoryContainer,
@@ -54,7 +54,7 @@ const TruthTable = ({ truthTable, accuracy }) => (
 );
 
 const InputTable = ({ inputTableData }) => (
-  <div className="overflow-x-auto overflow-y-auto">
+  <div className="overflow-x-auto">
     <table className="w-full border border-slate-200 text-sm">
       <tbody>
         <tr className="border-b border-slate-200">
@@ -239,71 +239,105 @@ const CircuitDashboard = ({
   inputTableData,
   chartData,
   mutationLogs,
-  showMutationLog,
-  onToggleMutationLog,
-}) => (
-  <div className="flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 font-mono border border-slate-200 rounded-md p-5">
-    <div className="mb-4 relative">
-      <p className="text-center flex items-center justify-center">
-        Circuit goal:{" "}
-        <MathFormula tex="(X \enspace \text{XOR} \enspace Y) \enspace \text{AND} \enspace (Z \enspace \text{XOR} \enspace W)" />
-      </p>
-      <div className="absolute right-0 top-1/2 -translate-y-1/2">
-        <CircuitOptions
-          simulationType={simulationType}
-          numVariations={numVariations}
-          setNumVariations={setNumVariations}
-        />
+}) => {
+  const [showMutationLog, setShowMutationLog] = useState(false);
+  const [showTruthTable, setShowTruthTable] = useState(false);
+
+  const onToggleMutationLog = () => setShowMutationLog(!showMutationLog);
+
+  return (
+    <div className="flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 font-mono border border-slate-200 rounded-md p-5">
+      <div className="mb-4 relative">
+        <div className="text-center flex flex-col sm:flex-row items-center justify-center mr-6">
+          <span className="mr-2">Circuit goal:</span>
+          <MathFormula tex="(X \enspace \text{XOR} \enspace Y) \enspace \text{AND} \enspace (Z \enspace \text{XOR} \enspace W)" />
+        </div>
+        <div className="absolute right-0 top-1/2 -translate-y-1/2">
+          <CircuitOptions
+            simulationType={simulationType}
+            numVariations={numVariations}
+            setNumVariations={setNumVariations}
+          />
+        </div>
       </div>
-    </div>
-    <div className="flex flex-col">
-      <InputTable inputTableData={inputTableData} />
-      <div className="flex flex-col md:flex-row">
-        <div className="flex-col mt-4 flex-grow mr-4">
-          <div className="flex mt-4 items-center">
-            <span className="underline">Fitness score:</span>
-            <Popover
-              side="right"
-              trigger={
-                <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
-                  <FiInfo size={16} />
-                </button>
-              }
-              content={<FitnessInfoPopoverContent />}
-              className="md:max-w-[450px]"
+      <div className="flex flex-col">
+        <InputTable inputTableData={inputTableData} />
+        <div className="flex flex-row">
+          <div className="flex-col mt-4 flex-grow mr-4">
+            <div className="flex mt-4 items-center">
+              <span className="underline">Fitness score:</span>
+              <Popover
+                side="right"
+                trigger={
+                  <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
+                    <FiInfo size={16} />
+                  </button>
+                }
+                content={<FitnessInfoPopoverContent />}
+                className="md:max-w-[450px]"
+              />
+              {chartData.length > 0 && (
+                <MathFormula
+                  className="ml-2"
+                  tex={`${chartData?.[chartData.length - 1]?.y.toFixed(3)} `}
+                />
+              )}
+            </div>
+            <FitnessGraph
+              simulationType={simulationType}
+              chartData={chartData}
             />
-            {chartData.length > 0 && (
-              <MathFormula
-                className="ml-2"
-                tex={`${chartData?.[chartData.length - 1]?.y.toFixed(3)} `}
+            {!showTruthTable && (
+              <div className="sm:hidden">
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowTruthTable(true)}
+                  className="mt-4 text-sm"
+                >
+                  Show truth table
+                </Button>
+              </div>
+            )}
+            {showTruthTable && (
+              <div className="sm:hidden">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="underline mr-2">Truth table:</span>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setShowTruthTable(false)}
+                    className="text-sm"
+                  >
+                    <FiX size={16} />
+                  </Button>
+                </div>
+                <TruthTable truthTable={truthTable} accuracy={accuracy} />
+              </div>
+            )}
+            {!showMutationLog && (
+              <Button
+                variant="ghost"
+                onClick={onToggleMutationLog}
+                className="mt-4 text-sm"
+              >
+                Show mutation log
+              </Button>
+            )}
+            {showMutationLog && (
+              <MutationLog
+                simulationType={simulationType}
+                logs={mutationLogs}
+                onHide={onToggleMutationLog}
               />
             )}
           </div>
-          <FitnessGraph simulationType={simulationType} chartData={chartData} />
-          {!showMutationLog && (
-            <Button
-              variant="ghost"
-              onClick={onToggleMutationLog}
-              className="mt-4 text-sm"
-            >
-              Show mutation log
-            </Button>
-          )}
-          {showMutationLog && (
-            <MutationLog
-              simulationType={simulationType}
-              logs={mutationLogs}
-              onHide={onToggleMutationLog}
-            />
-          )}
-        </div>
-        <div className="flex-col mt-4">
-          <div className="underline">Truth table:</div>
-          <TruthTable truthTable={truthTable} accuracy={accuracy} />
+          <div className="hidden sm:block sm:flex-col mt-4">
+            <div className="underline">Truth table:</div>
+            <TruthTable truthTable={truthTable} accuracy={accuracy} />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default CircuitDashboard;

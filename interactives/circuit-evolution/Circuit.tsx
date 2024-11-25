@@ -33,7 +33,7 @@ const edgeTypes = {
 };
 
 const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
-  <div className="h-[400px] border border-slate-200 rounded-md">
+  <div className="h-[300px] md:h-[400px] border border-slate-200 rounded-md">
     <ReactFlow
       fitView
       nodes={nodes}
@@ -178,14 +178,14 @@ const CircuitDisplay = ({
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
     />
-    <div className="mt-6 flex flex-col font-mono">
+    <div className="mt-6 flex flex-col self-center font-mono max-w-[400px]">
       <div className="flex justify-between items-center mb-5">
         <div className="flex text-sm items-center">
           Simulation type:
           <Popover
             side="right"
             trigger={
-              <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
+              <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1 mr-1">
                 <FiInfo size={16} />
               </button>
             }
@@ -212,7 +212,11 @@ const CircuitDisplay = ({
         Simulate a{" "}
         {simulationType === SimulationType.MUTATION ? "Mutation" : "Generation"}
       </Button>
-      <Button className="mt-2" variant="outline" onClick={resetCircuit}>
+      <Button
+        className="mt-2 mb-4 lg:mb-0"
+        variant="outline"
+        onClick={resetCircuit}
+      >
         Reset
       </Button>
     </div>
