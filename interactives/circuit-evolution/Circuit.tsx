@@ -22,6 +22,7 @@ import {
   CircuitDisplayProps,
   SimulationTypeToggleProps,
 } from "./types";
+import { useMediaQuery } from "../../hooks";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -170,57 +171,63 @@ const CircuitDisplay = ({
   setShowResetWarning,
   skipResetWarning,
   setSkipResetWarning,
-}: CircuitDisplayProps) => (
-  <div className="flex flex-col w-full lg:w-1/3">
-    <Circuit
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-    />
-    <div className="mt-6 flex flex-col self-center font-mono max-w-[400px]">
-      <div className="flex justify-between items-center mb-5">
-        <div className="flex text-sm items-center">
-          Simulation type:
-          <Popover
-            side={window.innerWidth < 768 ? "bottom" : "right"}
-            trigger={
-              <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1 mr-1">
-                <FiInfo size={16} />
-              </button>
-            }
-            content={<SimulationTypeInfoPopoverContent />}
-            className="md:max-w-[450px] w-[calc(100vw-2rem)] md:w-auto"
+}: CircuitDisplayProps) => {
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
+  return (
+    <div className="flex flex-col w-full lg:w-1/3">
+      <Circuit
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+      />
+      <div className="mt-6 flex flex-col self-center font-mono max-w-[400px]">
+        <div className="flex justify-between items-center mb-5">
+          <div className="flex text-sm items-center">
+            Simulation type:
+            <Popover
+              side={isMobile ? "bottom" : "right"}
+              trigger={
+                <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1 mr-1">
+                  <FiInfo size={16} />
+                </button>
+              }
+              content={<SimulationTypeInfoPopoverContent />}
+              className="md:max-w-[450px] w-[calc(100vw-2rem)] md:w-auto"
+            />
+          </div>
+          <SimulationTypeToggle
+            simulationType={simulationType}
+            setSimulationType={setSimulationType}
+            chartData={chartData}
+            resetCircuit={resetCircuit}
+            showResetWarning={showResetWarning}
+            setShowResetWarning={setShowResetWarning}
+            skipResetWarning={skipResetWarning}
+            setSkipResetWarning={setSkipResetWarning}
           />
         </div>
-        <SimulationTypeToggle
-          simulationType={simulationType}
-          setSimulationType={setSimulationType}
-          chartData={chartData}
-          resetCircuit={resetCircuit}
-          showResetWarning={showResetWarning}
-          setShowResetWarning={setShowResetWarning}
-          skipResetWarning={skipResetWarning}
-          setSkipResetWarning={setSkipResetWarning}
-        />
+        <Button
+          variant="primary"
+          onClick={simulate}
+          disabled={chartData.length >= CIRCUIT_CONFIG.MAX_GENERATIONS}
+        >
+          Simulate a{" "}
+          {simulationType === SimulationType.MUTATION
+            ? "Mutation"
+            : "Generation"}
+        </Button>
+        <Button
+          className="mt-2 mb-4 lg:mb-0"
+          variant="outline"
+          onClick={resetCircuit}
+        >
+          Reset
+        </Button>
       </div>
-      <Button
-        variant="primary"
-        onClick={simulate}
-        disabled={chartData.length >= CIRCUIT_CONFIG.MAX_GENERATIONS}
-      >
-        Simulate a{" "}
-        {simulationType === SimulationType.MUTATION ? "Mutation" : "Generation"}
-      </Button>
-      <Button
-        className="mt-2 mb-4 lg:mb-0"
-        variant="outline"
-        onClick={resetCircuit}
-      >
-        Reset
-      </Button>
     </div>
-  </div>
-);
+  );
+};
 
 export default CircuitDisplay;

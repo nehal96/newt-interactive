@@ -10,6 +10,7 @@ import { FiInfo, FiSettings, FiX } from "react-icons/fi";
 import { Button, MathFormula, Slider, Popover } from "../../components";
 import { SimulationType } from "./types";
 import { CIRCUIT_CONFIG, fitnessChartAxisStyle } from "./config";
+import { useMediaQuery } from "../../hooks";
 
 const TruthTable = ({ truthTable, accuracy }) => (
   <table className="font-mono border border-slate-200 w-full">
@@ -33,7 +34,9 @@ const TruthTable = ({ truthTable, accuracy }) => (
           ))}
           <td
             className={`px-2 text-center border-r border-slate-200 ${
-              row.circuitOutput !== row.goalOutput ? "bg-red-100" : ""
+              row.circuitOutput !== row.goalOutput
+                ? "bg-red-100"
+                : "bg-green-100"
             }`}
           >
             {row.circuitOutput}
@@ -242,6 +245,7 @@ const CircuitDashboard = ({
 }) => {
   const [showMutationLog, setShowMutationLog] = useState(false);
   const [showTruthTable, setShowTruthTable] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   const onToggleMutationLog = () => setShowMutationLog(!showMutationLog);
 
@@ -267,7 +271,7 @@ const CircuitDashboard = ({
             <div className="flex mt-4 items-center">
               <span className="underline">Fitness score:</span>
               <Popover
-                side={window.innerWidth < 768 ? "bottom" : "right"}
+                side={isMobile ? "bottom" : "right"}
                 trigger={
                   <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
                     <FiInfo size={16} />
