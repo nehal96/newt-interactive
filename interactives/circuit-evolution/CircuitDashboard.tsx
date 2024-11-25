@@ -54,37 +54,39 @@ const TruthTable = ({ truthTable, accuracy }) => (
 );
 
 const InputTable = ({ inputTableData }) => (
-  <table className="w-full border border-slate-200 text-sm">
-    <tbody>
-      <tr className="border-b border-slate-200">
-        <th className="text-left px-1.5 border-r border-slate-200">Inputs</th>
-        {inputTableData.inputs.map((inputArray, arrayIndex) => (
-          <Fragment key={`input-array-${arrayIndex}`}>
-            {inputArray.map((input, idx) => (
-              <td
-                key={`input-${arrayIndex}-${idx}`}
-                className="px-1.5 text-center border-r border-slate-200"
-              >
-                {input}
-              </td>
-            ))}
-          </Fragment>
-        ))}
-      </tr>
-      <tr className="border-b border-slate-200">
-        <th className="text-left px-1 border-r border-slate-200">Gate</th>
-        {inputTableData.gates.map((gate, index) => (
-          <td
-            key={`gate-${index}`}
-            className="px-1.5 text-center border-r border-slate-200"
-            colSpan={inputTableData.inputs[index].length}
-          >
-            {gate}
-          </td>
-        ))}
-      </tr>
-    </tbody>
-  </table>
+  <div className="overflow-x-auto overflow-y-auto">
+    <table className="w-full border border-slate-200 text-sm">
+      <tbody>
+        <tr className="border-b border-slate-200">
+          <th className="text-left px-1.5 border-r border-slate-200">Inputs</th>
+          {inputTableData.inputs.map((inputArray, arrayIndex) => (
+            <Fragment key={`input-array-${arrayIndex}`}>
+              {inputArray.map((input, idx) => (
+                <td
+                  key={`input-${arrayIndex}-${idx}`}
+                  className="px-1.5 text-center border-r border-slate-200"
+                >
+                  {input}
+                </td>
+              ))}
+            </Fragment>
+          ))}
+        </tr>
+        <tr className="border-b border-slate-200">
+          <th className="text-left px-1 border-r border-slate-200">Gate</th>
+          {inputTableData.gates.map((gate, index) => (
+            <td
+              key={`gate-${index}`}
+              className="px-1.5 text-center border-r border-slate-200"
+              colSpan={inputTableData.inputs[index].length}
+            >
+              {gate}
+            </td>
+          ))}
+        </tr>
+      </tbody>
+    </table>
+  </div>
 );
 
 const FitnessInfoPopoverContent = memo(() => (
@@ -108,11 +110,11 @@ const FitnessInfoPopoverContent = memo(() => (
 const FitnessGraph = ({ simulationType, chartData }) => (
   <>
     <div className="mt-4 underline">Fitness graph:</div>
-    <div className="h-[200px] w-[350px]">
+    <div className="h-[200px]">
       <VictoryChart
         width={200}
         height={120}
-        padding={{ top: 10, bottom: 40, left: 20, right: 10 }}
+        padding={{ top: 20, bottom: 40, left: 25, right: 10 }}
         domain={{ x: [0, 100], y: [0, 1] }}
         containerComponent={<VictoryContainer responsive={true} />}
       >
@@ -256,7 +258,7 @@ const CircuitDashboard = ({
     </div>
     <div className="flex flex-col">
       <InputTable inputTableData={inputTableData} />
-      <div className="flex flex-row">
+      <div className="flex flex-col md:flex-row">
         <div className="flex-col mt-4 flex-grow mr-4">
           <div className="flex mt-4 items-center">
             <span className="underline">Fitness score:</span>
