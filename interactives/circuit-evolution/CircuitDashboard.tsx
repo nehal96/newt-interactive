@@ -90,15 +90,15 @@ const InputTable = ({ inputTableData }) => (
 );
 
 const FitnessInfoPopoverContent = memo(() => (
-  <div className="text-sm font-mono">
-    <div>
+  <div className="text-sm font-mono max-w-[calc(100vw-2rem)]">
+    <div className="break-words">
       <span className="underline">Fitness formula:</span>{" "}
       <MathFormula
         variant="small"
         tex="\text{fraction of correct outputs} - \epsilon n"
       />
     </div>
-    <div className="text-sm text-slate-600 font-body">
+    <div className="text-xs leading-none text-slate-600 font-body break-words">
       <MathFormula variant="small" tex="\epsilon" /> is the fitness penalty per
       node, <MathFormula variant="small" tex="n" /> is total number of nodes in
       the circuit. For simplicity,{" "}
@@ -263,18 +263,18 @@ const CircuitDashboard = ({
       <div className="flex flex-col">
         <InputTable inputTableData={inputTableData} />
         <div className="flex flex-row">
-          <div className="flex-col mt-4 flex-grow mr-4">
+          <div className="flex-col mt-4 flex-grow md:mr-4">
             <div className="flex mt-4 items-center">
               <span className="underline">Fitness score:</span>
               <Popover
-                side="right"
+                side={window.innerWidth < 768 ? "bottom" : "right"}
                 trigger={
                   <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
                     <FiInfo size={16} />
                   </button>
                 }
                 content={<FitnessInfoPopoverContent />}
-                className="md:max-w-[450px]"
+                className="md:max-w-[450px] w-[calc(100vw-2rem)] md:w-auto"
               />
               {chartData.length > 0 && (
                 <MathFormula

@@ -54,13 +54,13 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
 );
 
 const SimulationTypeInfoPopoverContent = memo(() => (
-  <div className="text-sm font-body">
-    <div className="mb-2">
+  <div className="text-sm font-body max-w-[calc(100vw-2rem)]">
+    <div className="mb-2 break-words">
       When <span className="font-semibold">Mutation</span> is selected, a single
       random change is made to the circuit &mdash; in this case, adding,
       removing, or modifying a connection.
     </div>
-    <div>
+    <div className="break-words">
       When <span className="font-semibold">Generation</span> is selected,
       multiple circuit variations are created, each with a single mutation, and
       the best performing one is chosen, similar to natural selection.
@@ -114,8 +114,8 @@ const SimulationTypeToggle = ({
             Changing the simulation type will reset your current progress. Do
             you want to continue?
           </div>
-          <DialogFooter className="flex justify-between items-center md:justify-between">
-            <div className="flex items-center space-x-2">
+          <DialogFooter className="flex flex-col items-center sm:flex-row sm:justify-between">
+            <div className="flex self-start items-center mb-4 sm:mb-0 sm:self-center space-x-2">
               <Checkbox
                 id="skipWarning"
                 checked={skipResetWarning}
@@ -183,14 +183,14 @@ const CircuitDisplay = ({
         <div className="flex text-sm items-center">
           Simulation type:
           <Popover
-            side="right"
+            side={window.innerWidth < 768 ? "bottom" : "right"}
             trigger={
               <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1 mr-1">
                 <FiInfo size={16} />
               </button>
             }
             content={<SimulationTypeInfoPopoverContent />}
-            className="md:max-w-[450px]"
+            className="md:max-w-[450px] w-[calc(100vw-2rem)] md:w-auto"
           />
         </div>
         <SimulationTypeToggle
