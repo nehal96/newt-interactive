@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, memo } from "react";
 import { ReactFlow, Background, Controls, StraightEdge } from "@xyflow/react";
 import {
   VictoryChart,
@@ -65,7 +65,7 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
   </div>
 );
 
-const SimulationTypeInfoPopoverContent = () => (
+const SimulationTypeInfoPopoverContent = memo(() => (
   <div className="text-sm font-body">
     <div className="mb-2">
       When <span className="font-semibold">Mutation</span> is selected, a single
@@ -78,7 +78,7 @@ const SimulationTypeInfoPopoverContent = () => (
       the best performing one is chosen, similar to natural selection.
     </div>
   </div>
-);
+));
 
 const SimulationTypeToggle = ({
   simulationType,
@@ -94,7 +94,7 @@ const SimulationTypeToggle = ({
     useState<SimulationType | null>(null);
 
   const handleSimulationTypeChange = (value: SimulationType) => {
-    if (chartData.length === 0 || skipResetWarning) {
+    if (chartData.length <= 1 || skipResetWarning) {
       setSimulationType(value);
       resetCircuit();
       return;
@@ -190,7 +190,10 @@ const CircuitOptions = ({
           <div className="text-base font-semibold mb-3">Settings</div>
           <div className="w-64 space-y-3">
             <div>
-              <div className="mb-2 text-sm">Variations per Generation</div>
+              <div className="mb-0.5 text-sm">
+                Variations per Generation (
+                <MathFormula variant="small" tex="N" />)
+              </div>
               <div className="flex items-center space-x-4">
                 <Slider
                   disabled={simulationType === SimulationType.MUTATION}
@@ -263,8 +266,8 @@ const CircuitDisplay = ({
       </div>
       <Button
         variant="primary"
-        className="bg-slate-800 hover:bg-slate-900"
         onClick={simulate}
+        disabled={chartData.length >= 100}
       >
         Simulate a{" "}
         {simulationType === SimulationType.MUTATION ? "Mutation" : "Generation"}
@@ -352,7 +355,7 @@ const TruthTable = ({ truthTable, accuracy }) => (
   </table>
 );
 
-const FitnessInfoPopoverContent = () => (
+const FitnessInfoPopoverContent = memo(() => (
   <div className="text-sm font-mono">
     <div>
       <span className="underline">Fitness formula:</span>{" "}
@@ -368,7 +371,7 @@ const FitnessInfoPopoverContent = () => (
       <MathFormula variant="small" tex="\epsilon" /> is set to 0.
     </div>
   </div>
-);
+));
 
 const FitnessGraph = ({ simulationType, chartData }) => (
   <>
