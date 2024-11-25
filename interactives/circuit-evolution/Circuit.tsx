@@ -64,7 +64,9 @@ const SimulationTypeInfoPopoverContent = memo(() => (
     <div className="break-words">
       When <span className="font-semibold">Generation</span> is selected,
       multiple circuit variations are created, each with a single mutation, and
-      the best performing one is chosen, similar to natural selection.
+      the best performing one is chosen, similar to natural selection. You can
+      change the number of variants to simulate in the Settings menu (top
+      right).
     </div>
   </div>
 ));

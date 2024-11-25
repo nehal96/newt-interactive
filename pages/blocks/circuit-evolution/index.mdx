@@ -1,4 +1,4 @@
-import { MdxLayout, ArticleSection } from "../../../components";
+import { MdxLayout, Accordion, ArticleSection, MathFormula, UnorderedList, PostArticleSubscribe } from "../../../components";
 import CircuitEvolutionSimulation from "../../../interactives/circuit-evolution/CircuitEvolutionSimulation";
 
 export const metadata = {
@@ -9,11 +9,49 @@ export const metadata = {
   url: "https://newtinteractive.com/blocks/circuit-evolution",
 };
 
-# Circuit Evolution Simulation
+export function InfoAccordion() {
+  return (
+    <Accordion variant="prose" title="Parts of the simulator" className="mb-8">
+      <UnorderedList className="text-base text-slate-800 mt-3 mb-0">
+        <li className="text-base"><span className="underline">Circuit</span>: a network of NAND gates with 4 inputs and 1 output (the last NAND gate).</li>
+        <li className="text-base"><span className="underline">Goal</span>: the desired output of the circuit</li>
+        <li className="text-base"><span className="underline">Input table</span>: a table of each gate and its inputs</li>
+        <li className="text-base"><span className="underline">Truth table</span>: a table with the result of the circuit and the goal for all possible inputs</li>
+        <li className="text-base"><span className="underline">Fitness score and fitness graph</span>: how the circuit performs over mutations/generations</li>
+        <li className="text-base"><span className="underline">Mutation logs</span>: a simplified record of every mutation made</li>
+      </UnorderedList>
+      <div className="text-base text-slate-800 mt-5 font-medium">Limitations and assumptions:</div>
+      <UnorderedList className="text-base text-slate-800 mt-3 mb-0">
+        <li className="text-base">The circuit is limited to 4 inputs and 10 gates (the minimum number of gates to have a valid circuit for this goal).</li>
+        <li className="text-base">A mutation includes a single change of connection. No self-connections are allowed. And each NAND gate having two inputs is ensured.</li>
+        <li className="text-base">There is a maximum of 100 mutations or generations for the time being.</li>
+      </UnorderedList>
+    </Accordion>
+  )
+}
+
+# Circuit Evolution Simulator
+
+## A basic model of how genetic circuits can evolve
+
+The circuit evolution simulator below is a useful tool for understanding how genetic circuits can evolve to solve problems and visualizing how those solutions come to be. Here, we have a circuit made up of NAND gates with a given logic goal. How close the circuit gets to the goal is measured by a fitness score.
+
+Feel free to play around with the simulator and see how it works. You can move the nodes in the circuit around. In generation mode, you can change the number of variants to simulate in the Settings menu. There's more information about the simulator below.
 
 <ArticleSection variant="large">
   <CircuitEvolutionSimulation />
 </ArticleSection>
+
+<InfoAccordion />
+
+The simulator has two types:
+
+1. **Mutation**: A mutation is a random change to the circuit. Simulating through this shows how random changes affect the circuit and the fitness score step-by-step.
+2. **Generation**: In this mode, we simulate <MathFormula tex="N" /> variants of the circuit, each with a single mutation. From these, the highest scoring variant is chosen. This models the process of natural selection, and shows how the circuit reaches closer to the goal over time (and other interesting phenomena, like logarithmic slowdown).
+
+This simulator will be part of the <a className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700" href="/series/systems-biology">Systems Biology series</a>, where a more thorough walkthrough will be provided. A future version will also include a more complex model showing how evolution can lead to modularity of circuits when the goals are changed.
+
+<PostArticleSubscribe />
 
 export default function MDXPage({ children }) {
   return (
