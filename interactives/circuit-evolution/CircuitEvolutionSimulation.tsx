@@ -34,6 +34,7 @@ import {
   SimulationType,
   SimulationTypeToggleProps,
 } from "./types";
+import { CIRCUIT_CONFIG } from "./config";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -199,9 +200,9 @@ const CircuitOptions = ({
                   disabled={simulationType === SimulationType.MUTATION}
                   value={[numVariations]}
                   onValueChange={(value) => setNumVariations(value[0])}
-                  max={20}
-                  min={1}
-                  step={1}
+                  max={CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.MAX}
+                  min={CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.MIN}
+                  step={CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.STEP}
                   className="flex-grow"
                 />
                 <span className="min-w-[2rem] text-sm font-mono">
@@ -267,7 +268,7 @@ const CircuitDisplay = ({
       <Button
         variant="primary"
         onClick={simulate}
-        disabled={chartData.length >= 100}
+        disabled={chartData.length >= CIRCUIT_CONFIG.MAX_GENERATIONS}
       >
         Simulate a{" "}
         {simulationType === SimulationType.MUTATION ? "Mutation" : "Generation"}
@@ -380,7 +381,7 @@ const FitnessGraph = ({ simulationType, chartData }) => (
       <VictoryChart
         width={200}
         height={120}
-        padding={{ top: 10, bottom: 40, left: 10, right: 10 }}
+        padding={{ top: 10, bottom: 40, left: 20, right: 10 }}
         domain={{ x: [0, 100], y: [0, 1] }}
         containerComponent={<VictoryContainer responsive={true} />}
       >
@@ -449,7 +450,9 @@ const MutationLog = ({ simulationType, logs, onHide }) => (
 );
 
 const CircuitEvolutionSimulation = () => {
-  const [numVariations, setNumVariations] = useState(10);
+  const [numVariations, setNumVariations] = useState(
+    CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.INITIAL
+  );
   const {
     nodes,
     edges,

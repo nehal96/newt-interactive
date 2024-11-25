@@ -1,5 +1,6 @@
 import { CircuitNode, CircuitEdge, TruthTableRow } from "./types";
 import { axisStyle } from "../../components/Chart/styles";
+import { CIRCUIT_CONFIG } from "./config";
 
 // Logic Gates
 export const evaluateNAND = (input1: number, input2: number): number => {
@@ -77,13 +78,20 @@ export const generateTruthTable = (
     throw new Error("No NAND gates found in circuit");
   }
 
-  // Find the output node (highest numbered NAND gate)
   const outputNodeId = nandGates
     .map((node) => node.id)
     .sort((a, b) => parseInt(b) - parseInt(a))[0];
 
-  for (let i = 0; i < 16; i++) {
-    const inputs = [(i >> 3) & 1, (i >> 2) & 1, (i >> 1) & 1, i & 1];
+  // Calculate total combinations (2^NUM_INPUTS)
+  const totalCombinations = Math.pow(2, CIRCUIT_CONFIG.NUM_INPUTS);
+
+  for (let i = 0; i < totalCombinations; i++) {
+    // Create inputs array dynamically based on NUM_INPUTS
+    const inputs = Array.from(
+      { length: CIRCUIT_CONFIG.NUM_INPUTS },
+      (_, idx) => (i >> (CIRCUIT_CONFIG.NUM_INPUTS - 1 - idx)) & 1
+    );
+
     const tempNodes = updateNodesWithInputs(nodes, inputs);
     const circuitOutput = evaluateCircuit(tempNodes, edges);
     const goalOutput = goal(inputs[0], inputs[1], inputs[2], inputs[3]);
@@ -119,7 +127,7 @@ export const generateValidMutation = (
   nodes: CircuitNode[],
   edges: CircuitEdge[]
 ) => {
-  // Calculate the highest valid source ID (4 inputs + all NAND gates except the last one)
+  // Calculate the highest valid source ID (inputs + all NAND gates except the last one)
   const maxSourceId =
     nodes
       .filter((node) => node.type === "nandGate")
@@ -176,7 +184,7 @@ const filterValidEdgesToRemove = (
   currentSourceOutputs: Record<string, number>
 ): CircuitEdge[] => {
   return edges.filter((edge) => {
-    const isInputNode = parseInt(edge.source) <= 4;
+    const isInputNode = parseInt(edge.source) <= CIRCUIT_CONFIG.NUM_INPUTS;
     return !isInputNode || currentSourceOutputs[edge.source] > 1;
   });
 };
@@ -231,7 +239,8 @@ const findDisconnectedInputs = (
 ): string[] => {
   return possibleSources.filter(
     (source) =>
-      parseInt(source) <= 4 && !edges.some((edge) => edge.source === source)
+      parseInt(source) <= CIRCUIT_CONFIG.NUM_INPUTS &&
+      !edges.some((edge) => edge.source === source)
   );
 };
 

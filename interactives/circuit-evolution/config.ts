@@ -1,0 +1,10 @@
+export const CIRCUIT_CONFIG = {
+  MAX_GENERATIONS: 100,
+  VARIATIONS_PER_GENERATION: {
+    INITIAL: 10,
+    MIN: 1,
+    MAX: 20,
+    STEP: 1,
+  },
+  NUM_INPUTS: 4,
+};
