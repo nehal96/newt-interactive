@@ -4,6 +4,19 @@ export {
 } from "./ArticleContainer";
 export { default as Button } from "./Button";
 export { Code, InlineCode } from "./Code";
+export { Checkbox } from "./Checkbox";
+export {
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogClose,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "./Dialog";
 export { default as Footer } from "./Footer";
 export { TopicCard, TopicHeader, TopicCardContainer } from "./Homepage";
 export { HomeTopicCard } from "./HomeTopicCard";

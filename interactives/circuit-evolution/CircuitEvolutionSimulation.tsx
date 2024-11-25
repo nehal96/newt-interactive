@@ -18,11 +18,21 @@ import {
   Tabs,
   TabsTrigger,
   TabsList,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Checkbox,
 } from "../../components";
 import { useCircuitEvolution } from "./hooks";
 import { fitnessChartAxisStyle } from "./utils";
 import { FiInfo, FiX } from "react-icons/fi";
-import { SimulationType } from "./types";
+import {
+  CircuitDisplayProps,
+  SimulationType,
+  SimulationTypeToggleProps,
+} from "./types";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -69,23 +79,93 @@ const SimulationTypeInfoPopoverContent = () => (
   </div>
 );
 
-const SimulationTypeToggle = ({ simulationType, setSimulationType }) => (
-  <div className="flex items-center">
-    <Tabs
-      value={simulationType}
-      onValueChange={(value) => setSimulationType(value as SimulationType)}
-    >
-      <TabsList>
-        <TabsTrigger className="text-sm" value={SimulationType.MUTATION}>
-          Mutation
-        </TabsTrigger>
-        <TabsTrigger className="text-sm" value={SimulationType.GENERATION}>
-          Generation
-        </TabsTrigger>
-      </TabsList>
-    </Tabs>
-  </div>
-);
+const SimulationTypeToggle = ({
+  simulationType,
+  setSimulationType,
+  chartData,
+  resetCircuit,
+  showResetWarning,
+  setShowResetWarning,
+  skipResetWarning,
+  setSkipResetWarning,
+}: SimulationTypeToggleProps) => {
+  const [pendingSimulationType, setPendingSimulationType] =
+    useState<SimulationType | null>(null);
+
+  const handleSimulationTypeChange = (value: SimulationType) => {
+    if (chartData.length === 0 || skipResetWarning) {
+      setSimulationType(value);
+      resetCircuit();
+      return;
+    }
+
+    setPendingSimulationType(value);
+    setShowResetWarning(true);
+  };
+
+  return (
+    <div className="flex items-center">
+      <Tabs value={simulationType} onValueChange={handleSimulationTypeChange}>
+        <TabsList>
+          <TabsTrigger className="text-sm" value={SimulationType.MUTATION}>
+            Mutation
+          </TabsTrigger>
+          <TabsTrigger className="text-sm" value={SimulationType.GENERATION}>
+            Generation
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+
+      <Dialog open={showResetWarning} onOpenChange={setShowResetWarning}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reset Simulation?</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            Changing the simulation type will reset your current progress. Do
+            you want to continue?
+          </div>
+          <DialogFooter className="flex justify-between items-center md:justify-between">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="skipWarning"
+                checked={skipResetWarning}
+                onCheckedChange={setSkipResetWarning}
+              />
+              <label
+                htmlFor="skipWarning"
+                className="text-sm text-slate-500 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Don't ask me again
+              </label>
+            </div>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                onClick={() => setShowResetWarning(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                className="bg-slate-800 hover:bg-slate-900"
+                onClick={() => {
+                  if (pendingSimulationType) {
+                    setSimulationType(pendingSimulationType);
+                    resetCircuit();
+                  }
+                  setShowResetWarning(false);
+                }}
+              >
+                Continue
+              </Button>
+            </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
 
 const CircuitDisplay = ({
   nodes,
@@ -96,7 +176,12 @@ const CircuitDisplay = ({
   resetCircuit,
   simulationType,
   setSimulationType,
-}) => (
+  chartData,
+  showResetWarning,
+  setShowResetWarning,
+  skipResetWarning,
+  setSkipResetWarning,
+}: CircuitDisplayProps) => (
   <div className="flex flex-col w-full lg:w-1/3">
     <Circuit
       nodes={nodes}
@@ -122,6 +207,12 @@ const CircuitDisplay = ({
         <SimulationTypeToggle
           simulationType={simulationType}
           setSimulationType={setSimulationType}
+          chartData={chartData}
+          resetCircuit={resetCircuit}
+          showResetWarning={showResetWarning}
+          setShowResetWarning={setShowResetWarning}
+          skipResetWarning={skipResetWarning}
+          setSkipResetWarning={setSkipResetWarning}
         />
       </div>
       <Button
@@ -324,7 +415,10 @@ const CircuitEvolutionSimulation = () => {
     simulationType,
     setSimulationType,
   } = useCircuitEvolution();
+
   const [showMutationLog, setShowMutationLog] = useState(false);
+  const [showResetWarning, setShowResetWarning] = useState(false);
+  const [skipResetWarning, setSkipResetWarning] = useState(false);
 
   const onToggleMutationLog = () => setShowMutationLog(!showMutationLog);
 
@@ -339,6 +433,11 @@ const CircuitEvolutionSimulation = () => {
         resetCircuit={resetCircuit}
         simulationType={simulationType}
         setSimulationType={setSimulationType}
+        chartData={chartData}
+        showResetWarning={showResetWarning}
+        setShowResetWarning={setShowResetWarning}
+        skipResetWarning={skipResetWarning}
+        setSkipResetWarning={setSkipResetWarning}
       />
       <div className="flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 font-mono border border-slate-200 rounded-md p-5">
         <div className="mb-4">
@@ -363,7 +462,6 @@ const CircuitEvolutionSimulation = () => {
                   content={<FitnessInfoPopoverContent />}
                   className="md:max-w-[450px]"
                 />
-                :{" "}
                 {chartData.length > 0 && (
                   <MathFormula
                     className="ml-2"

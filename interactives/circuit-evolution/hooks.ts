@@ -18,6 +18,10 @@ export const useCircuitEvolution = () => {
   const [simulationType, setSimulationType] = useState<SimulationType>(
     SimulationType.MUTATION
   );
+  const [showResetWarning, setShowResetWarning] = useState(false);
+  const [skipResetWarning, setSkipResetWarning] = useState(false);
+  const [pendingSimulationType, setPendingSimulationType] =
+    useState<SimulationType | null>(null);
 
   // Calculate initial fitness on first render
   useEffect(() => {
@@ -191,6 +195,17 @@ export const useCircuitEvolution = () => {
     }
   };
 
+  const handleSimulationTypeChange = (value: SimulationType) => {
+    if (chartData.length === 0 || skipResetWarning) {
+      setSimulationType(value);
+      resetCircuit();
+      return;
+    }
+
+    setPendingSimulationType(value);
+    setShowResetWarning(true);
+  };
+
   return {
     nodes,
     edges,
@@ -206,5 +221,12 @@ export const useCircuitEvolution = () => {
     simulate,
     simulationType,
     setSimulationType,
+    showResetWarning,
+    setShowResetWarning,
+    skipResetWarning,
+    setSkipResetWarning,
+    pendingSimulationType,
+    setPendingSimulationType,
+    handleSimulationTypeChange,
   };
 };
