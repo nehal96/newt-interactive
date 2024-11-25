@@ -1,5 +1,4 @@
 import { CircuitNode, CircuitEdge, TruthTableRow } from "./types";
-import { axisStyle } from "../../components/Chart/styles";
 import { CIRCUIT_CONFIG } from "./config";
 
 // Logic Gates
@@ -251,21 +250,4 @@ const selectNewSource = (
   return disconnectedInputs.length > 0
     ? disconnectedInputs[Math.floor(Math.random() * disconnectedInputs.length)]
     : possibleSources[Math.floor(Math.random() * possibleSources.length)];
-};
-
-// Chart Styling
-export const fitnessChartAxisStyle = {
-  ...axisStyle,
-  axisLabel: {
-    ...axisStyle.axisLabel,
-    fontSize: 11,
-    fontFamily: "monospace",
-    padding: 25,
-  },
-  tickLabels: {
-    ...axisStyle.tickLabels,
-    fontSize: 11,
-    fontFamily: "monospace",
-  },
-  ticks: { ...axisStyle.ticks, size: 0 },
 };

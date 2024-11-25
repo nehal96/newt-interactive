@@ -175,7 +175,7 @@ export const useCircuitEvolution = ({
         });
         setMutationLogs((prev) => [
           ...prev,
-          `No improvement found after ${numVariations} mutations`,
+          `No improvement found from ${numVariations} mutational variations`,
         ]);
       }
     } catch (error) {
