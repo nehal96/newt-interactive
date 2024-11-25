@@ -9,6 +9,7 @@ interface PopoverProps {
   side?: "top" | "right" | "bottom" | "left";
   triggerOnHover?: boolean;
   className?: string;
+  collisionPadding?: number;
 }
 
 const Popover = ({
@@ -16,6 +17,7 @@ const Popover = ({
   content,
   align = "center",
   side = "bottom",
+  collisionPadding = 10,
   className,
 }: PopoverProps) => {
   return (
@@ -26,6 +28,7 @@ const Popover = ({
           align={align}
           side={side}
           sideOffset={5}
+          collisionPadding={collisionPadding}
           className={cn(
             "bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] p-6 max-w-[400px] z-50",
             className

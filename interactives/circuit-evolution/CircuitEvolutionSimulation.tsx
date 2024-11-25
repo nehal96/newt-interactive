@@ -24,10 +24,11 @@ import {
   DialogHeader,
   DialogTitle,
   Checkbox,
+  Slider,
 } from "../../components";
 import { useCircuitEvolution } from "./hooks";
 import { fitnessChartAxisStyle } from "./utils";
-import { FiInfo, FiX } from "react-icons/fi";
+import { FiInfo, FiX, FiSettings } from "react-icons/fi";
 import {
   CircuitDisplayProps,
   SimulationType,
@@ -164,6 +165,51 @@ const SimulationTypeToggle = ({
         </DialogContent>
       </Dialog>
     </div>
+  );
+};
+
+const CircuitOptions = ({
+  simulationType,
+  numVariations,
+  setNumVariations,
+}: {
+  simulationType: SimulationType;
+  numVariations: number;
+  setNumVariations: (value: number) => void;
+}) => {
+  return (
+    <Popover
+      side="left"
+      trigger={
+        <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
+          <FiSettings size={16} />
+        </button>
+      }
+      content={
+        <>
+          <div className="text-base font-semibold mb-3">Settings</div>
+          <div className="w-64 space-y-3">
+            <div>
+              <div className="mb-2 text-sm">Variations per Generation</div>
+              <div className="flex items-center space-x-4">
+                <Slider
+                  disabled={simulationType === SimulationType.MUTATION}
+                  value={[numVariations]}
+                  onValueChange={(value) => setNumVariations(value[0])}
+                  max={20}
+                  min={1}
+                  step={1}
+                  className="flex-grow"
+                />
+                <span className="min-w-[2rem] text-sm font-mono">
+                  {numVariations}
+                </span>
+              </div>
+            </div>
+          </div>
+        </>
+      }
+    />
   );
 };
 
@@ -400,6 +446,7 @@ const MutationLog = ({ simulationType, logs, onHide }) => (
 );
 
 const CircuitEvolutionSimulation = () => {
+  const [numVariations, setNumVariations] = useState(10);
   const {
     nodes,
     edges,
@@ -414,7 +461,7 @@ const CircuitEvolutionSimulation = () => {
     mutationLogs,
     simulationType,
     setSimulationType,
-  } = useCircuitEvolution();
+  } = useCircuitEvolution({ numVariations });
 
   const [showMutationLog, setShowMutationLog] = useState(false);
   const [showResetWarning, setShowResetWarning] = useState(false);
@@ -440,11 +487,18 @@ const CircuitEvolutionSimulation = () => {
         setSkipResetWarning={setSkipResetWarning}
       />
       <div className="flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 font-mono border border-slate-200 rounded-md p-5">
-        <div className="mb-4">
-          <p className="text-center">
+        <div className="mb-4 relative">
+          <p className="text-center flex items-center justify-center">
             Circuit goal:{" "}
             <MathFormula tex="(X \enspace \text{XOR} \enspace Y) \enspace \text{AND} \enspace (Z \enspace \text{XOR} \enspace W)" />
           </p>
+          <div className="absolute right-0 top-1/2 -translate-y-1/2">
+            <CircuitOptions
+              simulationType={simulationType}
+              numVariations={numVariations}
+              setNumVariations={setNumVariations}
+            />
+          </div>
         </div>
         <div className="flex flex-col">
           <InputTable inputTableData={inputTableData} />

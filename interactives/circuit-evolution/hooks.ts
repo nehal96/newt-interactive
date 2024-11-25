@@ -8,7 +8,11 @@ import {
 import { initialNodes, initialEdges } from "./data";
 import { SimulationType } from "./types";
 
-export const useCircuitEvolution = () => {
+export const useCircuitEvolution = ({
+  numVariations,
+}: {
+  numVariations: number;
+}) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [chartData, setChartData] = useState<Array<{ x: number; y: number }>>(
@@ -115,19 +119,16 @@ export const useCircuitEvolution = () => {
 
   const simulateGeneration = () => {
     try {
-      // Store current circuit state
       const currentEdges = [...edges];
       const currentFitness = chartData[chartData.length - 1]?.y ?? 0;
 
       let bestMutation = null;
       let bestFitness = currentFitness;
 
-      // Try N mutations and keep track of the best one
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < numVariations; i++) {
         const mutation = generateValidMutation(nodes, currentEdges);
         if (!mutation) continue;
 
-        // Test this mutation
         const testEdges = [
           ...currentEdges.filter((edge) => edge.id !== mutation.oldEdge.id),
           mutation.newEdge,
@@ -144,7 +145,6 @@ export const useCircuitEvolution = () => {
         }
       }
 
-      // Apply the best mutation if we found one
       if (bestMutation && bestFitness > currentFitness) {
         setEdges((currentEdges) => {
           const updatedEdges = currentEdges.filter(
@@ -175,7 +175,7 @@ export const useCircuitEvolution = () => {
         });
         setMutationLogs((prev) => [
           ...prev,
-          `No improvement found after 10 mutations`,
+          `No improvement found after ${numVariations} mutations`,
         ]);
       }
     } catch (error) {
