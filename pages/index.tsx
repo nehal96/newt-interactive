@@ -55,6 +55,12 @@ export default function Home() {
         </TopicCardContainer>
         <TopicCardContainer title="Blocks">
           <TopicCard
+            href="/blocks/circuit-evolution"
+            imageSrc="/images/circuit-evolution-simulator.png"
+            title="Genetic Circuit Evolution Simulator"
+            withTitleBlur
+          />
+          <TopicCard
             href="/blocks/erdos-renyi-graph"
             imageSrc="/images/circle-in-a-circle-kandinsky.jpg"
             title="Erdős-Rényi Graph Generator"
