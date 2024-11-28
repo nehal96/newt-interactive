@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Analytics } from "@vercel/analytics/next";
 import "../styles/globals.css";
 import { useEffect } from "react";
 import { TooltipProvider } from "../components";
@@ -30,6 +31,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <TooltipProvider delayDuration={300}>
         <Component {...pageProps} />
+        <Analytics />
       </TooltipProvider>
     </>
   );

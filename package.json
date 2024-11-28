@@ -34,6 +34,7 @@
     "@react-three/fiber": "^7.0.29",
     "@tippyjs/react": "^4.2.6",
     "@types/mdx": "^2.0.13",
+    "@vercel/analytics": "^1.4.1",
     "@xyflow/react": "^12.3.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
