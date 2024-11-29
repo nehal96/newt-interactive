@@ -5,7 +5,7 @@ export const metadata = {
   title: "Circuit Evolution Simulation",
   description: "How to simulate circuit evolution",
   keywords: "circuit evolution, simulation, graph theory, probability",
-  ogImage: "https://i.ibb.co/0jWX5dr/circle-in-a-circle-kandinsky.jpg",
+  ogImage: "https://i.postimg.cc/8cnccDX7/circuit-evolution-img.png",
   url: "https://newtinteractive.com/blocks/circuit-evolution",
 };
 
@@ -23,8 +23,9 @@ export function InfoAccordion() {
       <div className="text-base text-slate-800 mt-5 font-medium">Limitations and assumptions:</div>
       <UnorderedList className="text-base text-slate-800 mt-3 mb-0">
         <li className="text-base">The circuit is limited to 4 inputs and 10 gates (the minimum number of gates to have a valid circuit for this goal).</li>
-        <li className="text-base">A mutation includes a single change of connection. No self-connections are allowed. And each NAND gate having two inputs is ensured.</li>
-        <li className="text-base">There is a maximum of 100 mutations or generations for the time being.</li>
+        <li className="text-base">Each NAND gate has two inputs.</li>
+        <li className="text-base">A mutation includes a single change of connection (which includes re-connecting whichever node has changed to follow the above rule). No self-connections are allowed.</li>
+        <li className="text-base">There is a maximum of 100 mutations or generations (for now).</li>
       </UnorderedList>
     </Accordion>
   )

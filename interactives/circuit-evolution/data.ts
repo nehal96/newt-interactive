@@ -8,7 +8,7 @@ export const initialNodes: CircuitNode[] = [
     data: {
       booleanValue: 0,
       color: "#3f3f46",
-      text: "1",
+      text: "X",
       style: {
         backgroundColor: "white",
       },
@@ -21,7 +21,7 @@ export const initialNodes: CircuitNode[] = [
     data: {
       booleanValue: 0,
       color: "#3f3f46",
-      text: "2",
+      text: "Y",
       style: {
         backgroundColor: "white",
       },
@@ -34,7 +34,7 @@ export const initialNodes: CircuitNode[] = [
     data: {
       booleanValue: 0,
       color: "#3f3f46",
-      text: "3",
+      text: "Z",
       style: {
         backgroundColor: "white",
       },
@@ -47,7 +47,7 @@ export const initialNodes: CircuitNode[] = [
     data: {
       booleanValue: 0,
       color: "#3f3f46",
-      text: "4",
+      text: "W",
       style: {
         backgroundColor: "white",
       },
