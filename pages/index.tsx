@@ -117,7 +117,7 @@ export default function Home() {
             or{" "}
             <a
               href={`mailto:nehaludyavar@gmail.com?subject=${encodeURIComponent(
-                "Hey! You're amazing!"
+                "Hello"
               )}`}
               target="_blank"
               rel="noreferrer noopener"

@@ -56,41 +56,52 @@ const TruthTable = ({ truthTable, accuracy }) => (
   </table>
 );
 
-const InputTable = ({ inputTableData }) => (
-  <div className="overflow-x-auto">
-    <table className="w-full border border-slate-200 text-sm">
-      <tbody>
-        <tr className="border-b border-slate-200">
-          <th className="text-left px-1.5 border-r border-slate-200">Inputs</th>
-          {inputTableData.inputs.map((inputArray, arrayIndex) => (
-            <Fragment key={`input-array-${arrayIndex}`}>
-              {inputArray.map((input, idx) => (
-                <td
-                  key={`input-${arrayIndex}-${idx}`}
-                  className="px-1.5 text-center border-r border-slate-200"
-                >
-                  {input}
-                </td>
-              ))}
-            </Fragment>
-          ))}
-        </tr>
-        <tr className="border-b border-slate-200">
-          <th className="text-left px-1 border-r border-slate-200">Gate</th>
-          {inputTableData.gates.map((gate, index) => (
-            <td
-              key={`gate-${index}`}
-              className="px-1.5 text-center border-r border-slate-200"
-              colSpan={inputTableData.inputs[index].length}
-            >
-              {gate}
-            </td>
-          ))}
-        </tr>
-      </tbody>
-    </table>
-  </div>
-);
+const InputTable = ({ inputTableData }) => {
+  const inputLabels = {
+    "1": "X",
+    "2": "Y",
+    "3": "Z",
+    "4": "W",
+  };
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full border border-slate-200 text-sm">
+        <tbody>
+          <tr className="border-b border-slate-200">
+            <th className="text-left px-1.5 border-r border-slate-200">
+              Inputs
+            </th>
+            {inputTableData.inputs.map((inputArray, arrayIndex) => (
+              <Fragment key={`input-array-${arrayIndex}`}>
+                {inputArray.map((input, idx) => (
+                  <td
+                    key={`input-${arrayIndex}-${idx}`}
+                    className="px-1.5 text-center border-r border-slate-200"
+                  >
+                    {inputLabels[input] || input}
+                  </td>
+                ))}
+              </Fragment>
+            ))}
+          </tr>
+          <tr className="border-b border-slate-200">
+            <th className="text-left px-1 border-r border-slate-200">Gate</th>
+            {inputTableData.gates.map((gate, index) => (
+              <td
+                key={`gate-${index}`}
+                className="px-1.5 text-center border-r border-slate-200"
+                colSpan={inputTableData.inputs[index].length}
+              >
+                {gate}
+              </td>
+            ))}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 const FitnessInfoPopoverContent = memo(() => (
   <div className="text-sm font-mono max-w-[calc(100vw-2rem)]">
