@@ -21,7 +21,7 @@ const PostArticleSubscribe = () => {
         </a>{" "}
         or{" "}
         <a
-          href={`mailto:nehaludyavar@gmail.com.com?subject=${encodeURIComponent(
+          href={`mailto:nehaludyavar@gmail.com?subject=${encodeURIComponent(
             "Hello"
           )}`}
           target="_blank"
