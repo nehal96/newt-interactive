@@ -1,6 +1,7 @@
-import { MdxLayout, ArticleSection } from "../../../components";
+import { MdxLayout, ArticleSection, ArticleNavigationContainer, PreviousArticleLink } from "../../../components";
 import {
   FormulaReview,
+  NegativeAutoregAccumulationTutorial,
   NegativeAutoregResponseTimeComparisonTutorial,
 } from "../../../interactives/systems-biology";
 
@@ -22,12 +23,32 @@ export const metadata = {
 
 In the previous article, we learned that autoregulation, and in particular negative autoregulation, is a motif in biological transcriptional networks; it occurs far more than it would at random. But what, exactly, is negative autoregulation? How does it work, and how does it provide an advantage for organisms?
 
-<ArticleSection variant="interactive">
+Before we answer these questions, let's review some of the key concepts and equations we've learned so far. If you're already comfortable with them, feel free to skip ahead.
+
+<ArticleSection variant="small">
   <FormulaReview />
 </ArticleSection>
 
-<ArticleSection variant="interactive">
+---
+
+Negative autoregulation occurs when a transcription factor represses its own expression; the protein that the gene expresses binds to its own promoter and inhibits the production of mRNA. As the protein concentration increases, it ends up reducing its own rate of production.
+
+<ArticleSection variant="large">
+  <NegativeAutoregAccumulationTutorial />
+</ArticleSection>
+
+<ArticleSection variant="large">
   <NegativeAutoregResponseTimeComparisonTutorial />
+</ArticleSection>
+
+
+<ArticleSection variant="medium" className="mb-0 md:mb-0" >
+  <ArticleNavigationContainer>
+    <PreviousArticleLink
+      href="/series/systems-biology/autoregulation-1"
+      title="Autoregulation as a Network Motif"
+    />
+  </ArticleNavigationContainer>
 </ArticleSection>
 
 

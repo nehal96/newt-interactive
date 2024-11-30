@@ -6,6 +6,10 @@ export { default as ProteinAccumulationResponseTimeTutorial } from "./ProteinAcc
 export { AutoregulationNetworkComparisonTutorial } from "./AutoregulationNetworks";
 export { default as FormulaReview } from "./FormulaReview";
 export {
+  NegativeAutoregAccumulationTutorial,
+  NegativeAutoregAccumulationChart,
+} from "./NegativeAutoregAccumulationTutorial";
+export {
   NegativeAutoregResponseTimeComparisonTutorial,
-  NegativeAutoregulationResponseTimeChart,
+  NegativeAutoregResponseTimeComparisonChart,
 } from "./NegativeAutoregResponseTimeComparisonTutorial";
