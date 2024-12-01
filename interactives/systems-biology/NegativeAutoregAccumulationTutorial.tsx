@@ -5,32 +5,44 @@ import {
   VictoryLabel,
   VictoryLine,
 } from "victory";
-import { axisStyle, getDottedLineStyle, SlideDeck } from "../../components";
+import {
+  axisStyle,
+  getDottedLineStyle,
+  MathFormula,
+  SlideDeck,
+  Slider,
+} from "../../components";
+import { useState } from "react";
 
-interface ResponseTimeComparisonChartProps {
-  t_steady?: number;
+interface NegativeAutoregAccumulationChartProps {
+  beta?: number;
+  steadyState?: number;
 }
 
-const FACTOR = 8;
-
-const getData = (t_steady: number, domainMin = 0, domainMax = 20) => {
+const getData = (
+  steadyState: number,
+  beta: number,
+  domainMin = 0,
+  domainMax = 20
+) => {
   const data = [];
+  const tSteady = steadyState / beta;
 
-  for (let t = domainMin; t <= t_steady; t += 0.1) {
-    data.push({ x: t, y: t * FACTOR });
+  for (let t = domainMin; t < tSteady; t += 0.1) {
+    data.push({ x: t, y: t * beta });
   }
 
-  const steady_state = t_steady * FACTOR;
-  for (let t = t_steady; t <= domainMax; t += 0.1) {
-    data.push({ x: t, y: steady_state });
+  for (let t = tSteady; t <= domainMax; t += 0.1) {
+    data.push({ x: t, y: steadyState });
   }
 
   return data;
 };
 
 export const NegativeAutoregAccumulationChart = ({
-  t_steady = 5,
-}: ResponseTimeComparisonChartProps) => {
+  beta = 12,
+  steadyState = 80,
+}: NegativeAutoregAccumulationChartProps) => {
   const dottedLineStyle = getDottedLineStyle();
   const noTicksStyle = {
     ...axisStyle,
@@ -38,21 +50,19 @@ export const NegativeAutoregAccumulationChart = ({
   };
   const XAxisTickValues = [];
 
-  const steadyState = t_steady * FACTOR;
-
-  const getSolidLineData = () => getData(t_steady);
+  const tSteady = steadyState / beta;
 
   const getDottedLineData = () => {
     const data = [];
-    for (let t = t_steady; t <= 20; t += 0.1) {
-      data.push({ x: t, y: t * FACTOR });
+    for (let t = tSteady; t <= 20; t += 0.1) {
+      data.push({ x: t, y: t * beta });
     }
     return data;
   };
 
   return (
     <VictoryChart
-      domain={{ x: [0, 20], y: [0, 70] }}
+      domain={{ x: [0, 20], y: [0, 130] }}
       containerComponent={<VictoryContainer responsive={true} />}
     >
       <VictoryAxis
@@ -63,22 +73,23 @@ export const NegativeAutoregAccumulationChart = ({
       />
       <VictoryAxis
         dependentAxis
+        label="X(t)"
         style={axisStyle}
-        tickValues={[t_steady * FACTOR]}
+        tickValues={[steadyState]}
         tickFormat={() => "K"}
       />
       <VictoryLine
         style={dottedLineStyle}
         data={[
           { x: 0, y: steadyState },
-          { x: t_steady, y: steadyState },
+          { x: tSteady, y: steadyState },
         ]}
       />
       <VictoryLine
         style={{
           data: { stroke: "#2dd4bf", strokeWidth: 2 },
         }}
-        data={getSolidLineData()}
+        data={getData(steadyState, beta)}
       />
       <VictoryLine
         style={{
@@ -95,13 +106,53 @@ export const NegativeAutoregAccumulationChart = ({
   );
 };
 
-export const NegativeAutoregAccumulationTutorial = ({
-  t_steady = 5,
-}: ResponseTimeComparisonChartProps) => {
+export const NegativeAutoregAccumulationTutorial = () => {
+  const [beta, setBeta] = useState(20);
+
   const slides = [
     {
-      text: <></>,
-      interactive: <NegativeAutoregAccumulationChart t_steady={t_steady} />,
+      text: (
+        <>
+          <p>
+            Starting at <MathFormula variant="small" tex="t = 0" />, protein{" "}
+            <MathFormula variant="small" tex="X" /> is produced at a rate of{" "}
+            <MathFormula variant="small" tex="\beta" /> per unit time until it
+            reaches the threshold <MathFormula variant="small" tex="K" />, after
+            which production stops and stays at zero (the horizontal line):
+          </p>
+          <p className="mt-4">
+            The green dotted line indicates the continued production of{" "}
+            <MathFormula variant="small" tex="X" /> if it did not regulate
+            itself.
+          </p>
+        </>
+      ),
+      interactive: <NegativeAutoregAccumulationChart beta={beta} />,
+    },
+    {
+      text: (
+        <>
+          <p>
+            How quickly the protein levels rise to the threshold depends on the
+            value of <MathFormula variant="small" tex="\beta" />. Try changing
+            its value to see how the graph changes:
+          </p>
+          <div className="mt-4">
+            <label className="font-medium block mb-1.5">
+              <MathFormula variant="small" tex="\beta" />: {beta}
+            </label>
+            <Slider
+              value={[beta]}
+              onValueChange={(values) => setBeta(values[0])}
+              min={10}
+              max={30}
+              step={1}
+              className="w-11/12"
+            />
+          </div>
+        </>
+      ),
+      interactive: <NegativeAutoregAccumulationChart beta={beta} />,
     },
   ];
 

@@ -41,9 +41,8 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
       data.push({ x: t, y: t * beta });
     }
 
-    const steady_state = steadyState;
     for (let t = tSteady; t <= domainMax; t += 0.1) {
-      data.push({ x: t, y: steady_state });
+      data.push({ x: t, y: steadyState });
     }
 
     return data;
