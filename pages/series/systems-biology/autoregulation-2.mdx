@@ -1,4 +1,4 @@
-import { MdxLayout, ArticleSection, ArticleNavigationContainer, PreviousArticleLink } from "../../../components";
+import { MdxLayout, ArticleSection, ArticleNavigationContainer, MathFormula, PreviousArticleLink } from "../../../components";
 import {
   FormulaReview,
   NegativeAutoregAccumulationTutorial,
@@ -32,6 +32,30 @@ Before we answer these questions, let's review some of the key concepts and equa
 ---
 
 Negative autoregulation occurs when a transcription factor represses its own expression; the protein that the gene expresses binds to its own promoter and inhibits the production of mRNA. As the protein concentration increases, it ends up reducing its own rate of production.
+
+In [Transcription Network Basics: Part Three](/series/systems-biology/transcription-network-basics-3), we set up a baseline for dynamics and response time for simple regulation, and identified it as an important feature of cellular performance. Let's now look at the dynamics and response time for negative autoregulation and compare.
+
+To keep things simple, let's begin with using a logic approximation:
+
+<ArticleSection variant="math">
+  <MathFormula tex="f(X) = \beta \cdot \theta(X < K)" />
+</ArticleSection>
+
+so the production rate is either 0, when <MathFormula tex="X" /> is less than the threshold <MathFormula tex="K" />, or at its maximum <MathFormula tex="\beta" />, when <MathFormula tex="X" /> is greater than <MathFormula tex="K" />.
+
+To analyze its response time, let's consider the scenario where the protein concentration is initially 0. As time progresses, the unrepressed promoter produces the protein at the full-speed rate <MathFormula tex="\beta" />, and the concentration of protein changes according to the equation:
+
+<ArticleSection variant="math">
+  <MathFormula tex="\dfrac{dX}{dt} = \beta - \alpha X \qquad \text{while} \thickspace X < K" />
+</ArticleSection>
+
+At early times, since <MathFormula tex="X" /> levels are very low, the removal term is very small (<MathFormula tex="\alpha X \ll \beta" />) and thus, negligible. This leaves us with roughly a linear accumulation formula for <MathFormula tex="X" />:
+
+<ArticleSection variant="math">
+  <MathFormula tex="X(t) \approx \beta t \qquad \text{while} \thickspace X < K \enspace \text{and} \enspace X \ll \dfrac{\beta}{\alpha}" />
+</ArticleSection>
+
+Once <MathFormula tex="X" /> reaches the threshold <MathFormula tex="K" />, production immediately goes to zero (as per our step function). To make all of this a little more clear, let's look at this graphically:
 
 <ArticleSection variant="large">
   <NegativeAutoregAccumulationTutorial />
