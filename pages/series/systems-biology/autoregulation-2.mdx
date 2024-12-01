@@ -57,9 +57,48 @@ At early times, since <MathFormula tex="X" /> levels are very low, the removal t
 
 Once <MathFormula tex="X" /> reaches the threshold <MathFormula tex="K" />, production immediately goes to zero (as per our step function). To make all of this a little more clear, let's look at this graphically:
 
-<ArticleSection variant="small">
+<ArticleSection variant="medium">
   <NegativeAutoregAccumulationTutorial />
 </ArticleSection>
+
+From the graph, we can see that the steady state concentration of <MathFormula tex="X" /> is the same as its repression coefficient:
+
+<ArticleSection variant="math">
+  <MathFormula tex="X_{st} = K" />
+</ArticleSection>
+
+### Response time
+
+Remember, from [Transcription Network Basics: Part Three](/series/systems-biology/transcription-network-basics-3), that response time <MathFormula tex="T_{1/2}" /> is defined as the time it takes a protein to get to half of its steady-state level. Sticking with our simplified linear accumulation formula, that means:
+
+<ArticleSection variant="math">
+  <MathFormula tex="X(T_{1/2_{NAR}}) = \beta \cdot T_{1/2_{NAR}} = \dfrac{X_{st}}{2} = \dfrac{K}{2}" />
+</ArticleSection>
+
+and so:
+
+<ArticleSection variant="math">
+  <MathFormula tex="T_{1/2_{NAR}} = \dfrac{K}{2\beta}" />
+</ArticleSection>
+
+From this, we can see that the stronger the maximal promoter activity <MathFormula tex="\beta" />, the faster the response time.
+
+Now, how does this compare with the response time for simple regulation? Before we jump into that, we need to ensure that the comparison is fair. This is done with something known as a **mathematically controlled comparison**; essentially, both designs should have the same target while keeping as many biochemical parameters identical as possible. In this comparison, the target is to reach the same steady-state level, a crucial quantity for optimal cellular performance. 
+
+Comparing the steady state formulas for both designs:
+
+<ArticleSection variant="math">
+  <MathFormula tex="X_{st_{simple}} = \dfrac{\beta_{simple}}{\alpha_{simple}}" />
+  <MathFormula className="mt-6" tex="X_{st_{NAR}} = K" />
+</ArticleSection>
+
+which, when equated, gives us:
+
+<ArticleSection variant="math">
+  <MathFormula tex="K = \dfrac{\beta_{simple}}{\alpha_{simple}}" />
+</ArticleSection>
+
+As you'll soon see in the interactive chart below, keeping the same steady state levels mean providing a stronger promoter for the negative autoregulation design, to compensate for its self-repression. 
 
 <ArticleSection variant="large">
   <NegativeAutoregResponseTimeComparisonTutorial />

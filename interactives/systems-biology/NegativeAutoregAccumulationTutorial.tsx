@@ -159,8 +159,9 @@ export const NegativeAutoregAccumulationTutorial = () => {
             Starting at <MathFormula variant="small" tex="t = 0" />, protein{" "}
             <MathFormula variant="small" tex="X" /> is produced at a rate of{" "}
             <MathFormula variant="small" tex="\beta" /> per unit time until it
-            reaches the threshold <MathFormula variant="small" tex="K" />, after
-            which production stops and stays at zero (the horizontal line):
+            reaches the threshold <MathFormula variant="small" tex="K" /> (the
+            linear line), after which production stops and stays at zero (the
+            horizontal line):
           </p>
           <p className="mt-4">
             The green dotted line indicates the continued production of{" "}
