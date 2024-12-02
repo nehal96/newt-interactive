@@ -99,6 +99,7 @@ const SimulationTypeToggle = ({
   setShowResetWarning,
   skipResetWarning,
   setSkipResetWarning,
+  theme,
 }: SimulationTypeToggleProps) => {
   const [pendingSimulationType, setPendingSimulationType] =
     useState<SimulationType | null>(null);
@@ -128,11 +129,27 @@ const SimulationTypeToggle = ({
       </Tabs>
 
       <Dialog open={showResetWarning} onOpenChange={setShowResetWarning}>
-        <DialogContent>
+        <DialogContent
+          className={cn(
+            theme === Theme.EVANGELION &&
+              "bg-evangelion-black border-evangelion-red"
+          )}
+        >
           <DialogHeader>
-            <DialogTitle>Reset Simulation?</DialogTitle>
+            <DialogTitle
+              className={
+                theme === Theme.EVANGELION &&
+                "text-evangelion-red uppercase text-3xl"
+              }
+            >
+              {theme === Theme.EVANGELION ? "Refused" : "Reset Simulation"}
+            </DialogTitle>
           </DialogHeader>
-          <div className="py-4">
+          <div
+            className={cn(
+              theme === Theme.EVANGELION && "text-evangelion-orange-100"
+            )}
+          >
             Changing the simulation type will reset your current progress. Do
             you want to continue?
           </div>
@@ -153,13 +170,21 @@ const SimulationTypeToggle = ({
             <div className="flex space-x-2">
               <Button
                 variant="outline"
+                className={cn({
+                  "bg-evangelion-black text-evangelion-orange-100 border-evangelion-orange-100 hover:border-evangelion-orange-200 hover:text-evangelion-orange-200":
+                    theme === Theme.EVANGELION,
+                })}
                 onClick={() => setShowResetWarning(false)}
               >
                 Cancel
               </Button>
               <Button
                 variant="primary"
-                className="bg-slate-800 hover:bg-slate-900"
+                className={cn({
+                  "bg-evangelion-orange-400 text-evangelion-black border-evangelion-orange-500 hover:bg-evangelion-orange-500":
+                    theme === Theme.EVANGELION,
+                  "bg-slate-800 hover:bg-slate-900": theme !== Theme.EVANGELION,
+                })}
                 onClick={() => {
                   if (pendingSimulationType) {
                     setSimulationType(pendingSimulationType);
@@ -193,7 +218,6 @@ const CircuitDisplay = ({
   skipResetWarning,
   setSkipResetWarning,
   theme,
-  toggleTheme,
 }: CircuitDisplayProps) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
 
@@ -230,6 +254,7 @@ const CircuitDisplay = ({
             setShowResetWarning={setShowResetWarning}
             skipResetWarning={skipResetWarning}
             setSkipResetWarning={setSkipResetWarning}
+            theme={theme}
           />
         </div>
         <Button

@@ -53,7 +53,7 @@ export type CircuitDisplayProps = {
   setShowResetWarning: (show: boolean) => void;
   skipResetWarning: boolean;
   setSkipResetWarning: (skip: boolean) => void;
-  theme: string;
+  theme: Theme;
   toggleTheme: () => void;
 };
 
@@ -66,6 +66,7 @@ export type SimulationTypeToggleProps = {
   setShowResetWarning: (show: boolean) => void;
   skipResetWarning: boolean;
   setSkipResetWarning: (skip: boolean) => void;
+  theme: Theme;
 };
 
 export interface NodeStyle {
