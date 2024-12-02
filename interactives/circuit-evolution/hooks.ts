@@ -4,16 +4,21 @@ import {
   generateValidMutation,
   generateTruthTable,
   getInputTableData,
+  formatInitialNodes,
+  getThemeStyles,
 } from "./utils";
 import { initialNodes, initialEdges } from "./data";
-import { SimulationType } from "./types";
+import { SimulationType, Theme } from "./types";
 
 export const useCircuitEvolution = ({
   numVariations,
 }: {
   numVariations: number;
 }) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [theme, setTheme] = useState<Theme>(Theme.DEFAULT);
+  const [nodes, setNodes, onNodesChange] = useNodesState(
+    formatInitialNodes(initialNodes, theme)
+  );
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [chartData, setChartData] = useState<Array<{ x: number; y: number }>>(
     []
@@ -26,6 +31,22 @@ export const useCircuitEvolution = ({
   const [skipResetWarning, setSkipResetWarning] = useState(false);
   const [pendingSimulationType, setPendingSimulationType] =
     useState<SimulationType | null>(null);
+
+  // Update nodes when theme changes
+  useEffect(() => {
+    const themeStyles = getThemeStyles(theme);
+    setNodes((currentNodes) =>
+      currentNodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          style: {
+            ...themeStyles,
+          },
+        },
+      }))
+    );
+  }, [theme]);
 
   // Calculate initial fitness on first render
   useEffect(() => {
@@ -44,6 +65,12 @@ export const useCircuitEvolution = ({
       ]);
     }
   }, []);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme === Theme.DEFAULT ? Theme.EVANGELION : Theme.DEFAULT
+    );
+  };
 
   const mutateCircuit = () => {
     try {
@@ -100,7 +127,7 @@ export const useCircuitEvolution = ({
   };
 
   const resetCircuit = () => {
-    setNodes(initialNodes);
+    setNodes(formatInitialNodes(initialNodes, theme));
     setEdges(initialEdges);
     const initialTruthTable = generateTruthTable(initialNodes, initialEdges);
     const initialAccuracy =
@@ -228,5 +255,7 @@ export const useCircuitEvolution = ({
     pendingSimulationType,
     setPendingSimulationType,
     handleSimulationTypeChange,
+    theme,
+    toggleTheme,
   };
 };

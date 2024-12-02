@@ -4,11 +4,8 @@ export interface CircuitNode {
   position: { x: number; y: number };
   data: {
     booleanValue?: number;
-    color: string;
     text: string;
-    style?: {
-      backgroundColor: string;
-    };
+    style?: NodeStyle;
   };
 }
 
@@ -22,6 +19,11 @@ export interface TruthTableRow {
   inputs: number[];
   circuitOutput: number;
   goalOutput: number;
+}
+
+export enum Theme {
+  DEFAULT = "default",
+  EVANGELION = "evangelion",
 }
 
 export enum SimulationType {
@@ -51,6 +53,8 @@ export type CircuitDisplayProps = {
   setShowResetWarning: (show: boolean) => void;
   skipResetWarning: boolean;
   setSkipResetWarning: (skip: boolean) => void;
+  theme: Theme;
+  toggleTheme: () => void;
 };
 
 export type SimulationTypeToggleProps = {
@@ -62,4 +66,17 @@ export type SimulationTypeToggleProps = {
   setShowResetWarning: (show: boolean) => void;
   skipResetWarning: boolean;
   setSkipResetWarning: (skip: boolean) => void;
+  theme: Theme;
 };
+
+export interface NodeStyle {
+  backgroundColor: string;
+  color: string;
+  borderColor?: string;
+}
+
+export interface NodeData {
+  text?: string;
+  booleanValue?: number;
+  style: NodeStyle;
+}

@@ -21,8 +21,11 @@ import {
   SimulationType,
   CircuitDisplayProps,
   SimulationTypeToggleProps,
+  Theme,
 } from "./types";
 import { useMediaQuery } from "../../hooks";
+import { cn } from "../../lib/utils";
+import { getThemeStyles } from "./utils";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -33,8 +36,17 @@ const edgeTypes = {
   straight: StraightEdge,
 };
 
-const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
-  <div className="h-[300px] md:h-[400px] border border-slate-200 rounded-md">
+const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange, theme }) => (
+  <div
+    className={cn(
+      "h-[300px] md:h-[400px] border rounded-md transition-all duration-200 ease-in",
+      {
+        "border-evangelion-orange-100 bg-evangelion-black":
+          theme === "evangelion",
+        "border-slate-200": theme !== "evangelion",
+      }
+    )}
+  >
     <ReactFlow
       fitView
       nodes={nodes}
@@ -45,11 +57,21 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
       edgeTypes={edgeTypes}
       defaultEdgeOptions={{
         type: "straight",
-        style: { stroke: "#3f3f46" },
+        style: {
+          stroke:
+            theme === Theme.EVANGELION
+              ? getThemeStyles(theme).borderColor
+              : getThemeStyles(theme).color,
+        },
       }}
     >
-      <Background />
-      <Controls />
+      <Background color={theme === Theme.EVANGELION ? "#55eeaa" : undefined} />
+      <Controls
+        className={cn({
+          "[&>button]:bg-evangelion-black [&>button]:border-evangelion-orange-500 [&>button]:text-evangelion-orange-500 [&>button:hover]:bg-evangelion-orange-500 [&>button:hover]:text-evangelion-black":
+            theme === "evangelion",
+        })}
+      />
     </ReactFlow>
   </div>
 );
@@ -80,6 +102,7 @@ const SimulationTypeToggle = ({
   setShowResetWarning,
   skipResetWarning,
   setSkipResetWarning,
+  theme,
 }: SimulationTypeToggleProps) => {
   const [pendingSimulationType, setPendingSimulationType] =
     useState<SimulationType | null>(null);
@@ -109,11 +132,27 @@ const SimulationTypeToggle = ({
       </Tabs>
 
       <Dialog open={showResetWarning} onOpenChange={setShowResetWarning}>
-        <DialogContent>
+        <DialogContent
+          className={cn(
+            theme === Theme.EVANGELION &&
+              "bg-evangelion-black border-evangelion-red"
+          )}
+        >
           <DialogHeader>
-            <DialogTitle>Reset Simulation?</DialogTitle>
+            <DialogTitle
+              className={
+                theme === Theme.EVANGELION &&
+                "text-evangelion-red uppercase text-3xl"
+              }
+            >
+              {theme === Theme.EVANGELION ? "Refused" : "Reset Simulation"}
+            </DialogTitle>
           </DialogHeader>
-          <div className="py-4">
+          <div
+            className={cn(
+              theme === Theme.EVANGELION && "text-evangelion-orange-100"
+            )}
+          >
             Changing the simulation type will reset your current progress. Do
             you want to continue?
           </div>
@@ -134,13 +173,21 @@ const SimulationTypeToggle = ({
             <div className="flex space-x-2">
               <Button
                 variant="outline"
+                className={cn({
+                  "bg-evangelion-black text-evangelion-orange-100 border-evangelion-orange-100 hover:border-evangelion-orange-200 hover:text-evangelion-orange-200":
+                    theme === Theme.EVANGELION,
+                })}
                 onClick={() => setShowResetWarning(false)}
               >
                 Cancel
               </Button>
               <Button
                 variant="primary"
-                className="bg-slate-800 hover:bg-slate-900"
+                className={cn({
+                  "bg-evangelion-orange-400 text-evangelion-black border-evangelion-orange-500 hover:bg-evangelion-orange-500":
+                    theme === Theme.EVANGELION,
+                  "bg-slate-800 hover:bg-slate-900": theme !== Theme.EVANGELION,
+                })}
                 onClick={() => {
                   if (pendingSimulationType) {
                     setSimulationType(pendingSimulationType);
@@ -173,6 +220,7 @@ const CircuitDisplay = ({
   setShowResetWarning,
   skipResetWarning,
   setSkipResetWarning,
+  theme,
 }: CircuitDisplayProps) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
 
@@ -183,6 +231,7 @@ const CircuitDisplay = ({
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        theme={theme}
       />
       <div className="mt-6 flex flex-col self-center font-mono max-w-[400px]">
         <div className="flex justify-between items-center mb-5">
@@ -208,6 +257,7 @@ const CircuitDisplay = ({
             setShowResetWarning={setShowResetWarning}
             skipResetWarning={skipResetWarning}
             setSkipResetWarning={setSkipResetWarning}
+            theme={theme}
           />
         </div>
         <Button

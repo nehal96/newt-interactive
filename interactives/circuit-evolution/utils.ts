@@ -1,5 +1,25 @@
-import { CircuitNode, CircuitEdge, TruthTableRow } from "./types";
+import { CircuitNode, CircuitEdge, TruthTableRow, NodeStyle } from "./types";
 import { CIRCUIT_CONFIG } from "./config";
+
+export const getThemeStyles = (theme: string): NodeStyle => ({
+  backgroundColor: theme === "evangelion" ? "#E65B08" : "#fff",
+  color: theme === "evangelion" ? "white" : "#3f3f46",
+  borderColor: theme === "evangelion" ? "#E65B08" : "#3f3f46",
+});
+
+export const formatInitialNodes = (nodes: CircuitNode[], theme: string) => {
+  const themeStyles = getThemeStyles(theme);
+
+  return nodes.map((node) => ({
+    ...node,
+    data: {
+      ...node.data,
+      style: {
+        ...themeStyles,
+      },
+    },
+  }));
+};
 
 // Logic Gates
 export const evaluateNAND = (input1: number, input2: number): number => {

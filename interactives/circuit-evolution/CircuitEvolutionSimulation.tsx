@@ -10,6 +10,7 @@ const CircuitEvolutionSimulation = () => {
   const [numVariations, setNumVariations] = useState(
     CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.INITIAL
   );
+
   const {
     nodes,
     edges,
@@ -24,12 +25,14 @@ const CircuitEvolutionSimulation = () => {
     mutationLogs,
     simulationType,
     setSimulationType,
+    theme,
+    toggleTheme,
   } = useCircuitEvolution({ numVariations });
   const [showResetWarning, setShowResetWarning] = useState(false);
   const [skipResetWarning, setSkipResetWarning] = useState(false);
 
   return (
-    <InteractiveTutorialContainer className="flex-col">
+    <InteractiveTutorialContainer>
       <CircuitDisplay
         nodes={nodes}
         edges={edges}
@@ -44,11 +47,15 @@ const CircuitEvolutionSimulation = () => {
         setShowResetWarning={setShowResetWarning}
         skipResetWarning={skipResetWarning}
         setSkipResetWarning={setSkipResetWarning}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
       <CircuitDashboard
         simulationType={simulationType}
         numVariations={numVariations}
         setNumVariations={setNumVariations}
+        theme={theme}
+        toggleTheme={toggleTheme}
         inputTableData={inputTableData}
         truthTable={truthTable}
         accuracy={accuracy}
