@@ -7,56 +7,88 @@ import {
   VictoryScatter,
 } from "victory";
 import { FiInfo, FiSettings, FiX } from "react-icons/fi";
-import { Button, MathFormula, Slider, Popover } from "../../components";
+import {
+  Button,
+  MathFormula,
+  Slider,
+  Popover,
+  TabsTrigger,
+  TabsList,
+  Tabs,
+} from "../../components";
 import { SimulationType } from "./types";
 import { CIRCUIT_CONFIG, fitnessChartAxisStyle } from "./config";
 import { useMediaQuery } from "../../hooks";
+import { cn } from "../../lib/utils";
 
-const TruthTable = ({ truthTable, accuracy }) => (
-  <table className="font-mono border border-slate-200 w-full">
-    <thead>
-      <tr className="border-b border-slate-200">
-        <th className="px-2 border-r border-slate-200">X</th>
-        <th className="px-2 border-r border-slate-200">Y</th>
-        <th className="px-2 border-r border-slate-200">Z</th>
-        <th className="px-2 border-r border-slate-200">W</th>
-        <th className="px-2 border-r border-slate-200">Circuit</th>
-        <th className="px-2">Goal</th>
-      </tr>
-    </thead>
-    <tbody>
-      {truthTable.map((row, i) => (
-        <tr key={i} className="border-b border-slate-200">
-          {row.inputs.map((input, j) => (
-            <td key={j} className="px-2 text-center border-r border-slate-200">
-              {input}
-            </td>
-          ))}
-          <td
-            className={`px-2 text-center border-r border-slate-200 ${
-              row.circuitOutput !== row.goalOutput
-                ? "bg-red-100"
-                : "bg-green-100"
-            }`}
-          >
-            {row.circuitOutput}
-          </td>
-          <td className="px-2 text-center">{row.goalOutput}</td>
+const TruthTable = ({ theme, truthTable, accuracy }) => {
+  const getCircuitResultClass = (falseResult) => {
+    return cn({
+      "bg-evangelion-green text-evangelion-black":
+        !falseResult && theme === "evangelion",
+      "bg-green-100": !falseResult && theme !== "evangelion",
+      "bg-evangelion-red text-evangelion-orange-100":
+        falseResult && theme === "evangelion",
+      "bg-red-100": falseResult && theme !== "evangelion",
+    });
+  };
+  const getTableBorderColor = () => {
+    return cn({
+      "border-evangelion-orange-100": theme === "evangelion",
+      "border-slate-200": theme !== "evangelion",
+    });
+  };
+
+  return (
+    <table className={cn("font-mono border w-full", getTableBorderColor())}>
+      <thead>
+        <tr className={`border-b ${getTableBorderColor()}`}>
+          <th className={`px-2 border-r ${getTableBorderColor()}`}>X</th>
+          <th className={`px-2 border-r ${getTableBorderColor()}`}>Y</th>
+          <th className={`px-2 border-r ${getTableBorderColor()}`}>Z</th>
+          <th className={`px-2 border-r ${getTableBorderColor()}`}>W</th>
+          <th className={`px-2 border-r ${getTableBorderColor()}`}>Circuit</th>
+          <th className={`px-2 ${getTableBorderColor()}`}>Goal</th>
         </tr>
-      ))}
-      <tr className="border-t border-slate-200 font-semibold">
-        <td colSpan={4} className="px-2 text-right border-r border-slate-200">
-          Accuracy:
-        </td>
-        <td colSpan={2} className="px-2 text-right">
-          {accuracy.toFixed(1)}%
-        </td>
-      </tr>
-    </tbody>
-  </table>
-);
+      </thead>
+      <tbody>
+        {truthTable.map((row, i) => (
+          <tr key={i} className={`border-b ${getTableBorderColor()}`}>
+            {row.inputs.map((input, j) => (
+              <td
+                key={j}
+                className={`px-2 text-center border-r ${getTableBorderColor()}`}
+              >
+                {input}
+              </td>
+            ))}
+            <td
+              className={`px-2 text-center border-r ${getTableBorderColor()} ${getCircuitResultClass(
+                row.circuitOutput !== row.goalOutput
+              )}`}
+            >
+              {row.circuitOutput}
+            </td>
+            <td className="px-2 text-center">{row.goalOutput}</td>
+          </tr>
+        ))}
+        <tr className={`border-t ${getTableBorderColor()} font-semibold`}>
+          <td
+            colSpan={4}
+            className={`px-2 text-right border-r ${getTableBorderColor()}`}
+          >
+            Accuracy:
+          </td>
+          <td colSpan={2} className="px-2 text-right">
+            {accuracy.toFixed(1)}%
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+};
 
-const InputTable = ({ inputTableData }) => {
+const InputTable = ({ theme, inputTableData }) => {
   const inputLabels = {
     "1": "X",
     "2": "Y",
@@ -64,12 +96,25 @@ const InputTable = ({ inputTableData }) => {
     "4": "W",
   };
 
+  const getInputTableBorderColor = () => {
+    return cn({
+      "border-evangelion-orange-100": theme === "evangelion",
+      "border-slate-200": theme !== "evangelion",
+    });
+  };
+
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border border-slate-200 text-sm">
+      <table className={cn("w-full border", getInputTableBorderColor())}>
         <tbody>
-          <tr className="border-b border-slate-200">
-            <th className="text-left px-1.5 border-r border-slate-200">
+          <tr className={cn("border-b", getInputTableBorderColor())}>
+            <th
+              className={cn(
+                "text-left px-1.5 border-r",
+                getInputTableBorderColor(),
+                theme === "evangelion" && "text-lg"
+              )}
+            >
               Inputs
             </th>
             {inputTableData.inputs.map((inputArray, arrayIndex) => (
@@ -77,7 +122,7 @@ const InputTable = ({ inputTableData }) => {
                 {inputArray.map((input, idx) => (
                   <td
                     key={`input-${arrayIndex}-${idx}`}
-                    className="px-1.5 text-center border-r border-slate-200"
+                    className={`px-1.5 text-center border-r ${getInputTableBorderColor()}`}
                   >
                     {inputLabels[input] || input}
                   </td>
@@ -85,12 +130,20 @@ const InputTable = ({ inputTableData }) => {
               </Fragment>
             ))}
           </tr>
-          <tr className="border-b border-slate-200">
-            <th className="text-left px-1 border-r border-slate-200">Gate</th>
+          <tr className={cn("border-b", getInputTableBorderColor())}>
+            <th
+              className={cn(
+                "text-left px-1 border-r",
+                getInputTableBorderColor(),
+                theme === "evangelion" && "text-lg"
+              )}
+            >
+              Gate
+            </th>
             {inputTableData.gates.map((gate, index) => (
               <td
                 key={`gate-${index}`}
-                className="px-1.5 text-center border-r border-slate-200"
+                className={`px-1.5 text-center border-r ${getInputTableBorderColor()}`}
                 colSpan={inputTableData.inputs[index].length}
               >
                 {gate}
@@ -121,9 +174,16 @@ const FitnessInfoPopoverContent = memo(() => (
   </div>
 ));
 
-const FitnessGraph = ({ simulationType, chartData }) => (
+const FitnessGraph = ({ theme, simulationType, chartData }) => (
   <>
-    <div className="mt-4 underline">Fitness graph:</div>
+    <div
+      className={cn("mt-4 underline", {
+        "text-evangelion-orange-100 text-xl": theme === "evangelion",
+        "text-slate-900": theme !== "evangelion",
+      })}
+    >
+      Fitness graph:
+    </div>
     <div className="h-[200px]">
       <VictoryChart
         width={200}
@@ -138,19 +198,19 @@ const FitnessGraph = ({ simulationType, chartData }) => (
               ? "Mutations"
               : "Generations"
           }
-          style={fitnessChartAxisStyle}
+          style={fitnessChartAxisStyle(theme)}
           tickValues={[0, 50, 100]}
           tickFormat={(t) => t.toString()}
         />
         <VictoryAxis
           dependentAxis
-          style={fitnessChartAxisStyle}
+          style={fitnessChartAxisStyle(theme)}
           tickValues={[0, 0.5, 1]}
         />
         {chartData.length > 0 && (
           <VictoryLine
             style={{
-              data: { stroke: "#3f3f46" },
+              data: { stroke: theme === "evangelion" ? "#55eeaa" : "#3f3f46" },
             }}
             data={chartData}
             interpolation="monotoneX"
@@ -159,7 +219,7 @@ const FitnessGraph = ({ simulationType, chartData }) => (
         {chartData.length > 0 && (
           <VictoryScatter
             style={{
-              data: { fill: "#ef4444" },
+              data: { fill: theme === "evangelion" ? "#E65B08" : "#ef4444" },
             }}
             size={2}
             data={[chartData?.[chartData.length - 1]]}
@@ -170,15 +230,37 @@ const FitnessGraph = ({ simulationType, chartData }) => (
   </>
 );
 
-const MutationLog = ({ simulationType, logs, onHide }) => (
+const MutationLog = ({ theme, simulationType, logs, onHide }) => (
   <div className="mt-4">
-    <div className="flex justify-between items-center underline mb-2">
+    <div
+      className={cn("flex justify-between items-center underline mb-2", {
+        "text-evangelion-orange-100 text-xl": theme === "evangelion",
+        "text-slate-900": theme !== "evangelion",
+      })}
+    >
       <span>Mutation log:</span>
-      <Button variant="ghost" onClick={onHide} className="text-sm">
+      <Button
+        variant="ghost"
+        onClick={onHide}
+        className={cn("text-sm", {
+          "text-evangelion-orange-100 hover:bg-evangelion-orange-100 hover:text-evangelion-black":
+            theme === "evangelion",
+          "text-slate-800": theme !== "evangelion",
+        })}
+      >
         <FiX size={16} />
       </Button>
     </div>
-    <div className="bg-slate-800 text-white p-3 rounded-md font-mono text-sm h-[183px] overflow-y-auto">
+    <div
+      className={cn(
+        "p-3 rounded-md font-mono text-sm h-[183px] overflow-y-auto",
+        {
+          "bg-evangelion-black border-2 border-evangelion-orange-500 text-evangelion-green":
+            theme === "evangelion",
+          "bg-slate-800 text-white": theme !== "evangelion",
+        }
+      )}
+    >
       {logs.length === 0 ? (
         <div className="opacity-50">No mutations yet...</div>
       ) : (
@@ -200,16 +282,32 @@ const CircuitOptions = ({
   simulationType,
   numVariations,
   setNumVariations,
+  theme,
+  toggleTheme,
 }: {
   simulationType: SimulationType;
   numVariations: number;
   setNumVariations: (value: number) => void;
+  theme: string;
+  toggleTheme: () => void;
 }) => {
   return (
     <Popover
       side="left"
+      className={cn({
+        "bg-evangelion-black border-2 border-evangelion-orange-500 text-evangelion-orange-500":
+          theme === "evangelion",
+        "border-slate-200": theme !== "evangelion",
+      })}
       trigger={
-        <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
+        <button
+          className={cn("rounded-md p-1", {
+            "text-evangelion-orange-500 hover:text-evangelion-black hover:bg-evangelion-orange-500":
+              theme === "evangelion",
+            "text-slate-800 hover:text-slate-900 hover:bg-slate-100":
+              theme !== "evangelion",
+          })}
+        >
           <FiSettings size={16} />
         </button>
       }
@@ -237,6 +335,43 @@ const CircuitOptions = ({
                 </span>
               </div>
             </div>
+            <div>
+              <div className="mb-0.5 text-sm">Theme</div>
+              <Tabs
+                defaultValue="default"
+                value={theme}
+                onValueChange={toggleTheme}
+              >
+                <TabsList
+                  className={cn({
+                    "bg-slate-200": theme !== "evangelion",
+                    "bg-evangelion-black border-2 border-evangelion-orange-500 text-evangelion-orange-500":
+                      theme === "evangelion",
+                  })}
+                >
+                  <TabsTrigger
+                    className={cn({
+                      "text-slate-900": theme !== "evangelion",
+                      "text-evangelion-orange-500 hover:bg-evangelion-orange-100 hover:text-evangelion-black data-[state=active]:bg-evangelion-orange-500 data-[state=active]:text-evangelion-black":
+                        theme === "evangelion",
+                    })}
+                    value="default"
+                  >
+                    Default
+                  </TabsTrigger>
+                  <TabsTrigger
+                    className={cn({
+                      "text-slate-900": theme !== "evangelion",
+                      "text-evangelion-orange-500 data-[state=active]:bg-evangelion-orange-500 data-[state=active]:text-evangelion-black":
+                        theme === "evangelion",
+                    })}
+                    value="evangelion"
+                  >
+                    Evangelion
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
           </div>
         </>
       }
@@ -248,6 +383,8 @@ const CircuitDashboard = ({
   simulationType,
   numVariations,
   setNumVariations,
+  theme,
+  toggleTheme,
   truthTable,
   accuracy,
   inputTableData,
@@ -261,10 +398,21 @@ const CircuitDashboard = ({
   const onToggleMutationLog = () => setShowMutationLog(!showMutationLog);
 
   return (
-    <div className="flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 font-mono border border-slate-200 rounded-md p-5">
+    <div
+      className={cn(
+        "flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 border rounded-md p-5",
+        {
+          "bg-evangelion-black border-evangelion-black text-evangelion-orange-500 font-evangelion uppercase":
+            theme === "evangelion",
+          "border-slate-200 font-mono": theme !== "evangelion",
+        }
+      )}
+    >
       <div className="mb-4 relative">
         <div className="text-center flex flex-col sm:flex-row items-center justify-center mr-6">
-          <span className="mr-2">Circuit goal:</span>
+          <span className={cn("mr-2", { "text-2xl": theme === "evangelion" })}>
+            Circuit goal:
+          </span>
           <MathFormula tex="(X \enspace \text{XOR} \enspace Y) \enspace \text{AND} \enspace (Z \enspace \text{XOR} \enspace W)" />
         </div>
         <div className="absolute right-0 top-1/2 -translate-y-1/2">
@@ -272,19 +420,35 @@ const CircuitDashboard = ({
             simulationType={simulationType}
             numVariations={numVariations}
             setNumVariations={setNumVariations}
+            theme={theme}
+            toggleTheme={toggleTheme}
           />
         </div>
       </div>
       <div className="flex flex-col">
-        <InputTable inputTableData={inputTableData} />
+        <InputTable theme={theme} inputTableData={inputTableData} />
         <div className="flex flex-row">
           <div className="flex-col mt-4 flex-grow md:mr-4">
             <div className="flex mt-4 items-center">
-              <span className="underline">Fitness score:</span>
+              <span
+                className={cn("underline", {
+                  "text-evangelion-orange-100 text-xl": theme === "evangelion",
+                  "text-slate-900": theme !== "evangelion",
+                })}
+              >
+                Fitness score:
+              </span>
               <Popover
                 side={isMobile ? "bottom" : "right"}
                 trigger={
-                  <button className="text-slate-800 hover:text-slate-900 hover:bg-slate-100 rounded-md p-1">
+                  <button
+                    className={cn("rounded-md p-1", {
+                      "text-evangelion-orange-100 hover:bg-evangelion-orange-100 hover:text-evangelion-black":
+                        theme === "evangelion",
+                      "text-slate-800 hover:text-slate-900 hover:bg-slate-100":
+                        theme !== "evangelion",
+                    })}
+                  >
                     <FiInfo size={16} />
                   </button>
                 }
@@ -299,6 +463,7 @@ const CircuitDashboard = ({
               )}
             </div>
             <FitnessGraph
+              theme={theme}
               simulationType={simulationType}
               chartData={chartData}
             />
@@ -316,29 +481,50 @@ const CircuitDashboard = ({
             {showTruthTable && (
               <div className="sm:hidden">
                 <div className="flex justify-between items-center mb-1">
-                  <span className="underline mr-2">Truth table:</span>
+                  <span
+                    className={cn("underline", {
+                      "text-evangelion-orange-100 text-xl":
+                        theme === "evangelion",
+                      "text-slate-900": theme !== "evangelion",
+                    })}
+                  >
+                    Truth table:
+                  </span>
                   <Button
                     variant="ghost"
                     onClick={() => setShowTruthTable(false)}
-                    className="text-sm"
+                    className={cn("text-sm", {
+                      "text-evangelion-orange-100 hover:bg-evangelion-orange-100 hover:text-evangelion-black":
+                        theme === "evangelion",
+                      "text-slate-800": theme !== "evangelion",
+                    })}
                   >
                     <FiX size={16} />
                   </Button>
                 </div>
-                <TruthTable truthTable={truthTable} accuracy={accuracy} />
+                <TruthTable
+                  theme={theme}
+                  truthTable={truthTable}
+                  accuracy={accuracy}
+                />
               </div>
             )}
             {!showMutationLog && (
               <Button
                 variant="ghost"
                 onClick={onToggleMutationLog}
-                className="mt-4 text-sm"
+                className={cn("mt-4 text-sm", {
+                  "text-evangelion-orange-100 hover:bg-evangelion-orange-100 hover:text-evangelion-black text-base":
+                    theme === "evangelion",
+                  "text-slate-800": theme !== "evangelion",
+                })}
               >
                 Show mutation log
               </Button>
             )}
             {showMutationLog && (
               <MutationLog
+                theme={theme}
                 simulationType={simulationType}
                 logs={mutationLogs}
                 onHide={onToggleMutationLog}
@@ -346,8 +532,19 @@ const CircuitDashboard = ({
             )}
           </div>
           <div className="hidden sm:block sm:flex-col mt-4">
-            <div className="underline">Truth table:</div>
-            <TruthTable truthTable={truthTable} accuracy={accuracy} />
+            <div
+              className={cn("underline", {
+                "text-evangelion-orange-100 text-xl": theme === "evangelion",
+                "text-slate-900": theme !== "evangelion",
+              })}
+            >
+              Truth table:
+            </div>
+            <TruthTable
+              theme={theme}
+              truthTable={truthTable}
+              accuracy={accuracy}
+            />
           </div>
         </div>
       </div>

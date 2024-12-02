@@ -16,12 +16,23 @@ module.exports = {
         slate: {
           150: "#e9eef4",
         },
+        "evangelion-black": "#030001",
+        "evangelion-orange": {
+          100: "#faac7d",
+          200: "#f99457",
+          300: "#f87b31",
+          500: "#E65B08",
+          800: "#311302",
+        },
+        "evangelion-red": "#9f0000",
+        "evangelion-green": "#55eeaa",
       },
       fontFamily: {
         body: ["avenir"],
         title: ["DM Serif Display"],
         logo: ["Righteous"],
         quote: ["Libre Baskerville"],
+        evangelion: ["Bebas Neue"],
       },
       maxWidth: {
         prose: "45rem",

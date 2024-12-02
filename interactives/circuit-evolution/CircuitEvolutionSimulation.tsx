@@ -10,6 +10,14 @@ const CircuitEvolutionSimulation = () => {
   const [numVariations, setNumVariations] = useState(
     CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.INITIAL
   );
+  const [theme, setTheme] = useState("default");
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) =>
+      prevTheme === "default" ? "evangelion" : "default"
+    );
+  };
+
   const {
     nodes,
     edges,
@@ -29,7 +37,7 @@ const CircuitEvolutionSimulation = () => {
   const [skipResetWarning, setSkipResetWarning] = useState(false);
 
   return (
-    <InteractiveTutorialContainer className="flex-col">
+    <InteractiveTutorialContainer>
       <CircuitDisplay
         nodes={nodes}
         edges={edges}
@@ -49,6 +57,8 @@ const CircuitEvolutionSimulation = () => {
         simulationType={simulationType}
         numVariations={numVariations}
         setNumVariations={setNumVariations}
+        theme={theme}
+        toggleTheme={toggleTheme}
         inputTableData={inputTableData}
         truthTable={truthTable}
         accuracy={accuracy}
