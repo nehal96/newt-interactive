@@ -62,7 +62,7 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange, theme }) => (
         },
       }}
     >
-      <Background color={theme === Theme.EVANGELION ? "#F0A500" : undefined} />
+      <Background color={theme === Theme.EVANGELION ? "#55eeaa" : undefined} />
       <Controls
         className={cn({
           "[&>button]:bg-evangelion-black [&>button]:border-evangelion-orange-500 [&>button]:text-evangelion-orange-500 [&>button:hover]:bg-evangelion-orange-500 [&>button:hover]:text-evangelion-black":

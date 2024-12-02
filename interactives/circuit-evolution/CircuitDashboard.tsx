@@ -182,7 +182,7 @@ const FitnessGraph = ({ theme, simulationType, chartData }) => (
   <>
     <div
       className={cn("mt-4 underline", {
-        "text-evangelion-orange-100 text-xl": theme === "evangelion",
+        "text-xl": theme === "evangelion",
         "text-slate-900": theme !== "evangelion",
       })}
     >
@@ -238,7 +238,7 @@ const MutationLog = ({ theme, simulationType, logs, onHide }) => (
   <div className="mt-4">
     <div
       className={cn("flex justify-between items-center underline mb-2", {
-        "text-evangelion-orange-100 text-xl": theme === "evangelion",
+        "text-xl": theme === "evangelion",
         "text-slate-900": theme !== "evangelion",
       })}
     >
@@ -333,6 +333,15 @@ const CircuitOptions = ({
                   min={CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.MIN}
                   step={CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.STEP}
                   className="flex-grow"
+                  trackClassName={cn({
+                    "bg-evangelion-orange-50": theme === "evangelion",
+                  })}
+                  rangeClassName={cn({
+                    "bg-evangelion-orange-500": theme === "evangelion",
+                  })}
+                  thumbClassName={cn({
+                    "border-evangelion-black": theme === "evangelion",
+                  })}
                 />
                 <span className="min-w-[2rem] text-sm font-mono">
                   {numVariations}
@@ -349,14 +358,14 @@ const CircuitOptions = ({
                 <TabsList
                   className={cn({
                     "bg-slate-200": theme !== "evangelion",
-                    "bg-evangelion-black border-2 border-evangelion-orange-500 text-evangelion-orange-500":
+                    "bg-evangelion-orange-100 text-evangelion-black":
                       theme === "evangelion",
                   })}
                 >
                   <TabsTrigger
                     className={cn({
                       "text-slate-900": theme !== "evangelion",
-                      "text-evangelion-orange-500 hover:bg-evangelion-orange-100 hover:text-evangelion-black data-[state=active]:bg-evangelion-orange-500 data-[state=active]:text-evangelion-black":
+                      "hover:bg-evangelion-orange-200 hover:text-evangelion-black data-[state=active]:bg-evangelion-orange-500 data-[state=active]:text-evangelion-black":
                         theme === "evangelion",
                     })}
                     value="default"
@@ -414,10 +423,19 @@ const CircuitDashboard = ({
     >
       <div className="mb-4 relative">
         <div className="text-center flex flex-col sm:flex-row items-center justify-center mr-6">
-          <span className={cn("mr-2", { "text-2xl": theme === "evangelion" })}>
+          <span
+            className={cn("mr-2", {
+              "text-2xl": theme === "evangelion",
+            })}
+          >
             Circuit goal:
           </span>
-          <MathFormula tex="(X \enspace \text{XOR} \enspace Y) \enspace \text{AND} \enspace (Z \enspace \text{XOR} \enspace W)" />
+          <MathFormula
+            className={cn({
+              "text-evangelion-orange-100": theme === "evangelion",
+            })}
+            tex="(X \enspace \text{XOR} \enspace Y) \enspace \text{AND} \enspace (Z \enspace \text{XOR} \enspace W)"
+          />
         </div>
         <div className="absolute right-0 top-1/2 -translate-y-1/2">
           <CircuitOptions
@@ -436,7 +454,7 @@ const CircuitDashboard = ({
             <div className="flex mt-4 items-center">
               <span
                 className={cn("underline", {
-                  "text-evangelion-orange-100 text-xl": theme === "evangelion",
+                  "text-xl": theme === "evangelion",
                   "text-slate-900": theme !== "evangelion",
                 })}
               >
@@ -447,7 +465,7 @@ const CircuitDashboard = ({
                 trigger={
                   <button
                     className={cn("rounded-md p-1", {
-                      "text-evangelion-orange-100 hover:bg-evangelion-orange-100 hover:text-evangelion-black":
+                      "text-evangelion-orange-500 hover:bg-evangelion-orange-500 hover:text-evangelion-black":
                         theme === "evangelion",
                       "text-slate-800 hover:text-slate-900 hover:bg-slate-100":
                         theme !== "evangelion",
@@ -461,7 +479,9 @@ const CircuitDashboard = ({
               />
               {chartData.length > 0 && (
                 <MathFormula
-                  className="ml-2"
+                  className={cn("ml-2", {
+                    "text-evangelion-orange-100": theme === "evangelion",
+                  })}
                   tex={`${chartData?.[chartData.length - 1]?.y.toFixed(3)} `}
                 />
               )}
@@ -538,7 +558,7 @@ const CircuitDashboard = ({
           <div className="hidden sm:block sm:flex-col mt-4">
             <div
               className={cn("underline", {
-                "text-evangelion-orange-100 text-xl": theme === "evangelion",
+                "text-xl": theme === "evangelion",
                 "text-slate-900": theme !== "evangelion",
               })}
             >

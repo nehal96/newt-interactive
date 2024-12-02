@@ -18,6 +18,7 @@ module.exports = {
         },
         "evangelion-black": "#030001",
         "evangelion-orange": {
+          50: "#fddcc9",
           100: "#faac7d",
           200: "#f99457",
           300: "#f87b31",
