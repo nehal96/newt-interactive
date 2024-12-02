@@ -1,10 +1,16 @@
-import { CircuitNode, CircuitEdge, TruthTableRow, NodeStyle } from "./types";
+import {
+  CircuitNode,
+  CircuitEdge,
+  TruthTableRow,
+  NodeStyle,
+  Theme,
+} from "./types";
 import { CIRCUIT_CONFIG } from "./config";
 
 export const getThemeStyles = (theme: string): NodeStyle => ({
-  backgroundColor: theme === "evangelion" ? "#E65B08" : "#fff",
-  color: theme === "evangelion" ? "white" : "#3f3f46",
-  borderColor: theme === "evangelion" ? "#E65B08" : "#3f3f46",
+  backgroundColor: theme === Theme.EVANGELION ? "#E65B08" : "#fff",
+  color: theme === Theme.EVANGELION ? "white" : "#3f3f46",
+  borderColor: theme === Theme.EVANGELION ? "#E65B08" : "#3f3f46",
 });
 
 export const formatInitialNodes = (nodes: CircuitNode[], theme: string) => {
