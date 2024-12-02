@@ -413,7 +413,7 @@ const CircuitDashboard = ({
   return (
     <div
       className={cn(
-        "flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 border rounded-md p-5",
+        "flex flex-col w-full lg:w-2/3 lg:ml-4 mb-4 lg:my-0 border rounded-md p-5 transition-all duration-200 ease-in",
         {
           "bg-evangelion-black border-evangelion-black text-evangelion-orange-500 font-evangelion uppercase":
             theme === "evangelion",

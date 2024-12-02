@@ -38,11 +38,14 @@ const edgeTypes = {
 
 const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange, theme }) => (
   <div
-    className={cn("h-[300px] md:h-[400px] border rounded-md", {
-      "border-evangelion-orange-100 bg-evangelion-black":
-        theme === "evangelion",
-      "border-slate-200": theme !== "evangelion",
-    })}
+    className={cn(
+      "h-[300px] md:h-[400px] border rounded-md transition-all duration-200 ease-in",
+      {
+        "border-evangelion-orange-100 bg-evangelion-black":
+          theme === "evangelion",
+        "border-slate-200": theme !== "evangelion",
+      }
+    )}
   >
     <ReactFlow
       fitView
