@@ -42,8 +42,8 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange, theme }) => (
       "h-[300px] md:h-[400px] border rounded-md transition-all duration-200 ease-in",
       {
         "border-evangelion-orange-100 bg-evangelion-black":
-          theme === "evangelion",
-        "border-slate-200": theme !== "evangelion",
+          theme === Theme.EVANGELION,
+        "border-slate-200": theme !== Theme.EVANGELION,
       }
     )}
   >
@@ -69,7 +69,7 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange, theme }) => (
       <Controls
         className={cn({
           "[&>button]:bg-evangelion-black [&>button]:border-evangelion-orange-500 [&>button]:text-evangelion-orange-500 [&>button:hover]:bg-evangelion-orange-500 [&>button:hover]:text-evangelion-black":
-            theme === "evangelion",
+            theme === Theme.EVANGELION,
         })}
       />
     </ReactFlow>

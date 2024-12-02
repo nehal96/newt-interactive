@@ -1,4 +1,5 @@
 import { axisStyle } from "../../components";
+import { Theme } from "./types";
 
 export const CIRCUIT_CONFIG = {
   MAX_GENERATIONS: 100,
@@ -15,20 +16,20 @@ export const CIRCUIT_CONFIG = {
 export const fitnessChartAxisStyle = (theme: string) => ({
   ...axisStyle,
   axis: {
-    stroke: theme === "evangelion" ? "#55eeaa" : "#1e293b",
+    stroke: theme === Theme.EVANGELION ? "#55eeaa" : "#1e293b",
   },
   axisLabel: {
     ...axisStyle.axisLabel,
     fontSize: 11,
     fontFamily: "monospace",
     padding: 25,
-    fill: theme === "evangelion" ? "#55eeaa" : "#1e293b",
+    fill: theme === Theme.EVANGELION ? "#55eeaa" : "#1e293b",
   },
   tickLabels: {
     ...axisStyle.tickLabels,
     fontSize: 11,
     fontFamily: "monospace",
-    fill: theme === "evangelion" ? "#55eeaa" : "#1e293b",
+    fill: theme === Theme.EVANGELION ? "#55eeaa" : "#1e293b",
   },
   ticks: { ...axisStyle.ticks, size: 0 },
 });
