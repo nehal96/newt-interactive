@@ -16,7 +16,7 @@ import {
   TabsList,
   Tabs,
 } from "../../components";
-import { SimulationType } from "./types";
+import { SimulationType, Theme } from "./types";
 import { CIRCUIT_CONFIG, fitnessChartAxisStyle } from "./config";
 import { useMediaQuery } from "../../hooks";
 import { cn } from "../../lib/utils";
@@ -105,14 +105,18 @@ const InputTable = ({ theme, inputTableData }) => {
 
   return (
     <div className="overflow-x-auto">
-      <table className={cn("w-full border", getInputTableBorderColor())}>
+      <table
+        className={cn("w-full border", getInputTableBorderColor(), {
+          "text-sm": theme === Theme.DEFAULT,
+          "text-lg": theme === Theme.EVANGELION,
+        })}
+      >
         <tbody>
           <tr className={cn("border-b", getInputTableBorderColor())}>
             <th
               className={cn(
                 "text-left px-1.5 border-r",
-                getInputTableBorderColor(),
-                theme === "evangelion" && "text-lg"
+                getInputTableBorderColor()
               )}
             >
               Inputs
