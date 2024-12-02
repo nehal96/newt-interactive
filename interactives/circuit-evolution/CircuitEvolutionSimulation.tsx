@@ -10,13 +10,6 @@ const CircuitEvolutionSimulation = () => {
   const [numVariations, setNumVariations] = useState(
     CIRCUIT_CONFIG.VARIATIONS_PER_GENERATION.INITIAL
   );
-  const [theme, setTheme] = useState("default");
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) =>
-      prevTheme === "default" ? "evangelion" : "default"
-    );
-  };
 
   const {
     nodes,
@@ -32,6 +25,8 @@ const CircuitEvolutionSimulation = () => {
     mutationLogs,
     simulationType,
     setSimulationType,
+    theme,
+    toggleTheme,
   } = useCircuitEvolution({ numVariations });
   const [showResetWarning, setShowResetWarning] = useState(false);
   const [skipResetWarning, setSkipResetWarning] = useState(false);
@@ -52,6 +47,8 @@ const CircuitEvolutionSimulation = () => {
         setShowResetWarning={setShowResetWarning}
         skipResetWarning={skipResetWarning}
         setSkipResetWarning={setSkipResetWarning}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
       <CircuitDashboard
         simulationType={simulationType}

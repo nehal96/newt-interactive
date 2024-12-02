@@ -7,10 +7,11 @@ export const initialNodes: CircuitNode[] = [
     position: { x: 50, y: 25 },
     data: {
       booleanValue: 0,
-      color: "#3f3f46",
       text: "X",
       style: {
         backgroundColor: "white",
+        borderColor: "#3f3f46",
+        color: "#3f3f46",
       },
     },
   },
@@ -20,10 +21,11 @@ export const initialNodes: CircuitNode[] = [
     position: { x: 150, y: 25 },
     data: {
       booleanValue: 0,
-      color: "#3f3f46",
       text: "Y",
       style: {
         backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
       },
     },
   },
@@ -33,10 +35,11 @@ export const initialNodes: CircuitNode[] = [
     position: { x: 250, y: 25 },
     data: {
       booleanValue: 0,
-      color: "#3f3f46",
       text: "Z",
       style: {
         backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
       },
     },
   },
@@ -46,10 +49,11 @@ export const initialNodes: CircuitNode[] = [
     position: { x: 350, y: 25 },
     data: {
       booleanValue: 0,
-      color: "#3f3f46",
       text: "W",
       style: {
         backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
       },
     },
   },
@@ -58,8 +62,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 100, y: 100 },
     data: {
-      color: "#3f3f46",
       text: "5",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -67,8 +75,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 200, y: 100 },
     data: {
-      color: "#3f3f46",
       text: "6",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -76,8 +88,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 300, y: 100 },
     data: {
-      color: "#3f3f46",
       text: "7",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -85,8 +101,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 150, y: 175 },
     data: {
-      color: "#3f3f46",
       text: "8",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -94,8 +114,11 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 250, y: 175 },
     data: {
-      color: "#3f3f46",
       text: "9",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+      },
     },
   },
   {
@@ -103,8 +126,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 100, y: 250 },
     data: {
-      color: "#3f3f46",
       text: "10",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -112,8 +139,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 200, y: 250 },
     data: {
-      color: "#3f3f46",
       text: "11",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -121,8 +152,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 300, y: 250 },
     data: {
-      color: "#3f3f46",
       text: "12",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -130,8 +165,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 150, y: 325 },
     data: {
-      color: "#3f3f46",
       text: "13",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -139,8 +178,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 250, y: 325 },
     data: {
-      color: "#3f3f46",
       text: "14",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
   {
@@ -148,8 +191,12 @@ export const initialNodes: CircuitNode[] = [
     type: "nandGate",
     position: { x: 200, y: 400 },
     data: {
-      color: "#3f3f46",
       text: "15",
+      style: {
+        backgroundColor: "white",
+        color: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
     },
   },
 ];

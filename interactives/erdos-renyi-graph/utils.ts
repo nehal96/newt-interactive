@@ -158,7 +158,11 @@ export const generateNodePositions = (n: number, radius: number = 200) => {
       type: "circle",
       position: { x, y },
       data: {
-        color: "#3f3f46",
+        style: {
+          backgroundColor: "#3f3f46",
+          color: "#3f3f46",
+          borderColor: "#3f3f46",
+        },
       },
     });
   }

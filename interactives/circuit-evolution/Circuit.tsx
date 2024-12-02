@@ -21,8 +21,11 @@ import {
   SimulationType,
   CircuitDisplayProps,
   SimulationTypeToggleProps,
+  Theme,
 } from "./types";
 import { useMediaQuery } from "../../hooks";
+import { cn } from "../../lib/utils";
+import { getThemeStyles } from "./utils";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -33,8 +36,14 @@ const edgeTypes = {
   straight: StraightEdge,
 };
 
-const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
-  <div className="h-[300px] md:h-[400px] border border-slate-200 rounded-md">
+const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange, theme }) => (
+  <div
+    className={cn("h-[300px] md:h-[400px] border rounded-md", {
+      "border-evangelion-orange-100 bg-evangelion-black":
+        theme === "evangelion",
+      "border-slate-200": theme !== "evangelion",
+    })}
+  >
     <ReactFlow
       fitView
       nodes={nodes}
@@ -45,11 +54,21 @@ const Circuit = ({ nodes, edges, onNodesChange, onEdgesChange }) => (
       edgeTypes={edgeTypes}
       defaultEdgeOptions={{
         type: "straight",
-        style: { stroke: "#3f3f46" },
+        style: {
+          stroke:
+            theme === Theme.EVANGELION
+              ? getThemeStyles(theme).borderColor
+              : getThemeStyles(theme).color,
+        },
       }}
     >
-      <Background />
-      <Controls />
+      <Background color={theme === Theme.EVANGELION ? "#F0A500" : undefined} />
+      <Controls
+        className={cn({
+          "[&>button]:bg-evangelion-black [&>button]:border-evangelion-orange-500 [&>button]:text-evangelion-orange-500 [&>button:hover]:bg-evangelion-orange-500 [&>button:hover]:text-evangelion-black":
+            theme === "evangelion",
+        })}
+      />
     </ReactFlow>
   </div>
 );
@@ -173,6 +192,8 @@ const CircuitDisplay = ({
   setShowResetWarning,
   skipResetWarning,
   setSkipResetWarning,
+  theme,
+  toggleTheme,
 }: CircuitDisplayProps) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
 
@@ -183,6 +204,7 @@ const CircuitDisplay = ({
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        theme={theme}
       />
       <div className="mt-6 flex flex-col self-center font-mono max-w-[400px]">
         <div className="flex justify-between items-center mb-5">

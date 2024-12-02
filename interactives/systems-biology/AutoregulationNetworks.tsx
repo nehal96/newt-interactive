@@ -43,7 +43,13 @@ const REAL_NETWORK_EXAMPLE_NODES = REAL_NETWORK_POSITIONS.map(
   (position, index) => ({
     id: index.toString(),
     type: "circle",
-    data: { color: "#3f3f46" },
+    data: {
+      style: {
+        color: "#3f3f46",
+        backgroundColor: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
+    },
     position,
   })
 );
@@ -80,7 +86,13 @@ const RANDOM_NETWORK_NODES = RANDOM_NETWORK_POSITIONS.map(
   (position, index) => ({
     id: index.toString(),
     type: "circle",
-    data: { color: "#3f3f46" },
+    data: {
+      style: {
+        color: "#3f3f46",
+        backgroundColor: "#3f3f46",
+        borderColor: "#3f3f46",
+      },
+    },
     position,
   })
 );
