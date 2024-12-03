@@ -14,9 +14,13 @@ import {
   MathFormula,
   SlideDeck,
   Slider,
-  Switch,
 } from "../../components";
 import { cn } from "../../lib/utils";
+
+// Helper Functions
+const calculateTHalfNAR = (K: number, betaNAR: number) => K / (2 * betaNAR);
+const calculateTHalfSimpleReg = (alphaSimpleReg: number) =>
+  Math.log(2) / alphaSimpleReg;
 
 export const NegativeAutoregResponseTimeComparisonChart = ({
   steadyState = 100,
@@ -153,8 +157,6 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
 
 export const NegativeAutoregResponseTimeComparisonTutorial = () => {
   const [uncontrolledBetaNAR, setUncontrolledBetaNAR] = useState(24);
-  const [uncontrolledBetaSimpleReg, setUncontrolledBetaSimpleReg] =
-    useState(13);
   const [uncontrolledAlphaSimpleReg, setUncontrolledAlphaSimpleReg] =
     useState(0.1);
   const [uncontrolledK, setUncontrolledK] = useState(130);
@@ -164,22 +166,24 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
   const [betaNAR2, setBetaNAR2] = useState(24);
 
   const calculatedK2 = betaSimpleReg2 / alphaSimpleReg2;
-  const tHalfNAR2 = calculatedK2 / (2 * betaNAR2);
-  const tHalfSimpleReg2 = Math.log(2) / alphaSimpleReg2;
+  const tHalfNAR2 = calculateTHalfNAR(calculatedK2, betaNAR2);
+  const tHalfSimpleReg2 = calculateTHalfSimpleReg(alphaSimpleReg2);
 
-  const calculatedUncontrolledK =
-    uncontrolledBetaSimpleReg / uncontrolledAlphaSimpleReg;
-  const uncontrolledTHalfNAR =
-    calculatedUncontrolledK / (2 * uncontrolledBetaNAR);
-  const uncontrolledTHalfSimpleReg = Math.log(2) / uncontrolledAlphaSimpleReg;
+  const uncontrolledTHalfNAR = calculateTHalfNAR(
+    uncontrolledK,
+    uncontrolledBetaNAR
+  );
+  const uncontrolledTHalfSimpleReg = calculateTHalfSimpleReg(
+    uncontrolledAlphaSimpleReg
+  );
 
   const [betaNAR, setBetaNAR] = useState(24);
   const [betaSimpleReg, setBetaSimpleReg] = useState(12);
   const [alphaSimpleReg, setAlphaSimpleReg] = useState(0.1);
 
   const K = betaSimpleReg / alphaSimpleReg;
-  const tHalfNAR = K / (2 * betaNAR);
-  const tHalfSimpleReg = Math.log(2) / alphaSimpleReg;
+  const tHalfNAR = calculateTHalfNAR(K, betaNAR);
+  const tHalfSimpleReg = calculateTHalfSimpleReg(alphaSimpleReg);
   const ratio = tHalfNAR / tHalfSimpleReg;
   const percentFaster = ((tHalfSimpleReg - tHalfNAR) / tHalfNAR) * 100;
 
