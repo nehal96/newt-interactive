@@ -31,9 +31,9 @@ Before we answer these questions, let's review some of the key concepts and equa
 
 ---
 
-Negative autoregulation occurs when a transcription factor represses its own expression; the protein that the gene expresses binds to its own promoter and inhibits the production of mRNA. As the protein concentration increases, it ends up reducing its own rate of production.
+Negative autoregulation occurs when a transcription factor represses its own expression; the protein that the gene expresses binds to its own promoter and inhibits the production of its own mRNA. As the protein concentration increases, it ends up reducing its own rate of production.
 
-In [Transcription Network Basics: Part Three](/series/systems-biology/transcription-network-basics-3), we set up a baseline for dynamics and response time for simple regulation, and identified it as an important feature of cellular performance. Let's now look at the dynamics and response time for negative autoregulation and compare.
+In [Transcription Network Basics: Part Three](/series/systems-biology/transcription-network-basics-3), we explored the topic of dynamics and response time for simple regulation, and identified it as an important feature of cellular performance. Using this as a baseline, let's now look at the dynamics and response time for negative autoregulation and compare.
 
 To keep things simple, let's begin with using a logic approximation:
 
@@ -43,7 +43,7 @@ To keep things simple, let's begin with using a logic approximation:
 
 so the production rate is either 0, when <MathFormula tex="X" /> is less than the threshold <MathFormula tex="K" />, or at its maximum <MathFormula tex="\beta" />, when <MathFormula tex="X" /> is greater than <MathFormula tex="K" />.
 
-To analyze its response time, let's consider the scenario where the protein concentration is initially 0. As time progresses, the unrepressed promoter produces the protein at the full-speed rate <MathFormula tex="\beta" />, and the concentration of protein changes according to the equation:
+To analyze its response time, let's consider the scenario where the protein concentration is initially 0. As time progresses, the unrepressed promoter produces the protein at the full-speed rate <MathFormula tex="\beta" />, and so the concentration of protein changes according to the equation:
 
 <ArticleSection variant="math">
   <MathFormula tex="\dfrac{dX}{dt} = \beta - \alpha X \qquad \text{while} \thickspace X < K" />
@@ -61,7 +61,7 @@ Once <MathFormula tex="X" /> reaches the threshold <MathFormula tex="K" />, prod
   <NegativeAutoregAccumulationTutorial />
 </ArticleSection>
 
-From the graph, we can see that the steady state concentration of <MathFormula tex="X" /> is the same as its repression coefficient:
+From the graph, we can see that the steady state concentration of <MathFormula tex="X" /> is the same as its repression coefficient, <MathFormula tex="K" />:
 
 <ArticleSection variant="math">
   <MathFormula tex="X_{st} = K" />
@@ -98,7 +98,7 @@ which, when equated, gives us:
   <MathFormula tex="K = \dfrac{\beta_{simple}}{\alpha_{simple}}" />
 </ArticleSection>
 
-As you'll soon see in the interactive chart below, keeping the same steady state levels mean providing a stronger promoter for the negative autoregulation design, to compensate for its self-repression. 
+We now have an equation that fairly compares the two designs. As you'll soon see in the interactive chart below, keeping the same steady state levels mean providing a stronger promoter for the negative autoregulation design, to compensate for its self-repression.
 
 <ArticleSection variant="large">
   <NegativeAutoregResponseTimeComparisonTutorial />
