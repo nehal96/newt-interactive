@@ -4,7 +4,6 @@ import {
   VictoryLine,
   VictoryContainer,
   VictoryLabel,
-  DomainTuple,
 } from "victory";
 import { VictoryChart } from "victory";
 import {

@@ -1,4 +1,4 @@
-import { MdxLayout, ArticleSection, ArticleNavigationContainer, MathFormula, PreviousArticleLink } from "../../../components";
+import { MdxLayout, ArticleSection, ArticleNavigationContainer, ImageSeries, MathFormula, PreviousArticleLink } from "../../../components";
 import {
   FormulaReview,
   NegativeAutoregAccumulationTutorial,
@@ -104,6 +104,19 @@ We now have an equation that fairly compares the two designs. As you'll soon see
   <NegativeAutoregResponseTimeComparisonTutorial />
 </ArticleSection>
 
+For simple regulation, making the promoter stronger increases the steady-state value, possibly to a level that is too high for the cell to function properly. With negative autoregulation, on the other hand, you can pair a very strong promoter, which gives a fast initial rise and then cuts off at the steady-state level. The stronger it is, the faster the rise. As Uri Alon puts it: you can drive fast if you have a powerful engine and good brakes.
+
+Negative autoregulation's speed-up has been proven experimentally in a paper by Nitzan Rosenfeld, Michael B. Elowitz, and Uri Alon. The image below shows an adaption of their experimental chart:
+
+<ArticleSection variant="medium">
+  <ImageSeries images={[{
+    src: "/images/negative-autoreg-experiment-chart.png",
+    alt: "Negative autoregulation experiment chart",
+    width: 800,
+    height: 400,
+    caption: "Adaption of chart from Rosenfeld et al. (2006) taken from An Introduction to Systems Biology. The response time of negative autoregulation here is about 5x as fast as simple regulation.",
+  }]} maxWidth="450px" />
+</ArticleSection>
 
 <ArticleSection variant="medium" className="mb-0 md:mb-0" >
   <ArticleNavigationContainer>
