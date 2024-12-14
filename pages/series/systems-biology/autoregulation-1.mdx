@@ -1,4 +1,4 @@
-import { MdxLayout, ArticleSection, MathFormula, ImageSeries, Quote, UnorderedList, TippyTooltip, TippyTooltipContent, PostArticleSubscribe, Sheet, SheetTrigger, SheetContent, SheetTitle, PreviousArticleLink, ArticleNavigationContainer } from "../../../components";
+import { MdxLayout, ArticleSection, MathFormula, ImageSeries, Quote, UnorderedList, TippyTooltip, TippyTooltipContent, PostArticleSubscribe, Sheet, SheetTrigger, SheetContent, SheetTitle, PreviousArticleLink, NextArticleLink, ArticleNavigationContainer } from "../../../components";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { AutoregulationNetworkComparisonTutorial } from "../../../interactives/systems-biology";
 import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
@@ -165,7 +165,7 @@ The self-arrows in the network denote a gene that regulates its own expression, 
   />
 </ArticleSection>
 
-There are 40 autoregulatory transcription factors in this network. Thirty-four of these are repressers &mdash; proteins that repress their own expression:  **negative autoregulation**.
+There are 40 autoregulatory transcription factors in this network. Thirty-four of these are repressors &mdash; proteins that repress their own expression:  **negative autoregulation**.
 
 Does autoregulation occur in this network significantly more often than it would at random? To answer that question, we'll need to compare it to the average number of self-arrows that would occur in an Erdős-Rényi network of the same size.
 
@@ -187,7 +187,7 @@ The random network needs to have the same number of arrows as the real network f
 and the standard deviation is <StandardDeviationSheet />, so:
 
 <ArticleSection variant="math">
-  <MathFormula variant="regular" tex="\sigma_{N_{self}} = \sqrt{\lang N_{self} \rang_{rand}} = \sqrt{\dfrac{M}{n}}" />
+  <MathFormula variant="regular" tex="\sigma_{N_{self}} \approx \sqrt{\lang N_{self} \rang_{rand}} \approx \sqrt{\dfrac{M}{n}}" />
 </ArticleSection>
 
 For the *E.coli* network above, the number of nodes and arrows are <MathFormula variant="regular" tex="n = 424" /> and <MathFormula variant="regular" tex="M = 519" />. Thus, the average number of self-arrows and its standard deviation are:
@@ -199,7 +199,7 @@ For the *E.coli* network above, the number of nodes and arrows are <MathFormula 
 
 A random network with 424 nodes and 519 arrows expects only a little over 1 self-arrow. The real network, remember, has 40 self-arrows, which is about 35 standard deviations away from the expected value. That's a very high statistical significance.
 
-Negative autoregulation itself, with 34 self-arrows, is about 30 standard deviations away. It's safe to say, then, that autoregulation, and in particular, negative autoregulation, is a network motif in transcription networks. Remember, earlier, we said that a network motif implies some evolutionary advantage &mdash; what's the advantage that negative autoregulation provides?
+Negative autoregulation itself, with 34 self-arrows, is about 30 standard deviations away. It's safe to say, then, that **autoregulation, and in particular, negative autoregulation, is a network motif in transcription networks**. Remember, earlier, we said that a network motif implies some evolutionary advantage &mdash; what's the advantage that negative autoregulation provides?
 
 We'll explore this question in the next article. For now, feel free to play around with an Erdős-Rényi network generator below and see how the network changes when you change some parameters. You can also check it out in the <a className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700" href="/blocks/erdos-renyi-graph">Erdős-Rényi Graphs block</a>.
 
@@ -212,6 +212,10 @@ We'll explore this question in the next article. For now, feel free to play arou
     <PreviousArticleLink
       href="/series/systems-biology/transcription-network-basics-3"
       title="Transcription Network Basics: Part Three"
+    />
+    <NextArticleLink
+      href="/series/systems-biology/autoregulation-2"
+      title="Dynamics of Negative Autoregulation"
     />
   </ArticleNavigationContainer>
 </ArticleSection>
