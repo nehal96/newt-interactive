@@ -1,4 +1,4 @@
-import { MdxLayout, ArticleSection, ArticleNavigationContainer, ImageSeries, MathFormula, PreviousArticleLink } from "../../../components";
+import { MdxLayout, ArticleSection, ArticleNavigationContainer, ImageSeries, MathFormula, PreviousArticleLink, TippyTooltip } from "../../../components";
 import {
   FormulaReview,
   NegativeAutoregAccumulationTutorial,
@@ -33,7 +33,21 @@ Before we answer these questions, let's review some of the key concepts and equa
 
 Negative autoregulation occurs when a transcription factor represses its own expression; the protein that the gene expresses binds to its own promoter and inhibits the production of its own mRNA. As the protein concentration increases, it ends up reducing its own rate of production.
 
-In [Transcription Network Basics: Part Three](/series/systems-biology/transcription-network-basics-3), we explored the topic of dynamics and response time for simple regulation, and identified it as an important feature of cellular performance. Using this as a baseline, let's now look at the dynamics and response time for negative autoregulation and compare.
+<ArticleSection variant="medium">
+  <ImageSeries
+    images={[
+      {
+        src: "/images/negative-autoreg-diagram.svg",
+        alt: "Negative autoregulation diagram",
+        width: 748,
+        height: 403,
+        caption: "Diagram depicting negative autoregulation",
+      },
+    ]}
+  />
+</ArticleSection>
+
+In [Transcription Network Basics: Part Three](/series/systems-biology/transcription-network-basics-3), we explored the topic of dynamics and response time for simple regulation, and identified it as an important measure of cellular performance. Using this as a baseline, let's now look at the dynamics and response time for negative autoregulation and compare.
 
 To keep things simple, let's begin with using a logic approximation:
 
@@ -83,7 +97,7 @@ and so:
 
 From this, we can see that the stronger the maximal promoter activity <MathFormula tex="\beta" />, the faster the response time.
 
-Now, how does this compare with the response time for simple regulation? Before we jump into that, we need to ensure that the comparison is fair. This is done with something known as a **mathematically controlled comparison**; essentially, both designs should have the same target while keeping as many biochemical parameters identical as possible. In this comparison, the target is to reach the same steady-state level, a crucial quantity for optimal cellular performance. 
+Now, how does this compare with the response time for simple regulation? Before we jump into that, we need to ensure that the comparison is fair. This is done with something known as a <TippyTooltip content="Introduced by Michael Savageau in 1976">**mathematically controlled comparison**</TippyTooltip>; essentially, both biological circuit designs should have the same target while keeping as many biochemical parameters identical as possible. In this comparison, the target is to reach the same steady-state level, a crucial quantity for optimal cellular performance. 
 
 Comparing the steady state formulas for both designs:
 
@@ -98,17 +112,17 @@ which, when equated, gives us:
   <MathFormula tex="K = \dfrac{\beta_{simple}}{\alpha_{simple}}" />
 </ArticleSection>
 
-We now have an equation that fairly compares the two designs. As you'll soon see in the interactive chart below, keeping the same steady state levels mean providing a stronger promoter for the negative autoregulation design, to compensate for its self-repression.
+We now have an equation that fairly compares the two designs. Let's explore this mathematically controlled comparison graphically, and see how the response time of negative autoregulation compares with simple regulation.
 
 <ArticleSection variant="large">
   <NegativeAutoregResponseTimeComparisonTutorial />
 </ArticleSection>
 
-For simple regulation, making the promoter stronger increases the steady-state value, possibly to a level that is too high for the cell to function properly. With negative autoregulation, on the other hand, you can pair a very strong promoter, which gives a fast initial rise and then cuts off at the steady-state level. The stronger it is, the faster the rise. As Uri Alon puts it: you can drive fast if you have a powerful engine and good brakes.
+For simple regulation, making the promoter stronger increases the steady-state value, possibly to a level that is too high for the cell to function properly. With negative autoregulation, on the other hand, you can pair a very strong promoter, which gives a fast initial rise and then cuts off at the steady-state level. The stronger it is, the faster the rise. Paraphrasing Uri Alon: you can drive fast if you have a powerful engine and good brakes.
 
 ### Real world examples
 
-Negative autoregulation's speed-up has been proven experimentally in a paper by Nitzan Rosenfeld, Michael B. Elowitz, and Uri Alon. The image below shows an adaption of their experimental chart:
+Negative autoregulation's speed-up has been proven experimentally in [a paper](https://pubmed.ncbi.nlm.nih.gov/12417193/) by Nitzan Rosenfeld, Michael B. Elowitz, and Uri Alon. The image below shows an adaption of their experimental chart:
 
 <ArticleSection variant="medium">
   <ImageSeries images={[{
@@ -120,11 +134,21 @@ Negative autoregulation's speed-up has been proven experimentally in a paper by 
   }]} maxWidth="450px" />
 </ArticleSection>
 
-The response time of negative autoregulation here is about 5x as fast as simple regulation.
+The response time of negative autoregulation in their synthetic gene circuit is about 5x as fast as simple regulation version.
 
 An example that's more relatable easily is our immune cells. When bacteria or viruses invade our body, immune cells need to multiply rapidly to fight the infection. Too many immune cells, however, can cause inflammation and damage healthy tissue. Negative autoregulation helps maintain this delicate balance, allowing for a quick response to a threat but also preventing the immune system from overreacting. The system also enables reaching normal cell levels once the threat is neutralized.
 
-Speeding up responses is one of the key advantages of negative autoregulation. In the next article, and the final part on autoregulation, we'll explore another major one: robustness.
+<ArticleSection variant="medium">
+  <ImageSeries images={[{
+    src: "/images/cart-attacking-cancer.jpeg",
+    alt: "CAR-T cells attacking cancer",
+    width: 800,
+    height: 400,
+    caption: <span>An electron microscopic image showing CAR-T cells (blue) attacking cancer cells (pink). Courtesy of Dr. Prasad Adusumilli, taken from <a href="https://www.mskcc.org/news/how-msk-is-improving-car-t-cell-therapy-for-cancer-treatment" target="_blank" rel="noopener noreferrer">Memorial Sloan Kettering Cancer Center</a>.</span>,
+  }]} maxWidth="450px" />
+</ArticleSection>
+
+Speeding up responses is one of the key advantages of negative autoregulation. In the next article, and the final part on autoregulation, we'll explore another advantage: robustness.
 
 <ArticleSection variant="medium" className="mb-0 md:mb-0" >
   <ArticleNavigationContainer>

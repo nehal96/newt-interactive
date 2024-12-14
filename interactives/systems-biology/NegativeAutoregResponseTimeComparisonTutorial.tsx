@@ -88,7 +88,7 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
 
   return (
     <VictoryChart
-      domain={{ x: [0, 20], y: [0, 140] }}
+      domain={{ x: [0, 20], y: [0, 210] }}
       containerComponent={<VictoryContainer responsive={true} />}
     >
       <VictoryAxis
@@ -202,11 +202,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
           <div className="text-center my-8">
             <MathFormula
               variant="small"
-              tex="X_{SR}(t) = X_{st} (1 - e^{-\alpha_{SR} t})"
+              tex="X(t) = X_{st} (1 - e^{-\alpha_{simple} t})"
             />
           </div>
           <p>
-            where <MathFormula variant="small" tex="\alpha_{SR}" /> is the
+            where <MathFormula variant="small" tex="\alpha_{simple}" /> is the
             removal rate for the simple regulation.
           </p>
         </>
@@ -229,7 +229,7 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
           <div className="text-center flex flex-col gap-4 my-8">
             <MathFormula
               variant="small"
-              tex="T_{1/2_{SR}} = \dfrac{\ln(2)}{\alpha_{SR}}"
+              tex="T_{1/2_{simple}} = \dfrac{\ln(2)}{\alpha_{simple}}"
             />
             <MathFormula
               variant="small"
@@ -314,10 +314,14 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             that the steady state is the same for both curves:
           </p>
           <div className="text-center my-8">
-            <MathFormula tex="X_{st} = K = \dfrac{\beta_{SR}}{\alpha_{SR}}" />
+            <MathFormula
+              variant="small"
+              tex="X_{st} = K = \dfrac{\beta_{simple}}{\alpha_{simple}}"
+            />
           </div>
           <p>
-            Try changing <MathFormula tex="K" /> and see what happens:
+            Try changing <MathFormula variant="small" tex="K" /> and see what
+            happens:
           </p>
           <div className="mt-4">
             <label className="font-medium block mb-1.5">
@@ -371,7 +375,7 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
                 value={[betaSimpleReg2]}
                 onValueChange={(values) => setBetaSimpleReg2(values[0])}
                 min={12}
-                max={25}
+                max={20}
                 step={1}
                 className="w-11/12"
               />
@@ -481,14 +485,14 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
           <div>
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
-                <MathFormula variant="small" tex="\beta_{NAR}" />:{" "}
-                {betaNAR.toFixed(2)}
+                <MathFormula variant="small" tex="\beta_{simple}" />:{" "}
+                {betaSimpleReg.toFixed(2)}
               </label>
               <Slider
-                value={[betaNAR]}
-                onValueChange={(values) => setBetaNAR(values[0])}
+                value={[betaSimpleReg]}
+                onValueChange={(values) => setBetaSimpleReg(values[0])}
                 min={12}
-                max={26}
+                max={20}
                 step={1}
                 className="w-11/12"
               />
@@ -509,14 +513,14 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             </div>
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
-                <MathFormula variant="small" tex="\beta_{simple}" />:{" "}
-                {betaSimpleReg.toFixed(2)}
+                <MathFormula variant="small" tex="\beta_{NAR}" />:{" "}
+                {betaNAR.toFixed(2)}
               </label>
               <Slider
-                value={[betaSimpleReg]}
-                onValueChange={(values) => setBetaSimpleReg(values[0])}
-                min={6}
-                max={13}
+                value={[betaNAR]}
+                onValueChange={(values) => setBetaNAR(values[0])}
+                min={12}
+                max={26}
                 step={1}
                 className="w-11/12"
               />
