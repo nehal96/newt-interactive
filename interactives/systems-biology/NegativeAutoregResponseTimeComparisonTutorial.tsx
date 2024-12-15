@@ -96,8 +96,8 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
         style={noTicksStyle}
         tickValues={XAxisTickValues}
         tickFormat={(tick) => {
-          if (tick === tHalfNAR) return "T1/2_N";
-          if (tick === tHalfSimpleReg) return "T1/2_S";
+          if (tick === tHalfNAR) return "Tn";
+          if (tick === tHalfSimpleReg) return "Ts";
         }}
         axisLabelComponent={<VictoryLabel dy={-39} dx={195} />}
       />
