@@ -38,6 +38,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error("Failed to subscribe. Please try again later.");
     }
 
+    const data = await response.json();
+
+    if (data?.subscriber?.state === "active") {
+      throw new Error(`${email} is already subscribed.`);
+    }
+
     await fetch(
       `https://api.kit.com/v4/forms/${process.env.CONVERTKIT_FORM_ID}/subscribers`,
       {
@@ -50,7 +56,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(201).json({ error: "" });
   } catch (error) {
     return res.status(500).json({
-      error: "Something went wrong. Please try again later.",
+      error: error.message || "Something went wrong. Please try again later.",
     });
   }
 };
