@@ -1,0 +1,23 @@
+import { MdxLayout, ArticleSection } from "../../../components";
+import C1FFLDynamicsSimulator from "../../../interactives/c1-ffl";
+
+export const metadata = {
+  title: "C1-FFL Circuit",
+  description: "Understanding the C1-FFL circuit structure and dynamics",
+  keywords: "C1-FFL, feed forward loop, systems biology, circuit dynamics",
+  url: "https://newtinteractive.com/blocks/c1-ffl",
+};
+
+# Coherent Type I Feed-Forward Loop
+
+## A playground for understanding C1-FFL circuits
+
+<ArticleSection variant="large">
+  <C1FFLDynamicsSimulator />
+</ArticleSection>
+
+export default function MDXPage({ children }) {
+  return (
+    <MdxLayout metadata={metadata}>{children}</MdxLayout>
+  );
+}

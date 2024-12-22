@@ -30,7 +30,7 @@ const NANDGateSVG = ({ text, style }: { text?: string; style: NodeStyle }) => (
 );
 
 export const CircleNode = ({ data, isConnectable }) => {
-  const { style, text } = data;
+  const { style, text, sourcePosition, targetPosition } = data;
 
   return (
     <div
@@ -52,13 +52,13 @@ export const CircleNode = ({ data, isConnectable }) => {
       )}
       <Handle
         type="target"
-        position={Position.Top}
+        position={targetPosition || Position.Top}
         isConnectable={isConnectable}
         style={{ visibility: "hidden" }}
       />
       <Handle
         type="source"
-        position={Position.Bottom}
+        position={sourcePosition || Position.Bottom}
         isConnectable={isConnectable}
         style={{ visibility: "hidden" }}
       />
