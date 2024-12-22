@@ -14,6 +14,7 @@ import {
   InteractiveTutorialContainer,
   Switch,
   MathFormula,
+  Slider,
 } from "../../components";
 import {
   VictoryChart,
@@ -82,7 +83,8 @@ const SignalChart = ({ signalData }) => (
   </>
 );
 
-const ProteinYChart = ({ signalData, alpha = 0.1, beta = 1 }) => {
+const ProteinYChart = ({ signalData, alpha = 0.1, beta = 1, Kyz = 5 }) => {
+  const steadyState = beta / alpha;
   const proteinData = signalData.reduce((acc, point, index) => {
     if (index === 0) {
       return [{ x: point.x, y: point.y === 1 ? 0 : 0 }];
@@ -94,8 +96,8 @@ const ProteinYChart = ({ signalData, alpha = 0.1, beta = 1 }) => {
     const y =
       point.y === 1
         ? // Accumulation: starting from previous value, approaching beta/alpha
-          beta / alpha -
-          (beta / alpha - prevPoint.y) * Math.exp(-alpha * timeSinceLastChange)
+          steadyState -
+          (steadyState - prevPoint.y) * Math.exp(-alpha * timeSinceLastChange)
         : // Decay: starting from previous value
           prevPoint.y * Math.exp(-alpha * timeSinceLastChange);
 
@@ -104,13 +106,15 @@ const ProteinYChart = ({ signalData, alpha = 0.1, beta = 1 }) => {
 
   return (
     <>
-      <div className="text-sm font-mono mb-2 mt-4">Protein concentration:</div>
+      <div className="text-sm font-mono mb-2 mt-4">
+        Protein Y concentration:
+      </div>
       <div className="h-[150px]">
         <VictoryChart
           width={200}
           height={100}
           padding={{ top: 5, bottom: 10, left: 25, right: 10 }}
-          domain={{ x: [0, 61], y: [0, 12] }}
+          domain={{ x: [0, 61], y: [0, steadyState + 2] }}
           containerComponent={<VictoryContainer responsive={true} />}
         >
           <VictoryAxis
@@ -131,8 +135,21 @@ const ProteinYChart = ({ signalData, alpha = 0.1, beta = 1 }) => {
               tickLabels: { fill: "#64748b", fontSize: 8, padding: 2 },
               grid: { stroke: "none" },
             }}
-            tickValues={[beta / alpha]}
-            tickFormat={(t) => t.toFixed(0)}
+            tickValues={[steadyState, Kyz]}
+            tickFormat={(t) => (t === Kyz ? "Kyz" : t.toFixed(0))}
+          />
+          <VictoryLine
+            style={{
+              data: {
+                stroke: "#94a3b8",
+                strokeDasharray: "4,4",
+                strokeWidth: 1,
+              },
+            }}
+            data={[
+              { x: 0, y: Kyz },
+              { x: 60, y: Kyz },
+            ]}
           />
           {proteinData.length > 0 && (
             <VictoryLine
@@ -162,8 +179,9 @@ const ProteinZChart = ({
   proteinYData,
   alpha = 0.1,
   beta = 1,
-  Kxy = 5,
+  Kyz = 5,
 }) => {
+  const steadyState = beta / alpha;
   const proteinZData = signalData.reduce((acc, point, index) => {
     if (index === 0) {
       return [{ x: point.x, y: 0 }];
@@ -174,12 +192,12 @@ const ProteinZChart = ({
     const correspondingY = proteinYData[index].y;
 
     // Z accumulates only when both X is active AND Y is above threshold
-    const isActive = point.y === 1 && correspondingY > Kxy;
+    const isActive = point.y === 1 && correspondingY > Kyz;
 
     const y = isActive
       ? // Accumulation: starting from previous value, approaching beta/alpha
-        beta / alpha -
-        (beta / alpha - prevPoint.y) * Math.exp(-alpha * timeSinceLastChange)
+        steadyState -
+        (steadyState - prevPoint.y) * Math.exp(-alpha * timeSinceLastChange)
       : // Decay: starting from previous value
         prevPoint.y * Math.exp(-alpha * timeSinceLastChange);
 
@@ -196,7 +214,7 @@ const ProteinZChart = ({
           width={200}
           height={100}
           padding={{ top: 5, bottom: 10, left: 25, right: 10 }}
-          domain={{ x: [0, 61], y: [0, 12] }}
+          domain={{ x: [0, 61], y: [0, steadyState + 2] }}
           containerComponent={<VictoryContainer responsive={true} />}
         >
           <VictoryAxis
@@ -217,7 +235,7 @@ const ProteinZChart = ({
               tickLabels: { fill: "#64748b", fontSize: 8, padding: 2 },
               grid: { stroke: "none" },
             }}
-            tickValues={[beta / alpha]}
+            tickValues={[steadyState]}
             tickFormat={(t) => t.toFixed(0)}
           />
           {proteinZData.length > 0 && (
@@ -249,9 +267,11 @@ const C1FFLDynamicsSimulator = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState(0);
 
-  const [alpha, setAlpha] = useState(0.1);
-  const [beta, setBeta] = useState(1);
-  const [Kxy, setKxy] = useState(5);
+  const [alphaY, setAlphaY] = useState(0.1);
+  const [betaY, setBetaY] = useState(1);
+  const [alphaZ, setAlphaZ] = useState(0.1);
+  const [betaZ, setBetaZ] = useState(1);
+  const [Kyz, setKyz] = useState(5);
 
   const [nodes, setNodes] = useState<Node[]>([
     {
@@ -342,9 +362,10 @@ const C1FFLDynamicsSimulator = () => {
 
     const y =
       point.y === 1
-        ? beta / alpha -
-          (beta / alpha - prevPoint.y) * Math.exp(-alpha * timeSinceLastChange)
-        : prevPoint.y * Math.exp(-alpha * timeSinceLastChange);
+        ? betaY / alphaY -
+          (betaY / alphaY - prevPoint.y) *
+            Math.exp(-alphaY * timeSinceLastChange)
+        : prevPoint.y * Math.exp(-alphaY * timeSinceLastChange);
 
     return [...acc, { x: point.x, y }];
   }, []);
@@ -395,12 +416,106 @@ const C1FFLDynamicsSimulator = () => {
               </button>
             </div>
           </div>
+          <div className="flex flex-col gap-4 mb-6 p-3 bg-slate-50 rounded-md">
+            <div className="text-sm font-mono mb-1">Parameters:</div>
+
+            <div className="text-sm font-mono mt-2 mb-1">Protein Y:</div>
+            <div className="flex items-center gap-4">
+              <span className="text-sm w-16">
+                <MathFormula tex="\alpha_Y" />
+              </span>
+              <Slider
+                value={[alphaY]}
+                onValueChange={([value]) => setAlphaY(value)}
+                min={0.01}
+                max={0.5}
+                step={0.01}
+                className="flex-1"
+              />
+              <span className="text-sm w-12 text-right">
+                {alphaY.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="text-sm w-16">
+                <MathFormula tex="\beta_Y" />
+              </span>
+              <Slider
+                value={[betaY]}
+                onValueChange={([value]) => setBetaY(value)}
+                min={0.1}
+                max={5}
+                step={0.1}
+                className="flex-1"
+              />
+              <span className="text-sm w-12 text-right">
+                {betaY.toFixed(1)}
+              </span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-sm w-16">
+                <MathFormula tex="K_{YZ}" />
+              </span>
+              <Slider
+                value={[Kyz]}
+                onValueChange={([value]) => setKyz(value)}
+                min={1}
+                max={10}
+                step={0.5}
+                className="flex-1"
+              />
+              <span className="text-sm w-12 text-right">{Kyz.toFixed(1)}</span>
+            </div>
+
+            <div className="text-sm font-mono mt-2 mb-1">Protein Z:</div>
+            <div className="flex items-center gap-4">
+              <span className="text-sm w-16">
+                <MathFormula tex="\alpha_Z" />
+              </span>
+              <Slider
+                value={[alphaZ]}
+                onValueChange={([value]) => setAlphaZ(value)}
+                min={0.01}
+                max={0.5}
+                step={0.01}
+                className="flex-1"
+              />
+              <span className="text-sm w-12 text-right">
+                {alphaZ.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="text-sm w-16">
+                <MathFormula tex="\beta_Z" />
+              </span>
+              <Slider
+                value={[betaZ]}
+                onValueChange={([value]) => setBetaZ(value)}
+                min={0.1}
+                max={5}
+                step={0.1}
+                className="flex-1"
+              />
+              <span className="text-sm w-12 text-right">
+                {betaZ.toFixed(1)}
+              </span>
+            </div>
+          </div>
           <SignalChart signalData={signalData} />
-          <ProteinYChart signalData={signalData} />
+          <ProteinYChart
+            signalData={signalData}
+            alpha={alphaY}
+            beta={betaY}
+            Kyz={Kyz}
+          />
           <ProteinZChart
             signalData={signalData}
             proteinYData={proteinYData}
-            Kxy={Kxy}
+            alpha={alphaZ}
+            beta={betaZ}
+            Kyz={Kyz}
           />
         </div>
       </div>
