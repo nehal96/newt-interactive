@@ -82,7 +82,7 @@ const SignalChart = ({ signalData }) => (
   </>
 );
 
-const ProteinChart = ({ signalData, alpha = 0.1, beta = 1 }) => {
+const ProteinYChart = ({ signalData, alpha = 0.1, beta = 1 }) => {
   const proteinData = signalData.reduce((acc, point, index) => {
     if (index === 0) {
       return [{ x: point.x, y: point.y === 1 ? 0 : 0 }];
@@ -157,11 +157,102 @@ const ProteinChart = ({ signalData, alpha = 0.1, beta = 1 }) => {
   );
 };
 
+const ProteinZChart = ({
+  signalData,
+  proteinYData,
+  alpha = 0.1,
+  beta = 1,
+  Kxy = 5,
+}) => {
+  const proteinZData = signalData.reduce((acc, point, index) => {
+    if (index === 0) {
+      return [{ x: point.x, y: 0 }];
+    }
+
+    const prevPoint = acc[acc.length - 1];
+    const timeSinceLastChange = point.x - prevPoint.x;
+    const correspondingY = proteinYData[index].y;
+
+    // Z accumulates only when both X is active AND Y is above threshold
+    const isActive = point.y === 1 && correspondingY > Kxy;
+
+    const y = isActive
+      ? // Accumulation: starting from previous value, approaching beta/alpha
+        beta / alpha -
+        (beta / alpha - prevPoint.y) * Math.exp(-alpha * timeSinceLastChange)
+      : // Decay: starting from previous value
+        prevPoint.y * Math.exp(-alpha * timeSinceLastChange);
+
+    return [...acc, { x: point.x, y }];
+  }, []);
+
+  return (
+    <>
+      <div className="text-sm font-mono mb-2 mt-4">
+        Protein Z concentration:
+      </div>
+      <div className="h-[150px]">
+        <VictoryChart
+          width={200}
+          height={100}
+          padding={{ top: 5, bottom: 10, left: 25, right: 10 }}
+          domain={{ x: [0, 61], y: [0, 12] }}
+          containerComponent={<VictoryContainer responsive={true} />}
+        >
+          <VictoryAxis
+            label="t"
+            style={{
+              axis: { stroke: "#64748b" },
+              tickLabels: { fill: "#64748b", fontSize: 8, padding: 2 },
+              grid: { stroke: "none" },
+            }}
+            axisLabelComponent={<VictoryLabel dy={-5} dx={190} />}
+            tickValues={[0, 60]}
+            tickFormat={(t) => t.toString()}
+          />
+          <VictoryAxis
+            dependentAxis
+            style={{
+              axis: { stroke: "#64748b" },
+              tickLabels: { fill: "#64748b", fontSize: 8, padding: 2 },
+              grid: { stroke: "none" },
+            }}
+            tickValues={[beta / alpha]}
+            tickFormat={(t) => t.toFixed(0)}
+          />
+          {proteinZData.length > 0 && (
+            <VictoryLine
+              style={{
+                data: { stroke: "#3f3f46" },
+              }}
+              data={proteinZData}
+            />
+          )}
+          {proteinZData.length > 0 && (
+            <VictoryScatter
+              style={{
+                data: { fill: "#ef4444" },
+              }}
+              size={2}
+              data={[proteinZData[proteinZData.length - 1]]}
+            />
+          )}
+        </VictoryChart>
+      </div>
+    </>
+  );
+};
+
 const C1FFLDynamicsSimulator = () => {
   const [signalForX, setSignalForX] = useState(false);
   const [signalData, setSignalData] = useState([{ x: 0, y: 0 }]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState(0);
+
+  const [alpha, setAlpha] = useState(0.1);
+  const [beta, setBeta] = useState(1);
+  const [Kxy, setKxy] = useState(5);
+
   const [nodes, setNodes] = useState<Node[]>([
     {
       id: "1",
@@ -240,6 +331,24 @@ const C1FFLDynamicsSimulator = () => {
     };
   }, [isPlaying, time, signalForX]);
 
+  // Calculate Y protein data for use in Z chart
+  const proteinYData = signalData.reduce((acc, point, index) => {
+    if (index === 0) {
+      return [{ x: point.x, y: point.y === 1 ? 0 : 0 }];
+    }
+
+    const prevPoint = acc[acc.length - 1];
+    const timeSinceLastChange = point.x - prevPoint.x;
+
+    const y =
+      point.y === 1
+        ? beta / alpha -
+          (beta / alpha - prevPoint.y) * Math.exp(-alpha * timeSinceLastChange)
+        : prevPoint.y * Math.exp(-alpha * timeSinceLastChange);
+
+    return [...acc, { x: point.x, y }];
+  }, []);
+
   return (
     <InteractiveTutorialContainer>
       <div className="w-full h-[350px] lg:w-1/2 border rounded-md border-slate-200">
@@ -287,7 +396,12 @@ const C1FFLDynamicsSimulator = () => {
             </div>
           </div>
           <SignalChart signalData={signalData} />
-          <ProteinChart signalData={signalData} />
+          <ProteinYChart signalData={signalData} />
+          <ProteinZChart
+            signalData={signalData}
+            proteinYData={proteinYData}
+            Kxy={Kxy}
+          />
         </div>
       </div>
     </InteractiveTutorialContainer>
