@@ -309,6 +309,7 @@ const C1FFLDynamicsSimulator = () => {
         onProximityChange={handleProximityChange}
         accumulationProgress={accumulationProgress}
         isAccumulating={isAccumulating}
+        signalForX={signalForX}
       />
       <div className="w-full lg:w-3/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
         <div className="flex flex-col p-4">

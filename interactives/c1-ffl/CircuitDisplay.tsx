@@ -27,6 +27,7 @@ interface CircuitDisplayProps {
   onProximityChange?: (isNear: boolean) => void;
   accumulationProgress?: number;
   isAccumulating?: boolean;
+  signalForX?: boolean;
 }
 
 const CircuitDisplay = ({
@@ -35,6 +36,7 @@ const CircuitDisplay = ({
   onProximityChange,
   accumulationProgress = 0,
   isAccumulating = false,
+  signalForX = false,
 }: CircuitDisplayProps) => {
   // Find X node position from initialNodes
   const xNode = initialNodes.find((n) => n.id === "1");
@@ -47,14 +49,14 @@ const CircuitDisplay = ({
       // This is hardcoded and should probs be changed later. Imp. to note that
       // position is top left corner of svg, not centre of circle
       position: {
-        x: 100 - (PROXIMITY_THRESHOLD + 12.5 + BUFFER) / 2 + 12.5,
-        y: 100 - (PROXIMITY_THRESHOLD + 12.5 + BUFFER) / 2 + 12.5,
+        x: 100 - (PROXIMITY_THRESHOLD + 14 + BUFFER) / 2 + 14,
+        y: 100 - (PROXIMITY_THRESHOLD + 14 + BUFFER) / 2 + 14,
       },
       data: {
         isProximity: true,
         style: {
-          width: PROXIMITY_THRESHOLD + 12.5 + BUFFER,
-          height: PROXIMITY_THRESHOLD + 12.5 + BUFFER,
+          width: PROXIMITY_THRESHOLD + 14 + BUFFER,
+          height: PROXIMITY_THRESHOLD + 14 + BUFFER,
           backgroundColor: "rgba(248, 113, 113, 0.1)",
           border: "2px dashed #fca5a5",
           borderRadius: "50%",
@@ -95,7 +97,7 @@ const CircuitDisplay = ({
     },
   ]);
 
-  // Update Y* node when accumulation state changes
+  // Update both X* and Y* nodes when state changes
   useEffect(() => {
     setNodes((nds) =>
       nds.map((node) => {
@@ -109,12 +111,20 @@ const CircuitDisplay = ({
             },
           };
         }
+        if (node.id === "3") {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              progress: signalForX ? 1 : 0,
+              isAccumulating: false,
+            },
+          };
+        }
         return node;
       })
     );
-  }, [accumulationProgress, isAccumulating]);
-
-  // console.log(accumulationProgress, isAccumulating);
+  }, [accumulationProgress, isAccumulating, signalForX]);
 
   // Update edges with initial styling
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
