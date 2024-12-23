@@ -8,6 +8,11 @@ import {
   DelayPeriod,
 } from "./types";
 
+interface AccumulationState {
+  progress: number;
+  isAccumulating: boolean;
+}
+
 export const useSimulation = ({
   initialParams,
 }: UseSimulationProps): UseSimulationReturn => {
@@ -20,6 +25,12 @@ export const useSimulation = ({
     delays: [],
     hasDelay: false,
   });
+  const [accumulationState, setAccumulationState] = useState<AccumulationState>(
+    {
+      progress: 0,
+      isAccumulating: false,
+    }
+  );
 
   const calculateProteinData = useCallback(
     (
@@ -179,6 +190,29 @@ export const useSimulation = ({
     });
   }, [proteinYData, params.Kyz]);
 
+  // Add new effect to calculate accumulation state
+  useEffect(() => {
+    // Find the current Y value
+    const currentY = proteinYData[proteinYData.length - 1]?.y || 0;
+    const prevY = proteinYData[proteinYData.length - 2]?.y || 0;
+
+    // Check if Y is currently accumulating (increasing and below threshold)
+    const isAccumulating = currentY > prevY && currentY < params.Kyz;
+
+    // Calculate progress as the ratio of current Y value to the threshold
+    let progress = 0;
+    if (currentY > 0 && currentY < params.Kyz) {
+      progress = currentY / params.Kyz;
+    } else if (currentY >= params.Kyz) {
+      progress = 1;
+    }
+
+    setAccumulationState({
+      progress,
+      isAccumulating,
+    });
+  }, [proteinYData, params.Kyz]);
+
   return {
     time,
     isPlaying,
@@ -192,5 +226,7 @@ export const useSimulation = ({
     resetSimulation,
     updateParams,
     delayTimeData,
+    accumulationProgress: accumulationState.progress,
+    isAccumulating: accumulationState.isAccumulating,
   };
 };

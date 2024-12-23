@@ -191,6 +191,8 @@ const C1FFLDynamicsSimulator = () => {
     proteinZData,
     params,
     delayTimeData,
+    accumulationProgress,
+    isAccumulating,
     setSignalForX,
     setIsPlaying,
     resetSimulation,
@@ -208,7 +210,7 @@ const C1FFLDynamicsSimulator = () => {
   const [nodes, setNodes] = useState<Node[]>([
     {
       id: "1",
-      type: "circle",
+      type: "protein",
       position: { x: 100, y: 100 },
       draggable: false,
       selectable: false,
@@ -220,7 +222,7 @@ const C1FFLDynamicsSimulator = () => {
     },
     {
       id: "2",
-      type: "circle",
+      type: "protein",
       position: { x: 175, y: 100 },
       draggable: false,
       selectable: false,
@@ -232,8 +234,8 @@ const C1FFLDynamicsSimulator = () => {
     },
     {
       id: "3",
-      type: "circle",
-      position: { x: 250, y: 150 },
+      type: "protein",
+      position: { x: 250, y: 160 },
       draggable: false,
       selectable: false,
       data: {
@@ -244,7 +246,7 @@ const C1FFLDynamicsSimulator = () => {
     },
     {
       id: "4",
-      type: "circle",
+      type: "protein",
       position: { x: 300, y: 100 },
       draggable: false,
       selectable: false,
@@ -252,18 +254,6 @@ const C1FFLDynamicsSimulator = () => {
         text: "Y",
         sourcePosition: Position.Bottom,
         targetPosition: Position.Left,
-      },
-    },
-    {
-      id: "5",
-      type: "circle",
-      position: { x: 300, y: 150 },
-      draggable: false,
-      selectable: false,
-      data: {
-        text: "Y*",
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Top,
       },
     },
   ]);
@@ -317,6 +307,8 @@ const C1FFLDynamicsSimulator = () => {
         nodes={nodes}
         edges={edges}
         onProximityChange={handleProximityChange}
+        accumulationProgress={accumulationProgress}
+        isAccumulating={isAccumulating}
       />
       <div className="w-full lg:w-3/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
         <div className="flex flex-col p-4">

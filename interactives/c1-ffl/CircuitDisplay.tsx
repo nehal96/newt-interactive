@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useEffect } from "react";
 import {
   ReactFlow,
   Background,
@@ -8,22 +8,33 @@ import {
   useNodesState,
   useEdgesState,
   EdgeMarker,
+  Edge,
 } from "@xyflow/react";
-import { CircleNode } from "../../components";
-import { CircuitDisplayProps } from "./types";
+import { CircleNode, CircuitProteinNode } from "../../components";
 import { throttle } from "lodash";
 
 const nodeTypes = {
   circle: CircleNode,
+  protein: CircuitProteinNode,
 };
 
 const PROXIMITY_THRESHOLD = 40; // Distance in pixels to consider Sx "near" X
 const BUFFER = 2.5;
 
+interface CircuitDisplayProps {
+  nodes: Node[];
+  edges: Edge[];
+  onProximityChange?: (isNear: boolean) => void;
+  accumulationProgress?: number;
+  isAccumulating?: boolean;
+}
+
 const CircuitDisplay = ({
   nodes: initialNodes,
   edges: initialEdges,
   onProximityChange,
+  accumulationProgress = 0,
+  isAccumulating = false,
 }: CircuitDisplayProps) => {
   // Find X node position from initialNodes
   const xNode = initialNodes.find((n) => n.id === "1");
@@ -68,7 +79,42 @@ const CircuitDisplay = ({
       },
       draggable: true,
     },
+    {
+      id: "5",
+      type: "protein",
+      position: { x: 300, y: 160 },
+      draggable: false,
+      selectable: false,
+      data: {
+        text: "Y*",
+        sourcePosition: Position.Bottom,
+        targetPosition: Position.Top,
+        progress: accumulationProgress,
+        isAccumulating: isAccumulating,
+      },
+    },
   ]);
+
+  // Update Y* node when accumulation state changes
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === "5") {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              progress: accumulationProgress,
+              isAccumulating: isAccumulating,
+            },
+          };
+        }
+        return node;
+      })
+    );
+  }, [accumulationProgress, isAccumulating]);
+
+  // console.log(accumulationProgress, isAccumulating);
 
   // Update edges with initial styling
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);

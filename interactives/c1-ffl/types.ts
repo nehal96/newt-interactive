@@ -43,6 +43,8 @@ export interface UseSimulationReturn extends SimulationState {
   updateParams: (params: Partial<SimulationParams>) => void;
   params: SimulationParams;
   delayTimeData: DelayTimeData;
+  accumulationProgress: number;
+  isAccumulating: boolean;
 }
 
 export interface CircuitDisplayProps {
