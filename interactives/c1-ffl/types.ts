@@ -1,3 +1,5 @@
+import { Edge, Node } from "@xyflow/react";
+
 export interface SignalData {
   x: number;
   y: number;
@@ -41,4 +43,9 @@ export interface UseSimulationReturn extends SimulationState {
   updateParams: (params: Partial<SimulationParams>) => void;
   params: SimulationParams;
   delayTimeData: DelayTimeData;
+}
+
+export interface CircuitDisplayProps {
+  nodes: Node[];
+  edges: Edge[];
 }

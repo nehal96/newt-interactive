@@ -29,10 +29,7 @@ import {
 import { FiPlay, FiPause } from "react-icons/fi";
 import { DelayTimeData, SignalData } from "./types";
 import { useSimulation } from "./hooks";
-
-const nodeTypes = {
-  circle: CircleNode,
-};
+import CircuitDisplay from "./CircuitDisplay";
 
 interface ProteinYChartProps {
   data: SignalData[];
@@ -264,12 +261,7 @@ const C1FFLDynamicsSimulator = () => {
 
   return (
     <InteractiveTutorialContainer className="flex-col">
-      <div className="w-full h-[350px] lg:w-2/5 mb-4 lg:mb-0 border rounded-md border-slate-200">
-        <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView>
-          <Background />
-          <Controls />
-        </ReactFlow>
-      </div>
+      <CircuitDisplay nodes={nodes} edges={edges} />
       <div className="w-full lg:w-3/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
         <div className="flex flex-col p-4">
           <div className="flex items-center justify-between mb-4">
