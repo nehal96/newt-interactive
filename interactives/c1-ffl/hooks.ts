@@ -4,6 +4,7 @@ import {
   SimulationParams,
   UseSimulationProps,
   UseSimulationReturn,
+  DelayTimeData,
 } from "./types";
 
 export const useSimulation = ({
@@ -14,6 +15,11 @@ export const useSimulation = ({
   const [signalData, setSignalData] = useState<SignalData[]>([{ x: 0, y: 0 }]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState(0);
+  const [delayTimeData, setDelayTimeData] = useState<DelayTimeData>({
+    yActivationTime: null,
+    zActivationTime: null,
+    hasDelay: false,
+  });
 
   const calculateProteinData = useCallback(
     (
@@ -122,6 +128,37 @@ export const useSimulation = ({
     };
   }, [isPlaying, time, signalForX]);
 
+  useEffect(() => {
+    if (!signalForX || proteinYData.length < 2) {
+      setDelayTimeData({
+        yActivationTime: null,
+        zActivationTime: null,
+        hasDelay: false,
+      });
+      return;
+    }
+
+    // Y begins producing as soon as X signal turns on
+    // Find first data point after signal is on
+    const yStartIndex = signalData.findIndex((point) => point.y === 1);
+    if (yStartIndex === -1) return;
+
+    // Find when Y crosses Kyz threshold
+    const yThresholdIndex = proteinYData.findIndex(
+      (point, index) =>
+        point.y >= params.Kyz &&
+        (index === 0 || proteinYData[index - 1].y < params.Kyz)
+    );
+
+    if (yThresholdIndex !== -1) {
+      setDelayTimeData({
+        yActivationTime: signalData[yStartIndex].x,
+        zActivationTime: proteinYData[yThresholdIndex].x,
+        hasDelay: true,
+      });
+    }
+  }, [proteinYData, signalData, params.Kyz, signalForX]);
+
   return {
     time,
     isPlaying,
@@ -134,5 +171,6 @@ export const useSimulation = ({
     setIsPlaying,
     resetSimulation,
     updateParams,
+    delayTimeData,
   };
 };

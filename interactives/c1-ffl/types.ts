@@ -24,10 +24,17 @@ export interface UseSimulationProps {
   initialParams: SimulationParams;
 }
 
+export interface DelayTimeData {
+  yActivationTime: number | null;
+  zActivationTime: number | null;
+  hasDelay: boolean;
+}
+
 export interface UseSimulationReturn extends SimulationState {
   setSignalForX: (value: boolean) => void;
   setIsPlaying: (value: boolean) => void;
   resetSimulation: () => void;
   updateParams: (params: Partial<SimulationParams>) => void;
   params: SimulationParams;
+  delayTimeData: DelayTimeData;
 }

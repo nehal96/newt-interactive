@@ -27,4 +27,10 @@ export const chartStyles = {
   scatter: {
     data: { fill: "#ef4444" },
   },
+  delayIndicator: {
+    data: {
+      fill: "rgba(254, 243, 199, 0.6)",
+      strokeWidth: 1,
+    },
+  },
 };

@@ -24,9 +24,10 @@ import {
   VictoryContainer,
   VictoryScatter,
   VictoryLabel,
+  VictoryArea,
 } from "victory";
 import { FiPlay, FiPause } from "react-icons/fi";
-import { SignalData } from "./types";
+import { DelayTimeData, SignalData } from "./types";
 import { useSimulation } from "./hooks";
 
 const nodeTypes = {
@@ -37,6 +38,7 @@ interface ProteinYChartProps {
   data: SignalData[];
   steadyState: number;
   Kyz: number;
+  delayData: DelayTimeData;
 }
 
 const SignalChart = ({ signalData }) => (
@@ -75,6 +77,17 @@ const SignalChart = ({ signalData }) => (
     </div>
   </>
 );
+
+const DelayTimeDisplay = ({ delayData }: { delayData: DelayTimeData }) => {
+  if (!delayData.hasDelay) return null;
+
+  const delayTime = delayData.zActivationTime! - delayData.yActivationTime!;
+  return (
+    <div className="text-sm font-mono mt-2 p-2 bg-slate-50 rounded border border-slate-200">
+      Delay time (Ton): {delayTime.toFixed(1)}s
+    </div>
+  );
+};
 
 export const ProteinYChart = ({
   data,
@@ -124,7 +137,7 @@ export const ProteinYChart = ({
   </>
 );
 
-const ProteinZChart = ({ data, steadyState }) => {
+const ProteinZChart = ({ data, steadyState, delayData }) => {
   return (
     <>
       <div className="text-sm font-mono mb-2 mt-4">
@@ -149,6 +162,17 @@ const ProteinZChart = ({ data, steadyState }) => {
             tickValues={[steadyState]}
             tickFormat={(t) => t.toFixed(0)}
           />
+          {delayData.hasDelay && (
+            <VictoryArea
+              style={chartStyles.delayIndicator}
+              data={[
+                { x: delayData.yActivationTime, y: 0 },
+                { x: delayData.yActivationTime, y: steadyState + 2 },
+                { x: delayData.zActivationTime, y: steadyState + 2 },
+                { x: delayData.zActivationTime, y: 0 },
+              ]}
+            />
+          )}
           {data.length > 0 && (
             <VictoryLine {...chartStyles.line.default} data={data} />
           )}
@@ -174,6 +198,7 @@ const C1FFLDynamicsSimulator = () => {
     proteinYData,
     proteinZData,
     params,
+    delayTimeData,
     setSignalForX,
     setIsPlaying,
     resetSimulation,
@@ -366,12 +391,18 @@ const C1FFLDynamicsSimulator = () => {
             </div>
           </div>
           <SignalChart signalData={signalData} />
+          <DelayTimeDisplay delayData={delayTimeData} />
           <ProteinYChart
             data={proteinYData}
             steadyState={steadyStateY}
             Kyz={params.Kyz}
+            delayData={delayTimeData}
           />
-          <ProteinZChart data={proteinZData} steadyState={steadyStateZ} />
+          <ProteinZChart
+            data={proteinZData}
+            steadyState={steadyStateZ}
+            delayData={delayTimeData}
+          />
         </div>
       </div>
     </InteractiveTutorialContainer>
