@@ -48,4 +48,5 @@ export interface UseSimulationReturn extends SimulationState {
 export interface CircuitDisplayProps {
   nodes: Node[];
   edges: Edge[];
+  onProximityChange?: (isNear: boolean) => void;
 }

@@ -1,16 +1,7 @@
 import { useState } from "react";
-import {
-  ReactFlow,
-  Background,
-  Controls,
-  Node,
-  Edge,
-  Position,
-  MarkerType,
-} from "@xyflow/react";
+import { Node, Edge, Position, MarkerType } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import {
-  CircleNode,
   InteractiveTutorialContainer,
   Switch,
   MathFormula,
@@ -256,12 +247,20 @@ const C1FFLDynamicsSimulator = () => {
     },
   ]);
 
+  const handleProximityChange = (isNear: boolean) => {
+    setSignalForX(isNear);
+  };
+
   const steadyStateY = params.betaY / params.alphaY;
   const steadyStateZ = params.betaZ / params.alphaZ;
 
   return (
     <InteractiveTutorialContainer className="flex-col">
-      <CircuitDisplay nodes={nodes} edges={edges} />
+      <CircuitDisplay
+        nodes={nodes}
+        edges={edges}
+        onProximityChange={handleProximityChange}
+      />
       <div className="w-full lg:w-3/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
         <div className="flex flex-col p-4">
           <div className="flex items-center justify-between mb-4">

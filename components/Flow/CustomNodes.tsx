@@ -30,13 +30,17 @@ const NANDGateSVG = ({ text, style }: { text?: string; style: NodeStyle }) => (
 );
 
 export const CircleNode = ({ data, isConnectable }) => {
-  const { style, text, sourcePosition, targetPosition } = data;
+  const { style, text, sourcePosition, targetPosition, isProximity } = data;
+
+  if (isProximity) {
+    return <div style={style} />;
+  }
 
   return (
     <div
       style={{
-        width: 25,
-        height: 25,
+        width: style?.width || 25,
+        height: style?.height || 25,
         backgroundColor: style?.backgroundColor || "white",
         border: `1px solid ${style?.borderColor || style?.color || "#3f3f46"}`,
         borderRadius: "50%",
