@@ -1,3 +1,5 @@
+import { MarkerType } from "@xyflow/react";
+
 export const chartStyles = {
   chart: {
     width: 200,
@@ -32,5 +34,19 @@ export const chartStyles = {
       fill: "rgba(254, 243, 199, 0.6)",
       strokeWidth: 1,
     },
+  },
+};
+
+export const edgeStyles = {
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: "#a1a1aa",
+    width: 8,
+    height: 8,
+  },
+  style: {
+    stroke: "#a1a1aa",
+    strokeWidth: 2,
+    strokeDasharray: "5,5", // why does changing this to 4,4 make the line animation stutter?
   },
 };

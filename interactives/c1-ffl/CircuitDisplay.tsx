@@ -89,7 +89,7 @@ const CircuitDisplay = ({
           currentEdges.map((edge) => ({
             ...edge,
             animated:
-              edge.source === "1" || edge.source === "2"
+              edge.source === "1" || edge.source === "2" || edge.source === "4"
                 ? isNear
                 : edge.animated,
             style: {

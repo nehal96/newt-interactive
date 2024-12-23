@@ -7,7 +7,7 @@ import {
   MathFormula,
   Slider,
 } from "../../components";
-import { chartStyles } from "./utils";
+import { chartStyles, edgeStyles } from "./utils";
 import {
   VictoryChart,
   VictoryLine,
@@ -233,13 +233,37 @@ const C1FFLDynamicsSimulator = () => {
     {
       id: "3",
       type: "circle",
+      position: { x: 250, y: 150 },
+      draggable: false,
+      selectable: false,
+      data: {
+        text: "X*",
+        sourcePosition: Position.Bottom,
+        targetPosition: Position.Top,
+      },
+    },
+    {
+      id: "4",
+      type: "circle",
       position: { x: 300, y: 100 },
       draggable: false,
       selectable: false,
       data: {
         text: "Y",
-        sourcePosition: Position.Right,
+        sourcePosition: Position.Bottom,
         targetPosition: Position.Left,
+      },
+    },
+    {
+      id: "5",
+      type: "circle",
+      position: { x: 300, y: 150 },
+      draggable: false,
+      selectable: false,
+      data: {
+        text: "Y*",
+        sourcePosition: Position.Bottom,
+        targetPosition: Position.Top,
       },
     },
   ]);
@@ -250,34 +274,33 @@ const C1FFLDynamicsSimulator = () => {
       source: "1",
       target: "2",
       animated: false,
-      markerEnd: {
-        type: MarkerType.ArrowClosed,
-        color: "#a1a1aa",
-        width: 8,
-        height: 8,
-      },
-      style: {
-        stroke: "#a1a1aa",
-        strokeWidth: 2,
-        strokeDasharray: "5,5",
-      },
+      markerEnd: edgeStyles.markerEnd,
+      style: edgeStyles.style,
     },
     {
       id: "2-3",
       source: "2",
       target: "3",
+      type: "step",
       animated: false,
-      markerEnd: {
-        type: MarkerType.ArrowClosed,
-        color: "#a1a1aa",
-        width: 8,
-        height: 8,
-      },
-      style: {
-        stroke: "#a1a1aa",
-        strokeWidth: 2,
-        strokeDasharray: "5,5",
-      },
+      markerEnd: edgeStyles.markerEnd,
+      style: edgeStyles.style,
+    },
+    {
+      id: "2-4",
+      source: "2",
+      target: "4",
+      animated: false,
+      markerEnd: edgeStyles.markerEnd,
+      style: edgeStyles.style,
+    },
+    {
+      id: "4-5",
+      source: "4",
+      target: "5",
+      animated: false,
+      markerEnd: edgeStyles.markerEnd,
+      style: edgeStyles.style,
     },
   ]);
 
