@@ -210,6 +210,8 @@ const C1FFLDynamicsSimulator = () => {
       id: "1",
       type: "circle",
       position: { x: 100, y: 100 },
+      draggable: false,
+      selectable: false,
       data: {
         text: "X",
         sourcePosition: Position.Right,
@@ -219,9 +221,23 @@ const C1FFLDynamicsSimulator = () => {
     {
       id: "2",
       type: "circle",
-      position: { x: 200, y: 100 },
+      position: { x: 175, y: 100 },
+      draggable: false,
+      selectable: false,
       data: {
         text: "X*",
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+      },
+    },
+    {
+      id: "3",
+      type: "circle",
+      position: { x: 300, y: 100 },
+      draggable: false,
+      selectable: false,
+      data: {
+        text: "Y",
         sourcePosition: Position.Right,
         targetPosition: Position.Left,
       },
@@ -233,7 +249,7 @@ const C1FFLDynamicsSimulator = () => {
       id: "1-2",
       source: "1",
       target: "2",
-      animated: true,
+      animated: false,
       markerEnd: {
         type: MarkerType.ArrowClosed,
         color: "#a1a1aa",
@@ -243,6 +259,24 @@ const C1FFLDynamicsSimulator = () => {
       style: {
         stroke: "#a1a1aa",
         strokeWidth: 2,
+        strokeDasharray: "5,5",
+      },
+    },
+    {
+      id: "2-3",
+      source: "2",
+      target: "3",
+      animated: false,
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        color: "#a1a1aa",
+        width: 8,
+        height: 8,
+      },
+      style: {
+        stroke: "#a1a1aa",
+        strokeWidth: 2,
+        strokeDasharray: "5,5",
       },
     },
   ]);

@@ -7,6 +7,7 @@ import {
   Position,
   useNodesState,
   useEdgesState,
+  EdgeMarker,
 } from "@xyflow/react";
 import { CircleNode } from "../../components";
 import { CircuitDisplayProps } from "./types";
@@ -43,8 +44,8 @@ const CircuitDisplay = ({
         style: {
           width: PROXIMITY_THRESHOLD + 12.5 + BUFFER,
           height: PROXIMITY_THRESHOLD + 12.5 + BUFFER,
-          backgroundColor: "rgba(200, 200, 200, 0.1)",
-          border: "2px dashed #ccc",
+          backgroundColor: "rgba(248, 113, 113, 0.1)",
+          border: "2px dashed #fca5a5",
           borderRadius: "50%",
           display: "flex",
           justifyContent: "center",
@@ -70,17 +71,7 @@ const CircuitDisplay = ({
   ]);
 
   // Update edges with initial styling
-  const [edges, setEdges, onEdgesChange] = useEdgesState(
-    initialEdges.map((edge) => ({
-      ...edge,
-      animated: false as boolean,
-      style: {
-        ...edge.style,
-        strokeDasharray: "5,5",
-        opacity: 0.5,
-      },
-    }))
-  );
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   // Throttle the drag handler for better performance
   const onNodeDrag = useCallback(
@@ -93,12 +84,46 @@ const CircuitDisplay = ({
 
         const isNear = distance < PROXIMITY_THRESHOLD;
 
-        // Update edges animation
+        // Update edges animation and style
         setEdges((currentEdges) =>
           currentEdges.map((edge) => ({
             ...edge,
-            animated: edge.source === "1" ? isNear : edge.animated,
+            animated:
+              edge.source === "1" || edge.source === "2"
+                ? isNear
+                : edge.animated,
+            style: {
+              ...edge.style,
+              stroke: isNear ? "#3f3f46" : "#a1a1aa",
+            },
+            markerEnd: {
+              ...(edge.markerEnd as EdgeMarker),
+              color: isNear ? "#3f3f46" : "#a1a1aa",
+            },
           }))
+        );
+
+        // Update proximity zone color
+        setNodes((currentNodes) =>
+          currentNodes.map((node) =>
+            node.id === "proximity-zone"
+              ? {
+                  ...node,
+                  data: {
+                    ...node.data,
+                    style: {
+                      ...(node.data.style as {}),
+                      backgroundColor: isNear
+                        ? "rgba(34, 197, 94, 0.1)"
+                        : "rgba(248, 113, 113, 0.1)",
+                      border: isNear
+                        ? "2px dashed #86efac"
+                        : "2px dashed #fca5a5",
+                    },
+                  },
+                }
+              : node
+          )
         );
 
         // Notify parent component
