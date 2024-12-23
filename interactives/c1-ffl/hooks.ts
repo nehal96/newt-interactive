@@ -5,6 +5,7 @@ import {
   UseSimulationProps,
   UseSimulationReturn,
   DelayTimeData,
+  DelayPeriod,
 } from "./types";
 
 export const useSimulation = ({
@@ -16,8 +17,7 @@ export const useSimulation = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState(0);
   const [delayTimeData, setDelayTimeData] = useState<DelayTimeData>({
-    yActivationTime: null,
-    zActivationTime: null,
+    delays: [],
     hasDelay: false,
   });
 
@@ -129,35 +129,55 @@ export const useSimulation = ({
   }, [isPlaying, time, signalForX]);
 
   useEffect(() => {
-    if (!signalForX || proteinYData.length < 2) {
+    if (proteinYData.length < 2) {
       setDelayTimeData({
-        yActivationTime: null,
-        zActivationTime: null,
+        delays: [],
         hasDelay: false,
       });
       return;
     }
 
-    // Y begins producing as soon as X signal turns on
-    // Find first data point after signal is on
-    const yStartIndex = signalData.findIndex((point) => point.y === 1);
-    if (yStartIndex === -1) return;
+    const delays: DelayPeriod[] = [];
+    let accumulationStart: number | null = null;
 
-    // Find when Y crosses Kyz threshold
-    const yThresholdIndex = proteinYData.findIndex(
-      (point, index) =>
-        point.y >= params.Kyz &&
-        (index === 0 || proteinYData[index - 1].y < params.Kyz)
-    );
+    // Iterate through the data to find accumulation starts and threshold crossings
+    proteinYData.forEach((point, index) => {
+      const prevY = index > 0 ? proteinYData[index - 1].y : 0;
 
-    if (yThresholdIndex !== -1) {
-      setDelayTimeData({
-        yActivationTime: signalData[yStartIndex].x,
-        zActivationTime: proteinYData[yThresholdIndex].x,
-        hasDelay: true,
-      });
-    }
-  }, [proteinYData, signalData, params.Kyz, signalForX]);
+      // Detect when Y starts accumulating in two cases:
+      // 1. From zero
+      // 2. When it was decreasing and starts increasing again
+      if (
+        point.y > prevY && // Y is increasing
+        (prevY === 0 || point.y < params.Kyz) && // Either from zero or below threshold
+        accumulationStart === null
+      ) {
+        // Haven't started tracking yet
+        accumulationStart = point.x;
+      }
+
+      // Detect crossing Kyz threshold
+      if (prevY < params.Kyz && point.y >= params.Kyz) {
+        if (accumulationStart !== null) {
+          delays.push({
+            start: accumulationStart,
+            end: point.x,
+          });
+          accumulationStart = null; // Reset for potential next cycle
+        }
+      }
+
+      // Reset accumulation tracking if Y is decreasing and below threshold
+      if (point.y < prevY && point.y < params.Kyz) {
+        accumulationStart = null;
+      }
+    });
+
+    setDelayTimeData({
+      delays,
+      hasDelay: delays.length > 0,
+    });
+  }, [proteinYData, params.Kyz]);
 
   return {
     time,

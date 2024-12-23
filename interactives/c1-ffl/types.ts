@@ -24,9 +24,13 @@ export interface UseSimulationProps {
   initialParams: SimulationParams;
 }
 
+export interface DelayPeriod {
+  start: number;
+  end: number;
+}
+
 export interface DelayTimeData {
-  yActivationTime: number | null;
-  zActivationTime: number | null;
+  delays: DelayPeriod[];
   hasDelay: boolean;
 }
 

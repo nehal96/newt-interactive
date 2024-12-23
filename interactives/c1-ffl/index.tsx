@@ -81,10 +81,13 @@ const SignalChart = ({ signalData }) => (
 const DelayTimeDisplay = ({ delayData }: { delayData: DelayTimeData }) => {
   if (!delayData.hasDelay) return null;
 
-  const delayTime = delayData.zActivationTime! - delayData.yActivationTime!;
   return (
     <div className="text-sm font-mono mt-2 p-2 bg-slate-50 rounded border border-slate-200">
-      Delay time (Ton): {delayTime.toFixed(1)}s
+      {delayData.delays.map((delay, index) => (
+        <div key={index}>
+          Delay {index + 1}: {(delay.end - delay.start).toFixed(1)}s
+        </div>
+      ))}
     </div>
   );
 };
@@ -162,17 +165,18 @@ const ProteinZChart = ({ data, steadyState, delayData }) => {
             tickValues={[steadyState]}
             tickFormat={(t) => t.toFixed(0)}
           />
-          {delayData.hasDelay && (
+          {delayData.delays.map((delay, index) => (
             <VictoryArea
+              key={index}
               style={chartStyles.delayIndicator}
               data={[
-                { x: delayData.yActivationTime, y: 0 },
-                { x: delayData.yActivationTime, y: steadyState + 2 },
-                { x: delayData.zActivationTime, y: steadyState + 2 },
-                { x: delayData.zActivationTime, y: 0 },
+                { x: delay.start, y: 0 },
+                { x: delay.start, y: steadyState + 2 },
+                { x: delay.end, y: steadyState + 2 },
+                { x: delay.end, y: 0 },
               ]}
             />
-          )}
+          ))}
           {data.length > 0 && (
             <VictoryLine {...chartStyles.line.default} data={data} />
           )}
