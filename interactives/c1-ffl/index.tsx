@@ -327,6 +327,7 @@ const C1FFLDynamicsSimulator = () => {
           isAccumulating={isAccumulating}
           signalForX={signalForX}
           zState={zState}
+          isPlaying={isPlaying}
         />
       </ReactFlowProvider>
       <div className="w-full lg:w-3/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">

@@ -38,6 +38,7 @@ interface CircuitDisplayProps {
   isAccumulating?: boolean;
   signalForX?: boolean;
   zState: ZState;
+  isPlaying?: boolean;
 }
 
 const CircuitDisplay = ({
@@ -48,6 +49,7 @@ const CircuitDisplay = ({
   isAccumulating = false,
   signalForX = false,
   zState,
+  isPlaying = false,
 }: CircuitDisplayProps) => {
   // Find X node position from initialNodes
   const xNode = initialNodes.find((n) => n.id === "1");
@@ -248,27 +250,38 @@ const CircuitDisplay = ({
       })
     );
 
-    // Add edge updates
+    // Update all edges
     setEdges((eds) =>
       eds.map((edge) => {
         if (edge.id === "z-gene-to-protein") {
           return {
             ...edge,
-            animated: zState === "accumulating",
+            animated: zState === "accumulating" && isPlaying,
             style: {
               ...edge.style,
-              stroke: zState === "inactive" ? "#a1a1aa" : "#3f3f46",
+              stroke:
+                zState === "accumulating" && isPlaying ? "#3f3f46" : "#a1a1aa",
             },
             markerEnd: {
               ...(edge.markerEnd as EdgeMarker),
-              color: zState === "inactive" ? "#a1a1aa" : "#3f3f46",
+              color:
+                zState === "accumulating" && isPlaying ? "#3f3f46" : "#a1a1aa",
             },
           };
         }
-        return edge;
+        // Handle other edges
+        return {
+          ...edge,
+          animated:
+            (edge.source === "1" ||
+              edge.source === "2" ||
+              edge.source === "4") &&
+            isPlaying &&
+            signalForX,
+        };
       })
     );
-  }, [signalForX, accumulationProgress, isAccumulating, zState]);
+  }, [signalForX, accumulationProgress, isAccumulating, zState, isPlaying]);
 
   // Update edges with initial styling
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -293,11 +306,11 @@ const CircuitDisplay = ({
             return {
               ...edge,
               animated:
-                edge.source === "1" ||
-                edge.source === "2" ||
-                edge.source === "4"
-                  ? isNear
-                  : edge.animated,
+                (edge.source === "1" ||
+                  edge.source === "2" ||
+                  edge.source === "4") &&
+                isNear &&
+                isPlaying,
               style: {
                 ...edge.style,
                 stroke: isNear ? "#3f3f46" : "#a1a1aa",
