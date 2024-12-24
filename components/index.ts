@@ -33,6 +33,8 @@ export {
   CircleNode,
   NANDNode,
   CircuitProteinNode,
+  CircuitPromoterNode,
+  LineNode,
 } from "./Flow";
 export { default as Lede } from "./Lede";
 export { default as MathFormula } from "./MathFormula";

@@ -10,12 +10,19 @@ import {
   EdgeMarker,
   Edge,
 } from "@xyflow/react";
-import { CircleNode, CircuitProteinNode } from "../../components";
+import {
+  CircleNode,
+  CircuitPromoterNode,
+  CircuitProteinNode,
+  LineNode,
+} from "../../components";
 import { throttle } from "lodash";
 
 const nodeTypes = {
   circle: CircleNode,
   protein: CircuitProteinNode,
+  promoter: CircuitPromoterNode,
+  line: LineNode,
 };
 
 const PROXIMITY_THRESHOLD = 40; // Distance in pixels to consider Sx "near" X
@@ -94,6 +101,33 @@ const CircuitDisplay = ({
         progress: accumulationProgress,
         isAccumulating: isAccumulating,
       },
+    },
+    {
+      id: "z-gene-line",
+      type: "line",
+      position: { x: 205, y: 207 },
+      draggable: false,
+      selectable: false,
+      data: {
+        length: 250,
+        style: { zIndex: -1 },
+      },
+    },
+    {
+      id: "x-promoter",
+      type: "promoter",
+      position: { x: 225, y: 190 },
+      draggable: false,
+      selectable: false,
+      data: {},
+    },
+    {
+      id: "y-promoter",
+      type: "promoter",
+      position: { x: 285, y: 190 },
+      draggable: false,
+      selectable: false,
+      data: {},
     },
   ]);
 

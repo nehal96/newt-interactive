@@ -235,7 +235,7 @@ const C1FFLDynamicsSimulator = () => {
     {
       id: "3",
       type: "protein",
-      position: { x: 250, y: 160 },
+      position: { x: 240, y: 160 },
       draggable: false,
       selectable: false,
       data: {
