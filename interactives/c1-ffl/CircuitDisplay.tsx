@@ -142,10 +142,28 @@ const CircuitDisplay = ({
       data: {
         text: "Z",
         isActive: zState === "accumulating",
+        targetPosition: Position.Left,
         style: {
           opacity: zState === "inactive" ? 0.5 : 1,
           transform: zState === "accumulating" ? "scale(1)" : "none",
           transition: "all 0.5s ease",
+        },
+      },
+    },
+    {
+      id: "z-gene-arrow-node",
+      type: "protein",
+      position: { x: 350, y: 202 },
+      draggable: false,
+      selectable: false,
+      sourcePosition: Position.Bottom,
+      targetPosition: Position.Top,
+      data: {
+        sourcePosition: Position.Top,
+        style: {
+          opacity: 0.01,
+          width: 10,
+          height: 10,
         },
       },
     },
@@ -229,7 +247,28 @@ const CircuitDisplay = ({
         return node;
       })
     );
-  }, [signalForX, accumulationProgress, isAccumulating]);
+
+    // Add edge updates
+    setEdges((eds) =>
+      eds.map((edge) => {
+        if (edge.id === "z-gene-to-protein") {
+          return {
+            ...edge,
+            animated: zState === "accumulating",
+            style: {
+              ...edge.style,
+              stroke: zState === "inactive" ? "#a1a1aa" : "#3f3f46",
+            },
+            markerEnd: {
+              ...(edge.markerEnd as EdgeMarker),
+              color: zState === "inactive" ? "#a1a1aa" : "#3f3f46",
+            },
+          };
+        }
+        return edge;
+      })
+    );
+  }, [signalForX, accumulationProgress, isAccumulating, zState]);
 
   // Update edges with initial styling
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -245,23 +284,30 @@ const CircuitDisplay = ({
 
         const isNear = distance < PROXIMITY_THRESHOLD;
 
-        // Update edges animation and style
+        // Update edges animation and style, excluding z-gene-to-protein edge
         setEdges((currentEdges) =>
-          currentEdges.map((edge) => ({
-            ...edge,
-            animated:
-              edge.source === "1" || edge.source === "2" || edge.source === "4"
-                ? isNear
-                : edge.animated,
-            style: {
-              ...edge.style,
-              stroke: isNear ? "#3f3f46" : "#a1a1aa",
-            },
-            markerEnd: {
-              ...(edge.markerEnd as EdgeMarker),
-              color: isNear ? "#3f3f46" : "#a1a1aa",
-            },
-          }))
+          currentEdges.map((edge) => {
+            if (edge.id === "z-gene-to-protein") {
+              return edge; // Skip modifications for this edge
+            }
+            return {
+              ...edge,
+              animated:
+                edge.source === "1" ||
+                edge.source === "2" ||
+                edge.source === "4"
+                  ? isNear
+                  : edge.animated,
+              style: {
+                ...edge.style,
+                stroke: isNear ? "#3f3f46" : "#a1a1aa",
+              },
+              markerEnd: {
+                ...(edge.markerEnd as EdgeMarker),
+                color: isNear ? "#3f3f46" : "#a1a1aa",
+              },
+            };
+          })
         );
 
         // Update proximity zone color

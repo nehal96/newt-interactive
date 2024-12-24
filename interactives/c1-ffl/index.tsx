@@ -299,6 +299,14 @@ const C1FFLDynamicsSimulator = () => {
       markerEnd: edgeStyles.markerEnd,
       style: edgeStyles.style,
     },
+    {
+      id: "z-gene-to-protein",
+      source: "z-gene-arrow-node",
+      target: "z-protein",
+      animated: false,
+      style: { ...edgeStyles.style },
+      markerEnd: edgeStyles.markerEnd,
+    },
   ]);
 
   const handleProximityChange = (isNear: boolean) => {
