@@ -17,6 +17,7 @@ import {
   LineNode,
 } from "../../components";
 import { throttle } from "lodash";
+import { ZState } from "./types";
 
 const nodeTypes = {
   circle: CircleNode,
@@ -36,6 +37,7 @@ interface CircuitDisplayProps {
   accumulationProgress?: number;
   isAccumulating?: boolean;
   signalForX?: boolean;
+  zState: ZState;
 }
 
 const CircuitDisplay = ({
@@ -45,6 +47,7 @@ const CircuitDisplay = ({
   accumulationProgress = 0,
   isAccumulating = false,
   signalForX = false,
+  zState,
 }: CircuitDisplayProps) => {
   // Find X node position from initialNodes
   const xNode = initialNodes.find((n) => n.id === "1");
@@ -130,6 +133,22 @@ const CircuitDisplay = ({
         isAccumulating: isAccumulating,
       },
     },
+    {
+      id: "z-protein",
+      type: "protein",
+      position: { x: 400, y: 135 },
+      draggable: false,
+      selectable: false,
+      data: {
+        text: "Z",
+        isActive: zState === "accumulating",
+        style: {
+          opacity: zState === "inactive" ? 0.5 : 1,
+          transform: zState === "accumulating" ? "scale(1)" : "none",
+          transition: "all 0.5s ease",
+        },
+      },
+    },
   ]);
 
   // Update both X* and Y* nodes when state changes
@@ -190,6 +209,18 @@ const CircuitDisplay = ({
               style: {
                 stroke: signalForX ? "#22c55e" : "#52525b",
                 strokeWidth: signalForX ? 2 : 1.5,
+              },
+            },
+          };
+        }
+        if (node.id === "z-protein") {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              isActive: signalForX && accumulationProgress === 1,
+              style: {
+                opacity: zState === "inactive" ? 0.5 : 1,
               },
             },
           };

@@ -10,6 +10,7 @@ interface CircuitProteinNodeProps {
     style?: React.CSSProperties;
     progress?: number;
     isAccumulating?: boolean;
+    isActive?: boolean;
   };
 }
 
@@ -38,8 +39,12 @@ const CircuitProteinNode = ({ data }: CircuitProteinNodeProps) => {
   const isComplete = data.progress === 1;
 
   return (
-    <div className="relative w-[30px] h-[30px]">
-      <svg width="30" height="30" viewBox="0 0 30 30">
+    <div
+      className={`relative w-[30px] h-[30px] ${
+        data.isActive ? "transition-all animate-protein-pulse" : ""
+      }`}
+    >
+      <svg width="30" height="30" viewBox="0 0 30 30" style={data.style}>
         {(data.progress || 0) > 0 && (
           <circle
             cx="15"

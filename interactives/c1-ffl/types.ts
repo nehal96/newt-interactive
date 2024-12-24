@@ -36,6 +36,8 @@ export interface DelayTimeData {
   hasDelay: boolean;
 }
 
+export type ZState = "inactive" | "accumulating" | "active" | "reducing";
+
 export interface UseSimulationReturn extends SimulationState {
   setSignalForX: (value: boolean) => void;
   setIsPlaying: (value: boolean) => void;
@@ -45,6 +47,7 @@ export interface UseSimulationReturn extends SimulationState {
   delayTimeData: DelayTimeData;
   accumulationProgress: number;
   isAccumulating: boolean;
+  zState: ZState;
 }
 
 export interface CircuitDisplayProps {

@@ -203,6 +203,7 @@ const C1FFLDynamicsSimulator = () => {
     setIsPlaying,
     resetSimulation,
     updateParams,
+    zState,
   } = useSimulation({
     initialParams: {
       alphaY: 0.1,
@@ -317,6 +318,7 @@ const C1FFLDynamicsSimulator = () => {
           accumulationProgress={accumulationProgress}
           isAccumulating={isAccumulating}
           signalForX={signalForX}
+          zState={zState}
         />
       </ReactFlowProvider>
       <div className="w-full lg:w-3/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">

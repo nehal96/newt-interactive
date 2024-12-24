@@ -6,6 +6,7 @@ import {
   UseSimulationReturn,
   DelayTimeData,
   DelayPeriod,
+  ZState,
 } from "./types";
 
 interface AccumulationState {
@@ -31,6 +32,7 @@ export const useSimulation = ({
       isAccumulating: false,
     }
   );
+  const [zState, setZState] = useState<ZState>("inactive");
 
   const calculateProteinData = useCallback(
     (
@@ -213,6 +215,22 @@ export const useSimulation = ({
     });
   }, [proteinYData, params.Kyz]);
 
+  // Add new effect to track Z state
+  useEffect(() => {
+    const currentZ = proteinZData[proteinZData.length - 1]?.y || 0;
+    const prevZ = proteinZData[proteinZData.length - 2]?.y || 0;
+
+    if (currentZ === 0) {
+      setZState("inactive");
+    } else if (currentZ > prevZ) {
+      setZState("accumulating");
+    } else if (currentZ < prevZ) {
+      setZState("reducing");
+    } else if (currentZ > 0) {
+      setZState("active");
+    }
+  }, [proteinZData]);
+
   return {
     time,
     isPlaying,
@@ -228,5 +246,6 @@ export const useSimulation = ({
     delayTimeData,
     accumulationProgress: accumulationState.progress,
     isAccumulating: accumulationState.isAccumulating,
+    zState,
   };
 };
