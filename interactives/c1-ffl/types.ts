@@ -1,4 +1,4 @@
-import { Edge, Node } from "@xyflow/react";
+import { Edge, Node, Position } from "@xyflow/react";
 
 export interface SignalData {
   x: number;
@@ -55,3 +55,45 @@ export interface CircuitDisplayProps {
   edges: Edge[];
   onProximityChange?: (isNear: boolean) => void;
 }
+
+// Node Types
+interface BaseNodeData {
+  text?: string;
+  sourcePosition?: Position;
+  targetPosition?: Position;
+  style?: React.CSSProperties;
+  [key: string]: unknown;
+}
+
+interface ProteinNodeData extends BaseNodeData {
+  isActive?: boolean;
+  progress?: number;
+  isAccumulating?: boolean;
+}
+
+interface CircleNodeData extends BaseNodeData {
+  isProximity?: boolean;
+}
+
+interface LineNodeData extends BaseNodeData {
+  length: number;
+}
+
+interface PromoterNodeData extends BaseNodeData {}
+
+export type CircuitNodeTypes = "circle" | "line" | "promoter" | "protein";
+
+export type CircuitNode = Node<
+  ProteinNodeData | CircleNodeData | LineNodeData | PromoterNodeData,
+  CircuitNodeTypes
+>;
+
+// Edge Types
+interface CircuitEdgeData {
+  animated: boolean;
+  markerEnd?: string;
+  style?: React.CSSProperties;
+  [key: string]: unknown;
+}
+
+export type CircuitEdge = Edge<CircuitEdgeData>;

@@ -1,38 +1,19 @@
-import { useCallback, useMemo, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import {
   ReactFlow,
   Background,
   Controls,
   Node,
-  Position,
   useNodesState,
   useEdgesState,
   EdgeMarker,
-  Edge,
 } from "@xyflow/react";
-import {
-  CircleNode,
-  CircuitPromoterNode,
-  CircuitProteinNode,
-  LineNode,
-} from "../../components";
 import { throttle } from "lodash";
 import { ZState } from "./types";
-
-const nodeTypes = {
-  circle: CircleNode,
-  protein: CircuitProteinNode,
-  promoter: CircuitPromoterNode,
-  line: LineNode,
-};
-
-const PROXIMITY_THRESHOLD = 40; // Distance in pixels to consider Sx "near" X
-const BUFFER = 2.5;
-const ACTIVE_TF_Y_OFFSET = 17;
+import { initialNodes, initialEdges } from "./data";
+import { CIRCUIT_CONFIG, nodeTypes } from "./config";
 
 interface CircuitDisplayProps {
-  nodes: Node[];
-  edges: Edge[];
   onProximityChange?: (isNear: boolean) => void;
   accumulationProgress?: number;
   isAccumulating?: boolean;
@@ -42,8 +23,6 @@ interface CircuitDisplayProps {
 }
 
 const CircuitDisplay = ({
-  nodes: initialNodes,
-  edges: initialEdges,
   onProximityChange,
   accumulationProgress = 0,
   isAccumulating = false,
@@ -55,121 +34,8 @@ const CircuitDisplay = ({
   const xNode = initialNodes.find((n) => n.id === "1");
 
   // Add proximity zone node centered on X node
-  const [nodes, setNodes, onNodesChange] = useNodesState([
-    {
-      id: "proximity-zone",
-      type: "circle",
-      // This is hardcoded and should probs be changed later. Imp. to note that
-      // position is top left corner of svg, not centre of circle
-      position: {
-        x: 100 - (PROXIMITY_THRESHOLD + 14 + BUFFER) / 2 + 14,
-        y: 100 - (PROXIMITY_THRESHOLD + 14 + BUFFER) / 2 + 14,
-      },
-      data: {
-        isProximity: true,
-        style: {
-          width: PROXIMITY_THRESHOLD + 14 + BUFFER,
-          height: PROXIMITY_THRESHOLD + 14 + BUFFER,
-          backgroundColor: "rgba(248, 113, 113, 0.1)",
-          border: "2px dashed #fca5a5",
-          borderRadius: "50%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: -1,
-        },
-      },
-      draggable: false,
-      selectable: false,
-    },
-    {
-      id: "z-gene-line",
-      type: "line",
-      position: { x: 205, y: 207 },
-      draggable: false,
-      selectable: false,
-      data: {
-        length: 250,
-        style: { zIndex: -1 },
-      },
-    },
-    {
-      id: "x-promoter",
-      type: "promoter",
-      position: { x: 225, y: 190 },
-      draggable: false,
-      selectable: false,
-      data: {},
-    },
-    {
-      id: "y-promoter",
-      type: "promoter",
-      position: { x: 285, y: 190 },
-      draggable: false,
-      selectable: false,
-      data: {},
-    },
-    ...initialNodes,
-    {
-      id: "sx",
-      type: "circle",
-      position: { x: 50, y: 50 },
-      data: {
-        text: "Sx",
-        sourcePosition: Position.Right,
-        targetPosition: Position.Left,
-      },
-      draggable: true,
-    },
-    {
-      id: "5",
-      type: "protein",
-      position: { x: 300, y: 160 },
-      draggable: false,
-      selectable: false,
-      data: {
-        text: "Y*",
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Top,
-        progress: accumulationProgress,
-        isAccumulating: isAccumulating,
-      },
-    },
-    {
-      id: "z-protein",
-      type: "protein",
-      position: { x: 400, y: 135 },
-      draggable: false,
-      selectable: false,
-      data: {
-        text: "Z",
-        isActive: zState === "accumulating",
-        targetPosition: Position.Left,
-        style: {
-          opacity: zState === "inactive" ? 0.5 : 1,
-          transform: zState === "accumulating" ? "scale(1)" : "none",
-          transition: "all 0.5s ease",
-        },
-      },
-    },
-    {
-      id: "z-gene-arrow-node",
-      type: "protein",
-      position: { x: 350, y: 202 },
-      draggable: false,
-      selectable: false,
-      sourcePosition: Position.Bottom,
-      targetPosition: Position.Top,
-      data: {
-        sourcePosition: Position.Top,
-        style: {
-          opacity: 0.01,
-          width: 10,
-          height: 10,
-        },
-      },
-    },
-  ]);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   // Update both X* and Y* nodes when state changes
   useEffect(() => {
@@ -187,7 +53,11 @@ const CircuitDisplay = ({
             },
             position: {
               x: node.position.x,
-              y: baseY + (accumulationProgress === 1 ? ACTIVE_TF_Y_OFFSET : 0),
+              y:
+                baseY +
+                (accumulationProgress === 1
+                  ? CIRCUIT_CONFIG.ACTIVE_TF_Y_OFFSET
+                  : 0),
             },
             style: { transition: "all 0.5s ease" },
           };
@@ -205,7 +75,8 @@ const CircuitDisplay = ({
           };
         }
         if (node.id === "3") {
-          const baseY = initialNodes.find((n) => n.id === "3")?.position.y;
+          const baseY =
+            initialNodes.find((n) => n.id === "3")?.position.y || 160;
 
           return {
             ...node,
@@ -216,7 +87,7 @@ const CircuitDisplay = ({
             },
             position: {
               x: node.position.x,
-              y: baseY + (signalForX ? ACTIVE_TF_Y_OFFSET : 0),
+              y: baseY + (signalForX ? CIRCUIT_CONFIG.ACTIVE_TF_Y_OFFSET : 0),
             },
             style: { transition: "all 0.5s ease" },
           };
@@ -283,9 +154,6 @@ const CircuitDisplay = ({
     );
   }, [signalForX, accumulationProgress, isAccumulating, zState, isPlaying]);
 
-  // Update edges with initial styling
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
   // Throttle the drag handler for better performance
   const onNodeDrag = useCallback(
     throttle((_, node: Node) => {
@@ -295,7 +163,7 @@ const CircuitDisplay = ({
             Math.pow(node.position.y - xNode.position.y, 2)
         );
 
-        const isNear = distance < PROXIMITY_THRESHOLD;
+        const isNear = distance < CIRCUIT_CONFIG.PROXIMITY_THRESHOLD;
 
         // Update edges animation and style, excluding z-gene-to-protein edge
         setEdges((currentEdges) =>

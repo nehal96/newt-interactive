@@ -1,11 +1,4 @@
-import { useState } from "react";
-import {
-  Node,
-  Edge,
-  Position,
-  MarkerType,
-  ReactFlowProvider,
-} from "@xyflow/react";
+import { ReactFlowProvider } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import {
   InteractiveTutorialContainer,
@@ -13,7 +6,7 @@ import {
   MathFormula,
   Slider,
 } from "../../components";
-import { chartStyles, edgeStyles } from "./utils";
+import { chartStyles } from "./utils";
 import {
   VictoryChart,
   VictoryLine,
@@ -214,101 +207,6 @@ const C1FFLDynamicsSimulator = () => {
     },
   });
 
-  const [nodes, setNodes] = useState<Node[]>([
-    {
-      id: "1",
-      type: "protein",
-      position: { x: 100, y: 100 },
-      draggable: false,
-      selectable: false,
-      data: {
-        text: "X",
-        sourcePosition: Position.Right,
-        targetPosition: Position.Left,
-      },
-    },
-    {
-      id: "2",
-      type: "protein",
-      position: { x: 175, y: 100 },
-      draggable: false,
-      selectable: false,
-      data: {
-        text: "X*",
-        sourcePosition: Position.Right,
-        targetPosition: Position.Left,
-      },
-    },
-    {
-      id: "3",
-      type: "protein",
-      position: { x: 240, y: 160 },
-      draggable: false,
-      selectable: false,
-      data: {
-        text: "X*",
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Top,
-      },
-    },
-    {
-      id: "4",
-      type: "protein",
-      position: { x: 300, y: 100 },
-      draggable: false,
-      selectable: false,
-      data: {
-        text: "Y",
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Left,
-      },
-    },
-  ]);
-
-  const [edges, setEdges] = useState<Edge[]>([
-    {
-      id: "1-2",
-      source: "1",
-      target: "2",
-      animated: false,
-      markerEnd: edgeStyles.markerEnd,
-      style: edgeStyles.style,
-    },
-    {
-      id: "2-3",
-      source: "2",
-      target: "3",
-      type: "step",
-      animated: false,
-      markerEnd: edgeStyles.markerEnd,
-      style: edgeStyles.style,
-    },
-    {
-      id: "2-4",
-      source: "2",
-      target: "4",
-      animated: false,
-      markerEnd: edgeStyles.markerEnd,
-      style: edgeStyles.style,
-    },
-    {
-      id: "4-5",
-      source: "4",
-      target: "5",
-      animated: false,
-      markerEnd: edgeStyles.markerEnd,
-      style: edgeStyles.style,
-    },
-    {
-      id: "z-gene-to-protein",
-      source: "z-gene-arrow-node",
-      target: "z-protein",
-      animated: false,
-      style: { ...edgeStyles.style },
-      markerEnd: edgeStyles.markerEnd,
-    },
-  ]);
-
   const handleProximityChange = (isNear: boolean) => {
     setSignalForX(isNear);
   };
@@ -320,8 +218,6 @@ const C1FFLDynamicsSimulator = () => {
     <InteractiveTutorialContainer className="flex-col">
       <ReactFlowProvider>
         <CircuitDisplay
-          nodes={nodes}
-          edges={edges}
           onProximityChange={handleProximityChange}
           accumulationProgress={accumulationProgress}
           isAccumulating={isAccumulating}
