@@ -153,6 +153,18 @@ const CircuitDisplay = ({
             style: { transition: "all 0.5s ease" },
           };
         }
+        if (node.id === "y-promoter") {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              style: {
+                stroke: accumulationProgress === 1 ? "#22c55e" : "#52525b",
+                strokeWidth: accumulationProgress === 1 ? 2 : 1.5,
+              },
+            },
+          };
+        }
         if (node.id === "3") {
           const baseY = initialNodes.find((n) => n.id === "3")?.position.y;
 
@@ -170,10 +182,23 @@ const CircuitDisplay = ({
             style: { transition: "all 0.5s ease" },
           };
         }
+        if (node.id === "x-promoter") {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              style: {
+                stroke: signalForX ? "#22c55e" : "#52525b",
+                strokeWidth: signalForX ? 2 : 1.5,
+              },
+            },
+          };
+        }
+
         return node;
       })
     );
-  }, [accumulationProgress, isAccumulating, signalForX]);
+  }, [signalForX, accumulationProgress, isAccumulating]);
 
   // Update edges with initial styling
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);

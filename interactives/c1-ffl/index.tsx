@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Node, Edge, Position, MarkerType } from "@xyflow/react";
+import {
+  Node,
+  Edge,
+  Position,
+  MarkerType,
+  ReactFlowProvider,
+} from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import {
   InteractiveTutorialContainer,
@@ -303,14 +309,16 @@ const C1FFLDynamicsSimulator = () => {
 
   return (
     <InteractiveTutorialContainer className="flex-col">
-      <CircuitDisplay
-        nodes={nodes}
-        edges={edges}
-        onProximityChange={handleProximityChange}
-        accumulationProgress={accumulationProgress}
-        isAccumulating={isAccumulating}
-        signalForX={signalForX}
-      />
+      <ReactFlowProvider>
+        <CircuitDisplay
+          nodes={nodes}
+          edges={edges}
+          onProximityChange={handleProximityChange}
+          accumulationProgress={accumulationProgress}
+          isAccumulating={isAccumulating}
+          signalForX={signalForX}
+        />
+      </ReactFlowProvider>
       <div className="w-full lg:w-3/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
         <div className="flex flex-col p-4">
           <div className="flex items-center justify-between mb-4">

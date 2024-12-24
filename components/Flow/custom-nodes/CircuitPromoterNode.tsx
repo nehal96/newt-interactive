@@ -12,8 +12,9 @@ const CircuitPromoterNode = memo(({ data }: any) => {
           rx="5"
           ry="5"
           fill="white"
-          stroke="#52525b"
-          strokeWidth="1.5"
+          stroke={data?.style?.stroke || "#52525b"}
+          strokeWidth={data?.style?.strokeWidth || "1.5"}
+          className="transition-stroke duration-300 ease-in-out delay-75"
         />
       </svg>
     </div>
