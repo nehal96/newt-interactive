@@ -12,6 +12,7 @@ import { throttle } from "lodash";
 import { ZState } from "./types";
 import { initialNodes, initialEdges } from "./data";
 import { CIRCUIT_CONFIG, nodeTypes } from "./config";
+import { updateNode, updateEdge, circuitStyles } from "./utils";
 
 interface CircuitDisplayProps {
   onProximityChange?: (isNear: boolean) => void;
@@ -39,119 +40,16 @@ const CircuitDisplay = ({
 
   // Update both X* and Y* nodes when state changes
   useEffect(() => {
-    setNodes((nds) =>
-      nds.map((node) => {
-        if (node.id === "5") {
-          const baseY = 160; // change after initial nodes are cleaned up
+    const state = {
+      signalForX,
+      accumulationProgress,
+      isAccumulating,
+      zState,
+      isPlaying,
+    };
 
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              progress: accumulationProgress,
-              isAccumulating: isAccumulating,
-            },
-            position: {
-              x: node.position.x,
-              y:
-                baseY +
-                (accumulationProgress === 1
-                  ? CIRCUIT_CONFIG.ACTIVE_TF_Y_OFFSET
-                  : 0),
-            },
-            style: { transition: "all 0.5s ease" },
-          };
-        }
-        if (node.id === "y-promoter") {
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              style: {
-                stroke: accumulationProgress === 1 ? "#22c55e" : "#52525b",
-                strokeWidth: accumulationProgress === 1 ? 2 : 1.5,
-              },
-            },
-          };
-        }
-        if (node.id === "3") {
-          const baseY =
-            initialNodes.find((n) => n.id === "3")?.position.y || 160;
-
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              progress: signalForX ? 1 : 0,
-              isAccumulating: false,
-            },
-            position: {
-              x: node.position.x,
-              y: baseY + (signalForX ? CIRCUIT_CONFIG.ACTIVE_TF_Y_OFFSET : 0),
-            },
-            style: { transition: "all 0.5s ease" },
-          };
-        }
-        if (node.id === "x-promoter") {
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              style: {
-                stroke: signalForX ? "#22c55e" : "#52525b",
-                strokeWidth: signalForX ? 2 : 1.5,
-              },
-            },
-          };
-        }
-        if (node.id === "z-protein") {
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              isActive: signalForX && accumulationProgress === 1,
-              style: {
-                opacity: zState === "inactive" ? 0.5 : 1,
-              },
-            },
-          };
-        }
-
-        return node;
-      })
-    );
-
-    // Update all edges
-    setEdges((eds) =>
-      eds.map((edge) => {
-        if (edge.id === "z-gene-to-protein") {
-          return {
-            ...edge,
-            animated: zState === "accumulating" && isPlaying,
-            style: {
-              ...edge.style,
-              stroke:
-                zState === "accumulating" && isPlaying ? "#3f3f46" : "#a1a1aa",
-            },
-            markerEnd: {
-              ...(edge.markerEnd as EdgeMarker),
-              color:
-                zState === "accumulating" && isPlaying ? "#3f3f46" : "#a1a1aa",
-            },
-          };
-        }
-        // Handle other edges
-        return {
-          ...edge,
-          animated:
-            (edge.source === "1" ||
-              edge.source === "2" ||
-              edge.source === "4") &&
-            isPlaying &&
-            signalForX,
-        };
-      })
-    );
+    setNodes((nds) => nds.map((node) => updateNode(node, state)));
+    setEdges((eds) => eds.map((edge) => updateEdge(edge, state)));
   }, [signalForX, accumulationProgress, isAccumulating, zState, isPlaying]);
 
   // Throttle the drag handler for better performance
@@ -181,11 +79,15 @@ const CircuitDisplay = ({
                 isPlaying,
               style: {
                 ...edge.style,
-                stroke: isNear ? "#3f3f46" : "#a1a1aa",
+                stroke: isNear
+                  ? circuitStyles.edge.active.stroke
+                  : circuitStyles.edge.inactive.stroke,
               },
               markerEnd: {
                 ...(edge.markerEnd as EdgeMarker),
-                color: isNear ? "#3f3f46" : "#a1a1aa",
+                color: isNear
+                  ? circuitStyles.edge.active.markerColor
+                  : circuitStyles.edge.inactive.markerColor,
               },
             };
           })
@@ -201,12 +103,9 @@ const CircuitDisplay = ({
                     ...node.data,
                     style: {
                       ...(node.data.style as {}),
-                      backgroundColor: isNear
-                        ? "rgba(34, 197, 94, 0.1)"
-                        : "rgba(248, 113, 113, 0.1)",
-                      border: isNear
-                        ? "2px dashed #86efac"
-                        : "2px dashed #fca5a5",
+                      ...(isNear
+                        ? circuitStyles.proximityZone.near
+                        : circuitStyles.proximityZone.far),
                     },
                   },
                 }
