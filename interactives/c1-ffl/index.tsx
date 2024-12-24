@@ -18,7 +18,7 @@ import {
 } from "victory";
 import { FiPlay, FiPause } from "react-icons/fi";
 import { DelayTimeData, SignalData } from "./types";
-import { useSimulation } from "./hooks";
+import { useSimulationStore } from "./store/store";
 import CircuitDisplay from "./CircuitDisplay";
 
 interface ProteinYChartProps {
@@ -197,15 +197,7 @@ const C1FFLDynamicsSimulator = () => {
     resetSimulation,
     updateParams,
     zState,
-  } = useSimulation({
-    initialParams: {
-      alphaY: 0.1,
-      betaY: 1,
-      alphaZ: 0.1,
-      betaZ: 1,
-      Kyz: 5,
-    },
-  });
+  } = useSimulationStore();
 
   const handleProximityChange = (isNear: boolean) => {
     setSignalForX(isNear);

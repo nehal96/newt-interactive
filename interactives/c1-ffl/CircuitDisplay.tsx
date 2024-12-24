@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ReactFlow,
   Background,
@@ -8,7 +8,7 @@ import {
   useEdgesState,
   EdgeMarker,
 } from "@xyflow/react";
-import { throttle } from "lodash";
+import { throttle, debounce } from "lodash";
 import { ZState } from "./types";
 import { initialNodes, initialEdges } from "./data";
 import { CIRCUIT_CONFIG, nodeTypes } from "./config";
@@ -52,6 +52,17 @@ const CircuitDisplay = ({
     setEdges((eds) => eds.map((edge) => updateEdge(edge, state)));
   }, [signalForX, accumulationProgress, isAccumulating, zState, isPlaying]);
 
+  // Add local state for proximity
+  const [isNearSignal, setIsNearSignal] = useState(false);
+
+  // Debounce the store update
+  const debouncedSetSignalForX = useCallback(
+    debounce((value: boolean) => {
+      onProximityChange?.(value);
+    }, 100),
+    [onProximityChange]
+  );
+
   // Throttle the drag handler for better performance
   const onNodeDrag = useCallback(
     throttle((_, node: Node) => {
@@ -63,12 +74,17 @@ const CircuitDisplay = ({
 
         const isNear = distance < CIRCUIT_CONFIG.PROXIMITY_THRESHOLD;
 
-        // Update edges animation and style, excluding z-gene-to-protein edge
+        // Update local state immediately for smooth UI updates
+        if (isNear !== isNearSignal) {
+          setIsNearSignal(isNear);
+          // Debounce the store update
+          debouncedSetSignalForX(isNear);
+        }
+
+        // Update visual elements using local state
         setEdges((currentEdges) =>
           currentEdges.map((edge) => {
-            if (edge.id === "z-gene-to-protein") {
-              return edge; // Skip modifications for this edge
-            }
+            if (edge.id === "z-gene-to-protein") return edge;
             return {
               ...edge,
               animated:
@@ -117,7 +133,7 @@ const CircuitDisplay = ({
         onProximityChange?.(isNear);
       }
     }, 16),
-    [xNode, onProximityChange]
+    [xNode, isNearSignal, isPlaying, debouncedSetSignalForX]
   );
 
   return (

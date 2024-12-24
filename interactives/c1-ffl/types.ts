@@ -36,6 +36,11 @@ export interface DelayTimeData {
   hasDelay: boolean;
 }
 
+export interface AccumulationState {
+  progress: number;
+  isAccumulating: boolean;
+}
+
 export type ZState = "inactive" | "accumulating" | "active" | "reducing";
 
 export interface UseSimulationReturn extends SimulationState {
@@ -97,3 +102,27 @@ interface CircuitEdgeData {
 }
 
 export type CircuitEdge = Edge<CircuitEdgeData>;
+
+// Store Types
+export interface SimulationStore {
+  // State
+  time: number;
+  isPlaying: boolean;
+  signalForX: boolean;
+  signalData: SignalData[];
+  proteinYData: SignalData[];
+  proteinZData: SignalData[];
+  params: SimulationParams;
+  delayTimeData: DelayTimeData;
+  accumulationProgress: number;
+  isAccumulating: boolean;
+  zState: ZState;
+
+  // Actions
+  setTime: (time: number) => void;
+  setIsPlaying: (isPlaying: boolean) => void;
+  setSignalForX: (signalForX: boolean) => void;
+  updateParams: (params: Partial<SimulationParams>) => void;
+  resetSimulation: () => void;
+  tick: () => void;
+}
