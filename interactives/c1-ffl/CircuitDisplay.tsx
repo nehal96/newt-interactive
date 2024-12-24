@@ -27,6 +27,7 @@ const nodeTypes = {
 
 const PROXIMITY_THRESHOLD = 40; // Distance in pixels to consider Sx "near" X
 const BUFFER = 2.5;
+const ACTIVE_TF_Y_OFFSET = 17;
 
 interface CircuitDisplayProps {
   nodes: Node[];
@@ -76,32 +77,6 @@ const CircuitDisplay = ({
       draggable: false,
       selectable: false,
     },
-    ...initialNodes,
-    {
-      id: "sx",
-      type: "circle",
-      position: { x: 50, y: 50 },
-      data: {
-        text: "Sx",
-        sourcePosition: Position.Right,
-        targetPosition: Position.Left,
-      },
-      draggable: true,
-    },
-    {
-      id: "5",
-      type: "protein",
-      position: { x: 300, y: 160 },
-      draggable: false,
-      selectable: false,
-      data: {
-        text: "Y*",
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Top,
-        progress: accumulationProgress,
-        isAccumulating: isAccumulating,
-      },
-    },
     {
       id: "z-gene-line",
       type: "line",
@@ -129,6 +104,32 @@ const CircuitDisplay = ({
       selectable: false,
       data: {},
     },
+    ...initialNodes,
+    {
+      id: "sx",
+      type: "circle",
+      position: { x: 50, y: 50 },
+      data: {
+        text: "Sx",
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+      },
+      draggable: true,
+    },
+    {
+      id: "5",
+      type: "protein",
+      position: { x: 300, y: 160 },
+      draggable: false,
+      selectable: false,
+      data: {
+        text: "Y*",
+        sourcePosition: Position.Bottom,
+        targetPosition: Position.Top,
+        progress: accumulationProgress,
+        isAccumulating: isAccumulating,
+      },
+    },
   ]);
 
   // Update both X* and Y* nodes when state changes
@@ -136,6 +137,8 @@ const CircuitDisplay = ({
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === "5") {
+          const baseY = 160; // change after initial nodes are cleaned up
+
           return {
             ...node,
             data: {
@@ -143,9 +146,16 @@ const CircuitDisplay = ({
               progress: accumulationProgress,
               isAccumulating: isAccumulating,
             },
+            position: {
+              x: node.position.x,
+              y: baseY + (accumulationProgress === 1 ? ACTIVE_TF_Y_OFFSET : 0),
+            },
+            style: { transition: "all 0.5s ease" },
           };
         }
         if (node.id === "3") {
+          const baseY = initialNodes.find((n) => n.id === "3")?.position.y;
+
           return {
             ...node,
             data: {
@@ -153,6 +163,11 @@ const CircuitDisplay = ({
               progress: signalForX ? 1 : 0,
               isAccumulating: false,
             },
+            position: {
+              x: node.position.x,
+              y: baseY + (signalForX ? ACTIVE_TF_Y_OFFSET : 0),
+            },
+            style: { transition: "all 0.5s ease" },
           };
         }
         return node;
