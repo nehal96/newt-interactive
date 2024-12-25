@@ -1,5 +1,5 @@
 import { EdgeMarker, MarkerType } from "@xyflow/react";
-import { ZState, CircuitNode, CircuitEdge } from "./types";
+import { CircuitNode, CircuitEdge } from "./types";
 import { CIRCUIT_CONFIG } from "./config";
 
 export const chartStyles = {
@@ -11,7 +11,7 @@ export const chartStyles = {
   axis: {
     style: {
       axis: { stroke: "#64748b" },
-      tickLabels: { fill: "#64748b", fontSize: 8, padding: 2 },
+      tickLabels: { fill: "#64748b", fontSize: 10, padding: 2 },
       grid: { stroke: "none" },
     },
     labelComponent: { dy: -5, dx: 190 },

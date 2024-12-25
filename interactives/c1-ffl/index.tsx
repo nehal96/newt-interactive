@@ -1,6 +1,6 @@
 import { ReactFlowProvider } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { InteractiveTutorialContainer } from "../../components";
+import { Button, InteractiveTutorialContainer } from "../../components";
 import { chartStyles } from "./utils";
 import {
   VictoryChart,
@@ -16,6 +16,7 @@ import { DelayTimeData, SignalData } from "./types";
 import { useSimulationStore } from "./store/store";
 import CircuitDisplay from "./CircuitDisplay";
 import ParametersDisplay from "./ParameterDisplay";
+import InfoPanel from "./InfoPanel";
 
 interface ProteinYChartProps {
   data: SignalData[];
@@ -68,7 +69,7 @@ const DelayTimeDisplay = ({ delayData }: { delayData: DelayTimeData }) => {
     <div className="text-sm font-mono mt-2 p-2 bg-slate-50 rounded border border-slate-200">
       {delayData.delays.map((delay, index) => (
         <div key={index}>
-          Delay {index + 1}: {(delay.end - delay.start).toFixed(1)}s
+          Delay {index + 1}: ~{(delay.end - delay.start).toFixed(1)}s
         </div>
       ))}
     </div>
@@ -204,7 +205,7 @@ const C1FFLDynamicsSimulator = () => {
 
   return (
     <InteractiveTutorialContainer className="flex-col">
-      <div className="flex flex-col w-full lg:w-1/2">
+      <div className="flex flex-col w-full lg:w-3/5">
         <ReactFlowProvider>
           <CircuitDisplay
             onProximityChange={handleProximityChange}
@@ -215,11 +216,14 @@ const C1FFLDynamicsSimulator = () => {
             isPlaying={isPlaying}
           />
         </ReactFlowProvider>
-        <ParametersDisplay params={params} updateParams={updateParams} />
+        <div className="flex gap-4">
+          <InfoPanel />
+          <ParametersDisplay params={params} updateParams={updateParams} />
+        </div>
       </div>
-      <div className="w-full lg:w-1/2 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
+      <div className="w-full lg:w-2/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
         <div className="flex flex-col p-4">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-1">
             <div className="text-sm font-mono">
               Status:{" "}
               {signalForX ? (
@@ -229,25 +233,44 @@ const C1FFLDynamicsSimulator = () => {
               )}
             </div>
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="p-2 rounded-lg hover:bg-slate-100"
-                disabled={time >= 60}
-              >
-                {isPlaying ? (
-                  <FiPause className="w-5 h-5 text-slate-600" />
-                ) : (
-                  <FiPlay className="w-5 h-5 text-slate-600" />
-                )}
-              </button>
-              <span className="text-sm font-mono w-16">{time}/60s</span>
-              <button
-                onClick={resetSimulation}
-                className="text-sm text-slate-600 hover:text-slate-900"
-              >
-                Reset
-              </button>
+              {isPlaying ? (
+                <Button
+                  variant="secondary"
+                  onClick={() => setIsPlaying(false)}
+                  className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200"
+                  disabled={time >= 60}
+                >
+                  <FiPause className="w-5 h-5" />
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  onClick={() => setIsPlaying(true)}
+                  className={`flex items-center gap-2 ${
+                    time === 0
+                      ? "bg-green-200 text-green-800 border-green-200 hover:bg-green-300 hover:border-green-300"
+                      : ""
+                  }`}
+                  disabled={time >= 60}
+                >
+                  <span className="text-sm font-mono">
+                    {time === 0 ? "Run" : "Continue"}
+                  </span>
+                  <FiPlay className="w-5 h-5" />
+                </Button>
+              )}
+              <span className="text-sm font-mono w-16 text-end">
+                {time}/60s
+              </span>
             </div>
+          </div>
+          <div className="flex items-center justify-end">
+            <button
+              onClick={resetSimulation}
+              className="text-sm text-slate-600 hover:text-slate-900"
+            >
+              Reset
+            </button>
           </div>
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="lg:w-3/5">

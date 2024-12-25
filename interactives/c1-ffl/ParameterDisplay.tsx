@@ -6,10 +6,10 @@ const ParametersDisplay = ({
   updateParams,
 }: Pick<UseSimulationReturn, "params" | "updateParams">) => {
   return (
-    <div className="w-full lg:mt-4 mb-4 lg:mb-0">
+    <div className="w-1/2 lg:mt-4 mb-4 lg:mb-0">
       <Accordion
         title="Parameters"
-        className="bg-slate-50"
+        className="bg-slate-50 p-6"
         showTitleIcon={false}
       >
         <div className="flex flex-col gap-6">

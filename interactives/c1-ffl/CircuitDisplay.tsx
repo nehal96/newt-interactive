@@ -148,6 +148,9 @@ const CircuitDisplay = ({
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         fitView
+        fitViewOptions={{
+          padding: 0.3,
+        }}
       >
         <Background />
         <Controls />
