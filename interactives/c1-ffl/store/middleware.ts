@@ -49,7 +49,7 @@ export const createSimulationMiddleware = (set, get) => {
       proteinYData,
       state.params.Kyz
     );
-    const zState = calculateZState(proteinZData);
+    const zState = calculateZState(proteinZData, state.params);
 
     // Calculate delay data
     const delayTimeData = calculateDelayTimeData(

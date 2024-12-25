@@ -41,7 +41,10 @@ export interface AccumulationState {
   isAccumulating: boolean;
 }
 
-export type ZState = "inactive" | "accumulating" | "active" | "reducing";
+export type ZState = {
+  state: "inactive" | "accumulating" | "active" | "reducing";
+  progress: number;
+};
 
 export interface UseSimulationReturn extends SimulationState {
   setSignalForX: (value: boolean) => void;

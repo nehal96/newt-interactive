@@ -24,7 +24,7 @@ export const useSimulationStore = create<SimulationStore>((set, get) => {
     delayTimeData: { delays: [], hasDelay: false },
     accumulationProgress: 0,
     isAccumulating: false,
-    zState: "inactive",
+    zState: { state: "inactive", progress: 0 },
 
     // Actions
     setTime: (time) => {

@@ -4,6 +4,7 @@ import {
   DelayTimeData,
   ZState,
   AccumulationState,
+  SimulationParams,
 } from "../types";
 
 export const calculateProteinData = (
@@ -115,23 +116,36 @@ export const calculateAccumulationState = (
   return { progress, isAccumulating };
 };
 
-export const calculateZState = (proteinZData: SignalData[]): ZState => {
+export const calculateZState = (
+  proteinZData: SignalData[],
+  params: SimulationParams
+): ZState => {
   if (proteinZData.length < 2) {
-    return "inactive";
+    return { state: "inactive", progress: 0 };
   }
 
   const currentZ = proteinZData[proteinZData.length - 1].y;
   const prevZ = proteinZData[proteinZData.length - 2].y;
+  const steadyState = params.betaZ / params.alphaZ;
+  const threshold = steadyState * 0.95;
 
-  if (currentZ === 0) {
-    return "inactive";
-  } else if (currentZ > prevZ) {
-    return "accumulating";
-  } else if (currentZ < prevZ) {
-    return "reducing";
-  } else if (currentZ > 0) {
-    return "active";
+  // Calculate progress as percentage of threshold
+  let progress = 0;
+  if (currentZ > 0 && currentZ < threshold) {
+    progress = currentZ / threshold;
+  } else if (currentZ >= threshold) {
+    progress = 1;
   }
 
-  return "inactive";
+  if (currentZ === 0) {
+    return { state: "inactive", progress };
+  } else if (currentZ > prevZ) {
+    return { state: "accumulating", progress };
+  } else if (currentZ < prevZ) {
+    return { state: "reducing", progress };
+  } else if (currentZ > 0) {
+    return { state: "active", progress };
+  }
+
+  return { state: "inactive", progress };
 };

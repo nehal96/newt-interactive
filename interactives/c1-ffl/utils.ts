@@ -90,7 +90,7 @@ interface CircuitState {
   signalForX: boolean;
   accumulationProgress: number;
   isAccumulating: boolean;
-  zState: ZState;
+  zState: { state: string; progress: number };
   isPlaying: boolean;
 }
 
@@ -172,9 +172,23 @@ export const updateNode = (
         data: {
           ...node.data,
           isActive: signalForX && accumulationProgress === 1 && isPlaying,
-          style: {
-            opacity: zState === "inactive" ? 0.5 : 1,
+          progress: state.zState.progress,
+          isAccumulating: state.zState.state === "accumulating",
+          svgStyle: {
+            opacity: state.zState.state === "inactive" ? 0.5 : 1,
           },
+        },
+      };
+
+    case "z-promoter":
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          svgStyle:
+            state.zState.progress === 1
+              ? circuitStyles.promoter.active
+              : circuitStyles.promoter.inactive,
         },
       };
 
@@ -190,19 +204,20 @@ export const updateEdge = (
   const { signalForX, zState, isPlaying } = state;
 
   if (edge.id === "z-gene-to-Z") {
-    const isActive = zState === "accumulating" && isPlaying;
+    const isAccumulating = zState.state === "accumulating";
     return {
       ...edge,
-      animated: isActive,
+      animated: isAccumulating && isPlaying,
       style: {
         ...edge.style,
-        stroke: isActive
+        strokeWidth: 2,
+        stroke: isAccumulating
           ? circuitStyles.edge.active.stroke
           : circuitStyles.edge.inactive.stroke,
       },
       markerEnd: {
         ...(edge.markerEnd as EdgeMarker),
-        color: isActive
+        color: isAccumulating
           ? circuitStyles.edge.active.markerColor
           : circuitStyles.edge.inactive.markerColor,
       },

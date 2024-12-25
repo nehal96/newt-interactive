@@ -1,11 +1,6 @@
 import { ReactFlowProvider } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import {
-  InteractiveTutorialContainer,
-  Switch,
-  MathFormula,
-  Slider,
-} from "../../components";
+import { InteractiveTutorialContainer } from "../../components";
 import { chartStyles } from "./utils";
 import {
   VictoryChart,
@@ -225,16 +220,13 @@ const C1FFLDynamicsSimulator = () => {
       <div className="w-full lg:w-1/2 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
         <div className="flex flex-col p-4">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-mono">
-                <MathFormula tex="S_x" />
-              </span>
-              <Switch
-                checked={signalForX}
-                onCheckedChange={(checked) => {
-                  setSignalForX(checked);
-                }}
-              />
+            <div className="text-sm font-mono">
+              Status:{" "}
+              {signalForX ? (
+                <span className="text-green-600 font-semibold">ACTIVE</span>
+              ) : (
+                <span className="text-red-600 font-semibold">INACTIVE</span>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <button
