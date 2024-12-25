@@ -103,7 +103,7 @@ export const updateNode = (
   const YstarBaseY = 160;
 
   switch (node.id) {
-    case "5": // Y TF node
+    case "Y*": // Y TF node
       return {
         ...node,
         data: {
@@ -134,7 +134,7 @@ export const updateNode = (
         },
       };
 
-    case "3": // X TF node
+    case "X*2": // X TF node
       return {
         ...node,
         data: {
@@ -160,7 +160,7 @@ export const updateNode = (
         },
       };
 
-    case "z-protein":
+    case "Z":
       return {
         ...node,
         data: {
@@ -205,6 +205,7 @@ export const updateEdge = (
 
   return {
     ...edge,
-    animated: ["1", "2", "4"].includes(edge.source) && isPlaying && signalForX,
+    animated:
+      ["X", "X*1", "Y"].includes(edge.source) && isPlaying && signalForX,
   };
 };

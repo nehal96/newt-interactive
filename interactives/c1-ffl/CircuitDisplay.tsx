@@ -7,6 +7,7 @@ import {
   useNodesState,
   useEdgesState,
   EdgeMarker,
+  useReactFlow,
 } from "@xyflow/react";
 import { throttle, debounce } from "lodash";
 import { ZState } from "./types";
@@ -31,8 +32,7 @@ const CircuitDisplay = ({
   zState,
   isPlaying = false,
 }: CircuitDisplayProps) => {
-  // Find X node position from initialNodes
-  const xNode = initialNodes.find((n) => n.id === "1");
+  const { getNode } = useReactFlow();
 
   // Add proximity zone node centered on X node
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -66,7 +66,9 @@ const CircuitDisplay = ({
   // Throttle the drag handler for better performance
   const onNodeDrag = useCallback(
     throttle((_, node: Node) => {
-      if (node.id === "sx" && xNode) {
+      const xNode = getNode("X");
+
+      if (node.id === "Sx" && xNode) {
         const distance = Math.sqrt(
           Math.pow(node.position.x - xNode.position.x, 2) +
             Math.pow(node.position.y - xNode.position.y, 2)
@@ -88,9 +90,9 @@ const CircuitDisplay = ({
             return {
               ...edge,
               animated:
-                (edge.source === "1" ||
-                  edge.source === "2" ||
-                  edge.source === "4") &&
+                (edge.source === "X" ||
+                  edge.source === "X*1" ||
+                  edge.source === "Y") &&
                 isNear &&
                 isPlaying,
               style: {
@@ -133,7 +135,7 @@ const CircuitDisplay = ({
         onProximityChange?.(isNear);
       }
     }, 16),
-    [xNode, isNearSignal, isPlaying, debouncedSetSignalForX]
+    [isNearSignal, isPlaying, debouncedSetSignalForX]
   );
 
   return (

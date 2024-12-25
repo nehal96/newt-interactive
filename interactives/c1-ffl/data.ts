@@ -6,7 +6,7 @@ import { CircuitEdge } from "./types";
 
 const proteinNodes: CircuitNode[] = [
   {
-    id: "sx",
+    id: "Sx",
     type: "circle" as CircuitNodeTypes,
     position: { x: 50, y: 50 },
     data: {
@@ -17,7 +17,7 @@ const proteinNodes: CircuitNode[] = [
     draggable: true,
   },
   {
-    id: "1",
+    id: "X",
     type: "protein" as CircuitNodeTypes,
     position: { x: 100, y: 100 },
     draggable: false,
@@ -29,7 +29,7 @@ const proteinNodes: CircuitNode[] = [
     },
   },
   {
-    id: "2",
+    id: "X*1",
     type: "protein" as CircuitNodeTypes,
     position: { x: 175, y: 100 },
     draggable: false,
@@ -41,7 +41,7 @@ const proteinNodes: CircuitNode[] = [
     },
   },
   {
-    id: "3",
+    id: "X*2",
     type: "protein" as CircuitNodeTypes,
     position: { x: 240, y: 160 },
     draggable: false,
@@ -53,7 +53,7 @@ const proteinNodes: CircuitNode[] = [
     },
   },
   {
-    id: "4",
+    id: "Y",
     type: "protein" as CircuitNodeTypes,
     position: { x: 300, y: 100 },
     draggable: false,
@@ -65,7 +65,7 @@ const proteinNodes: CircuitNode[] = [
     },
   },
   {
-    id: "5",
+    id: "Y*",
     type: "protein" as CircuitNodeTypes,
     position: { x: 300, y: 160 },
     draggable: false,
@@ -79,7 +79,7 @@ const proteinNodes: CircuitNode[] = [
     },
   },
   {
-    id: "z-protein",
+    id: "Z",
     type: "protein" as CircuitNodeTypes,
     position: { x: 400, y: 135 },
     draggable: false,
@@ -179,42 +179,42 @@ export const initialNodes: CircuitNode[] = [...circuitNodes, ...proteinNodes];
 
 export const initialEdges: CircuitEdge[] = [
   {
-    id: "1-2",
-    source: "1",
-    target: "2",
+    id: "X-X*1",
+    source: "X",
+    target: "X*1",
     animated: false,
     markerEnd: edgeStyles.markerEnd,
     style: edgeStyles.style,
   },
   {
-    id: "2-3",
-    source: "2",
-    target: "3",
+    id: "X*1-X*2",
+    source: "X*1",
+    target: "X*2",
     type: "step",
     animated: false,
     markerEnd: edgeStyles.markerEnd,
     style: edgeStyles.style,
   },
   {
-    id: "2-4",
-    source: "2",
-    target: "4",
+    id: "X*1-Y",
+    source: "X*1",
+    target: "Y",
     animated: false,
     markerEnd: edgeStyles.markerEnd,
     style: edgeStyles.style,
   },
   {
-    id: "4-5",
-    source: "4",
-    target: "5",
+    id: "Y-Y*",
+    source: "Y",
+    target: "Y*",
     animated: false,
     markerEnd: edgeStyles.markerEnd,
     style: edgeStyles.style,
   },
   {
-    id: "z-gene-to-protein",
+    id: "z-gene-to-Z",
     source: "z-gene-arrow-node",
-    target: "z-protein",
+    target: "Z",
     animated: false,
     style: { ...edgeStyles.style },
     markerEnd: edgeStyles.markerEnd,
