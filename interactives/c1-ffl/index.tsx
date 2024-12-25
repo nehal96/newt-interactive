@@ -20,6 +20,7 @@ import { FiPlay, FiPause } from "react-icons/fi";
 import { DelayTimeData, SignalData } from "./types";
 import { useSimulationStore } from "./store/store";
 import CircuitDisplay from "./CircuitDisplay";
+import ParametersDisplay from "./ParameterDisplay";
 
 interface ProteinYChartProps {
   data: SignalData[];
@@ -208,17 +209,20 @@ const C1FFLDynamicsSimulator = () => {
 
   return (
     <InteractiveTutorialContainer className="flex-col">
-      <ReactFlowProvider>
-        <CircuitDisplay
-          onProximityChange={handleProximityChange}
-          accumulationProgress={accumulationProgress}
-          isAccumulating={isAccumulating}
-          signalForX={signalForX}
-          zState={zState}
-          isPlaying={isPlaying}
-        />
-      </ReactFlowProvider>
-      <div className="w-full lg:w-3/5 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
+      <div className="flex flex-col w-full lg:w-1/2">
+        <ReactFlowProvider>
+          <CircuitDisplay
+            onProximityChange={handleProximityChange}
+            accumulationProgress={accumulationProgress}
+            isAccumulating={isAccumulating}
+            signalForX={signalForX}
+            zState={zState}
+            isPlaying={isPlaying}
+          />
+        </ReactFlowProvider>
+        <ParametersDisplay params={params} updateParams={updateParams} />
+      </div>
+      <div className="w-full lg:w-1/2 lg:ml-4 mb-4 lg:my-0 font-mono border rounded-md transition-all duration-200 ease-in">
         <div className="flex flex-col p-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
@@ -253,117 +257,7 @@ const C1FFLDynamicsSimulator = () => {
               </button>
             </div>
           </div>
-
           <div className="flex flex-col lg:flex-row gap-4">
-            <div className="lg:w-2/5">
-              <div className="flex flex-col gap-4 mb-6 p-3 bg-slate-50 rounded-md">
-                <div className="text-sm font-mono mb-1 underline">
-                  Parameters
-                </div>
-                <div className="flex flex-col gap-6">
-                  <div>
-                    <div className="text-sm font-mono mb-2">Protein Y:</div>
-                    <div className="flex flex-col gap-4">
-                      <div className="flex flex-col gap-2">
-                        <div className="flex justify-between text-sm">
-                          <MathFormula tex="\alpha_Y" />
-                          <span className="flex items-end">
-                            {params.alphaY.toFixed(2)}
-                          </span>
-                        </div>
-                        <Slider
-                          value={[params.alphaY]}
-                          onValueChange={([value]) =>
-                            updateParams({ alphaY: value })
-                          }
-                          min={0.01}
-                          max={0.5}
-                          step={0.01}
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-2">
-                        <div className="flex justify-between text-sm">
-                          <MathFormula tex="\beta_Y" />
-                          <span className="flex items-end">
-                            {params.betaY.toFixed(1)}
-                          </span>
-                        </div>
-                        <Slider
-                          value={[params.betaY]}
-                          onValueChange={([value]) =>
-                            updateParams({ betaY: value })
-                          }
-                          min={0.1}
-                          max={5}
-                          step={0.1}
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-2">
-                        <div className="flex justify-between text-sm">
-                          <MathFormula tex="K_{YZ}" />
-                          <span className="flex items-end">
-                            {params.Kyz.toFixed(1)}
-                          </span>
-                        </div>
-                        <Slider
-                          value={[params.Kyz]}
-                          onValueChange={([value]) =>
-                            updateParams({ Kyz: value })
-                          }
-                          min={1}
-                          max={10}
-                          step={0.5}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm font-mono mb-2">Protein Z:</div>
-                    <div className="flex flex-col gap-4">
-                      <div className="flex flex-col gap-2">
-                        <div className="flex justify-between text-sm">
-                          <MathFormula tex="\alpha_Z" />
-                          <span className="flex items-end">
-                            {params.alphaZ.toFixed(2)}
-                          </span>
-                        </div>
-                        <Slider
-                          value={[params.alphaZ]}
-                          onValueChange={([value]) =>
-                            updateParams({ alphaZ: value })
-                          }
-                          min={0.01}
-                          max={0.5}
-                          step={0.01}
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-2">
-                        <div className="flex justify-between text-sm">
-                          <MathFormula tex="\beta_Z" />
-                          <span className="flex items-end">
-                            {params.betaZ.toFixed(1)}
-                          </span>
-                        </div>
-                        <Slider
-                          value={[params.betaZ]}
-                          onValueChange={([value]) =>
-                            updateParams({ betaZ: value })
-                          }
-                          min={0.1}
-                          max={5}
-                          step={0.1}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div className="lg:w-3/5">
               <SignalChart signalData={signalData} />
               <ProteinYChart

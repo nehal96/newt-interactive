@@ -86,7 +86,7 @@ const CircuitDisplay = ({
         // Update visual elements using local state
         setEdges((currentEdges) =>
           currentEdges.map((edge) => {
-            if (edge.id === "z-gene-to-protein") return edge;
+            if (edge.id === "z-gene-to-Z") return edge;
             return {
               ...edge,
               animated:
@@ -139,7 +139,7 @@ const CircuitDisplay = ({
   );
 
   return (
-    <div className="w-full h-[350px] lg:w-2/5 mb-4 lg:mb-0 border rounded-md border-slate-200">
+    <div className="w-full h-[350px] mb-4 lg:mb-0 border rounded-md border-slate-200">
       <ReactFlow
         nodes={nodes}
         edges={edges}

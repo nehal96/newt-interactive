@@ -98,7 +98,13 @@ export const updateNode = (
   node: CircuitNode,
   state: CircuitState
 ): CircuitNode => {
-  const { signalForX, accumulationProgress, isAccumulating, zState } = state;
+  const {
+    signalForX,
+    accumulationProgress,
+    isAccumulating,
+    zState,
+    isPlaying,
+  } = state;
   const XstarBaseY = 160;
   const YstarBaseY = 160;
 
@@ -165,7 +171,7 @@ export const updateNode = (
         ...node,
         data: {
           ...node.data,
-          isActive: signalForX && accumulationProgress === 1,
+          isActive: signalForX && accumulationProgress === 1 && isPlaying,
           style: {
             opacity: zState === "inactive" ? 0.5 : 1,
           },
@@ -183,7 +189,7 @@ export const updateEdge = (
 ): CircuitEdge => {
   const { signalForX, zState, isPlaying } = state;
 
-  if (edge.id === "z-gene-to-protein") {
+  if (edge.id === "z-gene-to-Z") {
     const isActive = zState === "accumulating" && isPlaying;
     return {
       ...edge,

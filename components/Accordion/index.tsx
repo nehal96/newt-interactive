@@ -7,6 +7,7 @@ interface AccordionProps {
   children: React.ReactNode;
   variant?: "prose" | "default";
   className?: string;
+  showTitleIcon?: boolean;
 }
 
 export default function Accordion({
@@ -14,6 +15,7 @@ export default function Accordion({
   children,
   variant = "default",
   className,
+  showTitleIcon = true,
 }: AccordionProps) {
   const variants = {
     prose:
@@ -32,7 +34,7 @@ export default function Accordion({
         value="item-1"
       >
         <AccordionPrimitive.Trigger className="flex items-center text-sm sm:text-base w-full">
-          <FiInfo className="mr-1.5" />
+          {showTitleIcon && <FiInfo className="mr-1.5" />}
           {title}
           <FiChevronDown className="ml-1" />
         </AccordionPrimitive.Trigger>
