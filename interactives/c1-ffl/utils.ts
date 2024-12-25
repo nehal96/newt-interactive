@@ -127,7 +127,7 @@ export const updateNode = (
         ...node,
         data: {
           ...node.data,
-          style:
+          svgStyle:
             accumulationProgress === 1
               ? circuitStyles.promoter.active
               : circuitStyles.promoter.inactive,
@@ -154,7 +154,7 @@ export const updateNode = (
         ...node,
         data: {
           ...node.data,
-          style: signalForX
+          svgStyle: signalForX
             ? circuitStyles.promoter.active
             : circuitStyles.promoter.inactive,
         },

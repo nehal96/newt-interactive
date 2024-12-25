@@ -76,9 +76,7 @@ interface ProteinNodeData extends BaseNodeData {
   isAccumulating?: boolean;
 }
 
-interface CircleNodeData extends BaseNodeData {
-  isProximity?: boolean;
-}
+interface CircleNodeData extends BaseNodeData {}
 
 interface LineNodeData extends BaseNodeData {
   length: number;

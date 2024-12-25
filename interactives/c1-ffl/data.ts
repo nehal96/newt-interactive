@@ -114,7 +114,6 @@ const circuitNodes: CircuitNode[] = [
         14,
     },
     data: {
-      isProximity: true,
       style: {
         width: CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER,
         height: CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER,
@@ -167,7 +166,7 @@ const circuitNodes: CircuitNode[] = [
     targetPosition: Position.Top,
     data: {
       sourcePosition: Position.Top,
-      style: {
+      svgStyle: {
         opacity: 0.01,
         width: 10,
         height: 10,
