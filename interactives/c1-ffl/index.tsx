@@ -246,7 +246,7 @@ const C1FFLDynamicsSimulator = () => {
                 <Button
                   variant="secondary"
                   onClick={() => setIsPlaying(true)}
-                  className={`flex items-center gap-2 ${
+                  className={`flex items-center gap-1 ${
                     time === 0
                       ? "bg-green-200 text-green-800 border-green-200 hover:bg-green-300 hover:border-green-300"
                       : ""
@@ -256,7 +256,7 @@ const C1FFLDynamicsSimulator = () => {
                   <span className="text-sm font-mono">
                     {time === 0 ? "Run" : "Continue"}
                   </span>
-                  <FiPlay className="w-5 h-5" />
+                  <FiPlay className="w-4 h-4" />
                 </Button>
               )}
               <span className="text-sm font-mono w-16 text-end">

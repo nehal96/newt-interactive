@@ -87,7 +87,12 @@ interface LineNodeData extends BaseNodeData {
 
 interface PromoterNodeData extends BaseNodeData {}
 
-export type CircuitNodeTypes = "circle" | "line" | "promoter" | "protein";
+export type CircuitNodeTypes =
+  | "circle"
+  | "line"
+  | "promoter"
+  | "protein"
+  | "label";
 
 export type CircuitNode = Node<
   ProteinNodeData | CircleNodeData | LineNodeData | PromoterNodeData,

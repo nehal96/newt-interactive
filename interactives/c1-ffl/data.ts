@@ -173,6 +173,14 @@ const circuitNodes: CircuitNode[] = [
       },
     },
   },
+  {
+    id: "z-gene-label",
+    type: "label" as CircuitNodeTypes,
+    position: { x: 350, y: 210 },
+    draggable: false,
+    selectable: false,
+    data: { label: "Gene Z" },
+  },
 ];
 
 export const initialNodes: CircuitNode[] = [...circuitNodes, ...proteinNodes];

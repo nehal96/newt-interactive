@@ -35,6 +35,7 @@ export {
   CircuitProteinNode,
   CircuitPromoterNode,
   LineNode,
+  LabelNode,
 } from "./Flow";
 export { default as Lede } from "./Lede";
 export { default as MathFormula } from "./MathFormula";

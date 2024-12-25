@@ -7,7 +7,7 @@ export default function InfoPanel() {
         <div className="space-y-3">
           <div>
             <p className="font-medium mb-1">Circuit Elements:</p>
-            <ul className="text-base space-y-1">
+            <ul className="text-base">
               <li>
                 <span className="font-medium">Sx</span>: Signal molecule for X
                 (draggable)
@@ -32,9 +32,11 @@ export default function InfoPanel() {
             <ol className="text-base list-decimal list-inside">
               <li>Drag Sx near X to activate</li>
               <li>Press Run to start</li>
-              <li>Watch protein levels in graphs</li>
-              <li>Notice delays in Z production</li>
-              <li>Change parameters to see effects</li>
+              <li>
+                Watch protein levels in graphs (delays in Z production shown by
+                yellow boxes)
+              </li>
+              <li>Move Sx in or out, or change parameters to see effects</li>
             </ol>
           </div>
         </div>

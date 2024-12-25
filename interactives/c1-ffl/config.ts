@@ -3,6 +3,7 @@ import {
   LineNode,
   CircleNode,
   CircuitPromoterNode,
+  LabelNode,
 } from "../../components";
 
 export const CIRCUIT_CONFIG = {
@@ -16,4 +17,5 @@ export const nodeTypes = {
   protein: CircuitProteinNode,
   promoter: CircuitPromoterNode,
   line: LineNode,
+  label: LabelNode,
 };
