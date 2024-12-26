@@ -259,7 +259,7 @@ const C1FFLDynamicsSimulator = () => {
                   <FiPlay className="w-4 h-4" />
                 </Button>
               )}
-              <span className="text-sm font-mono w-16 text-end">
+              <span className="text-sm font-mono w-14 text-end">
                 {time}/60s
               </span>
             </div>

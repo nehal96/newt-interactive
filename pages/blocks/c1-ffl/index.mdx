@@ -1,10 +1,11 @@
-import { MdxLayout, ArticleSection } from "../../../components";
+import { MdxLayout, ArticleSection, PostArticleSubscribe } from "../../../components";
 import C1FFLDynamicsSimulator from "../../../interactives/c1-ffl";
 
 export const metadata = {
   title: "C1-FFL Circuit",
-  description: "Understanding the C1-FFL circuit structure and dynamics",
-  keywords: "C1-FFL, feed forward loop, systems biology, circuit dynamics",
+  description: "Explore how C1-FFL (Coherent Type-1 Feed-Forward Loop) circuits work with an interactive simulator. Learn about sign-sensitive delay and persistence detection in biological regulatory networks.",
+  keywords: "C1-FFL, coherent feed forward loop, biological circuits, regulatory networks, sign-sensitive delay, persistence detection, systems biology, gene regulation, interactive simulator, biological AND gate",
+  ogImage: "https://i.postimg.cc/pTv2mX7M/c1-ffl-card.png",
   url: "https://newtinteractive.com/blocks/c1-ffl",
 };
 
@@ -12,9 +13,19 @@ export const metadata = {
 
 ## A playground for understanding C1-FFL circuits
 
+A coherent type-1 feed-forward loop (C1-FFL) is a common regulatory circuit where an input signal activates both a target gene and an intermediate regulator, which also activates the target gene. In the interactive below, the input signal is Sx, the intermediate regulator is Y*, and the target gene is Z.
+
+The C1-FFL is the most commonly found type of feed-forward loop in biological circuits (there are 8 possible combinations for 3 nodes). This two paths to activation &mdash; a direct path and a delayed path through the intermediate &mdash; allow it to function as a biological AND gate, which can generate interesting behaviors like sign-sensitive delay and persistence detection. 
+
+Try it out below and notice it yourself! Drag signal Sx near protein X to activate it; click Run to begin the simulation. Remove/add the signal how many ever times to see how the circuit behaves. There's more info on sign-sensitive delay and persistence detection below.
+
 <ArticleSection variant="large">
   <C1FFLDynamicsSimulator />
 </ArticleSection>
+
+Sign-sensitive delay here refers to the fact that target gene (Z) accumulation (positive sign) has a delay, but its depletion (negative sign) does not; i.e. it begins depleting immediately after either of the two regulators is removed from the circuit. The delays are shown by yellow boxes in the Z concentration chart. Persistence detection refers to the fact that target gene only begins accumulating after Y* crosses a threshold, making it filter out noise in the circuit, or, in other words, it only responds to a sustained, persistent signal.
+
+<PostArticleSubscribe />
 
 export default function MDXPage({ children }) {
   return (

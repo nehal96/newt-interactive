@@ -56,7 +56,7 @@ export default function Home() {
         <TopicCardContainer title="Blocks">
           <TopicCard
             href="/blocks/c1-ffl"
-            imageSrc="/images/e-coli-goodsell.png"
+            imageSrc="/images/c1-ffl-card.png"
             title="C1-FFL Circuit"
             withTitleBlur
           />
