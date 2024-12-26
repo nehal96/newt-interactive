@@ -29,43 +29,6 @@ const NANDGateSVG = ({ text, style }: { text?: string; style: NodeStyle }) => (
   </svg>
 );
 
-export const CircleNode = ({ data, isConnectable }) => {
-  const { style, text } = data;
-
-  return (
-    <div
-      style={{
-        width: 25,
-        height: 25,
-        backgroundColor: style?.backgroundColor || "white",
-        border: `1px solid ${style?.borderColor || style?.color || "#3f3f46"}`,
-        borderRadius: "50%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {text && (
-        <span style={{ color: style?.color || "#3f3f46" }} className="text-xs">
-          {text}
-        </span>
-      )}
-      <Handle
-        type="target"
-        position={Position.Top}
-        isConnectable={isConnectable}
-        style={{ visibility: "hidden" }}
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        isConnectable={isConnectable}
-        style={{ visibility: "hidden" }}
-      />
-    </div>
-  );
-};
-
 export const NANDNode = ({ data, isConnectable }) => (
   <>
     <NANDGateSVG text={data?.text} style={data?.style} />

@@ -55,6 +55,12 @@ export default function Home() {
         </TopicCardContainer>
         <TopicCardContainer title="Blocks">
           <TopicCard
+            href="/blocks/c1-ffl"
+            imageSrc="/images/c1-ffl-card.png"
+            title="C1-FFL Circuit"
+            withTitleBlur
+          />
+          <TopicCard
             href="/blocks/circuit-evolution"
             imageSrc="/images/circuit-evolution-simulator.png"
             title="Genetic Circuit Evolution Simulator"

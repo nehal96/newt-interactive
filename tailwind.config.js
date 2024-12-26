@@ -42,6 +42,16 @@ module.exports = {
       maxWidth: {
         prose: "45rem",
       },
+      animation: {
+        "protein-pulse":
+          "protein-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
+      keyframes: {
+        "protein-pulse": {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.2)" },
+        },
+      },
     },
   },
   plugins: [
