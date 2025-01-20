@@ -1,5 +1,5 @@
 import { EdgeMarker, MarkerType } from "@xyflow/react";
-import { CircuitNode, CircuitEdge } from "./types";
+import { CircuitNode, CircuitEdge, CircuitNodeTypes } from "./types";
 import { CIRCUIT_CONFIG } from "./config";
 
 export const chartStyles = {
@@ -228,5 +228,45 @@ export const updateEdge = (
     ...edge,
     animated:
       ["X", "X*1", "Y"].includes(edge.source) && isPlaying && signalForX,
+  };
+};
+
+export const generateProximityZone = (
+  nodeId: string,
+  nodePosition: { x: number; y: number },
+  isNearAtStart: boolean
+): CircuitNode => {
+  return {
+    id: `${nodeId}-proximity-zone`,
+    type: "circle" as CircuitNodeTypes,
+    position: {
+      x:
+        nodePosition.x +
+        CIRCUIT_CONFIG.NODE_DIMENSIONS.PROTEIN.CENTER_OFFSET -
+        CIRCUIT_CONFIG.PROXIMITY_THRESHOLD / 2,
+      y:
+        nodePosition.y +
+        CIRCUIT_CONFIG.NODE_DIMENSIONS.PROTEIN.CENTER_OFFSET -
+        CIRCUIT_CONFIG.PROXIMITY_THRESHOLD / 2,
+    },
+    data: {
+      style: {
+        width: CIRCUIT_CONFIG.PROXIMITY_THRESHOLD,
+        height: CIRCUIT_CONFIG.PROXIMITY_THRESHOLD,
+        backgroundColor: isNearAtStart
+          ? circuitStyles.proximityZone.near.backgroundColor
+          : circuitStyles.proximityZone.far.backgroundColor,
+        border: isNearAtStart
+          ? circuitStyles.proximityZone.near.border
+          : circuitStyles.proximityZone.far.border,
+        borderRadius: "50%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: -1,
+      },
+    },
+    draggable: false,
+    selectable: false,
   };
 };

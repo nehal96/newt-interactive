@@ -1,10 +1,7 @@
 import { Position } from "@xyflow/react";
-import { edgeStyles } from "./utils";
-import { CIRCUIT_CONFIG } from "./config";
+import { edgeStyles, generateProximityZone } from "./utils";
 import { CircuitNode, CircuitNodeTypes } from "./types";
 import { CircuitEdge } from "./types";
-
-const { NODE_DIMENSIONS, PROXIMITY_THRESHOLD } = CIRCUIT_CONFIG;
 
 const proteinNodes: CircuitNode[] = [
   {
@@ -17,6 +14,18 @@ const proteinNodes: CircuitNode[] = [
       targetPosition: Position.Left,
     },
     draggable: true,
+  },
+  {
+    id: "Sy",
+    type: "circle" as CircuitNodeTypes,
+    position: { x: 325, y: 80 },
+    data: {
+      text: "Sy",
+      sourcePosition: Position.Right,
+      targetPosition: Position.Left,
+    },
+    draggable: false,
+    selectable: false,
   },
   {
     id: "X",
@@ -101,37 +110,11 @@ const proteinNodes: CircuitNode[] = [
 
 // First define the X node position since other elements depend on it
 const xNodePosition = proteinNodes.find((node) => node.id === "X")?.position;
+const yNodePosition = proteinNodes.find((node) => node.id === "Y")?.position;
 
 const circuitNodes: CircuitNode[] = [
-  {
-    id: "sx-proximity-zone",
-    type: "circle" as CircuitNodeTypes,
-    position: {
-      x:
-        xNodePosition.x +
-        NODE_DIMENSIONS.PROTEIN.CENTER_OFFSET -
-        PROXIMITY_THRESHOLD / 2,
-      y:
-        xNodePosition.y +
-        NODE_DIMENSIONS.PROTEIN.CENTER_OFFSET -
-        PROXIMITY_THRESHOLD / 2,
-    },
-    data: {
-      style: {
-        width: PROXIMITY_THRESHOLD,
-        height: PROXIMITY_THRESHOLD,
-        backgroundColor: "rgba(248, 113, 113, 0.1)",
-        border: "2px dashed #fca5a5",
-        borderRadius: "50%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: -1,
-      },
-    },
-    draggable: false,
-    selectable: false,
-  },
+  generateProximityZone("sx", xNodePosition, false),
+  generateProximityZone("sy", yNodePosition, true),
   {
     id: "z-gene-line",
     type: "line" as CircuitNodeTypes,
