@@ -9,8 +9,8 @@ export default function InfoPanel() {
             <p className="font-medium mb-1">Circuit Elements:</p>
             <ul className="text-base">
               <li>
-                <span className="font-medium">Sx</span>: Signal molecule for X
-                (draggable)
+                <span className="font-medium">Sx, Sy</span>: Signal molecule for
+                X (draggable) and for Y (fixed)
               </li>
               <li>
                 <span className="font-medium">X, Y, Z</span>: Proteins (*

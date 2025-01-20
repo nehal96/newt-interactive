@@ -1,6 +1,5 @@
 import { Position } from "@xyflow/react";
-import { edgeStyles } from "./utils";
-import { CIRCUIT_CONFIG } from "./config";
+import { edgeStyles, generateProximityZone } from "./utils";
 import { CircuitNode, CircuitNodeTypes } from "./types";
 import { CircuitEdge } from "./types";
 
@@ -15,6 +14,18 @@ const proteinNodes: CircuitNode[] = [
       targetPosition: Position.Left,
     },
     draggable: true,
+  },
+  {
+    id: "Sy",
+    type: "circle" as CircuitNodeTypes,
+    position: { x: 325, y: 80 },
+    data: {
+      text: "Sy",
+      sourcePosition: Position.Right,
+      targetPosition: Position.Left,
+    },
+    draggable: false,
+    selectable: false,
   },
   {
     id: "X",
@@ -97,38 +108,13 @@ const proteinNodes: CircuitNode[] = [
   },
 ];
 
+// First define the X node position since other elements depend on it
+const xNodePosition = proteinNodes.find((node) => node.id === "X")?.position;
+const yNodePosition = proteinNodes.find((node) => node.id === "Y")?.position;
+
 const circuitNodes: CircuitNode[] = [
-  {
-    id: "proximity-zone",
-    type: "circle" as CircuitNodeTypes,
-    // This is hardcoded and should probs be changed later. Imp. to note that
-    // position is top left corner of svg, not centre of circle
-    position: {
-      x:
-        100 -
-        (CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER) / 2 +
-        14,
-      y:
-        100 -
-        (CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER) / 2 +
-        14,
-    },
-    data: {
-      style: {
-        width: CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER,
-        height: CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER,
-        backgroundColor: "rgba(248, 113, 113, 0.1)",
-        border: "2px dashed #fca5a5",
-        borderRadius: "50%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: -1,
-      },
-    },
-    draggable: false,
-    selectable: false,
-  },
+  generateProximityZone("sx", xNodePosition, false),
+  generateProximityZone("sy", yNodePosition, true),
   {
     id: "z-gene-line",
     type: "line" as CircuitNodeTypes,
