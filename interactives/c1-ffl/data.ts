@@ -4,6 +4,8 @@ import { CIRCUIT_CONFIG } from "./config";
 import { CircuitNode, CircuitNodeTypes } from "./types";
 import { CircuitEdge } from "./types";
 
+const { NODE_DIMENSIONS, PROXIMITY_THRESHOLD } = CIRCUIT_CONFIG;
+
 const proteinNodes: CircuitNode[] = [
   {
     id: "Sx",
@@ -97,26 +99,27 @@ const proteinNodes: CircuitNode[] = [
   },
 ];
 
+// First define the X node position since other elements depend on it
+const xNodePosition = proteinNodes.find((node) => node.id === "X")?.position;
+
 const circuitNodes: CircuitNode[] = [
   {
-    id: "proximity-zone",
+    id: "sx-proximity-zone",
     type: "circle" as CircuitNodeTypes,
-    // This is hardcoded and should probs be changed later. Imp. to note that
-    // position is top left corner of svg, not centre of circle
     position: {
       x:
-        100 -
-        (CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER) / 2 +
-        14,
+        xNodePosition.x +
+        NODE_DIMENSIONS.PROTEIN.CENTER_OFFSET -
+        PROXIMITY_THRESHOLD / 2,
       y:
-        100 -
-        (CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER) / 2 +
-        14,
+        xNodePosition.y +
+        NODE_DIMENSIONS.PROTEIN.CENTER_OFFSET -
+        PROXIMITY_THRESHOLD / 2,
     },
     data: {
       style: {
-        width: CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER,
-        height: CIRCUIT_CONFIG.PROXIMITY_THRESHOLD + 14 + CIRCUIT_CONFIG.BUFFER,
+        width: PROXIMITY_THRESHOLD,
+        height: PROXIMITY_THRESHOLD,
         backgroundColor: "rgba(248, 113, 113, 0.1)",
         border: "2px dashed #fca5a5",
         borderRadius: "50%",

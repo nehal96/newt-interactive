@@ -69,17 +69,23 @@ const CircuitDisplay = ({
       const xNode = getNode("X");
 
       if (node.id === "Sx" && xNode) {
+        // Calculate distance between centers
         const distance = Math.sqrt(
           Math.pow(node.position.x - xNode.position.x, 2) +
             Math.pow(node.position.y - xNode.position.y, 2)
         );
 
-        const isNear = distance < CIRCUIT_CONFIG.PROXIMITY_THRESHOLD;
+        // Use the actual SVG circle radius of 12.5
+        const sxRadius = CIRCUIT_CONFIG.NODE_DIMENSIONS.PROTEIN.CIRCLE_RADIUS;
+        // Proximity zone radius is half of PROXIMITY_THRESHOLD
+        const proximityRadius = CIRCUIT_CONFIG.PROXIMITY_THRESHOLD / 2;
 
-        // Update local state immediately for smooth UI updates
+        // Node is "near" when the edges touch, not the centers
+        const isNear =
+          distance <= proximityRadius + sxRadius - CIRCUIT_CONFIG.BUFFER;
+
         if (isNear !== isNearSignal) {
           setIsNearSignal(isNear);
-          // Debounce the store update
           debouncedSetSignalForX(isNear);
         }
 
@@ -114,7 +120,7 @@ const CircuitDisplay = ({
         // Update proximity zone color
         setNodes((currentNodes) =>
           currentNodes.map((node) =>
-            node.id === "proximity-zone"
+            node.id === "sx-proximity-zone"
               ? {
                   ...node,
                   data: {
