@@ -1,0 +1,20 @@
+import { MdxLayout, ArticleSection } from "../../../components";
+import DigitalCoralSimulator from "../../../interactives/digital-corals";
+
+export const metadata = {
+  title: "Digital Corals",
+  description: "An interactive exploration of digital coral reefs.",
+  // Add other metadata fields if needed, like keywords, ogImage, url, series
+};
+
+# Digital Corals
+
+## An interactive exploration of digital coral reefs.
+
+<ArticleSection variant="large">
+  <DigitalCoralSimulator />
+</ArticleSection>
+
+export default function MDXPage({ children }) {
+  return <MdxLayout metadata={metadata}>{children}</MdxLayout>;
+}

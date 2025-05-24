@@ -55,6 +55,12 @@ export default function Home() {
         </TopicCardContainer>
         <TopicCardContainer title="Blocks">
           <TopicCard
+            href="/blocks/digital-corals"
+            imageSrc="/images/circle-in-a-circle-kandinsky.jpg"
+            title="Digital Corals"
+            withTitleBlur
+          />
+          <TopicCard
             href="/blocks/c1-ffl"
             imageSrc="/images/c1-ffl-card.png"
             title="C1-FFL Circuit"
