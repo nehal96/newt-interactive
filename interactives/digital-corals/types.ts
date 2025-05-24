@@ -8,9 +8,8 @@ export interface Vector3 {
 export interface Polyp {
   id: string;
   position: Vector3;
-  // normal and xi will be added in later steps
-  // normal?: Vector3;
-  // xi?: number;
+  normal?: Vector3; // Optional: Normal vector of the polyp's surface
+  xi?: number; // Optional: Orientation factor
 }
 
 // Represents a triangular face using indices of polyps in the polyps array
@@ -33,13 +32,13 @@ export interface SimulationParameters {
 
 // Default parameters, even if not all are used in early steps
 export const defaultSimulationParameters: SimulationParameters = {
-  s_min: 0.2,
-  s_max: 0.8,
-  elongationRateV: 1.0,
-  subdivisionDistanceDeltaSub: 0.5,
-  interBranchingLengthLbr: 5.0,
-  branchingAngleTheta: 30.0,
-  deltaTime: 0.1,
+  s_min: 0.0, // Growth mode min (0-1)
+  s_max: 1.0, // Growth mode max (0-1)
+  elongationRateV: 1.0, // Linear elongation rate (e.g., 1 cm/year)
+  subdivisionDistanceDeltaSub: 0.5, // Max inter-polyp distance for subdivision (e.g., 0.5 cm)
+  interBranchingLengthLbr: 4.0, // Inter-branching length (cm)
+  branchingAngleTheta: 60, // Branching angle (degrees)
+  deltaTime: 0.1, // Simulation time step (e.g., 0.1 year per step)
 };
 
 export const initialCoralGeometry: CoralGeometry = {
