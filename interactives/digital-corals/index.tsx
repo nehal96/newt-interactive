@@ -12,6 +12,15 @@ import { CoralGeometry, Vector3 } from "./types";
 const formatVec = (v: Vector3) =>
   `(${v.x.toFixed(2)}, ${v.y.toFixed(2)}, ${v.z.toFixed(2)})`;
 
+// Helper to check if two vectors are different (with small tolerance for floating point)
+const vectorsAreDifferent = (v1: Vector3, v2: Vector3, tolerance = 0.001) => {
+  return (
+    Math.abs(v1.x - v2.x) > tolerance ||
+    Math.abs(v1.y - v2.y) > tolerance ||
+    Math.abs(v1.z - v2.z) > tolerance
+  );
+};
+
 const DigitalCoralSimulator = () => {
   const [runStepTrigger, setRunStepTrigger] = useState<number>(0);
   const [currentGeometry, setCurrentGeometry] = useState<CoralGeometry | null>(
@@ -28,31 +37,61 @@ const DigitalCoralSimulator = () => {
       setCurrentGeometry(newGeom);
       const stepNumber = runStepTrigger;
       const newLogs: string[] = [
-        `Simulation Step ${stepNumber}: Processed ${newGeom.polyps.length} polyps.`,
+        `=== Simulation Step ${stepNumber}: Processed ${newGeom.polyps.length} polyps ===`,
       ];
+
+      let normalChangesCount = 0;
+      let positionChangesCount = 0;
 
       newGeom.polyps.forEach((polyp) => {
         const prevPolyp = prevGeom?.polyps.find((p) => p.id === polyp.id);
-        let logEntry = `Polyp ${polyp.id}: xi=${polyp.xi?.toFixed(3)}, Normal=${
-          polyp.normal ? formatVec(polyp.normal) : "N/A"
-        }`;
-        if (
+
+        // Check for position changes
+        const positionChanged =
           prevPolyp &&
           (polyp.position.x !== prevPolyp.position.x ||
             polyp.position.y !== prevPolyp.position.y ||
-            polyp.position.z !== prevPolyp.position.z)
-        ) {
-          logEntry += `, Moved from ${formatVec(
-            prevPolyp.position
-          )} to ${formatVec(polyp.position)}`;
-        } else {
-          logEntry += `, Position=${formatVec(
-            polyp.position
-          )} (unchanged or new)`;
+            polyp.position.z !== prevPolyp.position.z);
+
+        // Check for normal changes
+        const normalChanged =
+          prevPolyp &&
+          polyp.normal &&
+          prevPolyp.normal &&
+          vectorsAreDifferent(polyp.normal, prevPolyp.normal);
+
+        if (positionChanged) positionChangesCount++;
+        if (normalChanged) normalChangesCount++;
+
+        let logEntry = `${polyp.id}: xi=${polyp.xi?.toFixed(3)}`;
+
+        // Log normal changes
+        if (normalChanged) {
+          logEntry += ` 🔄 Normal: ${formatVec(
+            prevPolyp.normal!
+          )} → ${formatVec(polyp.normal!)}`;
+        } else if (polyp.normal) {
+          logEntry += ` Normal: ${formatVec(polyp.normal)}`;
         }
+
+        // Log position changes
+        if (positionChanged) {
+          logEntry += ` 📍 Moved: ${formatVec(
+            prevPolyp.position
+          )} → ${formatVec(polyp.position)}`;
+        } else {
+          logEntry += ` Position: ${formatVec(polyp.position)} (unchanged)`;
+        }
+
         newLogs.push(logEntry);
       });
-      setSimulationLog((prevLogs) => [...newLogs, ...prevLogs].slice(0, 25));
+
+      // Summary log
+      newLogs.unshift(
+        `📊 Summary: ${positionChangesCount} polyps moved, ${normalChangesCount} normals recalculated`
+      );
+
+      setSimulationLog((prevLogs) => [...newLogs, ...prevLogs].slice(0, 30));
     },
     [runStepTrigger]
   );

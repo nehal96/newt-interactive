@@ -1,4 +1,5 @@
 import { Vector3, Polyp, Face, CoralGeometry } from "../types";
+import * as THREE from "three";
 
 // Helper function to calculate the normal of a triangle defined by three points
 function calculateFaceNormal(p1: Vector3, p2: Vector3, p3: Vector3): Vector3 {
@@ -115,4 +116,55 @@ export function createSeedCoralGeometry(
   // The current loop for averaging starts at i=1, so apex is untouched.
 
   return { polyps, faces };
+}
+
+/**
+ * Recalculates surface normals for all polyps in the coral geometry using Three.js
+ * BufferGeometry.computeVertexNormals() for accurate and efficient normal computation.
+ * This should be called after each simulation step when polyp positions have changed.
+ *
+ * @param geometry The current coral geometry with updated polyp positions
+ * @returns A new CoralGeometry with updated normals for each polyp
+ */
+export function recalculatePolypNormals(
+  geometry: CoralGeometry
+): CoralGeometry {
+  if (!geometry.polyps.length || !geometry.faces.length) {
+    return geometry; // No geometry to process
+  }
+
+  // Create Three.js BufferGeometry for normal calculation
+  const threeGeometry = new THREE.BufferGeometry();
+
+  // Convert polyp positions to Three.js format
+  const positions = new Float32Array(
+    geometry.polyps.flatMap((p) => [p.position.x, p.position.y, p.position.z])
+  );
+  threeGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(positions, 3)
+  );
+
+  // Set face indices
+  const indices = geometry.faces.flat();
+  threeGeometry.setIndex(indices);
+
+  // Compute vertex normals using Three.js
+  threeGeometry.computeVertexNormals();
+
+  // Extract computed normals back to our data structure
+  const normalAttribute = threeGeometry.getAttribute("normal");
+  const updatedPolyps = geometry.polyps.map((polyp, index) => ({
+    ...polyp,
+    normal: {
+      x: normalAttribute.getX(index),
+      y: normalAttribute.getY(index),
+      z: normalAttribute.getZ(index),
+    },
+  }));
+
+  return {
+    ...geometry,
+    polyps: updatedPolyps,
+  };
 }

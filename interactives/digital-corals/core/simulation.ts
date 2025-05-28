@@ -1,4 +1,5 @@
 import { Polyp, Vector3, SimulationParameters, CoralGeometry } from "../types";
+import { recalculatePolypNormals } from "./geometryUtils";
 
 /**
  * Calculates the orientation factor (xi) for a polyp based on its surface normal.
@@ -108,8 +109,18 @@ export function runSimulationStep(
     };
   });
 
-  return {
+  // Create intermediate geometry with updated positions but old normals
+  const intermediateGeometry: CoralGeometry = {
     polyps: newPolyps,
     faces: currentGeometry.faces,
   };
+
+  console.log("🔄 Recalculating normals after position updates...");
+
+  // Recalculate normals based on new polyp positions using Three.js
+  const finalGeometry = recalculatePolypNormals(intermediateGeometry);
+
+  console.log("✅ Normal recalculation complete");
+
+  return finalGeometry;
 }
