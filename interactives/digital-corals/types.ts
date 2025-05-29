@@ -35,7 +35,7 @@ export const defaultSimulationParameters: SimulationParameters = {
   s_min: 0.0, // Growth mode min (0-1)
   s_max: 1.0, // Growth mode max (0-1)
   elongationRateV: 1.0, // Linear elongation rate (e.g., 1 cm/year)
-  subdivisionDistanceDeltaSub: 0.5, // Max inter-polyp distance for subdivision (e.g., 0.5 cm)
+  subdivisionDistanceDeltaSub: 1.5, // Max inter-polyp distance for subdivision (e.g., 0.5 cm)
   interBranchingLengthLbr: 4.0, // Inter-branching length (cm)
   branchingAngleTheta: 60, // Branching angle (degrees)
   deltaTime: 0.1, // Simulation time step (e.g., 0.1 year per step)

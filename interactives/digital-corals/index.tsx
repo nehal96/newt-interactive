@@ -91,7 +91,7 @@ const DigitalCoralSimulator = () => {
         `📊 Summary: ${positionChangesCount} polyps moved, ${normalChangesCount} normals recalculated`
       );
 
-      setSimulationLog((prevLogs) => [...newLogs, ...prevLogs].slice(0, 30));
+      setSimulationLog((prevLogs) => [...newLogs, ...prevLogs]);
     },
     [runStepTrigger]
   );

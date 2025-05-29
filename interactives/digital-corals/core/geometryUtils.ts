@@ -64,7 +64,13 @@ export function createSeedCoralGeometry(
       z: 0,
     };
     basePositions.push(position);
-    polyps.push({ id: `polyp_base_${i}`, position }); // Normals to be calculated
+    // Calculate horizontal normal pointing radially outwards
+    const horizontalNormal = normalizeVector({
+      x: position.x,
+      y: position.y,
+      z: 0,
+    });
+    polyps.push({ id: `polyp_base_${i}`, position, normal: horizontalNormal });
   }
 
   // Create faces for the sides of the pyramid
@@ -92,28 +98,6 @@ export function createSeedCoralGeometry(
     sideFaceNormals[baseVertexIndex1].push(faceNormal);
     sideFaceNormals[baseVertexIndex2].push(faceNormal);
   }
-
-  // Calculate and assign averaged normals for base polyps
-  // Apex normal is already set to (0,0,1)
-  for (let i = 1; i < polyps.length; i++) {
-    // Start from 1 to skip apex
-    const contributingNormals = sideFaceNormals[i];
-    if (contributingNormals.length > 0) {
-      let sumNormal: Vector3 = { x: 0, y: 0, z: 0 };
-      for (const normal of contributingNormals) {
-        sumNormal = addVectors(sumNormal, normal);
-      }
-      polyps[i].normal = normalizeVector(sumNormal);
-    } else {
-      // Should not happen for connected pyramid base vertices
-      polyps[i].normal = { x: 0, y: 0, z: 1 }; // Default fallback
-    }
-  }
-
-  // For the apex, the normal is purely vertical.
-  // The initial assignment was {x:0, y:0, z:1}. The face normal contributions
-  // would also average to this due to symmetry, but direct assignment is fine.
-  // The current loop for averaging starts at i=1, so apex is untouched.
 
   return { polyps, faces };
 }
@@ -154,14 +138,35 @@ export function recalculatePolypNormals(
 
   // Extract computed normals back to our data structure
   const normalAttribute = threeGeometry.getAttribute("normal");
-  const updatedPolyps = geometry.polyps.map((polyp, index) => ({
-    ...polyp,
-    normal: {
-      x: normalAttribute.getX(index),
-      y: normalAttribute.getY(index),
-      z: normalAttribute.getZ(index),
-    },
-  }));
+  const updatedPolyps = geometry.polyps.map((polyp, index) => {
+    let normal: Vector3;
+    // Check if the polyp is a base polyp (z coordinate is close to 0)
+    // Define a small epsilon for floating point comparison
+    const epsilon = 1e-6;
+    if (Math.abs(polyp.position.z) < epsilon) {
+      // Recalculate horizontal normal pointing radially outwards
+      // Ensure not to divide by zero if polyp is at (0,0,0)
+      if (polyp.position.x === 0 && polyp.position.y === 0) {
+        normal = { x: 0, y: 0, z: 0 }; // Or some default, though a base polyp shouldn't be at the origin if radius > 0
+      } else {
+        normal = normalizeVector({
+          x: polyp.position.x,
+          y: polyp.position.y,
+          z: 0,
+        });
+      }
+    } else {
+      normal = {
+        x: normalAttribute.getX(index),
+        y: normalAttribute.getY(index),
+        z: normalAttribute.getZ(index),
+      };
+    }
+    return {
+      ...polyp,
+      normal,
+    };
+  });
 
   return {
     ...geometry,

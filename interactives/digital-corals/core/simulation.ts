@@ -1,5 +1,6 @@
 import { Polyp, Vector3, SimulationParameters, CoralGeometry } from "../types";
 import { recalculatePolypNormals } from "./geometryUtils";
+import { performPolypCloning, fuseCloseVertices } from "./polypCloning";
 
 /**
  * Calculates the orientation factor (xi) for a polyp based on its surface normal.
@@ -41,16 +42,47 @@ export function calculateOrientationFactor(normal: Vector3): number {
  * Updates a single polyp's position based on surface growth rules.
  *
  * @param polyp The polyp to update.
- * @param normal The current surface normal for this polyp (assumed to be unit vector).
+ * @param initialNormal The current surface normal for this polyp (assumed to be unit vector).
  * @param params The simulation parameters.
  * @returns The new position of the polyp. If no growth, returns the original position.
  */
 export function calculatePolypGrowth(
   polyp: Polyp,
-  normal: Vector3, // Assuming normal is pre-calculated and passed in for now
+  initialNormal: Vector3,
   params: SimulationParameters
 ): Vector3 {
-  const xi = calculateOrientationFactor(normal);
+  let growthAttemptNormal = initialNormal;
+
+  // If the polyp is not effectively at the origin:
+  // Check if the initialNormal is pointing "inwards" relative to the polyp's position from the origin.
+  // An "inward" normal would have a dot product with the position vector that is negative.
+  const positionMagnitudeSq =
+    polyp.position.x * polyp.position.x +
+    polyp.position.y * polyp.position.y +
+    polyp.position.z * polyp.position.z;
+
+  if (positionMagnitudeSq > 1e-9) {
+    // Avoid issues if polyp is at (0,0,0)
+    const dotProductPositionNormal =
+      polyp.position.x * initialNormal.x +
+      polyp.position.y * initialNormal.y +
+      polyp.position.z * initialNormal.z;
+
+    if (dotProductPositionNormal < 0) {
+      // Normal is pointing inwards, flip it for the growth attempt.
+      growthAttemptNormal = {
+        x: -initialNormal.x,
+        y: -initialNormal.y,
+        z: -initialNormal.z,
+      };
+    }
+  }
+  // Now, growthAttemptNormal is oriented "outwards" from the origin if a flip was needed,
+  // or it's the original normal if it was already generally outward/tangential.
+
+  // Calculate orientation factor xi based on this potentially reoriented normal.
+  // calculateOrientationFactor will return 0 if growthAttemptNormal.z < 0.
+  const xi = calculateOrientationFactor(growthAttemptNormal);
 
   // Store xi on the polyp if needed for visualization or other logic later
   // polyp.xi = xi; // This would modify the polyp; pure function should return new state
@@ -59,14 +91,14 @@ export function calculatePolypGrowth(
     // Growth occurs
     const a = params.elongationRateV * params.deltaTime;
     const newPosition: Vector3 = {
-      x: polyp.position.x + a * normal.x,
-      y: polyp.position.y + a * normal.y,
-      z: polyp.position.z + a * normal.z,
+      x: polyp.position.x + a * growthAttemptNormal.x,
+      y: polyp.position.y + a * growthAttemptNormal.y,
+      z: polyp.position.z + a * growthAttemptNormal.z,
     };
     return newPosition;
   }
 
-  // No growth
+  // No growth if xi condition not met
   return polyp.position;
 }
 
@@ -91,21 +123,15 @@ export function runSimulationStep(
   params: SimulationParameters
 ): CoralGeometry {
   const newPolyps = currentGeometry.polyps.map((polyp) => {
-    // Use the polyp's own normal if it exists, otherwise default.
-    // createSeedCoralGeometry should provide normals.
-    const normal = polyp.normal || { x: 0, y: 0, z: 1 }; // Default if no normal provided
-
-    // Ensure the normal is a unit vector before use, or ensure calculateOrientationFactor can handle non-unit normals / normalize internally.
-    // For now, assuming normals from createSeedCoralGeometry are unit vectors.
-
-    const xi = calculateOrientationFactor(normal);
+    const normal = polyp.normal || { x: 0, y: 0, z: 1 };
+    const xi = calculateOrientationFactor(normal); // xi is calculated based on the normal
     const newPosition = calculatePolypGrowth(polyp, normal, params);
 
     return {
       ...polyp,
       position: newPosition,
-      normal: normal, // Keep the normal used for this step's calculation
-      xi: xi,
+      normal: normal,
+      xi: xi, // Log the xi value that was used by calculatePolypGrowth's logic
     };
   });
 
@@ -115,12 +141,28 @@ export function runSimulationStep(
     faces: currentGeometry.faces,
   };
 
+  console.log("🔄 Performing polyp cloning (subdivision)...");
+
+  // Step 2: Perform polyp cloning (subdivision) for edges that are too long
+  const geometryAfterCloning = performPolypCloning(
+    intermediateGeometry,
+    params.subdivisionDistanceDeltaSub
+  );
+
+  console.log("🔄 Performing vertex fusion...");
+
+  // Step 3: Fuse vertices that are too close together
+  const geometryAfterFusion = fuseCloseVertices(
+    geometryAfterCloning,
+    params.subdivisionDistanceDeltaSub
+  );
+
   console.log("🔄 Recalculating normals after position updates...");
 
-  // Recalculate normals based on new polyp positions using Three.js
-  const finalGeometry = recalculatePolypNormals(intermediateGeometry);
+  // Step 4: Recalculate normals based on new polyp positions using Three.js
+  const finalGeometry = recalculatePolypNormals(geometryAfterFusion);
 
-  console.log("✅ Normal recalculation complete");
+  console.log("✅ Simulation step complete");
 
   return finalGeometry;
 }
