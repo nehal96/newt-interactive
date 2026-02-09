@@ -40,7 +40,7 @@
     "eslint-config-next": "^14.2.15",
     "katex": "^0.16.7",
     "lodash": "^4.17.21",
-    "next": "^14.2.15",
+    "next": "14.2.35",
     "next-transpile-modules": "^10.0.1",
     "prismjs": "^1.29.0",
     "react": "^18.3.1",
