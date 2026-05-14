@@ -1,6 +1,5 @@
 interface ArticleDatesProps {
   published: string;
-  updated?: string;
 }
 
 const formatDate = (iso: string) => {
