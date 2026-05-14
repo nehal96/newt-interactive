@@ -7,6 +7,7 @@ import {
   PostArticleSubscribe,
   Title,
 } from "../../../components";
+import { ArticleDatesContext } from "../../../components/ArticleDates/context";
 
 const DNADoubleHelixCanvas = dynamic(
   () => import("../../../canvases/DNA-DoubleHelixCanvas"),
@@ -54,16 +55,18 @@ const DNAPage = () => {
       </Head>
       <Navbar />
       <ArticleContainer>
-        <Title>DNA in 3D</Title>
-        <Lede>A simplified model of a DNA molecule</Lede>
-        <div className="flex flex-col justify-center w-full mx-auto my-8 lg:flex-row lg:h-auto lg:my-12">
-          <div className="h-3/5 max-h-[600px] m-4 lg:h-[600px] lg:w-3/5">
-            <div className="h-full bg-slate-300">
-              <DNADoubleHelixCanvas />
+        <ArticleDatesContext.Provider value={{ published: "2022-01-09" }}>
+          <Title>DNA in 3D</Title>
+          <Lede>A simplified model of a DNA molecule</Lede>
+          <div className="flex flex-col justify-center w-full mx-auto my-8 lg:flex-row lg:h-auto lg:my-12">
+            <div className="h-3/5 max-h-[600px] m-4 lg:h-[600px] lg:w-3/5">
+              <div className="h-full bg-slate-300">
+                <DNADoubleHelixCanvas />
+              </div>
             </div>
           </div>
-        </div>
-        <PostArticleSubscribe />
+          <PostArticleSubscribe />
+        </ArticleDatesContext.Provider>
       </ArticleContainer>
     </>
   );

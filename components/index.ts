@@ -3,6 +3,7 @@ export {
   default as ArticleContainer,
   ArticleSection,
 } from "./ArticleContainer";
+export { default as ArticleDates } from "./ArticleDates";
 export { default as Button } from "./Button";
 export { Code, InlineCode } from "./Code";
 export { Checkbox } from "./Checkbox";

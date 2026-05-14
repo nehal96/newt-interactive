@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { ArticleContainer, Navbar } from "..";
 import { SeriesTitleLink } from "..";
+import { ArticleDatesContext } from "../ArticleDates/context";
 
 interface Metadata {
   title: string;
@@ -8,6 +9,8 @@ interface Metadata {
   keywords: string;
   ogImage: string;
   url: string;
+  published?: string;
+  updated?: string;
   series?: {
     name: string;
     href: string;
@@ -61,7 +64,14 @@ export default function MdxLayout({ children, metadata }: MdxLayoutProps) {
             seriesName={metadata.series?.name}
           />
         )}
-        {children}
+        <ArticleDatesContext.Provider
+          value={{
+            published: metadata.published,
+            updated: metadata.updated,
+          }}
+        >
+          {children}
+        </ArticleDatesContext.Provider>
       </ArticleContainer>
     </>
   );

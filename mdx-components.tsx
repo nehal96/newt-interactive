@@ -13,10 +13,10 @@ import Link from "next/link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    h1: ({ children }) => <Title>{children}</Title>,
-    h2: ({ children }) => <Lede>{children}</Lede>,
-    h3: ({ children }) => <H2>{children}</H2>,
-    h4: ({ children }) => <H3>{children}</H3>,
+    h1: Title,
+    h2: Lede,
+    h3: H2,
+    h4: H3,
     blockquote: ({ children }) => <Quote>{children}</Quote>,
     p: ({ children }) => <Paragraph>{children}</Paragraph>,
     a: ({ children, href }) => (
