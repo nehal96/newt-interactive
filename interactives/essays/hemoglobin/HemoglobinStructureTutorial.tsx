@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import {
   NestedInteractiveCanvasContainer,
   NestedInteractiveContainer,
@@ -10,8 +11,18 @@ import { FiChevronDown } from "react-icons/fi";
 // NOTE: The 3D molecular view is being rebuilt on top of Mol* (see
 // docs/hemoglobin-3d-animation-exploration.md). The previous react-three-fiber
 // attempts (r3f-models/Hemoglobin*, components/3D-Models, the runtime PDBLoader)
-// were intentionally left behind during the branch update. The canvas slot below
-// is a placeholder where the stripped-down <MolstarViewer> will mount.
+// were intentionally left behind during the branch update.
+//
+// Mol* must be client-only (its own WebGL engine, no SSR) and should stay out
+// of the initial bundle, so it's loaded lazily with ssr:false.
+const MolstarViewer = dynamic(() => import("./MolstarViewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center rounded-lg bg-slate-200/50 text-sm text-slate-400 backdrop-blur-lg">
+      Loading 3D viewer…
+    </div>
+  ),
+});
 
 const HemoglobinStructureTutorial = () => {
   return (
@@ -45,10 +56,9 @@ const HemoglobinStructureTutorial = () => {
         <div className="text-slate-600">example text</div>
       </NestedInteractiveTextContainer>
       <NestedInteractiveCanvasContainer className="h-[300px] lg:h-[450px]">
-        {/* Mol* viewer mounts here (client-only, lazy-loaded). */}
-        <div className="flex h-full w-full items-center justify-center rounded-lg bg-slate-200/50 text-sm text-slate-400 backdrop-blur-lg">
-          3D viewer (Mol*) — coming soon
-        </div>
+        {/* Mol* viewer (client-only, lazy-loaded). PoC: loads vendored
+            deoxyhemoglobin 2HHB and renders the default representation. */}
+        <MolstarViewer className="overflow-hidden rounded-lg" />
       </NestedInteractiveCanvasContainer>
     </NestedInteractiveContainer>
   );
