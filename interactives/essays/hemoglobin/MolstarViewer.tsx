@@ -6,6 +6,7 @@ import type { PluginUIContext } from "molstar/lib/mol-plugin-ui/context";
 import type { StateObjectSelector } from "molstar/lib/mol-state";
 import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
 import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postprocessing";
+import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
 
@@ -20,14 +21,13 @@ function onWith(mapped: any, overrides: Record<string, unknown>) {
 }
 
 // --- "Look" borrowed from molstar.org's villin-md.molx snapshot -----------
-// The visual style is mostly the canvas post-processing (ambient occlusion +
-// black outlines) over a warm near-white background, plus soft lighting.
-// Applied once after the engine boots; independent of which representation
-// is shown.
+// Mostly canvas post-processing (ambient occlusion + black outlines) over a
+// warm near-white background, plus soft lighting. Applied once after boot;
+// independent of which representation is shown.
 function applyVillinLook(plugin: PluginUIContext) {
   plugin.canvas3d?.setProps({
     renderer: {
-      backgroundColor: 0xfcfbf9, // warm near-white (villin bg)
+      backgroundColor: 0xfcfbf9,
       ambientIntensity: 0.4,
       interiorDarkening: 0.5,
     },
@@ -49,46 +49,138 @@ function applyVillinLook(plugin: PluginUIContext) {
   } as any);
 }
 
-// --- Representation layers --------------------------------------------------
-// A "style" is one or more representation layers. `color` is the color theme
-// chosen in the UI; it drives the *primary* (first) layer. Extra layers (e.g.
-// the translucent surface halo) keep their own baked-in color.
-type Layer = {
-  type: string;
+// --- Representation helpers -------------------------------------------------
+type RepOpts = {
   typeParams?: Record<string, unknown>;
-  color: string;
   colorParams?: Record<string, unknown>;
 };
 
-const HALO: Layer = {
-  type: "gaussian-surface",
-  typeParams: { alpha: 0.1, sizeFactor: 3, smoothness: 1.5, radiusOffset: 0.3 },
-  color: "uniform",
-  colorParams: { value: 0x009ce0 }, // villin cyan
+function repProps(type: string, color: string, opts?: RepOpts) {
+  const p: Record<string, unknown> = { type, color };
+  if (opts?.typeParams) p.typeParams = opts.typeParams;
+  if (opts?.colorParams) p.colorParams = opts.colorParams;
+  return p;
+}
+
+function addRep(
+  plugin: PluginUIContext,
+  target: StateObjectSelector,
+  props: Record<string, unknown>
+) {
+  return plugin.builders.structure.representation.addRepresentation(
+    target,
+    props as any
+  );
+}
+
+// A style builds representations on a structure and returns the top-level refs
+// it created (components or whole-structure reps). Those refs are deleted on
+// the next restyle — deleting a component cascades to its representations.
+type StyleBuilder = (
+  plugin: PluginUIContext,
+  structure: StateObjectSelector,
+  color: string
+) => Promise<StateObjectSelector[]>;
+
+// Translucent cyan surface "halo" layer from the villin snapshot.
+const HALO = (): Record<string, unknown> =>
+  repProps("gaussian-surface", "uniform", {
+    typeParams: { alpha: 0.1, sizeFactor: 3, smoothness: 1.5, radiusOffset: 0.3 },
+    colorParams: { value: 0x009ce0 },
+  });
+
+// Factory: apply one or more representation layers to the whole structure.
+function wholeStructure(
+  layers: (color: string) => Record<string, unknown>[]
+): StyleBuilder {
+  return async (plugin, structure, color) => {
+    const refs: StateObjectSelector[] = [];
+    for (const props of layers(color)) {
+      refs.push(await addRep(plugin, structure, props));
+    }
+    return refs;
+  };
+}
+
+// MolScript: select every iron atom (the heme Fe — the star of the story).
+const IRON_EXPR = MS.struct.generator.atomGroups({
+  "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es("Fe")]),
+});
+
+// The real hemoglobin view: protein context + the functional heme + iron,
+// each as its own component so we can later focus/highlight/animate the heme.
+const hemoglobinStyle: StyleBuilder = async (plugin, structure, color) => {
+  const sb = plugin.builders.structure;
+  const created: StateObjectSelector[] = [];
+
+  // Protein → cartoon (driven by the color dropdown).
+  const polymer = await sb.tryCreateComponentStatic(structure, "polymer");
+  if (polymer) {
+    created.push(polymer);
+    await addRep(
+      plugin,
+      polymer,
+      repProps("cartoon", color, {
+        typeParams: { sizeFactor: 0.2 },
+        colorParams:
+          color === "secondary-structure"
+            ? { saturation: -1, lightness: 0 }
+            : undefined,
+      })
+    );
+  }
+
+  // Heme (and any other ligands) → ball-and-stick, colored by element so the
+  // Fe reads orange and the porphyrin nitrogens blue.
+  const ligand = await sb.tryCreateComponentStatic(structure, "ligand");
+  if (ligand) {
+    created.push(ligand);
+    await addRep(plugin, ligand, repProps("ball-and-stick", "element-symbol"));
+  }
+
+  // Iron → fat spacefill spheres to emphasize it.
+  const iron = await sb.tryCreateComponentFromExpression(
+    structure,
+    IRON_EXPR,
+    "iron"
+  );
+  if (iron) {
+    created.push(iron);
+    await addRep(
+      plugin,
+      iron,
+      repProps("spacefill", "element-symbol", { typeParams: { sizeFactor: 1.1 } })
+    );
+  }
+
+  return created;
 };
 
-const STYLES: Record<string, (color: string) => Layer[]> = {
-  // Faithful to the villin snapshot: secondary-structure cartoon inside a
-  // faint cyan surface halo.
-  "Villin (cartoon + halo)": (color) => [
-    {
-      type: "cartoon",
+const STYLES: Record<string, StyleBuilder> = {
+  "Hemoglobin (protein + heme)": hemoglobinStyle,
+  "Villin (cartoon + halo)": wholeStructure((color) => [
+    repProps("cartoon", color, {
       typeParams: { sizeFactor: 0.2 },
-      color,
       colorParams:
         color === "secondary-structure"
           ? { saturation: -1, lightness: 0 }
           : undefined,
-    },
-    HALO,
-  ],
-  cartoon: (color) => [{ type: "cartoon", color }],
-  "ball-and-stick": (color) => [{ type: "ball-and-stick", color }],
-  spacefill: (color) => [{ type: "spacefill", color }],
-  "molecular-surface": (color) => [{ type: "molecular-surface", color }],
-  "gaussian-surface": (color) => [{ type: "gaussian-surface", color }],
-  putty: (color) => [{ type: "putty", color }],
-  "surface halo only": () => [HALO],
+    }),
+    HALO(),
+  ]),
+  cartoon: wholeStructure((color) => [repProps("cartoon", color)]),
+  "ball-and-stick": wholeStructure((color) => [
+    repProps("ball-and-stick", color),
+  ]),
+  spacefill: wholeStructure((color) => [repProps("spacefill", color)]),
+  "molecular-surface": wholeStructure((color) => [
+    repProps("molecular-surface", color),
+  ]),
+  "gaussian-surface": wholeStructure((color) => [
+    repProps("gaussian-surface", color),
+  ]),
+  putty: wholeStructure((color) => [repProps("putty", color)]),
+  "surface halo only": wholeStructure(() => [HALO()]),
 };
 
 const COLOR_THEMES = [
@@ -119,60 +211,57 @@ interface MolstarViewerProps {
 
 /**
  * Minimal, UI-stripped Mol* viewer with the villin-md "look" (see
- * docs/hemoglobin-3d-animation-exploration.md). Loads one vendored structure,
- * applies the borrowed canvas post-processing, and lets you experiment with
- * representation styles + color themes. No morph/animation yet.
+ * docs/hemoglobin-3d-animation-exploration.md). Loads one vendored structure
+ * and lets you experiment with representation styles + color themes. The
+ * "Hemoglobin (protein + heme)" style splits the structure into
+ * polymer/ligand/iron components — the foundation for later focusing and
+ * animating the heme. No morph/animation yet.
  */
 export default function MolstarViewer({
   url = "/structures/2HHB.pdb",
   format = "pdb",
   className,
-  initialStyle = "Villin (cartoon + halo)",
+  initialStyle = "Hemoglobin (protein + heme)",
   initialColorTheme = "secondary-structure",
 }: MolstarViewerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pluginRef = useRef<PluginUIContext | null>(null);
   const structureRef = useRef<StateObjectSelector | null>(null);
-  const reprRefs = useRef<StateObjectSelector[]>([]);
+  const createdRefs = useRef<StateObjectSelector[]>([]);
+  const genRef = useRef(0);
 
   const [style, setStyle] = useState<string>(initialStyle as string);
   const [colorTheme, setColorTheme] = useState<ColorTheme>(initialColorTheme);
   const [ready, setReady] = useState(false);
 
-  // Replace all current representation layers with the chosen style.
-  const applyStyle = useCallback(
-    async (styleKey: string, color: string) => {
-      const plugin = pluginRef.current;
-      const structure = structureRef.current;
-      if (!plugin || !structure) return;
+  // Replace all current representation layers/components with the chosen style.
+  // A generation token guards against overlapping calls (rapid dropdown clicks).
+  const applyStyle = useCallback(async (styleKey: string, color: string) => {
+    const plugin = pluginRef.current;
+    const structure = structureRef.current;
+    if (!plugin || !structure) return;
 
-      if (reprRefs.current.length) {
-        const b = plugin.build();
-        for (const r of reprRefs.current) b.delete(r);
-        await b.commit();
-        reprRefs.current = [];
-      }
+    const gen = ++genRef.current;
 
-      const layers = STYLES[styleKey](color);
-      const refs: StateObjectSelector[] = [];
-      for (const layer of layers) {
-        const props: Record<string, unknown> = {
-          type: layer.type,
-          color: layer.color,
-        };
-        if (layer.typeParams) props.typeParams = layer.typeParams;
-        if (layer.colorParams) props.colorParams = layer.colorParams;
-        const ref =
-          await plugin.builders.structure.representation.addRepresentation(
-            structure,
-            props as any
-          );
-        refs.push(ref);
-      }
-      reprRefs.current = refs;
-    },
-    []
-  );
+    if (createdRefs.current.length) {
+      const b = plugin.build();
+      for (const r of createdRefs.current) b.delete(r);
+      await b.commit();
+      createdRefs.current = [];
+    }
+    if (gen !== genRef.current) return; // superseded while deleting
+
+    const created = await STYLES[styleKey](plugin, structure, color);
+
+    if (gen !== genRef.current) {
+      // Superseded mid-build — clean up what we just made.
+      const b = plugin.build();
+      for (const r of created) b.delete(r);
+      await b.commit();
+      return;
+    }
+    createdRefs.current = created;
+  }, []);
 
   // Mount: spin up the engine, apply the look, load the structure once.
   useEffect(() => {
@@ -224,7 +313,7 @@ export default function MolstarViewer({
       pluginRef.current?.dispose();
       pluginRef.current = null;
       structureRef.current = null;
-      reprRefs.current = [];
+      createdRefs.current = [];
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url, format]);
