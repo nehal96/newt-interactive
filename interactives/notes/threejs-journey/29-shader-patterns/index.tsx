@@ -65,6 +65,7 @@ const ShaderPatternsCodeSandbox = () => {
             <Select.Viewport className="p-[5px]">
               {shaderPatterns.map((pattern) => (
                 <Select.Item
+                  key={pattern.name}
                   className="text-sm leading-none rounded-sm flex items-center h-6 pr-9 pl-6 relative select-none data-[disabled]:text-slate-400 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-slate-600 data-[highlighted]:text-white"
                   value={pattern.name}
                 >
