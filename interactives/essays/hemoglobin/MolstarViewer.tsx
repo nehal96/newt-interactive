@@ -3,10 +3,16 @@ import { createPluginUI } from "molstar/lib/mol-plugin-ui";
 import { renderReact18 } from "molstar/lib/mol-plugin-ui/react18";
 import { DefaultPluginUISpec } from "molstar/lib/mol-plugin-ui/spec";
 import type { PluginUIContext } from "molstar/lib/mol-plugin-ui/context";
+import { StateSelection } from "molstar/lib/mol-state";
 import type { StateObjectSelector } from "molstar/lib/mol-state";
 import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
 import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postprocessing";
 import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
+import { Script } from "molstar/lib/mol-script/script";
+import { StructureSelection } from "molstar/lib/mol-model/structure";
+import { PluginStateObject } from "molstar/lib/mol-plugin-state/objects";
+import { PluginCommands } from "molstar/lib/mol-plugin/commands";
+import { setSubtreeVisibility } from "molstar/lib/mol-plugin/behavior/static/state";
 import { AnimateModelIndex } from "molstar/lib/mol-plugin-state/animation/built-in/model-index";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
@@ -210,94 +216,231 @@ const STYLES: Record<string, StyleBuilder> = {
   "surface halo only": wholeStructure(() => [HALO()]),
 };
 
-const COLOR_THEMES = [
-  "secondary-structure",
-  "chain-id",
-  "element-symbol",
-  "residue-name",
-  "molecule-type",
-  "hydrophobicity",
-  "polymer-id",
-  "sequence-id",
-  "entity-id",
-  "uncertainty",
-  "illustrative",
-  "uniform",
-] as const;
+type ColorTheme =
+  | "secondary-structure"
+  | "chain-id"
+  | "element-symbol"
+  | "residue-name"
+  | "molecule-type"
+  | "uniform";
 
-type ColorTheme = (typeof COLOR_THEMES)[number];
+// --- The two vendored structures, loaded together into one plugin ----------
+// Their coordinates share a frame: the morph pocket was carved out of 2HHB's
+// chain-A heme (HEM A 142 + His A 87) with positions preserved, so frame 0 of
+// the morph sits *exactly* where that heme is in the full protein. That lets
+// the camera fly continuously from the whole molecule down into the pocket,
+// and the heme we animate is the same one the cartoon wraps around.
+type StructureSpec = {
+  url: string;
+  style: keyof typeof STYLES;
+  colorTheme: ColorTheme;
+};
+
+const PROTEIN: StructureSpec = {
+  url: "/structures/2HHB.pdb",
+  style: "Hemoglobin (protein + heme)",
+  colorTheme: "chain-id",
+};
+
+const MORPH: StructureSpec = {
+  url: "/structures/heme-oxygenation-morph.pdb",
+  style: "Heme close-up (oxygenation)",
+  colorTheme: "element-symbol",
+};
+
+// A structure once it's loaded and styled. `modelRef` is the
+// model-from-trajectory transform — updating its `modelIndex` scrubs the morph.
+type LoadedStructure = {
+  structure: StateObjectSelector;
+  modelRef: string;
+  frameCount: number;
+  refs: StateObjectSelector[];
+};
+
+type ViewerCtx = {
+  protein: LoadedStructure;
+  morph: LoadedStructure;
+  /** Measurement-label nodes added by the current scene, deleted on the next. */
+  labelRefs: StateObjectSelector[];
+};
+
+// --- Cinematic helpers (imperative Mol* calls) -----------------------------
+// `applyScene` (below) is indexed in lockstep with HEMOGLOBIN_SCENES in
+// ./scenes — keep the two in sync when adding tutorial steps.
+
+// MolScript selection → Loci (camera target / label anchor). Returns the Fe
+// atom(s) of the given structure.
+function ironLociOf(structure: StateObjectSelector) {
+  const sel = Script.getStructureSelection(IRON_EXPR, structure.data as any);
+  return StructureSelection.toLociWithSourceUnits(sel);
+}
+
+// Scrub a multi-model trajectory to an arbitrary frame (0-based), the same way
+// AnimateModelIndex does under the hood — by updating the model transform.
+async function setMorphFrame(
+  plugin: PluginUIContext,
+  ctx: ViewerCtx,
+  frame: number
+) {
+  const state = plugin.state.data;
+  const update = state.build();
+  update.to(ctx.morph.modelRef).update((old: any) => {
+    old.modelIndex = frame;
+  });
+  await PluginCommands.State.Update(plugin, {
+    state,
+    tree: update,
+    options: { doNotLogTiming: true },
+  });
+}
+
+// Fade the protein to a ghost (or back to solid) by setting alpha on every
+// representation in its subtree. We select Representation3D cells rather than
+// the style's top-level refs so this works for any style: a whole-structure
+// cartoon (the rep is a direct child of the structure) *and* the component-split
+// "Hemoglobin (protein + heme)" style (where reps are nested under the
+// polymer/ligand/iron components). `produce` (immer) makes the mutation safe.
+async function setProteinAlpha(
+  plugin: PluginUIContext,
+  ctx: ViewerCtx,
+  alpha: number
+) {
+  const cells = plugin.state.data.select(
+    StateSelection.Generators.ofType(
+      PluginStateObject.Molecule.Structure.Representation3D,
+      ctx.protein.structure.ref
+    )
+  );
+  const update = plugin.build();
+  for (const cell of cells) {
+    update.to(cell.transform.ref).update((old: any) => {
+      if (old?.type?.params) old.type.params.alpha = alpha;
+    });
+  }
+  await update.commit();
+}
+
+// Drop a billboard label (custom text) on a loci; remember it for teardown.
+async function addLabel(
+  plugin: PluginUIContext,
+  ctx: ViewerCtx,
+  loci: any,
+  text: string
+) {
+  const res = await plugin.managers.structure.measurement.addLabel(loci, {
+    visualParams: { customText: text } as any,
+  });
+  if (res?.selection) ctx.labelRefs.push(res.selection);
+}
+
+async function clearLabels(plugin: PluginUIContext, ctx: ViewerCtx) {
+  if (!ctx.labelRefs.length) return;
+  const b = plugin.build();
+  for (const r of ctx.labelRefs) b.delete(r);
+  await b.commit();
+  ctx.labelRefs = [];
+}
 
 interface MolstarViewerProps {
-  /** Path to a structure file served from /public. */
-  url?: string;
-  format?: "pdb" | "mmcif";
   className?: string;
-  initialStyle?: keyof typeof STYLES;
-  initialColorTheme?: ColorTheme;
-  /** Autoplay the trajectory if the loaded file is a multi-model morph. */
-  animate?: boolean;
+  /** Index into HEMOGLOBIN_SCENES; applied reactively as the step changes. */
+  scene?: number;
 }
 
 /**
- * Minimal, UI-stripped Mol* viewer with the villin-md "look" (see
- * docs/hemoglobin-3d-animation-exploration.md). Loads one vendored structure
- * and lets you experiment with representation styles + color themes. The
- * "Hemoglobin (protein + heme)" style splits the structure into
- * polymer/ligand/iron components — the foundation for later focusing and
- * animating the heme. No morph/animation yet.
+ * Client-only Mol* viewer for the hemoglobin tutorial (see
+ * docs/hemoglobin-3d-animation-exploration.md). Loads the full protein (2HHB)
+ * and the baked heme-oxygenation morph into one plugin — sharing a coordinate
+ * frame — then drives a *cinematic layer* imperatively from the `scene` prop:
+ * camera moves, an alpha fade, the trajectory, and labels are applied per step.
  */
 export default function MolstarViewer({
-  url = "/structures/2HHB.pdb",
-  format = "pdb",
   className,
-  initialStyle = "Hemoglobin (protein + heme)",
-  initialColorTheme = "secondary-structure",
-  animate = false,
+  scene = 0,
 }: MolstarViewerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pluginRef = useRef<PluginUIContext | null>(null);
-  const structureRef = useRef<StateObjectSelector | null>(null);
-  const createdRefs = useRef<StateObjectSelector[]>([]);
-  const genRef = useRef(0);
-  const frameCountRef = useRef(1);
-  const playingRef = useRef(false);
-
-  const [style, setStyle] = useState<string>(initialStyle as string);
-  const [colorTheme, setColorTheme] = useState<ColorTheme>(initialColorTheme);
+  const ctxRef = useRef<ViewerCtx | null>(null);
+  // Guards against overlapping scene transitions (rapid Prev/Next clicks):
+  // an async applyScene bails as soon as a newer one starts.
+  const sceneGenRef = useRef(0);
   const [ready, setReady] = useState(false);
 
-  // Replace all current representation layers/components with the chosen style.
-  // A generation token guards against overlapping calls (rapid dropdown clicks).
-  const applyStyle = useCallback(async (styleKey: string, color: string) => {
+  // Apply the cinematic state for a scene index. Indexed in lockstep with
+  // HEMOGLOBIN_SCENES.
+  const applyScene = useCallback(async (idx: number) => {
     const plugin = pluginRef.current;
-    const structure = structureRef.current;
-    if (!plugin || !structure) return;
+    const ctx = ctxRef.current;
+    if (!plugin || !ctx) return;
 
-    const gen = ++genRef.current;
+    const gen = ++sceneGenRef.current;
 
-    if (createdRefs.current.length) {
-      const b = plugin.build();
-      for (const r of createdRefs.current) b.delete(r);
-      await b.commit();
-      createdRefs.current = [];
-    }
-    if (gen !== genRef.current) return; // superseded while deleting
+    // Tear down the previous scene's transient cinematics.
+    plugin.managers.animation.stop();
+    plugin.managers.interactivity.lociHighlights.clearHighlights();
+    await clearLabels(plugin, ctx);
+    if (gen !== sceneGenRef.current) return;
 
-    const created = await STYLES[styleKey](plugin, structure, color);
-
-    if (gen !== genRef.current) {
-      // Superseded mid-build — clean up what we just made.
-      const b = plugin.build();
-      for (const r of created) b.delete(r);
-      await b.commit();
+    if (idx <= 0) {
+      // Scene 0 — the whole molecule at rest: the full protein and its four
+      // hemes. Hide the morph pocket so chain A's heme isn't drawn twice
+      // (the pocket overlaps it exactly at frame 0).
+      setSubtreeVisibility(plugin.state.data, ctx.morph.structure.ref, true);
+      await setProteinAlpha(plugin, ctx, 1);
+      await setMorphFrame(plugin, ctx, 0);
+      if (gen !== sceneGenRef.current) return;
+      plugin.managers.camera.reset(undefined, 800);
       return;
     }
-    createdRefs.current = created;
+
+    // Scene 1 — fade the protein to a ghost, reveal the heme pocket, fly in,
+    // and watch O₂ bind.
+    setSubtreeVisibility(plugin.state.data, ctx.morph.structure.ref, false);
+    await setProteinAlpha(plugin, ctx, 0.12);
+    if (gen !== sceneGenRef.current) return;
+
+    const feLoci = ironLociOf(ctx.morph.structure);
+    plugin.managers.camera.focusLoci(feLoci, { durationMs: 1200, extraRadius: 10 });
+    await addLabel(plugin, ctx, feLoci, "Fe²⁺ + O₂");
+    if (gen !== sceneGenRef.current) return;
+
+    // TODO(perf): playback feels low-FPS — needs measuring before optimizing.
+    // Likely culprits: AnimateModelIndex rebuilds the morph structure every
+    // frame, and the whole canvas re-renders through the costly villin
+    // postprocessing (32-sample ambient occlusion + outline) over the full
+    // protein each tick. Options to explore: drop AO/outline quality during
+    // playback, bake fewer morph frames, or limit re-render to the morph.
+    //
+    // Palindrome: the heme tightens then relaxes on a loop — a fair picture of
+    // reversible O₂ binding. (Stopped when the scene changes.)
+    plugin.managers.animation.play(AnimateModelIndex, {
+      mode: { name: "palindrome", params: {} },
+      duration: { name: "fixed", params: { durationInS: 4 } },
+    });
   }, []);
 
-  // Mount: spin up the engine, apply the look, load the structure once.
+  // Mount: spin up the engine, apply the look, load both structures once.
   useEffect(() => {
     let disposed = false;
+
+    async function loadStructure(
+      plugin: PluginUIContext,
+      spec: StructureSpec
+    ): Promise<LoadedStructure> {
+      const data = await plugin.builders.data.download(
+        { url: spec.url, isBinary: false },
+        { state: { isGhost: true } }
+      );
+      const trajectory = await plugin.builders.structure.parseTrajectory(
+        data,
+        "pdb"
+      );
+      const frameCount = trajectory.data?.frameCount ?? 1;
+      const model = await plugin.builders.structure.createModel(trajectory);
+      const structure = await plugin.builders.structure.createStructure(model);
+      const refs = await STYLES[spec.style](plugin, structure, spec.colorTheme);
+      return { structure, modelRef: model.ref, frameCount, refs };
+    }
 
     async function init() {
       if (!containerRef.current) return;
@@ -319,23 +462,14 @@ export default function MolstarViewer({
       pluginRef.current = plugin;
       applyVillinLook(plugin);
 
-      const data = await plugin.builders.data.download(
-        { url, isBinary: false },
-        { state: { isGhost: true } }
-      );
-      const trajectory = await plugin.builders.structure.parseTrajectory(
-        data,
-        format
-      );
-      frameCountRef.current = trajectory.data?.frameCount ?? 1;
-      const model = await plugin.builders.structure.createModel(trajectory);
-      const structure = await plugin.builders.structure.createStructure(model);
+      const protein = await loadStructure(plugin, PROTEIN);
+      const morph = await loadStructure(plugin, MORPH);
 
       if (disposed) {
         plugin.dispose();
         return;
       }
-      structureRef.current = structure;
+      ctxRef.current = { protein, morph, labelRefs: [] };
       setReady(true);
     }
 
@@ -345,29 +479,15 @@ export default function MolstarViewer({
       disposed = true;
       pluginRef.current?.dispose();
       pluginRef.current = null;
-      structureRef.current = null;
-      createdRefs.current = [];
+      ctxRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url, format]);
+  }, []);
 
-  // Apply style on first ready and whenever the controls change. Once the
-  // representation exists, kick off trajectory playback if this is a morph.
+  // Apply the scene on first ready and whenever the step changes.
   useEffect(() => {
     if (!ready) return;
-    applyStyle(style, colorTheme).then(() => {
-      const plugin = pluginRef.current;
-      if (!plugin || !animate || playingRef.current) return;
-      if (frameCountRef.current <= 1) return;
-      playingRef.current = true;
-      // Palindrome so the heme tightens then relaxes on a loop, with no
-      // jump-cut back to deoxy. AnimateModelIndex steps the baked frames.
-      plugin.managers.animation.play(AnimateModelIndex, {
-        mode: { name: "palindrome", params: {} },
-        duration: { name: "fixed", params: { durationInS: 4 } },
-      });
-    });
-  }, [ready, style, colorTheme, applyStyle, animate]);
+    applyScene(scene);
+  }, [ready, scene, applyScene]);
 
   return (
     <div
@@ -375,38 +495,6 @@ export default function MolstarViewer({
       style={{ position: "relative", width: "100%", height: "100%" }}
     >
       <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />
-
-      {/* Experimentation overlay */}
-      <div className="absolute right-2 top-2 z-10 flex flex-col gap-1.5 rounded-md bg-white/80 p-2 text-xs shadow-md backdrop-blur">
-        <label className="flex items-center justify-between gap-2">
-          <span className="text-slate-500">Style</span>
-          <select
-            className="rounded border border-slate-300 bg-white px-1 py-0.5 text-slate-700 outline-none"
-            value={style}
-            onChange={(e) => setStyle(e.target.value)}
-          >
-            {Object.keys(STYLES).map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex items-center justify-between gap-2">
-          <span className="text-slate-500">Color</span>
-          <select
-            className="rounded border border-slate-300 bg-white px-1 py-0.5 text-slate-700 outline-none"
-            value={colorTheme}
-            onChange={(e) => setColorTheme(e.target.value as ColorTheme)}
-          >
-            {COLOR_THEMES.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
     </div>
   );
 }
