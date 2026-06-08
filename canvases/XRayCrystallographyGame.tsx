@@ -4,12 +4,11 @@ import { OrbitControls } from "@react-three/drei";
 const XRayCrystallographyGame = () => {
   return (
     <Canvas
-      concurrent
       camera={{
         fov: 60,
         near: 0.1,
         far: 1000,
-        position: [6, 6, 6],
+        position: [6, 6, 6] as [number, number, number],
       }}
     >
       <axesHelper args={[10]} />

@@ -38,7 +38,7 @@ const AnimationsCanvas = ({
   animationCode,
 }: AnimationCanvasProps) => {
   return (
-    <Canvas className="bg-black" concurrent>
+    <Canvas className="bg-black">
       <Suspense fallback={null}>
         <PerspectiveCamera fov={75} position={[0, 0, 3]} />
         <ambientLight />

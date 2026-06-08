@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { cn } from "../../lib/utils";
 
 interface TopicCardProps {
@@ -51,7 +51,8 @@ export const TopicCard: React.FC<TopicCardProps> = ({
       <div className="relative aspect-[3/4] h-[300px] lg:h-[350px] overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 ease-in-out group">
         <Image
           src={imageSrc}
-          layout="fill"
+          fill
+          sizes="(min-width: 1024px) 263px, 225px"
           className="transition-transform duration-300 ease-in-out group-hover:scale-105 object-cover"
           alt={title}
         />

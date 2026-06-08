@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./LocalizationSimulation.module.css";
 import { Button, Code, InlineCode, TextContainer } from "../../components";
 import * as Accordion from "@radix-ui/react-accordion";
