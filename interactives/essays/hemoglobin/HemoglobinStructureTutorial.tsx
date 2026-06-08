@@ -56,9 +56,16 @@ const HemoglobinStructureTutorial = () => {
         <div className="text-slate-600">example text</div>
       </NestedInteractiveTextContainer>
       <NestedInteractiveCanvasContainer className="h-[300px] lg:h-[450px]">
-        {/* Mol* viewer (client-only, lazy-loaded). PoC: loads vendored
-            deoxyhemoglobin 2HHB and renders the default representation. */}
-        <MolstarViewer className="overflow-hidden rounded-lg" />
+        {/* Mol* viewer (client-only, lazy-loaded). Experiment: autoplay the
+            synthetic deoxy→oxy heme-tightening morph (Fe snaps into the
+            porphyrin plane, ring flattens, His is dragged in, O₂ docks).
+            See scripts/generate_heme_morph.py. */}
+        <MolstarViewer
+          className="overflow-hidden rounded-lg"
+          url="/structures/heme-oxygenation-morph.pdb"
+          initialStyle="Heme close-up (oxygenation)"
+          animate
+        />
       </NestedInteractiveCanvasContainer>
     </NestedInteractiveContainer>
   );

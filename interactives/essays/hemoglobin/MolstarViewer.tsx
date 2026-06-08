@@ -7,6 +7,7 @@ import type { StateObjectSelector } from "molstar/lib/mol-state";
 import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
 import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postprocessing";
 import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
+import { AnimateModelIndex } from "molstar/lib/mol-plugin-state/animation/built-in/model-index";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
 
@@ -156,7 +157,33 @@ const hemoglobinStyle: StyleBuilder = async (plugin, structure, color) => {
   return created;
 };
 
+// Tight pocket view for the oxygenation morph (heme + proximal His + O2).
+// A lone His residue won't form a cartoon, so the whole pocket is sticks
+// (element-colored: Fe orange, ring N blue, incoming O2 red) with the Fe
+// emphasized as a fat sphere — the atom the eye should track as it snaps in.
+const hemeCloseupStyle: StyleBuilder = async (plugin, structure) => {
+  const created: StateObjectSelector[] = [];
+  created.push(
+    await addRep(plugin, structure, repProps("ball-and-stick", "element-symbol"))
+  );
+  const iron = await plugin.builders.structure.tryCreateComponentFromExpression(
+    structure,
+    IRON_EXPR,
+    "iron-closeup"
+  );
+  if (iron) {
+    created.push(iron);
+    await addRep(
+      plugin,
+      iron,
+      repProps("spacefill", "element-symbol", { typeParams: { sizeFactor: 0.9 } })
+    );
+  }
+  return created;
+};
+
 const STYLES: Record<string, StyleBuilder> = {
+  "Heme close-up (oxygenation)": hemeCloseupStyle,
   "Hemoglobin (protein + heme)": hemoglobinStyle,
   "Villin (cartoon + halo)": wholeStructure((color) => [
     repProps("cartoon", color, {
@@ -207,6 +234,8 @@ interface MolstarViewerProps {
   className?: string;
   initialStyle?: keyof typeof STYLES;
   initialColorTheme?: ColorTheme;
+  /** Autoplay the trajectory if the loaded file is a multi-model morph. */
+  animate?: boolean;
 }
 
 /**
@@ -223,12 +252,15 @@ export default function MolstarViewer({
   className,
   initialStyle = "Hemoglobin (protein + heme)",
   initialColorTheme = "secondary-structure",
+  animate = false,
 }: MolstarViewerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pluginRef = useRef<PluginUIContext | null>(null);
   const structureRef = useRef<StateObjectSelector | null>(null);
   const createdRefs = useRef<StateObjectSelector[]>([]);
   const genRef = useRef(0);
+  const frameCountRef = useRef(1);
+  const playingRef = useRef(false);
 
   const [style, setStyle] = useState<string>(initialStyle as string);
   const [colorTheme, setColorTheme] = useState<ColorTheme>(initialColorTheme);
@@ -295,6 +327,7 @@ export default function MolstarViewer({
         data,
         format
       );
+      frameCountRef.current = trajectory.data?.frameCount ?? 1;
       const model = await plugin.builders.structure.createModel(trajectory);
       const structure = await plugin.builders.structure.createStructure(model);
 
@@ -318,11 +351,23 @@ export default function MolstarViewer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url, format]);
 
-  // Apply style on first ready and whenever the controls change.
+  // Apply style on first ready and whenever the controls change. Once the
+  // representation exists, kick off trajectory playback if this is a morph.
   useEffect(() => {
     if (!ready) return;
-    applyStyle(style, colorTheme);
-  }, [ready, style, colorTheme, applyStyle]);
+    applyStyle(style, colorTheme).then(() => {
+      const plugin = pluginRef.current;
+      if (!plugin || !animate || playingRef.current) return;
+      if (frameCountRef.current <= 1) return;
+      playingRef.current = true;
+      // Palindrome so the heme tightens then relaxes on a loop, with no
+      // jump-cut back to deoxy. AnimateModelIndex steps the baked frames.
+      plugin.managers.animation.play(AnimateModelIndex, {
+        mode: { name: "palindrome", params: {} },
+        duration: { name: "fixed", params: { durationInS: 4 } },
+      });
+    });
+  }, [ready, style, colorTheme, applyStyle, animate]);
 
   return (
     <div
