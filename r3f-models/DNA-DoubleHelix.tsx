@@ -42,9 +42,7 @@ export default function Model(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>(null)
   const { nodes, materials } = useGLTF('/dna-6.gltf') as GLTFResult
   return (
-    // ref cast bridges @react-three/fiber@7 with @types/react@18; removed once
-    // the R3F/drei stack is upgraded.
-    <group ref={group as any} {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null}>
       <mesh geometry={nodes.Phosphate_Backbone.geometry} material={materials.White} />
       <mesh
         geometry={nodes['Adenine_(A)001'].geometry}
