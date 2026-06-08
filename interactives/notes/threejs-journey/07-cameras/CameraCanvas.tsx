@@ -32,7 +32,7 @@ const Scene: FunctionComponent<CameraCanvasProps> = ({
   const camera = useRef<PerspectiveCameraType>(null);
   const orthographicCamera = useRef<OrthographicCameraType>(null);
 
-  useHelper(showHelper && camera, CameraHelper, 1, "royalblue");
+  useHelper(showHelper && camera, CameraHelper);
 
   return (
     <>
@@ -78,7 +78,7 @@ const CameraCanvas: FunctionComponent<CameraCanvasProps> = ({
   useOrthographic,
 }) => {
   return (
-    <Canvas className="bg-black" concurrent>
+    <Canvas className="bg-black">
       <Suspense fallback={null}>
         <Scene
           fov={fov}
