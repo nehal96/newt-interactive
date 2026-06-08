@@ -323,6 +323,29 @@ async function setProteinAlpha(
   await update.commit();
 }
 
+// Show/hide the protein's heme + iron representations (the ball-and-stick and
+// spacefill layers — everything but the cartoon). On the binding scene we hide
+// them so chain A's static heme doesn't sit as a faint ghost on top of the
+// solid animated morph pocket; on the overview we bring them back.
+function setProteinHemesVisible(
+  plugin: PluginUIContext,
+  ctx: ViewerCtx,
+  visible: boolean
+) {
+  const cells = plugin.state.data.select(
+    StateSelection.Generators.ofType(
+      PluginStateObject.Molecule.Structure.Representation3D,
+      ctx.protein.structure.ref
+    )
+  );
+  for (const cell of cells) {
+    const typeName = (cell.transform.params as any)?.type?.name;
+    if (typeName === "ball-and-stick" || typeName === "spacefill") {
+      setSubtreeVisibility(plugin.state.data, cell.transform.ref, !visible);
+    }
+  }
+}
+
 // Drop a billboard label (custom text) on a loci; remember it for teardown.
 async function addLabel(
   plugin: PluginUIContext,
@@ -387,8 +410,10 @@ export default function MolstarViewer({
     if (idx <= 0) {
       // Scene 0 — the whole molecule at rest: the full protein and its four
       // hemes. Hide the morph pocket so chain A's heme isn't drawn twice
-      // (the pocket overlaps it exactly at frame 0).
+      // (the pocket overlaps it exactly at frame 0); bring the protein hemes
+      // back if we're returning from the binding scene.
       setSubtreeVisibility(plugin.state.data, ctx.morph.structure.ref, true);
+      setProteinHemesVisible(plugin, ctx, true);
       await setProteinAlpha(plugin, ctx, 1);
       await setMorphFrame(plugin, ctx, 0);
       if (gen !== sceneGenRef.current) return;
@@ -396,9 +421,11 @@ export default function MolstarViewer({
       return;
     }
 
-    // Scene 1 — fade the protein to a ghost, reveal the heme pocket, fly in,
-    // and watch O₂ bind.
+    // Scene 1 — fade the protein to a ghost and hide its hemes (so chain A's
+    // heme doesn't ghost over the morph), reveal the heme pocket, fly in, and
+    // watch O₂ bind.
     setSubtreeVisibility(plugin.state.data, ctx.morph.structure.ref, false);
+    setProteinHemesVisible(plugin, ctx, false);
     await setProteinAlpha(plugin, ctx, 0.12);
     if (gen !== sceneGenRef.current) return;
 
