@@ -238,6 +238,9 @@ type StructureSpec = {
 
 const PROTEIN: StructureSpec = {
   url: "/structures/2HHB.pdb",
+  // A translucent villin "cloud" look (cloud + heme, with an animated halo-only
+  // fade on zoom-in) was explored and parked — see
+  // docs/experiments/villin-cloud-experiment.md to bring it back.
   style: "Hemoglobin (protein + heme)",
   colorTheme: "chain-id",
 };
