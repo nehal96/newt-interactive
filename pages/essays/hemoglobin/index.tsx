@@ -8,6 +8,7 @@ import {
   Title,
 } from "../../../components";
 import { HemoglobinStructureTutorial } from "../../../interactives/essays/hemoglobin";
+import { IronAtom } from "../../../interactives/essays/hemoglobin/anatomy";
 
 const HemoglobinEssayPage = () => {
   return (
@@ -64,7 +65,12 @@ const HemoglobinEssayPage = () => {
           how to grab onto oxygen, but also when to let it go. What kind of
           structure could possibly solve that complex but vital problem?
         </Paragraph>
+        {/* Original scene-stepper tutorial, kept above for reference while we
+            redesign the essay as inline, self-contained blocks. */}
         <HemoglobinStructureTutorial />
+        {/* Anatomy build-up, beat 1: a single iron atom (annotated SVG + Mol*
+            3D, toggleable). */}
+        <IronAtom />
         <PostArticleSubscribe />
       </ArticleContainer>
     </>
