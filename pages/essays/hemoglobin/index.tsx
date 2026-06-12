@@ -8,7 +8,7 @@ import {
   Title,
 } from "../../../components";
 import { HemoglobinStructureTutorial } from "../../../interactives/essays/hemoglobin";
-import { IronAtom } from "../../../interactives/essays/hemoglobin/anatomy";
+import { AnatomyBuildup } from "../../../interactives/essays/hemoglobin/anatomy";
 
 const HemoglobinEssayPage = () => {
   return (
@@ -68,9 +68,9 @@ const HemoglobinEssayPage = () => {
         {/* Original scene-stepper tutorial, kept above for reference while we
             redesign the essay as inline, self-contained blocks. */}
         <HemoglobinStructureTutorial />
-        {/* Anatomy build-up, beat 1: a single iron atom (annotated SVG + Mol*
-            3D, toggleable). */}
-        <IronAtom />
+        {/* Anatomy build-up (iron → pyrrole → …): a dropdown picks the beat;
+            each pairs an annotated SVG with a Mol* 3D model, toggleable. */}
+        <AnatomyBuildup />
         <PostArticleSubscribe />
       </ArticleContainer>
     </>

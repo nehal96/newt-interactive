@@ -5,8 +5,16 @@ import { DefaultPluginUISpec } from "molstar/lib/mol-plugin-ui/spec";
 import type { PluginUIContext } from "molstar/lib/mol-plugin-ui/context";
 import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
 import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postprocessing";
+import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
+
+// Iron's emphasis color (matches the SVG sphere + the iron beat's spacefill).
+const FE_EMPHASIS_COLOR = 0xe0762e;
+// MolScript: every iron atom (the heme Fe — the star of the build-up).
+const IRON_EXPR = MS.struct.generator.atomGroups({
+  "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es("Fe")]),
+});
 
 // A lightweight, self-contained Mol* viewer for the *anatomy* build-up: load one
 // small vendored structure and show it with the shared "villin look", framed and
@@ -54,6 +62,12 @@ type MoleculeViewerProps = {
   /** If set, color uniformly with this hex; otherwise color by element. */
   uniformColor?: number;
   sizeFactor?: number;
+  /**
+   * Overlay the iron atom(s) as a larger orange sphere so the Fe stays the
+   * visual star — keeps a ball-and-stick ring readable while matching the
+   * spacefill iron of the iron beat / the SVG diagram.
+   */
+  emphasizeIron?: boolean;
   className?: string;
 };
 
@@ -62,6 +76,7 @@ export default function MoleculeViewer({
   representation = "spacefill",
   uniformColor,
   sizeFactor,
+  emphasizeIron = false,
   className,
 }: MoleculeViewerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -111,6 +126,30 @@ export default function MoleculeViewer({
         props as any
       );
 
+      // Emphasize the iron: a fatter orange sphere on top of the base rep.
+      if (emphasizeIron) {
+        const iron =
+          await plugin.builders.structure.tryCreateComponentFromExpression(
+            structure,
+            IRON_EXPR,
+            "anatomy-iron"
+          );
+        if (iron) {
+          // Size to ~2× the ring atoms (covalent-radius scale). Ball-and-stick
+          // balls are vdW × 0.15 (C ≈ 0.255 Å); a spacefill sphere is Fe_vdW
+          // (2.05) × sizeFactor, so 0.25 → ≈0.51 Å ≈ 2× the ring balls.
+          await plugin.builders.structure.representation.addRepresentation(
+            iron,
+            {
+              type: "spacefill",
+              color: "uniform",
+              colorParams: { value: FE_EMPHASIS_COLOR },
+              typeParams: { sizeFactor: 0.25 },
+            } as any
+          );
+        }
+      }
+
       if (disposed) {
         plugin.dispose();
         return;
@@ -125,7 +164,7 @@ export default function MoleculeViewer({
       pluginRef.current?.dispose();
       pluginRef.current = null;
     };
-  }, [url, representation, uniformColor, sizeFactor]);
+  }, [url, representation, uniformColor, sizeFactor, emphasizeIron]);
 
   return (
     <div
