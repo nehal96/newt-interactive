@@ -5,6 +5,7 @@ import { FiChevronDown, FiCheck } from "react-icons/fi";
 import { cn } from "../../../../lib/utils";
 import AnnotatedIron from "./AnnotatedIron";
 import AnnotatedPyrrole from "./AnnotatedPyrrole";
+import AnnotatedPorphyrin from "./AnnotatedPorphyrin";
 
 // Mol* is client-only (its own WebGL engine) and heavy, so it's lazy-loaded and
 // kept out of SSR / the initial bundle. The annotated SVGs are plain markup.
@@ -17,7 +18,7 @@ const MoleculeViewer = dynamic(() => import("./MoleculeViewer"), {
   ),
 });
 
-type Beat = "iron" | "pyrrole";
+type Beat = "iron" | "pyrrole" | "porphyrin";
 
 type BeatConfig = {
   label: string;
@@ -54,9 +55,18 @@ const BEATS: Record<Beat, BeatConfig> = {
       emphasizeIron: true,
     },
   },
+  porphyrin: {
+    label: "Porphyrin",
+    Svg: AnnotatedPorphyrin,
+    viewer: {
+      url: "/structures/iron-porphyrin.pdb",
+      representation: "ball-and-stick",
+      emphasizeIron: true,
+    },
+  },
 };
 
-const BEAT_ORDER: Beat[] = ["iron", "pyrrole"];
+const BEAT_ORDER: Beat[] = ["iron", "pyrrole", "porphyrin"];
 
 type Mode = "split" | "svg" | "3d";
 const MODES: { key: Mode; label: string }[] = [
