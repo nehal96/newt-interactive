@@ -18,7 +18,7 @@ const MoleculeViewer = dynamic(() => import("./MoleculeViewer"), {
   ),
 });
 
-type Beat = "iron" | "pyrrole" | "porphyrin";
+export type Beat = "iron" | "pyrrole" | "porphyrin";
 
 type BeatConfig = {
   label: string;
@@ -81,8 +81,22 @@ const MODES: { key: Mode; label: string }[] = [
  * (default). Each beat pairs a flat schematic SVG with a small vendored 3D
  * structure.
  */
-export default function AnatomyBuildup() {
-  const [beat, setBeat] = useState<Beat>("iron");
+type AnatomyBuildupProps = {
+  /** Controlled active beat. Falls back to internal state when omitted. */
+  beat?: Beat;
+  onBeatChange?: (beat: Beat) => void;
+};
+
+export default function AnatomyBuildup({
+  beat: controlledBeat,
+  onBeatChange,
+}: AnatomyBuildupProps = {}) {
+  const [internalBeat, setInternalBeat] = useState<Beat>("iron");
+  const beat = controlledBeat ?? internalBeat;
+  const setBeat = (next: Beat) => {
+    setInternalBeat(next);
+    onBeatChange?.(next);
+  };
   const [mode, setMode] = useState<Mode>("split");
   const showSvg = mode === "split" || mode === "svg";
   const show3d = mode === "split" || mode === "3d";

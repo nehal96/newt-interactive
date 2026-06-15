@@ -1,4 +1,7 @@
 export { default as AnatomyBuildup } from "./AnatomyBuildup";
+export type { Beat } from "./AnatomyBuildup";
+export { default as AnatomySection } from "./AnatomySection";
+export { default as PartsManifest } from "./PartsManifest";
 export { default as AnnotatedIron } from "./AnnotatedIron";
 export { default as AnnotatedPyrrole } from "./AnnotatedPyrrole";
 export { default as AnnotatedPorphyrin } from "./AnnotatedPorphyrin";
