@@ -11,6 +11,7 @@ import {
 // flowing essay (AnatomySection below). Kept imported-commented for reference.
 // import { HemoglobinStructureTutorial } from "../../../interactives/essays/hemoglobin";
 import { AnatomySection } from "../../../interactives/essays/hemoglobin/anatomy";
+import { CatchingSection } from "../../../interactives/essays/hemoglobin/catching";
 
 const HemoglobinEssayPage = () => {
   return (
@@ -74,6 +75,10 @@ const HemoglobinEssayPage = () => {
             the build-up beat by beat (iron → pyrrole → porphyrin → proximal His
             → distal His → heme group), each interactive inline with the prose. */}
         <AnatomySection />
+        {/* Section 2: how hemoglobin catches oxygen — the pull, the T↔R switch,
+            no-rust, the lean, and the CO bodyguard. Visuals are placeholders for
+            now (binding morph, T↔R diagram, lean close-up). */}
+        <CatchingSection />
         <PostArticleSubscribe />
       </ArticleContainer>
     </>

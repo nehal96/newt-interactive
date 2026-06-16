@@ -122,11 +122,43 @@ before this.)*
   advantage drops from **20,000× to ~200× (a 100× cut)** — still poisonous, but
   meaningfully blunted. Without it, sitting by a fire would be 100× worse.
 
-**Candidate visuals:**
-- The O₂-binding morph already built (`heme-oxygenation-morph.pdb`): iron snaps
-  into the plane as O₂ docks — the core animation for this section.
-- A "six coordinate bonds" schematic (4 in-plane N, proximal His below, O₂ above).
-- The T↔R switch (the 15° dimer rotation / salt-bridge snap) — clicker-pen feel.
+**Decided flow & visuals (Jun 16).** The anatomy section now *introduces* the
+proximal His ("the fifth of its six connections"), the distal His ("hovering just
+above"), and the αβ dimers ("room to shift and rotate … matters enormously"). So
+this section must **invoke, not re-introduce** them — the re-teaching paragraphs in
+the notes above are redundant and should be trimmed to one-line callbacks. The
+beats, each tagged with its medium:
+
+1. **The open seat** — *prose only, no new diagram.* Recap iron's six bonds (four
+   in-plane N + proximal His = five taken; one open seat up top = O₂), leaning on
+   the anatomy porphyrin + proximal-His beats the reader just saw.
+2. **The pull** — *Mol\* morph (the centerpiece; `heme-oxygenation-morph.pdb`).*
+   Iron snaps from out-of-plane into the plane as O₂ docks, dragging the proximal
+   His. Accuracy pass: the Fe–O–O bend corrected to ~120° (was ~150°), the distal
+   His added to the carve (static, hovering), a **side-on camera** so the
+   out-of-plane→in-plane snap actually reads, and the Fe–O coordinate bond + the
+   distal-His···O₂ H-bond drawn as viewer-layer measurements at the docked state.
+   - Footnote: high-spin → low-spin ("how does a tiny O₂ pull a huge iron?"). *Text.*
+3. **Why one O₂ helps the next (T→R)** — *one static SVG + prose.* Both T and R
+   drawn (the whole molecule / two halves), with a faded ghost or highlight showing
+   the 15° rotation. **No interactivity.** Carries: salt-bridge clasps hold T; 15°
+   clicker-pen flip to R; T restrains the proximal His (low affinity) vs R frees it
+   (high affinity); positive feedback → cooperativity (segue to Part 4's S-curve).
+   - Footnote: salt-bridge specifics. *Text.*
+4. **Why it doesn't rust (the partial bond)** — *text only, no diagram.* Iron + O₂
+   would normally make iron oxide (rust); hemoglobin doesn't, because the iron only
+   *leans* its spare electron partway toward the O₂ rather than fully handing it
+   over — a tense, reversible in-between. Sets up *why* the bond is gentle and the
+   geometry is bent.
+5. **The lean, steadied by the distal His** — *Mol\* close-up (morph end-state).*
+   O₂ sits at its ~120° lean; the distal His hovers and steadies it with a weak
+   H-bond — gentle and returnable.
+6. **Distal His as CO bodyguard** — *text only.* CO wants to bind straight; the
+   distal His forces a tilt; its edge drops from ~20,000× to ~200×.
+
+Keep all of this in the main line for now; decide the footnote-vs-body split in a
+later edit pass. The real Mol\* quaternary T→R rotation stays blocked on an R-state
+asset (see the cross-cutting note below) — the static SVG stands in.
 
 ---
 

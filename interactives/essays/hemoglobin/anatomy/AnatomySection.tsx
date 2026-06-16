@@ -57,8 +57,12 @@ export default function AnatomySection() {
       <Paragraph>
         At the &ldquo;back&rdquo; of this ring sits the proximal histidine, an
         amino acid that anchors the heme to the rest of the structure &mdash; to
-        either an alpha or a beta chain. It bonds to the iron from below, the
-        fifth of its six connections.
+        either an alpha or a beta chain. It bonds to the iron from below. In all,
+        the iron can connect on six sides: four are taken by the porphyrin
+        nitrogens lying in the plane of the ring, and the proximal histidine,
+        reaching up from below, is the fifth. That leaves a single open spot on
+        the opposite side, pointing up out of the ring &mdash; the only one of the
+        six not held by a nitrogen, and the seat where oxygen will later bind.
       </Paragraph>
       <AnatomyBeatBlock beat="proximalHis" id="beat-proximalHis" />
 
