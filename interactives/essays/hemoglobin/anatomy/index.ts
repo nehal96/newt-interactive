@@ -1,7 +1,8 @@
-export { default as AnatomyBuildup } from "./AnatomyBuildup";
-export type { Beat } from "./AnatomyBuildup";
 export { default as AnatomySection } from "./AnatomySection";
+export { default as AnatomyBeatBlock } from "./AnatomyBeatBlock";
 export { default as PartsManifest } from "./PartsManifest";
+export { BEATS, BEAT_ORDER, FE_COLOR } from "./beats";
+export type { Beat, BeatConfig } from "./beats";
 export { default as AnnotatedIron } from "./AnnotatedIron";
 export { default as AnnotatedPyrrole } from "./AnnotatedPyrrole";
 export { default as AnnotatedPorphyrin } from "./AnnotatedPorphyrin";

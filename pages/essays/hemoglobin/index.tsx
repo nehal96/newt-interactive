@@ -7,7 +7,9 @@ import {
   PostArticleSubscribe,
   Title,
 } from "../../../components";
-import { HemoglobinStructureTutorial } from "../../../interactives/essays/hemoglobin";
+// The scene-stepper tutorial is parked while we redesign Section 1 as an inline,
+// flowing essay (AnatomySection below). Kept imported-commented for reference.
+// import { HemoglobinStructureTutorial } from "../../../interactives/essays/hemoglobin";
 import { AnatomySection } from "../../../interactives/essays/hemoglobin/anatomy";
 
 const HemoglobinEssayPage = () => {
@@ -65,12 +67,12 @@ const HemoglobinEssayPage = () => {
           how to grab onto oxygen, but also when to let it go. What kind of
           structure could possibly solve that complex but vital problem?
         </Paragraph>
-        {/* Original scene-stepper tutorial, kept above for reference while we
-            redesign the essay as inline, self-contained blocks. */}
-        <HemoglobinStructureTutorial />
-        {/* Anatomy section: a LEGO-style parts manifest of the raw components,
-            above the build-up block (iron → pyrrole → porphyrin). Clicking a
-            linkable part jumps into the matching beat. */}
+        {/* Original scene-stepper tutorial, commented out so the new inline
+            essay reads start-to-finish. Restore to compare the two layouts. */}
+        {/* <HemoglobinStructureTutorial /> */}
+        {/* Anatomy section (Section 1): prose → LEGO-style parts manifest →
+            the build-up beat by beat (iron → pyrrole → porphyrin → proximal His
+            → distal His → heme group), each interactive inline with the prose. */}
         <AnatomySection />
         <PostArticleSubscribe />
       </ArticleContainer>

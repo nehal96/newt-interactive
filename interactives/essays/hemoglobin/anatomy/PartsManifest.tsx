@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import type { Beat } from "./AnatomyBuildup";
+import type { Beat } from "./beats";
 import {
   ChainFigure,
   HistidineFigure,
