@@ -1,4 +1,3 @@
-export { default as AnatomySection } from "./AnatomySection";
 export { default as AnatomyBeatBlock } from "./AnatomyBeatBlock";
 export { default as PartsManifest } from "./PartsManifest";
 export { BEATS, BEAT_ORDER, FE_COLOR } from "./beats";

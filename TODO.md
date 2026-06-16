@@ -18,6 +18,12 @@ Each anatomy beat boots a Mol\* plugin from `DefaultPluginUISpec()`, which regis
 
 Files: [interactives/essays/hemoglobin/anatomy/MoleculeViewer.tsx](interactives/essays/hemoglobin/anatomy/MoleculeViewer.tsx), [interactives/essays/hemoglobin/anatomy/boot-queue.ts](interactives/essays/hemoglobin/anatomy/boot-queue.ts)
 
+## Remove the parked scene-stepper tutorial
+
+The original anatomy walkthrough — a Mol\*-driven scene-stepper — is parked now that the essay reads as one inline MDX flow ([pages/essays/hemoglobin/index.mdx](pages/essays/hemoglobin/index.mdx)). Nothing imports it anymore; it was only ever reached through the commented-out import in the old `index.tsx`. Once the essay is finalized and we're sure we won't restore that layout, delete the tutorial and the deps it solely owns (the scene-driven `MolstarViewer` and `scenes.ts` are used only by it). This is distinct from the static anatomy `MoleculeViewer.tsx`, which the live essay still uses — keep that.
+
+Files: [interactives/essays/hemoglobin/HemoglobinStructureTutorial.tsx](interactives/essays/hemoglobin/HemoglobinStructureTutorial.tsx), [interactives/essays/hemoglobin/MolstarViewer.tsx](interactives/essays/hemoglobin/MolstarViewer.tsx), [interactives/essays/hemoglobin/scenes.ts](interactives/essays/hemoglobin/scenes.ts), [interactives/essays/hemoglobin/index.tsx](interactives/essays/hemoglobin/index.tsx) (the barrel re-exporting the tutorial)
+
 ## Post-publish: share the project's work-in-progress material
 
 After the hemoglobin essay ships, share the work-in-progress material for the whole project from my notebook.
