@@ -17,6 +17,43 @@ const IRON_EXPR = MS.struct.generator.atomGroups({
   "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es("Fe")]),
 });
 
+// MolScript: an OR over a set of author chain ids — the shared chain filter.
+const chainTest = (chains: string[]) =>
+  MS.core.logic.or(chains.map((c) => MS.core.rel.eq([MS.ammp("auth_asym_id"), c])));
+
+// Atoms in `chains` — drawn as the alpha (A, C) / beta (B, D) cartoon ribbons.
+const chainsExpr = (chains: string[]) =>
+  MS.struct.generator.atomGroups({ "chain-test": chainTest(chains) });
+
+// Proximal/distal His sequence numbers — alpha chains use 58 (distal) / 87
+// (proximal), beta chains 63 / 92. Selecting these four across chains A–D picks
+// out exactly each chain's two pocket histidines and nothing else.
+const POCKET_HIS_SEQ = [58, 63, 87, 92];
+
+// The full heme pockets of `chains` — the heme (HEM; 2HHB also holds PO4/water)
+// plus the proximal & distal histidines — so the chain beats build on the
+// previous beat's pockets rather than dropping the histidines.
+const pocketExpr = (chains: string[]) =>
+  MS.struct.generator.atomGroups({
+    "chain-test": chainTest(chains),
+    "residue-test": MS.core.logic.or([
+      MS.core.rel.eq([MS.ammp("label_comp_id"), "HEM"]),
+      MS.core.logic.and([
+        MS.core.rel.eq([MS.ammp("label_comp_id"), "HIS"]),
+        MS.core.logic.or(
+          POCKET_HIS_SEQ.map((n) => MS.core.rel.eq([MS.ammp("auth_seq_id"), n]))
+        ),
+      ]),
+    ]),
+  });
+
+// The heme irons of `chains` — emphasized as fat orange spheres at protein scale.
+const ironInChainsExpr = (chains: string[]) =>
+  MS.struct.generator.atomGroups({
+    "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es("Fe")]),
+    "chain-test": chainTest(chains),
+  });
+
 // A lightweight, self-contained Mol* viewer for the *anatomy* build-up: load one
 // small vendored structure and show it with the shared "villin look", framed and
 // static. Deliberately separate from the scene-driven MolstarViewer.tsx (which
@@ -56,10 +93,12 @@ function applyVillinLook(plugin: PluginUIContext) {
   } as any);
 }
 
+type ChainGroup = { chains: string[]; color: number };
+
 type MoleculeViewerProps = {
   /** Vendored PDB in /public (never fetch remote — RCSB is blocked). */
   url: string;
-  representation?: "spacefill" | "ball-and-stick";
+  representation?: "spacefill" | "ball-and-stick" | "cartoon";
   /** If set, color uniformly with this hex; otherwise color by element. */
   uniformColor?: number;
   sizeFactor?: number;
@@ -69,6 +108,19 @@ type MoleculeViewerProps = {
    * spacefill iron of the iron beat / the SVG diagram.
    */
   emphasizeIron?: boolean;
+  /**
+   * Draw only these chain groups as cartoon ribbons, one uniform color each
+   * (the alpha/beta chain beats). When set, this replaces the whole-structure
+   * representation: chains in no group simply aren't drawn.
+   */
+  chainGroups?: ChainGroup[];
+  /**
+   * With `chainGroups`, also draw the shown chains' full heme pockets (heme +
+   * proximal/distal His + emphasized Fe), matching the previous beat.
+   */
+  showPockets?: boolean;
+  /** Chains whose pockets to draw; defaults to the ribbon (`chainGroups`) chains. */
+  pocketChains?: string[];
   /**
    * Whether the viewer is on-screen. When false the render loop is paused so an
    * off-screen viewer costs nothing; the WebGL context is kept so scrolling back
@@ -98,6 +150,9 @@ export default function MoleculeViewer({
   uniformColor,
   sizeFactor,
   emphasizeIron = false,
+  chainGroups,
+  showPockets = false,
+  pocketChains,
   active = true,
   className,
 }: MoleculeViewerProps) {
@@ -109,6 +164,7 @@ export default function MoleculeViewer({
   useEffect(() => {
     let disposed = false;
     let releaseSlot: (() => void) | null = null;
+    let host: HTMLDivElement | null = null;
 
     async function init() {
       if (!containerRef.current) return;
@@ -117,8 +173,17 @@ export default function MoleculeViewer({
       releaseSlot = await acquireBootSlot();
       if (disposed || !containerRef.current) return;
 
+      // Boot into a fresh child node each time. React 18 StrictMode re-runs this
+      // effect (mount → unmount → mount) while the async boot is in flight; a
+      // dedicated node ensures createPluginUI's createRoot is never called twice
+      // on the same element.
+      host = document.createElement("div");
+      host.style.position = "absolute";
+      host.style.inset = "0";
+      containerRef.current.appendChild(host);
+
       const plugin = await createPluginUI({
-        target: containerRef.current,
+        target: host,
         render: renderReact18,
         spec: {
           ...DefaultPluginUISpec(),
@@ -144,38 +209,103 @@ export default function MoleculeViewer({
       const model = await plugin.builders.structure.createModel(trajectory);
       const structure = await plugin.builders.structure.createStructure(model);
 
-      const props: Record<string, unknown> = {
-        type: representation,
-        color: uniformColor != null ? "uniform" : "element-symbol",
-      };
-      if (uniformColor != null) props.colorParams = { value: uniformColor };
-      if (sizeFactor != null) props.typeParams = { sizeFactor };
-      await plugin.builders.structure.representation.addRepresentation(
-        structure,
-        props as any
-      );
+      if (chainGroups && chainGroups.length > 0) {
+        // Chain beats: one uniformly-colored cartoon ribbon per chain group
+        // (alpha A/C red, beta B/D blue). Chains in no group aren't drawn.
+        for (const group of chainGroups) {
+          const comp =
+            await plugin.builders.structure.tryCreateComponentFromExpression(
+              structure,
+              chainsExpr(group.chains),
+              `chains-${group.chains.join("")}`
+            );
+          if (comp) {
+            await plugin.builders.structure.representation.addRepresentation(
+              comp,
+              {
+                type: "cartoon",
+                color: "uniform",
+                colorParams: { value: group.color },
+              } as any
+            );
+          }
+        }
 
-      // Emphasize the iron: a fatter orange sphere on top of the base rep.
-      if (emphasizeIron) {
-        const iron =
-          await plugin.builders.structure.tryCreateComponentFromExpression(
-            structure,
-            IRON_EXPR,
-            "anatomy-iron"
-          );
-        if (iron) {
-          // Size to ~2× the ring atoms (covalent-radius scale). Ball-and-stick
-          // balls are vdW × 0.15 (C ≈ 0.255 Å); a spacefill sphere is Fe_vdW
-          // (2.05) × sizeFactor, so 0.25 → ≈0.51 Å ≈ 2× the ring balls.
-          await plugin.builders.structure.representation.addRepresentation(
-            iron,
-            {
-              type: "spacefill",
-              color: "uniform",
-              colorParams: { value: FE_EMPHASIS_COLOR },
-              typeParams: { sizeFactor: 0.25 },
-            } as any
-          );
+        // Carry the pockets into the chain beats: each shown chain's heme +
+        // proximal/distal His as element-colored ball-and-stick, its Fe
+        // emphasized — the same pocket and Fe size as the previous beat, now
+        // wrapped by the ribbons.
+        if (showPockets) {
+          // Pockets can span more chains than the ribbons (the alpha beat shows
+          // all four pockets but only the alpha ribbons).
+          const pocketSet =
+            pocketChains ?? chainGroups.flatMap((g) => g.chains);
+          const pockets =
+            await plugin.builders.structure.tryCreateComponentFromExpression(
+              structure,
+              pocketExpr(pocketSet),
+              "chain-pockets"
+            );
+          if (pockets) {
+            await plugin.builders.structure.representation.addRepresentation(
+              pockets,
+              { type: "ball-and-stick", color: "element-symbol" } as any
+            );
+          }
+          const iron =
+            await plugin.builders.structure.tryCreateComponentFromExpression(
+              structure,
+              ironInChainsExpr(pocketSet),
+              "chain-iron"
+            );
+          if (iron) {
+            await plugin.builders.structure.representation.addRepresentation(
+              iron,
+              {
+                type: "spacefill",
+                color: "uniform",
+                colorParams: { value: FE_EMPHASIS_COLOR },
+                // Same Fe size as the build-up pockets (not a fat protein-scale
+                // sphere) so the iron reads identically across beats.
+                typeParams: { sizeFactor: 0.25 },
+              } as any
+            );
+          }
+        }
+      } else {
+        const props: Record<string, unknown> = {
+          type: representation,
+          color: uniformColor != null ? "uniform" : "element-symbol",
+        };
+        if (uniformColor != null) props.colorParams = { value: uniformColor };
+        if (sizeFactor != null) props.typeParams = { sizeFactor };
+        await plugin.builders.structure.representation.addRepresentation(
+          structure,
+          props as any
+        );
+
+        // Emphasize the iron: a fatter orange sphere on top of the base rep.
+        if (emphasizeIron) {
+          const iron =
+            await plugin.builders.structure.tryCreateComponentFromExpression(
+              structure,
+              IRON_EXPR,
+              "anatomy-iron"
+            );
+          if (iron) {
+            // Size to ~2× the ring atoms (covalent-radius scale). Ball-and-stick
+            // balls are vdW × 0.15 (C ≈ 0.255 Å); a spacefill sphere is Fe_vdW
+            // (2.05) × sizeFactor, so 0.25 → ≈0.51 Å ≈ 2× the ring balls.
+            await plugin.builders.structure.representation.addRepresentation(
+              iron,
+              {
+                type: "spacefill",
+                color: "uniform",
+                colorParams: { value: FE_EMPHASIS_COLOR },
+                typeParams: { sizeFactor: 0.25 },
+              } as any
+            );
+          }
         }
       }
 
@@ -189,10 +319,15 @@ export default function MoleculeViewer({
       setRenderActive(plugin, activeRef.current);
     }
 
-    init().finally(() => {
-      releaseSlot?.();
-      releaseSlot = null;
-    });
+    init()
+      .catch(() => {
+        // A boot torn down mid-flight (StrictMode / fast scroll) can reject as
+        // its node detaches — expected, not an error worth surfacing.
+      })
+      .finally(() => {
+        releaseSlot?.();
+        releaseSlot = null;
+      });
 
     return () => {
       disposed = true;
@@ -200,8 +335,19 @@ export default function MoleculeViewer({
       releaseSlot = null;
       pluginRef.current?.dispose();
       pluginRef.current = null;
+      host?.remove();
+      host = null;
     };
-  }, [url, representation, uniformColor, sizeFactor, emphasizeIron]);
+  }, [
+    url,
+    representation,
+    uniformColor,
+    sizeFactor,
+    emphasizeIron,
+    chainGroups,
+    showPockets,
+    pocketChains,
+  ]);
 
   // Pause/resume the render loop as the viewer scrolls out of / into view,
   // without re-running the (expensive) boot effect above.
