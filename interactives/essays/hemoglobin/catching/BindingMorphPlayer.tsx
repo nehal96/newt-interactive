@@ -11,9 +11,9 @@ import { acquireBootSlot } from "../anatomy/boot-queue";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
 
-// The "pull" morph: heme + proximal His + O₂, no distal His (the later "lean"
-// close-up uses the +distal variant). Coordinates carry the corrected ~120° lean.
-const MORPH_URL = "/structures/heme-oxygenation-morph.pdb";
+// The morph PDB to play comes in via the `url` prop — either the plain pocket
+// ("the pull") or the +distal-His variant ("the lean"). Both bake the corrected
+// ~120° lean and 31 frames.
 const BAKED_FRAMES = 31; // fallback until the trajectory reports its real count
 const PLAY_DURATION_MS = 1800; // one forward pass, deoxy → oxy (tune for speed)
 // The heme iron's emphasis color + size, matching the anatomy beats so the atom
@@ -112,6 +112,8 @@ function ControlIcon({ kind }: { kind: PlayIcon }) {
 }
 
 type BindingMorphPlayerProps = {
+  /** Vendored multi-model morph PDB in /public to play and scrub. */
+  url: string;
   /** When false the render loop and playback are paused (off-screen). */
   active?: boolean;
   className?: string;
@@ -125,6 +127,7 @@ type BindingMorphPlayerProps = {
  * once it reaches the end the button becomes a restart.
  */
 export default function BindingMorphPlayer({
+  url,
   active = true,
   className,
 }: BindingMorphPlayerProps) {
@@ -259,7 +262,7 @@ export default function BindingMorphPlayer({
       applyVillinLook(plugin);
 
       const data = await plugin.builders.data.download(
-        { url: MORPH_URL, isBinary: false },
+        { url, isBinary: false },
         { state: { isGhost: true } }
       );
       const trajectory = await plugin.builders.structure.parseTrajectory(
@@ -344,7 +347,7 @@ export default function BindingMorphPlayer({
       host?.remove();
       host = null;
     };
-  }, []);
+  }, [url]);
 
   // Pause render loop + playback when scrolled off-screen; repaint on return.
   useEffect(() => {
@@ -371,7 +374,8 @@ export default function BindingMorphPlayer({
         )}
       </div>
 
-      <div className="mt-3 flex items-center gap-3">
+      {/* Controls span the full width on mobile, 80% (centered) on desktop. */}
+      <div className="mt-3 flex w-full items-center gap-3 lg:mx-auto lg:w-4/5">
         <button
           type="button"
           onClick={isPlaying ? () => stopRef.current() : play}

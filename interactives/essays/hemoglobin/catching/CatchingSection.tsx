@@ -1,5 +1,5 @@
 import { H2, Paragraph } from "../../../../components";
-import BindingMorph from "./BindingMorph";
+import MorphFigure, { BINDING_MORPH_URL, LEAN_MORPH_URL } from "./MorphFigure";
 
 /**
  * Section 2 of the essay — how hemoglobin catches oxygen — as a flowing read in
@@ -39,7 +39,7 @@ export default function CatchingSection() {
         a mechanical signal to the rest of the protein.
       </Paragraph>
 
-      <BindingMorph />
+      <MorphFigure url={BINDING_MORPH_URL} />
 
       {/* high-spin / low-spin — kept in the main line for now; a candidate
           footnote in the later edit pass. */}
@@ -127,7 +127,7 @@ export default function CatchingSection() {
         whole arrangement gentle and returnable.
       </Paragraph>
 
-      <VisualPlaceholder label="The bound O₂ at its 120° lean (3D close-up) — steadied from above by the distal histidine, with the weak hydrogen bond drawn in." />
+      <MorphFigure url={LEAN_MORPH_URL} />
 
       {/* --- Distal His as CO bodyguard — text only --- */}
       <Paragraph>
