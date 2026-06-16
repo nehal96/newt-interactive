@@ -156,6 +156,7 @@ export default function MoleculeViewer({
   active = true,
   className,
 }: MoleculeViewerProps) {
+  const outerRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pluginRef = useRef<PluginUIContext | null>(null);
   // Read inside the async boot without re-running it when visibility flips.
@@ -314,6 +315,22 @@ export default function MoleculeViewer({
         return;
       }
       plugin.managers.camera.reset(undefined, 0);
+      // Mol*'s WebGL canvas is GPU-composited and slips past the wrapper's
+      // rounded `overflow:hidden` (its square corners show through the rounded
+      // pane). `border-radius` on the canvas itself DOES clip its own drawing,
+      // so mirror the wrapper's computed radius onto the canvas.
+      if (host && outerRef.current) {
+        const radius = getComputedStyle(outerRef.current).borderRadius;
+        host.querySelectorAll("canvas").forEach((c) => {
+          c.style.borderRadius = radius;
+        });
+        // Strip Mol*'s own 1px layout border (.msp-layout-standard, from
+        // molstar.css) — our pane is borderless, but overflow-clipping leaves
+        // it reading as a stray rounded hairline.
+        host.querySelectorAll(".msp-layout-standard").forEach((el) => {
+          (el as HTMLElement).style.border = "none";
+        });
+      }
       // Honor the current visibility: if we booted just off-screen, idle the
       // loop now (the static frame is already drawn) until it scrolls in.
       setRenderActive(plugin, activeRef.current);
@@ -358,8 +375,16 @@ export default function MoleculeViewer({
 
   return (
     <div
+      ref={outerRef}
       className={className}
-      style={{ position: "relative", width: "100%", height: "100%" }}
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        // Clip Mol*'s (non-composited) viewport chrome to the rounded corners;
+        // the WebGL canvas itself is rounded directly after boot (see init).
+        overflow: "hidden",
+      }}
     >
       <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />
     </div>

@@ -50,7 +50,7 @@ type PartsManifestProps = {
 export default function PartsManifest({ onSelectPart }: PartsManifestProps) {
   return (
     <figure className="my-8 w-full lg:my-12">
-      <div className="rounded-lg bg-slate-100/60 p-6 shadow-lg backdrop-blur-3xl lg:p-8">
+      <div className="rounded-lg border border-slate-200 p-6 lg:p-8">
         <div className="mb-1 text-sm font-medium text-slate-700">Hemoglobin Parts</div>
         <p className="mb-5 max-w-prose text-xs leading-relaxed text-slate-500">
           The raw components a hemoglobin molecule is built from.
@@ -82,7 +82,7 @@ export default function PartsManifest({ onSelectPart }: PartsManifestProps) {
                   key={part.key}
                   type="button"
                   onClick={() => onSelectPart!(part.beat!)}
-                  className="group flex flex-col rounded-lg p-2 text-left outline-none transition-colors hover:bg-white/70 focus-visible:bg-white/70"
+                  className="group flex flex-col rounded-lg p-2 text-left outline-none transition-colors hover:bg-slate-100 focus-visible:bg-slate-100"
                 >
                   {header}
                   {figure}

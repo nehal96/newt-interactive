@@ -39,47 +39,38 @@ export default function AnatomyBeatBlock({ beat, id }: AnatomyBeatBlockProps) {
 
   return (
     <figure id={id} className="my-8 w-full scroll-mt-24 lg:my-12">
-      <div className="rounded-lg bg-slate-100/60 p-6 shadow-lg backdrop-blur-3xl lg:p-8">
-        <div className="flex flex-col gap-4 lg:flex-row lg:justify-center">
-          {hasSvg && (
-            <div className="w-full lg:w-1/2">
-              <div className="relative h-[300px] rounded-lg bg-white lg:h-[360px]">
-                <Svg />
-              </div>
-              <figcaption className="mt-2 text-center text-xs text-slate-400">
-                Annotated diagram
-              </figcaption>
+      <div className="flex flex-col gap-4 lg:flex-row lg:justify-center">
+        {hasSvg && (
+          <div className="relative h-[300px] w-full rounded-lg border border-slate-200 bg-white lg:h-[360px] lg:w-1/2">
+            <Svg />
+          </div>
+        )}
+        <div
+          ref={paneRef}
+          className={cn(
+            "relative h-[300px] w-full overflow-hidden rounded-lg bg-white lg:h-[360px]",
+            hasSvg ? "lg:w-1/2" : "lg:mx-auto lg:w-2/3",
+          )}
+        >
+          {hasBeenNear ? (
+            <MoleculeViewer
+              key={beat}
+              url={viewer.url}
+              representation={viewer.representation}
+              uniformColor={viewer.uniformColor}
+              sizeFactor={viewer.sizeFactor}
+              emphasizeIron={viewer.emphasizeIron}
+              chainGroups={viewer.chainGroups}
+              showPockets={viewer.showPockets}
+              pocketChains={viewer.pocketChains}
+              active={isActive}
+              className="rounded-lg"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-xs text-slate-300">
+              3D model
             </div>
           )}
-          <div className={cn("w-full", hasSvg ? "lg:w-1/2" : "lg:w-2/3 lg:mx-auto")}>
-            <div
-              ref={paneRef}
-              className="relative h-[300px] overflow-hidden rounded-lg bg-white lg:h-[360px]"
-            >
-              {hasBeenNear ? (
-                <MoleculeViewer
-                  key={beat}
-                  url={viewer.url}
-                  representation={viewer.representation}
-                  uniformColor={viewer.uniformColor}
-                  sizeFactor={viewer.sizeFactor}
-                  emphasizeIron={viewer.emphasizeIron}
-                  chainGroups={viewer.chainGroups}
-                  showPockets={viewer.showPockets}
-                  pocketChains={viewer.pocketChains}
-                  active={isActive}
-                  className="rounded-lg"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-xs text-slate-300">
-                  3D model
-                </div>
-              )}
-            </div>
-            <figcaption className="mt-2 text-center text-xs text-slate-400">
-              3D model (Mol*)
-            </figcaption>
-          </div>
         </div>
       </div>
     </figure>
