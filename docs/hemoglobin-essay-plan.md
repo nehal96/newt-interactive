@@ -191,13 +191,55 @@ it** signal that oxygen is in demand and help pull it off hemoglobin.
 > **Footnote — CO₂'s secondary role** as carbamate groups (direct binding to
 > hemoglobin's N-termini, separate from the acid/Bohr pathway above).
 
-**Candidate visuals:**
-- R → T as the reverse of the catching animation.
-- The 2,3-BPG doorstop wedging into the central cavity.
+**Decided flow & visuals (Jun 16).** Release is mechanically "catching in reverse"
+(R → T), so it gets **no new 3D morph** — the Section-2 binding morph is already
+two-way (the player scrubs both directions), and replaying it backward teaches
+nothing fresh. The R → T mechanics are a one-line **callback**, not a new viewer.
+The *new* material is the **regulation** — what tips the T↔R balance toward release —
+and that's where the section spends its words. The beats, each tagged with its medium:
+
+1. **How it knows when / R → T is the catch in reverse** — *prose only.* The molecule
+   doesn't decide; the conditions do. Mechanically it's the catch run backward
+   (iron eases out of the plane, grip loosens). Callback to the Section-2 morph, no
+   new 3D.
+2. **What triggers R → T** — *prose only.* Seatbelt-unfastening framing; the shared
+   theme that each factor tips the switch toward T.
+3. **CO₂ / acid (the Bohr effect)** — *prose, shares the companion diagram below.*
+   Squats → CO₂ → acid → protons make chain ends positive → extra salt bridges. "Acid
+   adds clasps," holding T.
+4. **2,3-BPG (the doorstop)** — *prose, shares the companion diagram.* Small cavity
+   between the halves in T, squeezed shut in R; 2,3-BPG wedges in and props it open.
+5. **Heat** — *prose only, one line.* A warm muscle pushes toward release.
+6. **Companion diagram** — *one static SVG in the Section-2 T↔R style.* The two αβ
+   halves and the 15° switch, salt-bridge clasps holding T, with **acid's extra
+   clasps** at the chain ends and the **2,3-BPG doorstop** in the central cavity
+   layered on. All three release factors on one frame, placed *after* the prose
+   introduces each so the figure reads as a summary. (Real Mol\* is asset-blocked:
+   `public/structures` only has `2HHB` (deoxy/T) and morphs derived from it — no
+   R-state structure and no BPG ligand — so an SVG is both the pragmatic and the
+   clearer choice. Reuses the Section-2 §2-beat-3 T↔R diagram, still a placeholder.)
+   - Footnote: CO₂'s secondary carbamate role (N-termini, separate from Bohr). *Text.*
+7. **Segue to Section 4** — *prose only.* All four factors (acid, CO₂, 2,3-BPG, heat)
+   share one measurable signature: they shift the whole O₂ curve. That hands off to
+   the cooperativity section, where the curve and its shifts become an interactive.
+
+**Where the factors actually pay off:** acid/CO₂/2,3-BPG/heat all manifest as the
+**rightward shift of the O₂ dissociation curve**, which is Part 4. So the single
+interactive that serves both sections is the **saturation curve in §4 driven by these
+factors** — not a backwards morph here. Build §4 from the fuller notes (images 3–4)
+first so that interactive is fully specced (see §4 below).
+
+**Candidate visuals (superseded by the decided flow above):**
+- ~~R → T as the reverse of the catching animation.~~ → dropped (redundant; morph is two-way).
+- The 2,3-BPG doorstop → folded into the single companion T↔R diagram.
 
 ---
 
 ## 4. Cooperativity
+
+*(Transcribed from notebook images 3–4 — previously this section was a stub; the
+full curve walkthrough, the myoglobin comparison, P50, the numeric payoff, and the
+left/right shifts were all in the notes but not captured here until now.)*
 
 - In the catching section we showed how binding one oxygen makes the **remaining**
   oxygens bind more easily — a positive effect. Releasing is symmetric: releasing
@@ -205,20 +247,129 @@ it** signal that oxygen is in demand and help pull it off hemoglobin.
   **cooperativity**, and it's the key property the structure buys us: oxygen is
   **picked up quickly in oxygen-rich environments (lungs)** and **released quickly
   in oxygen-deficient ones (active muscle)**.
-- You can graph it as **% of hemoglobin oxygenated (saturation)** vs **how much
-  oxygen is around (partial pressure, mmHg)**.
+- You can graph it as **% of hemoglobin oxygenated (saturation, y)** vs **how much
+  oxygen is around (partial pressure of O₂, mmHg, x)**.
 - The curve is **sigmoidal (the "S shape")**, a direct result of cooperativity.
   At the **low end**, increasing pressure raises saturation **very slowly**. Past
   a **threshold** there's a **steep rise** — small pressure increases produce
-  large saturation increases — before it **plateaus** near full saturation.
+  large saturation increases — before it **plateaus** near full saturation. (At
+  high saturation it levels off because there are **fewer and fewer empty seats**
+  for oxygen to take.)
 
-**Diagram notes:** axes are **% saturation (y)** vs **mmHg / partial pressure of
-oxygen (x)**; classic S-curve, flat-steep-flat.
+### Why the S-shape (the mechanism behind the curve)
+- The middle **steep rise is cooperativity made visible**. At the low end most
+  hemoglobin sits in **T**. As they take on a little oxygen and **switch to R**,
+  the next oxygens bind more easily — the **positive loop kicks in** — until few
+  seats remain and it tapers off.
+- A **one-seat carrier like myoglobin has no switch**, so its curve is a
+  **hyperbola**: it grabs oxygen quickly and then **holds on**. *(Notes sketch:
+  the Mb hyperbola drawn as a dashed curve sitting up and to the left of the Hb
+  sigmoid.)*
 
-**Candidate visuals:**
-- Interactive O₂-saturation curve (sigmoid), ideally with the left/right shift
-  from the Part-3 factors (CO₂/acid, 2,3-BPG, heat) so the release story and the
-  curve connect.
+### P50 and the left/right shift
+- **Other factors — acid (Bohr), CO₂, 2,3-BPG, heat — shift the curve right**, to
+  **lower affinity** (this is the §3 release story, seen on the curve).
+- A clean way to read a shift is **P50: the pressure at which saturation is
+  half-full**. For a **right-shifted** curve, **P50 moves to a higher pressure** —
+  i.e. hemoglobin **lets go of its oxygen more easily** than normal, which is
+  exactly what those §3 signals are for (higher demand for oxygen).
+- The **myoglobin overlay** is also the place to compare the benefit of the
+  switch: at **lung pressure** the two are effectively the **same saturation**;
+  but at **hemoglobin's P50**, myoglobin **still holds most of its oxygen** (a good
+  *storer*) while hemoglobin **has, by definition, given half away** (a good
+  *deliverer*).
+
+### Reading real pressures (the numeric payoff)
+*(Illustrative numbers straight from the notes; real-world figures are close —
+keep these for the story, they're round and clear.)*
+- **Sea-level / lungs ≈ 95 mmHg → ~98% saturated.** Even at **60 mmHg** hemoglobin
+  is still **~90%**, so you stay fine while **quite elevated** (an airplane cabin,
+  altitude). *(Margin: more such examples would be good.)*
+- **Resting tissue ≈ 40 mmHg → ~75%** — sitting right in the **steep drop**, so a
+  small dip in pressure **releases a lot of oxygen**. An **oxygen-hungry active
+  muscle ≈ 20 mmHg → ~30%**.
+- **The payoff:** a **20 mmHg drop in the steep middle (40 → 20)** moves saturation
+  **75% → 30% (~45 points delivered)**; the **same 20 mmHg drop up top (95 → 75)**
+  is only a **~3-point** change. That's roughly **15× more oxygen delivered for the
+  same pressure drop**, exactly where you want it. The curve shows the behavior of
+  the molecule **as a whole**. *(Margin: a drop in pressure is **instant**; the
+  Bohr/BPG **shifts take some time** — worth a note on the figure.)*
+
+### Left-ward shift
+- **Fetal hemoglobin** is **left-shifted** (higher affinity), so it **pulls oxygen
+  off the mother's blood across the placenta**. *(Notes also start a "- β" bullet,
+  left incomplete.)*
+
+---
+
+### Reuse — the systems-biology Hill chart is a near-exact fit
+The O₂-saturation curve **is the Hill function** the systems-biology activator
+graph already renders. We can lean on that whole stack (Victory + shared chart
+styles), changing only the labels and parameters:
+
+- **Same equation.** `getActivatorHillFunctionData` computes
+  `y = β·xⁿ / (Kⁿ + xⁿ)` ([systems-biology/helpers.ts](../interactives/systems-biology/helpers.ts)).
+  For saturation: **β = 100%** (max), **x = pO₂ (mmHg)**, **K = P50**, **n = Hill
+  coefficient**. So: **hemoglobin ≈ {n: 2.8, P50: ~26}** (sigmoid),
+  **myoglobin = {n: 1, P50: ~2.8}** (hyperbola).
+- **P50 indicator already exists.** `ActivatorGraph`'s `showKIndicator` draws the
+  dotted vertical + horizontal lines and the scatter dot at `(K, β/2)` — that *is*
+  the **P50 marker** ([systems-biology/ActivatorGraph.tsx:145](../interactives/systems-biology/ActivatorGraph.tsx)).
+- **Myoglobin overlay already exists.** `showNComparisonCurves` overlays secondary
+  Hill curves (`SecondaryLine`, greyed, labeled, draw-on `animate`) — reuse for the
+  **n = 1 myoglobin hyperbola** vs the **n ≈ 2.8 hemoglobin sigmoid**.
+- **The right/left shift is just K.** Varying `K` (= P50) slides the curve
+  right/left with Victory's `animate` — the **Bohr/CO₂/BPG/heat** right-shift and
+  the **fetal** left-shift fall straight out of the §3 factors.
+- **Controls + draw-on animation already there.** `Slider`/`Switch` from
+  `components`, the `axisStyle`/`getDottedLineStyle`/`getGridLineStyle` shared
+  styles, and Victory `animate.onLoad` for the curve drawing on.
+
+**What's genuinely new to build (extensions, not from scratch):**
+1. A `SaturationCurveChart` modeled on `ActivatorGraph` — relabeled axes
+   (% saturation / mmHg), Hb defaults, domain x:[0,100] y:[0,100].
+2. **Environment markers** at arbitrary x (lungs 95, resting 40, muscle 20) with a
+   drop-line to the curve and a saturation read-out — a small generalization of the
+   K-indicator (point at an arbitrary pO₂ instead of at K).
+3. A **delivery read-out** between two pO₂ markers to land the **15×** payoff.
+
+### Decided flow & visuals — proposed (medium-tagged)
+Inline figures in the essay's flowing style (no `SlideDeck`); one reusable
+`SaturationCurveChart` placed at a few beats with different options + a small
+controls wrapper, mirroring how systems-biology reuses `ActivatorGraph`.
+
+1. **The curve + why it's S-shaped** — *interactive chart.* Hb sigmoid draws on;
+   an **n slider/toggle** morphs hyperbola (n=1) → sigmoid (n≈2.8) to show
+   cooperativity *creating* the S (reuses `showNComparisonCurves`).
+2. **Myoglobin: storer vs deliverer** — *same chart, Mb overlay + P50 marker.* At
+   lung pressure both high; at Hb's P50 Mb still loaded, Hb half-emptied.
+3. **Reading real pressures (the payoff)** — *annotated chart (decided: fixed
+   markers, not draggable).* **Fixed** environment markers at 95 / 40 / 20 mmHg —
+   drop-lines + saturation labels — with the **40→20 vs 95→75 delivery (≈15×)**
+   called out. *(Note on the figure: pressure change is instant, shifts are slow.)*
+   Can upgrade to a draggable pO₂ marker later if it's worth it.
+4. **The shifts** — *same chart, animated.* **For now (easiest placeholder):** a
+   single **"exercising muscle" toggle** (rest ↔ working) that bumps P50 right and
+   animates the curve — one clean before/after tied to the §3 squats story.
+   **Deferred:** whether to split it into separate stacking CO₂/acid · 2,3-BPG ·
+   heat toggles — decide once the §4 prose is written and we can match the control
+   to the words (per-factor shift magnitudes are otherwise arbitrary). Optional
+   **fetal-Hb** left-shift toggle.
+
+**Resolved design choices (Jun 16):**
+- *(beat 3 interactivity)* **Fixed annotated markers**, not a draggable marker —
+  matches the notebook sketch, simplest to build, upgradeable later.
+- *(beat 4 control)* **Single "exercise" toggle** as the placeholder; the
+  per-factor split is **deferred to the prose pass**.
+- *(scope)* **Drafted (Jun 16).** §4 prose written from the notebook bullets
+  (`cooperativity/CooperativitySection.tsx`, near-verbatim, in the author's voice
+  pending an edit pass) and the chart built: `SaturationCurveChart.tsx` (the Hill
+  curve, modeled on the systems-biology activator graph) + `CooperativityFigure.tsx`
+  (one chart, four toggle buttons: myoglobin · P50 · tissue O₂ levels · exercising
+  muscle). Wired into the page after `ReleaseSection`. The beat-3 numbers
+  (95/40/20 → ~98/76/30%) come straight off the curve; **fixed markers** as decided.
+  Open for the later story pass: button set/labels, whether the exercise shift
+  splits into per-factor toggles, and the explicit 15× delivery call-out.
 
 ---
 

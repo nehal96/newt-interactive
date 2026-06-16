@@ -12,6 +12,8 @@ import {
 // import { HemoglobinStructureTutorial } from "../../../interactives/essays/hemoglobin";
 import { AnatomySection } from "../../../interactives/essays/hemoglobin/anatomy";
 import { CatchingSection } from "../../../interactives/essays/hemoglobin/catching";
+import { ReleaseSection } from "../../../interactives/essays/hemoglobin/release";
+import { CooperativitySection } from "../../../interactives/essays/hemoglobin/cooperativity";
 
 const HemoglobinEssayPage = () => {
   return (
@@ -79,6 +81,17 @@ const HemoglobinEssayPage = () => {
             no-rust, the lean, and the CO bodyguard. Visuals are placeholders for
             now (binding morph, T↔R diagram, lean close-up). */}
         <CatchingSection />
+        {/* Section 3: how hemoglobin releases oxygen — R → T as the catch in
+            reverse (callback, no new morph), then the regulation that tips the
+            switch toward T: acid/CO₂ (Bohr), 2,3-BPG, heat. One companion T↔R
+            diagram (placeholder) carries all three factors; the factors' shared
+            signature — shifting the O₂ curve — bridges into Section 4. */}
+        <ReleaseSection />
+        {/* Section 4: cooperativity and the saturation curve. One interactive —
+            a Hill-function chart (reusing the systems-biology Victory stack) with
+            toggle buttons: myoglobin overlay, P50 marker, tissue O₂ levels, and
+            the exercising-muscle right shift. */}
+        <CooperativitySection />
         <PostArticleSubscribe />
       </ArticleContainer>
     </>
