@@ -6,6 +6,7 @@ import type { PluginUIContext } from "molstar/lib/mol-plugin-ui/context";
 import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
 import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postprocessing";
 import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
+import { acquireBootSlot } from "./boot-queue";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
 
@@ -68,8 +69,28 @@ type MoleculeViewerProps = {
    * spacefill iron of the iron beat / the SVG diagram.
    */
   emphasizeIron?: boolean;
+  /**
+   * Whether the viewer is on-screen. When false the render loop is paused so an
+   * off-screen viewer costs nothing; the WebGL context is kept so scrolling back
+   * is instant (no re-boot). Defaults to true.
+   */
+  active?: boolean;
   className?: string;
 };
+
+// Idle or wake a plugin's render loop. `pause(true)` cancels the rAF loop;
+// `animate()` restarts it (note `resume()` does NOT — it nulls its own callback
+// on pause), and a `requestDraw()` forces an immediate frame of the static scene.
+function setRenderActive(plugin: PluginUIContext | null, isActive: boolean) {
+  const canvas = plugin?.canvas3d;
+  if (!canvas) return;
+  if (isActive) {
+    canvas.animate();
+    canvas.requestDraw();
+  } else {
+    canvas.pause(true);
+  }
+}
 
 export default function MoleculeViewer({
   url,
@@ -77,16 +98,24 @@ export default function MoleculeViewer({
   uniformColor,
   sizeFactor,
   emphasizeIron = false,
+  active = true,
   className,
 }: MoleculeViewerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pluginRef = useRef<PluginUIContext | null>(null);
+  // Read inside the async boot without re-running it when visibility flips.
+  const activeRef = useRef(active);
 
   useEffect(() => {
     let disposed = false;
+    let releaseSlot: (() => void) | null = null;
 
     async function init() {
       if (!containerRef.current) return;
+
+      // Serialize heavy boots so a run of beats doesn't initialize all at once.
+      releaseSlot = await acquireBootSlot();
+      if (disposed || !containerRef.current) return;
 
       const plugin = await createPluginUI({
         target: containerRef.current,
@@ -155,16 +184,31 @@ export default function MoleculeViewer({
         return;
       }
       plugin.managers.camera.reset(undefined, 0);
+      // Honor the current visibility: if we booted just off-screen, idle the
+      // loop now (the static frame is already drawn) until it scrolls in.
+      setRenderActive(plugin, activeRef.current);
     }
 
-    init();
+    init().finally(() => {
+      releaseSlot?.();
+      releaseSlot = null;
+    });
 
     return () => {
       disposed = true;
+      releaseSlot?.();
+      releaseSlot = null;
       pluginRef.current?.dispose();
       pluginRef.current = null;
     };
   }, [url, representation, uniformColor, sizeFactor, emphasizeIron]);
+
+  // Pause/resume the render loop as the viewer scrolls out of / into view,
+  // without re-running the (expensive) boot effect above.
+  useEffect(() => {
+    activeRef.current = active;
+    setRenderActive(pluginRef.current, active);
+  }, [active]);
 
   return (
     <div
