@@ -64,6 +64,9 @@ export default function AnatomyBeatBlock({ beat, id }: AnatomyBeatBlockProps) {
                   uniformColor={viewer.uniformColor}
                   sizeFactor={viewer.sizeFactor}
                   emphasizeIron={viewer.emphasizeIron}
+                  chainGroups={viewer.chainGroups}
+                  showPockets={viewer.showPockets}
+                  pocketChains={viewer.pocketChains}
                   active={isActive}
                   className="rounded-lg"
                 />

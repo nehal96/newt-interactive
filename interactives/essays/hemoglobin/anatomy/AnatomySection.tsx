@@ -82,6 +82,22 @@ export default function AnatomySection() {
         from the beta chains, set diametrically across the molecule:
       </Paragraph>
       <AnatomyBeatBlock beat="fourHemes" id="beat-fourHemes" />
+
+      <Paragraph>
+        Each heme pocket is wrapped in a protein chain &mdash; an alpha chain
+        (red) or a beta chain (blue). One alpha and one beta clasp tightly
+        together into an alpha&ndash;beta dimer: one half of the whole molecule.
+        The other two pockets sit bare for now, still waiting for their chains.
+      </Paragraph>
+      <AnatomyBeatBlock beat="dimer" id="beat-dimer" />
+
+      <Paragraph>
+        A second, identical alpha&ndash;beta dimer completes the structure. The
+        two halves fit snugly together &mdash; clasped tightly, but with just
+        enough room to shift and rotate against one another, which turns out to
+        matter enormously for how hemoglobin works. Together, this is hemoglobin.
+      </Paragraph>
+      <AnatomyBeatBlock beat="hemoglobin" id="beat-hemoglobin" />
     </>
   );
 }
