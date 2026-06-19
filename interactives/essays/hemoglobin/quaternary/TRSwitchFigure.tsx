@@ -97,6 +97,33 @@ export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 // easeInOutQuad
 export const ease = (p: number) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
 
+// Animate a 0↔1 value whenever `open` flips, easing from the live value so an
+// interrupted toggle resumes rather than snapping. Returns the current value
+// (1 = open/T, 0 = closed/R). Shared by TRSwitchFigure and BpgDoorstopFigure.
+export function useSwitchTween(open: boolean, ms = TWEEN_MS) {
+  const [s, setS] = useState(open ? 1 : 0);
+  const sRef = useRef(s);
+  const rafRef = useRef<number | null>(null);
+  useEffect(() => {
+    const to = open ? 1 : 0;
+    const from = sRef.current;
+    if (from === to) return;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / ms);
+      const v = lerp(from, to, ease(p));
+      sRef.current = v;
+      setS(v);
+      if (p < 1) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [open, ms]);
+  return s;
+}
+
 const CAPTION: Record<"T" | "R", string> = {
   T: "Tense (T) — the four subunits sit apart, leaving the central cavity open; hemes empty, low O₂ affinity.",
   R: "Relaxed (R) — the α₂β₂ half has rotated 15° and slid inward, pinching the cavity shut; hemes loaded, high O₂ affinity.",
@@ -119,29 +146,8 @@ export function SubunitShape({ s, o2 }: { s: Subunit; o2: number }) {
 
 export default function TRSwitchFigure({ className }: { className?: string }) {
   const [state, setState] = useState<"T" | "R">("T");
-  // `s` animates 1 (T) → 0 (R); a ref holds the live value so an interrupted
-  // tween resumes from where it is rather than snapping.
-  const [s, setS] = useState(1);
-  const sRef = useRef(1);
-  const rafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const to = state === "T" ? 1 : 0;
-    const from = sRef.current;
-    if (from === to) return;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / TWEEN_MS);
-      const v = lerp(from, to, ease(p));
-      sRef.current = v;
-      setS(v);
-      if (p < 1) rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [state]);
+  // 1 (T) → 0 (R); the shared tween eases between the two on each toggle.
+  const s = useSwitchTween(state === "T");
 
   // Derived from the tween value. On relaxing (s → 0) the α₂β₂ half rotates back
   // to aligned and slides toward the pivot, closing the central cavity.

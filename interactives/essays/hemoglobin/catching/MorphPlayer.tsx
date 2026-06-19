@@ -23,23 +23,18 @@ const BAKED_FRAMES = 31; // fallback until the trajectory reports its real count
 const DEFAULT_DURATION_MS = 1800; // one forward pass (tune per figure for speed)
 
 // The single atom each morph wants the eye to track, rendered as a larger
-// uniform sphere over the element-colored ball-and-stick. 'iron' = the heme Fe
-// (catching); 'proton' = the incoming H⁺ of the Bohr salt bridge (releasing).
-export type EmphasisKind = "iron" | "proton";
-export type Emphasis = { kind: EmphasisKind; hex: number; sizeFactor: number };
+// uniform sphere over the element-colored ball-and-stick, picked out by element
+// symbol: "Fe" = the heme iron (catching); "H" = the lone synthetic proton of
+// the Bohr salt bridge (releasing — the crystal heavy atoms carry no hydrogen).
+export type Emphasis = { element: string; hex: number; sizeFactor: number };
 
-// MolScript selections for the trackable atom of each kind. Built here (inside
-// the client-only player) so molstar never leaks into the SSR/import boundary.
-const EMPHASIS_EXPR = {
-  iron: MS.struct.generator.atomGroups({
-    "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es("Fe")]),
-  }),
-  // The synthetic proton is the only hydrogen in the carved salt-bridge pocket
-  // (the crystal heavy-atom residues carry none), so "every H" isolates it.
-  proton: MS.struct.generator.atomGroups({
-    "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es("H")]),
-  }),
-} as const;
+// A MolScript selection of every atom of one element. Built inside this
+// client-only player so molstar never leaks into the SSR/import boundary.
+function elementExpr(symbol: string) {
+  return MS.struct.generator.atomGroups({
+    "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es(symbol)]),
+  });
+}
 
 // Build the complete "on" params for a Mapped param, then layer overrides — a
 // partial object would drop nested sub-params and later crash the render pass.
@@ -334,8 +329,8 @@ export default function MorphPlayer({
         const comp =
           await plugin.builders.structure.tryCreateComponentFromExpression(
             structure,
-            EMPHASIS_EXPR[emph.kind],
-            `emphasis-${emph.kind}`
+            elementExpr(emph.element),
+            `emphasis-${emph.element}`
           );
         if (comp) {
           await plugin.builders.structure.representation.addRepresentation(comp, {

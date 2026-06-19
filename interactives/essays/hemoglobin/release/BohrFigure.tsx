@@ -40,7 +40,7 @@ export default function BohrFigure() {
             url={BOHR_MORPH_URL}
             active={isActive}
             accentColor={PROTON_COLOR}
-            emphasis={{ kind: "proton", hex: PROTON_HEX, sizeFactor: PROTON_SIZE }}
+            emphasis={{ element: "H", hex: PROTON_HEX, sizeFactor: PROTON_SIZE }}
             showInteractions
           />
         ) : (

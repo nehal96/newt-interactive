@@ -36,7 +36,7 @@ export default function BindingMorphPlayer({
       active={active}
       className={className}
       accentColor={FE_COLOR}
-      emphasis={{ kind: "iron", hex: FE_EMPHASIS_HEX, sizeFactor: FE_EMPHASIS_SIZE }}
+      emphasis={{ element: "Fe", hex: FE_EMPHASIS_HEX, sizeFactor: FE_EMPHASIS_SIZE }}
     />
   );
 }

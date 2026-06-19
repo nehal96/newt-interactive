@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { cn } from "../../../../lib/utils";
 import {
   ANGLE,
   CLOSE_TX,
   COLORS,
-  ease,
-  lerp,
   PIVOT,
   SUBUNITS,
   SubunitShape,
+  useSwitchTween,
   VIEWBOX,
 } from "../quaternary/TRSwitchFigure";
 
@@ -23,7 +22,6 @@ import {
 // `s` runs 1 (T, BPG bound) -> 0 (R, BPG gone), exactly like TRSwitchFigure, so
 // the rotor maths are identical; only the doorstop overlay is new.
 
-const TWEEN_MS = 700;
 const BPG = {
   fill: "#2E9E6F", // teal-green — distinct from the blue/magenta subunits & O₂
   rim: "#1C6B49",
@@ -37,27 +35,7 @@ const CAPTION: Record<"in" | "out", string> = {
 
 export default function BpgDoorstopFigure({ className }: { className?: string }) {
   const [bound, setBound] = useState(true); // BPG starts wedged in (the T state)
-  const [s, setS] = useState(1); // 1 = T (bound), 0 = R (free)
-  const sRef = useRef(1);
-  const rafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const to = bound ? 1 : 0;
-    const from = sRef.current;
-    if (from === to) return;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / TWEEN_MS);
-      const v = lerp(from, to, ease(p));
-      sRef.current = v;
-      setS(v);
-      if (p < 1) rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [bound]);
+  const s = useSwitchTween(bound); // 1 = T (bound), 0 = R (free)
 
   // Same rotor as the switch: the α₂β₂ half slides toward the pivot and rotates
   // back to aligned as the molecule relaxes (s -> 0), closing the cavity.
