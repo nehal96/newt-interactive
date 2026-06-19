@@ -64,103 +64,111 @@ export const CooperativityFigure = dynamic(
 
 ## How a special protein in red blood cells transports oxygen around your body
 
-It might not seem or feel like it, but, at the cellular level, we are mostly blood. Over three-quarters of all the cells in our body are the 20-30 trillion red blood cells floating in arteries and veins and squeezing between capillaries. In adults, 2.4 million are produced every second, and they tirelessly circulate our body for 3-4 months, before they're recycled for parts by our liver (with assistance from our spleen). A single red blood cell contains an estimated 270 million hemoglobin molecules, which when multiplied with the trillions of red blood cells we have is… a lot of hemoglobin. A single circulation takes about a minute, so each red blood cell will ferry oxygen 150,000-200,000 times. Providing oxygen efficiently to every part of our body is vital to our existence, so maybe it should not come as a surprise that a significant part of us is devoted to oxygen transportation networks, but the sheer numbers are mind-boggling.
+In the 1740s, Vincenzo Menghini, an Italian physician, decided to study why blood was red. The going theory at the time was that it came from iron, the same material that forms rust, after iron’s presence was found in the ashes of incinerated vegetables several decades earlier. Exactly where this iron came from was still unknown, so Menghini decided to do an experiment: he took 5 ounces of blood from a dog, roasted it into a dry powder, and then hovered a naturally magnetized lodestone over it. Some bits stuck onto the stone; blood did, in fact, have iron. 
 
-Hemoglobin is a marvel of precision engineering. When a red blood cell, chock full of hemoglobin, fills up on oxygen at the lungs and is pumped by the heart across the body, there is no GPS system that tells it where to go. But, generally, every part of you manages to receive the right amount of oxygen all the time; hemoglobin must not only know how to grab onto oxygen, but also when to let it go. What kind of structure could possibly solve that complex but vital problem?
+He continued experimenting on other animals &mdash; an ox, a horse, a boar, birds, frogs, fishes &mdash; and found that not only did they all have iron, the proportion tended to be pretty similar for each. He also noticed that iron seemingly only came from the red portion of the blood after it was separated; very little came from the serum. And so, for about the next century, iron being the cause of blood’s red color remained undisputed.
 
-<H2 className="mt-8">Anatomy of hemoglobin</H2>
+Before we get to the question of color, let’s look at another question: why does blood contain this metal? By the 17th century, it was known that blood was made up of cells, particularly red blood cells. Antonie van Leeuwenhoek, the Dutch microbiologist and one of the first people to ever look down a microscope, saw these “sanguineous globules” floating in blood in 1675. It took another century to discover the true shape of these globules. William Hewson, a British anatomist, found red blood cells not to be round but disk shaped, with a depression in the middle, like “a circular pillow that has just been punched,” as Siddhartha Mukherjee artfully describes.
 
-To understand the function of a molecule, we must first understand its form. Let's do that by putting hemoglobin together piece by piece. Here are its parts and components, laid out like a LEGO-inspired manifest:
+In the decades that followed, the attention moved to what was inside that cell. In 1840, Friedrich Hünefeld, a German biochemist, noticed that dried blood placed between two glass slides grew tiny crystals, rectangular and bright red, with sharp edges. They were the first crystals of a protein ever recorded, but he did not know what it did, and so left it unnamed. Twenty-four years later, another German scientist would name this protein *hemoglobin*, combining *hemo* (blood) and *globin* (a ball or globe, for the protein’s round shape). He would also show that this protein was what gives blood its color and what oxygen attached to in the blood.
+
+It is this marvelous protein that this interactive article is about. Like the scientists before us, we will study hemoglobin by looking closely at its structure, though we can now take the molecule apart and inspect it atom by atom. The structure reveals the function: how it catches oxygen in the lungs, ferries it across the body, and releases it precisely where it needs to be. The closer we look, the more marvelous and more deliberate this nanomachine turns out to be.
+
+---
+
+
+It might not seem or feel like it, but by cellular count, we are mostly blood. Over three-quarters of all the cells in our body are the 20-30 trillion red blood cells floating in arteries and veins and squeezing between capillaries to deliver oxygen to our body. We make about 2.4 million of them every second, and they tirelessly circulate our body for three to four months (or 150,000 to 200,000 times) before our spleen and liver break them down and recycle the parts. Each red blood cell is packed with an estimated 270 million hemoglobin molecules, which when multiplied with the trillions of red blood cells we have comes to roughly 6.5 sextillion (that’s 6,500,000,000,000,000,000,000) molecules of hemoglobin travelling through the body at any given moment. Providing oxygen efficiently to every part of our body is vital to our existence, so maybe it should not come as a surprise that a significant part of us is devoted to oxygen transportation networks, but the sheer numbers are mind-boggling.
+
+Hemoglobin is a marvel of precision engineering. When a red blood cell, chock full of it, fills up on oxygen in the lungs and is pumped by the heart across the body, there is no GPS system to tell it where to go. There is nothing to coordinate it towards the working muscle that needs and away from the one that does not, and yet every tissue manages to receive the right amount of oxygen at every moment. To do this, hemoglobin must not only know how to grab and hold onto oxygen, but also when to let it go. What kind of structure could possibly solve that?
+
+<H2 className="mt-8">The anatomy of hemoglobin</H2>
+
+To understand the function of a molecule, we must first understand its form. The mechanics of how hemoglobin catches oxygen and how it releases it are a product of how it’s assembled. So first, let’s assemble it part by part, and along the way we’ll see how the parts work together to enable its function. Here are the components we have to build with:
 
 <PartsManifest onSelectPart={scrollToBeat} />
 
-Let's start by assembling the heme group, the part that catches and releases oxygen. Each hemoglobin molecule has four of them, and each heme group can carry one oxygen molecule — so a single hemoglobin carries four oxygen molecules in all.
+Let’s start by assembling the heme group, the part that catches and releases oxygen. Each hemoglobin molecule has four of them, and each heme group can carry one oxygen molecule; so in all, a single hemoglobin carries four oxygen molecules. 
 
-We begin with the ferrous iron ion, sitting right at the center.
+We’ll begin with just the ferrous iron ion (Fe<sup>2+</sup>), which sits right at the center.
 
 <AnatomyBeatBlock beat="iron" id="beat-iron" />
 
-To this, let's attach — bond — a single pyrrole: a five-membered ring with a nitrogen pointing inward, toward the iron.
+To this, let’s attach (bond) a single pyrrole, a five-sided ring with a nitrogen pointing inwards, toward the iron.
 
 <AnatomyBeatBlock beat="pyrrole" id="beat-pyrrole" />
 
-Surrounding the iron with four pyrroles, each joined to the next by a methine bridge, creates the porphyrin ring — a flat macrocycle with the iron clasped at its center.
+Then, surround the iron with four of these pyrroles, each joined to one another with a methine bridge (a single carbon, =CH-). This creates what’s known as the porphyrin ring, with iron clasped in the center.
 
 <AnatomyBeatBlock beat="porphyrin" id="beat-porphyrin" />
 
-At the "back" of this ring sits the proximal histidine, an amino acid that anchors the heme to the rest of the structure — to either an alpha or a beta chain. It bonds to the iron from below. In all, the iron can connect on six sides: four are taken by the porphyrin nitrogens lying in the plane of the ring, and the proximal histidine, reaching up from below, is the fifth. That leaves a single open spot on the opposite side, pointing up out of the ring — the only one of the six not held by a nitrogen, and the seat where oxygen will later bind.
+To the back of this ring, attach the proximal histidine, an amino acid that bonds to the iron and anchors the heme to the rest of the structure. In all, iron can connect on six sides. Four are taken by the porphyrin nitrogens lying in the plane of the ring, and the proximal histidine, reaching up from below, is the fifth. That leaves a single open spot on the opposite side, pointing up out of the ring, the spot that oxygen will later bind.
 
 <AnatomyBeatBlock beat="proximalHis" id="beat-proximalHis" />
 
-And hovering just above the ring is the distal histidine, so named because it sits a little further away. It belongs to the same chain, and both histidines have crucial roles to play in catching and releasing oxygen.
+Hovering just above the ring is the distal histidine, so named because it sits a little further away. It’s also attached to the same chain as its sibling, the proximal histidine; as we’ll later see, both play crucial roles in catching and releasing oxygen.
 
 <AnatomyBeatBlock beat="distalHis" id="beat-distalHis" />
 
-This whole assembly together — the iron, the porphyrin ring with the methyl, vinyl, and propionate groups decorating its rim, and the two flanking histidines — makes up one complete heme pocket.
-
-And a single hemoglobin molecule cradles four of these heme pockets, clasped in their real positions — two from the alpha chains and two from the beta chains, set diametrically across the molecule:
+This whole assembly together &mdash; the iron, the porphyrin ring, and the proximal and distal histidines &mdash; makes one complete heme pocket (not to be confused with heme, which is just the iron and porphyrin ring). A single hemoglobin molecule cradles four of these heme pockets.
 
 <AnatomyBeatBlock beat="fourHemes" id="beat-fourHemes" />
 
-Each heme pocket is wrapped in a protein chain — an alpha chain (red) or a beta chain (blue). One alpha and one beta clasp tightly together into an alpha–beta dimer: one half of the whole molecule. The other two pockets sit bare for now, still waiting for their chains.
+Each heme pocket is wrapped in a protein chain, the same structure the histidines are connected to. It can be either an alpha chain or beta chain. One alpha and one beta chain clasp tightly together to make an alpha-beta dimer, one half of the whole molecule.
 
 <AnatomyBeatBlock beat="dimer" id="beat-dimer" />
 
-A second, identical alpha–beta dimer completes the structure. The two halves fit snugly together — clasped tightly, but with just enough room to shift and rotate against one another, which turns out to matter enormously for how hemoglobin works. Together, this is hemoglobin.
+A second, identical alpha-beta dimer completes the structure; we now have a complete hemoglobin molecule. The two halves fit snugly together, but with just enough room to shift and rotate against one another. This ability to rotate also has a crucial role to play in its function.
 
 <AnatomyBeatBlock beat="hemoglobin" id="beat-hemoglobin" />
 
+{/* Add a spacer here */}
+
 <H2 className="mt-8">How hemoglobin catches oxygen</H2>
 
-Oxygen binds in that open sixth spot. When it docks, it pulls the iron toward it. Before oxygen arrives, the iron sits a little behind the plane of the heme — about half an ångström off. Oxygen pulls it into the ring. And because the iron is tethered to the proximal histidine, which is connected to the rest of the protein chain, that chain gets tugged too. This shift presses on the neighboring subunits, nudging them to open up and grab oxygen more easily. So the bonding of one oxygen sends a mechanical signal to the rest of the protein.
+Now that you understand the structure, let’s look at exactly how it catches oxygen. Before oxygen arrives, the ferrous iron atom sits a little behind the plane of the heme, about half an ångström off (about half the width of an atom), doming up and out of the ring. At this state, the iron atom is too large to fit through the ring hole. As oxygen binds, the electrons in iron rearrange, its spin state shifts, and the atom grows slightly smaller, just small enough to drop into the plane of the ring. The arriving oxygen draws it down into the plan axis.
 
 <MorphFigure url={BINDING_MORPH_URL} />
 
-You might be wondering how a tiny oxygen molecule can "pull" a huge iron atom. When oxygen binds, the iron's spin state shifts and it actually becomes a little smaller — small enough to slip into the plane of the ring.
+Because the iron is tethered to the proximal histidine, as iron moves up, it pulls the histidine along with it. And since the histidine is connected to the rest of the chain, this pull tugs the rest of the chain as well.
 
-How, exactly, does one oxygen bonding and tugging make it easier for the other three to bind? When no oxygen is bound, hemoglobin is in a tense (T) state, and its structure is quite rigid. What holds it rigid is a network of salt bridges — little electrostatic clasps formed between a positively charged amino-acid side chain and a negatively charged one nearby. A set of these clasps, mostly around the tail ends of the chains and near the joints between subunits, keeps the empty molecule in its low-appetite, tense state. The first oxygen is thus the hardest to bind; it needs the most effort — the most activation energy — to get in.
+To understand the significance of this tug, we need to revisit the rotation ability mentioned earlier. Without oxygen, hemoglobin lies in a tense (T) state, its structure held rigid by a network of salt bridges &mdash; small electrostatic clasps around the tail ends and joints of the protein chain. In this state, the proximal histidine is more restrained, holding back iron with more rigidity, and so this hemoglobin has a low appetite for oxygen. The other state is the relaxed (R) state, reached by a 15-degree rotation of one half against the other. In this state, the proximal histidine can move more freely, and so this hemoglobin has a high appetite for oxygen. There is no stable position in between; like a light switch or a clicker pen, the molecule rests fully in one setting or the other.
 
-Recall the two alpha and two beta chains, paired into two alpha–beta dimers. Within each half, the pieces barely shift against each other. But between the two halves, there's room for a very particular, switch-like movement. Essentially, there are two stable states. One, as we just described, is the tense state. The other is the relaxed (R) state, separated by a 15-degree rotation of one half against the other. There is no intermediate state; like a clicker pen or a light switch, it wants to sit fully in one position or the other.
+When a pull from the bound oxygen travels out through the chain, it strains the clasps &mdash; the salt bridges &mdash; that hold the tense state. A single oxygen is usually not enough to break them, but once one or two have bound, the two halves rotate their 15 degrees, the salt bridges give way, and the molecule switches into the relaxed state. 
 
 <VisualPlaceholder label="T ↔ R switch (diagram) — the two stable states side by side, with the 15° rotation of one αβ half against the other." />
 
-When the tug on the iron from the bound oxygen travels out through the chain, it puts a strain on the clasps holding the T setting. Usually one oxygen doesn't apply enough strain to flip the switch. But past a threshold, the two halves rotate 15 degrees, the T-state salt bridges snap open, and the whole molecule switches to the R state.
+This flip means that the remaining oxygen now binds more readily. Thus a positive feedback emerges: the first one or two oxygens have the hardest task, binding to a reluctant tense state and paying the higher energy cost to flip the molecule into the relaxed state. But once it has flipped, the remaining oxygens bind to the eager relaxed state almost for free. One bound oxygen makes the next three easier to bind. This working together is called cooperativity, and as we’ll see later, it enables some very advantageous behavior. 
 
-Now, why does this flip matter? In the T state, the rigid surrounding structure actively restrains the proximal histidine, holding the iron back from sliding into the porphyrin plane. So for an oxygen to bind, it has to "fight" the protein — or, in chemistry terms, it has low affinity. In the R state, that restraint is released, and the iron moves more freely, which makes binding easier: high affinity. The heme's willingness to grab oxygen is shaped by the molecular structure around it. In the R state, its appetite for oxygen is larger.
-
-And so there's a positive feedback in play. The early oxygens — let's say the first two — have the hardest job, because they have to bind in the reluctant T state and thus pay the energetic cost of flipping the switch to R. But once it's flipped, the remaining two oxygens get to bind the eager R state for essentially free. This working together is known as cooperativity.
-
-There's another interesting structural piece of the puzzle here. The iron in the heme "grabs" oxygen — but when iron reacts with oxygen, it normally forms iron oxide, otherwise known as rust. If hemoglobin did that, it would not be able to deliver oxygen, and our nanomachine, ironically like many of our industrial machines, would fail due to rusting. But it doesn't rust. That's because oxygen doesn't "fully" bond with the iron: when it lands, the iron doesn't fully hand over its spare electron — it only leans the electron partway toward the oxygen. So the bound state is a kind of tense in-between that's easy to reverse.
-
-That lean — oxygen sits at about a 120-degree angle where it connects to the iron — is steadied from above by the distal histidine we met earlier. It hovers over the oxygen and, like a weak hydrogen bond, a faint electrostatic tether, holds the oxygen at a comfortable angle and keeps the whole arrangement gentle and returnable.
+In the animation above, we left out the distal histidine, but it too has a crucial role in this binding process. Left to themselves, joining oxygen and ferrous iron forms iron oxide, also known as rust. Were that to happen, hemoglobin would be ruined and not be able to deliver oxygen. But it doesn’t happen, because oxygen doesn’t *fully* react with iron. Rather than fully surrendering its spare electron and making a complete bond, iron only partially shares it, and oxygen, for its part, only leans in partway, like two frenemies reluctant to properly shake hands. That partway lean, with oxygen settling at roughly a 120 degree tilt where it meets iron, is steadied from above by the distal histidine. It hovers above and forms a weak bond &mdash; an electrostatic tether &mdash; holding the oxygen at that angle and keeping the binding gentle and easily reversible. Essentially, the exact reaction that eats ships and bridges is *almost* running in your blood, deliberately frozen a hair short of completion so it can be undone and redone trillions of times to catch and release oxygen.
 
 <MorphFigure url={LEAN_MORPH_URL} />
 
-Along with helping prevent rusting, the distal histidine has another crucial role: it's a quiet bodyguard against carbon monoxide. Without the hovering protein, CO binds something like 20,000 times more tightly to iron than oxygen does. But CO likes to bind straight, and the distal histidine forces it to join on a tilt instead, which makes for a weaker connection. Its advantage over oxygen drops from 20,000× to about 200× — a 100× decrease. Still poisonous, but meaningfully blunted. Without it, sitting by a fire would be 100 times worse for you.
+{/* This para should be an aside or a footnote */}
+The distal histidine also acts as a guard against carbon monoxide. On bare iron, without this protein around it, carbon monoxide binds some 20,000 times more tightly than oxygen. But carbon monoxide likes to bind held straight; the same distal histidine, which stabilizes oxygen in its tilted state, doesn’t let CO sit as comfortably. Its advantage over oxygen falls from about 20,000 to 200, a hundredfold reduction. It’s still poisonous, but without the hovering protein the smoke of an ordinary fire would be a hundred times more dangerous to breathe.
 
 <H2 className="mt-8">How hemoglobin releases oxygen</H2>
 
-How does it know when? The molecule doesn't decide, it's the conditions around it that signal that oxygen is in demand, and help take it from hemoglobin. On the mechanical level, delivery mostly does work like catching in reverse — hemoglobin switches from the R to the T state, which holds on more loosely to oxygen and which allows it to leave to where it needs to go, like a tissue desperate for oxygen.
+[Something to set the scene? The importance?] Mechanically, releasing oxygen works mostly like catching in reverse: hemoglobin switches from the relaxed state back to the tense state, which grips oxygen more loosely and lets it slip away to a tissue that needs it.
 
-But how does it know when to switch from R to T? (Think of it like unfastening the seatbelt after its journey.) There are a number of effects.
+But what makes hemoglobin switch states? The several factors in play are characteristically clever. Let’s say you’re doing a hard set of squats. Your quadriceps are burning lots of oxygen and releasing lots of carbon dioxide, which dissolve in the blood and make it more acidic. The extra protons of that acid bind to the ends of the hemoglobin chain and give them a positive charge, forming new salt bridges. These added clasps tip the protein back towards the tense state. This response – of the carbon dioxide produced by consuming oxygen becoming the signal to deliver more oxygen – is called the Bohr effect. The waste product of burning oxygen is the signal for exactly where the demand for more oxygen is greatest. 
 
-Let's say that you are doing squats, and your quads are getting really worked up. When it's active, the tissue in your quads produce carbon dioxide, which pours out and becomes acid in the blood. The extra protons of acid bind onto the ends of hemoglobin and turn them positive, which creates extra salt-bridges. Acid, in other words, adds clasps to hemoglobin and helps it switch to the T state. Thus, carbon dioxide, the waste signal of using oxygen, becomes the signal to deliver more of it.
+<VisualPlaceholder label="diagram of clasping" />
 
-Another mechanism to cajole hemoglobin from R to T is a small molecule called 2,3-BPG (2,3-bisphosphoglycerate, full form; manufactured by red blood cells). In the T state, there is a small cavity between the two halves. In the R state, the rotation squeezes the cavity. The 2,3-BPG wedges into the cavity and props it open to keep it in the T state, like a doorstop.
+Not all the carbon dioxide turns to acid though. Some of them bind directly to the ends of the hemoglobin chain, like people grabbing a leaving train. Those ends turn into carbamate groups. They even form preferentially in the tense, deoxygenated state, hanging on hemoglobin that has just unloaded its cargo, and like the acid and salt bridges, stabilizing this T state and reinforcing the Bohr effect. Through this, the carbon dioxide will hitch a ride back to the lungs, where the high oxygen pressure pushes hemoglobin back to the R state, breaking the salt bridges and carbamate and letting CO2 fall off, and eventually into air that is exhaled. Oxygen released in tissues lets carbon dioxide attach; oxygen attaching in the lungs pushes out carbon dioxide. This process is known as the Haldane effect, the structural mirror of the Bohr effect.
 
-Heat is another factor — a warm muscle pushes the balance towards release.
+There is yet another signal that tips hemoglobin from relaxed to tense state. In the tense state, a small cavity opens between the two chain halves; in the relaxed state, the rotation closes the gap. Red blood cells produce a tiny molecule called 2,3-biphosphoglycerate, or 2,3-BPG, that slots into that cavity and props it in the tense state, like a doorstop wedged under a door. 
 
 <VisualPlaceholder label="Companion diagram (T↔R style): the two halves and the 15° switch, salt-bridge clasps holding T, with acid's extra clasps at the chain ends and the 2,3-BPG doorstop in the central cavity layered on — all three release factors on one frame." />
 
-Footnote: CO₂ has a secondary role as carbamate groups.
-
 <H2 className="mt-8">Cooperativity</H2>
 
-In the catching section, we showed how one heme binding with oxygen makes the remaining oxygens bind more easily — a positive effect. Releasing is similar: letting go of one oxygen makes the remaining ones easier to release — another positive effect. This phenomenon is called cooperativity, and it's a very important property this structure provides. It lets oxygen be picked up quickly in an oxygen-rich environment, like the lungs, and released quickly in oxygen-deficient ones, like an active muscle.
+So far we have seen the mechanics of a single hemoglobin molecule. The binding and release of oxygen are two sides of the same loop: one heme binding with oxygen makes the others bind more easily; one heme letting go of oxygen makes the others let go more easily. This is cooperativity, and it allows oxygen to be gathered quickly where it is plentiful, as in the lungs, and surrendered quickly where it is scarce, as in a working muscle. 
 
-You can graph cooperativity by showing what percentage of hemoglobin is oxygenated — how saturated it is — against how much oxygen is in the environment, the partial pressure of oxygen.
+This relationship between the availability of oxygen (measured by its partial pressure) and the amount of oxygen hemoglobin holds (measured as percent saturated) can be graphed for all the hemoglobin in a given body. Cooperativity is what gives the curve its sigmoidal (S-shaped) curve. 
 
-It has a sigmoidal shape, often referred to as the S shape, and the shape itself is a result of cooperativity. At the low end, increasing the pressure leads to a very slow increase in saturation. But after a certain threshold there's a steep increase — small increases in tension lead to much larger increases in saturation, as the positive loop kicks in. At high saturation it levels off again, since there are fewer and fewer seats left for oxygen to hold onto.
+<VisualPlaceholder label="diagram of curve + hemoglobin seats. Make it interactive?" />
+
+At the low end to the very left, increasing oxygen pressure leads to a very slow increase in saturation. Here, most hemoglobin are in the tense state. But, after a certain threshold, there is a steep increase; small increases in pressure lead to larger increases in saturation as the hemoglobins switch to the R state and the positive loop kicks in. At high pressure, saturation levels off, given that there’s fewer and fewer seats for oxygen to hold onto.
 
 <figure className="my-8 w-full scroll-mt-24 lg:my-12">
   <div className="mx-auto w-full max-w-md">
@@ -168,15 +176,23 @@ It has a sigmoidal shape, often referred to as the S shape, and the shape itself
   </div>
 </figure>
 
-That middle steep rise is cooperativity made visible. At the low end, most hemoglobin sits in the T state. The steep rise in the centre happens because, as they take on a bit of oxygen and switch to R, it becomes easier to pick up more — until there are few slots left and it tapers off. A one-seat carrier like myoglobin has no switch, so its curve is hyperbolic instead: it picks oxygen up quickly and then holds onto it. (Toggle myoglobin on the chart to compare.)
+At sea level, the pressure in your lungs is ~95mmHg, which loads your hemoglobins to almost full, about 98%. If you climb a small mountain, say 1800m above sea level, this pressure drops to ~75mmHg, but saturation remains steady at ~95%. Resting tissue has a pressure of 40mmHg, resulting in a saturation of ~75%, meaning a muscle at rest only consumes a quarter of all available oxygen. It sits right at the top of the steep part of the curve; a small dip in pressure here means relatively a lot more oxygen is released. A working muscle, which has a pressure of 20mmHg, has a saturation of ~32%, meaning it now consumes two-thirds of the available oxygen. 
 
-Other factors — acid (the Bohr effect), CO₂, BPG, and heat — shift the curve to the right, toward lower affinity. One way to think about it is to look at P50: the pressure at which hemoglobin is half-saturated. For a right-shifted curve, P50 sits at a higher pressure — in other words, hemoglobin lets go of its oxygen more easily than normal, which is exactly what those signals are for: a higher demand for oxygen.
+In both cases, the difference in pressure is the same: 20mmHg. But the drop in saturation is not. At high pressures, the drop doesn’t change saturation much, allowing you to still breathe relatively well at elevation. For tissues, the same 20mmHg that separates a resting tissue from a working one does exactly what you’d want in that situation: it unloads much more oxygen to feed the muscle. 
 
-The myoglobin curve is also a good place to see the benefit of the switch. At the pressure in the lungs, the two are effectively at the same saturation. But at hemoglobin's P50, myoglobin still holds most of its oxygen — it's a good storer — while hemoglobin, by definition, has already given half of its away. It's built to release quickly.
+The switch between states enables this. Were hemoglobin stuck in the R state, it would grab oxygen greedily in the lungs but refuse to release it in the tissues; and were it stuck in the T state, it would deliver oxygen well but never load up properly in the first place. The switch allows it to change appetite depending on where it is.
 
-To put real numbers on it: atmospheric pressure at sea level is around 95 mmHg, which loads hemoglobin to about 98%. At 60 mmHg it's still around 90%, so you can be quite elevated — an airplane cabin, say — without gasping. Resting tissue sits around 40 mmHg, right in that steep drop, so a small dip in pressure releases a lot of oxygen. An oxygen-hungry active muscle might be lower still, around 20 mmHg. 40 mmHg is about 75% saturation; 20 mmHg is about 30%. A similar 20 mmHg drop up at the top, from 95 to 75, only costs about 3% in saturation. The curve shows the behavior of the molecule as a whole: roughly 15× the oxygen delivered for the same drop in pressure, exactly what you want in that situation. (One thing to keep in mind: the drop in pressure is instant, while the shifts from acid, CO₂, BPG, and heat take some time.)
+---
 
-There's a shift in the other direction, too. Fetal hemoglobin is left-shifted, with a higher affinity, which lets it pull oxygen from the mother's blood across the placenta.
+When we described how hemoglobin releases oxygen, we pointed out several effectors that push it to release: the Bohr effect (CO2 dissolving to acid), carbamate groups (CO2 attaching directly), and 2,3-BPG. Each of these shifts the curve. These examples shift the curve to the right. You can compare curves with the p50, the pressure at which hemoglobin is 50% saturated. A right shifted curve has a higher p50, which means that it takes less of a pressure drop to get rid of oxygen. In other words, hemoglobin lets go of its oxygen more easily than normal – it has a lower affinity for oxygen – exactly what those signals are meant for, a higher demand for oxygen. 
+
+Among these, 2,3-BPG, the small molecule manufactured inside red blood cells, plays an important role as a regulator in ensuring that hemoglobin’s affinity sits at the right level: a p50 of ~26mmHg. Without it, the curve would shift left – it would be great at grabbing oxygen but reluctant to deliver it. The body can adjust the concentration of this molecule to tune the affinity. For example, at high altitudes, it can produce more of it to improve oxygen unloading.
+
+This same tiny molecule plays a double role in fetal hemoglobin, which has a slightly different structure, substituting the beta chain with a gamma chain. The 2,3-BPG doesn’t bind as well with fetal hemoglobin, and so it stays left-shifted relative to the mother’s curve. The higher oxygen affinity of this left shifted curve means that it literally pulls the oxygen from the mother’s blood at the placenta border.
+
+---
+
+[Conclusion]
 
 <PostArticleSubscribe />
 
