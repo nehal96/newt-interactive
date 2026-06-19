@@ -11,6 +11,7 @@ import MorphFigure, {
 import TRSwitchFigure from "../../../interactives/essays/hemoglobin/quaternary/TRSwitchFigure";
 import BpgDoorstopFigure from "../../../interactives/essays/hemoglobin/release/BpgDoorstopFigure";
 import BohrFigure from "../../../interactives/essays/hemoglobin/release/BohrFigure";
+import SaturationPopulationFigure from "../../../interactives/essays/hemoglobin/cooperativity/SaturationPopulationFigure";
 
 export const metadata = {
   title: "Hemoglobin",
@@ -169,7 +170,7 @@ So far we have seen the mechanics of a single hemoglobin molecule. The binding a
 
 This relationship between the availability of oxygen (measured by its partial pressure) and the amount of oxygen hemoglobin holds (measured as percent saturated) can be graphed for all the hemoglobin in a given body. Cooperativity is what gives the curve its sigmoidal (S-shaped) curve. 
 
-<VisualPlaceholder label="diagram of curve + hemoglobin seats. Make it interactive?" />
+<SaturationPopulationFigure />
 
 At the low end to the very left, increasing oxygen pressure leads to a very slow increase in saturation. Here, most hemoglobin are in the tense state. But, after a certain threshold, there is a steep increase; small increases in pressure lead to larger increases in saturation as the hemoglobins switch to the R state and the positive loop kicks in. At high pressure, saturation levels off, given that there’s fewer and fewer seats for oxygen to hold onto.
 
