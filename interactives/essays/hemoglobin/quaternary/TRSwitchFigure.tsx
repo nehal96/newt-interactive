@@ -15,13 +15,16 @@ import { cn } from "../../../../lib/utils";
 // on the server and animates only once the reader toggles.
 
 // ---- tunable config ---------------------------------------------------------
-const ANGLE = 15; // degrees the α₂β₂ half rotates between T and R
+// The geometry + palette are exported so the release-section BpgDoorstopFigure
+// can reuse this exact 2D visual language (same blobs, same cavity, same rotor)
+// and just layer the 2,3-BPG doorstop into the central cavity.
+export const ANGLE = 15; // degrees the α₂β₂ half rotates between T and R
 const BLOB_R = 78; // subunit blob radius
 const TWEEN_MS = 700; // T <-> R transition duration
-const PIVOT = { x: 340, y: 220 }; // molecular 2-fold axis (rotation center)
-const VIEWBOX = "80 70 520 332";
+export const PIVOT = { x: 340, y: 220 }; // molecular 2-fold axis (rotation center)
+export const VIEWBOX = "80 70 520 332";
 
-const COLORS = {
+export const COLORS = {
   fixedBeta: "#3F71D8", // α₁β₁ (fixed reference) — β₁ deep blue, α₁ lighter
   fixedAlpha: "#7099E8",
   fixedRim: "#28488F",
@@ -53,14 +56,14 @@ type Subunit = {
 // central cavity (real negative space, not a drawn shape). The α₂β₂ half then
 // rotates 15° and slides toward the pivot (CLOSE_TX) on relaxing, pinching that
 // hole nearly shut.
-const SUBUNITS: Subunit[] = [
+export const SUBUNITS: Subunit[] = [
   { key: "b1", group: "fixed", cx: 276, cy: 160, fill: COLORS.fixedBeta, rim: COLORS.fixedRim, perturbs: [1.04, 0.96, 1.1, 0.92, 1.0, 1.07, 0.9, 1.05], heme: { x: 298, y: 180 }, label: { x: 240, y: 140, text: "β₁" } },
   { key: "a1", group: "fixed", cx: 276, cy: 280, fill: COLORS.fixedAlpha, rim: COLORS.fixedRim, perturbs: [0.96, 1.08, 0.9, 1.05, 1.0, 0.93, 1.1, 0.97], heme: { x: 298, y: 260 }, label: { x: 240, y: 308, text: "α₁" } },
   { key: "b2", group: "mobile", cx: 404, cy: 160, fill: COLORS.mobileBeta, rim: COLORS.mobileRim, perturbs: [0.96, 1.05, 0.9, 1.07, 1.0, 0.92, 1.1, 0.96], heme: { x: 382, y: 180 }, label: { x: 440, y: 140, text: "β₂" } },
   { key: "a2", group: "mobile", cx: 404, cy: 280, fill: COLORS.mobileAlpha, rim: COLORS.mobileRim, perturbs: [1.05, 0.9, 1.07, 0.93, 1.0, 1.08, 0.92, 1.04], heme: { x: 382, y: 260 }, label: { x: 440, y: 308, text: "α₂" } },
 ];
 
-const CLOSE_TX = 22; // how far the α₂β₂ half slides toward the pivot when relaxing
+export const CLOSE_TX = 22; // how far the α₂β₂ half slides toward the pivot when relaxing
 
 // A closed, smooth blob path through `perturbs.length` points around (cx, cy),
 // each pushed out by its radial multiplier. Catmull-Rom → cubic Bézier so the
@@ -86,13 +89,13 @@ function blobPath(cx: number, cy: number, r: number, perturbs: number[]): string
   return `${d}Z`;
 }
 
-const PATHS: Record<string, string> = Object.fromEntries(
+export const PATHS: Record<string, string> = Object.fromEntries(
   SUBUNITS.map((s) => [s.key, blobPath(s.cx, s.cy, BLOB_R, s.perturbs)])
 );
 
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 // easeInOutQuad
-const ease = (p: number) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
+export const ease = (p: number) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
 
 const CAPTION: Record<"T" | "R", string> = {
   T: "Tense (T) — the four subunits sit apart, leaving the central cavity open; hemes empty, low O₂ affinity.",
@@ -101,7 +104,7 @@ const CAPTION: Record<"T" | "R", string> = {
 
 // One subunit: its blob, the heme ring, an O₂ dot that fades in with binding,
 // and the subunit label. `o2` is the current oxygen-bound opacity (0 in T → 1 in R).
-function SubunitShape({ s, o2 }: { s: Subunit; o2: number }) {
+export function SubunitShape({ s, o2 }: { s: Subunit; o2: number }) {
   return (
     <g>
       <path d={PATHS[s.key]} fill={s.fill} stroke={s.rim} strokeWidth={2} strokeOpacity={0.55} />

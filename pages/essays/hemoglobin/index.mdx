@@ -9,6 +9,8 @@ import MorphFigure, {
   LEAN_MORPH_URL,
 } from "../../../interactives/essays/hemoglobin/catching/MorphFigure";
 import TRSwitchFigure from "../../../interactives/essays/hemoglobin/quaternary/TRSwitchFigure";
+import BpgDoorstopFigure from "../../../interactives/essays/hemoglobin/release/BpgDoorstopFigure";
+import BohrFigure from "../../../interactives/essays/hemoglobin/release/BohrFigure";
 
 export const metadata = {
   title: "Hemoglobin",
@@ -153,13 +155,13 @@ The distal histidine also acts as a guard against carbon monoxide. On bare iron,
 
 But what makes hemoglobin switch states? The several factors in play are characteristically clever. Let’s say you’re doing a hard set of squats. Your quadriceps are burning lots of oxygen and releasing lots of carbon dioxide, which dissolve in the blood and make it more acidic. The extra protons of that acid bind to the ends of the hemoglobin chain and give them a positive charge, forming new salt bridges. These added clasps tip the protein back towards the tense state. This response – of the carbon dioxide produced by consuming oxygen becoming the signal to deliver more oxygen – is called the Bohr effect. The waste product of burning oxygen is the signal for exactly where the demand for more oxygen is greatest. 
 
-<VisualPlaceholder label="diagram of clasping" />
+<BohrFigure />
 
 Not all the carbon dioxide turns to acid though. Some of them bind directly to the ends of the hemoglobin chain, like people grabbing a leaving train. Those ends turn into carbamate groups. They even form preferentially in the tense, deoxygenated state, hanging on hemoglobin that has just unloaded its cargo, and like the acid and salt bridges, stabilizing this T state and reinforcing the Bohr effect. Through this, the carbon dioxide will hitch a ride back to the lungs, where the high oxygen pressure pushes hemoglobin back to the R state, breaking the salt bridges and carbamate and letting CO2 fall off, and eventually into air that is exhaled. Oxygen released in tissues lets carbon dioxide attach; oxygen attaching in the lungs pushes out carbon dioxide. This process is known as the Haldane effect, the structural mirror of the Bohr effect.
 
 There is yet another signal that tips hemoglobin from relaxed to tense state. In the tense state, a small cavity opens between the two chain halves; in the relaxed state, the rotation closes the gap. Red blood cells produce a tiny molecule called 2,3-biphosphoglycerate, or 2,3-BPG, that slots into that cavity and props it in the tense state, like a doorstop wedged under a door. 
 
-<VisualPlaceholder label="Companion diagram (T↔R style): the two halves and the 15° switch, salt-bridge clasps holding T, with acid's extra clasps at the chain ends and the 2,3-BPG doorstop in the central cavity layered on — all three release factors on one frame." />
+<BpgDoorstopFigure />
 
 <H2 className="mt-8">Cooperativity</H2>
 
