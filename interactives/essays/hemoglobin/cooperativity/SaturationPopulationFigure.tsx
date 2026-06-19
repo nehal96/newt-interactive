@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "../../../../lib/utils";
-import { COLORS } from "../quaternary/TRSwitchFigure";
+import { CHART, ChartFrame, curvePath, OXYGEN, PLOT, px, py, saturation } from "./chart";
 
 // The saturation curve drawn as a population average: the S-curve up top, and a
 // single row of hemoglobin molecules beneath it. Drag the oxygen pressure and
@@ -9,33 +9,18 @@ import { COLORS } from "../quaternary/TRSwitchFigure";
 // nothing between empty (T) and full (R); the smooth curve is just the average
 // fraction of filled seats over the whole crowd. Pure SVG + a little state, so it
 // renders the resting state on the server and updates only on the reader's input.
-
-// ---- model ------------------------------------------------------------------
-// Hill equation, saturation as a fraction 0–1. P50 ≈ 26 mmHg (2,3-BPG sets it)
-// and n ≈ 2.9 reproduce the essay's anchor numbers (20→32%, 40→76%, 95→98%).
-const P50 = 26;
-const N_HILL = 2.9;
-const sat = (p: number) => (p <= 0 ? 0 : p ** N_HILL / (P50 ** N_HILL + p ** N_HILL));
-
-// ---- plot geometry (SVG user units) ----------------------------------------
-const X0 = 42;
-const X1 = 424;
-const YT = 28; // y of 100% saturation
-const YB = 168; // y of 0% saturation
-const px = (p: number) => X0 + (p / 100) * (X1 - X0);
-const py = (s: number) => YB - s * (YB - YT); // s is a fraction 0–1
+// Model, plot geometry and axes come from the shared ./chart primitives.
 
 // ---- population row ----------------------------------------------------------
 const N = 12; // molecules in the crowd
 const SEATS = 4; // O₂ seats per molecule (the four hemes)
 const WIDTH = 0.12; // how sharply a molecule tips empty→full (a couple caught mid-flip)
 // A fixed scattered tip-order (a permutation of 0…N-1) so the crowd fills like a
-// real sample rather than a left-to-right sweep — and is identical on server and
-// client, avoiding any hydration mismatch.
+// real sample rather than a left-to-right sweep — identical on server and client.
 const ORDER = [5, 0, 8, 3, 11, 6, 1, 9, 4, 10, 2, 7];
 const MOL_W = 30; // per-molecule horizontal cell
 const POP_Y = 222; // top of the population row
-const POP_START = X0 + ((X1 - X0) - N * MOL_W) / 2;
+const POP_START = PLOT.X0 + ((PLOT.X1 - PLOT.X0) - N * MOL_W) / 2;
 const SEAT_XY = [
   [6, 6],
   [18, 6],
@@ -43,29 +28,7 @@ const SEAT_XY = [
   [18, 18],
 ] as const;
 
-const CHART = {
-  curve: "#334155", // slate-700 — calm; orange is reserved for oxygen
-  axis: "#cbd5e1", // slate-300
-  grid: "#eef2f6",
-  tick: "#94a3b8", // slate-400
-  molBg: "#f8fafc",
-  empty: "#cbd5e1", // empty seat ring
-};
-const OXYGEN = COLORS.oxygen; // #E2533C — the same dot as the heme O₂ in the T↔R figure
-
-// Static curve path (the model doesn't change, only the marker does).
-const CURVE_D = (() => {
-  let d = "";
-  for (let p = 0; p <= 100; p += 2) d += `${p === 0 ? "M" : "L"}${px(p).toFixed(1)},${py(sat(p)).toFixed(1)}`;
-  return d;
-})();
-
-const Y_TICKS: [number, string][] = [
-  [0, "0"],
-  [0.5, "50"],
-  [1, "100"],
-];
-const X_TICKS = [0, 20, 40, 60, 80, 100];
+const CURVE_D = curvePath();
 
 const PRESETS = [
   { p: 20, label: "working muscle" },
@@ -83,7 +46,7 @@ const filledSeatsAt = (f: number) =>
 
 export default function SaturationPopulationFigure({ className }: { className?: string }) {
   const [po2, setPo2] = useState(40);
-  const f = sat(po2);
+  const f = saturation(po2);
   const pct = Math.round(f * 100);
   const regime =
     f < 0.25 ? "mostly empty, tense (T)" : f > 0.75 ? "mostly full, relaxed (R)" : "tipping, T → R";
@@ -110,41 +73,14 @@ export default function SaturationPopulationFigure({ className }: { className?: 
               filled seats across the crowd.
             </desc>
 
-            {/* gridlines + y ticks (no gridline at the 100% top — it just adds noise) */}
-            {Y_TICKS.map(([s, label]) => (
-              <g key={`y-${label}`}>
-                {s < 1 && (
-                  <line x1={X0} y1={py(s)} x2={X1} y2={py(s)} stroke={CHART.grid} strokeWidth={1} strokeDasharray="3 4" />
-                )}
-                <text x={X0 - 7} y={py(s)} fill={CHART.tick} fontSize={11} textAnchor="end" dominantBaseline="central">
-                  {label}
-                </text>
-              </g>
-            ))}
-
-            {/* axes */}
-            <line x1={X0} y1={YB} x2={X1} y2={YB} stroke={CHART.axis} strokeWidth={1} />
-            <line x1={X0} y1={YT} x2={X0} y2={YB} stroke={CHART.axis} strokeWidth={1} />
-
-            {/* axis labels */}
-            <text x={X0 - 7} y={15} fill={CHART.tick} fontSize={11} textAnchor="end">
-              % sat
-            </text>
-            {X_TICKS.map((t) => (
-              <text key={`x-${t}`} x={px(t)} y={YB + 16} fill={CHART.tick} fontSize={11} textAnchor="middle">
-                {t}
-              </text>
-            ))}
-            <text x={(X0 + X1) / 2} y={203} fill={CHART.tick} fontSize={11} textAnchor="middle">
-              oxygen pressure (mmHg) →
-            </text>
+            <ChartFrame />
 
             {/* the curve */}
             <path d={CURVE_D} fill="none" stroke={CHART.curve} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
 
             {/* current-pressure marker */}
-            <line x1={mx} y1={YB} x2={mx} y2={my} stroke={CHART.axis} strokeWidth={1} strokeDasharray="3 3" />
-            <line x1={X0} y1={my} x2={mx} y2={my} stroke={CHART.axis} strokeWidth={1} strokeDasharray="3 3" />
+            <line x1={mx} y1={PLOT.YB} x2={mx} y2={my} stroke={CHART.axis} strokeWidth={1} strokeDasharray="3 3" />
+            <line x1={PLOT.X0} y1={my} x2={mx} y2={my} stroke={CHART.axis} strokeWidth={1} strokeDasharray="3 3" />
             <circle cx={mx} cy={my} r={5} fill={OXYGEN} stroke="#fff" strokeWidth={1.5} />
 
             {/* the crowd: one molecule per cell, four seats each */}

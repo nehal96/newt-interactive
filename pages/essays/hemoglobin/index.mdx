@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { H2, MdxLayout, PostArticleSubscribe } from "../../../components";
 import {
   AnatomyBeatBlock,
@@ -12,6 +11,7 @@ import TRSwitchFigure from "../../../interactives/essays/hemoglobin/quaternary/T
 import BpgDoorstopFigure from "../../../interactives/essays/hemoglobin/release/BpgDoorstopFigure";
 import BohrFigure from "../../../interactives/essays/hemoglobin/release/BohrFigure";
 import SaturationPopulationFigure from "../../../interactives/essays/hemoglobin/cooperativity/SaturationPopulationFigure";
+import OperatingPointsFigure from "../../../interactives/essays/hemoglobin/cooperativity/OperatingPointsFigure";
 
 export const metadata = {
   title: "Hemoglobin",
@@ -35,34 +35,6 @@ export const scrollToBeat = (beat) => {
     .getElementById(`beat-${beat}`)
     ?.scrollIntoView({ behavior: "smooth", block: "center" });
 };
-
-{/* A labeled stand-in for an interactive that isn't wired yet. */}
-export function VisualPlaceholder({ label }) {
-  return (
-    <figure className="my-8 w-full lg:my-12">
-      <div className="flex h-[300px] w-full items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-6 text-center text-sm text-slate-400 lg:h-[360px]">
-        {label}
-      </div>
-    </figure>
-  );
-}
-
-{/* The saturation chart owns Victory + a bit of state; lazy + client-only, like
-    the morph figures, so it stays out of the initial bundle and avoids SSR. */}
-export const CooperativityFigure = dynamic(
-  () =>
-    import(
-      "../../../interactives/essays/hemoglobin/cooperativity/CooperativityFigure"
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex h-[300px] w-full items-center justify-center rounded-lg bg-slate-50 text-xs text-slate-400 lg:h-[340px]">
-        Loading chart…
-      </div>
-    ),
-  }
-);
 
 # The Story of Hemoglobin
 
@@ -174,11 +146,7 @@ This relationship between the availability of oxygen (measured by its partial pr
 
 At the low end to the very left, increasing oxygen pressure leads to a very slow increase in saturation. Here, most hemoglobin are in the tense state. But, after a certain threshold, there is a steep increase; small increases in pressure lead to larger increases in saturation as the hemoglobins switch to the R state and the positive loop kicks in. At high pressure, saturation levels off, given that there’s fewer and fewer seats for oxygen to hold onto.
 
-<figure className="my-8 w-full scroll-mt-24 lg:my-12">
-  <div className="mx-auto w-full max-w-md">
-    <CooperativityFigure />
-  </div>
-</figure>
+<OperatingPointsFigure />
 
 At sea level, the pressure in your lungs is ~95mmHg, which loads your hemoglobins to almost full, about 98%. If you climb a small mountain, say 1800m above sea level, this pressure drops to ~75mmHg, but saturation remains steady at ~95%. Resting tissue has a pressure of 40mmHg, resulting in a saturation of ~75%, meaning a muscle at rest only consumes a quarter of all available oxygen. It sits right at the top of the steep part of the curve; a small dip in pressure here means relatively a lot more oxygen is released. A working muscle, which has a pressure of 20mmHg, has a saturation of ~32%, meaning it now consumes two-thirds of the available oxygen. 
 
