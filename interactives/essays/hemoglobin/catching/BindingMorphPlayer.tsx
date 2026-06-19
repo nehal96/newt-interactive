@@ -1,4 +1,5 @@
 import MorphPlayer from "./MorphPlayer";
+import { HB, toHex } from "../palette";
 
 // The "pull" / "lean" interactive: the baked O₂-binding morph, played by the
 // generic MorphPlayer with the heme iron emphasized. All the engine (boot,
@@ -13,9 +14,9 @@ import MorphPlayer from "./MorphPlayer";
 // ~22% drop) is described in the prose but not shown — the iron is a fixed size
 // here. Decide whether to animate sizeFactor across the morph so the visual
 // matches the text, keeping it consistent with the anatomy beats either way.
-const FE_EMPHASIS_HEX = 0xe0762e;
+const FE_EMPHASIS_HEX = toHex(HB.iron.fill);
 const FE_EMPHASIS_SIZE = 0.25;
-const FE_COLOR = "#e0762e"; // same orange in CSS, for the slider accent
+const FE_COLOR = HB.iron.fill; // same orange in CSS, for the slider accent
 
 type BindingMorphPlayerProps = {
   /** Vendored multi-model morph PDB in /public to play and scrub. */

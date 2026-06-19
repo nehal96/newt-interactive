@@ -2,6 +2,7 @@ import { ComponentType } from "react";
 import AnnotatedIron from "./AnnotatedIron";
 import AnnotatedPyrrole from "./AnnotatedPyrrole";
 import AnnotatedPorphyrin from "./AnnotatedPorphyrin";
+import { HB, toHex } from "../palette";
 
 // The anatomy build-up, beat by beat, in assembly order (inside-out). The first
 // three are atomic parts with a flat annotated schematic *beside* the 3D model;
@@ -59,11 +60,13 @@ export type BeatConfig = {
 // Iron's element color in Mol* (matches the SVG sphere) so the panes read as the
 // same atom. The ball-and-stick beats use element coloring (Fe orange, N blue,
 // C grey) with the Fe emphasized on top.
-export const FE_COLOR = 0xe0762e;
+export const FE_COLOR = toHex(HB.iron.fill);
 
-// The two globin chain types, colored for the chain beats: alpha red, beta blue.
-export const ALPHA_COLOR = 0xcb4d4d;
-export const BETA_COLOR = 0x3e6fb0;
+// Chain ribbon colors, from the shared palette. Chains are colored by TYPE —
+// α = blue (chains A, C), β = magenta (chains B, D) — so each chain reads as a
+// distinct component as the molecule is built up, and matches the 2D switch.
+const ALPHA = toHex(HB.alpha.fill); // α chains (A, C) — blue
+const BETA = toHex(HB.beta.fill); //  β chains (B, D) — magenta
 
 export const BEATS: Record<Beat, BeatConfig> = {
   iron: {
@@ -130,11 +133,11 @@ export const BEATS: Record<Beat, BeatConfig> = {
     viewer: {
       url: "/structures/2HHB.pdb",
       representation: "cartoon",
-      // One αβ dimer — half the molecule: an alpha (A, red) clasped to a beta
-      // (B, blue).
+      // One αβ dimer — half the molecule: an alpha (A, blue) clasped to a beta
+      // (B, magenta).
       chainGroups: [
-        { chains: ["A"], color: ALPHA_COLOR },
-        { chains: ["B"], color: BETA_COLOR },
+        { chains: ["A"], color: ALPHA },
+        { chains: ["B"], color: BETA },
       ],
       showPockets: true,
       // All four pockets, but only this dimer's ribbons — the other half's two
@@ -147,11 +150,11 @@ export const BEATS: Record<Beat, BeatConfig> = {
     viewer: {
       url: "/structures/2HHB.pdb",
       representation: "cartoon",
-      // The second αβ dimer (C + D) completes the tetramer — both alphas red,
-      // both betas blue. "Together, this is hemoglobin."
+      // The second αβ dimer (C + D) completes the tetramer — both alphas blue,
+      // both betas magenta. "Together, this is hemoglobin."
       chainGroups: [
-        { chains: ["A", "C"], color: ALPHA_COLOR },
-        { chains: ["B", "D"], color: BETA_COLOR },
+        { chains: ["A", "C"], color: ALPHA },
+        { chains: ["B", "D"], color: BETA },
       ],
       showPockets: true,
     },

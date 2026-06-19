@@ -6,6 +6,7 @@
 // these parts (illustrated in the build-up), not raw components.
 import AtomSphere from "./AtomSphere";
 import Bond from "./Bond";
+import { HB } from "../palette";
 
 type FigureProps = { className?: string };
 
@@ -140,10 +141,12 @@ export function ChainFigure({
   variant,
   className,
 }: FigureProps & { variant: "alpha" | "beta" }) {
+  // From the shared chain palette: chains are colored by type — α = blue,
+  // β = magenta — matching the 3D ribbons and the T<->R switch.
   const c =
     variant === "alpha"
-      ? { fill: "#6B8FD8", stroke: "#3F5FA6" }
-      : { fill: "#4FA890", stroke: "#2E6B58" };
+      ? { fill: HB.alpha.fill, stroke: HB.alpha.rim! }
+      : { fill: HB.beta.fill, stroke: HB.beta.rim! };
   const helix = { rx: 7, width: 14, height: 48 };
   return (
     <svg {...svg("0 0 80 92", className)}>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { cn } from "../../../../lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../../../components";
 import { CHART, ChartFrame, curvePath, P50, PLOT, px, py } from "./chart";
+import { HB } from "../palette";
 
 // Figure 3 of the Cooperativity section: how the curve is tuned. The baseline
 // normal-HbA curve is always shown; each control toggles a comparison curve on
@@ -17,11 +18,14 @@ type ToggleKey = "acid" | "co2" | "bpg" | "hbf";
 
 // Representative P50 values (mmHg): HbA ~26; the right-shifters spread modestly;
 // HbF sits well left. Illustrative magnitudes, not a single measured condition.
+// Colors come from the shared palette so each effector reads the same here as in
+// its own figure: acid = Bohr purple, CO₂ = teal, 2,3-BPG = yellow (the
+// doorstop), fetal Hb = rose.
 const FACTORS: { key: ToggleKey; label: string; p50: number; color: string; tip: string }[] = [
-  { key: "acid", label: "acid", p50: 38, color: "#D4537E", tip: "P₅₀ of 38 — releases more" }, // pink
-  { key: "co2", label: "CO₂", p50: 34, color: "#BA7517", tip: "P₅₀ of 34 — releases more" }, // amber
-  { key: "bpg", label: "2,3-BPG", p50: 31, color: "#1D9E75", tip: "P₅₀ of 31 — releases more" }, // teal (matches the BPG doorstop figure)
-  { key: "hbf", label: "fetal Hb", p50: 19, color: "#534AB7", tip: "P₅₀ of 19 — holds tighter" }, // purple
+  { key: "acid", label: "acid", p50: 38, color: HB.acid.fill, tip: "P₅₀ of 38 — releases more" },
+  { key: "co2", label: "CO₂", p50: 34, color: HB.co2.fill, tip: "P₅₀ of 34 — releases more" },
+  { key: "bpg", label: "2,3-BPG", p50: 31, color: HB.bpg.fill, tip: "P₅₀ of 31 — releases more" },
+  { key: "hbf", label: "fetal Hb", p50: 19, color: HB.fetalHb.fill, tip: "P₅₀ of 19 — holds tighter" },
 ];
 
 const BASELINE_D = curvePath(P50);

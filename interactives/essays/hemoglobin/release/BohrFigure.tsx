@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import dynamic from "next/dynamic";
 import { useInViewport } from "../../../../hooks";
+import { HB, toHex } from "../palette";
 
 // The Bohr salt-bridge morph: an incoming proton lands on β-His146 and its ring
 // swings to clasp Asp94 — the electrostatic clasp that helps lock the tense (T)
@@ -13,8 +14,8 @@ export const BOHR_MORPH_URL = "/structures/bohr-salt-bridge-morph.pdb";
 // The incoming proton, tracked as a violet sphere over the element-colored
 // pocket (His ring N blue, Asp carboxyl O red). sizeFactor 0.55 → H_vdW(1.1) ×
 // 0.55 ≈ 0.6 Å, big enough to read as the hero atom without dwarfing the ring.
-const PROTON_HEX = 0x7c5cf0;
-const PROTON_COLOR = "#7c5cf0";
+const PROTON_HEX = toHex(HB.acid.fill);
+const PROTON_COLOR = HB.acid.fill;
 const PROTON_SIZE = 0.55;
 
 // The player owns its own WebGL engine (Mol*), so it's client-only and lazy —

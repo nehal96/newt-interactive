@@ -7,11 +7,12 @@ import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
 import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postprocessing";
 import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
 import { acquireBootSlot } from "./boot-queue";
+import { HB, toHex } from "../palette";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
 
 // Iron's emphasis color (matches the SVG sphere + the iron beat's spacefill).
-const FE_EMPHASIS_COLOR = 0xe0762e;
+const FE_EMPHASIS_COLOR = toHex(HB.iron.fill);
 // MolScript: every iron atom (the heme Fe — the star of the build-up).
 const IRON_EXPR = MS.struct.generator.atomGroups({
   "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es("Fe")]),
@@ -211,8 +212,9 @@ export default function MoleculeViewer({
       const structure = await plugin.builders.structure.createStructure(model);
 
       if (chainGroups && chainGroups.length > 0) {
-        // Chain beats: one uniformly-colored cartoon ribbon per chain group
-        // (alpha A/C red, beta B/D blue). Chains in no group aren't drawn.
+        // Chain beats: one uniformly-colored cartoon ribbon per chain group,
+        // colored by type from the shared palette (α blue, β magenta). Chains in
+        // no group aren't drawn.
         for (const group of chainGroups) {
           const comp =
             await plugin.builders.structure.tryCreateComponentFromExpression(

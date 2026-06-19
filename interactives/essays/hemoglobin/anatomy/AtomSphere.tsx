@@ -4,18 +4,27 @@
 // flat fill with a hairline rim for definition. A "shaded" variant (radial
 // shading + specular + contact shadow) is kept available for one-off uses.
 
+import { HB, type Swatch } from "../palette";
+
 export type Element = "Fe" | "C" | "N" | "O" | "H";
 
-// Muted CPK palette — base (flat fill), light (highlight), rim (edge).
+// Muted CPK palette — base (flat fill), light (highlight), rim (edge) — derived
+// from the shared palette so the SVG atoms match the Mol* element coloring.
+const atom = (s: Swatch, name: string) => ({
+  base: s.fill,
+  light: s.light!,
+  rim: s.rim!,
+  name,
+});
 export const ATOM_PALETTE: Record<
   Element,
   { base: string; light: string; rim: string; name: string }
 > = {
-  Fe: { base: "#E0762E", light: "#F8BC8B", rim: "#A8531A", name: "Iron" },
-  C: { base: "#D9D8CF", light: "#F3F2EC", rim: "#B4B3A9", name: "Carbon" },
-  N: { base: "#3F71D8", light: "#8BAAF1", rim: "#2A4FA6", name: "Nitrogen" },
-  O: { base: "#E2533C", light: "#F59781", rim: "#B23A28", name: "Oxygen" },
-  H: { base: "#EFEEE9", light: "#FFFFFF", rim: "#CDCCC4", name: "Hydrogen" },
+  Fe: atom(HB.iron, "Iron"),
+  C: atom(HB.carbon, "Carbon"),
+  N: atom(HB.nitrogen, "Nitrogen"),
+  O: atom(HB.oxygen, "Oxygen"),
+  H: atom(HB.hydrogen, "Hydrogen"),
 };
 
 type AtomSphereProps = {

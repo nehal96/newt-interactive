@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "../../../../lib/utils";
+import { HB, NEUTRAL, SWITCH_CHAINS } from "../palette";
 
 // The T <-> R quaternary switch as a flat 2D schematic, the diagram counterpart
 // to the 3D morphs in the catching section. Hemoglobin is drawn as four subunit
-// "blobs" in two αβ dimers (the surface-render look of the reference figures):
-// the blue α₁β₁ half is the fixed reference, the magenta α₂β₂ half rotates 15°
-// about the molecular 2-fold axis between the tense (deoxy) and relaxed (oxy)
-// states. The hole left between the four subunits IS the central cavity (the
-// 2,3-BPG site); as the α₂β₂ half swings in, the four hemes load with O₂ and
-// the cavity pinches nearly shut.
+// "blobs" in two αβ dimers (the surface-render look of the reference figures).
+// Subunits are colored by chain type — α blue, β magenta — with the two copies
+// separated by lightness: the α₁β₁ half (lighter) is the fixed reference, the
+// α₂β₂ half (deep) rotates 15° about the molecular 2-fold axis between the tense
+// (deoxy) and relaxed (oxy) states. The hole left between the four subunits IS
+// the central cavity (the 2,3-BPG site); as the α₂β₂ half swings in, the four
+// hemes load with O₂ and the cavity pinches shut.
 //
 // Everything is parametric so the look is easy to tweak: see the config block
 // below. Pure SVG + a little state — no WebGL, SSR-safe, renders in the T state
@@ -24,18 +26,22 @@ const TWEEN_MS = 700; // T <-> R transition duration
 export const PIVOT = { x: 340, y: 220 }; // molecular 2-fold axis (rotation center)
 export const VIEWBOX = "80 70 520 332";
 
+// The chain palette lives in ../palette. Here in the switch, chains keep their
+// type hue (α blue, β magenta) and the two αβ copies are separated by lightness
+// (reference half deep, mobile half lighter) — so all four subunits are
+// distinct, while the 3D ribbons / manifest / prose use the two flat type hues.
 export const COLORS = {
-  fixedBeta: "#3F71D8", // α₁β₁ (fixed reference) — β₁ deep blue, α₁ lighter
-  fixedAlpha: "#7099E8",
-  fixedRim: "#28488F",
-  mobileBeta: "#C04E92", // α₂β₂ (rotates) — β₂ deep magenta, α₂ lighter
-  mobileAlpha: "#D279AE",
-  mobileRim: "#8C2F6B",
-  hemeRing: "#ffffff",
-  oxygen: "#E2533C", // matches the O atom in the anatomy palette
-  angleArm: "#E0A33A", // the 15° rotation arm (amber)
-  angleLabel: "#B57E1F",
-  axis: "#94A3B8", // slate-400 — the dashed molecular 2-fold axis
+  alpha1: SWITCH_CHAINS.alpha1, // α₁ — light blue (fixed reference)
+  alpha2: SWITCH_CHAINS.alpha2, // α₂ — deep blue (mobile, rotates)
+  alphaRim: SWITCH_CHAINS.alphaRim,
+  beta1: SWITCH_CHAINS.beta1, // β₁ — light magenta (fixed reference)
+  beta2: SWITCH_CHAINS.beta2, // β₂ — deep magenta (mobile, rotates)
+  betaRim: SWITCH_CHAINS.betaRim,
+  hemeRing: NEUTRAL.hemeRing,
+  oxygen: HB.oxygen.fill, // matches the O atom in the anatomy palette
+  angleArm: NEUTRAL.angleArm, // the 15° rotation arm (amber)
+  angleLabel: NEUTRAL.angleLabel,
+  axis: NEUTRAL.tick, // slate-400 — the dashed molecular 2-fold axis
 };
 
 type Group = "fixed" | "mobile";
@@ -57,10 +63,10 @@ type Subunit = {
 // rotates 15° and slides toward the pivot (CLOSE_TX) on relaxing, pinching that
 // hole nearly shut.
 export const SUBUNITS: Subunit[] = [
-  { key: "b1", group: "fixed", cx: 276, cy: 160, fill: COLORS.fixedBeta, rim: COLORS.fixedRim, perturbs: [1.04, 0.96, 1.1, 0.92, 1.0, 1.07, 0.9, 1.05], heme: { x: 298, y: 180 }, label: { x: 240, y: 140, text: "β₁" } },
-  { key: "a1", group: "fixed", cx: 276, cy: 280, fill: COLORS.fixedAlpha, rim: COLORS.fixedRim, perturbs: [0.96, 1.08, 0.9, 1.05, 1.0, 0.93, 1.1, 0.97], heme: { x: 298, y: 260 }, label: { x: 240, y: 308, text: "α₁" } },
-  { key: "b2", group: "mobile", cx: 404, cy: 160, fill: COLORS.mobileBeta, rim: COLORS.mobileRim, perturbs: [0.96, 1.05, 0.9, 1.07, 1.0, 0.92, 1.1, 0.96], heme: { x: 382, y: 180 }, label: { x: 440, y: 140, text: "β₂" } },
-  { key: "a2", group: "mobile", cx: 404, cy: 280, fill: COLORS.mobileAlpha, rim: COLORS.mobileRim, perturbs: [1.05, 0.9, 1.07, 0.93, 1.0, 1.08, 0.92, 1.04], heme: { x: 382, y: 260 }, label: { x: 440, y: 308, text: "α₂" } },
+  { key: "b1", group: "fixed", cx: 276, cy: 160, fill: COLORS.beta1, rim: COLORS.betaRim, perturbs: [1.04, 0.96, 1.1, 0.92, 1.0, 1.07, 0.9, 1.05], heme: { x: 298, y: 180 }, label: { x: 240, y: 140, text: "β₁" } },
+  { key: "a1", group: "fixed", cx: 276, cy: 280, fill: COLORS.alpha1, rim: COLORS.alphaRim, perturbs: [0.96, 1.08, 0.9, 1.05, 1.0, 0.93, 1.1, 0.97], heme: { x: 298, y: 260 }, label: { x: 240, y: 308, text: "α₁" } },
+  { key: "b2", group: "mobile", cx: 404, cy: 160, fill: COLORS.beta2, rim: COLORS.betaRim, perturbs: [0.96, 1.05, 0.9, 1.07, 1.0, 0.92, 1.1, 0.96], heme: { x: 382, y: 180 }, label: { x: 440, y: 140, text: "β₂" } },
+  { key: "a2", group: "mobile", cx: 404, cy: 280, fill: COLORS.alpha2, rim: COLORS.alphaRim, perturbs: [1.05, 0.9, 1.07, 0.93, 1.0, 1.08, 0.92, 1.04], heme: { x: 382, y: 260 }, label: { x: 440, y: 308, text: "α₂" } },
 ];
 
 export const CLOSE_TX = 22; // how far the α₂β₂ half slides toward the pivot when relaxing

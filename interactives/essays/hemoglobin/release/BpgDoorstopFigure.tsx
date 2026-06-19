@@ -10,6 +10,7 @@ import {
   useSwitchTween,
   VIEWBOX,
 } from "../quaternary/TRSwitchFigure";
+import { HB } from "../palette";
 
 // The 2,3-BPG "doorstop", drawn in the same flat 2D language as the T<->R
 // switch (it reuses TRSwitchFigure's blobs, cavity and rotor wholesale). The
@@ -23,9 +24,9 @@ import {
 // the rotor maths are identical; only the doorstop overlay is new.
 
 const BPG = {
-  fill: "#2E9E6F", // teal-green — distinct from the blue/magenta subunits & O₂
-  rim: "#1C6B49",
-  label: "#C6E8D8", // pale green — softer on the body than full white
+  fill: HB.bpg.fill, // yellow — distinct from the blue/magenta subunits, O₂ & the β-chain green
+  rim: HB.bpg.rim!,
+  label: HB.bpg.ink, // dark amber — readable on the light yellow body
 };
 
 const CAPTION: Record<"in" | "out", string> = {

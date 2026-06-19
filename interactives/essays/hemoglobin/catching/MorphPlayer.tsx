@@ -8,6 +8,7 @@ import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postproces
 import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
 import { PluginCommands } from "molstar/lib/mol-plugin/commands";
 import { acquireBootSlot } from "../anatomy/boot-queue";
+import { HB } from "../palette";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
 
@@ -144,7 +145,7 @@ export default function MorphPlayer({
   active = true,
   emphasis = null,
   showInteractions = false,
-  accentColor = "#e0762e",
+  accentColor = HB.iron.fill,
   durationMs = DEFAULT_DURATION_MS,
   className,
 }: MorphPlayerProps) {

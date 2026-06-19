@@ -1,4 +1,4 @@
-import { COLORS } from "../quaternary/TRSwitchFigure";
+import { HB, NEUTRAL } from "../palette";
 
 // Shared chart primitives for the cooperativity saturation-curve figures, so the
 // "filling up" population figure, the operating-points figure, and the shift /
@@ -22,14 +22,14 @@ export const px = (p: number) => PLOT.X0 + (p / PLOT.PMAX) * (PLOT.X1 - PLOT.X0)
 export const py = (s: number) => PLOT.YB - s * (PLOT.YB - PLOT.YT); // s is a fraction 0–1
 
 export const CHART = {
-  curve: "#334155", // slate-700 — calm; orange is reserved for oxygen
-  axis: "#cbd5e1", // slate-300
-  grid: "#eef2f6",
-  tick: "#94a3b8", // slate-400
-  molBg: "#f8fafc",
-  empty: "#cbd5e1", // empty seat ring
+  curve: NEUTRAL.curve, // slate-700 — calm; orange is reserved for oxygen
+  axis: NEUTRAL.axis, // slate-300
+  grid: NEUTRAL.grid,
+  tick: NEUTRAL.tick, // slate-400
+  molBg: NEUTRAL.molBg,
+  empty: NEUTRAL.empty, // empty seat ring
 };
-export const OXYGEN = COLORS.oxygen; // #E2533C — the heme O₂ dot from the T↔R figure
+export const OXYGEN = HB.oxygen.fill; // #E2533C — the heme O₂ dot from the T↔R figure
 
 // An SVG path for the saturation curve at a given p50/n.
 export function curvePath(p50 = P50, n = N_HILL, step = 2) {
