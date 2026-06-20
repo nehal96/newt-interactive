@@ -1,14 +1,11 @@
 import { ComponentType } from "react";
-import AnnotatedIron from "./AnnotatedIron";
-import AnnotatedPyrrole from "./AnnotatedPyrrole";
-import AnnotatedPorphyrin from "./AnnotatedPorphyrin";
 import { HB, toHex } from "../palette";
 
-// The anatomy build-up, beat by beat, in assembly order (inside-out). The first
-// three are atomic parts with a flat annotated schematic *beside* the 3D model;
-// the last three are pocket beats (3D-only — no clean 2D schematic) that add the
-// histidines and reveal the full heme. The build-up stops here, before the
-// alpha/beta chains.
+// The anatomy build-up, beat by beat, in assembly order (inside-out). Each beat
+// is shown as its 3D model alone. (The first three atomic parts — iron, pyrrole,
+// porphyrin — used to carry a flat annotated 2D schematic beside the 3D model;
+// those were dropped in favor of a consistent 3D look.) The later beats add the
+// histidines, the heme, and finally the alpha/beta chains.
 export type Beat =
   | "iron"
   | "pyrrole"
@@ -25,7 +22,11 @@ export type ChainGroup = { chains: string[]; color: number };
 
 export type BeatConfig = {
   label: string;
-  /** Flat annotated schematic, shown beside the 3D. Absent ⇒ 3D-only beat. */
+  /**
+   * Optional flat annotated schematic, shown beside the 3D. Currently unused —
+   * every beat renders 3D-only — but kept as an extension point in case a 2D
+   * companion is reintroduced for a beat.
+   */
   Svg?: ComponentType<{ className?: string }>;
   viewer: {
     /** Vendored PDB in /public (never fetch remote — RCSB is blocked). */
@@ -71,7 +72,6 @@ const BETA = toHex(HB.beta.fill); //  β chains (B, D) — magenta
 export const BEATS: Record<Beat, BeatConfig> = {
   iron: {
     label: "Iron atom",
-    Svg: AnnotatedIron,
     viewer: {
       url: "/structures/iron.pdb",
       representation: "spacefill",
@@ -80,7 +80,6 @@ export const BEATS: Record<Beat, BeatConfig> = {
   },
   pyrrole: {
     label: "Pyrrole ring",
-    Svg: AnnotatedPyrrole,
     viewer: {
       url: "/structures/iron-pyrrole.pdb",
       representation: "ball-and-stick",
@@ -89,7 +88,6 @@ export const BEATS: Record<Beat, BeatConfig> = {
   },
   porphyrin: {
     label: "Porphyrin",
-    Svg: AnnotatedPorphyrin,
     viewer: {
       url: "/structures/iron-porphyrin.pdb",
       representation: "ball-and-stick",

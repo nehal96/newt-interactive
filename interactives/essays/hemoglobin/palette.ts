@@ -31,11 +31,17 @@ const swatch = (
 ): Swatch => ({ fill, ink, light, rim });
 
 export const HB = {
-  // --- atoms / heme (CPK-ish; oxygen & iron were already shared everywhere) ---
+  // --- atoms / heme (CPK-ish, except carbon — see below; oxygen & iron were
+  //     already shared everywhere) ---
   iron: swatch("#E0762E", "#A8531A", "#F8BC8B", "#A8531A"),
   oxygen: swatch("#E2533C", "#B23A28", "#F59781", "#B23A28"),
   nitrogen: swatch("#3F71D8", "#2A4FA6", "#8BAAF1", "#2A4FA6"),
-  carbon: swatch("#D9D8CF", "#6B6A62", "#F3F2EC", "#B4B3A9"),
+  // carbon — teal-green, to match the 3D viewers. Mol*'s element-symbol theme
+  // colors carbons by chain-id, and chain A lands on the Many-Distinct list's
+  // #1B9E77, so the 3D ball-and-stick reads green. This is a softened/lightened
+  // version that sits in the muted 2D palette; set `fill` to #1B9E77 for an exact
+  // match to the 3D green.
+  carbon: swatch("#47B894", "#176A50", "#A8E6D2", "#207E62"),
   hydrogen: swatch("#EFEEE9", "#8A897F", "#FFFFFF", "#CDCCC4"),
 
   // --- chains, colored by TYPE: the molecule is built component-by-component,
@@ -43,8 +49,10 @@ export const HB = {
   //     2D switch, the parts manifest, the prose). Two hues from the switch
   //     palette — α = blue, β = magenta. In the switch the two αβ halves are then
   //     told apart by their motion (one half rotates), not by color. ---
-  alpha: swatch("#3F71D8", "#2A4FA6", undefined, "#28488F"), // α chain — blue
-  beta: swatch("#C04E92", "#8C2F6B", undefined, "#8C2F6B"), // β chain — magenta
+  // `light` carries the soft tint used as the Goodsell chain-blob body fill (the
+  // saturated `fill` stays the blob's outline + inner subunit marks).
+  alpha: swatch("#3F71D8", "#2A4FA6", "#93B2EC", "#28488F"), // α chain — blue
+  beta: swatch("#C04E92", "#8C2F6B", "#DCA0C9", "#8C2F6B"), // β chain — magenta
 
   // --- effectors (release / affinity shift) ---
   acid: swatch("#7C5CF0", "#5A3FC0"), // Bohr protons / acid

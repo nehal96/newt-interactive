@@ -31,13 +31,6 @@ export const metadata = {
     live under interactives/essays/hemoglobin/*; this file just places them
     inline with the prose. The four old *Section.tsx wrappers are now unused. */}
 
-{/* Clicking a linkable part in the manifest scrolls to its build-up beat below. */}
-export const scrollToBeat = (beat) => {
-  document
-    .getElementById(`beat-${beat}`)
-    ?.scrollIntoView({ behavior: "smooth", block: "center" });
-};
-
 # The Story of Hemoglobin
 
 ## How a special protein in red blood cells transports oxygen around your body
@@ -65,7 +58,7 @@ Hemoglobin is a marvel of precision engineering. When a red blood cell, chock fu
 
 To understand the function of a molecule, we must first understand its form. The mechanics of how hemoglobin catches oxygen and how it releases it are a product of how it’s assembled. So first, let’s assemble it part by part, and along the way we’ll see how the parts work together to enable its function. Here are the components we have to build with:
 
-<PartsManifest onSelectPart={scrollToBeat} />
+<PartsManifest />
 
 Let’s start by assembling the <Term k="heme">heme group</Term>, the part that catches and releases oxygen. Each hemoglobin molecule has four of them, and each heme group can carry one <Term k="oxygen">oxygen</Term> molecule; so in all, a single hemoglobin carries four oxygen molecules. 
 

@@ -77,16 +77,18 @@ export function MethineFigure({ className }: FigureProps) {
   );
 }
 
-// Molecular oxygen — two oxygens, double bond.
+// Molecular oxygen — two oxygens, double bond. Atom radius (10) and viewBox
+// height (80) match the pyrrole/methine carbons & nitrogens so oxygen doesn't
+// read larger than the other parts in the manifest grid.
 export function OxygenFigure({ className }: FigureProps) {
-  const O1 = { x: 27, y: 36 };
-  const O2 = { x: 53, y: 36 };
+  const O1 = { x: 27, y: 40 };
+  const O2 = { x: 53, y: 40 };
   return (
-    <svg {...svg("0 0 80 72", className)}>
-      <Bond x1={O1.x} y1={33} x2={O2.x} y2={33} width={3} />
-      <Bond x1={O1.x} y1={39} x2={O2.x} y2={39} width={3} />
-      <AtomSphere cx={O1.x} cy={O1.y} r={13} element="O" />
-      <AtomSphere cx={O2.x} cy={O2.y} r={13} element="O" />
+    <svg {...svg("0 0 80 80", className)}>
+      <Bond x1={O1.x} y1={37} x2={O2.x} y2={37} width={3} />
+      <Bond x1={O1.x} y1={43} x2={O2.x} y2={43} width={3} />
+      <AtomSphere cx={O1.x} cy={O1.y} r={10} element="O" />
+      <AtomSphere cx={O2.x} cy={O2.y} r={10} element="O" />
     </svg>
   );
 }
@@ -134,55 +136,113 @@ export function HistidineFigure({ className }: FigureProps) {
   );
 }
 
-// Placeholder for a globin chain — a stylised helix bundle. The chains are a
-// different visual register from the atomic parts (a ~140-residue fold, not a
-// small molecule); this stands in until a real cartoon/ribbon is decided.
+// Per-chain blob geometry. Tuned so α and β read as two distinct molecules.
+const CHAIN_SHAPE = {
+  alpha: { cx: 45, cy: 54, rx: 30, ry: 41, n: 14, seed: 0.6, marks: 26 },
+  beta: { cx: 46, cy: 56, rx: 33, ry: 38, n: 15, seed: 2.1, marks: 28 },
+} as const;
+
+// The lumpy silhouette: perimeter points on a wobbled ellipse, joined by arcs
+// that bulge outward into a cloud-like, hand-drawn edge.
+function chainBlobPath(
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  n: number,
+  seed: number
+): string {
+  const pts: { x: number; y: number }[] = [];
+  for (let i = 0; i < n; i++) {
+    const a = -Math.PI / 2 + (i / n) * Math.PI * 2;
+    const w =
+      1 + 0.1 * Math.sin(i * 1.7 + seed) + 0.06 * Math.sin(i * 2.9 + seed * 1.3);
+    pts.push({ x: cx + rx * w * Math.cos(a), y: cy + ry * w * Math.sin(a) });
+  }
+  let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+  for (let i = 0; i < n; i++) {
+    const p = pts[(i + 1) % n];
+    const prev = pts[i];
+    const r = ((Math.hypot(p.x - prev.x, p.y - prev.y) / 2) * 1.25).toFixed(1);
+    d += ` A ${r} ${r} 0 0 1 ${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
+  }
+  return `${d} Z`;
+}
+
+// Internal subunit marks: small "c"-arcs spread over the blob by a golden-angle
+// phyllotaxis, each rotated a touch differently for an organic, packed feel.
+function chainMarkPaths(
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  count: number,
+  seed: number
+): string[] {
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  const out: string[] = [];
+  for (let k = 0; k < count; k++) {
+    const rr = Math.sqrt((k + 0.5) / count);
+    const a = k * golden + seed;
+    const x = cx + Math.cos(a) * rx * rr * 0.86;
+    const y = cy + Math.sin(a) * ry * rr * 0.86;
+    const ar = 2 + 1.2 * (0.5 + 0.5 * Math.sin(k * 1.3 + seed));
+    const rot = a + Math.PI / 3 + 0.9 * Math.sin(k * 2.1 + seed);
+    const x1 = x + Math.cos(rot) * ar;
+    const y1 = y + Math.sin(rot) * ar;
+    const x2 = x + Math.cos(rot + 1.8) * ar;
+    const y2 = y + Math.sin(rot + 1.8) * ar;
+    out.push(
+      `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${ar.toFixed(1)} ${ar.toFixed(
+        1
+      )} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`
+    );
+  }
+  return out;
+}
+
+// A globin chain, drawn Goodsell-style: a bumpy space-filling silhouette filled
+// with a soft tint of the chain color (HB.*.light), with the saturated hue
+// (HB.*.fill) carrying the outline and a scattered field of inner subunit marks.
+// α = blue, β = magenta, from the shared palette. Fully deterministic
+// (Math.sin / phyllotaxis), so it renders identically on server and client.
 export function ChainFigure({
   variant,
   className,
 }: FigureProps & { variant: "alpha" | "beta" }) {
-  // From the shared chain palette: chains are colored by type — α = blue,
-  // β = magenta — matching the 3D ribbons and the T<->R switch.
-  const c =
-    variant === "alpha"
-      ? { fill: HB.alpha.fill, stroke: HB.alpha.rim! }
-      : { fill: HB.beta.fill, stroke: HB.beta.rim! };
-  const helix = { rx: 7, width: 14, height: 48 };
+  const swatch = variant === "alpha" ? HB.alpha : HB.beta;
+  const fill = swatch.light!;
+  const stroke = swatch.fill;
+  const s = CHAIN_SHAPE[variant];
+  const clipId = `chain-clip-${variant}`;
+  const path = chainBlobPath(s.cx, s.cy, s.rx, s.ry, s.n, s.seed);
+  const marks = chainMarkPaths(s.cx, s.cy, s.rx, s.ry, s.marks, s.seed);
   return (
-    <svg {...svg("0 0 80 92", className)}>
-      <rect
-        x={26}
-        y={21}
-        width={helix.width}
-        height={helix.height}
-        rx={helix.rx}
-        fill={c.fill}
-        stroke={c.stroke}
-        strokeWidth={1.5}
-        transform="rotate(-16 33 45)"
+    <svg {...svg("0 0 90 108", className)}>
+      <defs>
+        <clipPath id={clipId}>
+          <path d={path} />
+        </clipPath>
+      </defs>
+      <path
+        d={path}
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={2.2}
+        strokeLinejoin="round"
       />
-      <rect
-        x={40}
-        y={18}
-        width={helix.width}
-        height={helix.height}
-        rx={helix.rx}
-        fill={c.fill}
-        stroke={c.stroke}
-        strokeWidth={1.5}
-        transform="rotate(13 47 42)"
-      />
-      <rect
-        x={33}
-        y={28}
-        width={helix.width}
-        height={helix.height}
-        rx={helix.rx}
-        fill={c.fill}
-        stroke={c.stroke}
-        strokeWidth={1.5}
-        transform="rotate(-6 40 52)"
-      />
+      <g
+        clipPath={`url(#${clipId})`}
+        fill="none"
+        stroke={stroke}
+        strokeWidth={1.3}
+        strokeLinecap="round"
+        opacity={0.55}
+      >
+        {marks.map((d, i) => (
+          <path key={i} d={d} />
+        ))}
+      </g>
     </svg>
   );
 }
