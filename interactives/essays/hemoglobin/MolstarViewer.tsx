@@ -14,6 +14,7 @@ import { PluginStateObject } from "molstar/lib/mol-plugin-state/objects";
 import { PluginCommands } from "molstar/lib/mol-plugin/commands";
 import { setSubtreeVisibility } from "molstar/lib/mol-plugin/behavior/static/state";
 import { AnimateModelIndex } from "molstar/lib/mol-plugin-state/animation/built-in/model-index";
+import { VIEWPORT_CHROME_OFF, AXES_GIZMO } from "./molstar-chrome";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
 
@@ -53,6 +54,8 @@ function applyVillinLook(plugin: PluginUIContext) {
       }),
     },
     cameraFog: { name: "on", params: { intensity: 15 } },
+    // Keep the orientation axes gizmo, bottom-left (the only chrome).
+    camera: { helper: { axes: AXES_GIZMO } },
   } as any);
 }
 
@@ -482,6 +485,7 @@ export default function MolstarViewer({
           ...DefaultPluginUISpec(),
           layout: { initial: { isExpanded: false, showControls: false } },
           components: { remoteState: "none" },
+          config: VIEWPORT_CHROME_OFF,
         },
       });
 

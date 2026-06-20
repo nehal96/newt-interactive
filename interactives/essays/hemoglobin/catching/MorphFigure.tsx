@@ -37,7 +37,8 @@ export default function MorphFigure({ url }: MorphFigureProps) {
 
   return (
     <figure className="my-8 w-full scroll-mt-24 lg:my-12">
-      <div ref={paneRef} className="mx-auto lg:w-2/3">
+      {/* Cap at 5rem under the prose max (45rem) and center. */}
+      <div ref={paneRef} className="mx-auto w-full max-w-[40rem]">
         {hasBeenNear ? (
           <BindingMorphPlayer url={url} active={isActive} />
         ) : (

@@ -49,7 +49,8 @@ export default function AnatomyBeatBlock({ beat, id }: AnatomyBeatBlockProps) {
           ref={paneRef}
           className={cn(
             "relative h-[300px] w-full overflow-hidden rounded-lg bg-white lg:h-[360px]",
-            hasSvg ? "lg:w-1/2" : "lg:mx-auto lg:w-2/3",
+            // Standalone: cap at 5rem under the prose max (45rem) and center.
+            hasSvg ? "lg:w-1/2" : "mx-auto max-w-[40rem]",
           )}
         >
           {hasBeenNear ? (

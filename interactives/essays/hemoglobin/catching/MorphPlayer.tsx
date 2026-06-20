@@ -9,6 +9,7 @@ import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder"
 import { PluginCommands } from "molstar/lib/mol-plugin/commands";
 import { acquireBootSlot } from "../anatomy/boot-queue";
 import { HB } from "../palette";
+import { VIEWPORT_CHROME_OFF, AXES_GIZMO } from "../molstar-chrome";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 import "molstar/build/viewer/molstar.css";
 
@@ -68,6 +69,8 @@ function applyVillinLook(plugin: PluginUIContext) {
         includeTransparent: true,
       }),
     },
+    // Keep the orientation axes gizmo, bottom-left (the only chrome).
+    camera: { helper: { axes: AXES_GIZMO } },
   } as any);
 }
 
@@ -278,6 +281,7 @@ export default function MorphPlayer({
           ...DefaultPluginUISpec(),
           layout: { initial: { isExpanded: false, showControls: false } },
           components: { remoteState: "none" },
+          config: VIEWPORT_CHROME_OFF,
         },
       });
       if (disposed) {
