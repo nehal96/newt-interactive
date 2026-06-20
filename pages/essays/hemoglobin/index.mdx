@@ -1,4 +1,10 @@
-import { H2, MdxLayout, PostArticleSubscribe } from "../../../components";
+import {
+  H2,
+  MdxLayout,
+  PostArticleSubscribe,
+  TippyTooltip,
+  TippyTooltipContent,
+} from "../../../components";
 import {
   AnatomyBeatBlock,
   PartsManifest,
@@ -62,7 +68,7 @@ To understand the function of a molecule, we must first understand its form. The
 
 Let’s start by assembling the <Term k="heme">heme group</Term>, the part that catches and releases oxygen. Each hemoglobin molecule has four of them, and each heme group can carry one <Term k="oxygen">oxygen</Term> molecule; so in all, a single hemoglobin carries four oxygen molecules. 
 
-We’ll begin with just the <Term k="iron">ferrous iron ion</Term> (Fe<sup>2+</sup>), which sits right at the center.
+We’ll begin with just the <Term k="iron">ferrous iron ion</Term>, which sits right at the center.
 
 <AnatomyBeatBlock beat="iron" id="beat-iron" />
 
@@ -70,7 +76,7 @@ To this, let’s attach (bond) a single <Term k="pyrrole">pyrrole</Term>, a five
 
 <AnatomyBeatBlock beat="pyrrole" id="beat-pyrrole" />
 
-Then, surround the iron with four of these pyrroles, each joined to one another with a methine bridge (a single carbon, =CH-). This creates what’s known as the <Term k="porphyrin">porphyrin ring</Term>, with iron clasped in the center.
+Then, surround the iron with four of these pyrroles, each joined to one another with a methine bridge (a single carbon). This creates what’s known as the <Term k="porphyrin">porphyrin ring</Term>, with iron clasped in the center.
 
 <AnatomyBeatBlock beat="porphyrin" id="beat-porphyrin" />
 
@@ -104,7 +110,7 @@ Now that you understand the structure, let’s look at exactly how it catches ox
 
 Because the iron is tethered to the proximal histidine, as iron moves up, it pulls the histidine along with it. And since the histidine is connected to the rest of the chain, this pull tugs the rest of the chain as well.
 
-To understand the significance of this tug, we need to revisit the rotation ability mentioned earlier. Without oxygen, hemoglobin lies in a <Term k="tense">tense (T) state</Term>, its structure held rigid by a network of <Term k="saltBridge">salt bridges</Term> &mdash; small electrostatic clasps around the tail ends and joints of the protein chain. In this state, the proximal histidine is more restrained, holding back iron with more rigidity, and so this hemoglobin has a low appetite for oxygen. The other state is the <Term k="relaxed">relaxed (R) state</Term>, reached by a 15-degree rotation of one half against the other. In this state, the proximal histidine can move more freely, and so this hemoglobin has a high appetite for oxygen. There is no stable position in between; like a light switch or a clicker pen, the molecule rests fully in one setting or the other.
+To understand the significance of this tug, we need to revisit the rotation ability mentioned earlier. Without oxygen, hemoglobin lies in a <Term k="tense">tense (T) state</Term>, its structure held rigid by a network of <Term k="saltBridge">salt bridges</Term> &mdash; small electrostatic clasps around the tail ends and joints of the protein chain. In this state, the proximal histidine is more restrained, holding back iron with more rigidity, and so this hemoglobin has a low appetite for oxygen. The other state is the <Term k="relaxed">relaxed (R) state</Term>, reached by a 15-degree rotation of one half against the other. In this state, the proximal histidine can move more freely, and so this hemoglobin has a high appetite for oxygen. <TippyTooltip variant="footnote" content={<TippyTooltipContent>This is a simplification. The clean two-position switch describes hemoglobin’s overall shape — the big rotation of one half against the other really is close to all-or-nothing. But zoom into a single subunit and it flexes through a range of in-between shapes, and it’s these finer tertiary motions, not the big flip, that actually tune how tightly each heme holds oxygen. There’s even evidence for a few intermediate whole-molecule states rather than a strict two.</TippyTooltipContent>}>There is no stable position in between</TippyTooltip>; like a light switch or a clicker pen, the molecule rests fully in one setting or the other.
 
 When a pull from the bound oxygen travels out through the chain, it strains the clasps &mdash; the salt bridges &mdash; that hold the tense state. A single oxygen is usually not enough to break them, but once one or two have bound, the two halves rotate their 15 degrees, the salt bridges give way, and the molecule switches into the relaxed state. 
 
@@ -112,12 +118,9 @@ When a pull from the bound oxygen travels out through the chain, it strains the 
 
 This flip means that the remaining oxygen now binds more readily. Thus a positive feedback emerges: the first one or two oxygens have the hardest task, binding to a reluctant tense state and paying the higher energy cost to flip the molecule into the relaxed state. But once it has flipped, the remaining oxygens bind to the eager relaxed state almost for free. One bound oxygen makes the next three easier to bind. This working together is called <Term k="cooperativity">cooperativity</Term>, and as we’ll see later, it enables some very advantageous behavior. 
 
-In the animation above, we left out the distal histidine, but it too has a crucial role in this binding process. Left to themselves, joining oxygen and ferrous iron forms iron oxide, also known as rust. Were that to happen, hemoglobin would be ruined and not be able to deliver oxygen. But it doesn’t happen, because oxygen doesn’t *fully* react with iron. Rather than fully surrendering its spare electron and making a complete bond, iron only partially shares it, and oxygen, for its part, only leans in partway, like two frenemies reluctant to properly shake hands. That partway lean, with <Term k="oxygen">oxygen</Term> settling at roughly a 120 degree tilt where it meets <Term k="iron">iron</Term>, is steadied from above by the distal histidine. It hovers above and forms a weak bond &mdash; an electrostatic tether &mdash; holding the oxygen at that angle and keeping the binding gentle and easily reversible. Essentially, the exact reaction that eats ships and bridges is *almost* running in your blood, deliberately frozen a hair short of completion so it can be undone and redone trillions of times to catch and release oxygen.
+In the animation above, we left out the distal histidine, but it too has a crucial role in this binding process. Left to themselves, joining oxygen and ferrous iron forms iron oxide, also known as rust. Were that to happen, hemoglobin would be ruined and not be able to deliver oxygen. But it doesn’t happen, because oxygen doesn’t *fully* react with iron. Rather than fully surrendering its spare electron and making a complete bond, iron only partially shares it, and oxygen, for its part, only leans in partway, like two frenemies reluctant to properly shake hands. That partway lean, with <Term k="oxygen">oxygen</Term> settling at roughly a 120 degree tilt where it meets <Term k="iron">iron</Term>, is steadied from above by the distal histidine. It hovers above and forms a weak bond &mdash; an electrostatic tether &mdash; holding the oxygen at that angle and keeping the binding gentle and easily reversible. Essentially, the exact reaction that eats ships and bridges is *almost* running in your blood, deliberately frozen a hair short of completion so it can be undone and redone trillions of times to catch and release oxygen.<TippyTooltip variant="footnote" content={<TippyTooltipContent>The distal histidine also acts as a guard against carbon monoxide. On bare iron, without this protein around it, carbon monoxide binds some 20,000 times more tightly than oxygen. But carbon monoxide likes to bind held straight; the same distal histidine, which stabilizes oxygen in its tilted state, doesn’t let carbon monoxide sit as comfortably. Its advantage over oxygen falls from about 20,000 to 200, a hundredfold reduction. It’s still poisonous, but without the hovering protein the smoke of an ordinary fire would be a hundred times more dangerous to breathe.</TippyTooltipContent>} />
 
 <MorphFigure url={LEAN_MORPH_URL} />
-
-{/* This para should be an aside or a footnote */}
-The distal histidine also acts as a guard against carbon monoxide. On bare iron, without this protein around it, carbon monoxide binds some 20,000 times more tightly than oxygen. But carbon monoxide likes to bind held straight; the same distal histidine, which stabilizes oxygen in its tilted state, doesn’t let CO sit as comfortably. Its advantage over oxygen falls from about 20,000 to 200, a hundredfold reduction. It’s still poisonous, but without the hovering protein the smoke of an ordinary fire would be a hundred times more dangerous to breathe.
 
 <H2 className="mt-8">How hemoglobin releases oxygen</H2>
 
@@ -127,9 +130,9 @@ Bombarding oxygen in the lungs helps switch hemoglobin's state from tense to rel
 
 <BohrFigure />
 
-Not all the carbon dioxide turns to acid though. Some of them bind directly to the ends of the hemoglobin chain, like commuters grabbing a departing train. Those ends turn into <Term k="co2">carbamate groups</Term>. They form preferentially in the tense, deoxygenated state, hanging on to hemoglobin that has just unloaded its cargo, and like the acid and salt bridges, stabilizing this T state and reinforcing the Bohr effect. Through this, the carbon dioxide hitches a ride back to the lungs, where the high oxygen pressure pushes hemoglobin back to the R state, breaking the salt bridges and carbamate and letting CO2 fall off, eventually into air that is exhaled. Oxygen released in tissues lets carbon dioxide attach; oxygen attaching in the lungs pushes out carbon dioxide. This process is known as the <Term k="haldane">Haldane effect</Term>, the structural mirror of the Bohr effect.
+Not all the carbon dioxide turns to acid though. Some of them bind directly to the ends of the hemoglobin chain, like commuters grabbing a departing train. Those ends turn into <Term k="co2">carbamate groups</Term>. They form preferentially in the tense, deoxygenated state, hanging on to hemoglobin that has just unloaded its cargo, and like the acid and salt bridges, stabilizing this T state and reinforcing the Bohr effect. Through this, the carbon dioxide hitches a ride back to the lungs, where the high oxygen pressure pushes hemoglobin back to the R state, breaking the salt bridges and carbamate and letting carbon dioxide fall off, eventually into air that is exhaled. Oxygen released in tissues lets carbon dioxide attach; oxygen attaching in the lungs pushes out carbon dioxide.<TippyTooltip variant="footnote" content={<TippyTooltipContent>This direct attachment is actually the minority route: only about a fifth of the blood’s carbon dioxide (~20%) rides home bound to hemoglobin like this. Most of it — roughly 70% — is converted to bicarbonate and carried dissolved in the plasma, and the last ~7% simply dissolves as gas.</TippyTooltipContent>} /> This process is known as the <Term k="haldane">Haldane effect</Term>, the structural mirror of the Bohr effect.
 
-There is yet another signal that tips hemoglobin from relaxed to tense state. In the tense state, a small cavity opens between the two chain halves; in the relaxed state, the rotation closes the gap. Red blood cells produce a tiny molecule called 2,3-biphosphoglycerate, or <Term k="bpg">2,3-BPG</Term>, that slots into that cavity and props it in the tense state, like a doorstop wedged under a door. All three signals &mdash; CO2 dissolving to acid, carbamate groups, and 2,3-BPG &mdash; work together to push hemoglobin to release oxygen.
+There is yet another signal that tips hemoglobin from relaxed to tense state. In the tense state, a small cavity opens between the two chain halves; in the relaxed state, the rotation closes the gap. Red blood cells produce a tiny molecule called 2,3-biphosphoglycerate, or <Term k="bpg">2,3-BPG</Term>, that slots into that cavity and props it in the tense state, like a doorstop wedged under a door. All three signals &mdash; carbon dioxide dissolving to acid, carbamate groups, and 2,3-BPG &mdash; work together to push hemoglobin to release oxygen.
 
 <BpgDoorstopFigure />
 
@@ -153,11 +156,11 @@ The switch between states enables this. Were hemoglobin stuck in the R state, it
 
 ---
 
-The effectors that push hemoglobin to release oxygen &mdash; the Bohr effect (CO2 dissolving to <Term k="acid">acid</Term>), <Term k="co2">carbamate groups</Term> (CO2 attaching directly), and <Term k="bpg">2,3-BPG</Term> &mdash; all have an effect on the curve too. Each of these *shifts* the curve to the right. To compare curves, we can use its P<sub>50</sub>, the pressure at which hemoglobin is 50% saturated. A right shifted curve has a higher P<sub>50</sub>, which means that it takes less of a pressure drop to get rid of oxygen. In other words, hemoglobin lets go of its oxygen more easily than normal &mdash; it has a lower affinity for oxygen &mdash; which is exactly what those signals indicate and cause, a higher demand for oxygen.
+The effectors that push hemoglobin to release oxygen &mdash; the Bohr effect (carbon dioxide dissolving to <Term k="acid">acid</Term>), <Term k="co2">carbamate groups</Term> (carbon dioxide attaching directly), and <Term k="bpg">2,3-BPG</Term> &mdash; all have an effect on the curve too. Each of these *shifts* the curve to the right. To compare curves, we can use its P<sub>50</sub>, the pressure at which hemoglobin is 50% saturated. A right shifted curve has a higher P<sub>50</sub>, which means that it takes less of a pressure drop to get rid of oxygen. In other words, hemoglobin lets go of its oxygen more easily than normal &mdash; it has a lower affinity for oxygen &mdash; which is exactly what those signals indicate and cause, a higher demand for oxygen.
 
 <AffinityShiftFigure />
 
-Among these, 2,3-BPG, the small molecule manufactured inside red blood cells, plays an important role as a regulator in ensuring that hemoglobin’s affinity sits at the right level: a p50 of ~26mmHg. Without it, the curve would shift left – it would be great at grabbing oxygen but reluctant to deliver it. The body can adjust the concentration of this molecule to tune the affinity. For example, at high altitudes, it can produce more of it to improve oxygen unloading.
+Among these, 2,3-BPG, the small molecule manufactured inside red blood cells, plays an important role as a regulator in ensuring that hemoglobin’s affinity sits at the right level: a P<sub>50</sub> of ~26mmHg. Without it, the curve would shift left – it would be great at grabbing oxygen but reluctant to deliver it. The body can adjust the concentration of this molecule to tune the affinity. For example, at high altitudes, it can produce more of it to improve oxygen unloading.
 
 This same tiny molecule plays a double role in <Term k="fetalHb">fetal hemoglobin</Term>, which has a slightly different structure, substituting the beta chain with a gamma chain. The 2,3-BPG doesn’t bind as well with fetal hemoglobin, and so its affinity curve stays left-shifted relative to the mother’s curve. The higher oxygen affinity of this left shifted curve allows it to literally pull the oxygen from the mother’s blood at the placenta border, which is how a growing fetus breathes.
 
