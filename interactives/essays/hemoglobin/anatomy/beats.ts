@@ -5,14 +5,14 @@ import { HB, toHex } from "../palette";
 // is shown as its 3D model alone. (The first three atomic parts — iron, pyrrole,
 // porphyrin — used to carry a flat annotated 2D schematic beside the 3D model;
 // those were dropped in favor of a consistent 3D look.) The later beats add the
-// histidines, the heme, and finally the alpha/beta chains.
+// histidines and the four heme groups, then the alpha/beta chains. The order is
+// fixed by the MDX, which places one <AnatomyBeatBlock> per beat in this order.
 export type Beat =
   | "iron"
   | "pyrrole"
   | "porphyrin"
   | "proximalHis"
   | "distalHis"
-  | "heme"
   | "fourHemes"
   | "dimer"
   | "hemoglobin";
@@ -103,14 +103,6 @@ export const BEATS: Record<Beat, BeatConfig> = {
       zoom: 1.3,
     },
   },
-  heme: {
-    label: "Heme group",
-    viewer: {
-      url: "/structures/heme-pocket.pdb",
-      representation: "ball-and-stick",
-      emphasizeIron: true,
-    },
-  },
   fourHemes: {
     label: "Four heme groups",
     viewer: {
@@ -151,15 +143,3 @@ export const BEATS: Record<Beat, BeatConfig> = {
     },
   },
 };
-
-export const BEAT_ORDER: Beat[] = [
-  "iron",
-  "pyrrole",
-  "porphyrin",
-  "proximalHis",
-  "distalHis",
-  "heme",
-  "fourHemes",
-  "dimer",
-  "hemoglobin",
-];

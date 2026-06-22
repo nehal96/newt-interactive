@@ -1,8 +1,15 @@
-// Anatomy build-up, beat 3: iron + the porphyrin macrocycle. Four pyrrole rings
-// arranged around the iron, each donating its nitrogen inward (a coordinate
-// bond, dashed), joined at the rim by four methine (meso) bridges. Layout is
-// computed from a few parameters rather than hand-placed, so the four rings stay
-// symmetric. Real 3D geometry lives in the Mol* pane (iron-porphyrin.pdb).
+// REFERENCE (not shipped): the canonical example of the flat 2D *annotated*
+// style. The essay now renders the anatomy beats in 3D (see AnatomyBeatBlock),
+// and the flat molecular look ships live via AtomSphere + Bond + PartFigures (the
+// parts-manifest icons). This file is kept, dereferenced, as the one worked
+// example of the fuller annotated diagram — generated ring geometry, element
+// spheres, bonds, and the leader-line label pills — in case that 2D direction is
+// revisited. The two simpler siblings (iron, pyrrole) were dropped as redundant.
+//
+// Iron + the porphyrin macrocycle: four pyrrole rings arranged around the iron,
+// each donating its nitrogen inward (a coordinate bond, dashed), joined at the
+// rim by four methine (meso) bridges. Layout is computed from a few parameters
+// rather than hand-placed, so the four rings stay symmetric.
 import AtomSphere, { Element } from "./AtomSphere";
 import Bond from "./Bond";
 
