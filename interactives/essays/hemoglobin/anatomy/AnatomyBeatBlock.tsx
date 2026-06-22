@@ -56,16 +56,7 @@ export default function AnatomyBeatBlock({ beat, id }: AnatomyBeatBlockProps) {
           {hasBeenNear ? (
             <MoleculeViewer
               key={beat}
-              url={viewer.url}
-              representation={viewer.representation}
-              uniformColor={viewer.uniformColor}
-              sizeFactor={viewer.sizeFactor}
-              emphasizeIron={viewer.emphasizeIron}
-              chainGroups={viewer.chainGroups}
-              showPockets={viewer.showPockets}
-              pocketChains={viewer.pocketChains}
-              orientation={viewer.orientation}
-              zoom={viewer.zoom}
+              {...viewer}
               active={isActive}
               className="rounded-lg"
             />

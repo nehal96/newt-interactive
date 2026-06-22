@@ -1,4 +1,5 @@
 import { ComponentType } from "react";
+import type { MoleculeViewerProps } from "./MoleculeViewer";
 import { HB, toHex } from "../palette";
 
 // The anatomy build-up, beat by beat, in assembly order (inside-out). Each beat
@@ -17,9 +18,6 @@ export type Beat =
   | "dimer"
   | "hemoglobin";
 
-/** A set of protein chains drawn as one uniformly-colored cartoon. */
-export type ChainGroup = { chains: string[]; color: number };
-
 export type BeatConfig = {
   label: string;
   /**
@@ -28,50 +26,13 @@ export type BeatConfig = {
    * companion is reintroduced for a beat.
    */
   Svg?: ComponentType<{ className?: string }>;
-  viewer: {
-    /** Vendored PDB in /public (never fetch remote — RCSB is blocked). */
-    url: string;
-    representation: "spacefill" | "ball-and-stick" | "cartoon";
-    /** If set, color uniformly with this hex; otherwise color by element. */
-    uniformColor?: number;
-    sizeFactor?: number;
-    /** Overlay the Fe as a fatter orange sphere so it stays the visual star. */
-    emphasizeIron?: boolean;
-    /**
-     * Draw only these chain groups as cartoon ribbons (one uniform color each),
-     * for the chain beats. Takes over from the whole-structure representation.
-     */
-    chainGroups?: ChainGroup[];
-    /**
-     * With `chainGroups`, also draw each shown chain's full heme pocket (heme +
-     * proximal/distal His + emphasized Fe) — carrying the previous beat's
-     * pockets into the chain beats, now wrapped by the ribbons.
-     */
-    showPockets?: boolean;
-    /**
-     * Chains whose pockets to draw (with `showPockets`). Defaults to the ribbon
-     * chains; set wider to show pockets whose chains aren't drawn yet — the
-     * alpha beat shows all four pockets but only the alpha ribbons, so the
-     * not-yet-added beta pockets sit bare.
-     */
-    pocketChains?: string[];
-    /**
-     * Override the default camera framing with a fixed orientation (angle only —
-     * the auto-fit distance is kept). `direction` is the world-space vector the
-     * camera looks along (from camera toward the structure); `up` sets the roll.
-     * Used by the pyrrole beat to lock the ring face-on instead of Mol*'s
-     * default principal-axis view.
-     */
-    orientation?: {
-      direction: [number, number, number];
-      up: [number, number, number];
-    };
-    /**
-     * Zoom factor on top of the auto-fit framing; >1 moves the camera closer so
-     * the structure fills more of the pane. Defaults to 1 (plain auto-fit).
-     */
-    zoom?: number;
-  };
+  /**
+   * How to draw this beat's 3D model — exactly MoleculeViewer's props minus the
+   * runtime-controlled `active`/`className`, which AnatomyBeatBlock supplies. The
+   * viewer's prop contract (and its per-field docs) lives in one place: see
+   * MoleculeViewerProps.
+   */
+  viewer: Omit<MoleculeViewerProps, "active" | "className">;
 };
 
 // Iron's element color in Mol* (matches the SVG sphere) so the panes read as the
