@@ -1,3 +1,5 @@
+import { type ReactNode } from "react";
+import { cn } from "../../../../lib/utils";
 import { HB, NEUTRAL } from "../palette";
 
 // Shared chart primitives for the cooperativity saturation-curve figures, so the
@@ -88,4 +90,92 @@ export function ChartFrame({
       </text>
     </>
   );
+}
+
+// ---- shared figure shell ----------------------------------------------------
+// The scaffolding every cooperativity figure shares: a centered max-w-xl figure,
+// the white plot card, and an accessible <svg> (shared 440-wide viewBox, role +
+// title/desc). Each figure supplies its own height, the SVG contents — so it
+// controls z-order, e.g. drawing zones behind <ChartFrame/> — and optional
+// `below` content (sliders, legends, captions) under the plot.
+export function ChartFigure({
+  id,
+  height,
+  title,
+  desc,
+  below,
+  className,
+  children,
+}: {
+  /** a11y id stem; the <title>/<desc> become `${id}-title`/`${id}-desc`. */
+  id: string;
+  height: number;
+  title: string;
+  desc: string;
+  below?: ReactNode;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <figure className={cn("my-8 w-full scroll-mt-24 lg:my-12", className)}>
+      <div className="mx-auto w-full max-w-xl">
+        <div className="w-full rounded-lg bg-white px-0 py-3 sm:px-3">
+          <svg
+            viewBox={`0 0 440 ${height}`}
+            className="block h-auto w-full"
+            role="img"
+            aria-labelledby={`${id}-title ${id}-desc`}
+            fontFamily="inherit"
+          >
+            <title id={`${id}-title`}>{title}</title>
+            <desc id={`${id}-desc`}>{desc}</desc>
+            {children}
+          </svg>
+        </div>
+        {below}
+      </div>
+    </figure>
+  );
+}
+
+// The saturation curve as an SVG <path> at a given p50/n. Defaults to the
+// baseline HbA curve in the calm slate; the shift figure passes a color and a
+// thinner width for its comparison curves.
+export function SaturationCurve({
+  p50,
+  n,
+  stroke = CHART.curve,
+  width = 2.5,
+}: {
+  p50?: number;
+  n?: number;
+  stroke?: string;
+  width?: number;
+}) {
+  return (
+    <path
+      d={curvePath(p50, n)}
+      fill="none"
+      stroke={stroke}
+      strokeWidth={width}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  );
+}
+
+// A filled marker dot with a white halo — the oxygen operating points and the
+// P50 crossings. Defaults to r=4.5 (the operating-point size).
+export function Dot({
+  x,
+  y,
+  r = 4.5,
+  fill,
+}: {
+  x: number;
+  y: number;
+  r?: number;
+  fill: string;
+}) {
+  return <circle cx={x} cy={y} r={r} fill={fill} stroke="#fff" strokeWidth={1.5} />;
 }

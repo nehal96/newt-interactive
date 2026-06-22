@@ -1,5 +1,17 @@
-import { cn } from "../../../../lib/utils";
-import { CHART, ChartFrame, curvePath, N_HILL, OXYGEN, P50, PLOT, px, py, saturation } from "./chart";
+import {
+  CHART,
+  ChartFigure,
+  ChartFrame,
+  Dot,
+  N_HILL,
+  OXYGEN,
+  P50,
+  PLOT,
+  px,
+  py,
+  saturation,
+  SaturationCurve,
+} from "./chart";
 
 // Figure 2 of the Cooperativity section: the same saturation curve, now read for
 // what its shape buys you. The four physiological operating points sit on the
@@ -22,8 +34,6 @@ const NAME = "#64748b"; // slate-500 — point labels, kept quiet
 // Inverse Hill from the shared P50/n so it stays consistent with the curve.
 const SHELF_SAT = 0.9;
 const SHELF_FROM = P50 * (SHELF_SAT / (1 - SHELF_SAT)) ** (1 / N_HILL);
-
-const CURVE_D = curvePath();
 
 const POINTS = [
   { p: 20, name: "working muscle", dx: 9, dy: 6, anchor: "start" as const },
@@ -51,59 +61,44 @@ function DropPair({ pHi, pLo }: { pHi: number; pLo: number }) {
 
 export default function OperatingPointsFigure({ className }: { className?: string }) {
   return (
-    <figure className={cn("my-8 w-full scroll-mt-24 lg:my-12", className)}>
-      <div className="mx-auto w-full max-w-xl">
-        <div className="w-full rounded-lg bg-white px-0 py-3 sm:px-3">
-          <svg
-            viewBox="0 0 440 210"
-            className="block h-auto w-full"
-            role="img"
-            aria-labelledby="ops-title ops-desc"
-            fontFamily="inherit"
-          >
-            <title id="ops-title">Hemoglobin's operating points</title>
-            <desc id="ops-desc">
-              The saturation curve with the lungs, a small mountain, resting tissue
-              and working muscle marked. A delivery-cliff band over the steep middle
-              and a loading-shelf band over the plateau show that the same 20 mmHg
-              pressure drop unloads far more oxygen on the cliff than on the shelf.
-            </desc>
+    <ChartFigure
+      id="ops"
+      height={210}
+      className={className}
+      title="Hemoglobin's operating points"
+      desc="The saturation curve with the lungs, a small mountain, resting tissue and working muscle marked. A delivery-cliff band over the steep middle and a loading-shelf band over the plateau show that the same 20 mmHg pressure drop unloads far more oxygen on the cliff than on the shelf."
+    >
+      {/* zones (behind the frame and curve); the shelf's left edge meets the
+          curve where saturation crosses 90% */}
+      <rect x={px(12)} y={PLOT.YT} width={px(45) - px(12)} height={PLOT.YB - PLOT.YT} fill={ZONE.cliff} />
+      <rect x={px(SHELF_FROM)} y={PLOT.YT} width={PLOT.X1 - px(SHELF_FROM)} height={py(SHELF_SAT) - PLOT.YT} fill={ZONE.shelf} />
+      <text x={(px(12) + px(45)) / 2} y={20} fill={ZONE.cliffText} fontSize={11} textAnchor="middle">
+        delivery cliff
+      </text>
+      <text x={(px(SHELF_FROM) + PLOT.X1) / 2} y={20} fill={ZONE.shelfText} fontSize={11} textAnchor="middle">
+        loading shelf
+      </text>
 
-            {/* zones (behind the frame and curve); the shelf's left edge meets the
-                curve where saturation crosses 90% */}
-            <rect x={px(12)} y={PLOT.YT} width={px(45) - px(12)} height={PLOT.YB - PLOT.YT} fill={ZONE.cliff} />
-            <rect x={px(SHELF_FROM)} y={PLOT.YT} width={PLOT.X1 - px(SHELF_FROM)} height={py(SHELF_SAT) - PLOT.YT} fill={ZONE.shelf} />
-            <text x={(px(12) + px(45)) / 2} y={20} fill={ZONE.cliffText} fontSize={11} textAnchor="middle">
-              delivery cliff
+      <ChartFrame />
+      <SaturationCurve />
+
+      {/* the same 20 mmHg drop — a long fall on the cliff, a flat hop on the shelf */}
+      <DropPair pHi={40} pLo={20} />
+      <DropPair pHi={95} pLo={75} />
+
+      {/* operating points */}
+      {POINTS.map((pt) => {
+        const X = px(pt.p);
+        const Y = py(saturation(pt.p));
+        return (
+          <g key={pt.p}>
+            <Dot x={X} y={Y} fill={OXYGEN} />
+            <text x={X + pt.dx} y={Y + pt.dy} fill={NAME} fontSize={10} textAnchor={pt.anchor} dominantBaseline="central">
+              {pt.name}
             </text>
-            <text x={(px(SHELF_FROM) + PLOT.X1) / 2} y={20} fill={ZONE.shelfText} fontSize={11} textAnchor="middle">
-              loading shelf
-            </text>
-
-            <ChartFrame />
-
-            <path d={CURVE_D} fill="none" stroke={CHART.curve} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-
-            {/* the same 20 mmHg drop — a long fall on the cliff, a flat hop on the shelf */}
-            <DropPair pHi={40} pLo={20} />
-            <DropPair pHi={95} pLo={75} />
-
-            {/* operating points */}
-            {POINTS.map((pt) => {
-              const X = px(pt.p);
-              const Y = py(saturation(pt.p));
-              return (
-                <g key={pt.p}>
-                  <circle cx={X} cy={Y} r={4.5} fill={OXYGEN} stroke="#fff" strokeWidth={1.5} />
-                  <text x={X + pt.dx} y={Y + pt.dy} fill={NAME} fontSize={10} textAnchor={pt.anchor} dominantBaseline="central">
-                    {pt.name}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
-        </div>
-      </div>
-    </figure>
+          </g>
+        );
+      })}
+    </ChartFigure>
   );
 }
