@@ -94,6 +94,18 @@ hidden so it doesn't ghost over the solid animated pocket.)
   `Molecule.Structure.Representation3D` cell under the structure ref and set
   `type.params.alpha` on each — works for both whole-structure and component-split
   styles (reps may be nested under polymer/ligand/iron components).
+- **Cloud / halo fade** (animate just the translucent halo, not the whole
+  protein — from the parked villin-cloud experiment): filter those
+  Representation3D cells to `type.name === "gaussian-surface"` so the ribbons and
+  hemes stay solid, and animate opacity with **`alphaFactor`**, *not* base
+  `alpha` — `cell.obj.data.repr.setState({ alphaFactor })` then
+  `plugin.canvas3d.requestDraw()`. `alphaFactor` is a multiplicative GPU uniform:
+  it preserves each rep's baked alpha (cartoon `1`, halo `0.1`) and is cheap (no
+  geometry rebuild), whereas driving base `alpha` via state updates clobbers the
+  halo's translucency and re-commits per frame. Drive it with a
+  `requestAnimationFrame` tween that bails on a generation guard and on unmount.
+  (Gotcha: with the hemes kept solid, chain A's static heme overlaps the morph
+  pocket on the binding scene — hide just chain A's heme there. See §3.)
 - **Hide/show by rep type:** walk the same Representation3D cells and
   `setSubtreeVisibility` on the ones whose `type.name` is `ball-and-stick` /
   `spacefill` (e.g. hide the protein's hemes but keep the cartoon).

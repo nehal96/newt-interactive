@@ -23,35 +23,17 @@ The look was good but we chose the simpler ribbon + heme-group view
 (`"Hemoglobin (protein + heme)"`) for the slice while we nail down the
 cinematics. The cloud is a styling choice we can swap back to later.
 
-## Technical notes worth keeping
+## Technical notes & how to restore
 
-- **Fade just the halo, not everything:** select `Representation3D` cells under
-  the protein structure and filter to `transform.params.type.name ===
-  "gaussian-surface"`. Fading *all* protein reps also dims the ribbons — which
-  was the bug that made us narrow it.
-- **Animate opacity with `alphaFactor`, not base `alpha`.** `alphaFactor` is a
-  multiplicative factor set live via `cell.obj.data.repr.setState({ alphaFactor })`
-  followed by `plugin.canvas3d.requestDraw()` (the same pattern Mol* uses
-  internally). It preserves each rep's baked alpha (cartoon 1, halo 0.1) and is
-  cheap (a GPU uniform, no geometry rebuild). Driving base `alpha` via state
-  updates would clobber the halo's translucency and re-commit per frame.
-- Use a `requestAnimationFrame` tween that bails on a generation guard (rapid
-  Prev/Next) and on unmount.
-- **Open question:** with the hemes kept solid, the protein's own chain-A heme
-  overlaps the animated morph pocket on the binding scene (they're the same
-  heme). If revisiting, hide just chain A's heme on that scene.
+The cloud recipe (the `gaussian-surface` halo over a desaturated cartoon + hemes)
+and the halo-only fade technique (filter to `gaussian-surface` cells; animate
+`alphaFactor`, not base `alpha`; the rAF tween with a generation guard; the
+chain-A heme overlap gotcha) are folded into the Mol\* reference —
+[`../hemoglobin-molstar-styles.md`](../hemoglobin-molstar-styles.md), under
+"Villin (cartoon + halo)" and the "Cloud / halo fade" technique.
 
-## How to restore
-
-The full change (against the `76f7c6a`-era `MolstarViewer.tsx`) is saved as a
-reference patch next to this file:
-
-    docs/experiments/villin-cloud-MolstarViewer.patch
-
-From a working tree whose `MolstarViewer.tsx` still matches that base:
-
-    git apply docs/experiments/villin-cloud-MolstarViewer.patch
-
-If the file has drifted, treat the patch as a reference and re-apply the pieces
-by hand (the `hemoglobinCloudStyle` builder, the `cloudReprs`/`tween`/`fadeCloud`
-helpers, the `cloudOpacityRef`, and the cloud variant of `applyScene`).
+There's no longer a reference patch: the scene-stepper `MolstarViewer.tsx` it
+diffed against was removed, so it could no longer be `git apply`-ed. To rebuild
+the cloud look, port the `hemoglobinCloudStyle` builder and the `fadeCloud` /
+tween helpers from git history (last present in commit `3564e0f`) onto the
+current viewers, following the styles doc.
