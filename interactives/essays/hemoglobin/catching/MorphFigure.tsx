@@ -23,6 +23,12 @@ const BindingMorphPlayer = dynamic(() => import("./BindingMorphPlayer"), {
 type MorphFigureProps = {
   /** Which baked morph to play (see the *_MORPH_URL exports above). */
   url: string;
+  /**
+   * Optional caption shown under the player. The morph is "cartoon-honest" — the
+   * iron is drawn oversized and its size change + motion are exaggerated for
+   * legibility — so the binding figure uses this to flag that it's not to scale.
+   */
+  caption?: string;
 };
 
 /**
@@ -31,7 +37,7 @@ type MorphFigureProps = {
  * render loop while off-screen (via `active`), so a long essay page never runs
  * more WebGL than it has to.
  */
-export default function MorphFigure({ url }: MorphFigureProps) {
+export default function MorphFigure({ url, caption }: MorphFigureProps) {
   const paneRef = useRef<HTMLDivElement>(null);
   const { hasBeenNear, isActive } = useInViewport(paneRef);
 
@@ -47,6 +53,11 @@ export default function MorphFigure({ url }: MorphFigureProps) {
           </div>
         )}
       </div>
+      {caption && (
+        <figcaption className="mx-auto mt-3 max-w-xl text-center text-sm text-slate-500">
+          {caption}
+        </figcaption>
+      )}
     </figure>
   );
 }

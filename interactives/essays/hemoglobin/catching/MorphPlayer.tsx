@@ -28,7 +28,17 @@ const DEFAULT_DURATION_MS = 1800; // one forward pass (tune per figure for speed
 // uniform sphere over the element-colored ball-and-stick, picked out by element
 // symbol: "Fe" = the heme iron (catching); "H" = the lone synthetic proton of
 // the Bohr salt bridge (releasing — the crystal heavy atoms carry no hydrogen).
-export type Emphasis = { element: string; hex: number; sizeFactor: number };
+//
+// `sizeFactorRange` (optional) animates the sphere's radius across the morph,
+// interpolated linearly from frame 0 → last frame. The heme iron uses it for the
+// high→low-spin shrink the prose describes (a large deoxy Fe contracting as O₂
+// binds); morphs that omit it keep the fixed `sizeFactor`.
+export type Emphasis = {
+  element: string;
+  hex: number;
+  sizeFactor: number;
+  sizeFactorRange?: [number, number];
+};
 
 // A MolScript selection of every atom of one element. Built inside this
 // client-only player so molstar never leaks into the SSR/import boundary.
@@ -88,17 +98,27 @@ function setRenderActive(plugin: PluginUIContext | null, isActive: boolean) {
 }
 
 // Scrub the trajectory to a frame (0-based) by updating the model transform's
-// modelIndex — the same thing AnimateModelIndex does under the hood.
+// modelIndex — the same thing AnimateModelIndex does under the hood. Changing
+// modelIndex recomputes the whole downstream chain (structure → emphasis
+// component → its sphere), so when an emphasis sphere wants a per-frame radius we
+// fold that sizeFactor into the *same* commit; it then rebuilds in lockstep with
+// the atom's new position rather than lagging a frame behind.
 async function setMorphFrame(
   plugin: PluginUIContext,
   modelRef: string,
-  frame: number
+  frame: number,
+  emphUpdate?: { ref: string; sizeFactor: number } | null
 ) {
   const state = plugin.state.data;
   const update = state.build();
   update.to(modelRef).update((old: any) => {
     old.modelIndex = frame;
   });
+  if (emphUpdate) {
+    update.to(emphUpdate.ref).update((old: any) => {
+      if (old?.type?.params) old.type.params.sizeFactor = emphUpdate.sizeFactor;
+    });
+  }
   await PluginCommands.State.Update(plugin, {
     state,
     tree: update,
@@ -156,6 +176,7 @@ export default function MorphPlayer({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pluginRef = useRef<PluginUIContext | null>(null);
   const modelRefRef = useRef<string | null>(null);
+  const emphRepRef = useRef<string | null>(null);
 
   const [ready, setReady] = useState(false);
   const [frame, setFrame] = useState(0);
@@ -179,6 +200,20 @@ export default function MorphPlayer({
   // await, so rapid scrubbing/playback converges without flooding Mol*.
   const desiredFrameRef = useRef(0);
   const applyingRef = useRef(false);
+
+  // The emphasis sphere's radius for a given frame: a linear walk across
+  // `sizeFactorRange` (frame 0 → last frame), or null when the morph keeps a
+  // fixed-size sphere. Returned ready to ride along in setMorphFrame's commit.
+  const emphUpdateForFrame = useCallback((frame: number) => {
+    const emph = emphasisRef.current;
+    const ref = emphRepRef.current;
+    if (!emph || !ref || !emph.sizeFactorRange) return null;
+    const fc = frameCountRef.current;
+    const [a, b] = emph.sizeFactorRange;
+    const t = fc <= 1 ? 0 : frame / (fc - 1);
+    return { ref, sizeFactor: a + (b - a) * t };
+  }, []);
+
   const applyFrame = useCallback(async () => {
     const plugin = pluginRef.current;
     const modelRef = modelRefRef.current;
@@ -188,14 +223,14 @@ export default function MorphPlayer({
       let last = -1;
       while (desiredFrameRef.current !== last) {
         last = desiredFrameRef.current;
-        await setMorphFrame(plugin, modelRef, last);
+        await setMorphFrame(plugin, modelRef, last, emphUpdateForFrame(last));
       }
     } catch {
       // A commit racing a teardown can reject; harmless.
     } finally {
       applyingRef.current = false;
     }
-  }, []);
+  }, [emphUpdateForFrame]);
 
   const goToFrame = useCallback(
     (n: number) => {
@@ -338,12 +373,22 @@ export default function MorphPlayer({
             `emphasis-${emph.element}`
           );
         if (comp) {
-          await plugin.builders.structure.representation.addRepresentation(comp, {
-            type: "spacefill",
-            color: "uniform",
-            colorParams: { value: emph.hex },
-            typeParams: { sizeFactor: emph.sizeFactor },
-          } as any);
+          // Start at the frame-0 radius so the sphere is already correct before
+          // the first scrub; a ranged emphasis (the iron) then shrinks per frame.
+          const initialSize = emph.sizeFactorRange
+            ? emph.sizeFactorRange[0]
+            : emph.sizeFactor;
+          const rep =
+            await plugin.builders.structure.representation.addRepresentation(
+              comp,
+              {
+                type: "spacefill",
+                color: "uniform",
+                colorParams: { value: emph.hex },
+                typeParams: { sizeFactor: initialSize },
+              } as any
+            );
+          emphRepRef.current = rep.ref;
         }
       }
 

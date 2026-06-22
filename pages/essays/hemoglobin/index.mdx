@@ -107,7 +107,10 @@ A second, identical alpha-beta dimer completes the structure; we now have a comp
 
 Now that you understand the structure, let’s look at exactly how it catches oxygen. Before oxygen arrives, the ferrous <Term k="iron">iron</Term> atom sits a little behind the plane of the heme, about half an ångström off (a fraction of an atom’s width), doming out of the ring. In this state, the iron atom is too large to fit through the ring hole. As <Term k="oxygen">oxygen</Term> binds, the <TippyTooltip variant="footnote" content={<TippyTooltipContent>Iron’s electrons can settle into two arrangements: spread out across separate orbits, or paired up tightly together (chemists call these "high-spin" and "low-spin"). Spread-out electrons take up more room, so the atom sits a little larger; binding oxygen tugs them into the tighter, paired arrangement, shrinking the atom just enough to slip into the ring.</TippyTooltipContent>}>electrons in iron rearrange, and the atom grows slightly smaller, just small enough to rise into the plane of the ring</TippyTooltip>. (That same rearrangement also changes how the heme absorbs light, which is why arterial blood, freshly loaded in the lungs, runs a brighter scarlet, while the spent blood returning through your veins is a darker, almost maroon red.)
 
-<MorphFigure url={BINDING_MORPH_URL} />
+<MorphFigure
+  url={BINDING_MORPH_URL}
+  caption="The iron’s size change and movement are not drawn to scale."
+/>
 
 Because the iron is tethered to the proximal histidine, as iron moves up, it pulls the histidine along with it. And since the histidine is connected to the rest of the chain, this pull tugs the rest of the chain as well.
 
@@ -121,7 +124,10 @@ This flip means that the remaining oxygen now binds more readily. Thus a positiv
 
 In the binding animation above, we left out the distal histidine, but it too has a crucial role. Left to themselves, oxygen and ferrous iron would combine into iron oxide, also known as rust. Were that to happen, hemoglobin would be ruined and unable to deliver oxygen. But it doesn’t happen, because oxygen doesn’t *fully* react with iron. Rather than fully surrendering its spare electron and making a complete bond, iron only partially shares it, and oxygen, for its part, only leans in partway, like two frenemies reluctant to properly shake hands. That partway lean, with <Term k="oxygen">oxygen</Term> settling at roughly a 120-degree tilt where it meets <Term k="iron">iron</Term>, is steadied from above by the distal histidine. It hovers above and forms a weak bond &mdash; an electrostatic tether &mdash; holding the oxygen at that angle and keeping the binding gentle and easily reversible. Essentially, rusting, the exact reaction that eats ships and bridges, is *almost* running in your blood, deliberately frozen a hair short of completion so it can be undone and redone trillions of times to catch and release oxygen.<TippyTooltip variant="footnote" content={<TippyTooltipContent>The distal histidine also acts as a guard against carbon monoxide. On bare iron, without this protein around it, carbon monoxide binds some 20,000 times more tightly than oxygen. But carbon monoxide likes to bind held straight; the same distal histidine, which stabilizes oxygen in its tilted state, doesn’t let carbon monoxide sit as comfortably. Its advantage over oxygen falls from about 20,000 to 200, a hundredfold reduction. It’s still poisonous, but without the hovering protein the smoke of an ordinary fire would be a hundred times more dangerous to breathe.</TippyTooltipContent>} />
 
-<MorphFigure url={LEAN_MORPH_URL} />
+<MorphFigure
+  url={LEAN_MORPH_URL}
+  caption="The iron’s size change and movement, and the oxygen, are not drawn to scale."
+/>
 
 <H2 className="mt-8">How hemoglobin releases oxygen</H2>
 

@@ -54,7 +54,7 @@ export default function BohrFigure() {
       <figcaption className="mx-auto mt-3 max-w-xl text-center text-sm text-slate-500">
         An incoming proton (violet) binds the end of a chain and forms a new
         salt-bridge clasp, tipping hemoglobin toward the tense (T) state. CO₂
-        forms a near-identical clasp nearby.
+        forms a near-identical clasp nearby. The proton is not drawn to scale.
       </figcaption>
     </figure>
   );
