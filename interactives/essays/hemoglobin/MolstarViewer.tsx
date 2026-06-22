@@ -5,59 +5,14 @@ import { DefaultPluginUISpec } from "molstar/lib/mol-plugin-ui/spec";
 import type { PluginUIContext } from "molstar/lib/mol-plugin-ui/context";
 import { StateSelection } from "molstar/lib/mol-state";
 import type { StateObjectSelector } from "molstar/lib/mol-state";
-import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
-import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postprocessing";
-import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
 import { Script } from "molstar/lib/mol-script/script";
 import { StructureSelection } from "molstar/lib/mol-model/structure";
 import { PluginStateObject } from "molstar/lib/mol-plugin-state/objects";
 import { PluginCommands } from "molstar/lib/mol-plugin/commands";
 import { setSubtreeVisibility } from "molstar/lib/mol-plugin/behavior/static/state";
 import { AnimateModelIndex } from "molstar/lib/mol-plugin-state/animation/built-in/model-index";
-import { VIEWPORT_CHROME_OFF, AXES_GIZMO } from "./molstar-chrome";
-// Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
-import "molstar/build/viewer/molstar.css";
-
-// Build the *complete* "on" params for a Mol* Mapped param, then layer
-// overrides on top. Passing a partial params object to setProps drops nested
-// sub-params (e.g. occlusion's `multiScale`), which later crashes the render
-// pass with "Cannot read properties of undefined (reading 'name')".
-function onWith(mapped: any, overrides: Record<string, unknown>) {
-  const variant = mapped.map("on");
-  const defaults = PD.getDefaultValues(variant.params ?? variant);
-  return { name: "on", params: { ...defaults, ...overrides } };
-}
-
-// --- "Look" borrowed from molstar.org's villin-md.molx snapshot -----------
-// Mostly canvas post-processing (ambient occlusion + black outlines) over a
-// warm near-white background, plus soft lighting. Applied once after boot;
-// independent of which representation is shown.
-function applyVillinLook(plugin: PluginUIContext) {
-  plugin.canvas3d?.setProps({
-    renderer: {
-      backgroundColor: 0xfcfbf9,
-      ambientIntensity: 0.4,
-      interiorDarkening: 0.5,
-    },
-    postprocessing: {
-      occlusion: onWith(PostprocessingParams.occlusion, {
-        samples: 32,
-        radius: 5,
-        bias: 0.8,
-        blurKernelSize: 15,
-      }),
-      outline: onWith(PostprocessingParams.outline, {
-        scale: 1,
-        threshold: 0.33,
-        color: 0x000000,
-        includeTransparent: true,
-      }),
-    },
-    cameraFog: { name: "on", params: { intensity: 15 } },
-    // Keep the orientation axes gizmo, bottom-left (the only chrome).
-    camera: { helper: { axes: AXES_GIZMO } },
-  } as any);
-}
+import { VIEWPORT_CHROME_OFF } from "./molstar-chrome";
+import { applyVillinLook, IRON_EXPR } from "./molstar-engine";
 
 // --- Representation helpers -------------------------------------------------
 type RepOpts = {
@@ -111,11 +66,6 @@ function wholeStructure(
     return refs;
   };
 }
-
-// MolScript: select every iron atom (the heme Fe — the star of the story).
-const IRON_EXPR = MS.struct.generator.atomGroups({
-  "atom-test": MS.core.rel.eq([MS.acp("elementSymbol"), MS.es("Fe")]),
-});
 
 // The real hemoglobin view: protein context + the functional heme + iron,
 // each as its own component so we can later focus/highlight/animate the heme.
@@ -494,7 +444,7 @@ export default function MolstarViewer({
         return;
       }
       pluginRef.current = plugin;
-      applyVillinLook(plugin);
+      applyVillinLook(plugin, { background: 0xfcfbf9, fog: 15 });
 
       const protein = await loadStructure(plugin, PROTEIN);
       const morph = await loadStructure(plugin, MORPH);

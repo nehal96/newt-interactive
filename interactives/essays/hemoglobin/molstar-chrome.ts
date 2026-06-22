@@ -31,15 +31,18 @@ export const VIEWPORT_CHROME_OFF: [PluginConfigItem, unknown][] = [
   [PluginConfig.Viewport.ShowXR, "off"],
 ];
 
+// Build the *complete* "on" params for a Mol* Mapped param, then layer overrides
+// on top. Passing a partial params object to setProps drops nested sub-params
+// (e.g. occlusion's `multiScale`), which later crashes the render pass with
+// "Cannot read properties of undefined (reading 'name')". Lives here, the
+// lowest-level shared module, so the engine and the viewers all reuse one copy.
+export function onWith(mapped: any, overrides: Record<string, unknown> = {}) {
+  const variant = mapped.map("on");
+  const defaults = PD.getDefaultValues(variant.params ?? variant);
+  return { name: "on" as const, params: { ...defaults, ...overrides } };
+}
+
 // The camera-orientation axes gizmo, kept on at its default bottom-left corner —
 // the one bit of viewport chrome we keep. Spread into canvas3d setProps as
-// `{ camera: { helper: { axes: AXES_GIZMO } } }`. Built as the *complete* "on"
-// params; a partial object would drop sub-params and later crash the render pass.
-const axesOn: any = (CameraHelperParams.axes as any).map("on");
-export const AXES_GIZMO = {
-  name: "on" as const,
-  params: {
-    ...PD.getDefaultValues(axesOn.params ?? axesOn),
-    location: "bottom-left",
-  },
-};
+// `{ camera: { helper: { axes: AXES_GIZMO } } }`.
+export const AXES_GIZMO = onWith(CameraHelperParams.axes, { location: "bottom-left" });
