@@ -41,21 +41,24 @@ type Part = {
   /** Per-whole-molecule count, e.g. "×16". */
   count: string;
   figure: ReactNode;
+  /** Cargo (oxygen) rather than a structural part — listed last and set apart visually. */
+  cargo?: boolean;
 };
 
 // The lean structural set — the raw components, in assembly order (heme parts,
 // then the pocket, then the chains). Counts are per whole hemoglobin molecule
 // (four hemes, four pockets, four chains). Heme and porphyrin are deliberately
-// absent: they're assembled *from* these parts.
+// absent: they're assembled *from* these parts. Oxygen is the cargo, not a
+// structural part, so it sits last and is set apart visually.
 const PARTS: Part[] = [
   { key: "iron", name: "iron", count: "×4", figure: <IronFigure /> },
   { key: "pyrrole", name: "pyrrole", count: "×16", figure: <PyrroleFigure /> },
   { key: "methine", name: "methine bridge", count: "×16", figure: <MethineFigure /> },
-  { key: "oxygen", name: "oxygen", count: "×4", figure: <OxygenFigure /> },
   { key: "proximalHis", name: "proximal histidine", count: "×4", figure: <HistidineFigure /> },
   { key: "distalHis", name: "distal histidine", count: "×4", figure: <HistidineFigure /> },
   { key: "alpha", name: "alpha chain", count: "×2", figure: <ChainFigure variant="alpha" /> },
   { key: "beta", name: "beta chain", count: "×2", figure: <ChainFigure variant="beta" /> },
+  { key: "oxygen", name: "oxygen", count: "×4", figure: <OxygenFigure />, cargo: true },
 ];
 
 /**
@@ -75,9 +78,17 @@ export default function PartsManifest() {
 
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {PARTS.map((part) => (
-            <div key={part.key} className="flex flex-col rounded-lg p-2">
+            <div
+              key={part.key}
+              className={`flex flex-col rounded-lg p-2${
+                part.cargo ? " border border-dashed border-slate-200 bg-slate-50/50" : ""
+              }`}
+            >
               <div className="text-left">
-                <div className="text-[11px] leading-tight text-slate-400">{part.name}</div>
+                <div className="text-[11px] leading-tight text-slate-400">
+                  {part.name}
+                  {part.cargo && <span className="text-slate-300"> · cargo</span>}
+                </div>
                 <div className="text-sm font-medium text-slate-700">{part.count}</div>
               </div>
               <div className="mt-1 h-[100px] w-full">{part.figure}</div>

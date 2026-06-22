@@ -11,8 +11,9 @@ import { HB } from "./palette";
 // histidines) map to `null` — they're emphasized by weight alone (bold, default
 // text color) rather than by color.
 //
-// Applied to the first / anchor mention of each tracked term (near its figure),
-// not every occurrence, to keep the page calm.
+// Applied at a term's anchor mentions — its first appearance, again when it
+// sits beside a figure that depicts it, or when a concept is picked back up
+// after a gap — not at every occurrence, to keep the page calm.
 const INK: Record<string, string | null> = {
   iron: HB.iron.ink,
   oxygen: HB.oxygen.ink,
