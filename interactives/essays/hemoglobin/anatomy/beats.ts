@@ -115,13 +115,17 @@ export const BEATS: Record<Beat, BeatConfig> = {
       url: "/structures/iron-porphyrin.pdb",
       representation: "ball-and-stick",
       emphasizeIron: true,
-      // Face-on view of the macrocycle with the Fe centered: look along the
-      // ring system's plane normal (Newell over the 16-membered ring), `up`
-      // chosen so the four pyrrole N's sit at the diagonals and the meso bridges
-      // at top/right/bottom/left.
+      // Face-on view of the macrocycle with the Fe centered, looking straight
+      // down the ring's best-fit plane normal from the DISTAL ("front") face —
+      // the side O₂ approaches from. Viewed this way the deoxy iron domes ~0.45 Å
+      // *away* from the camera, so it reads as recessed behind the ring plane (it
+      // sits in front toward the camera from the opposite, proximal-His face).
+      // `up` is aligned to the Fe→CHA meso bridge, so the four meso bridges sit at
+      // top/right/bottom/left (12/3/6/9 o'clock) and the four pyrrole N's land on
+      // the diagonals — the symmetric framing. (Computed from iron-porphyrin.pdb.)
       orientation: {
-        direction: [0.7682, -0.6352, -0.0804],
-        up: [-0.062, 0.0512, -0.9968],
+        direction: [-0.77, 0.633, 0.0799],
+        up: [0.0009, 0.1263, -0.992],
       },
     },
   },
