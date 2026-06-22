@@ -55,6 +55,22 @@ export type BeatConfig = {
      * not-yet-added beta pockets sit bare.
      */
     pocketChains?: string[];
+    /**
+     * Override the default camera framing with a fixed orientation (angle only —
+     * the auto-fit distance is kept). `direction` is the world-space vector the
+     * camera looks along (from camera toward the structure); `up` sets the roll.
+     * Used by the pyrrole beat to lock the ring face-on instead of Mol*'s
+     * default principal-axis view.
+     */
+    orientation?: {
+      direction: [number, number, number];
+      up: [number, number, number];
+    };
+    /**
+     * Zoom factor on top of the auto-fit framing; >1 moves the camera closer so
+     * the structure fills more of the pane. Defaults to 1 (plain auto-fit).
+     */
+    zoom?: number;
   };
 };
 
@@ -84,6 +100,13 @@ export const BEATS: Record<Beat, BeatConfig> = {
       url: "/structures/iron-pyrrole.pdb",
       representation: "ball-and-stick",
       emphasizeIron: true,
+      // Face-on view of the pyrrole ring with the Fe to the left: look along the
+      // ring's plane normal (from the iron-pyrrole.pdb ring atoms, Newell), with
+      // `up` chosen so the N–Fe bond sits roughly horizontal to the left.
+      orientation: {
+        direction: [0.6982, -0.714, -0.0522],
+        up: [-0.3039, -0.2295, -0.9247],
+      },
     },
   },
   porphyrin: {
@@ -92,6 +115,14 @@ export const BEATS: Record<Beat, BeatConfig> = {
       url: "/structures/iron-porphyrin.pdb",
       representation: "ball-and-stick",
       emphasizeIron: true,
+      // Face-on view of the macrocycle with the Fe centered: look along the
+      // ring system's plane normal (Newell over the 16-membered ring), `up`
+      // chosen so the four pyrrole N's sit at the diagonals and the meso bridges
+      // at top/right/bottom/left.
+      orientation: {
+        direction: [0.7682, -0.6352, -0.0804],
+        up: [-0.062, 0.0512, -0.9968],
+      },
     },
   },
   proximalHis: {
@@ -100,6 +131,8 @@ export const BEATS: Record<Beat, BeatConfig> = {
       url: "/structures/porphyrin-proximal-his.pdb",
       representation: "ball-and-stick",
       emphasizeIron: true,
+      // Default angle, pulled in a little so the histidine reads.
+      zoom: 1.1,
     },
   },
   distalHis: {
@@ -108,6 +141,8 @@ export const BEATS: Record<Beat, BeatConfig> = {
       url: "/structures/porphyrin-both-his.pdb",
       representation: "ball-and-stick",
       emphasizeIron: true,
+      // Default angle, pulled in a little so the histidines read.
+      zoom: 1.3,
     },
   },
   heme: {

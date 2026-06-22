@@ -4,6 +4,7 @@ import { renderReact18 } from "molstar/lib/mol-plugin-ui/react18";
 import { DefaultPluginUISpec } from "molstar/lib/mol-plugin-ui/spec";
 import type { PluginUIContext } from "molstar/lib/mol-plugin-ui/context";
 import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
+import { Vec3 } from "molstar/lib/mol-math/linear-algebra";
 import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postprocessing";
 import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
 import { acquireBootSlot } from "./boot-queue";
@@ -99,6 +100,39 @@ function applyVillinLook(plugin: PluginUIContext) {
 
 type ChainGroup = { chains: string[]; color: number };
 
+/** A fixed camera angle (see MoleculeViewerProps.orientation). */
+type Orientation = {
+  direction: [number, number, number];
+  up: [number, number, number];
+};
+
+// Adjust the camera on top of Mol*'s auto-fit reset, keeping the reset target so
+// the structure stays centered. With `orientation`, rotate to look along
+// `direction` with the given `up`; otherwise keep the reset's angle. `zoom` > 1
+// pulls the camera closer so the structure fills more of the pane.
+function applyCameraView(
+  plugin: PluginUIContext,
+  orientation: Orientation | undefined,
+  zoom: number
+) {
+  const cam = plugin.canvas3d?.camera;
+  if (!cam) return;
+  const snap = cam.getSnapshot();
+  const dist = Vec3.distance(snap.position, snap.target) / zoom;
+  if (orientation) {
+    // Camera sits a `dist` back along the look direction from the target.
+    const dir = Vec3.normalize(Vec3(), Vec3.create(...orientation.direction));
+    const position = Vec3.scaleAndAdd(Vec3(), snap.target, dir, -dist);
+    const up = Vec3.normalize(Vec3(), Vec3.create(...orientation.up));
+    cam.setState({ ...snap, position, up }, 0);
+  } else {
+    // Keep the reset angle, just move the camera in/out along its own axis.
+    const dir = Vec3.normalize(Vec3(), Vec3.sub(Vec3(), snap.position, snap.target));
+    const position = Vec3.scaleAndAdd(Vec3(), snap.target, dir, dist);
+    cam.setState({ ...snap, position }, 0);
+  }
+}
+
 type MoleculeViewerProps = {
   /** Vendored PDB in /public (never fetch remote — RCSB is blocked). */
   url: string;
@@ -125,6 +159,17 @@ type MoleculeViewerProps = {
   showPockets?: boolean;
   /** Chains whose pockets to draw; defaults to the ribbon (`chainGroups`) chains. */
   pocketChains?: string[];
+  /**
+   * Fixed camera angle. When set, the auto-fit framing is kept (centered, sized
+   * to the pane) but the camera is rotated to look along `direction` with the
+   * given `up` roll, instead of Mol*'s default principal-axis orientation.
+   */
+  orientation?: Orientation;
+  /**
+   * Zoom factor applied after the auto-fit reset; >1 pulls the camera closer so
+   * the structure fills more of the pane. Defaults to 1.
+   */
+  zoom?: number;
   /**
    * Whether the viewer is on-screen. When false the render loop is paused so an
    * off-screen viewer costs nothing; the WebGL context is kept so scrolling back
@@ -157,6 +202,8 @@ export default function MoleculeViewer({
   chainGroups,
   showPockets = false,
   pocketChains,
+  orientation,
+  zoom = 1,
   active = true,
   className,
 }: MoleculeViewerProps) {
@@ -321,6 +368,15 @@ export default function MoleculeViewer({
         return;
       }
       plugin.managers.camera.reset(undefined, 0);
+      // `camera.reset` only *requests* the auto-fit; it's resolved later, inside
+      // the render loop's commit. Force that commit synchronously so the camera
+      // is actually fitted before we read its snapshot below — and so no pending
+      // reset fires on a later frame and clobbers the override (which is why a
+      // distance/zoom change silently snapped back to the auto-fit distance).
+      plugin.canvas3d?.commit(true);
+      // Lock a fixed angle (e.g. the pyrrole ring face-on) and/or zoom in on top
+      // of the now-applied fit, keeping its centering.
+      if (orientation || zoom !== 1) applyCameraView(plugin, orientation, zoom);
       // Mol*'s WebGL canvas is GPU-composited and slips past the wrapper's
       // rounded `overflow:hidden` (its square corners show through the rounded
       // pane). `border-radius` on the canvas itself DOES clip its own drawing,
@@ -370,6 +426,8 @@ export default function MoleculeViewer({
     chainGroups,
     showPockets,
     pocketChains,
+    orientation,
+    zoom,
   ]);
 
   // Pause/resume the render loop as the viewer scrolls out of / into view,
