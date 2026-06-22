@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { cn } from "../../../../lib/utils";
 import { HB, NEUTRAL, SWITCH_CHAINS } from "../palette";
 
@@ -150,16 +150,87 @@ export function SubunitShape({ s, o2 }: { s: Subunit; o2: number }) {
   );
 }
 
+// ---- shared scene pieces (reused by BpgDoorstopFigure) ----------------------
+// The α₂β₂ rotor transform: as the molecule relaxes (s → 0) the mobile half
+// slides toward the pivot (CLOSE_TX) and rotates back to aligned. `s` is the
+// tween value (1 = T, 0 = R).
+export function rotorTransform(s: number): string {
+  const tx = -(1 - s) * CLOSE_TX;
+  return `translate(${tx.toFixed(2)} 0) rotate(${(s * ANGLE).toFixed(3)} ${PIVOT.x} ${PIVOT.y})`;
+}
+
+// The dashed molecular 2-fold axis, behind everything.
+export function TwoFoldAxis() {
+  return (
+    <line x1={PIVOT.x} y1={86} x2={PIVOT.x} y2={392} stroke={COLORS.axis} strokeWidth={1} strokeDasharray="5 5" />
+  );
+}
+
+// The two halves of the molecule. The fixed α₁β₁ reference half, and the mobile
+// α₂β₂ half that takes the rotor `transform`. `o2` is the oxygen-bound opacity.
+// Both figures draw the fixed half, then their own cavity overlay, then the
+// mobile half over it.
+export function FixedHalf({ o2 }: { o2: number }) {
+  return (
+    <g>
+      {SUBUNITS.filter((u) => u.group === "fixed").map((u) => (
+        <SubunitShape key={u.key} s={u} o2={o2} />
+      ))}
+    </g>
+  );
+}
+
+export function MobileHalf({ o2, transform }: { o2: number; transform: string }) {
+  return (
+    <g transform={transform}>
+      {SUBUNITS.filter((u) => u.group === "mobile").map((u) => (
+        <SubunitShape key={u.key} s={u} o2={o2} />
+      ))}
+    </g>
+  );
+}
+
+// The two-state pill toggle under both switch figures. Left is always the tense
+// (T) option, right the relaxed (R); `isLeft` drives which reads active.
+export function StateToggle({
+  leftLabel,
+  rightLabel,
+  isLeft,
+  onLeft,
+  onRight,
+}: {
+  leftLabel: ReactNode;
+  rightLabel: ReactNode;
+  isLeft: boolean;
+  onLeft: () => void;
+  onRight: () => void;
+}) {
+  const tab = (active: boolean) =>
+    cn(
+      "rounded-full px-4 py-1.5 transition-colors",
+      active
+        ? "bg-white font-medium text-slate-800 shadow-sm"
+        : "text-slate-500 hover:text-slate-700"
+    );
+  return (
+    <div className="mt-4 flex justify-center">
+      <div className="inline-flex rounded-full bg-slate-100 p-1 text-sm">
+        <button type="button" onClick={onLeft} aria-pressed={isLeft} className={tab(isLeft)}>
+          {leftLabel}
+        </button>
+        <button type="button" onClick={onRight} aria-pressed={!isLeft} className={tab(!isLeft)}>
+          {rightLabel}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function TRSwitchFigure({ className }: { className?: string }) {
   const [state, setState] = useState<"T" | "R">("T");
   // 1 (T) → 0 (R); the shared tween eases between the two on each toggle.
   const s = useSwitchTween(state === "T");
-
-  // Derived from the tween value. On relaxing (s → 0) the α₂β₂ half rotates back
-  // to aligned and slides toward the pivot, closing the central cavity.
-  const tx = -(1 - s) * CLOSE_TX;
-  const rotorTransform = `translate(${tx.toFixed(2)} 0) rotate(${(s * ANGLE).toFixed(3)} ${PIVOT.x} ${PIVOT.y})`;
-  const o2 = 1 - s;
+  const o2 = 1 - s; // oxygen-bound opacity, 0 in T → 1 in R
 
   return (
     <figure className={cn("my-8 w-full scroll-mt-24 lg:my-12", className)}>
@@ -181,24 +252,12 @@ export default function TRSwitchFigure({ className }: { className?: string }) {
               oxygen.
             </desc>
 
-            {/* Molecular 2-fold axis (behind everything). */}
-            <line x1={PIVOT.x} y1={86} x2={PIVOT.x} y2={392} stroke={COLORS.axis} strokeWidth={1} strokeDasharray="5 5" />
-
-            {/* Fixed half (α₁β₁). */}
-            <g>
-              {SUBUNITS.filter((u) => u.group === "fixed").map((u) => (
-                <SubunitShape key={u.key} s={u} o2={o2} />
-              ))}
-            </g>
-
+            <TwoFoldAxis />
+            <FixedHalf o2={o2} />
             {/* Rotating half (α₂β₂) — swings about the pivot and slides inward.
                 The hole left between it and the fixed half IS the central cavity
                 (the 2,3-BPG site): open in T, pinched nearly shut in R. */}
-            <g transform={rotorTransform}>
-              {SUBUNITS.filter((u) => u.group === "mobile").map((u) => (
-                <SubunitShape key={u.key} s={u} o2={o2} />
-              ))}
-            </g>
+            <MobileHalf o2={o2} transform={rotorTransform(s)} />
 
             {/* 15° annotation — the straight arm of the rotation off the (dashed)
                 molecular axis; fades out as the molecule relaxes into the aligned
@@ -212,37 +271,13 @@ export default function TRSwitchFigure({ className }: { className?: string }) {
           </svg>
         </div>
 
-        {/* T / R toggle. */}
-        <div className="mt-4 flex justify-center">
-          <div className="inline-flex rounded-full bg-slate-100 p-1 text-sm">
-            <button
-              type="button"
-              onClick={() => setState("T")}
-              aria-pressed={state === "T"}
-              className={cn(
-                "rounded-full px-4 py-1.5 transition-colors",
-                state === "T"
-                  ? "bg-white font-medium text-slate-800 shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
-              )}
-            >
-              Deoxygenated · tense (T)
-            </button>
-            <button
-              type="button"
-              onClick={() => setState("R")}
-              aria-pressed={state === "R"}
-              className={cn(
-                "rounded-full px-4 py-1.5 transition-colors",
-                state === "R"
-                  ? "bg-white font-medium text-slate-800 shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
-              )}
-            >
-              Oxygenated · relaxed (R)
-            </button>
-          </div>
-        </div>
+        <StateToggle
+          leftLabel="Deoxygenated · tense (T)"
+          rightLabel="Oxygenated · relaxed (R)"
+          isLeft={state === "T"}
+          onLeft={() => setState("T")}
+          onRight={() => setState("R")}
+        />
 
         <figcaption className="mt-3 text-center text-sm text-slate-500">
           {CAPTION[state]}

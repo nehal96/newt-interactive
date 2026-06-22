@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { cn } from "../../../../lib/utils";
 import {
-  ANGLE,
-  CLOSE_TX,
-  COLORS,
-  PIVOT,
-  SUBUNITS,
-  SubunitShape,
+  FixedHalf,
+  MobileHalf,
+  rotorTransform,
+  StateToggle,
+  TwoFoldAxis,
   useSwitchTween,
   VIEWBOX,
 } from "../quaternary/TRSwitchFigure";
@@ -37,12 +36,7 @@ const CAPTION: Record<"in" | "out", string> = {
 export default function BpgDoorstopFigure({ className }: { className?: string }) {
   const [bound, setBound] = useState(true); // BPG starts wedged in (the T state)
   const s = useSwitchTween(bound); // 1 = T (bound), 0 = R (free)
-
-  // Same rotor as the switch: the α₂β₂ half slides toward the pivot and rotates
-  // back to aligned as the molecule relaxes (s -> 0), closing the cavity.
-  const tx = -(1 - s) * CLOSE_TX;
-  const rotorTransform = `translate(${tx.toFixed(2)} 0) rotate(${(s * ANGLE).toFixed(3)} ${PIVOT.x} ${PIVOT.y})`;
-  const o2 = 1 - s;
+  const o2 = 1 - s; // oxygen-bound opacity, 0 in T → 1 in R
   // The doorstop fades and lifts up out of the cavity as BPG leaves.
   const doorstopT = `translate(0 ${(-(1 - s) * 46).toFixed(1)})`;
 
@@ -65,15 +59,8 @@ export default function BpgDoorstopFigure({ className }: { className?: string })
               inward to the relaxed state, pinching the cavity shut.
             </desc>
 
-            {/* Molecular 2-fold axis (behind everything). */}
-            <line x1={PIVOT.x} y1={86} x2={PIVOT.x} y2={392} stroke={COLORS.axis} strokeWidth={1} strokeDasharray="5 5" />
-
-            {/* Fixed half (α₁β₁). */}
-            <g>
-              {SUBUNITS.filter((u) => u.group === "fixed").map((u) => (
-                <SubunitShape key={u.key} s={u} o2={o2} />
-              ))}
-            </g>
+            <TwoFoldAxis />
+            <FixedHalf o2={o2} />
 
             {/* The doorstop sits in the cavity between the halves — drawn before
                 the rotating half so that half slides over it as the cavity shuts. */}
@@ -83,46 +70,17 @@ export default function BpgDoorstopFigure({ className }: { className?: string })
               <text x={340} y={222} fill={BPG.label} fontSize={9.5} textAnchor="middle" fontWeight={600}>2,3-BPG</text>
             </g>
 
-            {/* Rotating half (α₂β₂) — swings about the pivot and slides inward. */}
-            <g transform={rotorTransform}>
-              {SUBUNITS.filter((u) => u.group === "mobile").map((u) => (
-                <SubunitShape key={u.key} s={u} o2={o2} />
-              ))}
-            </g>
+            <MobileHalf o2={o2} transform={rotorTransform(s)} />
           </svg>
         </div>
 
-        {/* BPG in / out toggle. */}
-        <div className="mt-4 flex justify-center">
-          <div className="inline-flex rounded-full bg-slate-100 p-1 text-sm">
-            <button
-              type="button"
-              onClick={() => setBound(true)}
-              aria-pressed={bound}
-              className={cn(
-                "rounded-full px-4 py-1.5 transition-colors",
-                bound
-                  ? "bg-white font-medium text-slate-800 shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
-              )}
-            >
-              2,3-BPG bound · tense (T)
-            </button>
-            <button
-              type="button"
-              onClick={() => setBound(false)}
-              aria-pressed={!bound}
-              className={cn(
-                "rounded-full px-4 py-1.5 transition-colors",
-                !bound
-                  ? "bg-white font-medium text-slate-800 shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
-              )}
-            >
-              Removed · relaxed (R)
-            </button>
-          </div>
-        </div>
+        <StateToggle
+          leftLabel="2,3-BPG bound · tense (T)"
+          rightLabel="Removed · relaxed (R)"
+          isLeft={bound}
+          onLeft={() => setBound(true)}
+          onRight={() => setBound(false)}
+        />
 
         <figcaption className="mt-3 text-center text-sm text-slate-500">
           {CAPTION[bound ? "in" : "out"]}
