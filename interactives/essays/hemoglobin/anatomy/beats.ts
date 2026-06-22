@@ -31,7 +31,7 @@ export type BeatConfig = {
 // Iron's element color in Mol* (matches the SVG sphere) so the panes read as the
 // same atom. The ball-and-stick beats use element coloring (Fe orange, N blue,
 // C grey) with the Fe emphasized on top.
-export const FE_COLOR = toHex(HB.iron.fill);
+const FE_COLOR = toHex(HB.iron.fill);
 
 // Chain ribbon colors, from the shared palette. Chains are colored by TYPE —
 // α = blue (chains A, C), β = magenta (chains B, D) — so each chain reads as a

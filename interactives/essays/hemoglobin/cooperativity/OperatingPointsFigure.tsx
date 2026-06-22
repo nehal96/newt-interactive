@@ -12,6 +12,7 @@ import {
   saturation,
   SaturationCurve,
 } from "./chart";
+import { ZONES } from "../palette";
 
 // Figure 2 of the Cooperativity section: the same saturation curve, now read for
 // what its shape buys you. The four physiological operating points sit on the
@@ -22,13 +23,6 @@ import {
 // cliff (resting→working) but a flat hop on the shelf (lungs→mountain). Static,
 // pure SVG; model, plot box and axes come from the shared ./chart module.
 
-const ZONE = {
-  cliff: "#FAECE7", // coral-50
-  cliffText: "#993C1D", // coral-800
-  shelf: "#E6F1FB", // blue-50
-  shelfText: "#0C447C", // blue-800
-};
-const NAME = "#64748b"; // slate-500 — point labels, kept quiet
 // The shelf is the high-saturation plateau: the band spans 90–100% saturation and
 // its left edge meets the curve exactly where saturation crosses 90% (≈55 mmHg).
 // Inverse Hill from the shared P50/n so it stays consistent with the curve.
@@ -70,12 +64,12 @@ export default function OperatingPointsFigure({ className }: { className?: strin
     >
       {/* zones (behind the frame and curve); the shelf's left edge meets the
           curve where saturation crosses 90% */}
-      <rect x={px(12)} y={PLOT.YT} width={px(45) - px(12)} height={PLOT.YB - PLOT.YT} fill={ZONE.cliff} />
-      <rect x={px(SHELF_FROM)} y={PLOT.YT} width={PLOT.X1 - px(SHELF_FROM)} height={py(SHELF_SAT) - PLOT.YT} fill={ZONE.shelf} />
-      <text x={(px(12) + px(45)) / 2} y={20} fill={ZONE.cliffText} fontSize={11} textAnchor="middle">
+      <rect x={px(12)} y={PLOT.YT} width={px(45) - px(12)} height={PLOT.YB - PLOT.YT} fill={ZONES.cliff} />
+      <rect x={px(SHELF_FROM)} y={PLOT.YT} width={PLOT.X1 - px(SHELF_FROM)} height={py(SHELF_SAT) - PLOT.YT} fill={ZONES.shelf} />
+      <text x={(px(12) + px(45)) / 2} y={20} fill={ZONES.cliffInk} fontSize={11} textAnchor="middle">
         delivery cliff
       </text>
-      <text x={(px(SHELF_FROM) + PLOT.X1) / 2} y={20} fill={ZONE.shelfText} fontSize={11} textAnchor="middle">
+      <text x={(px(SHELF_FROM) + PLOT.X1) / 2} y={20} fill={ZONES.shelfInk} fontSize={11} textAnchor="middle">
         loading shelf
       </text>
 
@@ -93,7 +87,7 @@ export default function OperatingPointsFigure({ className }: { className?: strin
         return (
           <g key={pt.p}>
             <Dot x={X} y={Y} fill={OXYGEN} />
-            <text x={X + pt.dx} y={Y + pt.dy} fill={NAME} fontSize={10} textAnchor={pt.anchor} dominantBaseline="central">
+            <text x={X + pt.dx} y={Y + pt.dy} fill={ZONES.pointLabel} fontSize={10} textAnchor={pt.anchor} dominantBaseline="central">
               {pt.name}
             </text>
           </g>

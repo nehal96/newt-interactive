@@ -90,5 +90,16 @@ export const NEUTRAL = {
   angleLabel: "#B57E1F",
 } as const;
 
+// The cliff/shelf annotation bands of the operating-points figure — soft tinted
+// fills with a darker label ink. Chart furniture, kept here so the figures hold
+// no raw hex of their own.
+export const ZONES = {
+  cliff: "#FAECE7", // coral-50 — the steep delivery-cliff band
+  cliffInk: "#993C1D", // coral-800 — its label
+  shelf: "#E6F1FB", // blue-50 — the high loading-shelf band
+  shelfInk: "#0C447C", // blue-800 — its label
+  pointLabel: "#64748b", // slate-500 — operating-point labels, kept quiet
+} as const;
+
 // Mol* representations want 0xRRGGBB numbers; convert a palette hex string.
 export const toHex = (s: string): number => parseInt(s.slice(1), 16);
