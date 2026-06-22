@@ -36,7 +36,11 @@ export const IRON_EXPR = elementExpr("Fe");
 type VillinLookOpts = {
   /** Canvas background; defaults to white. */
   background?: number;
-  /** Camera fog intensity; off unless set (the scene viewer uses it on zoom). */
+  /**
+   * Camera depth-fog intensity; off unless set. No current viewer passes it —
+   * kept as a documented knob for overview-style scenes (see
+   * docs/hemoglobin-molstar-styles.md).
+   */
   fog?: number;
 };
 

@@ -8,9 +8,9 @@
 // PluginConfig.Viewport flag, so turning every flag off removes the whole
 // cluster while leaving the canvas (and the axes gizmo) untouched.
 //
-// Imported by the client-only viewers (MolstarViewer, anatomy/MoleculeViewer,
-// catching/MorphPlayer); molstar only loads in the browser via their dynamic
-// ssr:false imports, so importing it here is safe.
+// Imported by molstar-engine (and thus the client-only viewers); molstar only
+// loads in the browser via their dynamic ssr:false imports, so importing it here
+// is safe.
 import { ParamDefinition as PD } from "molstar/lib/mol-util/param-definition";
 import { PluginConfig, type PluginConfigItem } from "molstar/lib/mol-plugin/config";
 import { CameraHelperParams } from "molstar/lib/mol-canvas3d/helper/camera-helper";
