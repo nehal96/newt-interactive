@@ -57,7 +57,7 @@ export default function SaturationPopulationFigure({ className }: { className?: 
   return (
     <figure className={cn("my-8 w-full scroll-mt-24 lg:my-12", className)}>
       <div className="mx-auto w-full max-w-xl">
-        <div className="w-full rounded-lg bg-white p-3">
+        <div className="w-full rounded-lg bg-white px-0 py-3 sm:px-3">
           <svg
             viewBox="0 0 440 256"
             className="block h-auto w-full"
@@ -123,8 +123,10 @@ export default function SaturationPopulationFigure({ className }: { className?: 
           className="mt-2 w-full cursor-pointer accent-[#E2533C]"
         />
 
-        {/* tissue presets, pointed under their pressure on the track; clicking moves the slider */}
-        <div className="relative mt-1 h-9">
+        {/* tissue presets, pointed under their pressure on the track; clicking moves the slider.
+            The 20/40 mmHg labels sit close together, so they wrap to two lines on narrow
+            screens (taller row) and relax to a single line from sm: up where there's room. */}
+        <div className="relative mt-1 h-12 sm:h-9">
           {PRESETS.map((preset) => (
             <button
               key={preset.p}
@@ -137,7 +139,7 @@ export default function SaturationPopulationFigure({ className }: { className?: 
               <span className="h-1.5 w-px bg-slate-300" />
               <span
                 className={cn(
-                  "mt-1 whitespace-nowrap text-xs transition-colors",
+                  "mt-1 block max-w-[3.5rem] text-center text-xs leading-tight transition-colors sm:max-w-none sm:whitespace-nowrap",
                   po2 === preset.p ? "font-medium text-slate-800" : "text-slate-500 hover:text-slate-700"
                 )}
               >
