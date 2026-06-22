@@ -1,4 +1,3 @@
-import { ComponentType } from "react";
 import type { MoleculeViewerProps } from "./MoleculeViewer";
 import { HB, toHex } from "../palette";
 
@@ -20,12 +19,6 @@ export type Beat =
 
 export type BeatConfig = {
   label: string;
-  /**
-   * Optional flat annotated schematic, shown beside the 3D. Currently unused —
-   * every beat renders 3D-only — but kept as an extension point in case a 2D
-   * companion is reintroduced for a beat.
-   */
-  Svg?: ComponentType<{ className?: string }>;
   /**
    * How to draw this beat's 3D model — exactly MoleculeViewer's props minus the
    * runtime-controlled `active`/`className`, which AnatomyBeatBlock supplies. The
