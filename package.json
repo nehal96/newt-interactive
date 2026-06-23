@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "TAILWIND_MODE=watch next dev",
-    "build": "next build",
+    "dev": "next dev",
+    "build": "next build --webpack",
     "start": "next start"
   },
   "dependencies": {
@@ -40,6 +40,7 @@
     "eslint-config-next": "^16.2.6",
     "katex": "^0.16.7",
     "lodash": "^4.17.21",
+    "molstar": "^5.9.0",
     "next": "^16.2.6",
     "prismjs": "^1.29.0",
     "react": "^18.3.1",
