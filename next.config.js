@@ -13,16 +13,18 @@ module.exports = withMDX({
     // @react-three/drei's barrel pulls in three-mesh-bvh, which references
     // `BatchedMesh` — a `three` export added in r159 but absent from our pinned
     // three@0.139.2. The symbol isn't exercised by the OrbitControls path we
-    // actually use, so downgrade the missing-export hard error to a warning so
-    // the production (webpack) build can complete.
-    // TODO: this disables the exports-presence check project-wide; scope it to the
-    // three-mesh-bvh / drei modules (a targeted `module.rules` test) so real
-    // missing-export bugs elsewhere still fail the build.
-    config.module.parser = config.module.parser || {};
-    config.module.parser.javascript = {
-      ...(config.module.parser.javascript || {}),
-      exportsPresence: false,
-    };
+    // actually use, but webpack's exports-presence check fails the production
+    // build over it. Relax that check *only* for three-mesh-bvh so the build can
+    // complete while the rest of the project still fails on real missing-export
+    // bugs. (Removing this means upgrading three ≥ r159 — see TODO.md.)
+    // Matches both the top-level copy and drei's nested
+    // @react-three/drei/node_modules/three-mesh-bvh. Rule-level parser options
+    // are applied un-namespaced (the `javascript` key is only for the global
+    // `module.parser`).
+    config.module.rules.push({
+      test: /[\\/]three-mesh-bvh[\\/]/,
+      parser: { exportsPresence: false },
+    });
     return config;
   },
 });
