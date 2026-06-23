@@ -24,3 +24,27 @@
     max-width: 64rem;
   }
 }
+
+/* Numbered footnote markers — TippyTooltip variant="footnote".
+   The counter resets on each <article> (one per essay), so footnotes number
+   themselves from 1 in document order; the <sup> renders the count. */
+article {
+  counter-reset: footnote;
+}
+
+.newt-footnote-marker {
+  counter-increment: footnote;
+  cursor: pointer;
+  margin-left: 0.15em;
+  font-weight: 600;
+  color: #0e7490;
+  transition: color 0.15s ease;
+}
+
+.newt-footnote-marker::after {
+  content: counter(footnote);
+}
+
+.newt-footnote-marker:hover {
+  color: #155e75;
+}
