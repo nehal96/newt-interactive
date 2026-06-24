@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#818cf8" />
       </Head>
       <TooltipProvider delayDuration={300}>
         <Component {...pageProps} />
