@@ -12,12 +12,6 @@ Each anatomy beat boots a Mol\* plugin from `DefaultPluginUISpec()`, which regis
 
 Files: [interactives/essays/hemoglobin/anatomy/MoleculeViewer.tsx](interactives/essays/hemoglobin/anatomy/MoleculeViewer.tsx), [interactives/essays/hemoglobin/boot-queue.ts](interactives/essays/hemoglobin/boot-queue.ts)
 
-## Upgrade `three` to drop the webpack export-check workaround
-
-`three` is pinned to `^0.139.2`, which predates `BatchedMesh` (a `three` export added in r159). `@react-three/drei`'s barrel pulls in `three-mesh-bvh`, which imports `BatchedMesh` from `three`, so the production (webpack) build hits a missing-export error. We currently scope an `exportsPresence: false` parser relaxation to *only* `three-mesh-bvh` in [next.config.js](next.config.js) to get past it. Bumping `three` to ≥ r159 — along with compatible `@react-three/fiber` and `@react-three/drei` versions — removes the root cause and lets that workaround be deleted. The pin is load-bearing for the existing R3F models, so this needs a careful upgrade with a visual check of every 3D interactive.
-
-Files: [next.config.js](next.config.js), [package.json](package.json)
-
 ## Post-publish: share the project's work-in-progress material
 
 After the hemoglobin essay ships, share the work-in-progress material for the whole project from my notebook.

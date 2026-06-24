@@ -47,7 +47,7 @@
     "react-dom": "^18.3.1",
     "react-icons": "^4.3.1",
     "tailwind-merge": "^2.5.4",
-    "three": "^0.139.2",
+    "three": "^0.170.0",
     "victory": "^36.6.10",
     "zustand": "^4.5.4"
   },
@@ -58,7 +58,7 @@
     "@types/prismjs": "~1.26.4",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "@types/three": "~0.139.0",
+    "@types/three": "~0.170.0",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.5.10",
     "tailwindcss": "^3.0.7",
