@@ -14,7 +14,7 @@ npm run build    # production build — note: --webpack (see "Build" below)
 npm run start    # serve the production build
 ```
 
-There is no test runner and no lint script wired up. `next.config.js` sets `typescript.ignoreBuildErrors: true`, so a green build does **not** mean the types check — verify type-sensitive changes by other means.
+There is no test runner and no lint script wired up. `npm run build` does type-check (the prior `typescript.ignoreBuildErrors` escape hatch has been removed), so a build failure can be a genuine type error. Note `tsconfig.json` has `strict: false`, so coverage is loose — implicit `any`, null-safety, etc. are not enforced.
 
 ### Build: webpack, not Turbopack
 
