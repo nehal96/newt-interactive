@@ -4,6 +4,7 @@ export {
   ArticleSection,
 } from "./ArticleContainer";
 export { default as ArticleDates } from "./ArticleDates";
+export { default as ArticleHeader } from "./ArticleHeader";
 export { default as Button } from "./Button";
 export { Code, InlineCode } from "./Code";
 export { Checkbox } from "./Checkbox";
@@ -38,7 +39,6 @@ export {
   LineNode,
   LabelNode,
 } from "./Flow";
-export { default as Lede } from "./Lede";
 export { default as MathFormula } from "./MathFormula";
 export { default as MdxLayout } from "./MdxLayout";
 export { default as Navbar } from "./Navbar";
