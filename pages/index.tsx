@@ -47,7 +47,7 @@ export default function Home() {
                 <TopicHeader>Essays</TopicHeader>
                 <TopicCard
                   href="/essays/hemoglobin"
-                  imageSrc="/images/hemoglobin-illustration.png"
+                  imageSrc="/images/hemoglobin-illustration-red.png"
                   title="The Story of Hemoglobin"
                 />
               </div>
