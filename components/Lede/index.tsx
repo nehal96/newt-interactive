@@ -15,7 +15,7 @@ const Lede = ({ children }: Lede) => {
       <h2
         className={cn(
           "text-lg text-slate-400 font-light justify-self-center self-center text-center max-w-3xl md:text-xl",
-          published ? "mb-4" : "mb-12 md:mb-16"
+          published ? "mb-6" : "mb-12 md:mb-16"
         )}
       >
         {children}
