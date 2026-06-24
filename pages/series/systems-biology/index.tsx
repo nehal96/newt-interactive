@@ -2,9 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import {
   ArticleContainer,
-  Lede,
+  ArticleHeader,
   Navbar,
-  Title,
   OrderedList,
   H2,
 } from "../../../components";
@@ -55,11 +54,10 @@ const SystemsBiologyExplainersPage = () => {
       </Head>
       <Navbar />
       <ArticleContainer>
-        <Title>Systems Biology</Title>
-        <Lede>
-          Dive deep into complex biological systems through interactive
-          explainers
-        </Lede>
+        <ArticleHeader
+          title="Systems Biology"
+          subtitle="Dive deep into complex biological systems through interactive explainers"
+        />
         <H2>Introduction to Transcription Networks</H2>
         <OrderedList>
           <li>

@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { ArticleContainer, Navbar } from "..";
 import { SeriesTitleLink } from "..";
-import { ArticleDatesContext } from "../ArticleDates/context";
+import ArticleHeader from "../ArticleHeader";
 
 interface Metadata {
   title: string;
+  subtitle?: React.ReactNode;
   description: string;
   keywords: string;
   ogImage: string;
@@ -64,14 +65,12 @@ export default function MdxLayout({ children, metadata }: MdxLayoutProps) {
             seriesName={metadata.series?.name}
           />
         )}
-        <ArticleDatesContext.Provider
-          value={{
-            published: metadata.published,
-            updated: metadata.updated,
-          }}
-        >
-          {children}
-        </ArticleDatesContext.Provider>
+        <ArticleHeader
+          title={metadata.title}
+          subtitle={metadata.subtitle}
+          published={metadata.published}
+        />
+        {children}
       </ArticleContainer>
     </>
   );
