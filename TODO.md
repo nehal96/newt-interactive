@@ -1,11 +1,5 @@
 # TODO
 
-## Lift title and subtitle out of MDX into `metadata`
-
-Each article duplicates its header: `metadata.title` drives the `<title>` and og/twitter tags, while a `# Heading` and `## Subheading` in the MDX body drive the visible `<h1>`/`<h2>` (mapped to `Title`/`Lede`). The two title sources aren't linked, and several `metadata.title`s carry a duplicated ` / Newt Interactive` suffix that gets double-appended in the layout. Add a `metadata.subtitle` field, make `MdxLayout` render the whole header itself (title, subtitle, dates), and drop the body headings — which also lets `ArticleDatesContext` and the `Lede` context go away.
-
-Files: [components/MdxLayout/index.tsx](components/MdxLayout/index.tsx), [components/Lede/index.tsx](components/Lede/index.tsx), [mdx-components.tsx](mdx-components.tsx), [components/ArticleDates/context.tsx](components/ArticleDates/context.tsx) (delete)
-
 ## Make the hemoglobin parts manifest downloadable, and try a 3D LEGO style
 
 The parts manifest (the components list opening the anatomy section) should be exportable as a downloadable file — a single image users can save, in the spirit of a LEGO instruction sheet. Separately, explore a 3D LEGO-style rendering of the parts (the angled, softly-lit gaussian-surface look) as an alternative to the current flat 2D ball-and-stick figures.
