@@ -13,12 +13,6 @@ const Lights = () => {
   //   useHelper(spotlight2, THREE.SpotLightHelper, "white");
   // }
 
-  // three r155+ uses physically-correct lighting only (the old `useLegacyLights`
-  // mode was removed in r165). Under that model a spotlight's default `decay={2}`
-  // inverse-square falloff leaves these ~17-units-away lights delivering almost
-  // nothing, so the PBR materials render black. `decay={0}` restores the flat,
-  // distance-independent falloff these intensities were originally tuned for, and
-  // a small ambient fill keeps the shadowed side from going fully black.
   return (
     <>
       <ambientLight intensity={0.6} />
