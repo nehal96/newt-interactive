@@ -39,3 +39,6 @@ yarn-error.log*
 
 # claude code (local, per-machine settings)
 .claude/settings.local.json
+
+# article-export output (generated docs, screenshots, GIFs)
+docs/*/export/

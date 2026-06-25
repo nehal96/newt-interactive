@@ -163,7 +163,7 @@ export class Page {
 // A small in-page helper, shared by discovery and capture, that decides when a
 // figure has finished rendering: any WebGL canvas has drawn content, and any
 // player control (a disabled-until-ready slider) has become enabled.
-const READINESS_HELPERS = `
+export const READINESS_HELPERS = `
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   const hasContent = (c) => {
     try {
@@ -196,16 +196,14 @@ export async function discoverFigures(page) {
   })()`);
 }
 
-// Capture one figure (by document-order index) as a padded, width-capped PNG.
-// Works for 3D (canvas + gizmo), morph players (canvas + controls), and 2D
-// (SVG/charts). `frame` (a number) drives a morph slider; omit to keep the
-// figure's default interactive state. The capture region is the figure's first
-// child div — the visual content, excluding any sibling <figcaption>.
-export async function captureFigure(
-  page,
-  index,
-  { pad = 28, maxWidth = 1400, frame = null, waitMs = 12000 } = {}
-) {
+// Bring a figure to a capturable resting state and return its capture region.
+// Scrolls it into view, waits until it's ready (canvas drawn, slider enabled),
+// nudges any WebGL canvas to ~2x for retina, hides Mol* toasts, then returns the
+// figure's first child div rect (the visual content, excluding any sibling
+// <figcaption>) in page coordinates plus the detected canvas/range flags. The
+// rect is stable across frame changes, so a recorder can prepare once and reuse
+// it for every frame. No frame is set here — that's setFigureFrame's job.
+export async function prepareFigure(page, index, { waitMs = 12000 } = {}) {
   const info = await page.eval(`(async () => {
     ${READINESS_HELPERS}
     const figs = [...document.querySelectorAll("figure")];
@@ -235,17 +233,6 @@ export async function captureFigure(
       }
       await sleep(900);
     }
-    // Optional: drive a morph slider to a frame; otherwise keep default state.
-    const frame = ${frame === null ? "null" : Number(frame)};
-    const sld = el.querySelector('input[type="range"]');
-    if (frame !== null && sld && !sld.disabled) {
-      const setter = Object.getOwnPropertyDescriptor(
-        window.HTMLInputElement.prototype, "value").set;
-      setter.call(sld, String(frame));
-      sld.dispatchEvent(new Event("input", { bubbles: true }));
-      sld.dispatchEvent(new Event("change", { bubbles: true }));
-      await sleep(900);
-    }
     el.querySelectorAll('[class*="msp-toast"]').forEach((e) => { e.style.display = "none"; });
     await sleep(500);
     const r = el.getBoundingClientRect();
@@ -258,19 +245,85 @@ export async function captureFigure(
     });
   })()`);
   const rect = JSON.parse(info);
-  if (rect.error) throw new Error(`captureFigure[${index}]: ${rect.error}`);
+  if (rect.error) throw new Error(`prepareFigure[${index}]: ${rect.error}`);
+  return rect;
+}
 
-  let buf = await page.captureClip(rect);
+const PLAY_ICON_PATHS = {
+  play: "M8 5v14l11-7z",
+  pause: "M6 5h4v14H6zM14 5h4v14h-4z",
+  restart: "M12 5V2L7 7l5 5V8a6 6 0 1 1-6 6H4a8 8 0 1 0 8-9z",
+};
+
+// Drive a morph player's slider to `frame` (0-based) and let Mol* settle.
+// React owns the slider (onChange fires on "input"), so we poke the native value
+// setter and dispatch input/change exactly as a user drag would. `settle` is how
+// long to wait for the engine to recommit + repaint before the caller captures.
+// `icon` optionally overwrites the play button's glyph for this one capture
+// (e.g. force "pause" mid-playthrough so a recording looks like a real play) —
+// applied after the settle, since the scrub's React re-render resets it first.
+export async function setFigureFrame(
+  page,
+  index,
+  frame,
+  { settle = 500, icon = null } = {}
+) {
+  await page.eval(`(async () => {
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    const figs = [...document.querySelectorAll("figure")];
+    const el = figs[${index}] && figs[${index}].querySelector(":scope > div");
+    if (!el) return;
+    const sld = el.querySelector('input[type="range"]');
+    if (sld && !sld.disabled) {
+      const setter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype, "value").set;
+      setter.call(sld, String(${Number(frame)}));
+      sld.dispatchEvent(new Event("input", { bubbles: true }));
+      sld.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    await sleep(${Number(settle)});
+    const icon = ${icon ? JSON.stringify(PLAY_ICON_PATHS[icon] || null) : "null"};
+    if (icon) {
+      const path = el.querySelector('button svg path');
+      if (path) { path.setAttribute('d', icon); await sleep(30); }
+    }
+  })()`);
+}
+
+// Shared post-processing for a raw clip buffer: a white margin (so figures
+// breathe against newsletter prose) then a width cap. Applied identically to
+// stills and to every GIF frame, so a recording frames its subject exactly like
+// the screenshot would.
+export async function padAndResize(buf, { pad = 28, maxWidth = 1400 } = {}) {
   const sharp = (await import("sharp")).default;
   const p = pad * VIEW.dsf; // capture is at dsf, so pad in device px
   buf = await sharp(buf)
     .extend({ top: p, bottom: p, left: p, right: p, background: "#ffffff" })
     .png()
     .toBuffer();
-  let w = buf.readUInt32BE(16);
+  const w = buf.readUInt32BE(16);
   if (maxWidth && w > maxWidth) {
     buf = await sharp(buf).resize({ width: maxWidth }).png().toBuffer();
   }
+  return buf;
+}
+
+// Capture one figure (by document-order index) as a padded, width-capped PNG.
+// Works for 3D (canvas + gizmo), morph players (canvas + controls), and 2D
+// (SVG/charts). `frame` (a number) drives a morph slider; omit to keep the
+// figure's default interactive state. The capture region is the figure's first
+// child div — the visual content, excluding any sibling <figcaption>.
+export async function captureFigure(
+  page,
+  index,
+  { pad = 28, maxWidth = 1400, frame = null, waitMs = 12000 } = {}
+) {
+  const rect = await prepareFigure(page, index, { waitMs });
+  // Optional: drive a morph slider to a frame; otherwise keep default state.
+  if (frame !== null && rect.hasRange) {
+    await setFigureFrame(page, index, frame, { settle: 900 });
+  }
+  const buf = await padAndResize(await page.captureClip(rect), { pad, maxWidth });
   const kind = rect.hasCanvas ? (rect.hasRange ? "player" : "3d") : "2d";
   return { buf, kind };
 }

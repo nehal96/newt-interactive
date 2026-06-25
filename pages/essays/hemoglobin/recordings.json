@@ -1,0 +1,15 @@
+{
+  "defaults": { "fps": 20, "maxWidth": 800 },
+  "recordings": [
+    { "name": "oxygen-binding", "figure": "movement are not drawn" },
+    { "name": "binding-distal-histidine", "figure": "and the oxygen, are not drawn" },
+    { "name": "tense-relaxed-switch", "figure": "subunits sit apart" },
+    { "name": "bpg-doorstop", "figure": "2,3-BPG wedged" },
+    { "name": "proton-binding", "figure": "incoming proton" },
+    {
+      "name": "lungs-to-muscle",
+      "figure": 14,
+      "sweep": ["lungs", "resting tissue", "working muscle"]
+    }
+  ]
+}
