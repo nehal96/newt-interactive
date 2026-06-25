@@ -15,9 +15,11 @@ const Lights = () => {
 
   return (
     <>
+      <ambientLight intensity={0.6} />
       <spotLight
         ref={spotlight1}
-        intensity={4}
+        intensity={2.5}
+        decay={0}
         position={[10, 10, 10]}
         distance={30}
         shadow-bias={-0.00005}
@@ -27,7 +29,8 @@ const Lights = () => {
       />
       <spotLight
         ref={spotlight2}
-        intensity={4}
+        intensity={2.5}
+        decay={0}
         position={[-10, 10, -10]}
         distance={30}
         shadow-bias={-0.00005}
