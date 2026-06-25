@@ -61,7 +61,10 @@ The most developed essay and the reference pattern for interactive-heavy work. O
 Converts a live essay into Substack-ready markdown + static figure screenshots. With the dev server running:
 
 ```bash
-node scripts/article-export/cli.mjs all hemoglobin
+node scripts/article-export/cli.mjs all hemoglobin      # extract → shoot → link captions (the usual one)
+node scripts/article-export/cli.mjs record hemoglobin   # record animated figures as looping GIFs (needs ffmpeg)
 ```
 
-Output lands in `docs/<slug>/export/`. It relies on every figure rendering as a `<figure>` element in document order so prose placeholders and screenshots line up 1:1. `rules.mjs` is the single place that encodes the project's component vocabulary (footnote/term/heading components, figure-naming props) — update it there if shared essay components change. See `scripts/article-export/README.md` for the headless-WebGL screenshot gotcha and per-essay `export.config.json` overrides.
+Output lands in `docs/<slug>/export/`. The `cli.mjs` commands are `extract` (MDX → markdown + `figures.json` manifest, no browser), `shoot` (screenshot each figure), `all` (both, plus caption linking), `link` (re-apply captions only), and `record` (GIFs). It relies on every figure rendering as a `<figure>` element in document order so prose placeholders and screenshots line up 1:1. `rules.mjs` is the single place that encodes the project's component vocabulary (footnote/term/heading components, figure-naming props) — update it there if shared essay components change.
+
+`record` (`record.mjs`) captures the same region as `shoot` but scrubs an animated figure and stitches the poses into a looping GIF. It runs one ad-hoc figure (`--figure <sel> --name <basename> [--sweep ...]`) or, with no target, every entry in that essay's `pages/essays/<slug>/recordings.json` manifest (`defaults` + a `recordings` array keyed by figure selector). See `scripts/article-export/README.md` for the headless-WebGL screenshot gotcha, the GIF capture modes, and per-essay `export.config.json` overrides.
