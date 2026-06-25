@@ -49,9 +49,102 @@ line up automatically, no per-figure wiring.
 | `extract <slug>` | no | MDX → `essay.md` + `figures.json` |
 | `shoot <slug>`   | yes | screenshot figures from an existing manifest |
 | `all <slug>`     | yes | extract → shoot → link (the usual one) |
+| `record <slug>`  | yes (+ ffmpeg) | record one animated figure as a looping **GIF** |
 
-Flags: `--out <dir>`, `--base-url <url>` (default `http://localhost:3000`),
-`--pad <px>` (default 28), `--max-width <px>` (default 1400), `--port <n>`.
+Flags (extract/shoot/all): `--out <dir>`, `--base-url <url>` (default
+`http://localhost:3000`), `--pad <px>` (default 28), `--max-width <px>` (default
+1400), `--port <n>`.
+
+## Recording a figure as a GIF
+
+`record` is the moving sibling of `shoot`. It captures the **same region** as the
+screenshot — the figure's visual plus its controls, so the GIF has the same
+framing and aspect ratio as the still — but instead of one frame it captures the
+whole animation and stitches the poses into a looping GIF with ffmpeg
+(`palettegen`/`paletteuse`, far cleaner than a naive palette).
+
+```bash
+# a Mol* morph player (scrub mode)
+node scripts/article-export/cli.mjs record hemoglobin \
+  --name oxygen-binding --figure "movement are not drawn"
+
+# a 2D toggle figure (tween mode)
+node scripts/article-export/cli.mjs record hemoglobin \
+  --name tense-relaxed-switch --figure "subunits sit apart"
+
+# a slider chart, walked through named checkpoints (sweep mode)
+node scripts/article-export/cli.mjs record hemoglobin --figure 14 \
+  --name lungs-to-muscle --sweep "lungs,resting tissue,working muscle"
+```
+
+All three strategies are deterministic — a headless screenshot takes far longer
+than an animation frame, so capturing real-time playback would sample unevenly
+and tear. `record` picks the mode from the figure (or `--sweep`):
+
+- **scrub** — morph players (Mol*) expose a frame slider. It drives the slider
+  one frame at a time, waiting for the engine to settle between captures. The
+  play button's glyph is forced per frame so the loop reads like a real
+  recording — **play** on the opening hold, **pause** through the morph,
+  **replay** on the closing hold (disable with `--no-play-icon`).
+- **tween** — toggle figures (the 2D T↔R switch, the 2,3-BPG doorstop) animate a
+  `requestAnimationFrame` + `performance.now` tween on a button click. It
+  installs a **virtual clock** (queues rAF, freezes `performance.now`), clicks
+  the toggle, then advances the clock in even steps and snapshots each — no
+  per-figure pose maths, just *advance time, let React render, capture*. Captured
+  as a T→R→T round trip so the loop is seamless.
+- **sweep** (`--sweep`) — a slider chart walked through a list of checkpoints,
+  sweeping smoothly between them and pausing at each. A checkpoint is a raw
+  slider value or a **preset-button label** (clicked to read where the slider
+  lands), so the journey reads in the figure's own words —
+  `--sweep "lungs,resting tissue,working muscle"` drives pO₂ 95 → 40 → 20, the
+  curve marker descending and the O₂ seats emptying as a red cell unloads from
+  lungs to tissue. Loops back to the first checkpoint for a seamless cycle
+  (`--no-loop-back` to stop after the last).
+
+`--figure` picks the figure: a document-order index, a figcaption substring
+(both resolve without mounting), or `first-player` (the default — scans for the
+first canvas+slider figure, mounting lazy figures as it goes; pass an explicit
+index/caption to skip the scan when several lazy 3D figures precede the target).
+
+Record flags: `--out <file>` or `--name <basename>`, `--figure <sel>`,
+`--fps <n>` (default 20 — in tween mode the GIF plays the transition at real
+speed), `--frames <n>` (scrub: default every baked frame),
+`--max-width <px>` (default 800), `--pad <px>` (default 28),
+`--settle <ms>` (per-step wait; default 500 scrub / 80 tween / 40 sweep),
+`--start-hold <ms>` / `--end-hold <ms>` (default 600 / 900 — the opening and the
+middle/R hold), `--no-play-icon`. Sweep mode: `--sweep <list>`,
+`--checkpoint-hold <ms>` (default 1000), `--sweep-rate <units/sec>` (default 45),
+`--no-loop-back`. Plus `--keep-frames`, `--port <n>` (default 9223). Needs
+`ffmpeg` on `PATH` (or `FFMPEG_BIN`).
+
+### A recordings manifest (the usual way)
+
+Rather than remember a command per figure, list an essay's GIFs in
+`pages/essays/<slug>/recordings.json` and produce them all at once:
+
+```bash
+node scripts/article-export/cli.mjs record hemoglobin        # every recording
+node scripts/article-export/cli.mjs record hemoglobin --only bpg-doorstop
+```
+
+```json
+{
+  "defaults": { "fps": 20, "maxWidth": 800 },
+  "recordings": [
+    { "name": "oxygen-binding", "figure": "movement are not drawn" },
+    { "name": "tense-relaxed-switch", "figure": "subunits sit apart" },
+    { "name": "lungs-to-muscle", "figure": 14,
+      "sweep": ["lungs", "resting tissue", "working muscle"] }
+  ]
+}
+```
+
+Each entry is a recording **spec** — `name` (the output basename) plus any
+`recordFigure` option (`figure`, `sweep`, `fps`, `maxWidth`, `checkpointHoldMs`,
+…); `defaults` apply to every entry, an entry overrides them. The mode is still
+auto-detected per figure, so one manifest mixes morphs, toggles and charts.
+`record <slug>` with `--figure`/`--name`/`--sweep` records that one figure
+ad-hoc instead; with none, it runs the manifest.
 
 ## Per-essay overrides
 

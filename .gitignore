@@ -36,3 +36,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# article-export output (generated docs, screenshots, GIFs)
+docs/*/export/
