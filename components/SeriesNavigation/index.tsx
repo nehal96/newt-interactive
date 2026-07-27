@@ -7,8 +7,6 @@ export function SeriesTitleLink({ href, seriesName }) {
     seriesName && (
       <div className="flex w-full justify-center mx-auto mb-4">
         <Link href={href}>
-          {/* indigo-700, the accent the index hovers to — indigo-400 was set
-              against a white page and is too faint to read on paper. */}
           <div className="text-indigo-700 hover:text-indigo-800 transition-colors">
             <span className="text-sm md:text-base">{seriesName}</span>
           </div>

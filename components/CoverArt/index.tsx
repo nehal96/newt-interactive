@@ -1,30 +1,7 @@
 import { useId, type FC } from "react";
 
-/* ------------------------------------------------------------------ *
- * Cover art
- *
- * Every cover is drawn from the same three primitives — node, edge,
- * field — on the same paper ground, at the same stroke weights, from
- * the same ramp. The motif changes per piece; the hand doesn't. That's
- * what makes the index cohere in a way screenshots of the live figures
- * never did: a working interactive is a tool, and tools are dense and
- * labelled. A cover needs to be an emblem.
- *
- * Two rules carry most of the weight:
- *   - No text inside the art, ever. Type sized for a full-width figure
- *     is illegible at the 160px index thumb, and any crop slices it.
- *   - Everything lives inside the safe band (x 40–280, y 30–150 of a
- *     320×180 frame), so one drawing serves both sizes uncropped.
- * ------------------------------------------------------------------ */
+/* A piece's cover, drawn from node, edge and field. */
 
-/** The ramp. Indigo carries structure; red is the accent — one element
- *  per cover, never more, and always on the thing worth looking at
- *  (the measurement, the mutation, the mode of the belief).
- *
- *  Literal hexes because this ramp is the motif vocabulary and is meant to
- *  stay put. The two colours that aren't part of it — the paper ground and the
- *  baseline hairline — take Tailwind classes instead, so they follow the
- *  site's `paper` and `ink` tokens rather than freezing a copy of them. */
 const C = {
   i200: "#C7D2FE",
   i300: "#A5B4FC",
@@ -37,8 +14,6 @@ const C = {
   r700: "#BE123C",
 } as const;
 
-/** The baseline a chart motif sits on — the site's hairline grey, not a stock
- *  slate. It lands a few pixels from the index's ink-400 dates. */
 const HAIRLINE = "stroke-ink-400";
 
 export type Motif =
@@ -51,17 +26,8 @@ export type Motif =
   | "bars"
   | "wireframe";
 
-/** Marker id handed down to whichever motifs draw arrows. Wiring is always
- *  indigo — red is reserved for a node, so it reads as a thing, not a flow. */
 type Arrows = { arrow: string };
 
-/* -- Motifs ---------------------------------------------------------
- * Arrow endpoints are precomputed along the centre-to-centre unit
- * vector and stopped at the target's radius, so every arrowhead sits on
- * the rim aimed straight at the middle of the circle.
- * ------------------------------------------------------------------ */
-
-/** Erdős–Rényi — an unstructured field of nodes and chance edges. */
 const Network = () => (
   <>
     <g stroke={C.i400} strokeWidth={1.3} opacity={0.65} fill="none">
@@ -88,14 +54,14 @@ const Network = () => (
       <circle cx="152" cy="132" r="9" fill={C.i200} stroke={C.i600} />
       <circle cx="96" cy="140" r="7" fill={C.i200} stroke={C.i600} />
       <circle cx="258" cy="120" r="8" fill={C.i200} stroke={C.i600} />
-      {/* The one red: a single vertex picked out of the field. */}
       <circle cx="206" cy="142" r="10" fill={C.r300} stroke={C.r600} />
       <circle cx="246" cy="50" r="7" fill={C.i200} stroke={C.i600} />
     </g>
   </>
 );
 
-/** Systems Biology — the same vocabulary, but tiered rather than random. */
+// Arrowed paths stop at the target's radius, not its centre — move a node here
+// or in any motif below and the edges into it have to be recomputed.
 const NetworkLayered = ({ arrow }: Arrows) => (
   <>
     <g
@@ -114,7 +80,6 @@ const NetworkLayered = ({ arrow }: Arrows) => (
     </g>
     <g strokeWidth={1.9}>
       <circle cx="90" cy="48" r="16" fill={C.i200} stroke={C.i600} />
-      {/* The one red: the master input the whole tier hangs off. */}
       <circle cx="160" cy="40" r="16" fill={C.r300} stroke={C.r600} />
       <circle cx="230" cy="48" r="16" fill={C.i200} stroke={C.i600} />
       <circle cx="125" cy="95" r="16" fill={C.i400} stroke={C.i700} />
@@ -124,7 +89,6 @@ const NetworkLayered = ({ arrow }: Arrows) => (
   </>
 );
 
-/** C1-FFL — two paths to the same output, one of them via a delay. */
 const Circuit = ({ arrow }: Arrows) => (
   <>
     <g
@@ -139,7 +103,6 @@ const Circuit = ({ arrow }: Arrows) => (
       <path d="M201.0,75.8 L170.0,118.2" />
     </g>
     <g strokeWidth={2}>
-      {/* The one red: the input, where both arms of the loop start. */}
       <circle cx="94" cy="58" r="22" fill={C.r300} stroke={C.r600} />
       <circle cx="214" cy="58" r="22" fill={C.i400} stroke={C.i700} />
       <circle cx="157" cy="136" r="22" fill={C.i600} stroke={C.i800} />
@@ -147,20 +110,8 @@ const Circuit = ({ arrow }: Arrows) => (
   </>
 );
 
-/** Circuit Evolution — one circuit, three generations, gaining edges. */
 const Generations = ({ arrow }: Arrows) => (
   <>
-    {/* The generation ramp is carried by the nodes; the wiring stays one
-        weight and one colour so the three columns read as the same circuit.
-        Nodes are r=12 rather than 15 so the third generation's cross-edge has
-        room to be an arrow instead of a nub.
-
-        Space the generations by the gap between their *outermost nodes*, not
-        by their centres. Each generation is wider than the last — one column,
-        then a ±20 fork, then a ±23 fork — so evenly-spaced centres put 33px
-        between 1 and 2 and only 11px between 2 and 3, and the last two read as
-        one clump. Gaps are 33px throughout here, which lands the whole run at
-        x 48–272: inside the 40–280 safe band, and centred in the frame. */}
     <g
       fill="none"
       stroke={C.i700}
@@ -183,13 +134,11 @@ const Generations = ({ arrow }: Arrows) => (
       <circle cx="157" cy="122" r="12" fill={C.i300} stroke={C.i600} />
       <circle cx="237" cy="58" r="12" fill={C.i600} stroke={C.i800} />
       <circle cx="214" cy="122" r="12" fill={C.i600} stroke={C.i800} />
-      {/* The one red: the node the last generation wired something new into. */}
       <circle cx="260" cy="122" r="12" fill={C.r300} stroke={C.r600} />
     </g>
   </>
 );
 
-/** Kalman filters — a broad prior and a sharp measurement, overlapping. */
 const Distributions = () => (
   <>
     <path
@@ -214,7 +163,6 @@ const Distributions = () => (
   </>
 );
 
-/** DNA — two strands a half-turn out of phase, rungs between them. */
 const Helix = () => (
   <>
     <g stroke={C.i300} strokeWidth={1.4} opacity={0.75}>
@@ -248,7 +196,6 @@ const Helix = () => (
   </>
 );
 
-/** Robot localization — a belief over position, peaked where it thinks it is. */
 const Bars = () => (
   <>
     <g strokeWidth={1.3}>
@@ -257,7 +204,6 @@ const Bars = () => (
       <rect x="90" y="122" width="14" height="18" rx="2" fill={C.i300} stroke={C.i600} />
       <rect x="110" y="110" width="14" height="30" rx="2" fill={C.i300} stroke={C.i700} />
       <rect x="130" y="88" width="14" height="52" rx="2" fill={C.i400} stroke={C.i700} />
-      {/* The one red: the mode — where the robot thinks it actually is. */}
       <rect x="150" y="62" width="14" height="78" rx="2" fill={C.r300} stroke={C.r700} />
       <rect x="170" y="82" width="14" height="58" rx="2" fill={C.i400} stroke={C.i700} />
       <rect x="190" y="106" width="14" height="34" rx="2" fill={C.i300} stroke={C.i700} />
@@ -269,7 +215,6 @@ const Bars = () => (
   </>
 );
 
-/** Three.js Journey — an isometric cube, the first thing you ever render. */
 const Wireframe = () => (
   <>
     <g stroke="none">
@@ -291,7 +236,6 @@ const Wireframe = () => (
       <circle cx="109.8" cy="119" r="3.6" />
       <circle cx="109.8" cy="61" r="3.6" />
     </g>
-    {/* The one red: the near corner — the origin you orbit the camera around. */}
     <circle cx="160" cy="90" r="4.2" fill={C.r600} />
   </>
 );
@@ -307,13 +251,8 @@ const MOTIFS: Record<Motif, FC<Arrows>> = {
   wireframe: Wireframe,
 };
 
-/**
- * A piece's cover, drawn rather than screenshotted. Decorative — the
- * link's own text is what gets announced.
- */
 const CoverArt = ({ motif, className }: { motif: Motif; className?: string }) => {
-  // Marker ids have to be unique per instance; useId's colons are legal
-  // in HTML but awkward inside url(#…), so strip them.
+  // useId's colons break a url(#…) reference.
   const arrow = `ca-arrow-${useId().replace(/:/g, "")}`;
   const Shape = MOTIFS[motif];
 
@@ -325,9 +264,6 @@ const CoverArt = ({ motif, className }: { motif: Motif; className?: string }) =>
       focusable="false"
     >
       <defs>
-        {/* userSpaceOnUse so the head is the same size in every motif,
-            whatever the shaft's stroke weight. refX puts the tip on the
-            path's end point — which each motif stops at the target's rim. */}
         <marker
           id={arrow}
           viewBox="0 0 10 10"

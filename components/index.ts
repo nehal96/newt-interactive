@@ -21,12 +21,8 @@ export {
   DialogDescription,
 } from "./Dialog";
 export { default as Footer } from "./Footer";
-// Note: ./Homepage and ./HomeTopicCard are deliberately not re-exported here.
-// The barrel is the shared-primitive surface, and pages/_app.js imports from
-// it — anything listed here ships in the chunk every page downloads. The index
-// components aren't primitives (two pages render them), and they pull in
-// CoverArt and the whole catalogue, so they're imported from
-// "components/Homepage" directly by the two pages that use them.
+// ./Homepage is deliberately absent: listing it here would ship CoverArt and
+// the whole catalogue in every page's chunk.
 export { default as ImageSeries } from "./ImageSeries";
 export {
   InteractiveTutorialContainer,

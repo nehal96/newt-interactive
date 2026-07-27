@@ -1,23 +1,14 @@
 import Head from "next/head";
 
-/**
- * What a page tells search engines and link unfurlers about itself. An MDX
- * page exports one of these as `metadata`; a page built by hand passes one in.
- */
 export interface SeoMetadata {
-  /** Set as "<title> / Newt Interactive". Omitted on the homepage, whose title
-   *  is the site's own. */
   title?: string;
   description?: string;
   keywords?: string;
   ogImage?: string;
   url?: string;
-  /** "article" for a piece, "website" for an index page. */
   ogType?: "article" | "website";
 }
 
-/** The SEO tag set, generated from one metadata object rather than written out
- *  per page — three hand-written copies had already drifted apart. */
 const SeoHead = ({ metadata }: { metadata: SeoMetadata }) => {
   const {
     title,

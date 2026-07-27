@@ -1,35 +1,14 @@
-// The homepage index, in one place.
-//
-// Titles and subtitles are copied verbatim from each page's exported
-// `metadata` — the pages stay the source of truth for their own words; this is
-// the catalogue that lists them. (The homepage can't import those `metadata`
-// objects directly: doing so would pull every essay's interactive components
-// into the homepage bundle.) When you publish a piece, add a row here.
-//
-// Covers are drawn, not screenshotted — `art` names a motif in
-// components/CoverArt, which draws every piece from one shared vocabulary.
-// `cover` is the escape hatch for a piece that already has a better image than
-// a motif would be (right now: hemoglobin's red heme illustration).
+// The homepage catalogue: every published piece, in one place.
 
 import type { Motif } from "../components/CoverArt";
 
 export type PieceKind = "essay" | "series" | "block" | "note";
 
-/** One instalment of a series, as the index lists it. */
 export interface SeriesPart {
   href: string;
-  /**
-   * The series page's own short label, not the article's metadata title — the
-   * list is numbered, so "Transcription Network Basics: Part One" would say
-   * "part one" twice.
-   */
+  /** The list's own short label, not the article's `metadata` title. */
   title: string;
   published: string;
-  /**
-   * Optional grouping, used by the series' own page to set its instalments
-   * under subheadings. The homepage ignores it and lists them flat — a row in
-   * the index is showing the shape of the series, not its table of contents.
-   */
   section?: string;
 }
 
@@ -38,27 +17,16 @@ export interface Piece {
   kind: PieceKind;
   title: string;
   subtitle: string;
-  /** ISO date; drives sort order and the displayed month/year. */
   published: string;
-  /** Drawn cover. One of `art` or `cover` — `art` wins if both are set. */
+  /** One of `art` or `cover`; `art` wins if both are set. */
   art?: Motif;
-  /** Ready-made cover image, as a path under public/. */
   cover?: string;
-  /**
-   * Hover colour for this piece's title, as a hex string — for a piece whose
-   * cover has a strong colour of its own to answer to. Defaults to indigo.
-   * Passed through as a CSS variable rather than a class name: Tailwind's
-   * content globs don't cover lib/, so a class written here would be purged.
-   */
+  /** Title hover colour, as a hex — a class here is outside Tailwind's globs. */
   accent?: string;
-  /** Shown large at the top of the index. At most one. */
+  /** At most one piece sets this. */
   featured?: boolean;
-  /**
-   * Kept for the record rather than shown off: drops out of the main index and
-   * into the archive list at the bottom, as a title and a date on one line.
-   */
   archived?: boolean;
-  /** Series only — its instalments, in reading order. */
+  /** In reading order — the index numbers them by position. */
   parts?: SeriesPart[];
 }
 
@@ -77,11 +45,7 @@ export const PIECES: Piece[] = [
     subtitle:
       "How a special protein in red blood cells transports oxygen around your body",
     published: "2026-06-23",
-    // The one piece that keeps a painted cover rather than a motif — the red
-    // heme illustration is already the emblem, and it sets the accent the
-    // drawn covers pick up one element at a time.
     cover: "/images/hemoglobin-illustration-red.png",
-    // Sampled off the illustration's ground, so the title answers the cover.
     accent: "#872421",
     featured: true,
   },
@@ -197,16 +161,9 @@ export const restOfPieces = PIECES.filter(
 
 export const archivedPieces = PIECES.filter((p) => p.archived).sort(byNewest);
 
-/** The catalogue row for a page, so a page can render its own entry rather
- *  than keeping a second hand-maintained copy of it. */
 export const getPiece = (href: string) => PIECES.find((p) => p.href === href);
 
-/**
- * A series' parts, grouped under their `section` headings and carrying the
- * number each group starts at — the numbering runs on across the groups, so
- * the reader sees one ordered series rather than two short lists.
- * Parts with no `section` fall into a single unlabelled group.
- */
+/** Numbering runs on across the groups. Parts with no `section` form one. */
 export function partsBySection(parts: SeriesPart[] = []) {
   const groups: { section?: string; start: number; parts: SeriesPart[] }[] = [];
 
@@ -219,8 +176,6 @@ export function partsBySection(parts: SeriesPart[] = []) {
   return groups;
 }
 
-/** "Jun 2026" — month precision is enough for an index, abbreviated so the
- *  dates stay a short stamp beside the kind label rather than a phrase. */
 export function formatMonth(iso: string): string {
   const [y, m] = iso.split("-");
   const month = new Date(Number(y), Number(m) - 1, 1).toLocaleString("en-US", {

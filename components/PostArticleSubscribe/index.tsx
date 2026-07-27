@@ -4,9 +4,6 @@ import { EMAIL_HREF, TWITTER_URL } from "../../lib/links";
 const PostArticleSubscribe = () => {
   return (
     <>
-      {/* The anchor the navbar's Subscribe link jumps to on an article page —
-          landing on the rule puts the ask and the form both in view. Clearing
-          the sticky navbar is globals.css's job, not this anchor's. */}
       <hr id="subscribe" className="my-12 md:my-20 border-ink-200"></hr>
       <Paragraph>
         If you liked this and would like to hear when new content is published,

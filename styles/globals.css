@@ -4,20 +4,11 @@
 @tailwind utilities;
 
 @layer base {
-  /* The site ground, in one place. It used to sit on the homepage's own
-     wrapper, which made clicking any title turn the paper white — the navbar's
-     glass is tinted for paper, so the seam showed at the top of every article.
-     On <body> it covers the viewport, so no page has to remember it. */
   body {
     @apply bg-paper;
   }
 
-  /* The navbar is sticky, so an anchor jumped to from the address bar or from
-     the navbar's own Subscribe link would otherwise land under the glass. Set
-     once here rather than as a scroll-mt on each anchor: the next id added
-     anywhere on the site is then right by default, instead of looking like a
-     bug in whatever feature added it. Navbar is h-14 (3.5rem); the rest is
-     breathing room above the target. */
+  /* Clears the sticky navbar for every anchor on the site. */
   html {
     scroll-padding-top: 5rem;
   }

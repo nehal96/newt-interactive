@@ -3,12 +3,6 @@ import { Button } from "..";
 import { cn } from "../../lib/utils";
 
 interface SubscribeFormProps {
-  /**
-   * Same form either way — the variant only decides whether it's wrapped.
-   * "bare" sits directly on the page (the homepage, where the colophon around
-   * it is already quiet); "card" puts it in a panel, so at the foot of a long
-   * article it reads as a thing to act on rather than one more paragraph.
-   */
   variant?: "card" | "bare";
 }
 
@@ -56,8 +50,6 @@ const SubscribeForm = ({ variant = "card" }: SubscribeFormProps) => {
   };
 
   const card = variant === "card";
-  // White fields on paper and on the card's pale indigo alike — the panel is
-  // tinted lightly enough that a filled field still needs its own outline.
   const inputClass =
     "py-2 px-3 rounded-md bg-white border border-ink-200 outline-none focus:border-ink-400";
   const labelClass = "mb-1 text-sm text-ink-500";
@@ -65,13 +57,7 @@ const SubscribeForm = ({ variant = "card" }: SubscribeFormProps) => {
   return (
     <div
       className={cn(
-        // Everything but the display serif is the interface sans; set here so
-        // the labels and fields inherit it too.
         "w-full self-center font-ui",
-        // The navbar's glass, unblurred and thinner: the same indigo, laid on
-        // lightly enough that the paper still reads through it. The border goes
-        // the other way — with a fill this faint, a firmer edge is what keeps
-        // the thing reading as a card rather than as a wash.
         card &&
           "max-w-2xl rounded-xl border border-indigo-200/85 bg-indigo-50/50 p-6 sm:p-9"
       )}

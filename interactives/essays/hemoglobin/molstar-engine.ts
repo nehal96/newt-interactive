@@ -35,7 +35,6 @@ export const IRON_EXPR = elementExpr("Fe");
 // --- The "villin look" -----------------------------------------------------
 
 type VillinLookOpts = {
-  /** Canvas background; defaults to the page's paper. */
   background?: number;
   /**
    * Camera depth-fog intensity; off unless set. No current viewer passes it —

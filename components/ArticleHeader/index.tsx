@@ -14,9 +14,6 @@ const ArticleHeader = ({ title, subtitle, published }: ArticleHeaderProps) => (
     {subtitle && (
       <h2
         className={cn(
-          // ink-500, not the closest match to the old slate-400: this is the
-          // subtitle role, and 500 is what the scale gives a subtitle. At 18px
-          // on paper, 400 was the grey that read as faintly wrong.
           "text-lg text-ink-500 font-light justify-self-center self-center text-center max-w-3xl md:text-xl",
           published ? "mb-4" : "mb-12 md:mb-16"
         )}
