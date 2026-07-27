@@ -68,3 +68,54 @@ node scripts/article-export/cli.mjs record hemoglobin   # record animated figure
 Output lands in `docs/<slug>/export/`. The `cli.mjs` commands are `extract` (MDX → markdown + `figures.json` manifest, no browser), `shoot` (screenshot each figure), `all` (both, plus caption linking), `link` (re-apply captions only), and `record` (GIFs). It relies on every figure rendering as a `<figure>` element in document order so prose placeholders and screenshots line up 1:1. `rules.mjs` is the single place that encodes the project's component vocabulary (footnote/term/heading components, figure-naming props) — update it there if shared essay components change.
 
 `record` (`record.mjs`) captures the same region as `shoot` but scrubs an animated figure and stitches the poses into a looping GIF. It runs one ad-hoc figure (`--figure <sel> --name <basename> [--sweep ...]`) or, with no target, every entry in that essay's `pages/essays/<slug>/recordings.json` manifest (`defaults` + a `recordings` array keyed by figure selector). See `scripts/article-export/README.md` for the headless-WebGL screenshot gotcha, the GIF capture modes, and per-essay `export.config.json` overrides.
+
+## Homepage (`pages/index.tsx`, `lib/content.ts`, `components/CoverArt/`)
+
+The homepage is a single centred column (`max-w-column`, 46rem): a one-line
+statement of what the site is, a rule, the featured piece, then a dated index of
+everything else. `lib/content.ts` is the catalogue — one `Piece` row per
+published thing, with `title`/`subtitle` copied verbatim from that page's own
+exported `metadata`. The homepage can't import those `metadata` objects
+directly (that would pull every essay's interactives into the homepage bundle),
+so **adding a piece means adding a row there**.
+
+Covers are **drawn, not screenshotted**. `components/CoverArt/` is the whole
+system: every cover is built from the same three primitives (node, edge, field)
+on the same paper ground, at the same stroke weights, from one indigo ramp. A
+row sets `art: "<motif>"` and gets an inline SVG — no image pipeline, crisp at
+both the 46rem featured size and the 160px index thumb. Adding a piece means
+adding a ~20-line motif beside the others.
+
+Three rules hold the set together, and breaking any one of them is what made the
+old screenshot covers look unrelated:
+
+- **No text inside the art, ever.** Type sized for a full-width figure is
+  illegible at thumb size and gets sliced by any crop.
+- **Everything inside the safe band** (x 40–280, y 30–150 of a 320×180 frame),
+  so one drawing serves both sizes without a second crop.
+- **Exactly one red element per cover**, on the thing worth looking at — the
+  measurement, the mutation, the mode of the belief. Indigo carries structure.
+
+`cover: "<path>"` is the escape hatch for a piece that already has a better
+image than a motif would be. Right now that's only hemoglobin, whose red heme
+illustration sets the accent the drawn covers pick up one element at a time.
+
+`scripts/covers.mjs` still shoots stills from the live pages into
+`public/images/covers/` (dev server running) if you ever want that route back:
+
+```bash
+node scripts/covers.mjs                 # every piece
+node scripts/covers.mjs dna c1-ffl      # just these
+```
+
+It reuses the headless-Chrome core from `article-export/capture.mjs`, and its
+`COVERS` array is where each piece's target lives — a `<figure>` index for the
+hemoglobin essay (the only piece that renders figures) or a plain CSS selector
+for everything older, plus optional `actions` for interactives that start empty
+(Erdős-Rényi, the Kalman tutorial) and `inner` to shoot the drawing rather than
+the widget around it. Two files land per piece: a 1600×900 cover and a 600×338
+detail-cropped `-thumb` (`thumbFor()` only swaps in the `-thumb` for paths under
+`/images/covers/`, so hand-made covers elsewhere are served whole). The script
+clears `.next/dev/cache/images` when it finishes — `next/image` keys its cache
+on a URL that doesn't change when a cover is re-shot, and caches per output
+format, so a stale WebP will otherwise outlive a freshly written PNG.
