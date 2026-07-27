@@ -12,6 +12,16 @@
   body {
     @apply bg-paper;
   }
+
+  /* The navbar is sticky, so an anchor jumped to from the address bar or from
+     the navbar's own Subscribe link would otherwise land under the glass. Set
+     once here rather than as a scroll-mt on each anchor: the next id added
+     anywhere on the site is then right by default, instead of looking like a
+     bug in whatever feature added it. Navbar is h-14 (3.5rem); the rest is
+     breathing room above the target. */
+  html {
+    scroll-padding-top: 5rem;
+  }
 }
 
 .max-container {

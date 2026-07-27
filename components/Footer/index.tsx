@@ -1,9 +1,8 @@
+import { EMAIL_HREF, TWITTER_URL } from "../../lib/links";
+
 const LINKS = [
-  { label: "Twitter", href: "https://www.twitter.com/nehaludyavar" },
-  {
-    label: "Email",
-    href: `mailto:nehaludyavar@gmail.com?subject=${encodeURIComponent("Hello")}`,
-  },
+  { label: "Twitter", href: TWITTER_URL },
+  { label: "Email", href: EMAIL_HREF },
 ];
 
 const Footer = () => {
