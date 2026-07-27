@@ -25,6 +25,7 @@ export {
   FeaturedPiece,
   PieceRow,
   ArchiveRow,
+  PartsTable,
   TopicCard,
   TopicHeader,
   TopicCardContainer,

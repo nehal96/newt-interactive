@@ -121,8 +121,33 @@ export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
  * actually ran at; the numbers make the reading order explicit, which is the
  * one thing a series has that a list of blocks doesn't.
  */
-const PartsTable = ({ parts }: { parts: SeriesPart[] }) => (
-  <ol className="mt-5 border-t border-ink-200/50">
+export const PartsTable = ({
+  parts,
+  start = 1,
+  nested = true,
+}: {
+  parts: SeriesPart[];
+  /** The number to give the first row — the series page groups its parts
+   *  under subheadings, and the numbering runs on across the groups. */
+  start?: number;
+  /**
+   * Whether this list hangs under an index row or is a page's own content.
+   * Both differences follow from it: nested, the dates are held off the column
+   * edge and the titles sit a shade back, so the list reads as that row's
+   * contents rather than as more rows. Standalone — the series' own page — the
+   * table *is* the column, so an inset date wouldn't line up with the rule
+   * above it and there's nothing left for the titles to defer to.
+   */
+  nested?: boolean;
+}) => (
+  <ol
+    className={cn(
+      "border-t border-ink-200/50",
+      // Under a row's subtitle the list needs the full gap; under the series
+      // page's 11px mono label it only needs to clear the caps.
+      nested ? "mt-5" : "mt-3",
+    )}
+  >
     {parts.map((part, i) => (
       <li key={part.href}>
         <Link
@@ -130,14 +155,22 @@ const PartsTable = ({ parts }: { parts: SeriesPart[] }) => (
           className="group/part flex items-baseline gap-3 border-b border-ink-200/50 py-2 sm:gap-4"
         >
           <span className="w-3 shrink-0 font-mono text-[0.6875rem] tabular-nums text-ink-400 transition-colors group-hover/part:text-indigo-700">
-            {i + 1}
+            {start + i}
           </span>
-          <span className="min-w-0 flex-1 truncate font-ui text-[0.9375rem] text-ink-500 transition-colors group-hover/part:text-indigo-700">
+          <span
+            className={cn(
+              "min-w-0 flex-1 truncate font-ui text-[0.9375rem] transition-colors group-hover/part:text-indigo-700",
+              nested ? "text-ink-500" : "text-ink-700",
+            )}
+          >
             {part.title}
           </span>
-          {/* Held off the column edge, so the parts sit inside the index
-              rather than ruling a second column against it. */}
-          <span className="shrink-0 pr-3 font-ui text-xs tabular-nums tracking-[0.02em] text-ink-400 sm:pr-6">
+          <span
+            className={cn(
+              "shrink-0 font-ui text-xs tabular-nums tracking-[0.02em] text-ink-400",
+              nested && "pr-3 sm:pr-6",
+            )}
+          >
             {formatMonth(part.published)}
           </span>
         </Link>

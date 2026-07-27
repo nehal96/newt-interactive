@@ -25,6 +25,12 @@ export interface SeriesPart {
    */
   title: string;
   published: string;
+  /**
+   * Optional grouping, used by the series' own page to set its instalments
+   * under subheadings. The homepage ignores it and lists them flat — a row in
+   * the index is showing the shape of the series, not its table of contents.
+   */
+  section?: string;
 }
 
 export interface Piece {
@@ -93,26 +99,31 @@ export const PIECES: Piece[] = [
         href: "/series/systems-biology/transcription-network-basics-1",
         title: "Transcription Network Basics",
         published: "2024-09-26",
+        section: "Introduction to Transcription Networks",
       },
       {
         href: "/series/systems-biology/transcription-network-basics-2",
         title: "Activators and Repressors",
         published: "2024-10-06",
+        section: "Introduction to Transcription Networks",
       },
       {
         href: "/series/systems-biology/transcription-network-basics-3",
         title: "Dynamics and Response Time",
         published: "2024-10-27",
+        section: "Introduction to Transcription Networks",
       },
       {
         href: "/series/systems-biology/autoregulation-1",
         title: "Autoregulation as a Network Motif",
         published: "2024-11-02",
+        section: "Autoregulation",
       },
       {
         href: "/series/systems-biology/autoregulation-2",
         title: "Dynamics of Negative Autoregulation",
         published: "2024-12-15",
+        section: "Autoregulation",
       },
     ],
   },
@@ -189,6 +200,28 @@ export const restOfPieces = PIECES.filter(
 ).sort(byNewest);
 
 export const archivedPieces = PIECES.filter((p) => p.archived).sort(byNewest);
+
+/** The catalogue row for a page, so a page can render its own entry rather
+ *  than keeping a second hand-maintained copy of it. */
+export const getPiece = (href: string) => PIECES.find((p) => p.href === href);
+
+/**
+ * A series' parts, grouped under their `section` headings and carrying the
+ * number each group starts at — the numbering runs on across the groups, so
+ * the reader sees one ordered series rather than two short lists.
+ * Parts with no `section` fall into a single unlabelled group.
+ */
+export function partsBySection(parts: SeriesPart[] = []) {
+  const groups: { section?: string; start: number; parts: SeriesPart[] }[] = [];
+
+  parts.forEach((part, i) => {
+    const last = groups[groups.length - 1];
+    if (last && last.section === part.section) last.parts.push(part);
+    else groups.push({ section: part.section, start: i + 1, parts: [part] });
+  });
+
+  return groups;
+}
 
 /** "Jun 2026" — month precision is enough for an index, abbreviated so the
  *  dates stay a short stamp beside the kind label rather than a phrase. */

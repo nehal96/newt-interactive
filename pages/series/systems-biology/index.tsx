@@ -1,14 +1,20 @@
 import Head from "next/head";
-import Link from "next/link";
-import {
-  ArticleContainer,
-  ArticleHeader,
-  Navbar,
-  OrderedList,
-  H2,
-} from "../../../components";
+import { ArticleContainer, ArticleHeader, Footer, Navbar, PartsTable } from "../../../components";
+import { getPiece, partsBySection } from "../../../lib/content";
+import { cn } from "../../../lib/utils";
+
+/* The series' own page. Its instalments are the same rows the homepage lists
+   under the series — numbered, dated, on the index's hairlines — read from the
+   catalogue rather than written out again here, so there's one list to keep in
+   order. The subheadings are the thing this page has that the index doesn't:
+   the homepage shows the shape of the series, this shows how it's organised. */
+
+const HREF = "/series/systems-biology";
 
 const SystemsBiologyExplainersPage = () => {
+  const piece = getPiece(HREF);
+  const sections = partsBySection(piece?.parts);
+
   return (
     <>
       <Head>
@@ -21,90 +27,47 @@ const SystemsBiologyExplainersPage = () => {
           name="keywords"
           content="systems biology, interactive explainers, transcription networks, gene expression, biological systems"
         />
-        <meta
-          property="og:title"
-          content="Systems Biology / Newt Interactive"
-        />
+        <meta property="og:title" content="Systems Biology / Newt Interactive" />
         <meta
           property="og:description"
           content="Explore interactive explainers on systems biology concepts"
         />
-        <meta
-          property="og:image"
-          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
-        />
-        <meta
-          property="og:url"
-          content="https://newtinteractive.com/series/systems-biology"
-        />
+        <meta property="og:image" content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png" />
+        <meta property="og:url" content="https://newtinteractive.com/series/systems-biology" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Systems Biology / Newt Interactive"
-        />
+        <meta name="twitter:title" content="Systems Biology / Newt Interactive" />
         <meta
           name="twitter:description"
           content="Explore interactive explainers on systems biology concepts"
         />
-        <meta
-          name="twitter:image"
-          content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png"
-        />
+        <meta name="twitter:image" content="https://i.ibb.co/Nnbfc6y/genetic-circuit.png" />
       </Head>
-      <Navbar />
-      <ArticleContainer>
-        <ArticleHeader
-          title="Systems Biology"
-          subtitle="Dive deep into complex biological systems through interactive explainers"
-        />
-        <H2>Introduction to Transcription Networks</H2>
-        <OrderedList>
-          <li>
-            <Link
-              href="/series/systems-biology/transcription-network-basics-1"
-              className="text-blue-600 hover:underline"
-            >
-              Transcription Network Basics
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/series/systems-biology/transcription-network-basics-2"
-              className="text-blue-600 hover:underline"
-            >
-              Activators and Repressors
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/series/systems-biology/transcription-network-basics-3"
-              className="text-blue-600 hover:underline"
-            >
-              Dynamics and Response Time
-            </Link>
-          </li>
-        </OrderedList>
-        <H2>Autoregulation</H2>
-        <OrderedList start={4}>
-          <li>
-            <Link
-              href="/series/systems-biology/autoregulation-1"
-              className="text-blue-600 hover:underline"
-            >
-              Autoregulation as a Network Motif
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/series/systems-biology/autoregulation-2"
-              className="text-blue-600 hover:underline"
-            >
-              Dynamics of Negative Autoregulation
-            </Link>
-          </li>
-        </OrderedList>
-      </ArticleContainer>
+      <div className="flex min-h-screen flex-col">
+        <Navbar />
+        <div className="flex-auto">
+          <ArticleContainer>
+            <ArticleHeader title={piece?.title ?? "Systems Biology"} subtitle={piece?.subtitle} />
+            {sections.map(({ section, start, parts }, i) => (
+              <div
+                key={section ?? start}
+                className={cn("w-full max-w-prose self-center", i > 0 && "mt-12")}
+              >
+                {/* Mono caps, the index's label register — these name a group
+                    of rows rather than open a chapter, and the numbered table
+                    under each one is already doing the talking. */}
+                {section && (
+                  <h2 className="font-mono font-medium text-xs uppercase tracking-[0.12em] text-ink-900">
+                    {section}
+                  </h2>
+                )}
+                <PartsTable parts={parts} start={start} nested={false} />
+              </div>
+            ))}
+          </ArticleContainer>
+        </div>
+        <Footer />
+      </div>
     </>
   );
 };
