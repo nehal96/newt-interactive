@@ -40,7 +40,7 @@ This is the Pages Router (not the App Router). `pages/_app.js` is the global wra
 
 **Each interactive topic has a barrel `index.ts`** that is its public surface. The MDX page imports figures only from there, so the internal file layout can change without touching prose. When adding or renaming a figure, update the barrel.
 
-**Styling.** Tailwind (config in `tailwind.config.js`) with a custom theme: prose column is `max-w-prose` (45rem), custom font families (`body`/`title`/`logo`/`quote`), and project color scales. `content` globs cover `pages/`, `components/`, and `interactives/`. Dynamically-constructed class names must be in the `safelist` or they get purged.
+**Styling.** Tailwind (config in `tailwind.config.js`) with a custom theme: prose column is `max-w-prose` (45rem), custom font families (`body`/`title`/`ui`/`mono`/`logo`/`quote`), and project color scales. `content` globs cover `pages/`, `components/`, and `interactives/`. Dynamically-constructed class names must be in the `safelist` or they get purged.
 
 ## The hemoglobin essay (`interactives/essays/hemoglobin/`)
 
@@ -71,9 +71,10 @@ Output lands in `docs/<slug>/export/`. The `cli.mjs` commands are `extract` (MDX
 
 ## Homepage (`pages/index.tsx`, `lib/content.ts`, `components/CoverArt/`)
 
-The homepage is a single centred column (`max-w-column`, 46rem): a one-line
-statement of what the site is, a rule, the featured piece, then a dated index of
-everything else. `lib/content.ts` is the catalogue — one `Piece` row per
+The homepage is a single centred column (`max-w-column`, 46rem): the featured
+piece at full column width, a dated index of everything else, then — down by
+the subscribe form, where a colophon goes — a one-line statement of what the
+site is. `lib/content.ts` is the catalogue — one `Piece` row per
 published thing, with `title`/`subtitle` copied verbatim from that page's own
 exported `metadata`. The homepage can't import those `metadata` objects
 directly (that would pull every essay's interactives into the homepage bundle),
@@ -99,23 +100,27 @@ old screenshot covers look unrelated:
 `cover: "<path>"` is the escape hatch for a piece that already has a better
 image than a motif would be. Right now that's only hemoglobin, whose red heme
 illustration sets the accent the drawn covers pick up one element at a time.
+There is no capture pipeline any more — an earlier `scripts/covers.mjs` shot
+stills from the live pages, and it's gone (last at commit `caff1ee`) because
+the drawn covers replaced everything it produced.
 
-`scripts/covers.mjs` still shoots stills from the live pages into
-`public/images/covers/` (dev server running) if you ever want that route back:
+**Three type registers, and nothing else.** `font-title` (DM Serif Display) for
+titles, `font-ui` (Inter) for the standfirst, subtitles and dates, `font-mono`
+(Fira Mono) for the kind labels. Both webfonts are imported in
+`styles/fonts.css`; `font-mono` also overrides Tailwind's default stack, which
+finally gives `prism-one-dark.css` a Fira to use instead of falling through to
+system Menlo.
 
-```bash
-node scripts/covers.mjs                 # every piece
-node scripts/covers.mjs dna c1-ffl      # just these
-```
+The index opens on a rule with no heading over it — the rows say what they are,
+so a label there was naming the obvious. Below it, `archived: true` on a row
+moves that piece into the **Archive**: a labelled list (this one does need
+naming) of title and date on one line, no cover, no subtitle, darkening on
+hover instead of going indigo. It's for things kept on the record rather than
+shown off — right now, DNA in 3D.
 
-It reuses the headless-Chrome core from `article-export/capture.mjs`, and its
-`COVERS` array is where each piece's target lives — a `<figure>` index for the
-hemoglobin essay (the only piece that renders figures) or a plain CSS selector
-for everything older, plus optional `actions` for interactives that start empty
-(Erdős-Rényi, the Kalman tutorial) and `inner` to shoot the drawing rather than
-the widget around it. Two files land per piece: a 1600×900 cover and a 600×338
-detail-cropped `-thumb` (`thumbFor()` only swaps in the `-thumb` for paths under
-`/images/covers/`, so hand-made covers elsewhere are served whole). The script
-clears `.next/dev/cache/images` when it finishes — `next/image` keys its cache
-on a URL that doesn't change when a cover is re-shot, and caches per output
-format, so a stale WebP will otherwise outlive a freshly written PNG.
+**No middots.** The meta line is kind, extent, date with nothing between them —
+the registers (mono caps / sans / sans tabular figures) and a `gap-x-4` do the
+separating. A row of dots reads as one compressed sentence; three registers
+read as three fields. Dates are abbreviated (`Jun 2026`) and set in
+`tabular-nums` with a little extra tracking, because at 12px grey the default
+proportional figures clump next to the words beside them.
