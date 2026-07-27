@@ -25,9 +25,14 @@ const goToNearestSubscribe = (e: MouseEvent<HTMLAnchorElement>) => {
 // grey film: the blur alone washes out whatever passes beneath, and pushing
 // the colour back up keeps a cover's indigo visible through the pane. The
 // white top hairline is the lit edge; the indigo one below is the shadow.
+//
+// The tint is a pale indigo laid on fairly thickly rather than a stronger one
+// held back. Same lightness either way over paper, but over a saturated cover
+// the thicker pane keeps its own colour instead of going pink with whatever is
+// passing under it.
 const Navbar = () => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-indigo-200/70 bg-indigo-100/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-40 w-full border-b border-indigo-200/50 bg-indigo-50/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-14 w-full max-w-column items-center justify-between px-5">
         <Link href="/" className="group inline-flex items-baseline gap-1.5">
           <span className="font-logo text-xl leading-none text-ink-900">
