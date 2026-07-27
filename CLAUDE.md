@@ -104,12 +104,35 @@ There is no capture pipeline any more — an earlier `scripts/covers.mjs` shot
 stills from the live pages, and it's gone (last at commit `caff1ee`) because
 the drawn covers replaced everything it produced.
 
+**One grey, not five.** The homepage's neutrals are the custom `ink` scale in
+`tailwind.config.js`, not Tailwind `slate` — every stop is the same desaturated
+indigo (h 248°), so the greys read as a quiet cousin of the accent. Tailwind's
+`slate` is cast bluer than the warm paper under it, which is what made 15px
+subtitles look faintly wrong. 900 titles · 600 archive titles · 500 subtitles
+and labels · 400 dates · 200 hairlines. Move them together — warming one and
+leaving its neighbours slate just relocates the mismatch. (The unreferenced
+legacy poster-card components at the bottom of `components/Homepage` stay on
+`slate`; they belong to the old design.)
+
 **Three type registers, and nothing else.** `font-title` (DM Serif Display) for
 titles, `font-ui` (Inter) for the standfirst, subtitles and dates, `font-mono`
 (Fira Mono) for the kind labels. Both webfonts are imported in
 `styles/fonts.css`; `font-mono` also overrides Tailwind's default stack, which
 finally gives `prism-one-dark.css` a Fira to use instead of falling through to
 system Menlo.
+
+A series row lists its instalments under it: `parts` is an array of
+`{href, title, published}`, numbered, dated, on lighter rules than the index's
+own. The `title` there is the series page's own short label, not the article's
+metadata title — the list is numbered, so "Part One" would be said twice. Note
+`PieceRow` wraps its link around the row only, with the parts hanging below as
+their own links; an anchor can't legally contain anchors.
+
+The navbar's Subscribe goes to the nearest subscribe block: the `id="subscribe"`
+on `PostArticleSubscribe`'s rule if this page has one, the homepage's otherwise.
+That can only be decided in the browser — `MdxLayout` can't see whether the MDX
+below it ends with a subscribe block — so the `href` stays `/#subscribe` (right
+without JS, right for a middle-click) and the click handler prefers a local one.
 
 The index opens on a rule with no heading over it — the rows say what they are,
 so a label there was naming the obvious. Below it, `archived: true` on a row
