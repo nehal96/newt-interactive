@@ -3,5 +3,5 @@
 }
 
 .quote > p {
-  @apply m-0 font-quote font-thin text-sm leading-6 md:text-[15px] md:leading-7 text-slate-500;
+  @apply m-0 font-quote font-thin text-sm leading-6 md:text-[15px] md:leading-7 text-ink-500;
 }

@@ -7,7 +7,7 @@ const PostArticleSubscribe = () => {
           landing on the rule puts the ask and the form both in view. */}
       <hr
         id="subscribe"
-        className="my-12 md:my-20 border-slate-200 scroll-mt-20"
+        className="my-12 md:my-20 border-ink-200 scroll-mt-20"
       ></hr>
       <Paragraph>
         If you liked this and would like to hear when new content is published,
@@ -20,7 +20,7 @@ const PostArticleSubscribe = () => {
           href="https://www.twitter.com/nehaludyavar"
           target="_blank"
           rel="noreferrer noopener"
-          className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+          className="text-ink-800 hover:text-ink-900 underline underline-offset-1 decoration-ink-700"
         >
           DM me on Twitter
         </a>{" "}
@@ -31,7 +31,7 @@ const PostArticleSubscribe = () => {
           )}`}
           target="_blank"
           rel="noreferrer noopener"
-          className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+          className="text-ink-800 hover:text-ink-900 underline underline-offset-1 decoration-ink-700"
         >
           send me an email
         </a>

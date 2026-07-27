@@ -38,7 +38,10 @@ export const TextContainer: FunctionComponent<
   return (
     <div
       className={cn(
-        "flex flex-col justify-start p-5 md:p-6 mx-0 my-2 bg-slate-50 rounded-xl md:mx-4 lg:my-0",
+        // ink-100 held back to 60%: the ink ramp starts at 100, which is a
+        // shade darker than the old slate-50, and this panel only has to lift
+        // off the paper, not sit on it as a block.
+        "flex flex-col justify-start p-5 md:p-6 mx-0 my-2 bg-ink-100/60 rounded-xl md:mx-4 lg:my-0",
         className
       )}
       {...props}
