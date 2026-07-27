@@ -33,7 +33,9 @@
    background: hsl(220, 13%, 18%);
    color: hsl(220, 14%, 71%);
    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-   font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+   /* Through the variable, not by name — next/font hashes the family, so a
+      literal "Fira Mono" here would match nothing. */
+   font-family: var(--font-mono), Menlo, Consolas, "DejaVu Sans Mono", monospace;
    direction: ltr;
    text-align: left;
    white-space: pre;

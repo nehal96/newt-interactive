@@ -1,8 +1,18 @@
-@import "./fonts.css";
 @import "./prism-one-dark.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-paper;
+  }
+
+  /* Clears the sticky navbar for every anchor on the site. */
+  html {
+    scroll-padding-top: 5rem;
+  }
+}
 
 .max-container {
   margin-left: auto;

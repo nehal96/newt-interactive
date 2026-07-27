@@ -1,9 +1,10 @@
 import { Paragraph, SubscribeForm } from "..";
+import { EMAIL_HREF, TWITTER_URL } from "../../lib/links";
 
 const PostArticleSubscribe = () => {
   return (
     <>
-      <hr className="my-12 md:my-20 border-slate-200"></hr>
+      <hr id="subscribe" className="my-12 md:my-20 border-ink-200"></hr>
       <Paragraph>
         If you liked this and would like to hear when new content is published,
         please subscribe below.
@@ -12,21 +13,19 @@ const PostArticleSubscribe = () => {
         If you have any feedback, found bugs, or just want to reach out, feel
         free to{" "}
         <a
-          href="https://www.twitter.com/nehaludyavar"
+          href={TWITTER_URL}
           target="_blank"
           rel="noreferrer noopener"
-          className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+          className="text-ink-800 hover:text-ink-900 underline underline-offset-1 decoration-ink-700"
         >
           DM me on Twitter
         </a>{" "}
         or{" "}
         <a
-          href={`mailto:nehaludyavar@gmail.com?subject=${encodeURIComponent(
-            "Hello"
-          )}`}
+          href={EMAIL_HREF}
           target="_blank"
           rel="noreferrer noopener"
-          className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+          className="text-ink-800 hover:text-ink-900 underline underline-offset-1 decoration-ink-700"
         >
           send me an email
         </a>

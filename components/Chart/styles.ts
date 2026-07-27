@@ -1,7 +1,7 @@
 export const axisStyle = {
   axis: { stroke: "#1e293b", strokeWidth: 2 },
   axisLabel: {
-    fontFamily: "avenir",
+    fontFamily: "avenir, var(--font-ui), sans-serif",
     fontSize: 14,
     padding: 30,
     fill: "#1e293b",

@@ -16,6 +16,9 @@
 // color-coded prose terms (see Term.tsx); `light`/`rim` feed the shaded atom
 // spheres and shape outlines where needed.
 
+// Must equal Tailwind's `paper`, or the canvas reads as a rectangle on the page.
+export const PAPER = "#FBFAF7";
+
 export type Swatch = {
   fill: string;
   ink: string;

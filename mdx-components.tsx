@@ -18,7 +18,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     a: ({ children, href }) => (
       <Link
         href={href}
-        className="text-slate-800 hover:text-slate-900 underline underline-offset-1 decoration-slate-700"
+        className="text-ink-800 hover:text-ink-900 underline underline-offset-1 decoration-ink-700"
       >
         {children}
       </Link>
@@ -27,7 +27,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ul: ({ children, ...props }) => (
       <UnorderedList {...props}>{children}</UnorderedList>
     ),
-    hr: () => <hr className="my-8 md:my-12 border-slate-200" />,
+    hr: () => <hr className="my-8 md:my-12 border-ink-200" />,
     ...components,
   };
 }

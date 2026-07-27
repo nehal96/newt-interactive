@@ -12,6 +12,22 @@ module.exports = {
         xs: "480px",
       },
       colors: {
+        paper: "#FBFAF7",
+        ink: {
+          100: "#EEEDF2",
+          200: "#DDDCE5",
+          300: "#B1AFC0",
+          400: "#8B88A0",
+          500: "#6A687D", // 5.17:1 on paper
+          600: "#58546E",
+          700: "#49465D",
+          800: "#322F41",
+          900: "#1A1825",
+        },
+        glass: {
+          pane: "#EBE9F9",
+          edge: "#D3CEEC",
+        },
         "newt-blue": {
           50: "#e9f9ff",
           100: "#d5f5ff",
@@ -33,14 +49,31 @@ module.exports = {
         "evangelion-green": "#55eeaa",
       },
       fontFamily: {
-        body: ["avenir"],
-        title: ["DM Serif Display"],
-        logo: ["Righteous"],
-        quote: ["Libre Baskerville"],
-        evangelion: ["Bebas Neue"],
+        // `avenir` is a local face, not a webfont — Inter catches the machines
+        // that don't have it.
+        body: ["avenir", "var(--font-ui)", "sans-serif"],
+        ui: [
+          "var(--font-ui)",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "sans-serif",
+        ],
+        mono: [
+          "var(--font-mono)",
+          "ui-monospace",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
+        title: ["var(--font-title)", "Georgia", "serif"],
+        logo: ["var(--font-logo)", "system-ui", "sans-serif"],
+        quote: ["var(--font-quote)", "Georgia", "serif"],
+        evangelion: ["var(--font-evangelion)", "Impact", "sans-serif"],
       },
       maxWidth: {
         prose: "45rem",
+        column: "46rem",
       },
       animation: {
         "protein-pulse":

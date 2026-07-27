@@ -21,8 +21,8 @@ export {
   DialogDescription,
 } from "./Dialog";
 export { default as Footer } from "./Footer";
-export { TopicCard, TopicHeader, TopicCardContainer } from "./Homepage";
-export { HomeTopicCard } from "./HomeTopicCard";
+// ./Homepage is deliberately absent: listing it here would ship CoverArt and
+// the whole catalogue in every page's chunk.
 export { default as ImageSeries } from "./ImageSeries";
 export {
   InteractiveTutorialContainer,
@@ -43,10 +43,12 @@ export { default as MathFormula } from "./MathFormula";
 export { default as MdxLayout } from "./MdxLayout";
 export { default as Navbar } from "./Navbar";
 export { default as OrderedList } from "./OrderedList";
+export { default as PageShell } from "./PageShell";
 export { default as Paragraph } from "./Paragraph";
 export { default as Popover } from "./Popover";
 export { default as PostArticleSubscribe } from "./PostArticleSubscribe";
 export { default as Quote } from "./Quote";
+export { default as SeoHead } from "./SeoHead";
 export {
   SeriesTitleLink,
   NextArticleLink,

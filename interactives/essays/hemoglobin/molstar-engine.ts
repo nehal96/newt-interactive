@@ -8,6 +8,7 @@ import { PostprocessingParams } from "molstar/lib/mol-canvas3d/passes/postproces
 import { MolScriptBuilder as MS } from "molstar/lib/mol-script/language/builder";
 import { acquireBootSlot } from "./boot-queue";
 import { VIEWPORT_CHROME_OFF, AXES_GIZMO, onWith } from "./molstar-chrome";
+import { PAPER, toHex } from "./palette";
 // Precompiled stylesheet (light skin baked in) — no `sass` toolchain needed.
 // Loaded here so the (client-only) viewers don't each re-import it.
 import "molstar/build/viewer/molstar.css";
@@ -34,7 +35,6 @@ export const IRON_EXPR = elementExpr("Fe");
 // --- The "villin look" -----------------------------------------------------
 
 type VillinLookOpts = {
-  /** Canvas background; defaults to white. */
   background?: number;
   /**
    * Camera depth-fog intensity; off unless set. No current viewer passes it —
@@ -50,7 +50,7 @@ type VillinLookOpts = {
 export function applyVillinLook(plugin: PluginUIContext, opts: VillinLookOpts = {}) {
   const props: Record<string, unknown> = {
     renderer: {
-      backgroundColor: opts.background ?? 0xffffff,
+      backgroundColor: opts.background ?? toHex(PAPER),
       ambientIntensity: 0.4,
       interiorDarkening: 0.5,
     },

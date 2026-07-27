@@ -1,9 +1,9 @@
-import Head from "next/head";
-import { ArticleContainer, Navbar } from "..";
-import { SeriesTitleLink } from "..";
+import { ArticleContainer, SeriesTitleLink } from "..";
 import ArticleHeader from "../ArticleHeader";
+import PageShell from "../PageShell";
+import SeoHead, { type SeoMetadata } from "../SeoHead";
 
-interface Metadata {
+export interface Metadata extends SeoMetadata {
   title: string;
   subtitle?: React.ReactNode;
   description: string;
@@ -24,54 +24,25 @@ interface MdxLayoutProps {
 }
 
 export default function MdxLayout({ children, metadata }: MdxLayoutProps) {
-  const pageTitle = metadata?.title
-    ? `${metadata.title} / Newt Interactive`
-    : "Newt Interactive";
-
   return (
     <>
-      <Head>
-        <title>{pageTitle}</title>
-        {metadata?.description && (
-          <meta name="description" content={metadata?.description} />
-        )}
-        {metadata?.keywords && (
-          <meta name="keywords" content={metadata?.keywords} />
-        )}
-        <meta property="og:title" content={pageTitle} />
-        {metadata?.description && (
-          <meta property="og:description" content={metadata?.description} />
-        )}
-        {metadata?.ogImage && (
-          <meta property="og:image" content={metadata?.ogImage} />
-        )}
-        {metadata?.url && <meta property="og:url" content={metadata?.url} />}
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        {metadata?.description && (
-          <meta name="twitter:description" content={metadata?.description} />
-        )}
-        {metadata?.ogImage && (
-          <meta name="twitter:image" content={metadata?.ogImage} />
-        )}
-        <meta name="twitter:creator" content="@nehaludyavar" />
-      </Head>
-      <Navbar />
-      <ArticleContainer>
-        {metadata.series && (
-          <SeriesTitleLink
-            href={metadata.series?.href}
-            seriesName={metadata.series?.name}
+      <SeoHead metadata={metadata} />
+      <PageShell>
+        <ArticleContainer>
+          {metadata.series && (
+            <SeriesTitleLink
+              href={metadata.series?.href}
+              seriesName={metadata.series?.name}
+            />
+          )}
+          <ArticleHeader
+            title={metadata.title}
+            subtitle={metadata.subtitle}
+            published={metadata.published}
           />
-        )}
-        <ArticleHeader
-          title={metadata.title}
-          subtitle={metadata.subtitle}
-          published={metadata.published}
-        />
-        {children}
-      </ArticleContainer>
+          {children}
+        </ArticleContainer>
+      </PageShell>
     </>
   );
 }

@@ -12,7 +12,7 @@ import { useInViewport } from "../../../hooks";
 // `loading`). Same height as the player so the layout doesn't jump.
 export function Loading3D() {
   return (
-    <div className="flex h-[300px] w-full items-center justify-center rounded-lg bg-slate-50 text-xs text-slate-400 lg:h-[360px]">
+    <div className="flex h-[300px] w-full items-center justify-center rounded-lg bg-paper text-xs text-slate-400 lg:h-[360px]">
       Loading 3D…
     </div>
   );
@@ -38,7 +38,7 @@ export default function Lazy3DFigure({ children, caption }: Lazy3DFigureProps) {
         {hasBeenNear ? (
           children(isActive)
         ) : (
-          <div className="flex h-[300px] w-full items-center justify-center rounded-lg bg-white text-xs text-slate-300 lg:h-[360px]">
+          <div className="flex h-[300px] w-full items-center justify-center rounded-lg bg-paper text-xs text-slate-300 lg:h-[360px]">
             3D model
           </div>
         )}

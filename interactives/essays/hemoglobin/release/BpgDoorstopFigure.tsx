@@ -43,7 +43,7 @@ export default function BpgDoorstopFigure({ className }: { className?: string })
   return (
     <figure className={cn("my-8 w-full scroll-mt-24 lg:my-12", className)}>
       <div className="mx-auto w-full max-w-xl">
-        <div className="w-full rounded-lg border border-slate-200 bg-white p-2">
+        <div className="w-full rounded-lg bg-paper p-2">
           <svg
             viewBox={VIEWBOX}
             className="block h-auto w-full"

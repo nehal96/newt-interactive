@@ -14,7 +14,7 @@ const ArticleHeader = ({ title, subtitle, published }: ArticleHeaderProps) => (
     {subtitle && (
       <h2
         className={cn(
-          "text-lg text-slate-400 font-light justify-self-center self-center text-center max-w-3xl md:text-xl",
+          "text-lg text-ink-500 font-light justify-self-center self-center text-center max-w-3xl md:text-xl",
           published ? "mb-4" : "mb-12 md:mb-16"
         )}
       >

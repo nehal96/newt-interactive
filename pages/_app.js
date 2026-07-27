@@ -1,6 +1,9 @@
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/next";
 import "../styles/globals.css";
+// Not unused: next/font emits its @font-face rules into the chunk of whatever
+// *page* module imports it, and _document isn't one.
+import "../lib/fonts";
 import { useEffect } from "react";
 import { TooltipProvider } from "../components";
 

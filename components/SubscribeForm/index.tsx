@@ -1,7 +1,12 @@
 import { FormEvent, useRef, useState } from "react";
 import { Button } from "..";
+import { cn } from "../../lib/utils";
 
-const SubscribeForm = () => {
+interface SubscribeFormProps {
+  variant?: "card" | "bare";
+}
+
+const SubscribeForm = ({ variant = "card" }: SubscribeFormProps) => {
   // 1. Create a reference to the input so we can fetch/clear it's value.
   const nameInputEl = useRef(null);
   const emailInputEl = useRef(null);
@@ -44,22 +49,30 @@ const SubscribeForm = () => {
     setTimeout(() => setMessage(""), 3000);
   };
 
+  const card = variant === "card";
+  const inputClass =
+    "py-2 px-3 rounded-md bg-white border border-ink-200 outline-none focus:border-ink-400";
+  const labelClass = "mb-1 text-sm text-ink-500";
+
   return (
-    <div className="w-full self-center max-w-2xl border border-slate-100 bg-slate-100 rounded-lg p-6 sm:p-9">
-      <h3 className="font-bold md:text-lg mb-3">
+    <div
+      className={cn(
+        "w-full self-center font-ui",
+        card &&
+          "max-w-2xl rounded-xl border border-indigo-200/85 bg-indigo-50/50 p-6 sm:p-9"
+      )}
+    >
+      <h3 className="font-title text-2xl text-ink-900 mb-2">
         Subscribe to Newt Interactive
       </h3>
-      <p className="text-sm md:text-base text-slate-700 mb-4">
+      <p className="mb-4 text-[0.9375rem] text-ink-500">
         You'll only get emails when I publish new content. No spam, unsubscribe
         any time.
       </p>
       <form className="flex flex-col sm:flex-row" onSubmit={subscribe}>
         <div className="flex flex-col w-full sm:flex-row">
           <div className="flex flex-col mb-3 sm:mr-4 sm:mb-0 sm:w-1/4">
-            <label
-              className="font-medium text-slate-800 mb-1"
-              htmlFor="firstName"
-            >
+            <label className={labelClass} htmlFor="firstName">
               First name
             </label>
             <input
@@ -68,11 +81,11 @@ const SubscribeForm = () => {
               ref={nameInputEl}
               required
               type="text"
-              className="py-2 px-3 rounded-md"
+              className={inputClass}
             />
           </div>
           <div className="flex flex-col mb-8 sm:mr-4 sm:mb-0 sm:w-1/2">
-            <label className="font-medium text-slate-800 mb-1" htmlFor="email">
+            <label className={labelClass} htmlFor="email">
               Email
             </label>
             <input
@@ -81,7 +94,7 @@ const SubscribeForm = () => {
               ref={emailInputEl}
               required
               type="email"
-              className="py-2 px-3 rounded-md"
+              className={inputClass}
             />
           </div>
           <Button

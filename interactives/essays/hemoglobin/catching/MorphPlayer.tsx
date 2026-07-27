@@ -310,7 +310,7 @@ export default function MorphPlayer({
     <div className={className}>
       <div
         ref={outerRef}
-        className="relative h-[300px] w-full overflow-hidden rounded-lg bg-white lg:h-[360px]"
+        className="relative h-[300px] w-full overflow-hidden rounded-lg bg-paper lg:h-[360px]"
       >
         <div ref={containerRef} className="absolute inset-0" />
         {!ready && (
