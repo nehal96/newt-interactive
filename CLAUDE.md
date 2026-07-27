@@ -34,9 +34,17 @@ This is the Pages Router (not the App Router). `pages/_app.js` is the global wra
 2. Exports a `metadata` object (title, subtitle, description, keywords, ogImage, url, published, optional `series`/`updated`).
 3. Ends with `export default function MDXPage({ children }) { return <MdxLayout metadata={metadata}>{children}</MdxLayout> }`.
 
-`components/MdxLayout` renders all SEO `<Head>` tags from `metadata`, the `Navbar`, `ArticleContainer`, `ArticleHeader` (which renders title/subtitle/date), and the `Footer`. It wraps the lot in a `min-h-screen` flex column with a growing middle, so the footer sits at the bottom of the viewport on a short page instead of halfway up it. A page built by hand rather than from MDX (the series index) should do the same. `mdx-components.tsx` (`useMDXComponents`) maps raw markdown elements to styled components — note the offset mapping: markdown `###` → `H2`, `####` → `H3`, and `blockquote`/`p`/`ol`/`ul`/`a`/`hr` are all themed there. Author prose in markdown; reach for explicit `<H2>`/JSX only when you need props the mapping can't express.
+`components/MdxLayout` composes three things: `SeoHead` (all SEO `<Head>` tags, generated from `metadata`), `PageShell` (the site chrome), and `ArticleContainer` + `ArticleHeader` (which renders title/subtitle/date) around the children.
 
-**Shared UI.** `components/` holds reusable primitives, barrel-exported from `components/index.ts` — import from `"../../../components"`, not deep paths. Many are Radix-based wrappers (Dialog, Popover, Sheet, Tabs, Switch, Slider, etc.). `lib/utils.ts` exports `cn()` (clsx + tailwind-merge) for class composition. Hooks live in `hooks/` (e.g. `useInViewport`, `useMediaQuery`).
+`components/PageShell` is the chrome, and every page goes through it: `Navbar`, a `<main>` that grows, `Footer`, in a `min-h-screen` flex column — so the footer sits at the bottom of the viewport on a short page instead of halfway up it, and every page has exactly one `<main>` landmark. `components/SeoHead` is the tag set, from a `SeoMetadata` object; `ogType` is the only thing an index page varies (`"website"` rather than the default `"article"`).
+
+A page built by hand rather than from MDX still renders through `MdxLayout` — the series index does, passing a `metadata` object built from its own catalogue row. There used to be three hand-written copies of the chrome and of the `<Head>` block, and they had already drifted (two pages shipped no `<main>`; the series page shipped no `twitter:creator` and named itself in four places). The homepage is the one page that skips `MdxLayout` — it isn't an article, so it wants `SeoHead` + `PageShell` without `ArticleContainer`.
+
+`mdx-components.tsx` (`useMDXComponents`) maps raw markdown elements to styled components — note the offset mapping: markdown `###` → `H2`, `####` → `H3`, and `blockquote`/`p`/`ol`/`ul`/`a`/`hr` are all themed there. Author prose in markdown; reach for explicit `<H2>`/JSX only when you need props the mapping can't express.
+
+**Shared UI.** `components/` holds reusable primitives, barrel-exported from `components/index.ts` — import from `"../../../components"`, not deep paths. Many are Radix-based wrappers (Dialog, Popover, Sheet, Tabs, Switch, Slider, etc.). `lib/utils.ts` exports `cn()` (clsx + tailwind-merge) for class composition. `lib/links.ts` holds the contact URLs (Twitter, the `mailto:`), which the footer and both "get in touch" paragraphs read rather than each spelling out. Hooks live in `hooks/` (e.g. `useInViewport`, `useMediaQuery`).
+
+**What does *not* go in the barrel.** `pages/_app.js` imports from it, and it isn't tree-shaken (no `sideEffects: false`, and the components pull in CSS modules), so **anything listed in `components/index.ts` ships in the chunk every page downloads.** Keep it to genuine shared primitives. `components/Homepage` (the index rows, which drag in `CoverArt` and the whole catalogue) is therefore imported deep, by the two pages that render it — as is `HomeTopicCard` and the rest of the legacy card set, which nothing renders at all. Note the barrel already pulls `three`/`reactflow`/`katex` into `_app` via its 3D and Flow exports; that's a much bigger pre-existing bill and worth fixing separately.
 
 **Each interactive topic has a barrel `index.ts`** that is its public surface. The MDX page imports figures only from there, so the internal file layout can change without touching prose. When adding or renaming a figure, update the barrel.
 
@@ -103,6 +111,18 @@ old screenshot covers look unrelated:
 - **Exactly one red element per cover**, on the thing worth looking at — the
   measurement, the mutation, the mode of the belief. Indigo carries structure.
 
+The indigo/red ramp in `CoverArt`'s `C` is literal hexes on purpose — it's the
+motif vocabulary, and it's meant to stay put. The two colours that *aren't* part
+of that vocabulary take Tailwind classes instead: the ground is `fill-paper` and
+a chart motif's baseline is `stroke-ink-400`, so both follow the site's tokens
+rather than freezing a copy of them. A hardcoded `#FBFAF7` ground meant retuning
+`paper` would leave a visible rectangle seam inside all eight cover frames.
+
+A row's `accent` sets the hover colour of its title, as a `--accent` CSS variable
+on the row's link (a class written in `lib/` would be purged — Tailwind's content
+globs don't cover it). **Every** row type sets it, defaulting to indigo-700, so
+making a different piece featured doesn't quietly kill the accent it had.
+
 `cover: "<path>"` is the escape hatch for a piece that already has a better
 image than a motif would be. Right now that's only hemoglobin, whose red heme
 illustration sets the accent the drawn covers pick up one element at a time.
@@ -130,10 +150,17 @@ paper 400 is the grey that reads as faintly wrong.
 
 **Three type registers, and nothing else.** `font-title` (DM Serif Display) for
 titles, `font-ui` (Inter) for the standfirst, subtitles and dates, `font-mono`
-(Fira Mono) for the kind labels. Both webfonts are imported in
-`styles/fonts.css`; `font-mono` also overrides Tailwind's default stack, which
-finally gives `prism-one-dark.css` a Fira to use instead of falling through to
-system Menlo.
+(Fira Mono) for the kind labels. `font-mono` also overrides Tailwind's default
+stack, which finally gives `prism-one-dark.css` a Fira to use instead of falling
+through to system Menlo.
+
+Every face is fetched by **one** `@import` in `styles/fonts.css`, and it should
+stay that way. A CSS `@import` is invisible to the browser's preload scanner —
+it has to download and parse the whole 86 KB stylesheet, then fetch the font CSS,
+then the woff2s — so each separate import was another serialized round trip in
+front of first paint on every page. The css2 endpoint takes any number of
+`family=` params (alphabetical order required), so six imports became one. Add a
+face by extending that URL, not by adding a line.
 
 A series row lists its instalments under it: `parts` is an array of
 `{href, title, published, section?}`, numbered, dated, on lighter rules than the
@@ -164,6 +191,11 @@ on `PostArticleSubscribe`'s rule if this page has one, the homepage's otherwise.
 That can only be decided in the browser — `MdxLayout` can't see whether the MDX
 below it ends with a subscribe block — so the `href` stays `/#subscribe` (right
 without JS, right for a middle-click) and the click handler prefers a local one.
+
+Clearing the sticky navbar when you land on an anchor is `html { scroll-padding-top }`
+in `styles/globals.css`, not a `scroll-mt` on each anchor. Set once, the next
+`id` added anywhere is right by default — otherwise it lands under the glass and
+looks like a bug in whatever feature added it.
 
 `SubscribeForm`'s two variants are **the same form, differently wrapped**. The
 type, the fields and the greys are identical; `variant="card"` only adds a
