@@ -3,7 +3,12 @@ import { Button } from "..";
 import { cn } from "../../lib/utils";
 
 interface SubscribeFormProps {
-  /** "card" is the filled panel used after articles; "bare" sits on the page. */
+  /**
+   * Same form either way — the variant only decides whether it's wrapped.
+   * "bare" sits directly on the page (the homepage, where the colophon around
+   * it is already quiet); "card" puts it in a panel, so at the foot of a long
+   * article it reads as a thing to act on rather than one more paragraph.
+   */
   variant?: "card" | "bare";
 }
 
@@ -50,44 +55,31 @@ const SubscribeForm = ({ variant = "card" }: SubscribeFormProps) => {
     setTimeout(() => setMessage(""), 3000);
   };
 
-  const bare = variant === "bare";
-  // In the card the filled panel supplies the contrast; on bare paper the
-  // fields need their own outline.
-  const inputClass = cn(
-    "py-2 px-3 rounded-md",
-    bare && "bg-white border border-ink-200 outline-none focus:border-ink-400"
-  );
-  const labelClass = cn(
-    "mb-1",
-    bare ? "text-sm text-ink-500" : "font-medium text-slate-800"
-  );
+  const card = variant === "card";
+  // White fields on paper and on the card's pale indigo alike — the panel is
+  // tinted lightly enough that a filled field still needs its own outline.
+  const inputClass =
+    "py-2 px-3 rounded-md bg-white border border-ink-200 outline-none focus:border-ink-400";
+  const labelClass = "mb-1 text-sm text-ink-500";
 
   return (
     <div
       className={cn(
-        "w-full self-center",
-        bare
-          ? // On the homepage everything but the display serif is the interface
-            // sans; set it here so the labels and fields inherit it too.
-            "font-ui"
-          : "max-w-2xl border border-slate-100 bg-slate-100 rounded-lg p-6 sm:p-9"
+        // Everything but the display serif is the interface sans; set here so
+        // the labels and fields inherit it too.
+        "w-full self-center font-ui",
+        // The navbar's glass, unblurred and thinner: the same indigo, laid on
+        // lightly enough that the paper still reads through it. The border goes
+        // the other way — with a fill this faint, a firmer edge is what keeps
+        // the thing reading as a card rather than as a wash.
+        card &&
+          "max-w-2xl rounded-xl border border-indigo-200/85 bg-indigo-50/50 p-6 sm:p-9"
       )}
     >
-      <h3
-        className={cn(
-          bare
-            ? "font-title text-2xl text-ink-900 mb-2"
-            : "font-bold md:text-lg mb-3"
-        )}
-      >
+      <h3 className="font-title text-2xl text-ink-900 mb-2">
         Subscribe to Newt Interactive
       </h3>
-      <p
-        className={cn(
-          "mb-4",
-          bare ? "text-[0.9375rem] text-ink-500" : "text-sm md:text-base text-slate-700"
-        )}
-      >
+      <p className="mb-4 text-[0.9375rem] text-ink-500">
         You'll only get emails when I publish new content. No spam, unsubscribe
         any time.
       </p>
