@@ -17,7 +17,7 @@ const linkClass =
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-paper">
+    <div className="flex min-h-screen flex-col">
       <Head>
         <title>Newt Interactive</title>
         <meta name="description" content={DESCRIPTION} />

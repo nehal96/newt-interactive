@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ArticleContainer, Navbar } from "..";
+import { ArticleContainer, Footer, Navbar } from "..";
 import { SeriesTitleLink } from "..";
 import ArticleHeader from "../ArticleHeader";
 
@@ -57,21 +57,28 @@ export default function MdxLayout({ children, metadata }: MdxLayoutProps) {
         )}
         <meta name="twitter:creator" content="@nehaludyavar" />
       </Head>
-      <Navbar />
-      <ArticleContainer>
-        {metadata.series && (
-          <SeriesTitleLink
-            href={metadata.series?.href}
-            seriesName={metadata.series?.name}
-          />
-        )}
-        <ArticleHeader
-          title={metadata.title}
-          subtitle={metadata.subtitle}
-          published={metadata.published}
-        />
-        {children}
-      </ArticleContainer>
+      {/* Column flex with a growing middle, so the footer sits at the bottom of
+          the viewport on a short page rather than halfway up it. */}
+      <div className="flex min-h-screen flex-col">
+        <Navbar />
+        <div className="flex-auto">
+          <ArticleContainer>
+            {metadata.series && (
+              <SeriesTitleLink
+                href={metadata.series?.href}
+                seriesName={metadata.series?.name}
+              />
+            )}
+            <ArticleHeader
+              title={metadata.title}
+              subtitle={metadata.subtitle}
+              published={metadata.published}
+            />
+            {children}
+          </ArticleContainer>
+        </div>
+        <Footer />
+      </div>
     </>
   );
 }

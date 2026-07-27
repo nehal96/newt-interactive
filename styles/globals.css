@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* The site ground, in one place. It used to sit on the homepage's own
+     wrapper, which made clicking any title turn the paper white — the navbar's
+     glass is tinted for paper, so the seam showed at the top of every article.
+     On <body> it covers the viewport, so no page has to remember it. */
+  body {
+    @apply bg-paper;
+  }
+}
+
 .max-container {
   margin-left: auto;
   margin-right: auto;

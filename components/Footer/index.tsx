@@ -9,7 +9,9 @@ const LINKS = [
 const Footer = () => {
   return (
     <footer className="w-full border-t border-ink-200/70">
-      <div className="mx-auto flex w-full max-w-column flex-col gap-3 px-5 py-10 font-ui text-sm sm:flex-row sm:items-center sm:justify-between">
+      {/* Asymmetric padding: the rule above already opens the gap, so a matching
+          pt-10 read as a hole between the page and its colophon. */}
+      <div className="mx-auto flex w-full max-w-column flex-col gap-3 px-5 pb-10 pt-5 font-ui text-sm sm:flex-row sm:items-center sm:justify-between">
         <p className="text-ink-400">
           Newt Interactive — made by Nehal Udyavar
         </p>
