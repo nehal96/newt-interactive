@@ -9,8 +9,7 @@
 // Covers are drawn, not screenshotted — `art` names a motif in
 // components/CoverArt, which draws every piece from one shared vocabulary.
 // `cover` is the escape hatch for a piece that already has a better image than
-// a motif would be (right now: hemoglobin's red heme illustration). Captured
-// stills, if you ever want them back, come from scripts/covers.mjs.
+// a motif would be (right now: hemoglobin's red heme illustration).
 
 import type { Motif } from "../components/CoverArt";
 
@@ -26,7 +25,7 @@ export interface Piece {
   updated?: string;
   /** Drawn cover. One of `art` or `cover` — `art` wins if both are set. */
   art?: Motif;
-  /** Captured cover, as a path under public/. */
+  /** Ready-made cover image, as a path under public/. */
   cover?: string;
   /**
    * Hover colour for this piece's title, as a hex string — for a piece whose
@@ -37,6 +36,11 @@ export interface Piece {
   accent?: string;
   /** Shown large at the top of the index. At most one. */
   featured?: boolean;
+  /**
+   * Kept for the record rather than shown off: drops out of the main index and
+   * into the archive list at the bottom, as a title and a date on one line.
+   */
+  archived?: boolean;
   /** Series only — how many parts it runs to. */
   parts?: number;
 }
@@ -134,32 +138,26 @@ export const PIECES: Piece[] = [
     subtitle: "A simplified model of a DNA molecule",
     published: "2021-12-30",
     art: "helix",
+    archived: true,
   },
 ];
 
+const byNewest = (a: Piece, b: Piece) => (a.published < b.published ? 1 : -1);
+
 export const featuredPiece = PIECES.find((p) => p.featured);
 
-export const restOfPieces = PIECES.filter((p) => !p.featured).sort(
-  (a, b) => (a.published < b.published ? 1 : -1)
-);
+export const restOfPieces = PIECES.filter(
+  (p) => !p.featured && !p.archived
+).sort(byNewest);
 
-/**
- * The small index thumbnail for a captured cover. scripts/covers.mjs writes a
- * `-thumb` beside everything it shoots — same capture, cropped in rather than
- * shrunk down so it still reads at 160px — so only files it owns get the swap;
- * anything else is served at full size. Drawn covers need no equivalent:
- * they're vector, and their motifs are composed to survive the small size.
- */
-export const thumbFor = (piece: Piece) =>
-  piece.cover?.startsWith("/images/covers/")
-    ? piece.cover.replace(/\.png$/, "-thumb.png")
-    : piece.cover;
+export const archivedPieces = PIECES.filter((p) => p.archived).sort(byNewest);
 
-/** "June 2026" — month precision is enough for an index. */
+/** "Jun 2026" — month precision is enough for an index, abbreviated so the
+ *  dates stay a short stamp beside the kind label rather than a phrase. */
 export function formatMonth(iso: string): string {
   const [y, m] = iso.split("-");
   const month = new Date(Number(y), Number(m) - 1, 1).toLocaleString("en-US", {
-    month: "long",
+    month: "short",
   });
   return `${month} ${y}`;
 }

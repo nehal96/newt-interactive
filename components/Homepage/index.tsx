@@ -2,12 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "../../lib/utils";
 import CoverArt from "../CoverArt";
-import {
-  KIND_LABEL,
-  formatMonth,
-  thumbFor,
-  type Piece,
-} from "../../lib/content";
+import { KIND_LABEL, formatMonth, type Piece } from "../../lib/content";
 
 /* ------------------------------------------------------------------ *
  * The index
@@ -27,7 +22,7 @@ const Cover = ({
   zoom,
 }: {
   piece: Piece;
-  /** Which captured file to use, when the piece has one rather than a motif. */
+  /** The image file to use, when the piece has one rather than a motif. */
   src?: string;
   sizes: string;
   priority?: boolean;
@@ -50,15 +45,32 @@ const Cover = ({
   );
 };
 
-const KindAndDate = ({ piece }: { piece: Piece }) => (
-  <p className="text-xs uppercase tracking-[0.13em] text-slate-400">
-    {KIND_LABEL[piece.kind]}
+/**
+ * Kind, extent, date — one line, no punctuation between them. The hierarchy is
+ * carried by the type itself: the kind is a mono label, tracked caps and the
+ * darkest of the three; the rest is sans a shade back; and a wide gap does the
+ * separating that a middot used to. Three registers read as three fields; a
+ * row of dots reads as a sentence that got compressed.
+ */
+const Meta = ({ piece }: { piece: Piece }) => (
+  <p className="flex flex-wrap items-baseline gap-x-4 gap-y-1 font-ui text-xs">
+    {/* Mono needs less letter-spacing than a sans does to read as a label —
+        the glyphs already carry their own. */}
+    <span className="font-mono text-[0.6875rem] uppercase tracking-[0.09em] text-slate-500">
+      {KIND_LABEL[piece.kind]}
+    </span>
     {/* The part count is the first thing to go when the line would wrap. */}
     {piece.parts ? (
-      <span className="hidden sm:inline">{` · ${piece.parts} parts`}</span>
+      <span className="hidden tabular-nums tracking-[0.02em] text-slate-400 sm:inline">
+        {piece.parts} parts
+      </span>
     ) : null}
-    <span className="mx-1.5 text-slate-300">·</span>
-    {formatMonth(piece.published)}
+    {/* Tabular figures and a little extra letter-spacing: at 12px grey the
+        default proportional numerals set tighter than the words beside them,
+        so the date reads as a clump. */}
+    <span className="tabular-nums tracking-[0.02em] text-slate-400">
+      {formatMonth(piece.published)}
+    </span>
   </p>
 );
 
@@ -71,23 +83,22 @@ export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
     // Indigo-700 unless the row names its own.
     style={{ "--accent": piece.accent ?? "#4338ca" } as React.CSSProperties}
   >
-    {/* Pulled in on desktop — at the full 46rem the cover overwhelmed the
-        title under it. Still flush left, so it shares the column's edge. */}
-    <div className="relative aspect-[16/9] w-full overflow-hidden rounded bg-white ring-1 ring-slate-200/70 sm:w-[85%]">
+    {/* Full column width — the lead piece gets the whole measure. */}
+    <div className="relative aspect-[16/9] w-full overflow-hidden rounded bg-white ring-1 ring-slate-200/70">
       <Cover
         piece={piece}
         src={piece.cover}
         priority
-        sizes="(min-width: 768px) 39rem, 100vw"
+        sizes="(min-width: 768px) 46rem, 100vw"
         zoom="group-hover:scale-[1.02]"
       />
     </div>
     <div className="mt-5">
-      <KindAndDate piece={piece} />
+      <Meta piece={piece} />
       <h2 className="mt-2 font-title text-3xl leading-tight text-slate-900 transition-colors group-hover:text-[color:var(--accent)] sm:text-[2.125rem]">
         {piece.title}
       </h2>
-      <p className="mt-2 max-w-[38rem] text-[1.0625rem] leading-relaxed text-slate-500">
+      <p className="mt-2 max-w-[38rem] font-ui text-[1.0625rem] leading-relaxed text-slate-500">
         {piece.subtitle}
       </p>
     </div>
@@ -101,22 +112,42 @@ export const PieceRow = ({ piece }: { piece: Piece }) => (
     className="group grid grid-cols-[1fr_auto] items-start gap-5 border-b border-slate-200/70 py-7 sm:gap-8"
   >
     <div className="min-w-0">
-      <KindAndDate piece={piece} />
+      <Meta piece={piece} />
       <h3 className="mt-1.5 font-title text-xl leading-snug text-slate-900 transition-colors group-hover:text-indigo-700 sm:text-[1.375rem]">
         {piece.title}
       </h3>
-      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-slate-500">
+      <p className="mt-1.5 font-ui text-[0.9375rem] leading-relaxed text-slate-500">
         {piece.subtitle}
       </p>
     </div>
     <div className="relative aspect-[16/9] w-28 shrink-0 overflow-hidden rounded bg-white ring-1 ring-slate-200/70 sm:w-40">
       <Cover
         piece={piece}
-        src={thumbFor(piece)}
+        src={piece.cover}
         sizes="(min-width: 640px) 160px, 112px"
         zoom="group-hover:scale-[1.04]"
       />
     </div>
+  </Link>
+);
+
+/**
+ * One line of the archive: title and date, no cover and no subtitle. It's the
+ * same link stripped to what you'd need to find something you already know
+ * about — and it darkens on hover instead of turning indigo, so the list reads
+ * as a footnote to the index rather than more of it.
+ */
+export const ArchiveRow = ({ piece }: { piece: Piece }) => (
+  <Link
+    href={piece.href}
+    className="group flex items-baseline justify-between gap-4 border-b border-slate-200/70 py-3"
+  >
+    <span className="font-title text-base leading-snug text-slate-600 transition-colors group-hover:text-slate-900 sm:text-lg">
+      {piece.title}
+    </span>
+    <span className="shrink-0 font-ui text-xs tabular-nums tracking-[0.02em] text-slate-400">
+      {formatMonth(piece.published)}
+    </span>
   </Link>
 );
 

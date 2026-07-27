@@ -24,6 +24,7 @@ export { default as Footer } from "./Footer";
 export {
   FeaturedPiece,
   PieceRow,
+  ArchiveRow,
   TopicCard,
   TopicHeader,
   TopicCardContainer,

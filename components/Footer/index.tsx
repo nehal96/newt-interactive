@@ -9,7 +9,7 @@ const LINKS = [
 const Footer = () => {
   return (
     <footer className="w-full border-t border-slate-200/70">
-      <div className="mx-auto flex w-full max-w-column flex-col gap-3 px-5 py-10 text-sm sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto flex w-full max-w-column flex-col gap-3 px-5 py-10 font-ui text-sm sm:flex-row sm:items-center sm:justify-between">
         <p className="text-slate-400">
           Newt Interactive — made by Nehal Udyavar
         </p>

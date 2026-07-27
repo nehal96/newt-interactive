@@ -2,11 +2,12 @@ import Head from "next/head";
 import {
   FeaturedPiece,
   PieceRow,
+  ArchiveRow,
   Navbar,
   Footer,
   SubscribeForm,
 } from "../components";
-import { featuredPiece, restOfPieces } from "../lib/content";
+import { archivedPieces, featuredPiece, restOfPieces } from "../lib/content";
 
 const DESCRIPTION =
   "Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math";
@@ -36,32 +37,48 @@ export default function Home() {
       <Navbar />
 
       <main className="mx-auto w-full max-w-column flex-auto px-5">
-        {/* What this is, said once, at the top — where it was at the bottom. */}
-        <section className="border-b border-slate-200/60 pb-5 pt-8 sm:pb-6 sm:pt-10">
-          <h1 className="max-w-[34rem] font-title text-[1.375rem] leading-[1.25] text-slate-900 sm:text-[1.625rem]">
-            Interactive explainers and playgrounds on topics in science,
-            technology, engineering, and math.
-          </h1>
-        </section>
-
         {featuredPiece && (
-          <section className="pt-10 sm:pt-12">
+          <section className="pt-8 sm:pt-10">
             <FeaturedPiece piece={featuredPiece} />
           </section>
         )}
 
-        <section className="mt-14 sm:mt-16">
-          <h2 className="border-b border-slate-900/80 pb-2 text-xs uppercase tracking-[0.16em] text-slate-500">
-            Everything else
-          </h2>
+        {/* The index opens on a rule rather than a heading — the rows say what
+            they are, so a label above them was only naming the obvious. */}
+        <section className="mt-14 border-t border-slate-900/80 sm:mt-16">
           {restOfPieces.map((piece) => (
             <PieceRow key={piece.href} piece={piece} />
           ))}
         </section>
 
+        {/* The archive does need naming — unlike the index above it, a list of
+            titles and dates doesn't explain itself. Everything about it is a
+            step quieter: lighter rule, grey label, one line per piece. */}
+        {archivedPieces.length > 0 && (
+          <section className="mt-12 sm:mt-14">
+            <h2 className="border-b border-slate-200 pb-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-slate-400">
+              Archive
+            </h2>
+            {archivedPieces.map((piece) => (
+              <ArchiveRow key={piece.href} piece={piece} />
+            ))}
+          </section>
+        )}
+
         <section id="subscribe" className="scroll-mt-20 py-16 sm:py-20">
-          <SubscribeForm variant="bare" />
-          <p className="mt-8 max-w-[34rem] text-[0.9375rem] leading-relaxed text-slate-500">
+          {/* What this is, said once, at the end — a colophon rather than a
+              headline. Sans and cool grey: the index does the talking above
+              it, and this only has to answer "what is this site" for whoever
+              read to the bottom. */}
+          <h1 className="max-w-[34rem] font-ui text-base leading-relaxed tracking-[-0.005em] text-slate-500 sm:text-[1.0625rem]">
+            Interactive explainers and playgrounds on topics in science,
+            technology, engineering, and math.
+          </h1>
+
+          <div className="mt-10 sm:mt-12">
+            <SubscribeForm variant="bare" />
+          </div>
+          <p className="mt-8 max-w-[34rem] font-ui text-[0.9375rem] leading-relaxed text-slate-500">
             If you have suggestions, found bugs, or just want to reach out, feel
             free to{" "}
             <a

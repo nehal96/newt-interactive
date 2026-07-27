@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Righteous");
+/* The interface sans — the homepage standfirst, index metadata, subtitles.
+   Everything that isn't display serif or essay prose. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+/* The mono — kind labels on the index, and code. prism-one-dark.css has always
+   asked for a Fira; until this import it fell through to system Menlo. */
+@import url("https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');

@@ -37,6 +37,13 @@ module.exports = {
       },
       fontFamily: {
         body: ["avenir"],
+        // The interface sans, distinct from `body` (essay prose) and `title`
+        // (display serif): the homepage standfirst and index metadata. Named
+        // fallbacks so it degrades to a neutral grotesque, not to Times.
+        ui: ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        // Overrides Tailwind's default `font-mono` stack, so code and the
+        // index's kind labels are the same mono.
+        mono: ["Fira Mono", "ui-monospace", "Menlo", "Consolas", "monospace"],
         title: ["DM Serif Display"],
         logo: ["Righteous"],
         quote: ["Libre Baskerville"],

@@ -68,7 +68,9 @@ const SubscribeForm = ({ variant = "card" }: SubscribeFormProps) => {
       className={cn(
         "w-full self-center",
         bare
-          ? ""
+          ? // On the homepage everything but the display serif is the interface
+            // sans; set it here so the labels and fields inherit it too.
+            "font-ui"
           : "max-w-2xl border border-slate-100 bg-slate-100 rounded-lg p-6 sm:p-9"
       )}
     >
