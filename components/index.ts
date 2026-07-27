@@ -21,7 +21,13 @@ export {
   DialogDescription,
 } from "./Dialog";
 export { default as Footer } from "./Footer";
-export { TopicCard, TopicHeader, TopicCardContainer } from "./Homepage";
+export {
+  FeaturedPiece,
+  PieceRow,
+  TopicCard,
+  TopicHeader,
+  TopicCardContainer,
+} from "./Homepage";
 export { HomeTopicCard } from "./HomeTopicCard";
 export { default as ImageSeries } from "./ImageSeries";
 export {

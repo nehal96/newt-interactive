@@ -12,6 +12,9 @@ module.exports = {
         xs: "480px",
       },
       colors: {
+        // The site ground: a barely-warm off-white, so the figures are the
+        // only saturated thing on a page.
+        paper: "#FBFAF7",
         "newt-blue": {
           50: "#e9f9ff",
           100: "#d5f5ff",
@@ -41,6 +44,9 @@ module.exports = {
       },
       maxWidth: {
         prose: "45rem",
+        // The homepage/header column. Narrower than the old 64rem card grid —
+        // the sparse index reads as composed rather than adrift.
+        column: "46rem",
       },
       animation: {
         "protein-pulse":
