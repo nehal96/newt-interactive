@@ -60,8 +60,10 @@ mapping can't express.
   import those objects without pulling every essay's interactives into the
   homepage bundle.
 - **Never set a page background.** `bg-paper` is on `<body>` in
-  `styles/globals.css`; a panel that lifts off the paper uses white or
-  `bg-ink-100/60`.
+  `styles/globals.css`.
+- **Figures sit on the paper** — no white fill, no frame. The Mol\* canvas
+  clears to `PAPER` in `palette.ts`, which must equal Tailwind's `paper`. White
+  stays for the T↔R tab thumb and the `PartsManifest` frame.
 - **`ink`, not Tailwind `slate`,** for anything framing a page. `slate` stays in
   the UI *inside* figures (Slider, Tabs, Dialog, Sheet, Popover, tooltips, Flow
   nodes), which sits against a figure's palette rather than paper.

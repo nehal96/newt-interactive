@@ -35,6 +35,12 @@ module.exports = {
           800: "#322F41",
           900: "#1A1825",
         },
+        // The navbar's frosted pane — the `ink` hue carried at a saturation the
+        // ramp itself never reaches.
+        glass: {
+          pane: "#EBE9F9",
+          edge: "#D3CEEC",
+        },
         "newt-blue": {
           50: "#e9f9ff",
           100: "#d5f5ff",

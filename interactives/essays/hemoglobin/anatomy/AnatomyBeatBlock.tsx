@@ -8,7 +8,7 @@ import { BEATS, type Beat } from "./beats";
 const MoleculeViewer = dynamic(() => import("./MoleculeViewer"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center rounded-lg bg-slate-50 text-xs text-slate-400">
+    <div className="flex h-full w-full items-center justify-center rounded-lg bg-paper text-xs text-slate-400">
       Loading 3D…
     </div>
   ),
@@ -38,7 +38,7 @@ export default function AnatomyBeatBlock({ beat, id }: AnatomyBeatBlockProps) {
       {/* Cap at 5rem under the prose max (45rem) and center. */}
       <div
         ref={paneRef}
-        className="relative mx-auto h-[300px] w-full max-w-[40rem] overflow-hidden rounded-lg bg-white lg:h-[360px]"
+        className="relative mx-auto h-[300px] w-full max-w-[40rem] overflow-hidden rounded-lg bg-paper lg:h-[360px]"
       >
         {hasBeenNear ? (
           <MoleculeViewer

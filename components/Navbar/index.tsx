@@ -32,7 +32,7 @@ const goToNearestSubscribe = (e: MouseEvent<HTMLAnchorElement>) => {
 // passing under it.
 const Navbar = () => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-indigo-200/50 bg-indigo-50/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-40 w-full border-b border-glass-edge/50 bg-glass-pane/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-14 w-full max-w-column items-center justify-between px-5">
         <Link href="/" className="group inline-flex items-baseline gap-1.5">
           <span className="font-logo text-xl leading-none text-ink-900">

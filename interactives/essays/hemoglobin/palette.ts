@@ -16,6 +16,10 @@
 // color-coded prose terms (see Term.tsx); `light`/`rim` feed the shaded atom
 // spheres and shape outlines where needed.
 
+// Must equal tailwind's `paper` — the Mol* canvas fills its whole pane, so any
+// drift shows up as a rectangle laid on the page.
+export const PAPER = "#FBFAF7";
+
 export type Swatch = {
   fill: string;
   ink: string;
