@@ -24,7 +24,7 @@ There is no test runner and no lint script wired up. `npm run build` does type-c
 
 **Two parallel trees.** Content and interactives are kept separate and mirror each other:
 
-- `pages/` — content, organized by type (`essays/`, `series/`, `blocks/`, `notes/`). Each piece is an `index.mdx` (or `.tsx`) under its own folder. MDX is enabled for page files via `@next/mdx` (`pageExtensions` includes `mdx`).
+- `pages/` — content, organized by type (`essays/`, `series/`, `blocks/`, `notes/`). Each piece is an `index.mdx` (or `.tsx`) under its own folder. MDX is enabled for page files via `@next/mdx` (`pageExtensions` includes `mdx`). There is no per-type landing page: the homepage indexes everything, so `/notes` was an orphan on the old poster-card design and is gone (last at commit `b519c5b`). `components/HomeTopicCard` was its only consumer and is now unreferenced — kept on disk like the other legacy card components.
 - `interactives/` — the figure components for that content, under matching paths (e.g. `pages/essays/hemoglobin/` ↔ `interactives/essays/hemoglobin/`).
 
 This is the Pages Router (not the App Router). `pages/_app.js` is the global wrapper: it mounts the Vercel `Analytics`, a Radix `TooltipProvider`, and sets the `--document-width` / `--gutter-size` CSS variables used for layout.
@@ -34,13 +34,15 @@ This is the Pages Router (not the App Router). `pages/_app.js` is the global wra
 2. Exports a `metadata` object (title, subtitle, description, keywords, ogImage, url, published, optional `series`/`updated`).
 3. Ends with `export default function MDXPage({ children }) { return <MdxLayout metadata={metadata}>{children}</MdxLayout> }`.
 
-`components/MdxLayout` renders all SEO `<Head>` tags from `metadata`, the `Navbar`, `ArticleContainer`, and `ArticleHeader` (which renders title/subtitle/date). `mdx-components.tsx` (`useMDXComponents`) maps raw markdown elements to styled components — note the offset mapping: markdown `###` → `H2`, `####` → `H3`, and `blockquote`/`p`/`ol`/`ul`/`a`/`hr` are all themed there. Author prose in markdown; reach for explicit `<H2>`/JSX only when you need props the mapping can't express.
+`components/MdxLayout` renders all SEO `<Head>` tags from `metadata`, the `Navbar`, `ArticleContainer`, `ArticleHeader` (which renders title/subtitle/date), and the `Footer`. It wraps the lot in a `min-h-screen` flex column with a growing middle, so the footer sits at the bottom of the viewport on a short page instead of halfway up it. A page built by hand rather than from MDX (the series index) should do the same. `mdx-components.tsx` (`useMDXComponents`) maps raw markdown elements to styled components — note the offset mapping: markdown `###` → `H2`, `####` → `H3`, and `blockquote`/`p`/`ol`/`ul`/`a`/`hr` are all themed there. Author prose in markdown; reach for explicit `<H2>`/JSX only when you need props the mapping can't express.
 
 **Shared UI.** `components/` holds reusable primitives, barrel-exported from `components/index.ts` — import from `"../../../components"`, not deep paths. Many are Radix-based wrappers (Dialog, Popover, Sheet, Tabs, Switch, Slider, etc.). `lib/utils.ts` exports `cn()` (clsx + tailwind-merge) for class composition. Hooks live in `hooks/` (e.g. `useInViewport`, `useMediaQuery`).
 
 **Each interactive topic has a barrel `index.ts`** that is its public surface. The MDX page imports figures only from there, so the internal file layout can change without touching prose. When adding or renaming a figure, update the barrel.
 
 **Styling.** Tailwind (config in `tailwind.config.js`) with a custom theme: prose column is `max-w-prose` (45rem), custom font families (`body`/`title`/`ui`/`mono`/`logo`/`quote`), and project color scales. `content` globs cover `pages/`, `components/`, and `interactives/`. Dynamically-constructed class names must be in the `safelist` or they get purged.
+
+The site ground is `bg-paper`, applied once to `<body>` in `styles/globals.css` — not per page. It used to sit on the homepage's own wrapper, which meant clicking any title turned the paper white under a navbar whose glass is tinted for paper, and the seam showed at the top of every article. Nothing else should set a page background; a figure panel that wants to lift off the paper uses white or `bg-ink-100/60`.
 
 ## The hemoglobin essay (`interactives/essays/hemoglobin/`)
 
@@ -94,6 +96,10 @@ old screenshot covers look unrelated:
   illegible at thumb size and gets sliced by any crop.
 - **Everything inside the safe band** (x 40–280, y 30–150 of a 320×180 frame),
   so one drawing serves both sizes without a second crop.
+- **Space repeated elements by their edges, not their centres.** Where a motif
+  shows the same thing several times over (the `generations` ramp), each
+  repetition is a different width, so even centre spacing leaves uneven gaps
+  and the wide ones clump.
 - **Exactly one red element per cover**, on the thing worth looking at — the
   measurement, the mutation, the mode of the belief. Indigo carries structure.
 
@@ -104,15 +110,23 @@ There is no capture pipeline any more — an earlier `scripts/covers.mjs` shot
 stills from the live pages, and it's gone (last at commit `caff1ee`) because
 the drawn covers replaced everything it produced.
 
-**One grey, not five.** The homepage's neutrals are the custom `ink` scale in
+**One grey, not five.** The site's neutrals are the custom `ink` scale in
 `tailwind.config.js`, not Tailwind `slate` — every stop is the same desaturated
 indigo (h 248°), so the greys read as a quiet cousin of the accent. Tailwind's
 `slate` is cast bluer than the warm paper under it, which is what made 15px
-subtitles look faintly wrong. 900 titles · 600 archive titles · 500 subtitles
-and labels · 400 dates · 200 hairlines. Move them together — warming one and
-leaving its neighbours slate just relocates the mismatch. (The unreferenced
-legacy poster-card components at the bottom of `components/Homepage` stay on
-`slate`; they belong to the old design.)
+subtitles look faintly wrong. 900 titles · 700 body prose · 600 archive titles ·
+500 subtitles and labels · 400 dates · 200 hairlines. Move them together —
+warming one and leaving its neighbours slate just relocates the mismatch.
+
+It started on the homepage and now runs through everything that frames a page:
+the article header and date, `Paragraph`/`Headings`/the lists/`Quote`, the MDX
+link and rule mappings, `Button`, `SeriesNavigation`, the subscribe block.
+What's deliberately still on `slate` is the UI *inside* figures — `Slider`,
+`Tabs`, `Dialog`, `Sheet`, `Popover`, the tooltips, the Flow nodes — because
+those sit against a figure's own palette rather than against paper.
+`ArticleHeader`'s subtitle is the one place that isn't a like-for-like swap: it
+went `slate-400` → `ink-500`, the scale's subtitle role, because at 18px on
+paper 400 is the grey that reads as faintly wrong.
 
 **Three type registers, and nothing else.** `font-title` (DM Serif Display) for
 titles, `font-ui` (Inter) for the standfirst, subtitles and dates, `font-mono`
@@ -122,17 +136,49 @@ finally gives `prism-one-dark.css` a Fira to use instead of falling through to
 system Menlo.
 
 A series row lists its instalments under it: `parts` is an array of
-`{href, title, published}`, numbered, dated, on lighter rules than the index's
-own. The `title` there is the series page's own short label, not the article's
-metadata title — the list is numbered, so "Part One" would be said twice. Note
-`PieceRow` wraps its link around the row only, with the parts hanging below as
-their own links; an anchor can't legally contain anchors.
+`{href, title, published, section?}`, numbered, dated, on lighter rules than the
+index's own. The `title` there is the series page's own short label, not the
+article's metadata title — the list is numbered, so "Part One" would be said
+twice. Note `PieceRow` wraps its link around the row only, with the parts
+hanging below as their own links; an anchor can't legally contain anchors.
+
+The series' **own** page renders the same `PartsTable` from the same `parts`
+array (`getPiece(href)` + `partsBySection`), so there is one list to keep in
+order rather than a second hand-written copy — that copy used to be a pair of
+blue-link `<OrderedList>`s that drifted from the index. What that page adds is
+the grouping: `section` on a part puts it under a subheading there, numbering
+running on across the groups, and the homepage ignores it and stays flat (an
+index row shows the shape of a series, not its table of contents), and sets
+those subheadings in the index's mono-caps label register rather than as prose
+headings — they name a group of rows, and the numbered table under each is
+already doing the talking. `nested` on `PartsTable` carries every visual
+difference between the two placements: nested (the default, under an index row)
+the dates are held off the column edge and the titles sit a shade back at
+`ink-500`, so the list reads as that row's contents; standalone, the table *is*
+the column, so the dates go flush — an inset one wouldn't line up with the rule
+above it — and the titles come up to `ink-600`, there being nothing left for
+them to defer to.
 
 The navbar's Subscribe goes to the nearest subscribe block: the `id="subscribe"`
 on `PostArticleSubscribe`'s rule if this page has one, the homepage's otherwise.
 That can only be decided in the browser — `MdxLayout` can't see whether the MDX
 below it ends with a subscribe block — so the `href` stays `/#subscribe` (right
 without JS, right for a middle-click) and the click handler prefers a local one.
+
+`SubscribeForm`'s two variants are **the same form, differently wrapped**. The
+type, the fields and the greys are identical; `variant="card"` only adds a
+panel, so at the foot of a long article the ask reads as something to act on
+rather than one more paragraph. The panel is the navbar's glass without the
+blur — the same `bg-indigo-50/75` over the same `border-indigo-200/50` — so the
+two tinted surfaces on a page are the same tint. (They used to be two different
+designs: the card was a `slate-100` block with bold sans, which is what the
+navbar's Subscribe link reliably delivered people to.)
+
+**One `<h1>` per page, in document order.** On the homepage that's the featured
+piece's title; the closing statement of what the site is is a `<p>`, because it
+stopped being the page's header when it moved to the bottom — as an `<h1>` down
+there it left the outline running h2 → h3 → h1. Index rows are `<h2>`, matching
+the Archive label beside them.
 
 The index opens on a rule with no heading over it — the rows say what they are,
 so a label there was naming the obvious. Below it, `archived: true` on a row
