@@ -80,6 +80,41 @@ mapping can't express.
 - **Never hardcode a hemoglobin figure colour** — `palette.ts` is the source of
   truth.
 
+## Comments
+
+Comments drift; the code doesn't. One that restates a value, a decision, or a
+cross-file relationship goes stale the moment either side moves, and the next
+reader takes it as truth. **The default is no comment.** The *why* lives in this
+file and in `docs/hemoglobin/molstar.md` — don't re-narrate it inline.
+
+Before writing one, ask: *is this a non-obvious invariant at this line that I
+can't recover by reading the code?* If not, don't. Never write:
+
+- **Value restatement** — a width, count, threshold, or class string the code
+  already holds (`45rem`, `320×180`, `bg-ink-100/60`). When the code changes,
+  the prose lies. This is the drift the rule exists for.
+- **Decision re-narration** — the reasoning behind a palette entry, a layout
+  choice, a lazy boundary. Plus plan pointers ("per the plan") and "for now /
+  until we…" notes.
+- **Call-site enumeration** — "used by the anatomy beats", "shared by both
+  players". Find-references owns this and the list rots.
+- **"mirrors X" / "matches Y" pointers.** If two files genuinely must stay in
+  sync, state the *consequence of drift at the line* ("must match the
+  `safelist` entry or the class is purged"), not "mirrors palette.ts".
+- **History** — "extracted from…", "replaces the old…", "was Victory".
+- **Restatement of the adjacent code.**
+
+Keep three things. A **non-obvious invariant**, cut to the invariant clause with
+no decorative label — `// No Mol* imports — this sits outside the lazy
+boundary.` **One terse purpose line** atop a non-trivial file: what it is, never
+how it works or who calls it, and skipped entirely when the name already says it
+(small primitives, one-liner hooks). **Functional comments**, left exactly as
+they are: `eslint-disable`, `@ts-expect-error`, `prettier-ignore`, actionable
+`TODO:` / `FIXME:`.
+
+When in doubt, delete. The only thing you must never drop is a true invariant
+whose loss would let someone reintroduce a bug.
+
 ## Design detail
 
 Columns are `max-w-prose` (45rem) for essays, `max-w-column` (46rem) for the
