@@ -11,16 +11,16 @@ const Navbar = () => {
     <header className="sticky top-0 z-40 w-full border-b border-indigo-200/70 bg-indigo-100/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-14 w-full max-w-column items-center justify-between px-5">
         <Link href="/" className="group inline-flex items-baseline gap-1.5">
-          <span className="font-logo text-xl leading-none text-slate-900">
+          <span className="font-logo text-xl leading-none text-ink-900">
             newt
           </span>
-          <span className="font-body text-base leading-none text-slate-500 transition-colors group-hover:text-slate-800">
+          <span className="font-body text-base leading-none text-ink-500 transition-colors group-hover:text-ink-800">
             interactive
           </span>
         </Link>
         <Link
           href="/#subscribe"
-          className="text-sm text-slate-500 transition-colors hover:text-slate-900"
+          className="text-sm text-ink-500 transition-colors hover:text-ink-900"
         >
           Subscribe
         </Link>

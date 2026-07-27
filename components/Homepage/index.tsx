@@ -56,19 +56,19 @@ const Meta = ({ piece }: { piece: Piece }) => (
   <p className="flex flex-wrap items-baseline gap-x-4 gap-y-1 font-ui text-xs">
     {/* Mono needs less letter-spacing than a sans does to read as a label —
         the glyphs already carry their own. */}
-    <span className="font-mono text-[0.6875rem] uppercase tracking-[0.09em] text-slate-500">
+    <span className="font-mono text-[0.6875rem] uppercase tracking-[0.09em] text-ink-500">
       {KIND_LABEL[piece.kind]}
     </span>
     {/* The part count is the first thing to go when the line would wrap. */}
     {piece.parts ? (
-      <span className="hidden tabular-nums tracking-[0.02em] text-slate-400 sm:inline">
+      <span className="hidden tabular-nums tracking-[0.02em] text-ink-400 sm:inline">
         {piece.parts} parts
       </span>
     ) : null}
     {/* Tabular figures and a little extra letter-spacing: at 12px grey the
         default proportional numerals set tighter than the words beside them,
         so the date reads as a clump. */}
-    <span className="tabular-nums tracking-[0.02em] text-slate-400">
+    <span className="tabular-nums tracking-[0.02em] text-ink-400">
       {formatMonth(piece.published)}
     </span>
   </p>
@@ -84,7 +84,7 @@ export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
     style={{ "--accent": piece.accent ?? "#4338ca" } as React.CSSProperties}
   >
     {/* Full column width — the lead piece gets the whole measure. */}
-    <div className="relative aspect-[16/9] w-full overflow-hidden rounded bg-white ring-1 ring-slate-200/70">
+    <div className="relative aspect-[16/9] w-full overflow-hidden rounded bg-white ring-1 ring-ink-200/70">
       <Cover
         piece={piece}
         src={piece.cover}
@@ -95,10 +95,10 @@ export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
     </div>
     <div className="mt-5">
       <Meta piece={piece} />
-      <h2 className="mt-2 font-title text-3xl leading-tight text-slate-900 transition-colors group-hover:text-[color:var(--accent)] sm:text-[2.125rem]">
+      <h2 className="mt-2 font-title text-3xl leading-tight text-ink-900 transition-colors group-hover:text-[color:var(--accent)] sm:text-[2.125rem]">
         {piece.title}
       </h2>
-      <p className="mt-2 max-w-[38rem] font-ui text-[1.0625rem] leading-relaxed text-slate-500">
+      <p className="mt-2 max-w-[38rem] font-ui text-[1.0625rem] leading-relaxed text-ink-500">
         {piece.subtitle}
       </p>
     </div>
@@ -109,18 +109,18 @@ export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
 export const PieceRow = ({ piece }: { piece: Piece }) => (
   <Link
     href={piece.href}
-    className="group grid grid-cols-[1fr_auto] items-start gap-5 border-b border-slate-200/70 py-7 sm:gap-8"
+    className="group grid grid-cols-[1fr_auto] items-start gap-5 border-b border-ink-200/70 py-7 sm:gap-8"
   >
     <div className="min-w-0">
       <Meta piece={piece} />
-      <h3 className="mt-1.5 font-title text-xl leading-snug text-slate-900 transition-colors group-hover:text-indigo-700 sm:text-[1.375rem]">
+      <h3 className="mt-1.5 font-title text-xl leading-snug text-ink-900 transition-colors group-hover:text-indigo-700 sm:text-[1.375rem]">
         {piece.title}
       </h3>
-      <p className="mt-1.5 font-ui text-[0.9375rem] leading-relaxed text-slate-500">
+      <p className="mt-1.5 font-ui text-[0.9375rem] leading-relaxed text-ink-500">
         {piece.subtitle}
       </p>
     </div>
-    <div className="relative aspect-[16/9] w-28 shrink-0 overflow-hidden rounded bg-white ring-1 ring-slate-200/70 sm:w-40">
+    <div className="relative aspect-[16/9] w-28 shrink-0 overflow-hidden rounded bg-white ring-1 ring-ink-200/70 sm:w-40">
       <Cover
         piece={piece}
         src={piece.cover}
@@ -140,12 +140,12 @@ export const PieceRow = ({ piece }: { piece: Piece }) => (
 export const ArchiveRow = ({ piece }: { piece: Piece }) => (
   <Link
     href={piece.href}
-    className="group flex items-baseline justify-between gap-4 border-b border-slate-200/70 py-3"
+    className="group flex items-baseline justify-between gap-4 border-b border-ink-200/70 py-3"
   >
-    <span className="font-title text-base leading-snug text-slate-600 transition-colors group-hover:text-slate-900 sm:text-lg">
+    <span className="font-title text-base leading-snug text-ink-600 transition-colors group-hover:text-ink-900 sm:text-lg">
       {piece.title}
     </span>
-    <span className="shrink-0 font-ui text-xs tabular-nums tracking-[0.02em] text-slate-400">
+    <span className="shrink-0 font-ui text-xs tabular-nums tracking-[0.02em] text-ink-400">
       {formatMonth(piece.published)}
     </span>
   </Link>
@@ -181,7 +181,7 @@ interface TopicCardContainerProps {
 
 export const TopicHeader: React.FC<TopicHeaderProps> = ({ children }) => {
   return (
-    <h1 className="text-2xl sm:text-3xl font-semibold text-slate-800 mb-4 sm:mb-6">
+    <h1 className="text-2xl sm:text-3xl font-semibold text-ink-800 mb-4 sm:mb-6">
       {children}
     </h1>
   );
@@ -195,7 +195,7 @@ export const TopicCard: React.FC<TopicCardProps> = ({
   className = "",
   withTitleBlur = false,
 }) => {
-  const textColor = darkText ? "text-slate-800" : "text-white";
+  const textColor = darkText ? "text-ink-800" : "text-white";
 
   return (
     <Link

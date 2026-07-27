@@ -13,7 +13,7 @@ const DESCRIPTION =
   "Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math";
 
 const linkClass =
-  "text-slate-800 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-slate-900 hover:decoration-slate-500";
+  "text-ink-800 underline decoration-ink-300 underline-offset-2 transition-colors hover:text-ink-900 hover:decoration-ink-500";
 
 export default function Home() {
   return (
@@ -45,7 +45,7 @@ export default function Home() {
 
         {/* The index opens on a rule rather than a heading — the rows say what
             they are, so a label above them was only naming the obvious. */}
-        <section className="mt-14 border-t border-slate-900/80 sm:mt-16">
+        <section className="mt-14 border-t border-ink-900/80 sm:mt-16">
           {restOfPieces.map((piece) => (
             <PieceRow key={piece.href} piece={piece} />
           ))}
@@ -56,7 +56,7 @@ export default function Home() {
             step quieter: lighter rule, grey label, one line per piece. */}
         {archivedPieces.length > 0 && (
           <section className="mt-12 sm:mt-14">
-            <h2 className="border-b border-slate-200 pb-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-slate-400">
+            <h2 className="border-b border-ink-200 pb-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-ink-400">
               Archive
             </h2>
             {archivedPieces.map((piece) => (
@@ -70,7 +70,7 @@ export default function Home() {
               headline. Sans and cool grey: the index does the talking above
               it, and this only has to answer "what is this site" for whoever
               read to the bottom. */}
-          <h1 className="max-w-[34rem] font-ui text-base leading-relaxed tracking-[-0.005em] text-slate-500 sm:text-[1.0625rem]">
+          <h1 className="max-w-[34rem] font-ui text-base leading-relaxed tracking-[-0.005em] text-ink-500 sm:text-[1.0625rem]">
             Interactive explainers and playgrounds on topics in science,
             technology, engineering, and math.
           </h1>
@@ -78,7 +78,7 @@ export default function Home() {
           <div className="mt-10 sm:mt-12">
             <SubscribeForm variant="bare" />
           </div>
-          <p className="mt-8 max-w-[34rem] font-ui text-[0.9375rem] leading-relaxed text-slate-500">
+          <p className="mt-8 max-w-[34rem] font-ui text-[0.9375rem] leading-relaxed text-ink-500">
             If you have suggestions, found bugs, or just want to reach out, feel
             free to{" "}
             <a

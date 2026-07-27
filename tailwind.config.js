@@ -15,6 +15,26 @@ module.exports = {
         // The site ground: a barely-warm off-white, so the figures are the
         // only saturated thing on a page.
         paper: "#FBFAF7",
+        // The homepage's greys. Not a stock ramp: every stop is the same
+        // desaturated indigo (h 248°, s 11–24%), so the neutrals read as a
+        // quiet cousin of the accent instead of as default blue-grey. Tailwind
+        // `slate` is cast bluer than the paper it sits on, which is what made
+        // subtitles look faintly wrong at 15px.
+        //
+        // 900 titles · 600 archive titles · 500 subtitles and labels ·
+        // 400 dates · 200 hairlines. Keep them moving together — warming one
+        // and leaving its neighbours slate just relocates the mismatch.
+        ink: {
+          100: "#EEEDF2",
+          200: "#DDDCE5",
+          300: "#B1AFC0",
+          400: "#8B88A0",
+          500: "#6A687D", // the subtitle grey — 5.17:1 on paper
+          600: "#58546E",
+          700: "#49465D",
+          800: "#322F41",
+          900: "#1A1825",
+        },
         "newt-blue": {
           50: "#e9f9ff",
           100: "#d5f5ff",

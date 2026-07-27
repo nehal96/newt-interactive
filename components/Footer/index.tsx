@@ -8,9 +8,9 @@ const LINKS = [
 
 const Footer = () => {
   return (
-    <footer className="w-full border-t border-slate-200/70">
+    <footer className="w-full border-t border-ink-200/70">
       <div className="mx-auto flex w-full max-w-column flex-col gap-3 px-5 py-10 font-ui text-sm sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-slate-400">
+        <p className="text-ink-400">
           Newt Interactive — made by Nehal Udyavar
         </p>
         <div className="flex gap-5">
@@ -20,7 +20,7 @@ const Footer = () => {
               href={href}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-slate-500 transition-colors hover:text-slate-900"
+              className="text-ink-500 transition-colors hover:text-ink-900"
             >
               {label}
             </a>

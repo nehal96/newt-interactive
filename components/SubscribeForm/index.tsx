@@ -55,12 +55,11 @@ const SubscribeForm = ({ variant = "card" }: SubscribeFormProps) => {
   // fields need their own outline.
   const inputClass = cn(
     "py-2 px-3 rounded-md",
-    bare &&
-      "bg-white border border-slate-200 outline-none focus:border-slate-400"
+    bare && "bg-white border border-ink-200 outline-none focus:border-ink-400"
   );
   const labelClass = cn(
     "mb-1",
-    bare ? "text-sm text-slate-500" : "font-medium text-slate-800"
+    bare ? "text-sm text-ink-500" : "font-medium text-slate-800"
   );
 
   return (
@@ -77,7 +76,7 @@ const SubscribeForm = ({ variant = "card" }: SubscribeFormProps) => {
       <h3
         className={cn(
           bare
-            ? "font-title text-2xl text-slate-900 mb-2"
+            ? "font-title text-2xl text-ink-900 mb-2"
             : "font-bold md:text-lg mb-3"
         )}
       >
@@ -86,7 +85,7 @@ const SubscribeForm = ({ variant = "card" }: SubscribeFormProps) => {
       <p
         className={cn(
           "mb-4",
-          bare ? "text-[0.9375rem] text-slate-500" : "text-sm md:text-base text-slate-700"
+          bare ? "text-[0.9375rem] text-ink-500" : "text-sm md:text-base text-slate-700"
         )}
       >
         You'll only get emails when I publish new content. No spam, unsubscribe
