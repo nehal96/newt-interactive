@@ -1,6 +1,13 @@
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/next";
 import "../styles/globals.css";
+// Not unused, and not movable into _document. next/font emits its @font-face
+// rules and its `--font-*` definitions into the chunk of whatever *page* module
+// imports it, and _document isn't one of those — importing it only there gets
+// you the class names with no CSS behind them, which is a site with no webfonts
+// and nothing in the console about it. So the CSS is pulled in here, and
+// _document puts the matching classes on <html>. Both halves are required.
+import "../lib/fonts";
 import { useEffect } from "react";
 import { TooltipProvider } from "../components";
 

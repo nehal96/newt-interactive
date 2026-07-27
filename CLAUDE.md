@@ -154,13 +154,47 @@ titles, `font-ui` (Inter) for the standfirst, subtitles and dates, `font-mono`
 stack, which finally gives `prism-one-dark.css` a Fira to use instead of falling
 through to system Menlo.
 
-Every face is fetched by **one** `@import` in `styles/fonts.css`, and it should
-stay that way. A CSS `@import` is invisible to the browser's preload scanner —
-it has to download and parse the whole 86 KB stylesheet, then fetch the font CSS,
-then the woff2s — so each separate import was another serialized round trip in
-front of first paint on every page. The css2 endpoint takes any number of
-`family=` params (alphabetical order required), so six imports became one. Add a
-face by extending that URL, not by adding a line.
+**Every face is self-hosted, in `lib/fonts.ts`.** One `next/font/google` loader
+per family, each exporting a CSS variable named for its Tailwind key — so
+`fontFamily.title` is `var(--font-title)`, and adding a face means adding a
+loader there and a key in `tailwind.config.js`. Naming a family directly in
+Tailwind no longer works: next/font hashes every family name, which is also why
+`prism-one-dark.css` asks for `var(--font-mono)` rather than for `"Fira Mono"`.
+
+This replaced a Google Fonts `@import` in `styles/fonts.css` (gone, last at
+commit `a278d4c`), which was broken and slow in that order:
+
+- **Turbopack drops external `@import url()` rules.** `next dev` has run on
+  Turbopack since Next 16, so `fonts.css` compiled to an empty block, no woff2
+  was ever requested, and every face fell back to a system font — while
+  production, which builds on webpack, was fine. The same bundler split as the
+  `ssr: false` bug under "Build" above, biting from the other side. If something
+  works in `next build --webpack` and not on localhost, suspect this first.
+- **A CSS `@import` is invisible to the preload scanner.** It had to download and
+  parse the whole stylesheet, then fetch the font CSS from
+  `fonts.googleapis.com`, then the woff2s. Self-hosting removes that hop
+  entirely rather than shortening it, and next/font emits a size-adjusted local
+  fallback per family so the swap doesn't reflow the page under it.
+
+The wiring is in two halves and needs both. `pages/_app.js` imports `lib/fonts`
+— that's what makes next/font emit the `@font-face` rules and `--font-*`
+definitions, which it only does for a module a *page* imports. `pages/_document.tsx`
+puts the matching classes on `<html>`. It has to be `<html>` and not a wrapper
+`_app` could render, because the Radix primitives portal to `<body>`: from
+inside a wrapper the variables wouldn't be in scope for any dialog or tooltip.
+
+`preload` is the per-face decision. next/font preloads every font the page
+imports, and `_app` imports all of them, so the two used inside a single
+component each — Libre Baskerville (`font-quote`) and Bebas Neue
+(`font-evangelion`) — are `preload: false`. They still load on demand where
+they're used, the way the `@import` did for everything.
+
+One face is deliberately *not* a webfont: `font-body`, the essay prose, leads
+with `avenir`, which is Avenir on a Mac and nothing at all anywhere else. Inter
+is second in that stack to catch the fall — it's self-hosted and already
+preloaded for `font-ui`, so the machines without Avenir get the site's own sans
+instead of the browser default serif. `components/Chart/styles.ts` repeats the
+stack by hand for its axis labels, which are SVG and can't take a class.
 
 A series row lists its instalments under it: `parts` is an array of
 `{href, title, published, section?}`, numbered, dated, on lighter rules than the

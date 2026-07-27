@@ -55,19 +55,42 @@ module.exports = {
         "evangelion-red": "#9f0000",
         "evangelion-green": "#55eeaa",
       },
+      // The webfonts are loaded in lib/fonts.ts and reach here as CSS
+      // variables, set on <html> by pages/_document.tsx. They have to: next/font
+      // hashes every family name, so naming a family here would match nothing.
+      // What's inside the variable is already two deep — the real face, then
+      // next/font's size-adjusted local fallback for the moment before the
+      // woff2 lands — so the names after it are only for a failed fetch.
       fontFamily: {
-        body: ["avenir"],
+        // Essay prose. The head of this stack isn't a webfont — `avenir` is
+        // whatever the machine has, which is Avenir on a Mac and nothing at
+        // all anywhere else. Inter catches that fall: it's self-hosted and
+        // already preloaded for `ui`, so the machines that don't have Avenir
+        // get the site's own sans rather than the browser default serif.
+        body: ["avenir", "var(--font-ui)", "sans-serif"],
         // The interface sans, distinct from `body` (essay prose) and `title`
         // (display serif): the homepage standfirst and index metadata. Named
         // fallbacks so it degrades to a neutral grotesque, not to Times.
-        ui: ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        ui: [
+          "var(--font-ui)",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "sans-serif",
+        ],
         // Overrides Tailwind's default `font-mono` stack, so code and the
         // index's kind labels are the same mono.
-        mono: ["Fira Mono", "ui-monospace", "Menlo", "Consolas", "monospace"],
-        title: ["DM Serif Display"],
-        logo: ["Righteous"],
-        quote: ["Libre Baskerville"],
-        evangelion: ["Bebas Neue"],
+        mono: [
+          "var(--font-mono)",
+          "ui-monospace",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
+        title: ["var(--font-title)", "Georgia", "serif"],
+        logo: ["var(--font-logo)", "system-ui", "sans-serif"],
+        quote: ["var(--font-quote)", "Georgia", "serif"],
+        evangelion: ["var(--font-evangelion)", "Impact", "sans-serif"],
       },
       maxWidth: {
         prose: "45rem",

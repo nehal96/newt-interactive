@@ -33,7 +33,11 @@
    background: hsl(220, 13%, 18%);
    color: hsl(220, 14%, 71%);
    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-   font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+   /* The site's mono, through the variable rather than by name: next/font
+      hashes each family, so a literal "Fira Mono" here matches nothing and
+      falls through to Menlo — which is exactly what this theme did before the
+      face was ever loaded. Set in lib/fonts.ts, same font as font-mono. */
+   font-family: var(--font-mono), Menlo, Consolas, "DejaVu Sans Mono", monospace;
    direction: ltr;
    text-align: left;
    white-space: pre;

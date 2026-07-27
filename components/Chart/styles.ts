@@ -1,7 +1,9 @@
 export const axisStyle = {
   axis: { stroke: "#1e293b", strokeWidth: 2 },
   axisLabel: {
-    fontFamily: "avenir",
+    // Same stack as `font-body` in tailwind.config.js — Avenir where there is
+    // one, the site's own Inter where there isn't.
+    fontFamily: "avenir, var(--font-ui), sans-serif",
     fontSize: 14,
     padding: 30,
     fill: "#1e293b",
