@@ -19,9 +19,13 @@ import { useId, type FC } from "react";
 
 /** The ramp. Indigo carries structure; red is the accent — one element
  *  per cover, never more, and always on the thing worth looking at
- *  (the measurement, the mutation, the mode of the belief). */
+ *  (the measurement, the mutation, the mode of the belief).
+ *
+ *  Literal hexes because this ramp is the motif vocabulary and is meant to
+ *  stay put. The two colours that aren't part of it — the paper ground and the
+ *  baseline hairline — take Tailwind classes instead, so they follow the
+ *  site's `paper` and `ink` tokens rather than freezing a copy of them. */
 const C = {
-  paper: "#FBFAF7",
   i200: "#C7D2FE",
   i300: "#A5B4FC",
   i400: "#818CF8",
@@ -31,8 +35,11 @@ const C = {
   r300: "#FDA4AF",
   r600: "#E11D48",
   r700: "#BE123C",
-  hair: "#94A3B8",
 } as const;
+
+/** The baseline a chart motif sits on — the site's hairline grey, not a stock
+ *  slate. It lands a few pixels from the index's ink-400 dates. */
+const HAIRLINE = "stroke-ink-400";
 
 export type Motif =
   | "network"
@@ -201,7 +208,7 @@ const Distributions = () => (
       strokeWidth={1.8}
       strokeLinejoin="round"
     />
-    <path d="M40,140 L280,140" stroke={C.hair} strokeWidth={1.1} opacity={0.55} />
+    <path d="M40,140 L280,140" className={HAIRLINE} strokeWidth={1.1} opacity={0.55} />
     <circle cx="120" cy="78" r="3.4" fill={C.i600} />
     <circle cx="205" cy="52" r="3.4" fill={C.r600} />
   </>
@@ -258,7 +265,7 @@ const Bars = () => (
       <rect x="230" y="129" width="14" height="11" rx="2" fill={C.i200} stroke={C.i600} />
       <rect x="250" y="133" width="14" height="7" rx="2" fill={C.i200} stroke={C.i600} />
     </g>
-    <path d="M42,140 L278,140" stroke={C.hair} strokeWidth={1.1} opacity={0.55} />
+    <path d="M42,140 L278,140" className={HAIRLINE} strokeWidth={1.1} opacity={0.55} />
   </>
 );
 
@@ -334,7 +341,7 @@ const CoverArt = ({ motif, className }: { motif: Motif; className?: string }) =>
           <path d="M1,1.5 L9,5 L1,8.5 Z" fill={C.i700} />
         </marker>
       </defs>
-      <rect width="320" height="180" fill={C.paper} />
+      <rect width="320" height="180" className="fill-paper" />
       <Shape arrow={arrow} />
     </svg>
   );
