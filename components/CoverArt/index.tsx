@@ -146,7 +146,14 @@ const Generations = ({ arrow }: Arrows) => (
     {/* The generation ramp is carried by the nodes; the wiring stays one
         weight and one colour so the three columns read as the same circuit.
         Nodes are r=12 rather than 15 so the third generation's cross-edge has
-        room to be an arrow instead of a nub. */}
+        room to be an arrow instead of a nub.
+
+        Space the generations by the gap between their *outermost nodes*, not
+        by their centres. Each generation is wider than the last — one column,
+        then a ±20 fork, then a ±23 fork — so evenly-spaced centres put 33px
+        between 1 and 2 and only 11px between 2 and 3, and the last two read as
+        one clump. Gaps are 33px throughout here, which lands the whole run at
+        x 48–272: inside the 40–280 safe band, and centred in the frame. */}
     <g
       fill="none"
       stroke={C.i700}
@@ -154,23 +161,23 @@ const Generations = ({ arrow }: Arrows) => (
       strokeLinecap="round"
       markerEnd={`url(#${arrow})`}
     >
-      <path d="M85,76 L85,110" />
-      <path d="M158.4,69.5 L145.6,110.6" />
-      <path d="M165.6,69.5 L178.4,110.6" />
-      <path d="M235.9,69.3 L221.1,110.7" />
-      <path d="M244.1,69.3 L258.9,110.7" />
-      <path d="M229,122 L251,122" />
+      <path d="M60,76 L60,110" />
+      <path d="M133.4,69.5 L120.6,110.6" />
+      <path d="M140.6,69.5 L153.4,110.6" />
+      <path d="M232.9,69.3 L218.1,110.7" />
+      <path d="M241.1,69.3 L255.9,110.7" />
+      <path d="M226,122 L248,122" />
     </g>
     <g strokeWidth={1.8}>
-      <circle cx="85" cy="64" r="12" fill={C.i200} stroke={C.i400} />
-      <circle cx="85" cy="122" r="12" fill={C.i200} stroke={C.i400} />
-      <circle cx="162" cy="58" r="12" fill={C.i300} stroke={C.i600} />
-      <circle cx="142" cy="122" r="12" fill={C.i300} stroke={C.i600} />
-      <circle cx="182" cy="122" r="12" fill={C.i300} stroke={C.i600} />
-      <circle cx="240" cy="58" r="12" fill={C.i600} stroke={C.i800} />
-      <circle cx="217" cy="122" r="12" fill={C.i600} stroke={C.i800} />
+      <circle cx="60" cy="64" r="12" fill={C.i200} stroke={C.i400} />
+      <circle cx="60" cy="122" r="12" fill={C.i200} stroke={C.i400} />
+      <circle cx="137" cy="58" r="12" fill={C.i300} stroke={C.i600} />
+      <circle cx="117" cy="122" r="12" fill={C.i300} stroke={C.i600} />
+      <circle cx="157" cy="122" r="12" fill={C.i300} stroke={C.i600} />
+      <circle cx="237" cy="58" r="12" fill={C.i600} stroke={C.i800} />
+      <circle cx="214" cy="122" r="12" fill={C.i600} stroke={C.i800} />
       {/* The one red: the node the last generation wired something new into. */}
-      <circle cx="263" cy="122" r="12" fill={C.r300} stroke={C.r600} />
+      <circle cx="260" cy="122" r="12" fill={C.r300} stroke={C.r600} />
     </g>
   </>
 );
