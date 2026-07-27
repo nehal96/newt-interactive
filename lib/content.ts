@@ -15,6 +15,18 @@ import type { Motif } from "../components/CoverArt";
 
 export type PieceKind = "essay" | "series" | "block" | "note";
 
+/** One instalment of a series, as the index lists it. */
+export interface SeriesPart {
+  href: string;
+  /**
+   * The series page's own short label, not the article's metadata title — the
+   * list is numbered, so "Transcription Network Basics: Part One" would say
+   * "part one" twice.
+   */
+  title: string;
+  published: string;
+}
+
 export interface Piece {
   href: string;
   kind: PieceKind;
@@ -41,8 +53,8 @@ export interface Piece {
    * into the archive list at the bottom, as a title and a date on one line.
    */
   archived?: boolean;
-  /** Series only — how many parts it runs to. */
-  parts?: number;
+  /** Series only — its instalments, in reading order. */
+  parts?: SeriesPart[];
 }
 
 export const KIND_LABEL: Record<PieceKind, string> = {
@@ -76,7 +88,33 @@ export const PIECES: Piece[] = [
       "Dive deep into complex biological systems through interactive explainers",
     published: "2024-09-23",
     art: "network-layered",
-    parts: 5,
+    parts: [
+      {
+        href: "/series/systems-biology/transcription-network-basics-1",
+        title: "Transcription Network Basics",
+        published: "2024-09-26",
+      },
+      {
+        href: "/series/systems-biology/transcription-network-basics-2",
+        title: "Activators and Repressors",
+        published: "2024-10-06",
+      },
+      {
+        href: "/series/systems-biology/transcription-network-basics-3",
+        title: "Dynamics and Response Time",
+        published: "2024-10-27",
+      },
+      {
+        href: "/series/systems-biology/autoregulation-1",
+        title: "Autoregulation as a Network Motif",
+        published: "2024-11-02",
+      },
+      {
+        href: "/series/systems-biology/autoregulation-2",
+        title: "Dynamics of Negative Autoregulation",
+        published: "2024-12-15",
+      },
+    ],
   },
   {
     href: "/blocks/c1-ffl",

@@ -2,7 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "../../lib/utils";
 import CoverArt from "../CoverArt";
-import { KIND_LABEL, formatMonth, type Piece } from "../../lib/content";
+import {
+  KIND_LABEL,
+  formatMonth,
+  type Piece,
+  type SeriesPart,
+} from "../../lib/content";
 
 /* ------------------------------------------------------------------ *
  * The index
@@ -62,7 +67,7 @@ const Meta = ({ piece }: { piece: Piece }) => (
     {/* The part count is the first thing to go when the line would wrap. */}
     {piece.parts ? (
       <span className="hidden tabular-nums tracking-[0.02em] text-ink-400 sm:inline">
-        {piece.parts} parts
+        {piece.parts.length} parts
       </span>
     ) : null}
     {/* Tabular figures and a little extra letter-spacing: at 12px grey the
@@ -105,30 +110,70 @@ export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
   </Link>
 );
 
-/** One line of the index. Thumb on the right so every title shares a left edge. */
+/**
+ * A series' instalments, under its row. Number on the left, title, date on the
+ * right — the same three fields the index itself uses, at a smaller size and
+ * on lighter rules, so it reads as this row's contents rather than as five
+ * more rows. The dates earn their place by showing the cadence the series
+ * actually ran at; the numbers make the reading order explicit, which is the
+ * one thing a series has that a list of blocks doesn't.
+ */
+const PartsTable = ({ parts }: { parts: SeriesPart[] }) => (
+  <ol className="mt-5 border-t border-ink-200/50">
+    {parts.map((part, i) => (
+      <li key={part.href}>
+        <Link
+          href={part.href}
+          className="group/part flex items-baseline gap-3 border-b border-ink-200/50 py-2 sm:gap-4"
+        >
+          <span className="w-3 shrink-0 font-mono text-[0.6875rem] tabular-nums text-ink-400 transition-colors group-hover/part:text-indigo-700">
+            {i + 1}
+          </span>
+          <span className="min-w-0 flex-1 truncate font-ui text-[0.9375rem] text-ink-500 transition-colors group-hover/part:text-indigo-700">
+            {part.title}
+          </span>
+          {/* Held off the column edge, so the parts sit inside the index
+              rather than ruling a second column against it. */}
+          <span className="shrink-0 pr-3 font-ui text-xs tabular-nums tracking-[0.02em] text-ink-400 sm:pr-6">
+            {formatMonth(part.published)}
+          </span>
+        </Link>
+      </li>
+    ))}
+  </ol>
+);
+
+/**
+ * One line of the index. Thumb on the right so every title shares a left edge.
+ * The link wraps only the row itself — a series' parts hang below it as their
+ * own links, which an anchor can't legally contain.
+ */
 export const PieceRow = ({ piece }: { piece: Piece }) => (
-  <Link
-    href={piece.href}
-    className="group grid grid-cols-[1fr_auto] items-start gap-5 border-b border-ink-200/70 py-7 sm:gap-8"
-  >
-    <div className="min-w-0">
-      <Meta piece={piece} />
-      <h3 className="mt-1.5 font-title text-xl leading-snug text-ink-900 transition-colors group-hover:text-indigo-700 sm:text-[1.375rem]">
-        {piece.title}
-      </h3>
-      <p className="mt-1.5 font-ui text-[0.9375rem] leading-relaxed text-ink-500">
-        {piece.subtitle}
-      </p>
-    </div>
-    <div className="relative aspect-[16/9] w-28 shrink-0 overflow-hidden rounded bg-white ring-1 ring-ink-200/70 sm:w-40">
-      <Cover
-        piece={piece}
-        src={piece.cover}
-        sizes="(min-width: 640px) 160px, 112px"
-        zoom="group-hover:scale-[1.04]"
-      />
-    </div>
-  </Link>
+  <div className="border-b border-ink-200/70 py-7">
+    <Link
+      href={piece.href}
+      className="group grid grid-cols-[1fr_auto] items-start gap-5 sm:gap-8"
+    >
+      <div className="min-w-0">
+        <Meta piece={piece} />
+        <h3 className="mt-1.5 font-title text-xl leading-snug text-ink-900 transition-colors group-hover:text-indigo-700 sm:text-[1.375rem]">
+          {piece.title}
+        </h3>
+        <p className="mt-1.5 font-ui text-[0.9375rem] leading-relaxed text-ink-500">
+          {piece.subtitle}
+        </p>
+      </div>
+      <div className="relative aspect-[16/9] w-28 shrink-0 overflow-hidden rounded bg-white ring-1 ring-ink-200/70 sm:w-40">
+        <Cover
+          piece={piece}
+          src={piece.cover}
+          sizes="(min-width: 640px) 160px, 112px"
+          zoom="group-hover:scale-[1.04]"
+        />
+      </div>
+    </Link>
+    {piece.parts ? <PartsTable parts={piece.parts} /> : null}
+  </div>
 );
 
 /**
