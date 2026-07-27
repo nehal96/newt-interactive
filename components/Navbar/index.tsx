@@ -1,4 +1,23 @@
 import Link from "next/link";
+import type { MouseEvent } from "react";
+
+/**
+ * Subscribe goes to the nearest subscribe block: the one at the foot of this
+ * article if it has one, the homepage's otherwise. Which it is can only be
+ * known in the browser — MdxLayout doesn't see whether the MDX below it ends
+ * with a PostArticleSubscribe — so the href stays the homepage anchor (right
+ * without JS, right for a middle-click) and the click prefers a local one.
+ */
+const goToNearestSubscribe = (e: MouseEvent<HTMLAnchorElement>) => {
+  // Leave modified clicks alone: they mean "open this somewhere else".
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const here = document.getElementById("subscribe");
+  if (!here) return;
+  e.preventDefault();
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  here.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+  history.replaceState(null, "", "#subscribe");
+};
 
 // A quiet header: a hairline, the wordmark, one link. The indigo band from the
 // old navbar survives as frosted glass — a tinted, translucent pane the page
@@ -20,6 +39,7 @@ const Navbar = () => {
         </Link>
         <Link
           href="/#subscribe"
+          onClick={goToNearestSubscribe}
           className="text-sm text-ink-500 transition-colors hover:text-ink-900"
         >
           Subscribe

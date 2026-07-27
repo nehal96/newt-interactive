@@ -3,7 +3,12 @@ import { Paragraph, SubscribeForm } from "..";
 const PostArticleSubscribe = () => {
   return (
     <>
-      <hr className="my-12 md:my-20 border-slate-200"></hr>
+      {/* The anchor the navbar's Subscribe link jumps to on an article page —
+          landing on the rule puts the ask and the form both in view. */}
+      <hr
+        id="subscribe"
+        className="my-12 md:my-20 border-slate-200 scroll-mt-20"
+      ></hr>
       <Paragraph>
         If you liked this and would like to hear when new content is published,
         please subscribe below.
