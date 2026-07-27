@@ -100,9 +100,12 @@ export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
     </div>
     <div className="mt-5">
       <Meta piece={piece} />
-      <h2 className="mt-2 font-title text-3xl leading-tight text-ink-900 transition-colors group-hover:text-[color:var(--accent)] sm:text-[2.125rem]">
+      {/* The page's h1. With the colophon demoted to a paragraph, the lead
+          piece is the only thing on the index that could be its header — and
+          it's the top of the page, so the outline reads in document order. */}
+      <h1 className="mt-2 font-title text-3xl leading-tight text-ink-900 transition-colors group-hover:text-[color:var(--accent)] sm:text-[2.125rem]">
         {piece.title}
-      </h2>
+      </h1>
       <p className="mt-2 max-w-[38rem] font-ui text-[1.0625rem] leading-relaxed text-ink-500">
         {piece.subtitle}
       </p>
@@ -150,15 +153,12 @@ const PartsTable = ({ parts }: { parts: SeriesPart[] }) => (
  */
 export const PieceRow = ({ piece }: { piece: Piece }) => (
   <div className="border-b border-ink-200/70 py-7">
-    <Link
-      href={piece.href}
-      className="group grid grid-cols-[1fr_auto] items-start gap-5 sm:gap-8"
-    >
+    <Link href={piece.href} className="group grid grid-cols-[1fr_auto] items-start gap-5 sm:gap-8">
       <div className="min-w-0">
         <Meta piece={piece} />
-        <h3 className="mt-1.5 font-title text-xl leading-snug text-ink-900 transition-colors group-hover:text-indigo-700 sm:text-[1.375rem]">
+        <h2 className="mt-1.5 font-title text-xl leading-snug text-ink-900 transition-colors group-hover:text-indigo-700 sm:text-[1.375rem]">
           {piece.title}
-        </h3>
+        </h2>
         <p className="mt-1.5 font-ui text-[0.9375rem] leading-relaxed text-ink-500">
           {piece.subtitle}
         </p>

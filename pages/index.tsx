@@ -69,11 +69,13 @@ export default function Home() {
           {/* What this is, said once, at the end — a colophon rather than a
               headline. Sans and cool grey: the index does the talking above
               it, and this only has to answer "what is this site" for whoever
-              read to the bottom. */}
-          <h1 className="max-w-[34rem] font-ui text-base leading-relaxed tracking-[-0.005em] text-ink-500 sm:text-[1.0625rem]">
+              read to the bottom. Not a heading: it stopped being the page's
+              header when it moved down here, and as an <h1> after every row's
+              title it left the outline running h2 → h3 → h1. */}
+          <p className="max-w-[34rem] font-ui text-base leading-relaxed tracking-[-0.005em] text-ink-500 sm:text-[1.0625rem]">
             Interactive explainers and playgrounds on topics in science,
             technology, engineering, and math.
-          </h1>
+          </p>
 
           <div className="mt-10 sm:mt-12">
             <SubscribeForm variant="bare" />
