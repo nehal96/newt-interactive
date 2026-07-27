@@ -18,17 +18,24 @@ import {
  * construction rather than by luck.
  * ------------------------------------------------------------------ */
 
-/** A piece's cover, from whichever source it has. */
+/** Indigo-700, as a hex — the hover colour a piece gets unless its cover has a
+ *  strong colour of its own to answer to. Written once here rather than at each
+ *  row, so the default and the `accent` override can't drift apart. */
+const DEFAULT_ACCENT = "#4338ca";
+
+/** The date stamp. Tabular figures and a little extra letter-spacing: at 12px
+ *  grey the default proportional numerals set tighter than the words beside
+ *  them, so the date reads as a clump. */
+const DATE_CLASS = "font-ui text-xs tabular-nums tracking-[0.02em] text-ink-400";
+
+/** A piece's cover, drawn from its motif or, failing that, its image. */
 const Cover = ({
   piece,
-  src,
   sizes,
   priority,
   zoom,
 }: {
   piece: Piece;
-  /** The image file to use, when the piece has one rather than a motif. */
-  src?: string;
   sizes: string;
   priority?: boolean;
   /** Hover growth. Drawn covers take it slightly harder — vector, so it's free. */
@@ -40,7 +47,7 @@ const Cover = ({
     <CoverArt motif={piece.art} className={cn("h-full w-full", grow)} />
   ) : (
     <Image
-      src={src}
+      src={piece.cover}
       alt=""
       fill
       priority={priority}
@@ -49,6 +56,12 @@ const Cover = ({
     />
   );
 };
+
+/** The title's hover colour, as a CSS variable on the row's link. Every row
+ *  sets it, so `accent` keeps working on a piece whichever way it's listed —
+ *  making something else featured shouldn't quietly kill the accent it had. */
+const accentVar = (piece: Piece) =>
+  ({ "--accent": piece.accent ?? DEFAULT_ACCENT } as React.CSSProperties);
 
 /**
  * Kind, extent, date — one line, no punctuation between them. The hierarchy is
@@ -70,29 +83,17 @@ const Meta = ({ piece }: { piece: Piece }) => (
         {piece.parts.length} parts
       </span>
     ) : null}
-    {/* Tabular figures and a little extra letter-spacing: at 12px grey the
-        default proportional numerals set tighter than the words beside them,
-        so the date reads as a clump. */}
-    <span className="tabular-nums tracking-[0.02em] text-ink-400">
-      {formatMonth(piece.published)}
-    </span>
+    <span className={DATE_CLASS}>{formatMonth(piece.published)}</span>
   </p>
 );
 
 /** The lead item: same anatomy as a row, given most of the column width. */
 export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
-  <Link
-    href={piece.href}
-    className="group block"
-    // The title's hover colour, so a piece with a strong cover can answer it.
-    // Indigo-700 unless the row names its own.
-    style={{ "--accent": piece.accent ?? "#4338ca" } as React.CSSProperties}
-  >
+  <Link href={piece.href} className="group block" style={accentVar(piece)}>
     {/* Full column width — the lead piece gets the whole measure. */}
     <div className="relative aspect-[16/9] w-full overflow-hidden rounded bg-white ring-1 ring-ink-200/70">
       <Cover
         piece={piece}
-        src={piece.cover}
         priority
         sizes="(min-width: 768px) 46rem, 100vw"
         zoom="group-hover:scale-[1.02]"
@@ -166,10 +167,7 @@ export const PartsTable = ({
             {part.title}
           </span>
           <span
-            className={cn(
-              "shrink-0 font-ui text-xs tabular-nums tracking-[0.02em] text-ink-400",
-              nested && "pr-3 sm:pr-6",
-            )}
+            className={cn("shrink-0", DATE_CLASS, nested && "pr-3 sm:pr-6")}
           >
             {formatMonth(part.published)}
           </span>
@@ -186,10 +184,14 @@ export const PartsTable = ({
  */
 export const PieceRow = ({ piece }: { piece: Piece }) => (
   <div className="border-b border-ink-200/70 py-7">
-    <Link href={piece.href} className="group grid grid-cols-[1fr_auto] items-start gap-5 sm:gap-8">
+    <Link
+      href={piece.href}
+      className="group grid grid-cols-[1fr_auto] items-start gap-5 sm:gap-8"
+      style={accentVar(piece)}
+    >
       <div className="min-w-0">
         <Meta piece={piece} />
-        <h2 className="mt-1.5 font-title text-xl leading-snug text-ink-900 transition-colors group-hover:text-indigo-700 sm:text-[1.375rem]">
+        <h2 className="mt-1.5 font-title text-xl leading-snug text-ink-900 transition-colors group-hover:text-[color:var(--accent)] sm:text-[1.375rem]">
           {piece.title}
         </h2>
         <p className="mt-1.5 font-ui text-[0.9375rem] leading-relaxed text-ink-500">
@@ -199,7 +201,6 @@ export const PieceRow = ({ piece }: { piece: Piece }) => (
       <div className="relative aspect-[16/9] w-28 shrink-0 overflow-hidden rounded bg-white ring-1 ring-ink-200/70 sm:w-40">
         <Cover
           piece={piece}
-          src={piece.cover}
           sizes="(min-width: 640px) 160px, 112px"
           zoom="group-hover:scale-[1.04]"
         />
@@ -223,7 +224,7 @@ export const ArchiveRow = ({ piece }: { piece: Piece }) => (
     <span className="font-title text-base leading-snug text-ink-600 transition-colors group-hover:text-ink-900 sm:text-lg">
       {piece.title}
     </span>
-    <span className="shrink-0 font-ui text-xs tabular-nums tracking-[0.02em] text-ink-400">
+    <span className={cn("shrink-0", DATE_CLASS)}>
       {formatMonth(piece.published)}
     </span>
   </Link>

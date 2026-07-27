@@ -40,7 +40,6 @@ export interface Piece {
   subtitle: string;
   /** ISO date; drives sort order and the displayed month/year. */
   published: string;
-  updated?: string;
   /** Drawn cover. One of `art` or `cover` — `art` wins if both are set. */
   art?: Motif;
   /** Ready-made cover image, as a path under public/. */
@@ -133,7 +132,6 @@ export const PIECES: Piece[] = [
     title: "Coherent Type I Feed-Forward Loop",
     subtitle: "A playground for understanding C1-FFL circuits",
     published: "2024-12-27",
-    updated: "2025-01-20",
     art: "circuit",
   },
   {
@@ -142,7 +140,6 @@ export const PIECES: Piece[] = [
     title: "Circuit Evolution Simulator",
     subtitle: "A basic model of how genetic circuits can evolve",
     published: "2024-11-26",
-    updated: "2024-12-02",
     art: "generations",
   },
   {
@@ -159,7 +156,6 @@ export const PIECES: Piece[] = [
     title: "Three.js Journey",
     subtitle: "Notes from Bruno Simon's course on 3D graphics for the web",
     published: "2022-02-08",
-    updated: "2024-07-31",
     art: "wireframe",
   },
   {
