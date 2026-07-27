@@ -32,8 +32,12 @@ export default function Home() {
           )}
 
           {/* The index opens on a rule rather than a heading — the rows say what
-              they are, so a label above them was only naming the obvious. */}
-          <section className="mt-14 border-t border-ink-900/80 sm:mt-16">
+              they are, so a label above them was only naming the obvious. A step
+              darker than the ink-200/70 rules between the rows, so it still reads
+              as the line the index starts on, but no longer as a bar under the
+              featured piece: at ink-900/80 it composited to near-black on paper
+              and was the heaviest mark on the page after the titles. */}
+          <section className="mt-14 border-t border-ink-400 sm:mt-16">
             {restOfPieces.map((piece) => (
               <PieceRow key={piece.href} piece={piece} />
             ))}
