@@ -25,7 +25,9 @@ and not the other.**
 
 - Turbopack's **prod** build silently breaks `next/dynamic({ ssr: false })`: the
   lazy 3D figures never mount, so the build is clean and the 3D panes are empty.
-  Don't drop `--webpack` without checking they load.
+  Don't drop `--webpack` without checking they load. Retested on 16.2.12 and
+  both `ssr:false` users mounted (hemoglobin: 3 canvases + Mol\* chrome;
+  `/blocks/dna`: 1 canvas), so this may be fixed — verify before switching.
 - Turbopack drops external `@import url()` in CSS — hence `next/font` in
   `lib/fonts.ts` rather than a stylesheet import.
 
