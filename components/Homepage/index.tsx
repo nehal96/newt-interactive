@@ -59,7 +59,7 @@ const Meta = ({ piece }: { piece: Piece }) => (
 
 export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
   <Link href={piece.href} className="group block" style={accentVar(piece)}>
-    <div className="relative aspect-[16/9] w-full overflow-hidden rounded bg-white ring-1 ring-ink-200/70">
+    <div className="relative aspect-[16/9] w-full overflow-hidden rounded bg-white ring-1 ring-ink-200/70 lg:aspect-[21/9]">
       <Cover
         piece={piece}
         priority
