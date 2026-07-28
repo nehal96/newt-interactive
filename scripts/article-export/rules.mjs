@@ -4,7 +4,7 @@
 
 export const RULES = {
   // Where an essay's source and dev route live, given its slug.
-  mdxPathFor: (slug) => `pages/essays/${slug}/index.mdx`,
+  mdxPathFor: (slug) => `pages/essays/${slug}/index.page.mdx`,
   routeFor: (slug) => `/essays/${slug}`,
 
   // Inline components whose wrapper is dropped, keeping the inner text. `Term`

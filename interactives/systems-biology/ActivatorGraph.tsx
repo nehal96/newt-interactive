@@ -5,7 +5,7 @@ import {
   VictoryLabel,
   VictoryLine,
 } from "victory";
-import { axisStyle, getGridLineStyle } from "../../components";
+import { axisStyle, getGridLineStyle } from "@viz/chart";
 import { crosshairAt, noTicksAxisStyle, SECONDARY_CURVE_COLOR } from "./chart";
 import { getActivatorHillFunctionData, Point } from "./helpers";
 

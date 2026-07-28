@@ -1,12 +1,7 @@
 import { useState } from "react";
-import {
-  MathFormula,
-  SlideDeck,
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetTitle,
-} from "../../components";
+import { Sheet, SheetTrigger, SheetContent, SheetTitle } from "@ui/controls";
+import MathFormula from "@ui/prose/MathFormula";
+import { SlideDeck } from "@viz/slides";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import {
   accumulationCurve,

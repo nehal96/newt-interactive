@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import dynamic from "next/dynamic";
-import { useInViewport } from "../../../../hooks";
+import { useInViewport } from "@hooks";
 import { BEATS, type Beat } from "./beats";
 
 // Mol* is client-only (its own WebGL engine) and heavy, so it's lazy-loaded and

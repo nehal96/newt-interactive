@@ -1,4 +1,5 @@
-import { Code, InlineCode, Switch } from "../../../../components";
+import { Switch } from "@ui/controls";
+import { Code, InlineCode } from "@ui/prose/Code";
 import { GetSlidesParams, Slides } from "./types";
 
 export function getSlides({

@@ -5,7 +5,7 @@ import {
   VictoryLabel,
   VictoryContainer,
 } from "victory";
-import { axisStyle, getGridLineStyle } from "../../components";
+import { axisStyle, getGridLineStyle } from "@viz/chart";
 import { crosshairAt, noTicksAxisStyle } from "./chart";
 import { Point } from "./helpers";
 

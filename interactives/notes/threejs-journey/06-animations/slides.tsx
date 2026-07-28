@@ -1,5 +1,5 @@
 import { Euler } from "three";
-import { Code } from "../../../../components";
+import { Code } from "@ui/prose/Code";
 import BoxAnimationsPlayground from "./Playground";
 import { GetSlidesParams, Slides } from "./types";
 

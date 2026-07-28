@@ -6,23 +6,11 @@ import {
   ReactFlowProvider,
   useReactFlow,
 } from "@xyflow/react";
-import {
-  Button,
-  InteractiveContainer,
-  InteractiveTutorialContainer,
-  Slider,
-  TextContainer,
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  Switch,
-  TooltipTrigger,
-  Tooltip,
-  TooltipContent,
-  MathFormula,
-} from "../../components";
+import { Button, Slider, Tabs, TabsList, TabsTrigger, Switch, TooltipTrigger, Tooltip, TooltipContent } from "@ui/controls";
+import { InteractiveContainer, InteractiveTutorialContainer, TextContainer } from "@ui/layout";
+import MathFormula from "@ui/prose/MathFormula";
 import "@xyflow/react/dist/style.css";
-import { FloatingEdge, CircleNode } from "../../components";
+import { FloatingEdge, CircleNode } from "@viz/flow";
 import { getMaxEdges, GraphType, getEdgeOptions } from "./utils";
 import { FiInfo } from "react-icons/fi";
 import { useRandomGNMNetwork } from "./hooks";

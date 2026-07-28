@@ -1,11 +1,8 @@
 import { useState } from "react";
-import {
-  InlineCode,
-  MathFormula,
-  SlideDeck,
-  Slider,
-  Switch,
-} from "../../components";
+import { Slider, Switch } from "@ui/controls";
+import { InlineCode } from "@ui/prose/Code";
+import MathFormula from "@ui/prose/MathFormula";
+import { SlideDeck } from "@viz/slides";
 import { RepressorGraph } from "./RepressorGraph";
 import { getRepressorHillFunctionData } from "./helpers";
 

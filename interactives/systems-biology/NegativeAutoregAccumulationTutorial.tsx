@@ -5,13 +5,10 @@ import {
   VictoryLabel,
   VictoryLine,
 } from "victory";
-import {
-  axisStyle,
-  getDottedLineStyle,
-  MathFormula,
-  SlideDeck,
-  Slider,
-} from "../../components";
+import { Slider } from "@ui/controls";
+import MathFormula from "@ui/prose/MathFormula";
+import { axisStyle, getDottedLineStyle } from "@viz/chart";
+import { SlideDeck } from "@viz/slides";
 import { useState } from "react";
 import { CURVE_COLOR, noTicksAxisStyle, rampToSteadyState } from "./chart";
 import { sample } from "./helpers";

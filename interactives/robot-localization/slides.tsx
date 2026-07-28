@@ -1,9 +1,6 @@
-import {
-  Code,
-  InlineCode,
-  TippyTooltip,
-  TippyTooltipContent,
-} from "../../components";
+import TippyTooltip from "@ui/controls/TippyTooltip";
+import { TippyTooltipContent } from "@ui/controls/TippyTooltip";
+import { Code, InlineCode } from "@ui/prose/Code";
 import { GetSlideParams, Slides } from "./types";
 import { ActionButton, Playground } from "./LocalizationSlides";
 

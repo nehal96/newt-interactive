@@ -1,21 +1,8 @@
 import { memo, useState } from "react";
 import { ReactFlow, Background, Controls, StraightEdge } from "@xyflow/react";
 import { FiInfo } from "react-icons/fi";
-import {
-  Button,
-  Checkbox,
-  CircleNode,
-  NANDNode,
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogTitle,
-  DialogHeader,
-  Tabs,
-  TabsTrigger,
-  TabsList,
-  Popover,
-} from "../../components";
+import { Button, Checkbox, Dialog, DialogContent, DialogFooter, DialogTitle, DialogHeader, Tabs, TabsTrigger, TabsList, Popover } from "@ui/controls";
+import { CircleNode, NANDNode } from "@viz/flow";
 import { CIRCUIT_CONFIG } from "./config";
 import {
   SimulationType,
@@ -23,8 +10,8 @@ import {
   SimulationTypeToggleProps,
   Theme,
 } from "./types";
-import { useMediaQuery } from "../../hooks";
-import { cn } from "../../lib/utils";
+import { useMediaQuery } from "@hooks";
+import { cn } from "@lib/utils";
 import { getThemeStyles } from "./utils";
 
 const nodeTypes = {

@@ -6,15 +6,12 @@ import {
   VictoryLabel,
 } from "victory";
 import { VictoryChart } from "victory";
-import {
-  axisStyle,
-  getDottedLineStyle,
-  InlineCode,
-  MathFormula,
-  SlideDeck,
-  Slider,
-} from "../../components";
-import { cn } from "../../lib/utils";
+import { Slider } from "@ui/controls";
+import { InlineCode } from "@ui/prose/Code";
+import MathFormula from "@ui/prose/MathFormula";
+import { axisStyle, getDottedLineStyle } from "@viz/chart";
+import { SlideDeck } from "@viz/slides";
+import { cn } from "@lib/utils";
 import {
   accumulationCurve,
   CURVE_COLOR,

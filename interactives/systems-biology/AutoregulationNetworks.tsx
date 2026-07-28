@@ -7,13 +7,9 @@ import {
   ReactFlowProvider,
   useReactFlow,
 } from "@xyflow/react";
-import {
-  Button,
-  CircleNode,
-  FloatingEdge,
-  InteractiveContainer,
-  InteractiveTutorialContainer,
-} from "../../components";
+import { Button } from "@ui/controls";
+import { InteractiveContainer, InteractiveTutorialContainer } from "@ui/layout";
+import { CircleNode, FloatingEdge } from "@viz/flow";
 import { getEdgeOptions } from "../erdos-renyi-graph/utils";
 import "@xyflow/react/dist/style.css";
 import { FiRefreshCw } from "react-icons/fi";

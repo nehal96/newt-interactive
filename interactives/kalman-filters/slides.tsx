@@ -1,9 +1,7 @@
-import {
-  InlineCode,
-  MathFormula,
-  TippyTooltip,
-  TippyTooltipContent,
-} from "../../components";
+import TippyTooltip from "@ui/controls/TippyTooltip";
+import { TippyTooltipContent } from "@ui/controls/TippyTooltip";
+import { InlineCode } from "@ui/prose/Code";
+import MathFormula from "@ui/prose/MathFormula";
 import { ActionButton } from "../robot-localization/LocalizationSlides";
 import { GaussianName, Playground } from "./GaussianParameterUpdateSlides";
 import { GetSlidesParams, Slides } from "./types";

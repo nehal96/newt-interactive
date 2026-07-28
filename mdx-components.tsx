@@ -6,7 +6,7 @@ import {
   H2,
   H3,
   Quote,
-} from "./components";
+} from "@ui/prose";
 import Link from "next/link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {

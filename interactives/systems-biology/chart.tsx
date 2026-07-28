@@ -6,15 +6,10 @@ import {
   VictoryLine,
   VictoryScatter,
 } from "victory";
-import {
-  axisStyle,
-  getCurveIntersectionPointStyle,
-  getDottedLineStyle,
-  InlineCode,
-  MathFormula,
-  Slider,
-  Switch,
-} from "../../components";
+import { Slider, Switch } from "@ui/controls";
+import { InlineCode } from "@ui/prose/Code";
+import MathFormula from "@ui/prose/MathFormula";
+import { axisStyle, getCurveIntersectionPointStyle, getDottedLineStyle } from "@viz/chart";
 import { sample } from "./helpers";
 
 // Shared chart vocabulary for the systems-biology series.

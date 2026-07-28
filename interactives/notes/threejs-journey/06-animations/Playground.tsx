@@ -1,4 +1,4 @@
-import { Switch } from "../../../../components";
+import { Switch } from "@ui/controls";
 import { BoxAnimationsPlaygroundProps } from "./types";
 
 const BoxAnimationsPlayground = ({

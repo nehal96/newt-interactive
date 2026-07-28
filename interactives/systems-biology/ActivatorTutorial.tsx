@@ -1,12 +1,8 @@
 import { useState } from "react";
-import {
-  InlineCode,
-  MathFormula,
-  Popover,
-  SlideDeck,
-  Switch,
-  Slider,
-} from "../../components";
+import { Popover, Switch, Slider } from "@ui/controls";
+import { InlineCode } from "@ui/prose/Code";
+import MathFormula from "@ui/prose/MathFormula";
+import { SlideDeck } from "@viz/slides";
 import { getActivatorHillFunctionData } from "./helpers";
 import { ActivatorGraph } from "./ActivatorGraph";
 

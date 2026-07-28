@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { cn } from "../../../../lib/utils";
+import { cn } from "@lib/utils";
 import { HB, NEUTRAL } from "../palette";
 
 // Shared chart primitives for the cooperativity saturation-curve figures, so the

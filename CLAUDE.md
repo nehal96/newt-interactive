@@ -10,9 +10,12 @@ react-three-fiber / Mol\* 3D, flow diagrams) rendered inline with the text.
 npm run dev      # localhost:3000 (Turbopack)
 npm run build    # production build (webpack — see below)
 npm run start    # serve the production build
+npm run check    # tsc + layer lint + content invariants
 ```
 
-No tests, no lint. `build` type-checks, but `tsconfig.json` sets `strict: false`.
+No tests. `check` is the feedback loop: it type-checks, enforces the import
+layering, and asserts the content invariants that otherwise fail silently.
+`tsconfig.json` still sets `strict: false`.
 
 ### The bundler split
 
@@ -22,7 +25,9 @@ and not the other.**
 
 - Turbopack's **prod** build silently breaks `next/dynamic({ ssr: false })`: the
   lazy 3D figures never mount, so the build is clean and the 3D panes are empty.
-  Don't drop `--webpack` without checking they load.
+  Don't drop `--webpack` without checking they load. Retested on 16.2.12 and
+  both `ssr:false` users mounted (hemoglobin: 3 canvases + Mol\* chrome;
+  `/blocks/dna`: 1 canvas), so this may be fixed — verify before switching.
 - Turbopack drops external `@import url()` in CSS — hence `next/font` in
   `lib/fonts.ts` rather than a stylesheet import.
 
@@ -41,19 +46,44 @@ targets say is unnecessary. The targets are the only lever.
 
 ## Architecture
 
-Pages Router. Content and figures are parallel trees:
-`pages/essays/hemoglobin/` ↔ `interactives/essays/hemoglobin/`. Pages are
-grouped by type (`essays/`, `series/`, `blocks/`, `notes/`), each piece an
-`index.mdx` (or `.tsx`) in its own folder. There are no per-type landing pages —
-the homepage indexes everything.
+Pages Router. **A piece is a folder; everything else is a layer beneath it, and
+imports point one way only.**
 
-An MDX page imports primitives from `components` and figures from its topic
-barrel, exports `metadata` (title, subtitle, description, keywords, ogImage,
-url, published, optional `series`/`updated`), and default-exports
+```
+pages/<kind>/<slug>/   a piece: index.page.mdx + meta.ts + figures/
+      ↓
+viz/                   figure-building capability: flow, slides, chart
+      ↓
+ui/                    primitives + chrome: controls, prose, layout, article, site
+      ↓
+lib/                   pure TypeScript. No React.
+```
+
+Reached through the aliases `@ui/*`, `@viz/*`, `@lib/*`, `@hooks/*`. Nothing
+below reaches up; `npm run check` fails the build if it does.
+
+**Only `*.page.mdx` / `*.page.tsx` is a route** (`pageExtensions` in
+`next.config.js`) — that's what lets a piece keep its figures in its own folder.
+`_app`, `_document`, `404` and `pages/api/*` carry the suffix too or Next stops
+seeing them. Pieces are grouped by kind (`essays/`, `series/`, `blocks/`,
+`notes/`); there are no per-kind landing pages, the homepage indexes everything.
+
+A piece's `meta.ts` calls `definePiece()` and is its single source of identity —
+`lib/content.ts` imports it rather than restating the title, and `url` and
+`ogImage` are *derived* from `href` and `art`, never typed. The MDX re-exports
+it as `metadata` and default-exports
 `({children}) => <MdxLayout metadata={metadata}>{children}</MdxLayout>`.
 `MdxLayout` is `SeoHead` + `PageShell` (Navbar/`<main>`/Footer) +
 `ArticleContainer`; hand-built pages pass a `metadata` object through it too,
 and the homepage is the one exception, skipping `ArticleContainer`.
+
+`interactives/` is what's left of the old parallel tree — every piece except
+c1-ffl still lives there. `npm run check` lists them.
+
+```bash
+npm run check                      # tsc + layer lint + content invariants
+npm run new:piece block my-slug    # scaffold prose, meta and figures
+```
 
 `mdx-components.tsx` themes markdown with an **offset heading map: `###` → `H2`,
 `####` → `H3`.** Author prose in markdown; reach for JSX only for props the
@@ -61,20 +91,20 @@ mapping can't express.
 
 ## Rules
 
-- **Import shared UI from the `components` barrel**, not deep paths. `cn()` is in
-  `lib/utils.ts`.
-- **Don't add to `components/index.ts`.** `_app` imports it and it isn't
-  tree-shaken, so anything listed ships in every page's chunk. Primitives only —
-  `components/Homepage` is deliberately imported deep by its two pages.
-- **A topic's `index.ts` is its public surface.** Prose imports figures only from
-  there, so update it when adding or renaming one.
+- **Import shared UI from a layer barrel** (`@ui/controls`, `@ui/prose`), not
+  deep paths. `cn()` is in `lib/utils.ts`.
+- **Nothing heavy goes in a barrel.** `Code`, `MathFormula`, `TippyTooltip` and
+  `Homepage` are deliberately absent from theirs and deep-imported, because they
+  pull prismjs, katex, tippy and the catalogue. `_app` deep-imports *only* —
+  whatever it reaches ships on every route, which is how three.js once cost
+  every page 425 kB.
+- **A piece's `figures/index.ts` is its public surface**, and it is private to
+  that piece. Prose imports figures only from there; another piece never reaches
+  into it.
 - **A new published piece needs a row in `lib/content.ts`** — the homepage
-  catalogue, `title`/`subtitle` verbatim from that page's `metadata`. It can't
-  import those objects without pulling every essay's interactives into the
-  homepage bundle. `sitemap.xml` and `feed.xml` are built from the same rows, so
-  a piece with no row is a piece search engines and feed readers never see.
-- **A page's `metadata.url` is its canonical, and must be on `www`.** The apex
-  308s to `www`; a canonical on the apex points at a redirect.
+  catalogue. `sitemap.xml` and `feed.xml` are built from the same rows, so a
+  piece with no row is a piece search engines and feed readers never see. Import
+  its `meta.ts`; don't retype the title.
 - **Never set a page background.** `bg-paper` is on `<body>` in
   `styles/globals.css`.
 - **Figures sit on the paper** — no white fill, no frame. The Mol\* canvas
@@ -88,10 +118,10 @@ mapping can't express.
   A new face means a `next/font` loader in `lib/fonts.ts` plus a key in
   `tailwind.config.js` — a family named directly in Tailwind won't resolve,
   since next/font hashes family names, and the classes go on `<html>` in
-  `_document.tsx` so Radix portals into `<body>` stay in scope.
+  `_document.page.tsx` so Radix portals into `<body>` stay in scope.
 - **One `<h1>` per page**, in document order. Index rows are `<h2>`.
 - **Dynamic class names need the Tailwind `safelist`.** Content globs cover
-  `pages/`, `components/`, `interactives/` — not `lib/`, so a colour decided
+  `pages/`, `ui/`, `viz/`, `interactives/` — not `lib/`, so a colour decided
   there travels as a CSS variable (`--accent`), never a class.
 - **Never hardcode a hemoglobin figure colour** — `palette.ts` is the source of
   truth.
@@ -137,7 +167,7 @@ Columns are `max-w-prose` (45rem) for essays, `max-w-column` (46rem) for the
 homepage. The index meta line has **no middots** — kind, extent and date are
 separated by their registers and a `gap-x-4`.
 
-**Covers (`components/CoverArt/`)** are drawn, not screenshotted: inline SVG
+**Covers (`ui/site/CoverArt/`)** are drawn, not screenshotted: inline SVG
 from three primitives (node, edge, field), so a new piece means a ~20-line motif
 beside the others (`art: "<motif>"`, or `cover: "<path>"` as the escape hatch).
 Its ramp is literal hex on purpose — that's the motif vocabulary — while colours
@@ -182,9 +212,11 @@ is what the pieces point `ogImage` at. Needs the dev server up; it shoots
 node scripts/og-cards.mjs        # → public/images/og/<motif>.png
 ```
 
-A new motif means re-running this and adding it to the `MOTIFS` list on
-`pages/og-card.tsx`. Pieces using the `cover:` escape hatch have no motif, so
-their card is hand-made at the same 1200×630.
+A new motif means adding it to `lib/motifs.ts` — the `Motif` type and the
+capture surface both read that list, and the script rasterises whatever the
+surface renders — and re-running this. `npm run
+check` fails on a motif with no PNG. Pieces using the `cover:` escape hatch have
+no motif, so their card is hand-made at the same 1200×630.
 
 ## Article export (`scripts/article-export/`)
 

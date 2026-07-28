@@ -10,7 +10,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
-    "start": "next start"
+    "start": "next start",
+    "check": "tsc --noEmit && eslint . && node scripts/check-content.mjs",
+    "new:piece": "node scripts/new-piece.mjs"
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.8.0",
