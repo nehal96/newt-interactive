@@ -8,6 +8,7 @@ import {
   type SeriesPart,
 } from "./piece";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
+import dna from "../pages/blocks/dna/meta";
 import circuitEvolution from "../pages/blocks/circuit-evolution/meta";
 import systemsBiology from "../pages/series/systems-biology/meta";
 import erdosRenyiGraph from "../pages/blocks/erdos-renyi-graph/meta";
@@ -43,15 +44,7 @@ export const PIECES: Piece[] = [
   threejsJourney,
   kalmanFilters,
   robotLocalization,
-  definePiece({
-    href: "/blocks/dna",
-    kind: "block",
-    title: "DNA in 3D",
-    subtitle: "A simplified model of a DNA molecule",
-    published: "2021-12-30",
-    art: "helix",
-    archived: true,
-  }),
+  dna,
 ];
 
 const byNewest = (a: { published: string }, b: { published: string }) =>
