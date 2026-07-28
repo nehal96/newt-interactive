@@ -29,7 +29,7 @@ export default function Home() {
             </section>
           )}
 
-          <section className="mt-14 border-t border-ink-400 sm:mt-16">
+          <section className="mt-10 border-t border-ink-400 sm:mt-12">
             {restOfPieces.map((piece) => (
               <PieceRow key={piece.href} piece={piece} />
             ))}
