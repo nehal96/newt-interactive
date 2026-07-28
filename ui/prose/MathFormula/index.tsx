@@ -1,4 +1,5 @@
-import TeX from "@matejmazur/react-katex";
+import { useMemo } from "react";
+import katex from "katex";
 import { cn } from "@lib/utils";
 import "katex/dist/katex.min.css";
 
@@ -12,15 +13,19 @@ const MathFormula = ({
   tex,
   variant = "regular",
   className,
-  ...props
 }: MathFormulaProps) => {
-  const getClassByVariant = () => {
-    if (variant === "small") return "text-sm";
-    return "text-base";
-  };
+  // Rendering here rather than in an effect keeps the formula in the server
+  // HTML; KaTeX output is deterministic, so it hydrates clean.
+  const __html = useMemo(
+    () => katex.renderToString(tex, { throwOnError: false }),
+    [tex]
+  );
 
   return (
-    <TeX math={tex} className={cn(getClassByVariant(), className)} {...props} />
+    <span
+      className={cn(variant === "small" ? "text-sm" : "text-base", className)}
+      dangerouslySetInnerHTML={{ __html }}
+    />
   );
 };
 
