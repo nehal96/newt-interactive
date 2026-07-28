@@ -259,6 +259,7 @@ const CoverArt = ({ motif, className }: { motif: Motif; className?: string }) =>
   return (
     <svg
       viewBox="0 0 320 180"
+      preserveAspectRatio="xMidYMid slice"
       className={className}
       aria-hidden="true"
       focusable="false"
