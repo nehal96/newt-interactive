@@ -13,6 +13,7 @@ import systemsBiology from "../pages/series/systems-biology/meta";
 import erdosRenyiGraph from "../pages/blocks/erdos-renyi-graph/meta";
 import kalmanFilters from "../pages/blocks/kalman-filters/meta";
 import robotLocalization from "../pages/blocks/robot-localization/meta";
+import threejsJourney from "../pages/notes/threejs-journey/meta";
 
 export type { Piece, PieceKind, SeriesPart } from "./piece";
 
@@ -39,14 +40,7 @@ export const PIECES: Piece[] = [
   c1ffl,
   circuitEvolution,
   erdosRenyiGraph,
-  definePiece({
-    href: "/notes/threejs-journey",
-    kind: "note",
-    title: "Three.js Journey",
-    subtitle: "Notes from Bruno Simon's course on 3D graphics for the web",
-    published: "2022-02-08",
-    art: "wireframe",
-  }),
+  threejsJourney,
   kalmanFilters,
   robotLocalization,
   definePiece({
