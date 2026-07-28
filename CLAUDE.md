@@ -71,7 +71,10 @@ mapping can't express.
 - **A new published piece needs a row in `lib/content.ts`** — the homepage
   catalogue, `title`/`subtitle` verbatim from that page's `metadata`. It can't
   import those objects without pulling every essay's interactives into the
-  homepage bundle.
+  homepage bundle. `sitemap.xml` and `feed.xml` are built from the same rows, so
+  a piece with no row is a piece search engines and feed readers never see.
+- **A page's `metadata.url` is its canonical, and must be on `www`.** The apex
+  308s to `www`; a canonical on the apex points at a redirect.
 - **Never set a page background.** `bg-paper` is on `<body>` in
   `styles/globals.css`.
 - **Figures sit on the paper** — no white fill, no frame. The Mol\* canvas
@@ -168,6 +171,20 @@ shared infrastructure.
   outside the lazy boundary.
 
 **Read `docs/hemoglobin/molstar.md` before touching the 3D code.**
+
+## Social cards (`scripts/og-cards.mjs`)
+
+Every `CoverArt` motif rasterised to a 1200×630 PNG in `public/images/og/`, which
+is what the pieces point `ogImage` at. Needs the dev server up; it shoots
+`/og-card`, a page that exists only as the capture surface.
+
+```bash
+node scripts/og-cards.mjs        # → public/images/og/<motif>.png
+```
+
+A new motif means re-running this and adding it to the `MOTIFS` list on
+`pages/og-card.tsx`. Pieces using the `cover:` escape hatch have no motif, so
+their card is hand-made at the same 1200×630.
 
 ## Article export (`scripts/article-export/`)
 

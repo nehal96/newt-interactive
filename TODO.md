@@ -12,6 +12,12 @@ Each anatomy beat boots a Mol\* plugin from `DefaultPluginUISpec()`, which regis
 
 Files: [interactives/essays/hemoglobin/anatomy/MoleculeViewer.tsx](interactives/essays/hemoglobin/anatomy/MoleculeViewer.tsx), [interactives/essays/hemoglobin/boot-queue.ts](interactives/essays/hemoglobin/boot-queue.ts)
 
+## Polish the cover motifs now that they also serve as social cards
+
+The motifs were drawn for a 160px thumb, and `scripts/og-cards.mjs` now blows the same 320×180 viewBox up to 1200×630 — 7.5× the width they were tuned at. Stroke weights, node radii and arrowhead sizes that read as hairlines in the index read heavier as a card, and the slice crop trims 6 units top and bottom that were never composed against. Worth a pass over each motif at card size: line weights, spacing, and whether the one red element still lands where the eye should go. Both sizes come from the same drawing, so any change has to hold at 160px too.
+
+Files: [components/CoverArt/index.tsx](components/CoverArt/index.tsx), [pages/og-card.tsx](pages/og-card.tsx)
+
 ## Post-publish: share the project's work-in-progress material
 
 After the hemoglobin essay ships, share the work-in-progress material for the whole project from my notebook.
