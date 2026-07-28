@@ -9,10 +9,12 @@ import {
   EdgeMarker,
   useReactFlow,
 } from "@xyflow/react";
-import { throttle, debounce } from "lodash";
+import throttle from "lodash/throttle";
+import debounce from "lodash/debounce";
 import { ZState } from "./types";
 import { initialNodes, initialEdges } from "./data";
-import { CIRCUIT_CONFIG, nodeTypes } from "./config";
+import { CIRCUIT_CONFIG } from "./config";
+import { nodeTypes } from "./nodes";
 import { updateNode, updateEdge, circuitStyles } from "./utils";
 
 interface CircuitDisplayProps {

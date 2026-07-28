@@ -1,5 +1,3 @@
-import { CircuitProteinNode, LineNode, CircleNode, CircuitPromoterNode, LabelNode } from "@viz/flow";
-
 export const CIRCUIT_CONFIG = {
   PROXIMITY_THRESHOLD: 60,
   BUFFER: 2.5,
@@ -12,12 +10,4 @@ export const CIRCUIT_CONFIG = {
       CIRCLE_RADIUS: 12.5, // actual SVG circle radius
     },
   },
-};
-
-export const nodeTypes = {
-  circle: CircleNode,
-  protein: CircuitProteinNode,
-  promoter: CircuitPromoterNode,
-  line: LineNode,
-  label: LabelNode,
 };
