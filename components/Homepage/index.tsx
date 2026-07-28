@@ -59,9 +59,7 @@ const Meta = ({ piece }: { piece: Piece }) => (
 
 export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
   <Link href={piece.href} className="group block" style={accentVar(piece)}>
-    {/* The clamp's ceiling has to clear the 16:9 height at a full-width
-        column, or the crop starts biting before the column stops growing. */}
-    <div className="relative aspect-[16/9] max-h-[clamp(18.5rem,40rem_-_24vw,24.5rem)] w-full overflow-hidden rounded bg-white ring-1 ring-ink-200/70">
+    <div className="relative aspect-[16/9] max-h-[18.5rem] w-full overflow-hidden rounded bg-white ring-1 ring-ink-200/70">
       <Cover
         piece={piece}
         priority
