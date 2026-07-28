@@ -15,22 +15,13 @@ import {
   OperatingPointsFigure,
   AffinityShiftFigure,
   Term,
-} from "../../../interactives/essays/hemoglobin";
+} from "./figures";
+import meta from "./meta";
 
-export const metadata = {
-  title: "The Story of Hemoglobin",
-  subtitle: "How a special protein in red blood cells transports oxygen around your body",
-  description:
-    "An interactive essay on how hemoglobin carries oxygen: its structure in 3D, how the heme iron catches and releases oxygen, and why cooperativity, the Bohr effect and BPG make delivery so precise.",
-  keywords:
-    "hemoglobin, red blood cells, oxygen transport, heme, cooperativity, Bohr effect, myoglobin, protein structure",
-  ogImage: "https://www.newtinteractive.com/images/hemoglobin-illustration-red.png",
-  url: "https://www.newtinteractive.com/essays/hemoglobin",
-  published: "2026-06-23",
-};
+export const metadata = meta;
 
 {/* The essay reads start-to-finish as one inline flow: the section figures are
-    re-exported from interactives/essays/hemoglobin and placed inline with the
+    re-exported from ./figures and placed inline with the
     prose below. (An earlier scene-stepper tutorial was removed; its Mol* styles
     and cinematic techniques are documented in docs/hemoglobin/molstar.md.) */}
 

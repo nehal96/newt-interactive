@@ -7,6 +7,7 @@ import {
   type PieceKind,
   type SeriesPart,
 } from "./piece";
+import hemoglobin from "../pages/essays/hemoglobin/meta";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
 import dna from "../pages/blocks/dna/meta";
 import circuitEvolution from "../pages/blocks/circuit-evolution/meta";
@@ -26,17 +27,7 @@ export const KIND_LABEL: Record<PieceKind, string> = {
 };
 
 export const PIECES: Piece[] = [
-  definePiece({
-    href: "/essays/hemoglobin",
-    kind: "essay",
-    title: "The Story of Hemoglobin",
-    subtitle:
-      "How a special protein in red blood cells transports oxygen around your body",
-    published: "2026-06-23",
-    cover: "/images/hemoglobin-illustration-red.png",
-    accent: "#872421",
-    featured: true,
-  }),
+  hemoglobin,
   systemsBiology,
   c1ffl,
   circuitEvolution,

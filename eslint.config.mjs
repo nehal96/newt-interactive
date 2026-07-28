@@ -1,4 +1,5 @@
 import tsParser from "@typescript-eslint/parser";
+import reactHooks from "eslint-plugin-react-hooks";
 
 /**
  * Imports point one way only: a piece → viz → ui → lib. Nothing below reaches
@@ -87,25 +88,24 @@ export default [
     },
   },
 
-  // A piece owns its figures; another piece's are private to it. Pieces still
-  // living in interactives/ only warn, so `check` stays green while the
-  // remaining migration list stays visible.
+  // A piece owns its figures; another piece's are private to it.
   {
     files: ["pages/**/*.{ts,tsx}"],
     languageOptions,
+    // eslint-config-next's rules don't run here, but the figures carry
+    // `eslint-disable react-hooks/exhaustive-deps` directives. Registering the
+    // plugin makes them resolve to a defined rule instead of erroring; leaving
+    // the rules off is why the directives read as unused.
+    plugins: { "react-hooks": reactHooks },
+    linterOptions: { reportUnusedDisableDirectives: "off" },
     rules: {
       "no-restricted-imports": [
-        "warn",
+        "error",
         {
           patterns: [
             {
               group: ["../../**/figures", "../../**/figures/**"],
               message: "Another piece's figures are private to it.",
-            },
-            {
-              group: ["**/interactives/**"],
-              message:
-                "Not yet colocated — move these figures into the piece's folder.",
             },
           ],
         },

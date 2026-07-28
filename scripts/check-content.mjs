@@ -6,7 +6,6 @@ import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
 const problems = [];
-const notes = [];
 const fail = (msg) => problems.push(msg);
 
 const walk = (dir, out = []) => {
@@ -20,7 +19,7 @@ const walk = (dir, out = []) => {
 };
 
 const sources = walk("pages")
-  .concat(walk("lib"), walk("ui"), walk("viz"), walk("interactives"))
+  .concat(walk("lib"), walk("ui"), walk("viz"))
   .filter((f) => /\.(ts|tsx|mdx|js)$/.test(f));
 
 const routeFiles = walk("pages").filter((f) => /\.page\.(mdx|tsx)$/.test(f));
@@ -96,17 +95,6 @@ for (const file of routeFiles) {
     fail(`${file} declares no metadata — SeoHead will render an untitled page.`);
   }
 }
-
-// ── remaining migration ───────────────────────────────────────────────────
-for (const file of routeFiles) {
-  const text = readFileSync(file, "utf8");
-  if (/from\s+"[^"]*interactives\//.test(text)) {
-    notes.push(`${file} still imports from interactives/ — not yet colocated.`);
-  }
-}
-
-for (const n of notes) console.log(`  note   ${n}`);
-if (notes.length) console.log("");
 
 if (problems.length) {
   for (const p of problems) console.error(`  FAIL   ${p}`);

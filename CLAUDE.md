@@ -77,9 +77,6 @@ it as `metadata` and default-exports
 `ArticleContainer`; hand-built pages pass a `metadata` object through it too,
 and the homepage is the one exception, skipping `ArticleContainer`.
 
-`interactives/` is what's left of the old parallel tree — every piece except
-c1-ffl still lives there. `npm run check` lists them.
-
 ```bash
 npm run check                      # tsc + layer lint + content invariants
 npm run new:piece block my-slug    # scaffold prose, meta and figures
@@ -121,8 +118,8 @@ mapping can't express.
   `_document.page.tsx` so Radix portals into `<body>` stay in scope.
 - **One `<h1>` per page**, in document order. Index rows are `<h2>`.
 - **Dynamic class names need the Tailwind `safelist`.** Content globs cover
-  `pages/`, `ui/`, `viz/`, `interactives/` — not `lib/`, so a colour decided
-  there travels as a CSS variable (`--accent`), never a class.
+  `pages/`, `ui/`, `viz/` — not `lib/`, so a colour decided there travels as a
+  CSS variable (`--accent`), never a class.
 - **Never hardcode a hemoglobin figure colour** — `palette.ts` is the source of
   truth.
 
@@ -182,7 +179,7 @@ outside it take Tailwind classes to track the site's tokens (`fill-paper`,
 - **Exactly one red element**, on the thing worth looking at. Indigo carries
   structure.
 
-## The hemoglobin essay (`interactives/essays/hemoglobin/`)
+## The hemoglobin essay (`pages/essays/hemoglobin/figures/`)
 
 The reference pattern for interactive-heavy work: narrative sections
 (`anatomy/`, `catching/`, `release/`, `cooperativity/`, `quaternary/`) over
