@@ -6,8 +6,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../components";
-import ActivatorGraph, { SecondaryLine } from "./ActivatorGraph";
-import RepressorGraph from "./RepressorGraph";
+import { ActivatorGraph, SecondaryLine } from "./ActivatorGraph";
+import { RepressorGraph } from "./RepressorGraph";
 import {
   getActivatorHillFunctionData,
   getRepressorHillFunctionData,
@@ -15,7 +15,7 @@ import {
 import { VictoryLine } from "victory";
 import { Tabs } from "../../components/Tabs";
 
-export default function StepFunctionTutorial() {
+export function StepFunctionTutorial() {
   const [activatorN, setActivatorN] = useState(1);
 
   const slides = [
@@ -49,9 +49,7 @@ export default function StepFunctionTutorial() {
             0,
             20
           )}
-          chartOptions={{
-            showNComparisonCurves: true,
-          }}
+          showNComparisonCurves
         />
       ),
     },
@@ -81,12 +79,10 @@ export default function StepFunctionTutorial() {
             0,
             20
           )}
-          chartOptions={{
-            showNComparisonCurves: true,
-            xAxisTickValues: [8],
-            xAxisTickFormat: () => "K",
-            hideMainCurve: true,
-          }}
+          showNComparisonCurves
+          xAxisTickValues={[8]}
+          xAxisTickFormat={() => "K"}
+          hideMainCurve
         >
           <SecondaryLine
             data={getActivatorHillFunctionData(20, 8, 1)}
@@ -181,11 +177,9 @@ export default function StepFunctionTutorial() {
             0,
             20
           )}
-          chartOptions={{
-            xAxisTickValues: [8],
-            xAxisTickFormat: () => "K",
-            hideMainCurve: true,
-          }}
+          xAxisTickValues={[8]}
+          xAxisTickFormat={() => "K"}
+          hideMainCurve
         >
           <VictoryLine
             style={{

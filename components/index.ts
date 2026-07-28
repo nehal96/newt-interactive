@@ -91,4 +91,5 @@ export {
   axisStyle,
   getDottedLineStyle,
   getGridLineStyle,
+  getCurveIntersectionPointStyle,
 } from "./Chart/styles";

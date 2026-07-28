@@ -1,6 +1,6 @@
 import { SlideDeck, MathFormula } from "../../components";
 
-const FormulaReview = () => {
+export const FormulaReview = () => {
   const slides = [
     {
       section: "Review",
@@ -137,5 +137,3 @@ const FormulaReview = () => {
     />
   );
 };
-
-export default FormulaReview;

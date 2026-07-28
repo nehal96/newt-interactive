@@ -2,47 +2,33 @@ import {
   VictoryChart,
   VictoryAxis,
   VictoryLine,
-  VictoryScatter,
   VictoryLabel,
   VictoryContainer,
 } from "victory";
-import {
-  axisStyle,
-  getDottedLineStyle,
-  getGridLineStyle,
-} from "../../components";
+import { axisStyle, getGridLineStyle } from "../../components";
+import { crosshairAt, noTicksAxisStyle } from "./chart";
+import { Point } from "./helpers";
 
 interface RepressorGraphProps {
   repressorBeta: number;
   repressorK: number;
-  repressorHillFunctionData: { x: number; y: number }[];
+  repressorHillFunctionData: Point[];
   children?: React.ReactNode;
   mainLineColor?: string;
-  chartOptions?: {
-    showKIndicator?: boolean;
-  };
+  showKIndicator?: boolean;
 }
 
-const RepressorGraph: React.FC<RepressorGraphProps> = ({
+export const RepressorGraph = ({
   repressorBeta,
   repressorK,
   repressorHillFunctionData,
   children,
   mainLineColor = "#3b82f6",
-  chartOptions = {
-    showKIndicator: false,
-  },
-}) => {
-  const dottedLineStyle = getDottedLineStyle();
+  showKIndicator = false,
+}: RepressorGraphProps) => {
   const gridLineStyle = getGridLineStyle();
-  const noTicksStyle = {
-    ...axisStyle,
-    ticks: { ...axisStyle.ticks, size: 0 },
-  };
 
-  const { showKIndicator } = chartOptions;
-
-  const XAxisStyle = showKIndicator ? axisStyle : noTicksStyle;
+  const XAxisStyle = showKIndicator ? axisStyle : noTicksAxisStyle;
   const XAxisTickValues = showKIndicator ? [repressorK] : [];
   const XAxisTickFormat = showKIndicator ? () => "K" : () => "";
   const YAxisTickValues = showKIndicator
@@ -85,40 +71,7 @@ const RepressorGraph: React.FC<RepressorGraphProps> = ({
         interpolation="basis"
       />
       {children}
-      {showKIndicator && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: repressorK, y: 0 },
-            { x: repressorK, y: repressorBeta / 2 },
-          ]}
-        />
-      )}
-      {showKIndicator && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: 0, y: repressorBeta / 2 },
-            { x: repressorK, y: repressorBeta / 2 },
-          ]}
-        />
-      )}
-      {showKIndicator && (
-        <VictoryScatter
-          style={{
-            data: { stroke: "#1e293b", strokeWidth: 1, fill: "white" },
-          }}
-          size={4}
-          data={[
-            {
-              x: repressorK,
-              y: repressorBeta / 2,
-            },
-          ]}
-        />
-      )}
+      {showKIndicator && crosshairAt(repressorK, repressorBeta / 2)}
     </VictoryChart>
   );
 };
-
-export default RepressorGraph;

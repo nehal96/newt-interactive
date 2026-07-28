@@ -15,11 +15,27 @@ import {
   Slider,
 } from "../../components";
 import { cn } from "../../lib/utils";
+import {
+  accumulationCurve,
+  CURVE_COLOR,
+  noTicksAxisStyle,
+  rampToSteadyState,
+  responseTime,
+  SECONDARY_CURVE_COLOR,
+} from "./chart";
+import { sample } from "./helpers";
 
-// Helper Functions
 const calculateTHalfNAR = (K: number, betaNAR: number) => K / (2 * betaNAR);
-const calculateTHalfSimpleReg = (alphaSimpleReg: number) =>
-  Math.log(2) / alphaSimpleReg;
+const calculateTHalfSimpleReg = responseTime;
+
+type NegativeAutoregResponseTimeComparisonChartProps = {
+  steadyState?: number;
+  betaNAR?: number;
+  alphaSimpleReg?: number;
+  tHalfNAR?: number;
+  tHalfSimpleReg?: number;
+  showResponseTime?: boolean;
+};
 
 export const NegativeAutoregResponseTimeComparisonChart = ({
   steadyState = 100,
@@ -27,64 +43,13 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
   alphaSimpleReg = 0.25,
   tHalfNAR = 10,
   tHalfSimpleReg = 4,
-  chartOptions = {
-    showResponseTime: false,
-  },
-}) => {
-  const { showResponseTime } = chartOptions;
+  showResponseTime = false,
+}: NegativeAutoregResponseTimeComparisonChartProps) => {
   const dottedLineStyle = getDottedLineStyle();
-  const noTicksStyle = {
-    ...axisStyle,
-    ticks: { ...axisStyle.ticks, size: 0 },
-  };
   const XAxisTickValues = showResponseTime ? [tHalfNAR, tHalfSimpleReg] : [];
   const YAxisTickValues = showResponseTime
     ? [steadyState / 2, steadyState]
     : [steadyState];
-
-  const getNARLineData = (
-    steadyState: number,
-    beta = 12,
-    domainMin = 0,
-    domainMax = 20
-  ) => {
-    const data = [];
-    const tSteady = steadyState / beta;
-
-    for (let t = domainMin; t <= tSteady; t += 0.1) {
-      data.push({ x: t, y: t * beta });
-    }
-
-    for (let t = tSteady; t <= domainMax; t += 0.1) {
-      data.push({ x: t, y: steadyState });
-    }
-
-    return data;
-  };
-
-  const simpleRegProteinAccumulationFunction = (
-    t,
-    alpha = 0.25,
-    steadyState = 100
-  ) => {
-    return steadyState * (1 - Math.exp(-alpha * t));
-  };
-
-  const getSimpleRegProteinAccumulationData = (
-    alpha = 0.25,
-    steadyState = 100,
-    domainMin = 0,
-    domainMax = 20
-  ) => {
-    const data = [];
-
-    for (let t = domainMin; t <= domainMax; t++) {
-      const y = simpleRegProteinAccumulationFunction(t, alpha, steadyState);
-      data.push({ x: t, y });
-    }
-
-    return data;
-  };
 
   return (
     <VictoryChart
@@ -93,7 +58,7 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
     >
       <VictoryAxis
         label="time"
-        style={noTicksStyle}
+        style={noTicksAxisStyle}
         tickValues={XAxisTickValues}
         tickFormat={(tick) => {
           if (tick === tHalfNAR) return "Tn";
@@ -112,16 +77,16 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
       />
       <VictoryLine
         style={{
-          data: { stroke: "#cbd5e1" },
+          data: { stroke: SECONDARY_CURVE_COLOR },
         }}
-        data={getSimpleRegProteinAccumulationData(alphaSimpleReg, steadyState)}
+        data={sample((t) => accumulationCurve(t, alphaSimpleReg, steadyState))}
         interpolation="basis"
       />
       <VictoryLine
         style={{
-          data: { stroke: "#2dd4bf", strokeWidth: 2 },
+          data: { stroke: CURVE_COLOR, strokeWidth: 2 },
         }}
-        data={getNARLineData(steadyState, betaNAR)}
+        data={rampToSteadyState(steadyState, betaNAR)}
       />
       {showResponseTime && (
         <VictoryLine
@@ -154,35 +119,61 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
   );
 };
 
+// Each slide group drives the chart from its own parameter set; `free` sets the
+// steady state directly, the others derive it from beta/alpha.
+const useParams = <T extends Record<string, number>>(initial: T) => {
+  const [params, setParams] = useState(initial);
+  const set = (key: keyof T) => (values: number[]) =>
+    setParams((current) => ({ ...current, [key]: values[0] }));
+
+  return [params, set] as const;
+};
+
 export const NegativeAutoregResponseTimeComparisonTutorial = () => {
-  const [uncontrolledBetaNAR, setUncontrolledBetaNAR] = useState(24);
-  const [uncontrolledAlphaSimpleReg, setUncontrolledAlphaSimpleReg] =
-    useState(0.1);
-  const [uncontrolledK, setUncontrolledK] = useState(130);
+  const [free, setFree] = useParams({
+    betaNAR: 24,
+    alphaSimpleReg: 0.1,
+    K: 130,
+  });
+  const [matched, setMatched] = useParams({
+    betaSimpleReg: 12,
+    alphaSimpleReg: 0.12,
+    betaNAR: 24,
+  });
+  const [combined, setCombined] = useParams({
+    betaSimpleReg: 12,
+    alphaSimpleReg: 0.1,
+    betaNAR: 24,
+  });
 
-  const [betaSimpleReg2, setBetaSimpleReg2] = useState(12);
-  const [alphaSimpleReg2, setAlphaSimpleReg2] = useState(0.12);
-  const [betaNAR2, setBetaNAR2] = useState(24);
+  const freeChart = {
+    steadyState: free.K,
+    betaNAR: free.betaNAR,
+    alphaSimpleReg: free.alphaSimpleReg,
+    tHalfNAR: calculateTHalfNAR(free.K, free.betaNAR),
+    tHalfSimpleReg: calculateTHalfSimpleReg(free.alphaSimpleReg),
+  };
 
-  const calculatedK2 = betaSimpleReg2 / alphaSimpleReg2;
-  const tHalfNAR2 = calculateTHalfNAR(calculatedK2, betaNAR2);
-  const tHalfSimpleReg2 = calculateTHalfSimpleReg(alphaSimpleReg2);
+  const matchedK = matched.betaSimpleReg / matched.alphaSimpleReg;
+  const matchedChart = {
+    steadyState: matchedK,
+    betaNAR: matched.betaNAR,
+    alphaSimpleReg: matched.alphaSimpleReg,
+    tHalfNAR: calculateTHalfNAR(matchedK, matched.betaNAR),
+    tHalfSimpleReg: calculateTHalfSimpleReg(matched.alphaSimpleReg),
+  };
 
-  const uncontrolledTHalfNAR = calculateTHalfNAR(
-    uncontrolledK,
-    uncontrolledBetaNAR
-  );
-  const uncontrolledTHalfSimpleReg = calculateTHalfSimpleReg(
-    uncontrolledAlphaSimpleReg
-  );
+  const K = combined.betaSimpleReg / combined.alphaSimpleReg;
+  const tHalfNAR = calculateTHalfNAR(K, combined.betaNAR);
+  const tHalfSimpleReg = calculateTHalfSimpleReg(combined.alphaSimpleReg);
+  const combinedChart = {
+    steadyState: K,
+    betaNAR: combined.betaNAR,
+    alphaSimpleReg: combined.alphaSimpleReg,
+    tHalfNAR,
+    tHalfSimpleReg,
+  };
 
-  const [betaNAR, setBetaNAR] = useState(24);
-  const [betaSimpleReg, setBetaSimpleReg] = useState(12);
-  const [alphaSimpleReg, setAlphaSimpleReg] = useState(0.1);
-
-  const K = betaSimpleReg / alphaSimpleReg;
-  const tHalfNAR = calculateTHalfNAR(K, betaNAR);
-  const tHalfSimpleReg = calculateTHalfSimpleReg(alphaSimpleReg);
   const ratio = tHalfSimpleReg / tHalfNAR;
   const percentFaster = (ratio - 1) * 100;
 
@@ -214,8 +205,8 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
       interactive: (
         <NegativeAutoregResponseTimeComparisonChart
           steadyState={K}
-          betaNAR={betaNAR}
-          alphaSimpleReg={alphaSimpleReg}
+          betaNAR={combined.betaNAR}
+          alphaSimpleReg={combined.alphaSimpleReg}
         />
       ),
     },
@@ -244,12 +235,8 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
       ),
       interactive: (
         <NegativeAutoregResponseTimeComparisonChart
-          steadyState={K}
-          betaNAR={betaNAR}
-          alphaSimpleReg={alphaSimpleReg}
-          tHalfNAR={tHalfNAR}
-          tHalfSimpleReg={tHalfSimpleReg}
-          chartOptions={{ showResponseTime: true }}
+          {...combinedChart}
+          showResponseTime
         />
       ),
     },
@@ -265,13 +252,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
                 <MathFormula tex="\alpha_{simple}" />:{" "}
-                {uncontrolledAlphaSimpleReg.toFixed(2)}
+                {free.alphaSimpleReg.toFixed(2)}
               </label>
               <Slider
-                value={[uncontrolledAlphaSimpleReg]}
-                onValueChange={(values) =>
-                  setUncontrolledAlphaSimpleReg(values[0])
-                }
+                value={[free.alphaSimpleReg]}
+                onValueChange={setFree("alphaSimpleReg")}
                 min={0.1}
                 max={0.2}
                 step={0.01}
@@ -280,12 +265,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             </div>
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
-                <MathFormula tex="\beta_{NAR}" />:{" "}
-                {uncontrolledBetaNAR.toFixed(2)}
+                <MathFormula tex="\beta_{NAR}" />: {free.betaNAR.toFixed(2)}
               </label>
               <Slider
-                value={[uncontrolledBetaNAR]}
-                onValueChange={(values) => setUncontrolledBetaNAR(values[0])}
+                value={[free.betaNAR]}
+                onValueChange={setFree("betaNAR")}
                 min={12}
                 max={50}
                 step={1}
@@ -297,12 +281,8 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
       ),
       interactive: (
         <NegativeAutoregResponseTimeComparisonChart
-          steadyState={uncontrolledK}
-          betaNAR={uncontrolledBetaNAR}
-          alphaSimpleReg={uncontrolledAlphaSimpleReg}
-          tHalfNAR={uncontrolledTHalfNAR}
-          tHalfSimpleReg={uncontrolledTHalfSimpleReg}
-          chartOptions={{ showResponseTime: true }}
+          {...freeChart}
+          showResponseTime
         />
       ),
     },
@@ -325,11 +305,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
           </p>
           <div className="mt-4">
             <label className="font-medium block mb-1.5">
-              <MathFormula tex="K" />: {uncontrolledK.toFixed(2)}
+              <MathFormula tex="K" />: {free.K.toFixed(2)}
             </label>
             <Slider
-              value={[uncontrolledK]}
-              onValueChange={(values) => setUncontrolledK(values[0])}
+              value={[free.K]}
+              onValueChange={setFree("K")}
               min={60}
               max={130}
               step={1}
@@ -340,12 +320,8 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
       ),
       interactive: (
         <NegativeAutoregResponseTimeComparisonChart
-          steadyState={uncontrolledK}
-          betaNAR={uncontrolledBetaNAR}
-          alphaSimpleReg={uncontrolledAlphaSimpleReg}
-          tHalfNAR={uncontrolledTHalfNAR}
-          tHalfSimpleReg={uncontrolledTHalfSimpleReg}
-          chartOptions={{ showResponseTime: true }}
+          {...freeChart}
+          showResponseTime
         />
       ),
     },
@@ -369,11 +345,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             <div className="mt-6">
               <label className="font-medium block mb-1.5">
                 <MathFormula tex="\beta_{simple}" />:{" "}
-                {betaSimpleReg2.toFixed(2)}
+                {matched.betaSimpleReg.toFixed(2)}
               </label>
               <Slider
-                value={[betaSimpleReg2]}
-                onValueChange={(values) => setBetaSimpleReg2(values[0])}
+                value={[matched.betaSimpleReg]}
+                onValueChange={setMatched("betaSimpleReg")}
                 min={12}
                 max={20}
                 step={1}
@@ -383,12 +359,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
                 <MathFormula tex="\alpha_{simple}" />:{" "}
-                {alphaSimpleReg2.toFixed(2)}
+                {matched.alphaSimpleReg.toFixed(2)}
               </label>
               <Slider
-                // disabled
-                value={[alphaSimpleReg2]}
-                onValueChange={(values) => setAlphaSimpleReg2(values[0])}
+                value={[matched.alphaSimpleReg]}
+                onValueChange={setMatched("alphaSimpleReg")}
                 min={0.1}
                 max={0.25}
                 step={0.01}
@@ -397,11 +372,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             </div>
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
-                <MathFormula tex="\beta_{NAR}" />: {betaNAR2.toFixed(2)}
+                <MathFormula tex="\beta_{NAR}" />: {matched.betaNAR.toFixed(2)}
               </label>
               <Slider
-                value={[betaNAR2]}
-                onValueChange={(values) => setBetaNAR2(values[0])}
+                value={[matched.betaNAR]}
+                onValueChange={setMatched("betaNAR")}
                 min={12}
                 max={25}
                 step={1}
@@ -412,12 +387,12 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
                 <InlineCode
                   className={cn(
                     "bg-slate-200 text-slate-800",
-                    calculatedK2.toFixed(2) === "100.00"
+                    matchedK.toFixed(2) === "100.00"
                       ? "bg-green-200 text-green-800"
                       : "bg-red-200 text-red-800"
                   )}
                 >
-                  {calculatedK2.toFixed(2)}
+                  {matchedK.toFixed(2)}
                 </InlineCode>
               </div>
             </div>
@@ -426,12 +401,8 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
       ),
       interactive: (
         <NegativeAutoregResponseTimeComparisonChart
-          steadyState={calculatedK2}
-          betaNAR={betaNAR2}
-          alphaSimpleReg={alphaSimpleReg2}
-          tHalfNAR={tHalfNAR2}
-          tHalfSimpleReg={tHalfSimpleReg2}
-          chartOptions={{ showResponseTime: true }}
+          {...matchedChart}
+          showResponseTime
         />
       ),
     },
@@ -469,12 +440,8 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
       ),
       interactive: (
         <NegativeAutoregResponseTimeComparisonChart
-          steadyState={calculatedK2}
-          betaNAR={betaNAR2}
-          alphaSimpleReg={alphaSimpleReg2}
-          tHalfNAR={tHalfNAR2}
-          tHalfSimpleReg={tHalfSimpleReg2}
-          chartOptions={{ showResponseTime: true }}
+          {...matchedChart}
+          showResponseTime
         />
       ),
     },
@@ -486,11 +453,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
                 <MathFormula variant="small" tex="\beta_{simple}" />:{" "}
-                {betaSimpleReg.toFixed(2)}
+                {combined.betaSimpleReg.toFixed(2)}
               </label>
               <Slider
-                value={[betaSimpleReg]}
-                onValueChange={(values) => setBetaSimpleReg(values[0])}
+                value={[combined.betaSimpleReg]}
+                onValueChange={setCombined("betaSimpleReg")}
                 min={12}
                 max={20}
                 step={1}
@@ -500,11 +467,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
                 <MathFormula variant="small" tex="\alpha_{simple}" />:{" "}
-                {alphaSimpleReg.toFixed(2)}
+                {combined.alphaSimpleReg.toFixed(2)}
               </label>
               <Slider
-                value={[alphaSimpleReg]}
-                onValueChange={(values) => setAlphaSimpleReg(values[0])}
+                value={[combined.alphaSimpleReg]}
+                onValueChange={setCombined("alphaSimpleReg")}
                 min={0.1}
                 max={0.25}
                 step={0.01}
@@ -514,11 +481,11 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
             <div className="mt-4">
               <label className="font-medium block mb-1.5">
                 <MathFormula variant="small" tex="\beta_{NAR}" />:{" "}
-                {betaNAR.toFixed(2)}
+                {combined.betaNAR.toFixed(2)}
               </label>
               <Slider
-                value={[betaNAR]}
-                onValueChange={(values) => setBetaNAR(values[0])}
+                value={[combined.betaNAR]}
+                onValueChange={setCombined("betaNAR")}
                 min={12}
                 max={26}
                 step={1}
@@ -591,12 +558,8 @@ export const NegativeAutoregResponseTimeComparisonTutorial = () => {
       ),
       interactive: (
         <NegativeAutoregResponseTimeComparisonChart
-          steadyState={K}
-          betaNAR={betaNAR}
-          alphaSimpleReg={alphaSimpleReg}
-          tHalfNAR={tHalfNAR}
-          tHalfSimpleReg={tHalfSimpleReg}
-          chartOptions={{ showResponseTime: true }}
+          {...combinedChart}
+          showResponseTime
         />
       ),
     },
