@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as Select from "@radix-ui/react-select";
+import { Select } from "radix-ui";
 import { Sandpack } from "@codesandbox/sandpack-react";
 import { atomDark } from "@codesandbox/sandpack-themes";
 import { FiCheck, FiChevronDown } from "react-icons/fi";

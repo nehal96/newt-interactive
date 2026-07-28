@@ -3,7 +3,7 @@ import { Button } from "@ui/controls";
 import { TextContainer } from "@ui/layout";
 import { Code, InlineCode } from "@ui/prose/Code";
 import { SlideNav } from "@viz/slides";
-import * as Accordion from "@radix-ui/react-accordion";
+import { Accordion } from "radix-ui";
 import { FiChevronDown, FiInfo } from "react-icons/fi";
 import { LocalizationSlidesProps, PlaygroundValues, Section } from "./types";
 

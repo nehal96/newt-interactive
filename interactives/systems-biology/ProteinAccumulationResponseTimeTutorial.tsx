@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Sheet, SheetTrigger, SheetContent, SheetTitle } from "@ui/controls";
 import MathFormula from "@ui/prose/MathFormula";
 import { SlideDeck } from "@viz/slides";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { VisuallyHidden } from "radix-ui";
 import {
   accumulationCurve,
   ResponseTimeChart,
@@ -17,9 +17,9 @@ const ProteinAccumulationEquationSheet = () => (
       </span>
     </SheetTrigger>
     <SheetContent>
-      <VisuallyHidden>
+      <VisuallyHidden.Root>
         <SheetTitle>Protein Accumulation Equation</SheetTitle>
-      </VisuallyHidden>
+      </VisuallyHidden.Root>
       <div className="flex flex-col text-md text-sm">
         <p>starting with</p>
         <MathFormula
@@ -120,9 +120,9 @@ const ProteinAccumulationResponseTimeSheet = () => (
       </span>
     </SheetTrigger>
     <SheetContent>
-      <VisuallyHidden>
+      <VisuallyHidden.Root>
         <SheetTitle>Protein Accumulation Response Time Equation</SheetTitle>
-      </VisuallyHidden>
+      </VisuallyHidden.Root>
       <div className="flex flex-col text-md text-sm">
         <p className="mb-3">starting with:</p>
         <MathFormula

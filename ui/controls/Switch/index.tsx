@@ -1,4 +1,4 @@
-import * as SwitchPrimitive from "@radix-ui/react-switch";
+import { Switch as SwitchPrimitive } from "radix-ui";
 import { FunctionComponent, RefAttributes } from "react";
 import styles from "./Switch.module.css";
 

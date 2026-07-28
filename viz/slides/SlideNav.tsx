@@ -1,4 +1,4 @@
-import * as Select from "@radix-ui/react-select";
+import { Select } from "radix-ui";
 import { FiCheck, FiChevronDown } from "react-icons/fi";
 import { Button } from "@ui/controls";
 import { cn } from "@lib/utils";
