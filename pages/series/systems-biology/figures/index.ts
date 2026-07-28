@@ -1,6 +1,6 @@
-// The series renders the random-graph explorer that the erdos-renyi-graph
-// block also renders, so it lives in viz/ rather than in either piece.
-export { default as ErdosRenyiGNMNetwork } from "@viz/flow/RandomGraphExplorer";
+// All five parts import this barrel, so a figure only one part renders does not
+// belong here — autoregulation-1 imports @viz/flow/RandomGraphExplorer direct.
+
 export { ActivatorTutorial } from "./ActivatorTutorial";
 export { RepressorTutorial } from "./RepressorTutorial";
 export { StepFunctionTutorial } from "./StepFunctionTutorial";
