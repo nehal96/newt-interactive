@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /og-card
 
 Sitemap: https://www.newtinteractive.com/sitemap.xml

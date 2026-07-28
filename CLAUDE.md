@@ -176,7 +176,7 @@ shared infrastructure.
 
 Every `CoverArt` motif rasterised to a 1200×630 PNG in `public/images/og/`, which
 is what the pieces point `ogImage` at. Needs the dev server up; it shoots
-`/og-card`, a page that exists only as the capture surface.
+`/og-card`, a capture surface that 404s outside development.
 
 ```bash
 node scripts/og-cards.mjs        # → public/images/og/<motif>.png

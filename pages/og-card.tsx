@@ -14,6 +14,9 @@ const MOTIFS: Motif[] = [
   "wireframe",
 ];
 
+export const getStaticProps = () =>
+  process.env.NODE_ENV === "production" ? { notFound: true } : { props: {} };
+
 export default function OgCards() {
   return (
     <>
