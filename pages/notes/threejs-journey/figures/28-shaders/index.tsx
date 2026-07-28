@@ -1,4 +1,4 @@
-import { Sandpack } from "@codesandbox/sandpack-react";
+import CodeSandbox from "../CodeSandbox";
 import {
   indexHtmlFile,
   indexJsFile,
@@ -6,7 +6,6 @@ import {
   vertexGlslFile,
   fragmentGlslFile,
 } from "./sandbox-files";
-import { atomDark } from "@codesandbox/sandpack-themes";
 const files = {
   "/index.html": {
     code: indexHtmlFile(),
@@ -22,27 +21,7 @@ const files = {
 };
 
 const ShadersCodeSandbox = () => {
-  return (
-    <Sandpack
-      files={files}
-      theme={atomDark}
-      template="vanilla"
-      options={{
-        showLineNumbers: true,
-        editorHeight: 500,
-      }}
-      customSetup={{
-        dependencies: {
-          three: "0.151.3",
-        },
-        devDependencies: {
-          "@babel/core": "7.2.0",
-          "parcel-bundler": "^1.6.1",
-        },
-        entry: "index.html",
-      }}
-    />
-  );
+  return <CodeSandbox files={files} />;
 };
 
 export default ShadersCodeSandbox;
