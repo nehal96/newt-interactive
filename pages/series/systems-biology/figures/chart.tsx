@@ -26,7 +26,7 @@ export const CURVE = {
 const FRAME = {
   axis: "#cbd5e1",
   grid: "#dfe4ec",
-  label: "#475569",
+  label: "#64748b",
   comparisonLabel: "#94a3b8",
   guide: "#94a3b8",
   marker: "#334155",
@@ -84,10 +84,9 @@ export function Plot({
   return (
     <svg
       viewBox={`0 0 ${VIEW.W} ${VIEW.H}`}
-      className="block h-auto w-full"
+      className="block h-auto w-full font-ui"
       role="img"
       aria-labelledby={`${id}-title ${id}-desc`}
-      fontFamily="inherit"
     >
       <title id={`${id}-title`}>{title}</title>
       <desc id={`${id}-desc`}>{desc}</desc>
@@ -131,7 +130,7 @@ export function Axes({
         x={X1 + 16}
         y={YB}
         fill={FRAME.label}
-        fontSize={12}
+        fontSize={11}
         dominantBaseline="central"
       >
         {xLabel}
@@ -141,7 +140,7 @@ export function Axes({
           x={16}
           y={yMid}
           fill={FRAME.label}
-          fontSize={12}
+          fontSize={11}
           textAnchor="middle"
           transform={`rotate(-90 16 ${yMid})`}
         >
@@ -161,7 +160,7 @@ export function Axes({
             x={scale.x(value)}
             y={YB + 14}
             fill={FRAME.label}
-            fontSize={12}
+            fontSize={11}
             textAnchor="middle"
             dominantBaseline="hanging"
           >
@@ -182,7 +181,7 @@ export function Axes({
             x={X0 - 10}
             y={scale.y(value)}
             fill={FRAME.label}
-            fontSize={12}
+            fontSize={11}
             textAnchor="end"
             dominantBaseline="central"
           >
@@ -273,7 +272,7 @@ export function Curve({
           x={scale.x(end.x) + 7}
           y={labelY ?? scale.y(end.y)}
           fill={FRAME.comparisonLabel}
-          fontSize={12}
+          fontSize={11}
           dominantBaseline="central"
         >
           {label}
