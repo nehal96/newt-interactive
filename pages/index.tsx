@@ -24,12 +24,12 @@ export default function Home() {
       <PageShell>
         <div className="mx-auto w-full max-w-column px-5">
           {featuredPiece && (
-            <section className="pt-8 sm:pt-10">
+            <section className="pt-5 sm:pt-6">
               <FeaturedPiece piece={featuredPiece} />
             </section>
           )}
 
-          <section className="mt-14 border-t border-ink-400 sm:mt-16">
+          <section className="mt-10 border-t border-ink-400 sm:mt-12">
             {restOfPieces.map((piece) => (
               <PieceRow key={piece.href} piece={piece} />
             ))}
