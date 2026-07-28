@@ -26,6 +26,19 @@ and not the other.**
 - Turbopack drops external `@import url()` in CSS — hence `next/font` in
   `lib/fonts.ts` rather than a stylesheet import.
 
+### The browserslist floor
+
+`package.json` pins `safari >= 15.4` / `ios_saf >= 15.4`. **Don't "modernise"
+that query to `last N versions` or `defaults` alone** — Safari ships 26.x now,
+so those resolve to Safari 26 only, and autoprefixer stops emitting
+`-webkit-backdrop-filter`. Safari didn't take that property unprefixed until
+18.0, so the navbar's frosted glass degrades to a flat translucent pane on every
+Safari and iOS below 18, with a clean build and no warning.
+
+Hand-writing the prefix doesn't rescue it: autoprefixer owns `backdrop-filter`
+and `remove: true` is its default, so it deletes any prefixed declaration its
+targets say is unnecessary. The targets are the only lever.
+
 ## Architecture
 
 Pages Router. Content and figures are parallel trees:
