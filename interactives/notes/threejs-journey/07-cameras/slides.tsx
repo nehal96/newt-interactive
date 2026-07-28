@@ -11,10 +11,9 @@ export function getSlides({
   showHelper,
   setShowHelper,
 }: GetSlidesParams): Slides {
-  return {
-    1: {
+  return [
+    {
       section: "Intro",
-      number: 1,
       text: (
         <>
           <p>
@@ -25,9 +24,8 @@ export function getSlides({
         </>
       ),
     },
-    2: {
+    {
       section: "Perspective Camera intro",
-      number: 2,
       text: (
         <>
           <p>
@@ -46,9 +44,8 @@ export function getSlides({
         </>
       ),
     },
-    3: {
+    {
       section: "Perspective Camera parameters",
-      number: 3,
       text: (
         <>
           <ol className="list-outside list-decimal">
@@ -75,9 +72,8 @@ export function getSlides({
         </>
       ),
     },
-    4: {
+    {
       section: "Perspective Camera playground",
-      number: 4,
       text: (
         <>
           <p>Try playing around with different values below:</p>
@@ -147,9 +143,8 @@ export function getSlides({
         </>
       ),
     },
-    5: {
+    {
       section: "Orthographic Camera intro",
-      number: 5,
       text: (
         <>
           <p>
@@ -166,9 +161,8 @@ export function getSlides({
         </>
       ),
     },
-    6: {
+    {
       section: "Orthographic Camera parameters",
-      number: 6,
       text: (
         <>
           <p>Orthographic cameras take a few different parameters:</p>
@@ -192,5 +186,5 @@ export function getSlides({
         </>
       ),
     },
-  };
+  ];
 }

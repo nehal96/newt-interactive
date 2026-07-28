@@ -68,8 +68,8 @@ export {
   SheetDescription,
 } from "./Sheet";
 export { Slider } from "./Slider";
-export { default as Slides } from "./Slides";
 export { default as SlideDeck } from "./SlideDeck";
+export { default as SlideNav } from "./SlideDeck/SlideNav";
 export { H2, H3 } from "./Headings";
 export { default as SubscribeForm } from "./SubscribeForm";
 export { default as Switch } from "./Switch";

@@ -11,13 +11,10 @@ type CodeParams = {
 };
 export type Slide = {
   section: string;
-  number: number;
   text: React.ReactNode;
   code?: (params: CodeParams) => void;
 };
-export type Slides = {
-  [index: number]: Slide;
-};
+export type Slides = Slide[];
 export type GetSlidesParams = {
   boxArgs: BoxGeometryProps["args"];
   setBoxArgs: Dispatch<SetStateAction<BoxGeometryProps["args"]>>;
