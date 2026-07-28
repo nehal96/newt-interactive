@@ -26,6 +26,8 @@ export interface PieceInput {
   cover?: string;
   /** Only for a piece whose card isn't at /images/og/<art>.png. */
   ogImage?: string;
+  /** A landing page is a website; a piece that reads as one is an article. */
+  ogType?: "article" | "website";
   /** Title hover colour, as a hex — a class here is outside Tailwind's globs. */
   accent?: string;
   /** At most one piece sets this. */

@@ -9,6 +9,7 @@ import {
 } from "./piece";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
 import circuitEvolution from "../pages/blocks/circuit-evolution/meta";
+import systemsBiology from "../pages/series/systems-biology/meta";
 import erdosRenyiGraph from "../pages/blocks/erdos-renyi-graph/meta";
 import kalmanFilters from "../pages/blocks/kalman-filters/meta";
 import robotLocalization from "../pages/blocks/robot-localization/meta";
@@ -34,47 +35,7 @@ export const PIECES: Piece[] = [
     accent: "#872421",
     featured: true,
   }),
-  definePiece({
-    href: "/series/systems-biology",
-    kind: "series",
-    title: "Systems Biology",
-    subtitle:
-      "Dive deep into complex biological systems through interactive explainers",
-    published: "2024-09-23",
-    art: "network-layered",
-    parts: [
-      {
-        href: "/series/systems-biology/transcription-network-basics-1",
-        title: "Transcription Network Basics",
-        published: "2024-09-26",
-        section: "Introduction to Transcription Networks",
-      },
-      {
-        href: "/series/systems-biology/transcription-network-basics-2",
-        title: "Activators and Repressors",
-        published: "2024-10-06",
-        section: "Introduction to Transcription Networks",
-      },
-      {
-        href: "/series/systems-biology/transcription-network-basics-3",
-        title: "Dynamics and Response Time",
-        published: "2024-10-27",
-        section: "Introduction to Transcription Networks",
-      },
-      {
-        href: "/series/systems-biology/autoregulation-1",
-        title: "Autoregulation as a Network Motif",
-        published: "2024-11-02",
-        section: "Autoregulation",
-      },
-      {
-        href: "/series/systems-biology/autoregulation-2",
-        title: "Dynamics of Negative Autoregulation",
-        published: "2024-12-15",
-        section: "Autoregulation",
-      },
-    ],
-  }),
+  systemsBiology,
   c1ffl,
   circuitEvolution,
   erdosRenyiGraph,

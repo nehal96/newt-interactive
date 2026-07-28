@@ -6,8 +6,8 @@ import SeoHead, { type SeoMetadata } from "../SeoHead";
 export interface Metadata extends SeoMetadata {
   title: string;
   subtitle?: React.ReactNode;
-  description: string;
-  keywords: string;
+  description?: string;
+  keywords?: string;
   ogImage: string;
   url: string;
   published?: string;
