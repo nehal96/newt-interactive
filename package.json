@@ -37,7 +37,6 @@
     "react-icons": "^4.3.1",
     "tailwind-merge": "^2.5.4",
     "three": "^0.170.0",
-    "victory": "^36.6.10",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

@@ -3,40 +3,16 @@ import { CircuitNode, CircuitEdge, CircuitNodeTypes } from "./types";
 import { CIRCUIT_CONFIG } from "./config";
 
 export const chartStyles = {
-  chart: {
+  view: {
     width: 200,
     height: 100,
-    padding: { top: 5, bottom: 10, left: 25, right: 10 },
+    padding: { top: 5, right: 10, bottom: 10, left: 25 },
   },
-  axis: {
-    style: {
-      axis: { stroke: "#64748b" },
-      tickLabels: { fill: "#64748b", fontSize: 10, padding: 2 },
-      grid: { stroke: "none" },
-    },
-    labelComponent: { dy: -5, dx: 190 },
-  },
-  line: {
-    default: {
-      data: { stroke: "#3f3f46" },
-    },
-    dashed: {
-      data: {
-        stroke: "#94a3b8",
-        strokeDasharray: "4,4",
-        strokeWidth: 1,
-      },
-    },
-  },
-  scatter: {
-    data: { fill: "#ef4444" },
-  },
-  delayIndicator: {
-    data: {
-      fill: "rgba(254, 243, 199, 0.6)",
-      strokeWidth: 1,
-    },
-  },
+  frame: "#64748b",
+  line: "#3f3f46",
+  threshold: "#94a3b8",
+  marker: "#ef4444",
+  delay: "rgba(254, 243, 199, 0.6)",
 };
 
 export const edgeStyles = {

@@ -1,19 +1,13 @@
+import { type ReactNode } from "react";
 import { ReactFlowProvider } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { Button } from "@ui/controls";
 import { InteractiveTutorialContainer } from "@ui/layout";
+import { Dot, Line, Plot, type Tick, useScale, XAxis, YAxis } from "@viz/chart";
+import { cn } from "@lib/utils";
 import { chartStyles } from "./utils";
-import {
-  VictoryChart,
-  VictoryLine,
-  VictoryAxis,
-  VictoryContainer,
-  VictoryScatter,
-  VictoryLabel,
-  VictoryArea,
-} from "victory";
 import { FiPlay, FiPause } from "react-icons/fi";
-import { DelayTimeData, SignalData } from "./types";
+import { DelayPeriod, DelayTimeData, SignalData } from "./types";
 import { useSimulationStore } from "./store/store";
 import CircuitDisplay from "./CircuitDisplay";
 import ParametersDisplay from "./ParameterDisplay";
@@ -26,41 +20,98 @@ interface ProteinYChartProps {
   delayData: DelayTimeData;
 }
 
-const SignalChart = ({ signalData }) => (
+const ChartBlock = ({
+  label,
+  className,
+  children,
+}: {
+  label: string;
+  className?: string;
+  children: ReactNode;
+}) => (
   <>
-    <div className="text-sm font-mono mb-2">Signal over time:</div>
-    <div className="h-[150px]">
-      <VictoryChart
-        {...chartStyles.chart}
-        domain={{ x: [0, 61], y: [0, 1.2] }}
-        containerComponent={<VictoryContainer responsive={true} />}
-      >
-        <VictoryAxis
-          label="t"
-          style={chartStyles.axis.style}
-          axisLabelComponent={<VictoryLabel dy={-5} dx={190} />}
-          tickValues={[0, 60]}
-          tickFormat={(t) => t.toString()}
-        />
-        <VictoryAxis
-          dependentAxis
-          style={chartStyles.axis.style}
-          axisLabelComponent={<VictoryLabel dy={-5} dx={190} />}
-          tickValues={[1]}
-        />
-        {signalData.length > 0 && (
-          <VictoryLine {...chartStyles.line.default} data={signalData} />
-        )}
-        {signalData.length > 0 && (
-          <VictoryScatter
-            style={chartStyles.scatter}
-            size={2}
-            data={[signalData[signalData.length - 1]]}
-          />
-        )}
-      </VictoryChart>
-    </div>
+    <div className={cn("text-sm font-mono mb-2", className)}>{label}</div>
+    <div className="h-[150px]">{children}</div>
   </>
+);
+
+const TimeAxes = ({ yTicks }: { yTicks: Tick[] }) => (
+  <>
+    <XAxis
+      ticks={[
+        [0, "0"],
+        [60, "60"],
+      ]}
+      stroke={chartStyles.frame}
+      fill={chartStyles.frame}
+      fontSize={10}
+      tickGap={3}
+    />
+    <YAxis
+      ticks={yTicks}
+      stroke={chartStyles.frame}
+      fill={chartStyles.frame}
+      fontSize={10}
+      tickGap={3}
+    />
+  </>
+);
+
+const Trace = ({ data }: { data: SignalData[] }) => {
+  const head = data[data.length - 1];
+  return (
+    <>
+      <Line data={data} stroke={chartStyles.line} />
+      {head && <Dot x={head.x} y={head.y} fill={chartStyles.marker} />}
+    </>
+  );
+};
+
+const DelayBands = ({ delays }: { delays: DelayPeriod[] }) => {
+  const { x, box } = useScale();
+  return (
+    <>
+      {delays.map((delay, index) => (
+        <rect
+          key={index}
+          x={x(delay.start)}
+          y={box.top}
+          width={x(delay.end) - x(delay.start)}
+          height={box.bottom - box.top}
+          fill={chartStyles.delay}
+        />
+      ))}
+    </>
+  );
+};
+
+const TimePlot = ({
+  title,
+  yMax,
+  children,
+}: {
+  title: string;
+  yMax: number;
+  children: ReactNode;
+}) => (
+  <Plot
+    {...chartStyles.view}
+    x={[0, 61]}
+    y={[0, yMax]}
+    title={title}
+    className="h-full font-mono"
+  >
+    {children}
+  </Plot>
+);
+
+const SignalChart = ({ signalData }: { signalData: SignalData[] }) => (
+  <ChartBlock label="Signal over time:">
+    <TimePlot title="Input signal Sx over the 60-second run" yMax={1.2}>
+      <TimeAxes yTicks={[[1, "1"]]} />
+      <Trace data={signalData} />
+    </TimePlot>
+  </ChartBlock>
 );
 
 const DelayTimeDisplay = ({ delayData }: { delayData: DelayTimeData }) => {
@@ -82,101 +133,51 @@ export const ProteinYChart = ({
   steadyState,
   Kyz,
 }: ProteinYChartProps) => (
-  <>
-    <div className="text-sm font-mono mb-2 mt-4">Protein Y concentration:</div>
-    <div className="h-[150px]">
-      <VictoryChart
-        {...chartStyles.chart}
-        domain={{ x: [0, 61], y: [0, steadyState + 2] }}
-        containerComponent={<VictoryContainer responsive={true} />}
-      >
-        <VictoryAxis
-          label="t"
-          style={chartStyles.axis.style}
-          axisLabelComponent={<VictoryLabel dy={-5} dx={190} />}
-          tickValues={[0, 60]}
-          tickFormat={(t) => t.toString()}
-        />
-        <VictoryAxis
-          dependentAxis
-          style={chartStyles.axis.style}
-          tickValues={[steadyState, Kyz]}
-          tickFormat={(t) => (t === Kyz ? "Kyz" : t.toFixed(0))}
-        />
-        <VictoryLine
-          style={chartStyles.line.dashed}
-          data={[
-            { x: 0, y: Kyz },
-            { x: 60, y: Kyz },
-          ]}
-        />
-        {data.length > 0 && (
-          <VictoryLine {...chartStyles.line.default} data={data} />
-        )}
-        {data.length > 0 && (
-          <VictoryScatter
-            style={chartStyles.scatter}
-            size={2}
-            data={[data[data.length - 1]]}
-          />
-        )}
-      </VictoryChart>
-    </div>
-  </>
+  <ChartBlock label="Protein Y concentration:" className="mt-4">
+    <TimePlot
+      title="Protein Y concentration over the 60-second run"
+      yMax={steadyState + 2}
+    >
+      <TimeAxes
+        yTicks={[
+          [steadyState, steadyState.toFixed(0)],
+          [Kyz, "Kyz"],
+        ]}
+      />
+      <Line
+        data={[
+          { x: 0, y: Kyz },
+          { x: 60, y: Kyz },
+        ]}
+        stroke={chartStyles.threshold}
+        width={1}
+        dashed
+      />
+      <Trace data={data} />
+    </TimePlot>
+  </ChartBlock>
 );
 
-const ProteinZChart = ({ data, steadyState, delayData }) => {
-  return (
-    <>
-      <div className="text-sm font-mono mb-2 mt-4">
-        Protein Z concentration:
-      </div>
-      <div className="h-[150px]">
-        <VictoryChart
-          {...chartStyles.chart}
-          domain={{ x: [0, 61], y: [0, steadyState + 2] }}
-          containerComponent={<VictoryContainer responsive={true} />}
-        >
-          <VictoryAxis
-            label="t"
-            style={chartStyles.axis.style}
-            axisLabelComponent={<VictoryLabel dy={-5} dx={190} />}
-            tickValues={[0, 60]}
-            tickFormat={(t) => t.toString()}
-          />
-          <VictoryAxis
-            dependentAxis
-            style={chartStyles.axis.style}
-            tickValues={[steadyState]}
-            tickFormat={(t) => t.toFixed(0)}
-          />
-          {delayData.delays.map((delay, index) => (
-            <VictoryArea
-              key={index}
-              style={chartStyles.delayIndicator}
-              data={[
-                { x: delay.start, y: 0 },
-                { x: delay.start, y: steadyState + 2 },
-                { x: delay.end, y: steadyState + 2 },
-                { x: delay.end, y: 0 },
-              ]}
-            />
-          ))}
-          {data.length > 0 && (
-            <VictoryLine {...chartStyles.line.default} data={data} />
-          )}
-          {data.length > 0 && (
-            <VictoryScatter
-              style={chartStyles.scatter}
-              size={2}
-              data={[data[data.length - 1]]}
-            />
-          )}
-        </VictoryChart>
-      </div>
-    </>
-  );
-};
+const ProteinZChart = ({
+  data,
+  steadyState,
+  delayData,
+}: {
+  data: SignalData[];
+  steadyState: number;
+  delayData: DelayTimeData;
+}) => (
+  <ChartBlock label="Protein Z concentration:" className="mt-4">
+    <TimePlot
+      title="Protein Z concentration over the 60-second run"
+      yMax={steadyState + 2}
+    >
+      <TimeAxes yTicks={[[steadyState, steadyState.toFixed(0)]]} />
+      <DelayBands delays={delayData.delays} />
+      <Trace data={data} />
+    </TimePlot>
+  </ChartBlock>
+);
 
 const C1FFLDynamicsSimulator = () => {
   const {
