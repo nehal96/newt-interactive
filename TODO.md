@@ -26,6 +26,28 @@ Add `next-devtools-mcp` to a `.mcp.json` at the same time — the DevTools MCP s
 
 Files: [package.json](package.json), [CLAUDE.md](CLAUDE.md)
 
+## Replace Victory — it is what keeps lodash in the tree
+
+`victory-core` depends on `lodash`, so taking the direct dependency out of `package.json` changed nothing about what ships: the 272 kB chart chunk still carries both, and it loads on seven routes (`c1-ffl`, `circuit-evolution`, `kalman-filters`, and four systems-biology parts). Victory is the heaviest thing on the site outside the 3D stack, and the precedent for leaving it exists twice already — cooperativity's charts are hand-rolled SVG, and `pages/series/systems-biology/figures/chart.tsx` is a shared axis/scale layer. Nine figure files import it. Better done per figure than as one migration: the systems-biology graphs and the Kalman gaussians want quite different primitives, and every figure that lands takes a slice off all seven routes.
+
+Files: [pages/series/systems-biology/figures/chart.tsx](pages/series/systems-biology/figures/chart.tsx), [pages/essays/hemoglobin/figures/cooperativity/chart.tsx](pages/essays/hemoglobin/figures/cooperativity/chart.tsx), [pages/blocks/c1-ffl/figures/Simulator.tsx](pages/blocks/c1-ffl/figures/Simulator.tsx)
+
+## Retire TippyTooltip for the Radix tooltip already in `_app`
+
+`tippy.js` has been frozen since 2021 — Floating UI is its successor — and `@tippyjs/react` only ever wrapped it. Meanwhile `ui/controls/Tooltip` is Radix and `_app` mounts its `TooltipProvider` on every route, so the site ships two tooltip engines and uses the older one in prose. Six files reach for `TippyTooltip`, four of them MDX. The work isn't the rename: Tippy takes arbitrary children and positions itself, Radix wants an explicit trigger/content pair, so each prose call site needs reading. `tippy.js` is also imported directly for its CSS while undeclared — it resolves only because `@tippyjs/react` depends on it, and that import goes away with the rest.
+
+Files: [ui/controls/TippyTooltip/index.tsx](ui/controls/TippyTooltip/index.tsx), [ui/controls/Tooltip/index.tsx](ui/controls/Tooltip/index.tsx), [pages/\_app.page.js](pages/_app.page.js)
+
+## The React 19 upgrade, and the bumps that don't need it
+
+`@react-three/fiber` 9 peers on `react: >=19 <19.3` and `drei` 10 on `^19`, so React 18 → 19, fiber 8 → 9, drei 9 → 10 and `three` 0.170 → 0.185 are one coupled change rather than four. Verify it by loading the pages, not by reading the build — this is the `ssr:false` blast radius `CLAUDE.md` describes, where a broken lazy 3D figure still compiles clean.
+
+Three bumps are independent of it and can land whenever: `react-icons` 4 → 5 (its peer is `react: *`), `zustand` 4 → 5 (one store), `@vercel/analytics` 1 → 2.
+
+Two must not move alone: `tailwind-merge` 3 targets Tailwind CSS v4, so it pairs with `tailwindcss` 3 → 4 or stays where it is. That upgrade also lands on the browserslist floor, so read that part of `CLAUDE.md` before starting.
+
+Files: [package.json](package.json), [pages/essays/hemoglobin/figures/Lazy3DFigure.tsx](pages/essays/hemoglobin/figures/Lazy3DFigure.tsx), [pages/blocks/c1-ffl/figures/store/store.ts](pages/blocks/c1-ffl/figures/store/store.ts)
+
 ## Post-publish: share the project's work-in-progress material
 
 After the hemoglobin essay ships, share the work-in-progress material for the whole project from my notebook.

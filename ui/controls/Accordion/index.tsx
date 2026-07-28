@@ -1,4 +1,4 @@
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import { Accordion as AccordionPrimitive } from "radix-ui";
 import { FiInfo, FiChevronDown } from "react-icons/fi";
 import { cn } from "@lib/utils";
 

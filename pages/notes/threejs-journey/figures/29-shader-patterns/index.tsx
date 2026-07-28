@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as Select from "@radix-ui/react-select";
+import { Select } from "radix-ui";
 import CodeSandbox from "../CodeSandbox";
 import { FiCheck, FiChevronDown } from "react-icons/fi";
 import indexHtmlFile from "./indexhtml-file";

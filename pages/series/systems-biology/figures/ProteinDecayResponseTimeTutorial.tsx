@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@ui/controls";
 import MathFormula from "@ui/prose/MathFormula";
 import { SlideDeck } from "@viz/slides";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { VisuallyHidden } from "radix-ui";
 import { decayCurve, ResponseTimeChart, ResponseTimeControls } from "./chart";
 
 const ExponentialDecayEquationSheet = () => (
@@ -13,9 +13,9 @@ const ExponentialDecayEquationSheet = () => (
       </span>
     </SheetTrigger>
     <SheetContent>
-      <VisuallyHidden>
+      <VisuallyHidden.Root>
         <SheetTitle>Protein Decay Equation</SheetTitle>
-      </VisuallyHidden>
+      </VisuallyHidden.Root>
       <div className="flex flex-col text-md text-sm">
         <p className="mb-3">starting with:</p>
         <MathFormula
@@ -83,9 +83,9 @@ const ResponseTimeSheet = () => (
       </span>
     </SheetTrigger>
     <SheetContent>
-      <VisuallyHidden>
+      <VisuallyHidden.Root>
         <SheetTitle>Protein Decay Response Time Equation</SheetTitle>
-      </VisuallyHidden>
+      </VisuallyHidden.Root>
       <div className="flex flex-col text-md text-sm">
         <p className="mb-3">starting with:</p>
         <MathFormula

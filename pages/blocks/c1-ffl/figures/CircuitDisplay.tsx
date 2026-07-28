@@ -9,8 +9,7 @@ import {
   EdgeMarker,
   useReactFlow,
 } from "@xyflow/react";
-import throttle from "lodash/throttle";
-import debounce from "lodash/debounce";
+import { debounce, throttle } from "@lib/timing";
 import { ZState } from "./types";
 import { initialNodes, initialEdges } from "./data";
 import { CIRCUIT_CONFIG } from "./config";
