@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
-import { cn } from "../../../../lib/utils";
+import { cn } from "@lib/utils";
 import { HB, NEUTRAL, SWITCH_CHAINS } from "../palette";
 
 // The T <-> R quaternary switch as a flat 2D schematic, the diagram counterpart

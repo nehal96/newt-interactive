@@ -1,18 +1,8 @@
 import Head from "next/head";
-import CoverArt, { type Motif } from "../components/CoverArt";
+import CoverArt from "@ui/site/CoverArt";
+import { MOTIFS } from "@lib/motifs";
 
 /* Capture surface for scripts/og-cards.mjs — one 1200×630 card per motif. */
-
-const MOTIFS: Motif[] = [
-  "network",
-  "network-layered",
-  "circuit",
-  "generations",
-  "distributions",
-  "helix",
-  "bars",
-  "wireframe",
-];
 
 export const getStaticProps = () =>
   process.env.NODE_ENV === "production" ? { notFound: true } : { props: {} };

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { PageShell, SeoHead } from "../components";
+import { SeoHead } from "@ui/article";
+import { PageShell } from "@ui/layout";
 
 const metadata = {
   title: "Page not found",

@@ -1,9 +1,6 @@
 import { useMemo, useState } from "react";
 import LocalizationSimulation2D from "./LocalizationSimulation2D";
-import {
-  InteractiveContainer,
-  InteractiveTutorialContainer,
-} from "../../components";
+import { InteractiveContainer, InteractiveTutorialContainer } from "@ui/layout";
 import useLocalizationSimulation from "./hooks";
 import { getSlides } from "./slides";
 import { BackAction, GridPositionChange, NextAction, Section } from "./types";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { InteractiveTutorialContainer } from "../../components";
+import { InteractiveTutorialContainer } from "@ui/layout";
 import { useCircuitEvolution } from "./hooks";
 import { CIRCUIT_CONFIG } from "./config";
 import CircuitDashboard from "./CircuitDashboard";

@@ -1,6 +1,7 @@
 import { ReactFlowProvider } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { Button, InteractiveTutorialContainer } from "../../components";
+import { Button } from "@ui/controls";
+import { InteractiveTutorialContainer } from "@ui/layout";
 import { chartStyles } from "./utils";
 import {
   VictoryChart,

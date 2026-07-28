@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../../../components";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@ui/controls";
 import { CHART, ChartFigure, ChartFrame, Dot, P50, PLOT, px, py, SaturationCurve } from "./chart";
 import { HB } from "../palette";
 

@@ -1,4 +1,4 @@
-import { Accordion } from "../../components";
+import { Accordion } from "@ui/controls";
 
 export default function InfoPanel() {
   return (

@@ -1,11 +1,9 @@
 import { useState } from "react";
-import {
-  TextContainer,
-  Button,
-  MathFormula,
-  InlineCode,
-  SlideNav,
-} from "../../components";
+import { Button } from "@ui/controls";
+import { TextContainer } from "@ui/layout";
+import { InlineCode } from "@ui/prose/Code";
+import MathFormula from "@ui/prose/MathFormula";
+import { SlideNav } from "@viz/slides";
 import styles from "./styles.module.css";
 import {
   GaussianNameProps,

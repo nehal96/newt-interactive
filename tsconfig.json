@@ -23,6 +23,7 @@
       "@ui/*": ["ui/*"],
       "@viz/*": ["viz/*"],
       "@lib/*": ["lib/*"],
+      "@hooks": ["hooks"],
       "@hooks/*": ["hooks/*"]
     }
   },

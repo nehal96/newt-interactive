@@ -7,19 +7,12 @@ import {
   VictoryScatter,
 } from "victory";
 import { FiInfo, FiSettings, FiX } from "react-icons/fi";
-import {
-  Button,
-  MathFormula,
-  Slider,
-  Popover,
-  TabsTrigger,
-  TabsList,
-  Tabs,
-} from "../../components";
+import { Button, Slider, Popover, TabsTrigger, TabsList, Tabs } from "@ui/controls";
+import MathFormula from "@ui/prose/MathFormula";
 import { SimulationType, Theme } from "./types";
 import { CIRCUIT_CONFIG, fitnessChartAxisStyle } from "./config";
-import { useMediaQuery } from "../../hooks";
-import { cn } from "../../lib/utils";
+import { useMediaQuery } from "@hooks";
+import { cn } from "@lib/utils";
 
 const TruthTable = ({ theme, truthTable, accuracy }) => {
   const getCircuitResultClass = (falseResult) => {

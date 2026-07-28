@@ -1,4 +1,5 @@
-import { SlideDeck, MathFormula } from "../../components";
+import MathFormula from "@ui/prose/MathFormula";
+import { SlideDeck } from "@viz/slides";
 
 export const FormulaReview = () => {
   const slides = [

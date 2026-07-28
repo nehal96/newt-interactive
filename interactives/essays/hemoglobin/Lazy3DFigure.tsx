@@ -1,5 +1,5 @@
 import { type ReactNode, useRef } from "react";
-import { useInViewport } from "../../../hooks";
+import { useInViewport } from "@hooks";
 
 // The shared shell for an inline 3D-morph figure. Owns the lazy lifecycle every
 // such figure needs — boot the (heavy, client-only) player only once it scrolls

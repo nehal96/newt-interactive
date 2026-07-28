@@ -1,10 +1,4 @@
-import {
-  CircuitProteinNode,
-  LineNode,
-  CircleNode,
-  CircuitPromoterNode,
-  LabelNode,
-} from "../../components";
+import { CircuitProteinNode, LineNode, CircleNode, CircuitPromoterNode, LabelNode } from "@viz/flow";
 
 export const CIRCUIT_CONFIG = {
   PROXIMITY_THRESHOLD: 60,

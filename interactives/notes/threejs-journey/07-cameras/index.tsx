@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { SlideDeck } from "../../../../components";
+import { SlideDeck } from "@viz/slides";
 import { getSlides } from "./slides";
 
 const CameraCanvas = dynamic(() => import("./CameraCanvas"), {

@@ -1,4 +1,5 @@
-import { MathFormula, Slider, Accordion } from "../../components";
+import { Slider, Accordion } from "@ui/controls";
+import MathFormula from "@ui/prose/MathFormula";
 import { UseSimulationReturn } from "./types";
 
 const ParametersDisplay = ({

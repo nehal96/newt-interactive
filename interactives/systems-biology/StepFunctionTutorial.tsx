@@ -1,11 +1,8 @@
 import { useState } from "react";
-import {
-  InlineCode,
-  MathFormula,
-  SlideDeck,
-  TabsList,
-  TabsTrigger,
-} from "../../components";
+import { TabsList, TabsTrigger } from "@ui/controls";
+import { InlineCode } from "@ui/prose/Code";
+import MathFormula from "@ui/prose/MathFormula";
+import { SlideDeck } from "@viz/slides";
 import { ActivatorGraph, SecondaryLine } from "./ActivatorGraph";
 import { RepressorGraph } from "./RepressorGraph";
 import {
@@ -13,7 +10,7 @@ import {
   getRepressorHillFunctionData,
 } from "./helpers";
 import { VictoryLine } from "victory";
-import { Tabs } from "../../components/Tabs";
+import { Tabs } from "@ui/controls";
 
 export function StepFunctionTutorial() {
   const [activatorN, setActivatorN] = useState(1);

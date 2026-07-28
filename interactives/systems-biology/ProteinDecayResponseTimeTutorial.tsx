@@ -1,12 +1,7 @@
 import { useState } from "react";
-import {
-  MathFormula,
-  Sheet,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-  SlideDeck,
-} from "../../components";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@ui/controls";
+import MathFormula from "@ui/prose/MathFormula";
+import { SlideDeck } from "@viz/slides";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { decayCurve, ResponseTimeChart, ResponseTimeControls } from "./chart";
 

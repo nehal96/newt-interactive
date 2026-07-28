@@ -1,7 +1,7 @@
-import { MdxLayout } from "../../../components";
-import { PartsTable } from "../../../components/Homepage";
-import { getPiece, partsBySection } from "../../../lib/content";
-import { cn } from "../../../lib/utils";
+import { MdxLayout } from "@ui/article";
+import { PartsTable } from "@ui/site/Homepage";
+import { getPiece, partsBySection } from "@lib/content";
+import { cn } from "@lib/utils";
 
 const HREF = "/series/systems-biology";
 

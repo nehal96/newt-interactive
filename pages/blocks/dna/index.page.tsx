@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
-import { MdxLayout, PostArticleSubscribe } from "../../../components";
+import { MdxLayout, PostArticleSubscribe } from "@ui/article";
 
 const DNADoubleHelixCanvas = dynamic(
-  () => import("../../../canvases/DNA-DoubleHelixCanvas"),
+  () => import("./figures/DNA-DoubleHelixCanvas"),
   { ssr: false }
 );
 

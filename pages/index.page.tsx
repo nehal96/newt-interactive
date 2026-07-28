@@ -1,7 +1,8 @@
-import { PageShell, SeoHead, SubscribeForm } from "../components";
-import { ArchiveRow, FeaturedPiece, PieceRow } from "../components/Homepage";
-import { archivedPieces, featuredPiece, restOfPieces } from "../lib/content";
-import { EMAIL_HREF, TWITTER_URL } from "../lib/links";
+import { SeoHead, SubscribeForm } from "@ui/article";
+import { PageShell } from "@ui/layout";
+import { ArchiveRow, FeaturedPiece, PieceRow } from "@ui/site/Homepage";
+import { archivedPieces, featuredPiece, restOfPieces } from "@lib/content";
+import { EMAIL_HREF, TWITTER_URL } from "@lib/links";
 
 const DESCRIPTION =
   "Interactive, educational explainers and playgrounds on topics in science, technology, engineering, and math";

@@ -1,6 +1,6 @@
 // The homepage catalogue: every published piece, in one place.
 
-import type { Motif } from "../components/CoverArt";
+import type { Motif } from "./motifs";
 
 export type PieceKind = "essay" | "series" | "block" | "note";
 

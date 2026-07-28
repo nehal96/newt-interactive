@@ -1,8 +1,5 @@
 import { useState } from "react";
-import {
-  InteractiveTutorialContainer,
-  InteractiveContainer,
-} from "../../components";
+import { InteractiveTutorialContainer, InteractiveContainer } from "@ui/layout";
 import GaussianParameterUpdateChart from "./GaussianParameterUpdateChart";
 import GaussianParameterUpdateSlides from "./GaussianParameterUpdateSlides";
 import { getSlides } from "./slides";

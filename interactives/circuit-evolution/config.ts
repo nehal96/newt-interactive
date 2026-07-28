@@ -1,4 +1,4 @@
-import { axisStyle } from "../../components";
+import { axisStyle } from "@viz/chart";
 import { Theme } from "./types";
 
 export const CIRCUIT_CONFIG = {

@@ -1,6 +1,6 @@
 import type { GetServerSideProps } from "next";
-import { catalogueEntries } from "../lib/content";
-import { SITE_URL } from "../lib/links";
+import { catalogueEntries } from "@lib/content";
+import { SITE_URL } from "@lib/links";
 
 function buildSitemap() {
   const entries = [
