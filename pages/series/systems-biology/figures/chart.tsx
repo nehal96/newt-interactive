@@ -1,4 +1,4 @@
-import { type ReactNode, useId } from "react";
+import { createContext, type ReactNode, useContext, useId } from "react";
 import { Slider, Switch } from "@ui/controls";
 import { InlineCode } from "@ui/prose/Code";
 import MathFormula from "@ui/prose/MathFormula";
@@ -19,6 +19,7 @@ export const CURVE = {
   activator: "#c43a31",
   repressor: "#3b82f6",
   response: "#2dd4bf",
+  unregulated: "#0d9488",
   comparison: "#cbd5e1",
 };
 
@@ -31,9 +32,9 @@ const FRAME = {
   marker: "#334155",
 };
 
-type Scale = { x: (v: number) => number; y: (v: number) => number };
+export type Scale = { x: (v: number) => number; y: (v: number) => number };
 
-const scaleFor = (xMax: number, yMax: number): Scale => ({
+export const scaleFor = (xMax: number, yMax: number): Scale => ({
   x: (v) => PLOT.X0 + (v / xMax) * (PLOT.X1 - PLOT.X0),
   y: (v) => PLOT.YB - (v / yMax) * (PLOT.YB - PLOT.YT),
 });
@@ -45,7 +46,7 @@ const RESPONSE = scaleFor(20, 110);
 
 export type Tick = [value: number, label: ReactNode];
 
-const Sub = ({
+export const Sub = ({
   base,
   sub,
   after,
@@ -63,6 +64,12 @@ const Sub = ({
   </>
 );
 
+// Every plot publishes a clip of its own box under `${id}-clip`, which a curve
+// running off the top of its domain — the unregulated-production line — asks
+// for with `clip`. Snug at the top, where the cut must land exactly on the
+// domain edge; slack elsewhere so round caps at the axes survive it.
+const ClipContext = createContext("");
+
 export function Plot({
   title,
   desc,
@@ -73,6 +80,7 @@ export function Plot({
   children: ReactNode;
 }) {
   const id = useId();
+  const { X0, X1, YT, YB } = PLOT;
   return (
     <svg
       viewBox={`0 0 ${VIEW.W} ${VIEW.H}`}
@@ -83,7 +91,19 @@ export function Plot({
     >
       <title id={`${id}-title`}>{title}</title>
       <desc id={`${id}-desc`}>{desc}</desc>
-      {children}
+      <defs>
+        <clipPath id={`${id}-clip`}>
+          <rect
+            x={X0 - 3}
+            y={YT}
+            width={X1 - X0 + 6}
+            height={YB - YT + 3}
+          />
+        </clipPath>
+      </defs>
+      <ClipContext.Provider value={`${id}-clip`}>
+        {children}
+      </ClipContext.Provider>
     </svg>
   );
 }
@@ -91,15 +111,18 @@ export function Plot({
 export function Axes({
   scale,
   xLabel,
+  yLabel,
   xTicks = [],
   yTicks = [],
 }: {
   scale: Scale;
   xLabel: string;
+  yLabel?: string;
   xTicks?: Tick[];
   yTicks?: Tick[];
 }) {
   const { X0, X1, YT, YB } = PLOT;
+  const yMid = (YT + YB) / 2;
   return (
     <>
       <line x1={X0} y1={YB} x2={X1 + 8} y2={YB} stroke={FRAME.axis} />
@@ -113,6 +136,18 @@ export function Axes({
       >
         {xLabel}
       </text>
+      {yLabel && (
+        <text
+          x={16}
+          y={yMid}
+          fill={FRAME.label}
+          fontSize={12}
+          textAnchor="middle"
+          transform={`rotate(-90 16 ${yMid})`}
+        >
+          {yLabel}
+        </text>
+      )}
       {xTicks.map(([value, label], i) => (
         <g key={`x-${i}`}>
           <line
@@ -185,6 +220,9 @@ export function Curve({
   scale,
   stroke,
   width = 2.25,
+  opacity,
+  dashed = false,
+  clip = false,
   label,
   labelY,
   drawIn = false,
@@ -193,12 +231,17 @@ export function Curve({
   scale: Scale;
   stroke: string;
   width?: number;
+  opacity?: number;
+  dashed?: boolean;
+  /** Cut the curve at the top of the plot, for one that leaves its domain. */
+  clip?: boolean;
   label?: string;
   /** Pixel y for the label, when the curve's own end point would collide. */
   labelY?: number;
   drawIn?: boolean;
 }) {
   const end = points[points.length - 1];
+  const clipId = useContext(ClipContext);
   return (
     <>
       <path
@@ -206,8 +249,11 @@ export function Curve({
         fill="none"
         stroke={stroke}
         strokeWidth={width}
+        strokeOpacity={opacity}
         strokeLinecap="round"
         strokeLinejoin="round"
+        clipPath={clip ? `url(#${clipId})` : undefined}
+        {...(dashed ? { strokeDasharray: "5 5" } : {})}
         {...(drawIn
           ? { pathLength: 1, strokeDasharray: 1, strokeDashoffset: 1 }
           : {})}
@@ -273,6 +319,27 @@ export function stackedLabelYs(points: Point[][]) {
     previous = y;
     return y;
   });
+}
+
+export function Guide({
+  from,
+  to,
+  scale,
+}: {
+  from: [number, number];
+  to: [number, number];
+  scale: Scale;
+}) {
+  return (
+    <line
+      x1={scale.x(from[0])}
+      y1={scale.y(from[1])}
+      x2={scale.x(to[0])}
+      y2={scale.y(to[1])}
+      stroke={FRAME.guide}
+      strokeDasharray="4 4"
+    />
+  );
 }
 
 export function Crosshair({

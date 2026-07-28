@@ -1,28 +1,16 @@
 import { useState } from "react";
-import {
-  VictoryAxis,
-  VictoryLine,
-  VictoryContainer,
-  VictoryLabel,
-} from "victory";
-import { VictoryChart } from "victory";
 import { Slider } from "@ui/controls";
 import { InlineCode } from "@ui/prose/Code";
 import MathFormula from "@ui/prose/MathFormula";
-import { axisStyle, getDottedLineStyle } from "@viz/chart";
 import { SlideDeck } from "@viz/slides";
 import { cn } from "@lib/utils";
+import { Axes, CURVE, Curve, Guide, Plot, scaleFor, Sub, type Tick } from "./chart";
 import {
   accumulationCurve,
+  getResponseCurveData,
   rampToSteadyState,
   responseTime,
-  sample,
 } from "./helpers";
-import {
-  CURVE_COLOR,
-  noTicksAxisStyle,
-  SECONDARY_CURVE_COLOR,
-} from "./victory-chart";
 
 const calculateTHalfNAR = (K: number, betaNAR: number) => K / (2 * betaNAR);
 const calculateTHalfSimpleReg = responseTime;
@@ -36,6 +24,11 @@ type NegativeAutoregResponseTimeComparisonChartProps = {
   showResponseTime?: boolean;
 };
 
+const SCALE = scaleFor(20, 210);
+
+const Xst = <Sub base="X" sub="st" />;
+const XstHalf = <Sub base="X" sub="st" after="/2" />;
+
 export const NegativeAutoregResponseTimeComparisonChart = ({
   steadyState = 100,
   betaNAR = 12,
@@ -44,77 +37,61 @@ export const NegativeAutoregResponseTimeComparisonChart = ({
   tHalfSimpleReg = 4,
   showResponseTime = false,
 }: NegativeAutoregResponseTimeComparisonChartProps) => {
-  const dottedLineStyle = getDottedLineStyle();
-  const XAxisTickValues = showResponseTime ? [tHalfNAR, tHalfSimpleReg] : [];
-  const YAxisTickValues = showResponseTime
-    ? [steadyState / 2, steadyState]
-    : [steadyState];
+  const xTicks: Tick[] = showResponseTime
+    ? [
+        [tHalfNAR, <Sub key="n" base="T" sub="n" />],
+        [tHalfSimpleReg, <Sub key="s" base="T" sub="s" />],
+      ]
+    : [];
+  const yTicks: Tick[] = showResponseTime
+    ? [
+        [steadyState, Xst],
+        [steadyState / 2, XstHalf],
+      ]
+    : [[steadyState, Xst]];
 
   return (
-    <VictoryChart
-      domain={{ x: [0, 20], y: [0, 210] }}
-      containerComponent={<VictoryContainer responsive={true} />}
+    <Plot
+      title="Negative autoregulation against simple regulation"
+      desc={`Both curves rising to the same steady state. Negative autoregulation ramps at ${betaNAR} per unit time and reaches half its steady state at ${tHalfNAR.toFixed(2)}; simple regulation decays in at a rate of ${alphaSimpleReg} and reaches half at ${tHalfSimpleReg.toFixed(2)}.`}
     >
-      <VictoryAxis
-        label="time"
-        style={noTicksAxisStyle}
-        tickValues={XAxisTickValues}
-        tickFormat={(tick) => {
-          if (tick === tHalfNAR) return "Tn";
-          if (tick === tHalfSimpleReg) return "Ts";
-        }}
-        axisLabelComponent={<VictoryLabel dy={-39} dx={195} />}
+      <Axes scale={SCALE} xLabel="time" xTicks={xTicks} yTicks={yTicks} />
+      <Curve
+        points={getResponseCurveData(
+          accumulationCurve,
+          alphaSimpleReg,
+          steadyState
+        )}
+        scale={SCALE}
+        stroke={CURVE.comparison}
+        width={2}
       />
-      <VictoryAxis
-        dependentAxis
-        style={axisStyle}
-        tickValues={YAxisTickValues}
-        tickFormat={(tick) => {
-          if (tick === steadyState / 2) return "X_st/2";
-          if (tick === steadyState) return "X_st";
-        }}
-      />
-      <VictoryLine
-        style={{
-          data: { stroke: SECONDARY_CURVE_COLOR },
-        }}
-        data={sample((t) => accumulationCurve(t, alphaSimpleReg, steadyState))}
-        interpolation="basis"
-      />
-      <VictoryLine
-        style={{
-          data: { stroke: CURVE_COLOR, strokeWidth: 2 },
-        }}
-        data={rampToSteadyState(steadyState, betaNAR)}
+      <Curve
+        points={rampToSteadyState(steadyState, betaNAR)}
+        scale={SCALE}
+        stroke={CURVE.response}
+        width={2}
       />
       {showResponseTime && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: 0, y: steadyState / 2 },
-            { x: tHalfSimpleReg, y: steadyState / 2 },
-          ]}
-        />
+        <>
+          <Guide
+            from={[0, steadyState / 2]}
+            to={[tHalfSimpleReg, steadyState / 2]}
+            scale={SCALE}
+          />
+          <Guide
+            from={[tHalfNAR, steadyState / 2]}
+            to={[tHalfNAR, 0]}
+            scale={SCALE}
+          />
+          <Guide
+            from={[tHalfSimpleReg, steadyState / 2]}
+            to={[tHalfSimpleReg, 0]}
+            scale={SCALE}
+          />
+        </>
       )}
-      {showResponseTime && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: tHalfNAR, y: steadyState / 2 },
-            { x: tHalfNAR, y: 0 },
-          ]}
-        />
-      )}
-      {showResponseTime && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: tHalfSimpleReg, y: steadyState / 2 },
-            { x: tHalfSimpleReg, y: 0 },
-          ]}
-        />
-      )}
-    </VictoryChart>
+    </Plot>
   );
 };
 
