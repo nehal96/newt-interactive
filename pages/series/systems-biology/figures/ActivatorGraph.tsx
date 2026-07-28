@@ -1,126 +1,84 @@
+import { type ReactNode } from "react";
 import {
-  VictoryAxis,
-  VictoryChart,
-  VictoryContainer,
-  VictoryLabel,
-  VictoryLine,
-} from "victory";
-import { axisStyle, getGridLineStyle } from "@viz/chart";
-import { crosshairAt, noTicksAxisStyle, SECONDARY_CURVE_COLOR } from "./chart";
-import { getActivatorHillFunctionData, Point } from "./helpers";
+  Axes,
+  ComparisonCurve,
+  Crosshair,
+  CURVE,
+  Curve,
+  GuideLine,
+  HILL,
+  Plot,
+  stackedLabelYs,
+  type Tick,
+} from "./chart";
+import { getActivatorHillFunctionData, type Point } from "./helpers";
 
 interface ActivatorGraphProps {
   activatorBeta: number;
   activatorK: number;
   activatorHillFunctionData: Point[];
-  children?: React.ReactNode;
-  xAxisTickValues?: (number | string)[];
-  xAxisTickFormat?: (t: number | string) => string;
+  children?: ReactNode;
+  showKTick?: boolean;
   showKIndicator?: boolean;
   showNComparisonCurves?: boolean;
   hideMainCurve?: boolean;
 }
-
-export const SecondaryLine = ({
-  data,
-  showLabel = true,
-  label,
-  domainMax = 20,
-  ...props
-}) => (
-  <VictoryLine
-    {...props}
-    style={{
-      data: { stroke: SECONDARY_CURVE_COLOR },
-      parent: { border: "1px solid #ccc" },
-    }}
-    data={data}
-    interpolation="basis"
-    labels={({ datum }) => (showLabel && datum.x === domainMax ? label : "")}
-    labelComponent={<VictoryLabel dx={18} dy={5} style={{ fill: "#94a3b8" }} />}
-  />
-);
 
 export const ActivatorGraph = ({
   activatorBeta,
   activatorK,
   activatorHillFunctionData,
   children,
-  xAxisTickValues,
-  xAxisTickFormat,
+  showKTick = false,
   showKIndicator = false,
   showNComparisonCurves = false,
   hideMainCurve = false,
 }: ActivatorGraphProps) => {
-  const gridLineStyle = getGridLineStyle();
+  const comparisonNs = [2, 4];
+  const comparisons = comparisonNs.map((n) =>
+    getActivatorHillFunctionData(20, activatorK, n)
+  );
+  const comparisonLabelYs = stackedLabelYs(comparisons);
 
-  const XAxisStyle = showKIndicator ? axisStyle : noTicksAxisStyle;
-  const XAxisTickValues =
-    xAxisTickValues ?? (showKIndicator ? [activatorK] : []);
-  const XAxisTickFormat =
-    xAxisTickFormat ?? (showKIndicator ? () => "K" : () => "");
-  const YAxisTickValues = showKIndicator
-    ? [activatorBeta / 2, activatorBeta]
-    : [activatorBeta];
+  const yTicks: Tick[] = [[activatorBeta, "β"]];
+  // Below this the β/2 tick collides with the β tick, and the two labels
+  // become one smudge.
+  if (showKIndicator && activatorBeta > 3.5)
+    yTicks.push([activatorBeta / 2, "β/2"]);
 
   return (
-    <VictoryChart
-      domain={{ x: [0, 20], y: [0, 22] }}
-      domainPadding={{ x: showNComparisonCurves ? 40 : 0 }}
-      containerComponent={<VictoryContainer responsive={true} />}
+    <Plot
+      title="Activator input function"
+      desc={`Promoter activity against activator concentration X*, rising towards a maximum of β with a threshold K of ${activatorK}.`}
     >
-      <VictoryAxis
-        label="X*"
-        style={XAxisStyle}
-        tickValues={XAxisTickValues}
-        tickFormat={XAxisTickFormat}
-        axisLabelComponent={<VictoryLabel dy={-37} dx={190} />}
+      <Axes
+        scale={HILL}
+        xLabel="X*"
+        xTicks={showKTick || showKIndicator ? [[activatorK, "K"]] : []}
+        yTicks={yTicks}
       />
-      <VictoryAxis
-        dependentAxis
-        style={axisStyle}
-        tickValues={YAxisTickValues}
-        tickFormat={(t) =>
-          t == activatorBeta ? "β" : activatorBeta > 3.5 ? "β/2" : ""
-        }
-      />
-      {showNComparisonCurves && (
-        <SecondaryLine
-          data={getActivatorHillFunctionData(20, activatorK, 2)}
-          label="n = 2"
-          animate={{
-            onLoad: { duration: 500 },
-          }}
-        />
-      )}
-      {showNComparisonCurves && (
-        <SecondaryLine
-          data={getActivatorHillFunctionData(20, activatorK, 4)}
-          label="n = 4"
-          animate={{
-            onLoad: { duration: 500 },
-          }}
-        />
-      )}
+      <GuideLine y={activatorBeta} scale={HILL} />
+      {showNComparisonCurves &&
+        comparisons.map((points, i) => (
+          <ComparisonCurve
+            key={comparisonNs[i]}
+            points={points}
+            label={`n = ${comparisonNs[i]}`}
+            labelY={comparisonLabelYs[i]}
+            drawIn
+          />
+        ))}
       {!hideMainCurve && (
-        <VictoryLine
-          style={{
-            data: { stroke: "#c43a31" },
-            parent: { border: "1px solid #ccc" },
-          }}
-          data={activatorHillFunctionData}
-          interpolation="basis"
+        <Curve
+          points={activatorHillFunctionData}
+          scale={HILL}
+          stroke={CURVE.activator}
         />
       )}
-      <VictoryLine
-        style={gridLineStyle}
-        data={[
-          { x: 0.05, y: activatorBeta },
-          { x: 20, y: activatorBeta },
-        ]}
-      />
       {children}
-      {showKIndicator && crosshairAt(activatorK, activatorBeta / 2)}
-    </VictoryChart>
+      {showKIndicator && (
+        <Crosshair x={activatorK} y={activatorBeta / 2} scale={HILL} />
+      )}
+    </Plot>
   );
 };

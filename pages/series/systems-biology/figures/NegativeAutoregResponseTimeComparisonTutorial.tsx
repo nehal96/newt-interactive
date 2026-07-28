@@ -14,13 +14,15 @@ import { SlideDeck } from "@viz/slides";
 import { cn } from "@lib/utils";
 import {
   accumulationCurve,
-  CURVE_COLOR,
-  noTicksAxisStyle,
   rampToSteadyState,
   responseTime,
+  sample,
+} from "./helpers";
+import {
+  CURVE_COLOR,
+  noTicksAxisStyle,
   SECONDARY_CURVE_COLOR,
-} from "./chart";
-import { sample } from "./helpers";
+} from "./victory-chart";
 
 const calculateTHalfNAR = (K: number, betaNAR: number) => K / (2 * betaNAR);
 const calculateTHalfSimpleReg = responseTime;

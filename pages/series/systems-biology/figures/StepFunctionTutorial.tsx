@@ -3,13 +3,13 @@ import { TabsList, TabsTrigger } from "@ui/controls";
 import { InlineCode } from "@ui/prose/Code";
 import MathFormula from "@ui/prose/MathFormula";
 import { SlideDeck } from "@viz/slides";
-import { ActivatorGraph, SecondaryLine } from "./ActivatorGraph";
+import { ActivatorGraph } from "./ActivatorGraph";
 import { RepressorGraph } from "./RepressorGraph";
+import { ComparisonCurve, CURVE, Curve, HILL, StepFunction } from "./chart";
 import {
   getActivatorHillFunctionData,
   getRepressorHillFunctionData,
 } from "./helpers";
-import { VictoryLine } from "victory";
 import { Tabs } from "@ui/controls";
 
 export function StepFunctionTutorial() {
@@ -77,43 +77,18 @@ export function StepFunctionTutorial() {
             20
           )}
           showNComparisonCurves
-          xAxisTickValues={[8]}
-          xAxisTickFormat={() => "K"}
+          showKTick
           hideMainCurve
         >
-          <SecondaryLine
-            data={getActivatorHillFunctionData(20, 8, 1)}
+          <ComparisonCurve
+            points={getActivatorHillFunctionData(20, 8, 1)}
             label="n = 1"
           />
-          <VictoryLine
-            style={{
-              data: { stroke: "#c43a31" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 0, y: 0.1 },
-              { x: 8, y: 0.1 },
-            ]}
-          />
-          <VictoryLine
-            style={{
-              data: { stroke: "#c43a31" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 8, y: 0 },
-              { x: 8, y: 20 },
-            ]}
-          />
-          <VictoryLine
-            style={{
-              data: { stroke: "#c43a31" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 8, y: 20 },
-              { x: 20, y: 20 },
-            ]}
+          <StepFunction
+            beta={20}
+            K={8}
+            variant="activator"
+            stroke={CURVE.activator}
           />
         </ActivatorGraph>
       ),
@@ -174,47 +149,19 @@ export function StepFunctionTutorial() {
             0,
             20
           )}
-          xAxisTickValues={[8]}
-          xAxisTickFormat={() => "K"}
+          showKTick
           hideMainCurve
         >
-          <VictoryLine
-            style={{
-              data: { stroke: "#cbd5e1" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 0, y: 0.1 },
-              { x: 8, y: 0.1 },
-            ]}
+          <StepFunction
+            beta={20}
+            K={8}
+            variant="activator"
+            stroke={CURVE.comparison}
           />
-          <VictoryLine
-            style={{
-              data: { stroke: "#cbd5e1" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 8, y: 0 },
-              { x: 8, y: 20 },
-            ]}
-          />
-          <VictoryLine
-            style={{
-              data: { stroke: "#cbd5e1" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 8, y: 20 },
-              { x: 20, y: 20 },
-            ]}
-          />
-          <VictoryLine
-            style={{
-              data: { stroke: "#c43a31" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={getActivatorHillFunctionData(20, 8, activatorN)}
-            interpolation="basis"
+          <Curve
+            points={getActivatorHillFunctionData(20, 8, activatorN)}
+            scale={HILL}
+            stroke={CURVE.activator}
           />
         </ActivatorGraph>
       ),
@@ -242,37 +189,13 @@ export function StepFunctionTutorial() {
             0,
             20
           )}
-          mainLineColor="#cbd5e1"
+          mainLineColor={CURVE.comparison}
         >
-          <VictoryLine
-            style={{
-              data: { stroke: "#3b82f6" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 0, y: 20 },
-              { x: 8, y: 20 },
-            ]}
-          />
-          <VictoryLine
-            style={{
-              data: { stroke: "#3b82f6" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 8, y: 20 },
-              { x: 8, y: 0.1 },
-            ]}
-          />
-          <VictoryLine
-            style={{
-              data: { stroke: "#3b82f6" },
-              parent: { border: "1px solid #ccc" },
-            }}
-            data={[
-              { x: 8, y: 0.1 },
-              { x: 20, y: 0.1 },
-            ]}
+          <StepFunction
+            beta={20}
+            K={8}
+            variant="repressor"
+            stroke={CURVE.repressor}
           />
         </RepressorGraph>
       ),

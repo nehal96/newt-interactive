@@ -10,8 +10,8 @@ import MathFormula from "@ui/prose/MathFormula";
 import { axisStyle, getDottedLineStyle } from "@viz/chart";
 import { SlideDeck } from "@viz/slides";
 import { useState } from "react";
-import { CURVE_COLOR, noTicksAxisStyle, rampToSteadyState } from "./chart";
-import { sample } from "./helpers";
+import { rampToSteadyState, sample } from "./helpers";
+import { CURVE_COLOR, noTicksAxisStyle } from "./victory-chart";
 
 interface NegativeAutoregAccumulationChartProps {
   beta?: number;
