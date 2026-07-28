@@ -13,8 +13,8 @@ const metadata = {
   description: "Explore interactive explainers on systems biology concepts",
   keywords:
     "systems biology, interactive explainers, transcription networks, gene expression, biological systems",
-  ogImage: "https://i.ibb.co/Nnbfc6y/genetic-circuit.png",
-  url: "https://newtinteractive.com/series/systems-biology",
+  ogImage: "https://www.newtinteractive.com/images/og/network-layered.png",
+  url: "https://www.newtinteractive.com/series/systems-biology",
   ogType: "website" as const,
 };
 

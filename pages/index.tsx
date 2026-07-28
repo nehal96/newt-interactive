@@ -9,7 +9,7 @@ const DESCRIPTION =
 const metadata = {
   description: DESCRIPTION,
   keywords: DESCRIPTION,
-  ogImage: "https://i.ibb.co/NpXN5rj/Meta-tag-image-1.png",
+  ogImage: "https://www.newtinteractive.com/logo-banner.png",
   url: "https://www.newtinteractive.com",
   ogType: "website" as const,
 };
@@ -23,6 +23,7 @@ export default function Home() {
       <SeoHead metadata={metadata} />
       <PageShell>
         <div className="mx-auto w-full max-w-column px-5">
+          <h1 className="sr-only">Newt Interactive — {DESCRIPTION}</h1>
           {featuredPiece && (
             <section className="pt-5 sm:pt-6">
               <FeaturedPiece piece={featuredPiece} />

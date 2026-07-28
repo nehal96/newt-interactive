@@ -69,9 +69,9 @@ export const FeaturedPiece = ({ piece }: { piece: Piece }) => (
     </div>
     <div className="mt-5">
       <Meta piece={piece} />
-      <h1 className="mt-2 font-title text-3xl leading-tight text-ink-900 transition-colors group-hover:text-[color:var(--accent)] sm:text-[2.125rem]">
+      <h2 className="mt-2 font-title text-3xl leading-tight text-ink-900 transition-colors group-hover:text-[color:var(--accent)] sm:text-[2.125rem]">
         {piece.title}
-      </h1>
+      </h2>
       <p className="mt-2 max-w-[38rem] font-ui text-[1.0625rem] leading-relaxed text-ink-500">
         {piece.subtitle}
       </p>

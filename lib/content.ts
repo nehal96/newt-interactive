@@ -151,7 +151,8 @@ export const PIECES: Piece[] = [
   },
 ];
 
-const byNewest = (a: Piece, b: Piece) => (a.published < b.published ? 1 : -1);
+const byNewest = (a: { published: string }, b: { published: string }) =>
+  a.published < b.published ? 1 : -1;
 
 export const featuredPiece = PIECES.find((p) => p.featured);
 
@@ -162,6 +163,28 @@ export const restOfPieces = PIECES.filter(
 export const archivedPieces = PIECES.filter((p) => p.archived).sort(byNewest);
 
 export const getPiece = (href: string) => PIECES.find((p) => p.href === href);
+
+export interface CatalogueEntry {
+  href: string;
+  title: string;
+  description: string;
+  published: string;
+}
+
+export const catalogueEntries: CatalogueEntry[] = PIECES.flatMap((piece) => [
+  {
+    href: piece.href,
+    title: piece.title,
+    description: piece.subtitle,
+    published: piece.published,
+  },
+  ...(piece.parts ?? []).map((part, i) => ({
+    href: part.href,
+    title: part.title,
+    description: `Part ${i + 1} of the ${piece.title} series.`,
+    published: part.published,
+  })),
+]).sort(byNewest);
 
 /** Numbering runs on across the groups. Parts with no `section` form one. */
 export function partsBySection(parts: SeriesPart[] = []) {

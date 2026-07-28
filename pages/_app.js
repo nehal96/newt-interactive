@@ -31,6 +31,12 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Newt Interactive"
+          href="/feed.xml"
+        />
         {/* Must equal Tailwind's glass.pane — Safari tints its overscroll
             strip with this, and drift shows as a band above the navbar. */}
         <meta name="theme-color" content="#EBE9F9" />
