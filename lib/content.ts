@@ -1,34 +1,15 @@
-// The homepage catalogue: every published piece, in one place.
+// The catalogue: every published piece, in one place. A piece that owns a
+// meta.ts is listed by importing it — its title and subtitle live in one file.
 
-import type { Motif } from "./motifs";
+import {
+  definePiece,
+  type Piece,
+  type PieceKind,
+  type SeriesPart,
+} from "./piece";
+import c1ffl from "../pages/blocks/c1-ffl/meta";
 
-export type PieceKind = "essay" | "series" | "block" | "note";
-
-export interface SeriesPart {
-  href: string;
-  /** The list's own short label, not the article's `metadata` title. */
-  title: string;
-  published: string;
-  section?: string;
-}
-
-export interface Piece {
-  href: string;
-  kind: PieceKind;
-  title: string;
-  subtitle: string;
-  published: string;
-  /** One of `art` or `cover`; `art` wins if both are set. */
-  art?: Motif;
-  cover?: string;
-  /** Title hover colour, as a hex — a class here is outside Tailwind's globs. */
-  accent?: string;
-  /** At most one piece sets this. */
-  featured?: boolean;
-  archived?: boolean;
-  /** In reading order — the index numbers them by position. */
-  parts?: SeriesPart[];
-}
+export type { Piece, PieceKind, SeriesPart } from "./piece";
 
 export const KIND_LABEL: Record<PieceKind, string> = {
   essay: "Essay",
@@ -38,7 +19,7 @@ export const KIND_LABEL: Record<PieceKind, string> = {
 };
 
 export const PIECES: Piece[] = [
-  {
+  definePiece({
     href: "/essays/hemoglobin",
     kind: "essay",
     title: "The Story of Hemoglobin",
@@ -48,8 +29,8 @@ export const PIECES: Piece[] = [
     cover: "/images/hemoglobin-illustration-red.png",
     accent: "#872421",
     featured: true,
-  },
-  {
+  }),
+  definePiece({
     href: "/series/systems-biology",
     kind: "series",
     title: "Systems Biology",
@@ -89,40 +70,33 @@ export const PIECES: Piece[] = [
         section: "Autoregulation",
       },
     ],
-  },
-  {
-    href: "/blocks/c1-ffl",
-    kind: "block",
-    title: "Coherent Type I Feed-Forward Loop",
-    subtitle: "A playground for understanding C1-FFL circuits",
-    published: "2024-12-27",
-    art: "circuit",
-  },
-  {
+  }),
+  c1ffl,
+  definePiece({
     href: "/blocks/circuit-evolution",
     kind: "block",
     title: "Circuit Evolution Simulator",
     subtitle: "A basic model of how genetic circuits can evolve",
     published: "2024-11-26",
     art: "generations",
-  },
-  {
+  }),
+  definePiece({
     href: "/blocks/erdos-renyi-graph",
     kind: "block",
     title: "Erdős-Rényi Graphs",
     subtitle: "How to model random networks",
     published: "2024-10-30",
     art: "network",
-  },
-  {
+  }),
+  definePiece({
     href: "/notes/threejs-journey",
     kind: "note",
     title: "Three.js Journey",
     subtitle: "Notes from Bruno Simon's course on 3D graphics for the web",
     published: "2022-02-08",
     art: "wireframe",
-  },
-  {
+  }),
+  definePiece({
     href: "/blocks/kalman-filters",
     kind: "block",
     title: "Kalman Filters",
@@ -130,8 +104,8 @@ export const PIECES: Piece[] = [
       "How to combine uncertain information to make predictions in a continuously changing 1D environment",
     published: "2022-01-23",
     art: "distributions",
-  },
-  {
+  }),
+  definePiece({
     href: "/blocks/robot-localization",
     kind: "block",
     title: "Simple Robot Localization",
@@ -139,8 +113,8 @@ export const PIECES: Piece[] = [
       "The algorithm behind how a robot finds its location in a simple environment",
     published: "2022-01-09",
     art: "bars",
-  },
-  {
+  }),
+  definePiece({
     href: "/blocks/dna",
     kind: "block",
     title: "DNA in 3D",
@@ -148,7 +122,7 @@ export const PIECES: Piece[] = [
     published: "2021-12-30",
     art: "helix",
     archived: true,
-  },
+  }),
 ];
 
 const byNewest = (a: { published: string }, b: { published: string }) =>
