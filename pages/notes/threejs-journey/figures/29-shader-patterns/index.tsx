@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Select } from "radix-ui";
-import { Sandpack } from "@codesandbox/sandpack-react";
-import { atomDark } from "@codesandbox/sandpack-themes";
+import CodeSandbox from "../CodeSandbox";
 import { FiCheck, FiChevronDown } from "react-icons/fi";
 import indexHtmlFile from "./indexhtml-file";
 import stylesCssFile from "./stylescss-file";
@@ -76,25 +75,7 @@ const ShaderPatternsCodeSandbox = () => {
           </Select.Content>
         </Select.Portal>
       </Select.Root>
-      <Sandpack
-        files={files}
-        theme={atomDark}
-        template="vanilla"
-        options={{
-          showLineNumbers: true,
-          editorHeight: 500,
-        }}
-        customSetup={{
-          dependencies: {
-            three: "0.151.3",
-          },
-          devDependencies: {
-            "@babel/core": "7.2.0",
-            "parcel-bundler": "^1.6.1",
-          },
-          entry: "index.html",
-        }}
-      />
+      <CodeSandbox files={files} />
     </>
   );
 };

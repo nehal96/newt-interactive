@@ -1,4 +1,3 @@
-import { Euler } from "three";
 import { Code } from "@ui/prose/Code";
 import BoxAnimationsPlayground from "./Playground";
 import { GetSlidesParams, Slides } from "./types";
@@ -95,8 +94,7 @@ export function getSlides({
         camera.position.x = 0;
         camera.position.y = 0;
         // reset camera rotation
-        const rotationResetEuler = new Euler(0, 0, 0, "XYZ");
-        camera.setRotationFromEuler(rotationResetEuler);
+        camera.rotation.set(0, 0, 0, "XYZ");
         camera.updateProjectionMatrix();
         // animate position
         mesh.current.position.x = Math.cos(elapsedTime);

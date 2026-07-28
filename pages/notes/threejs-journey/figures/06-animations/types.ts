@@ -1,6 +1,6 @@
 import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
-import { BoxGeometryProps, Camera, MeshProps } from "@react-three/fiber";
-import { Clock } from "three";
+import type { BoxGeometryProps, Camera, MeshProps } from "@react-three/fiber";
+import type { Clock } from "three";
 
 type CodeParams = {
   mesh?: MutableRefObject<any>;

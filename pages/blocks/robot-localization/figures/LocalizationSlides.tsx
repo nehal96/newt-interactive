@@ -2,22 +2,10 @@ import styles from "./LocalizationSimulation.module.css";
 import { Button } from "@ui/controls";
 import { TextContainer } from "@ui/layout";
 import { Code, InlineCode } from "@ui/prose/Code";
-import { SlideNav } from "@viz/slides";
+import { ActionButton, SlideNav } from "@viz/slides";
 import { Accordion } from "radix-ui";
 import { FiChevronDown, FiInfo } from "react-icons/fi";
 import { LocalizationSlidesProps, PlaygroundValues, Section } from "./types";
-
-export const ActionButton = ({ children, onClick }) => {
-  return (
-    <Button
-      variant="primary"
-      className="w-1/2 self-center mb-4"
-      onClick={onClick}
-    >
-      {children}
-    </Button>
-  );
-};
 
 export const Playground = ({ values }: { values: PlaygroundValues }) => {
   const { pHit, setPHit, pMiss, setPMiss } = values;

@@ -2,7 +2,7 @@ import TippyTooltip from "@ui/controls/TippyTooltip";
 import { TippyTooltipContent } from "@ui/controls/TippyTooltip";
 import { InlineCode } from "@ui/prose/Code";
 import MathFormula from "@ui/prose/MathFormula";
-import { ActionButton } from "../robot-localization/LocalizationSlides";
+import { ActionButton } from "@viz/slides";
 import { GaussianName, Playground } from "./GaussianParameterUpdateSlides";
 import { GetSlidesParams, Slides } from "./types";
 

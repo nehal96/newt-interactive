@@ -307,13 +307,13 @@ graph already renders. We can lean on that whole stack (Victory + shared chart
 styles), changing only the labels and parameters:
 
 - **Same equation.** `getActivatorHillFunctionData` computes
-  `y = β·xⁿ / (Kⁿ + xⁿ)` ([systems-biology/helpers.ts](../interactives/systems-biology/helpers.ts)).
+  `y = β·xⁿ / (Kⁿ + xⁿ)` ([systems-biology/helpers.ts](../../pages/series/systems-biology/figures/helpers.ts)).
   For saturation: **β = 100%** (max), **x = pO₂ (mmHg)**, **K = P50**, **n = Hill
   coefficient**. So: **hemoglobin ≈ {n: 2.8, P50: ~26}** (sigmoid),
   **myoglobin = {n: 1, P50: ~2.8}** (hyperbola).
 - **P50 indicator already exists.** `ActivatorGraph`'s `showKIndicator` draws the
   dotted vertical + horizontal lines and the scatter dot at `(K, β/2)` — that *is*
-  the **P50 marker** ([systems-biology/ActivatorGraph.tsx:145](../interactives/systems-biology/ActivatorGraph.tsx)).
+  the **P50 marker** ([systems-biology/ActivatorGraph.tsx:145](../../pages/series/systems-biology/figures/ActivatorGraph.tsx)).
 - **Myoglobin overlay already exists.** `showNComparisonCurves` overlays secondary
   Hill curves (`SecondaryLine`, greyed, labeled, draw-on `animate`) — reuse for the
   **n = 1 myoglobin hyperbola** vs the **n ≈ 2.8 hemoglobin sigmoid**.

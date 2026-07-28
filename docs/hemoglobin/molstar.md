@@ -17,15 +17,15 @@ playbook, and the styles reference. The shipped essay reads start-to-finish inli
 
 | File | Role |
 |---|---|
-| `interactives/essays/hemoglobin/molstar-engine.ts` | Shared engine. Boots a plugin (client-only), applies the "villin look" (`applyVillinLook`), and exposes the React mount hook the viewers build on. |
-| `interactives/essays/hemoglobin/molstar-chrome.ts` | Viewport chrome: `VIEWPORT_CHROME_OFF`, the `AXES_GIZMO`, and the `onWith` helper for rebuilding full "on" param sets. |
-| `interactives/essays/hemoglobin/boot-queue.ts` | A tiny FIFO semaphore (`acquireBootSlot`) that caps how many plugins boot at once, so a fast scroll past several viewers doesn't jank the main thread. |
-| `interactives/essays/hemoglobin/Lazy3DFigure.tsx` | Shared lazy figure shell — wraps each viewer in `dynamic(..., { ssr: false })` + an in-viewport mount, with a "Loading 3D…" fallback. |
-| `interactives/essays/hemoglobin/anatomy/MoleculeViewer.tsx` | Static anatomy-beat viewer. Loads one small structure and frames it per `beats.ts`. |
-| `interactives/essays/hemoglobin/anatomy/beats.ts` | Per-beat config: which structure, camera framing, and emphasis (the iron spacefill, etc.). **Deliberately free of any Mol\* import** (lazy-boundary trap below). |
-| `interactives/essays/hemoglobin/catching/MorphPlayer.tsx` | Plays a baked multi-model morph (trajectory scrub / palindrome loop). |
-| `interactives/essays/hemoglobin/catching/MorphFigure.tsx` | The binding + lean morph figures; owns `BINDING_MORPH_URL` / `LEAN_MORPH_URL`. |
-| `interactives/essays/hemoglobin/release/BohrFigure.tsx` | Reuses `MorphPlayer` for the Bohr salt-bridge morph (`BOHR_MORPH_URL`). |
+| `pages/essays/hemoglobin/figures/molstar-engine.ts` | Shared engine. Boots a plugin (client-only), applies the "villin look" (`applyVillinLook`), and exposes the React mount hook the viewers build on. |
+| `pages/essays/hemoglobin/figures/molstar-chrome.ts` | Viewport chrome: `VIEWPORT_CHROME_OFF`, the `AXES_GIZMO`, and the `onWith` helper for rebuilding full "on" param sets. |
+| `pages/essays/hemoglobin/figures/boot-queue.ts` | A tiny FIFO semaphore (`acquireBootSlot`) that caps how many plugins boot at once, so a fast scroll past several viewers doesn't jank the main thread. |
+| `pages/essays/hemoglobin/figures/Lazy3DFigure.tsx` | Shared lazy figure shell — wraps each viewer in `dynamic(..., { ssr: false })` + an in-viewport mount, with a "Loading 3D…" fallback. |
+| `pages/essays/hemoglobin/figures/anatomy/MoleculeViewer.tsx` | Static anatomy-beat viewer. Loads one small structure and frames it per `beats.ts`. |
+| `pages/essays/hemoglobin/figures/anatomy/beats.ts` | Per-beat config: which structure, camera framing, and emphasis (the iron spacefill, etc.). **Deliberately free of any Mol\* import** (lazy-boundary trap below). |
+| `pages/essays/hemoglobin/figures/catching/MorphPlayer.tsx` | Plays a baked multi-model morph (trajectory scrub / palindrome loop). |
+| `pages/essays/hemoglobin/figures/catching/MorphFigure.tsx` | The binding + lean morph figures; owns `BINDING_MORPH_URL` / `LEAN_MORPH_URL`. |
+| `pages/essays/hemoglobin/figures/release/BohrFigure.tsx` | Reuses `MorphPlayer` for the Bohr salt-bridge morph (`BOHR_MORPH_URL`). |
 | `public/structures/2HHB.pdb` | Full deoxy-hemoglobin (static, one model). |
 | `public/structures/heme-oxygenation-morph*.pdb` | Baked deoxy→oxy morph of **one heme pocket** (chain-A heme + proximal His + O₂); `-distal-his` variant adds the distal His for the lean figure. |
 | `scripts/generate_heme_morph.py`, `generate_bohr_morph.py`, `carve_anatomy_pdbs.py` | Regenerate the morphs / carve the anatomy structures from 2HHB. |

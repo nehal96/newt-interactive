@@ -1,3 +1,6 @@
+// All five parts import this barrel, so a figure only one part renders does not
+// belong here — autoregulation-1 imports @viz/flow/RandomGraphExplorer direct.
+
 export { ActivatorTutorial } from "./ActivatorTutorial";
 export { RepressorTutorial } from "./RepressorTutorial";
 export { StepFunctionTutorial } from "./StepFunctionTutorial";

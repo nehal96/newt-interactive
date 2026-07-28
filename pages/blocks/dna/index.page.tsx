@@ -1,24 +1,13 @@
 import dynamic from "next/dynamic";
 import { MdxLayout, PostArticleSubscribe } from "@ui/article";
+import meta from "./meta";
 
 const DNADoubleHelixCanvas = dynamic(
   () => import("./figures/DNA-DoubleHelixCanvas"),
   { ssr: false }
 );
 
-const DESCRIPTION =
-  "Explore a simplified 3D model of a DNA molecule. Interact with this visual representation to better understand the structure of DNA.";
-
-const metadata = {
-  title: "DNA in 3D",
-  subtitle: "A simplified model of a DNA molecule",
-  description: DESCRIPTION,
-  keywords:
-    "DNA, 3D model, molecular structure, genetics, biology, interactive visualization",
-  ogImage: "https://www.newtinteractive.com/images/og/helix.png",
-  url: "https://www.newtinteractive.com/blocks/dna",
-  published: "2021-12-30",
-};
+const metadata = meta;
 
 const DNAPage = () => (
   <MdxLayout metadata={metadata}>

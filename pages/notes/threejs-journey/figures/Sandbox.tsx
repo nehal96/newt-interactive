@@ -1,27 +1,10 @@
 import { Sandpack } from "@codesandbox/sandpack-react";
-import {
-  indexHtmlFile,
-  indexJsFile,
-  stylesCssFile,
-  vertexGlslFile,
-  fragmentGlslFile,
-} from "./sandbox-files";
 import { atomDark } from "@codesandbox/sandpack-themes";
-const files = {
-  "/index.html": {
-    code: indexHtmlFile(),
-    hidden: true,
-  },
-  "/index.js": indexJsFile(`${vertexGlslFile()}`, fragmentGlslFile()),
-  "/styles.css": {
-    code: stylesCssFile(),
-    hidden: true,
-  },
-  "/vertex.glsl": vertexGlslFile(),
-  "/fragment.glsl": fragmentGlslFile(),
-};
+import type { SandpackFiles } from "@codesandbox/sandpack-react";
 
-const ShadersCodeSandbox = () => {
+// No import of this module outside CodeSandbox's dynamic() — it is what puts
+// Sandpack in a chunk of its own.
+export default function Sandbox({ files }: { files: SandpackFiles }) {
   return (
     <Sandpack
       files={files}
@@ -43,6 +26,4 @@ const ShadersCodeSandbox = () => {
       }}
     />
   );
-};
-
-export default ShadersCodeSandbox;
+}

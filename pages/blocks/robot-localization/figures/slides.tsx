@@ -2,7 +2,8 @@ import TippyTooltip from "@ui/controls/TippyTooltip";
 import { TippyTooltipContent } from "@ui/controls/TippyTooltip";
 import { Code, InlineCode } from "@ui/prose/Code";
 import { GetSlideParams, Slides } from "./types";
-import { ActionButton, Playground } from "./LocalizationSlides";
+import { ActionButton } from "@viz/slides";
+import { Playground } from "./LocalizationSlides";
 
 export function getSlides({
   onSense,

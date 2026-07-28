@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { SlideDeck } from "@viz/slides";
 import { getSlides } from "./slides";
-import { BoxGeometryProps } from "@react-three/fiber";
+import type { BoxGeometryProps } from "@react-three/fiber";
 
 const AnimationsCanvas = dynamic(() => import("./AnimationsCanvas"), {
   ssr: false,

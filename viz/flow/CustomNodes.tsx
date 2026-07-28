@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { NodeStyle } from "../../interactives/circuit-evolution/types";
+import { NodeStyle } from "./types";
 
 const NANDGateSVG = ({ text, style }: { text?: string; style: NodeStyle }) => (
   <svg

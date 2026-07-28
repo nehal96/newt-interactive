@@ -1,3 +1,5 @@
+import type { NodeStyle } from "@viz/flow";
+
 export interface CircuitNode {
   id: string;
   type: "circle" | "nandGate";
@@ -68,12 +70,6 @@ export type SimulationTypeToggleProps = {
   setSkipResetWarning: (skip: boolean) => void;
   theme: Theme;
 };
-
-export interface NodeStyle {
-  backgroundColor: string;
-  color: string;
-  borderColor?: string;
-}
 
 export interface NodeData {
   text?: string;
