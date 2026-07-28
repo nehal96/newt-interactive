@@ -2,6 +2,11 @@
   "name": "newt-interactive",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "defaults",
+    "safari >= 15.4",
+    "ios_saf >= 15.4"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
