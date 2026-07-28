@@ -1,17 +1,10 @@
 import { MdxLayout, PostArticleSubscribe } from "@ui/article";
 import { ArticleSection } from "@ui/layout";
 import MathFormula from "@ui/prose/MathFormula";
-import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
+import { ErdosRenyiGNMNetwork } from "./figures";
+import meta from "./meta";
 
-export const metadata = {
-  title: "Erdős-Rényi Graphs",
-  subtitle: "How to model random networks",
-  description: "Generate Erdős-Rényi random graphs in the browser: set the number of nodes and edges in the G(n, M) model and watch the network rewire as you change them.",
-  keywords: "Erdős-Rényi graphs, random networks, graph theory, probability",
-  ogImage: "https://www.newtinteractive.com/images/og/network.png",
-  url: "https://www.newtinteractive.com/blocks/erdos-renyi-graph",
-  published: "2024-10-30",
-};
+export const metadata = meta;
 
 The **Erdős-Rényi model** is a simple way to generate random graphs. The model, named after Hungarian mathematicians Paul Erdős and Alfréd Rényi, is useful for simulating and analyzing the properties of random networks, which can be compared to real-world phenomena like social networks, communication networks, and biological networks.
 
@@ -23,7 +16,7 @@ The model comes in two variants:
 Below is a Erdős-Rényi graph generator for the <MathFormula tex="G(n, M)" /> model:
 
 <ArticleSection variant="large">
-  <ErdosRenyiGNMNetworkWithProvider />
+  <ErdosRenyiGNMNetwork />
 </ArticleSection>
 
 <PostArticleSubscribe />

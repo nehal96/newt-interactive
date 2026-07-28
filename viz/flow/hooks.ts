@@ -6,7 +6,7 @@ import {
   shuffleArray,
   GraphType,
   getMaxEdges,
-} from "./utils";
+} from "./random-graph";
 
 interface UseRandomGNMNetworkProps {
   numNodes: number;

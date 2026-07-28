@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useRandomGNMNetwork } from "../erdos-renyi-graph/hooks";
 import {
   ReactFlow,
   Background,
@@ -10,7 +9,8 @@ import {
 import { Button } from "@ui/controls";
 import { InteractiveContainer, InteractiveTutorialContainer } from "@ui/layout";
 import { CircleNode, FloatingEdge } from "@viz/flow";
-import { getEdgeOptions } from "../erdos-renyi-graph/utils";
+import { useRandomGNMNetwork } from "@viz/flow/hooks";
+import { getEdgeOptions } from "@viz/flow/random-graph";
 import "@xyflow/react/dist/style.css";
 import { FiRefreshCw } from "react-icons/fi";
 const NUM_NODES = 10;

@@ -1,3 +1,7 @@
+// RandomGraphExplorer, hooks and random-graph are deliberately absent — every
+// route touching a Flow node pays for whatever this barrel names, and the
+// explorer pulls MathFormula, and so katex. Deep-import them.
+
 export { default as FloatingEdge } from "./FloatingEdge";
 export { default as FloatingConnectionLine } from "./FloatingConnectionLine";
 export { CircleNode } from "./custom-nodes/CircleNode";

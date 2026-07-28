@@ -10,8 +10,9 @@ import { Button, Slider, Tabs, TabsList, TabsTrigger, Switch, TooltipTrigger, To
 import { InteractiveContainer, InteractiveTutorialContainer, TextContainer } from "@ui/layout";
 import MathFormula from "@ui/prose/MathFormula";
 import "@xyflow/react/dist/style.css";
-import { FloatingEdge, CircleNode } from "@viz/flow";
-import { getMaxEdges, GraphType, getEdgeOptions } from "./utils";
+import { CircleNode } from "./custom-nodes/CircleNode";
+import FloatingEdge from "./FloatingEdge";
+import { getMaxEdges, GraphType, getEdgeOptions } from "./random-graph";
 import { FiInfo } from "react-icons/fi";
 import { useRandomGNMNetwork } from "./hooks";
 
@@ -50,7 +51,7 @@ const edgeTypes = {
   floating: FloatingEdge,
 };
 
-const ErdosRenyiGNMNetwork = () => {
+const RandomGraphExplorer = () => {
   const [graphType, setGraphType] = useState<GraphType>("undirected");
   const [withSelfLoops, setWithSelfLoops] = useState(true);
 
@@ -197,10 +198,10 @@ const ErdosRenyiGNMNetwork = () => {
   );
 };
 
-const ErdosRenyiGNMNetworkWithProvider = () => (
+const RandomGraphExplorerWithProvider = () => (
   <ReactFlowProvider>
-    <ErdosRenyiGNMNetwork />
+    <RandomGraphExplorer />
   </ReactFlowProvider>
 );
 
-export default ErdosRenyiGNMNetworkWithProvider;
+export default RandomGraphExplorerWithProvider;

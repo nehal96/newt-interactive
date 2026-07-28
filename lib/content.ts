@@ -8,6 +8,7 @@ import {
   type SeriesPart,
 } from "./piece";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
+import erdosRenyiGraph from "../pages/blocks/erdos-renyi-graph/meta";
 import kalmanFilters from "../pages/blocks/kalman-filters/meta";
 import robotLocalization from "../pages/blocks/robot-localization/meta";
 
@@ -82,14 +83,7 @@ export const PIECES: Piece[] = [
     published: "2024-11-26",
     art: "generations",
   }),
-  definePiece({
-    href: "/blocks/erdos-renyi-graph",
-    kind: "block",
-    title: "Erdős-Rényi Graphs",
-    subtitle: "How to model random networks",
-    published: "2024-10-30",
-    art: "network",
-  }),
+  erdosRenyiGraph,
   definePiece({
     href: "/notes/threejs-journey",
     kind: "note",
