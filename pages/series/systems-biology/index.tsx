@@ -10,7 +10,8 @@ const piece = getPiece(HREF);
 const metadata = {
   title: piece.title,
   subtitle: piece.subtitle,
-  description: "Explore interactive explainers on systems biology concepts",
+  description:
+    "Work through systems biology with interactive explainers: transcription networks, activators and repressors, response time, and negative autoregulation.",
   keywords:
     "systems biology, interactive explainers, transcription networks, gene expression, biological systems",
   ogImage: "https://www.newtinteractive.com/images/og/network-layered.png",
