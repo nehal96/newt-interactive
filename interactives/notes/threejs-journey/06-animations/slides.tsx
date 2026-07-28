@@ -11,10 +11,9 @@ export function getSlides({
   enableOrbitControls,
   setEnableOrbitControls,
 }: GetSlidesParams): Slides {
-  return {
-    1: {
+  return [
+    {
       section: "Static",
-      number: 1,
       text: (
         <>
           <p>A yellow box, black background, no animation.</p>
@@ -25,9 +24,8 @@ export function getSlides({
         </>
       ),
     },
-    2: {
+    {
       section: "Manual rotation",
-      number: 2,
       text: (
         <>
           <p>Animating by manually changing mesh rotation:</p>
@@ -40,9 +38,8 @@ export function getSlides({
         mesh.current.rotation.y += 0.01;
       },
     },
-    3: {
+    {
       section: "Animating at frame rate",
-      number: 3,
       text: (
         <>
           <p>Adapting animation to framerate:</p>
@@ -59,9 +56,8 @@ export function getSlides({
         mesh.current.rotation.y += 0.01 * deltaTime;
       },
     },
-    4: {
+    {
       section: "Animating with Three.js Clock",
-      number: 4,
       text: (
         <>
           <p>Animating using Three.js Clock:</p>
@@ -80,9 +76,8 @@ export function getSlides({
         mesh.current.rotation.y = elapsedTime;
       },
     },
-    5: {
+    {
       section: "Animating with Clock and trigonometry",
-      number: 5,
       text: (
         <>
           <p>Animating with Three.js Clock and trigonometry:</p>
@@ -108,9 +103,8 @@ export function getSlides({
         mesh.current.position.y = Math.sin(elapsedTime);
       },
     },
-    6: {
+    {
       section: "Animating the camera",
-      number: 6,
       text: (
         <>
           <p>Animating the camera with Three.js Clock and trigonometry:</p>
@@ -128,9 +122,8 @@ export function getSlides({
         camera.updateProjectionMatrix();
       },
     },
-    7: {
+    {
       section: "Playground",
-      number: 7,
       text: (
         <BoxAnimationsPlayground
           boxArgs={boxArgs}
@@ -152,5 +145,5 @@ export function getSlides({
         mesh.current.rotation.y += rps * rotation;
       },
     },
-  };
+  ];
 }

@@ -1,26 +1,14 @@
 import { useState } from "react";
 import {
-  VictoryAxis,
-  VictoryChart,
-  VictoryContainer,
-  VictoryLabel,
-  VictoryLine,
-  VictoryScatter,
-} from "victory";
-import {
-  getDottedLineStyle,
-  InlineCode,
   MathFormula,
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
   SlideDeck,
-  Slider,
-  Switch,
 } from "../../components";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { axisStyle } from "../../components";
+import { decayCurve, ResponseTimeChart, ResponseTimeControls } from "./chart";
 
 const ExponentialDecayEquationSheet = () => (
   <Sheet>
@@ -158,120 +146,10 @@ const ResponseTimeSheet = () => (
   </Sheet>
 );
 
-const ProteinDecayResponseTimeChart = ({
-  steadyState = 100,
-  alpha = 0.25,
-  chartOptions = {
-    showHalfLifeIndicator: false,
-  },
-}) => {
-  const dottedLineStyle = getDottedLineStyle();
-  const noTicksStyle = {
-    ...axisStyle,
-    ticks: { ...axisStyle.ticks, size: 0 },
-  };
-
-  const XAxisStyle = chartOptions?.showHalfLifeIndicator
-    ? axisStyle
-    : noTicksStyle;
-  const XAxisTickValues = chartOptions?.showHalfLifeIndicator
-    ? [Math.log(2) / alpha]
-    : [];
-  const XAxisTickFormat = chartOptions?.showHalfLifeIndicator
-    ? () => "T 1/2"
-    : () => "";
-  const YAxisTickValues = chartOptions?.showHalfLifeIndicator
-    ? [steadyState / 2, steadyState]
-    : [steadyState];
-  const YAxisTickFormat = chartOptions?.showHalfLifeIndicator
-    ? (t) => (t === steadyState / 2 ? "Y_st/2" : "Y_st")
-    : (t) => (t === steadyState ? "Y_st" : "");
-
-  const { showHalfLifeIndicator } = chartOptions;
-
-  const proteinDecayResponseTimeFunction = (t, alpha = 2, steadyState = 10) => {
-    return steadyState * Math.exp(-alpha * t);
-  };
-
-  const getProteinDecayResponseTimeData = (
-    alpha = 0.25,
-    steadyState = 100,
-    domainMin = 0,
-    domainMax = 20
-  ) => {
-    const data = [];
-
-    for (let t = domainMin; t <= domainMax; t++) {
-      const y = proteinDecayResponseTimeFunction(t, alpha, steadyState);
-      data.push({ x: t, y });
-    }
-
-    return data;
-  };
-
-  const data = getProteinDecayResponseTimeData(alpha, steadyState);
-
-  return (
-    <VictoryChart
-      domain={{ x: [0, 20], y: [0, 110] }}
-      containerComponent={<VictoryContainer responsive={true} />}
-    >
-      <VictoryAxis
-        label="time"
-        style={XAxisStyle}
-        tickValues={XAxisTickValues}
-        tickFormat={XAxisTickFormat}
-        axisLabelComponent={<VictoryLabel dy={-39} dx={195} />}
-      />
-      <VictoryAxis
-        dependentAxis
-        style={axisStyle}
-        tickValues={YAxisTickValues}
-        tickFormat={YAxisTickFormat}
-      />
-      <VictoryLine
-        style={{
-          data: { stroke: "#2dd4bf" },
-          parent: { border: "1px solid #ccc" },
-        }}
-        data={data}
-        interpolation="basis"
-      />
-      {showHalfLifeIndicator && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: Math.log(2) / alpha, y: 0 },
-            { x: Math.log(2) / alpha, y: steadyState / 2 },
-          ]}
-        />
-      )}
-      {showHalfLifeIndicator && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: 0, y: steadyState / 2 },
-            { x: Math.log(2) / alpha, y: steadyState / 2 },
-          ]}
-        />
-      )}
-      {showHalfLifeIndicator && (
-        <VictoryScatter
-          style={{
-            data: { stroke: "#1e293b", strokeWidth: 1, fill: "white" },
-          }}
-          size={4}
-          data={[{ x: Math.log(2) / alpha, y: steadyState / 2 }]}
-        />
-      )}
-    </VictoryChart>
-  );
-};
-
 export const ProteinDecayResponseTimeTutorial = () => {
   const [steadyState, setSteadyState] = useState(100);
   const [alpha, setAlpha] = useState(0.25);
-  const [showHalfLifeIndicator, setShowHalfLifeIndicator] = useState(true);
+  const [showHalfLife, setShowHalfLife] = useState(true);
 
   const slides = [
     {
@@ -298,7 +176,7 @@ export const ProteinDecayResponseTimeTutorial = () => {
           </p>
         </>
       ),
-      interactive: <ProteinDecayResponseTimeChart />,
+      interactive: <ResponseTimeChart curve={decayCurve} />,
     },
     {
       text: (
@@ -327,11 +205,7 @@ export const ProteinDecayResponseTimeTutorial = () => {
           </div>
         </>
       ),
-      interactive: (
-        <ProteinDecayResponseTimeChart
-          chartOptions={{ showHalfLifeIndicator: true }}
-        />
-      ),
+      interactive: <ResponseTimeChart curve={decayCurve} showHalfLife />,
     },
     {
       text: (
@@ -355,11 +229,7 @@ export const ProteinDecayResponseTimeTutorial = () => {
           </p>
         </>
       ),
-      interactive: (
-        <ProteinDecayResponseTimeChart
-          chartOptions={{ showHalfLifeIndicator: true }}
-        />
-      ),
+      interactive: <ResponseTimeChart curve={decayCurve} showHalfLife />,
     },
     {
       text: (
@@ -370,54 +240,22 @@ export const ProteinDecayResponseTimeTutorial = () => {
             <MathFormula variant="small" tex="\alpha" /> to see how they affect
             the protein decay curve and the response time.
           </p>
-          <div className="flex justify-between mt-8 w-11/12">
-            <label className="flex-start mr-8">Show half-life indicator:</label>
-            <Switch
-              checked={showHalfLifeIndicator}
-              onCheckedChange={(checked) => setShowHalfLifeIndicator(checked)}
-            />
-          </div>
-          <div>
-            <div className="mt-4">
-              <label className="font-medium block mb-1.5">
-                <MathFormula variant="small" tex="Y_{st}" />: {steadyState}
-              </label>
-              <Slider
-                value={[steadyState]}
-                onValueChange={(values) => setSteadyState(values[0])}
-                min={20}
-                max={100}
-                step={1}
-                className="w-11/12"
-              />
-            </div>
-            <div className="mt-4">
-              <label className="font-medium block mb-1.5">
-                <MathFormula variant="small" tex="\alpha" />: {alpha.toFixed(2)}
-              </label>
-              <Slider
-                value={[alpha]}
-                onValueChange={(values) => setAlpha(values[0])}
-                min={0.1}
-                max={1}
-                step={0.01}
-                className="w-11/12"
-              />
-            </div>
-          </div>
-          <p className="mt-4">
-            Response time <MathFormula variant="small" tex="T_{1/2}" />:{" "}
-            <InlineCode className="ml-2" variant="medium">
-              {(Math.log(2) / alpha).toFixed(2)}
-            </InlineCode>
-          </p>
+          <ResponseTimeControls
+            steadyState={steadyState}
+            onSteadyState={setSteadyState}
+            alpha={alpha}
+            onAlpha={setAlpha}
+            showHalfLife={showHalfLife}
+            onShowHalfLife={setShowHalfLife}
+          />
         </>
       ),
       interactive: (
-        <ProteinDecayResponseTimeChart
+        <ResponseTimeChart
+          curve={decayCurve}
           steadyState={steadyState}
           alpha={alpha}
-          chartOptions={{ showHalfLifeIndicator }}
+          showHalfLife={showHalfLife}
         />
       ),
     },
@@ -425,5 +263,3 @@ export const ProteinDecayResponseTimeTutorial = () => {
 
   return <SlideDeck slides={slides} />;
 };
-
-export default ProteinDecayResponseTimeTutorial;

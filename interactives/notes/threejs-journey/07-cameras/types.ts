@@ -12,12 +12,9 @@ export type GetSlidesParams = {
 };
 export type Slide = {
   section: string;
-  number: number;
   text: React.ReactNode;
 };
-export type Slides = {
-  [index: number]: Slide;
-};
+export type Slides = Slide[];
 
 export type CameraCanvasProps = {
   fov: number;

@@ -8,7 +8,7 @@ import {
   Slider,
 } from "../../components";
 import { getActivatorHillFunctionData } from "./helpers";
-import ActivatorGraph from "./ActivatorGraph";
+import { ActivatorGraph } from "./ActivatorGraph";
 
 interface ActivatorTutorialProps {
   initialActivatorBeta?: number;
@@ -98,10 +98,6 @@ export const ActivatorTutorial = ({
           activatorBeta={initialActivatorBeta}
           activatorK={initialActivatorK}
           activatorHillFunctionData={initialActivatorHillFunctionData}
-          chartOptions={{
-            showKIndicator: false,
-            showNComparisonCurves: false,
-          }}
         />
       ),
     },
@@ -129,10 +125,7 @@ export const ActivatorTutorial = ({
           activatorBeta={initialActivatorBeta}
           activatorK={initialActivatorK}
           activatorHillFunctionData={initialActivatorHillFunctionData}
-          chartOptions={{
-            showKIndicator: false,
-            showNComparisonCurves: true,
-          }}
+          showNComparisonCurves
         />
       ),
     },
@@ -194,10 +187,6 @@ export const ActivatorTutorial = ({
           activatorBeta={activatorBeta}
           activatorK={activatorK}
           activatorHillFunctionData={activatorHillFunctionData}
-          chartOptions={{
-            showKIndicator: false,
-            showNComparisonCurves: false,
-          }}
         />
       ),
     },
@@ -279,10 +268,7 @@ export const ActivatorTutorial = ({
           activatorBeta={activatorBeta}
           activatorK={activatorK}
           activatorHillFunctionData={activatorHillFunctionData}
-          chartOptions={{
-            showKIndicator,
-            showNComparisonCurves: false,
-          }}
+          showKIndicator={showKIndicator}
         />
       ),
     },

@@ -6,7 +6,7 @@ import {
   Slider,
   Switch,
 } from "../../components";
-import RepressorGraph from "./RepressorGraph";
+import { RepressorGraph } from "./RepressorGraph";
 import { getRepressorHillFunctionData } from "./helpers";
 
 interface RepressorTutorialProps {
@@ -66,9 +66,7 @@ export const RepressorTutorial = ({
           repressorBeta={initialRepressorBeta}
           repressorK={initialRepressorK}
           repressorHillFunctionData={initialRepressorHillFunctionData}
-          chartOptions={{
-            showKIndicator,
-          }}
+          showKIndicator={showKIndicator}
         />
       ),
     },
@@ -139,9 +137,7 @@ export const RepressorTutorial = ({
           repressorBeta={repressorBeta}
           repressorK={repressorK}
           repressorHillFunctionData={repressorHillFunctionData}
-          chartOptions={{
-            showKIndicator,
-          }}
+          showKIndicator={showKIndicator}
         />
       ),
     },

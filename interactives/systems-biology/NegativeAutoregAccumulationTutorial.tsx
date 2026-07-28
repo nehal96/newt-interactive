@@ -13,34 +13,15 @@ import {
   Slider,
 } from "../../components";
 import { useState } from "react";
+import { CURVE_COLOR, noTicksAxisStyle, rampToSteadyState } from "./chart";
+import { sample } from "./helpers";
 
 interface NegativeAutoregAccumulationChartProps {
   beta?: number;
   steadyState?: number;
-  chartOptions?: {
-    showDampedOscillation: boolean;
-    showDottedBetaLine: boolean;
-  };
+  showDampedOscillation?: boolean;
+  showDottedBetaLine?: boolean;
 }
-
-const getData = (
-  steadyState: number,
-  beta: number,
-  domainMin = 0,
-  domainMax = 20
-) => {
-  const data = [];
-  const tSteady = steadyState / beta;
-
-  for (let t = domainMin; t < tSteady; t += 0.1) {
-    data.push({ x: t, y: t * beta });
-  }
-  for (let t = tSteady; t <= domainMax; t += 0.1) {
-    data.push({ x: t, y: steadyState });
-  }
-
-  return data;
-};
 
 const getDampedOscillationData = (
   steadyState: number,
@@ -76,28 +57,11 @@ const getDampedOscillationData = (
 export const NegativeAutoregAccumulationChart = ({
   beta = 12,
   steadyState = 80,
-  chartOptions = {
-    showDampedOscillation: false,
-    showDottedBetaLine: true,
-  },
+  showDampedOscillation = false,
+  showDottedBetaLine = true,
 }: NegativeAutoregAccumulationChartProps) => {
-  const { showDampedOscillation, showDottedBetaLine } = chartOptions;
   const dottedLineStyle = getDottedLineStyle();
-  const noTicksStyle = {
-    ...axisStyle,
-    ticks: { ...axisStyle.ticks, size: 0 },
-  };
-  const XAxisTickValues = [];
-
   const tSteady = steadyState / beta;
-
-  const getDottedLineData = () => {
-    const data = [];
-    for (let t = tSteady; t <= 20; t += 0.1) {
-      data.push({ x: t, y: t * beta });
-    }
-    return data;
-  };
 
   return (
     <VictoryChart
@@ -106,8 +70,8 @@ export const NegativeAutoregAccumulationChart = ({
     >
       <VictoryAxis
         label="time"
-        style={noTicksStyle}
-        tickValues={XAxisTickValues}
+        style={noTicksAxisStyle}
+        tickValues={[]}
         axisLabelComponent={<VictoryLabel dy={-39} dx={195} />}
       />
       <VictoryAxis
@@ -119,16 +83,16 @@ export const NegativeAutoregAccumulationChart = ({
       />
       <VictoryLine
         style={{
-          data: { stroke: "#2dd4bf", strokeWidth: 2 },
+          data: { stroke: CURVE_COLOR, strokeWidth: 2 },
         }}
-        data={getData(steadyState, beta, 0, 20)}
+        data={rampToSteadyState(steadyState, beta)}
       />
       {showDampedOscillation && (
         <VictoryLine
           style={{
-            data: { stroke: "#2dd4bf", strokeWidth: 2, opacity: 0.3 },
+            data: { stroke: CURVE_COLOR, strokeWidth: 2, opacity: 0.3 },
           }}
-          data={getDampedOscillationData(steadyState, beta, steadyState / beta)}
+          data={getDampedOscillationData(steadyState, beta, tSteady)}
         />
       )}
       {showDottedBetaLine && (
@@ -141,7 +105,7 @@ export const NegativeAutoregAccumulationChart = ({
               stroke: "#0d9488",
             },
           }}
-          data={getDottedLineData()}
+          data={sample((t) => t * beta, { min: tSteady, max: 20, step: 0.1 })}
         />
       )}
     </VictoryChart>
@@ -218,10 +182,8 @@ export const NegativeAutoregAccumulationTutorial = () => {
       interactive: (
         <NegativeAutoregAccumulationChart
           beta={beta}
-          chartOptions={{
-            showDampedOscillation: true,
-            showDottedBetaLine: false,
-          }}
+          showDampedOscillation
+          showDottedBetaLine={false}
         />
       ),
     },

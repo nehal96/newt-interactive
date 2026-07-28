@@ -37,4 +37,3 @@ export const CircleNode = ({ data, isConnectable }) => {
   );
 };
 
-export default CircleNode;

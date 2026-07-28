@@ -4,27 +4,21 @@ import {
   VictoryContainer,
   VictoryLabel,
   VictoryLine,
-  VictoryScatter,
 } from "victory";
-import {
-  axisStyle,
-  getDottedLineStyle,
-  getGridLineStyle,
-} from "../../components";
-import { getActivatorHillFunctionData } from "./helpers";
+import { axisStyle, getGridLineStyle } from "../../components";
+import { crosshairAt, noTicksAxisStyle, SECONDARY_CURVE_COLOR } from "./chart";
+import { getActivatorHillFunctionData, Point } from "./helpers";
 
 interface ActivatorGraphProps {
   activatorBeta: number;
   activatorK: number;
-  activatorHillFunctionData: { x: number; y: number }[];
+  activatorHillFunctionData: Point[];
   children?: React.ReactNode;
-  chartOptions?: {
-    xAxisTickValues?: (number | string)[];
-    xAxisTickFormat?: (t: number | string) => string;
-    showKIndicator?: boolean;
-    showNComparisonCurves?: boolean;
-    hideMainCurve?: boolean;
-  };
+  xAxisTickValues?: (number | string)[];
+  xAxisTickFormat?: (t: number | string) => string;
+  showKIndicator?: boolean;
+  showNComparisonCurves?: boolean;
+  hideMainCurve?: boolean;
 }
 
 export const SecondaryLine = ({
@@ -37,7 +31,7 @@ export const SecondaryLine = ({
   <VictoryLine
     {...props}
     style={{
-      data: { stroke: "#cbd5e1" },
+      data: { stroke: SECONDARY_CURVE_COLOR },
       parent: { border: "1px solid #ccc" },
     }}
     data={data}
@@ -47,42 +41,27 @@ export const SecondaryLine = ({
   />
 );
 
-export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
+export const ActivatorGraph = ({
   activatorBeta,
   activatorK,
   activatorHillFunctionData,
   children,
-  chartOptions = {
-    xAxisTickValues: null,
-    xAxisTickFormat: null,
-    showKIndicator: false,
-    showNComparisonCurves: false,
-    hideMainCurve: false,
-  },
-}) => {
-  const dottedLineStyle = getDottedLineStyle();
+  xAxisTickValues,
+  xAxisTickFormat,
+  showKIndicator = false,
+  showNComparisonCurves = false,
+  hideMainCurve = false,
+}: ActivatorGraphProps) => {
   const gridLineStyle = getGridLineStyle();
-  const noTicksStyle = {
-    ...axisStyle,
-    ticks: { ...axisStyle.ticks, size: 0 },
-  };
 
-  const XAxisStyle = chartOptions?.showKIndicator ? axisStyle : noTicksStyle;
-  const XAxisTickValues = chartOptions.xAxisTickValues
-    ? chartOptions.xAxisTickValues
-    : chartOptions?.showKIndicator
-    ? [activatorK]
-    : [];
-  const XAxisTickFormat = chartOptions.xAxisTickFormat
-    ? chartOptions.xAxisTickFormat
-    : chartOptions?.showKIndicator
-    ? () => "K"
-    : () => "";
-  const YAxisTickValues = chartOptions?.showKIndicator
+  const XAxisStyle = showKIndicator ? axisStyle : noTicksAxisStyle;
+  const XAxisTickValues =
+    xAxisTickValues ?? (showKIndicator ? [activatorK] : []);
+  const XAxisTickFormat =
+    xAxisTickFormat ?? (showKIndicator ? () => "K" : () => "");
+  const YAxisTickValues = showKIndicator
     ? [activatorBeta / 2, activatorBeta]
     : [activatorBeta];
-
-  const { showKIndicator, showNComparisonCurves, hideMainCurve } = chartOptions;
 
   return (
     <VictoryChart
@@ -141,41 +120,7 @@ export const ActivatorGraph: React.FC<ActivatorGraphProps> = ({
         ]}
       />
       {children}
-      {/* not grouped so the changes are smooth when values are changed (otherwise there's a small delay) */}
-      {showKIndicator && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: activatorK, y: 0 },
-            { x: activatorK, y: activatorBeta / 2 },
-          ]}
-        />
-      )}
-      {showKIndicator && (
-        <VictoryLine
-          style={dottedLineStyle}
-          data={[
-            { x: 0, y: activatorBeta / 2 },
-            { x: activatorK, y: activatorBeta / 2 },
-          ]}
-        />
-      )}
-      {showKIndicator && (
-        <VictoryScatter
-          style={{
-            data: { stroke: "#1e293b", strokeWidth: 1, fill: "white" },
-          }}
-          size={4}
-          data={[
-            {
-              x: activatorK,
-              y: activatorBeta / 2,
-            },
-          ]}
-        />
-      )}
+      {showKIndicator && crosshairAt(activatorK, activatorBeta / 2)}
     </VictoryChart>
   );
 };
-
-export default ActivatorGraph;
