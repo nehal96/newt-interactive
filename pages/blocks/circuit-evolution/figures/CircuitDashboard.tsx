@@ -1,16 +1,10 @@
 import { Fragment, memo, useState } from "react";
-import {
-  VictoryAxis,
-  VictoryContainer,
-  VictoryChart,
-  VictoryLine,
-  VictoryScatter,
-} from "victory";
+import { Dot, Line, Plot, XAxis, YAxis } from "@viz/chart";
 import { FiInfo, FiSettings, FiX } from "react-icons/fi";
 import { Button, Slider, Popover, TabsTrigger, TabsList, Tabs } from "@ui/controls";
 import MathFormula from "@ui/prose/MathFormula";
 import { SimulationType, Theme } from "./types";
-import { CIRCUIT_CONFIG, fitnessChartAxisStyle } from "./config";
+import { CIRCUIT_CONFIG, fitnessChartColors } from "./config";
 import { useMediaQuery } from "@hooks";
 import { cn } from "@lib/utils";
 
@@ -171,65 +165,59 @@ const FitnessInfoPopoverContent = memo(() => (
   </div>
 ));
 
-const FitnessGraph = ({ theme, simulationType, chartData }) => (
-  <>
-    <div
-      className={cn("mt-4 underline", {
-        "text-xl": theme === Theme.EVANGELION,
-        "text-slate-900": theme !== Theme.EVANGELION,
-      })}
-    >
-      Fitness graph:
-    </div>
-    <div className="h-[200px]">
-      <VictoryChart
-        width={200}
-        height={120}
-        padding={{ top: 20, bottom: 40, left: 25, right: 10 }}
-        domain={{ x: [0, 100], y: [0, 1] }}
-        containerComponent={<VictoryContainer responsive={true} />}
+const FitnessGraph = ({ theme, simulationType, chartData }) => {
+  const color = fitnessChartColors(theme);
+  const xLabel =
+    simulationType === SimulationType.MUTATION ? "Mutations" : "Generations";
+  const head = chartData[chartData.length - 1];
+
+  return (
+    <>
+      <div
+        className={cn("mt-4 underline", {
+          "text-xl": theme === Theme.EVANGELION,
+          "text-slate-900": theme !== Theme.EVANGELION,
+        })}
       >
-        <VictoryAxis
-          label={
-            simulationType === SimulationType.MUTATION
-              ? "Mutations"
-              : "Generations"
-          }
-          style={fitnessChartAxisStyle(theme)}
-          tickValues={[0, 50, 100]}
-          tickFormat={(t) => t.toString()}
-        />
-        <VictoryAxis
-          dependentAxis
-          style={fitnessChartAxisStyle(theme)}
-          tickValues={[0, 0.5, 1]}
-        />
-        {chartData.length > 0 && (
-          <VictoryLine
-            style={{
-              data: {
-                stroke: theme === Theme.EVANGELION ? "#55eeaa" : "#3f3f46",
-              },
-            }}
-            data={chartData}
-            interpolation="monotoneX"
+        Fitness graph:
+      </div>
+      <div className="h-[200px]">
+        <Plot
+          width={200}
+          height={120}
+          padding={{ top: 20, right: 10, bottom: 40, left: 25 }}
+          x={[0, 100]}
+          y={[0, 1]}
+          title={`Fitness score over ${xLabel.toLowerCase()}`}
+          className="h-full font-mono"
+        >
+          <XAxis
+            ticks={[
+              [0, "0"],
+              [50, "50"],
+              [100, "100"],
+            ]}
+            label={xLabel}
+            stroke={color.frame}
+            fill={color.frame}
+            labelGap={26}
           />
-        )}
-        {chartData.length > 0 && (
-          <VictoryScatter
-            style={{
-              data: {
-                fill: theme === Theme.EVANGELION ? "#E65B08" : "#ef4444",
-              },
-            }}
-            size={2}
-            data={[chartData?.[chartData.length - 1]]}
+          <YAxis
+            ticks={[
+              [0, "0"],
+              [0.5, "0.5"],
+              [1, "1"],
+            ]}
+            stroke={color.frame}
+            fill={color.frame}
           />
-        )}
-      </VictoryChart>
-    </div>
-  </>
-);
+          <Line data={chartData} stroke={color.line} curve="monotone" />
+          {head && <Dot x={head.x} y={head.y} fill={color.marker} />}
+        </Plot>
+      </div>
+    </>
+  );
+};
 
 const MutationLog = ({ theme, simulationType, logs, onHide }) => (
   <div className="mt-4">

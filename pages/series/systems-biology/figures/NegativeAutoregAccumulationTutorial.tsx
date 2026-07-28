@@ -1,17 +1,9 @@
-import {
-  VictoryAxis,
-  VictoryChart,
-  VictoryContainer,
-  VictoryLabel,
-  VictoryLine,
-} from "victory";
 import { Slider } from "@ui/controls";
 import MathFormula from "@ui/prose/MathFormula";
-import { axisStyle, getDottedLineStyle } from "@viz/chart";
 import { SlideDeck } from "@viz/slides";
 import { useState } from "react";
-import { CURVE_COLOR, noTicksAxisStyle, rampToSteadyState } from "./chart";
-import { sample } from "./helpers";
+import { Axes, CURVE, Curve, Plot, scaleFor } from "./chart";
+import { rampToSteadyState, sample } from "./helpers";
 
 interface NegativeAutoregAccumulationChartProps {
   beta?: number;
@@ -51,61 +43,57 @@ const getDampedOscillationData = (
   return data;
 };
 
+const SCALE = scaleFor(20, 130);
+
 export const NegativeAutoregAccumulationChart = ({
   beta = 12,
   steadyState = 80,
   showDampedOscillation = false,
   showDottedBetaLine = true,
 }: NegativeAutoregAccumulationChartProps) => {
-  const dottedLineStyle = getDottedLineStyle();
   const tSteady = steadyState / beta;
 
   return (
-    <VictoryChart
-      domain={{ x: [0, 20], y: [0, 130] }}
-      containerComponent={<VictoryContainer responsive={true} />}
+    <Plot
+      title="Negative autoregulation accumulation"
+      desc={`Protein X accumulating at a rate of ${beta} per unit time until it reaches the threshold K, then holding there.${
+        showDampedOscillation
+          ? " Delays in the system make it overshoot and oscillate before settling."
+          : ""
+      }`}
     >
-      <VictoryAxis
-        label="time"
-        style={noTicksAxisStyle}
-        tickValues={[]}
-        axisLabelComponent={<VictoryLabel dy={-39} dx={195} />}
+      <Axes
+        scale={SCALE}
+        xLabel="time"
+        yLabel="X(t)"
+        yTicks={[[steadyState, "K"]]}
       />
-      <VictoryAxis
-        dependentAxis
-        label="X(t)"
-        style={axisStyle}
-        tickValues={[steadyState]}
-        tickFormat={() => "K"}
-      />
-      <VictoryLine
-        style={{
-          data: { stroke: CURVE_COLOR, strokeWidth: 2 },
-        }}
-        data={rampToSteadyState(steadyState, beta)}
+      {showDottedBetaLine && (
+        <Curve
+          points={sample((t) => t * beta, { min: tSteady, max: 20, step: 0.1 })}
+          scale={SCALE}
+          stroke={CURVE.unregulated}
+          width={2}
+          dashed
+          clip
+        />
+      )}
+      <Curve
+        points={rampToSteadyState(steadyState, beta)}
+        scale={SCALE}
+        stroke={CURVE.response}
+        width={2}
       />
       {showDampedOscillation && (
-        <VictoryLine
-          style={{
-            data: { stroke: CURVE_COLOR, strokeWidth: 2, opacity: 0.3 },
-          }}
-          data={getDampedOscillationData(steadyState, beta, tSteady)}
+        <Curve
+          points={getDampedOscillationData(steadyState, beta, tSteady)}
+          scale={SCALE}
+          stroke={CURVE.response}
+          width={2}
+          opacity={0.3}
         />
       )}
-      {showDottedBetaLine && (
-        <VictoryLine
-          style={{
-            data: {
-              ...dottedLineStyle.data,
-              strokeWidth: 2,
-              strokeDasharray: "4,4",
-              stroke: "#0d9488",
-            },
-          }}
-          data={sample((t) => t * beta, { min: tSteady, max: 20, step: 0.1 })}
-        />
-      )}
-    </VictoryChart>
+    </Plot>
   );
 };
 

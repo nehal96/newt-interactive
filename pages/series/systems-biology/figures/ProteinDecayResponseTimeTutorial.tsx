@@ -3,7 +3,8 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@ui/controls";
 import MathFormula from "@ui/prose/MathFormula";
 import { SlideDeck } from "@viz/slides";
 import { VisuallyHidden } from "radix-ui";
-import { decayCurve, ResponseTimeChart, ResponseTimeControls } from "./chart";
+import { ResponseTimeChart, ResponseTimeControls } from "./chart";
+import { decayCurve } from "./helpers";
 
 const ExponentialDecayEquationSheet = () => (
   <Sheet>

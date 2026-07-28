@@ -1,24 +1,33 @@
-import { VictoryChart, VictoryArea, VictoryAxis } from "victory";
+import { Area, type Datum, niceTicks, Plot, XAxis, YAxis } from "@viz/chart";
 import { GaussianParameterUpdateChartParams } from "./types";
 
-const getGaussianData = (
-  mean = 24,
-  sigma = 8,
-  domainMin = 0,
-  domainMax = 100
-) => {
-  const data = [];
-  const scaleFactor = 250;
+const SAMPLES = 240;
+const SCALE_FACTOR = 250;
+const Y_MAX = 31;
 
+const GAUSSIAN = {
+  prior: "#a5b4fc",
+  measurement: "#6ee7b7",
+  posterior: "#7dd3fc",
+};
+
+const getGaussianData = (
+  mean: number,
+  sigma: number,
+  domainMin: number,
+  domainMax: number
+): Datum[] => {
   const gaussian = (x: number) => {
     const gaussianConstant = 1 / Math.sqrt(2 * Math.PI);
     const newX = (x - mean) / sigma;
     return (gaussianConstant * Math.exp(-0.5 * newX * newX)) / sigma;
   };
 
-  for (let x = domainMin; x <= domainMax; x++) {
-    const y = gaussian(x);
-    data.push({ x, y: y * scaleFactor });
+  const step = (domainMax - domainMin) / SAMPLES;
+  const data: Datum[] = [];
+  for (let i = 0; i <= SAMPLES; i++) {
+    const x = domainMin + i * step;
+    data.push({ x, y: gaussian(x) * SCALE_FACTOR });
   }
 
   return data;
@@ -46,110 +55,71 @@ const GaussianParameterUpdateChart = ({
   const domainMin = Math.min(minX, 0);
   const domainMax = Math.max(100, maxX);
 
-  const mockPriorGaussian = getGaussianData(
-    priorMean,
-    priorSigma,
-    domainMin,
-    domainMax
-  );
-  const mockMeasurementGaussian = getGaussianData(
-    measurementMean,
-    measurementSigma,
-    domainMin,
-    domainMax
-  );
-  const mockPosteriorGaussian = getGaussianData(
-    posteriorMean,
-    posteriorSigma,
-    domainMin,
-    domainMax
-  );
+  const curves = [
+    {
+      show: showPriorGaussian,
+      fill: GAUSSIAN.prior,
+      data: getGaussianData(priorMean, priorSigma, domainMin, domainMax),
+    },
+    {
+      show: showMeasurementGaussian,
+      fill: GAUSSIAN.measurement,
+      data: getGaussianData(
+        measurementMean,
+        measurementSigma,
+        domainMin,
+        domainMax
+      ),
+    },
+    {
+      show: showPosteriorGaussian,
+      fill: GAUSSIAN.posterior,
+      data: getGaussianData(
+        posteriorMean,
+        posteriorSigma,
+        domainMin,
+        domainMax
+      ),
+    },
+  ];
+
+  // The zero tick would print on top of the vertical axis, which stands on it.
+  const xTicks = niceTicks(domainMin, domainMax).filter((t) => t !== 0);
 
   return (
     <div className={`${height} flex justify-center items-center`}>
-      <VictoryChart
+      <Plot
         width={550}
         height={400}
-        domain={{ x: [domainMin, domainMax] }}
+        padding={{ top: 50, right: 50, bottom: 50, left: 50 }}
+        x={[domainMin, domainMax]}
+        y={[0, Y_MAX]}
+        title="Prior, measurement and posterior distributions over position"
+        className="h-full"
       >
-        {showPriorGaussian ? (
-          <VictoryArea
-            data={mockPriorGaussian}
-            style={{
-              data: {
-                fill: "#a5b4fc",
-                fillOpacity: 0.5,
-              },
-            }}
-            animate={{
-              onLoad: {
-                duration: 1500,
-              },
-              onExit: {
-                duration: 500,
-              },
-            }}
-            interpolation="natural"
-          />
-        ) : null}
-        {showMeasurementGaussian ? (
-          <VictoryArea
-            data={mockMeasurementGaussian}
-            style={{
-              data: {
-                fill: "#6ee7b7",
-                fillOpacity: 0.5,
-              },
-            }}
-            animate={{
-              onLoad: {
-                duration: 1500,
-              },
-              onExit: {
-                duration: 500,
-              },
-            }}
-            interpolation="natural"
-          />
-        ) : null}
-        {showPosteriorGaussian ? (
-          <VictoryArea
-            data={mockPosteriorGaussian}
-            style={{
-              data: {
-                fill: "#7dd3fc",
-                fillOpacity: 0.5,
-              },
-            }}
-            animate={{
-              onLoad: {
-                duration: 1500,
-              },
-              onExit: {
-                duration: 500,
-              },
-            }}
-            interpolation="natural"
-          />
-        ) : null}
-        <VictoryAxis
+        {curves.map(
+          ({ show, fill, data }, i) =>
+            show && (
+              <Area
+                key={i}
+                data={data}
+                fill={fill}
+                opacity={0.5}
+                className="animate-in fade-in duration-700"
+              />
+            )
+        )}
+        <XAxis
+          ticks={xTicks.map((t) => [t, t.toString()])}
           label="Position (m)"
-          style={{
-            axis: { stroke: "#94a3b8" },
-            axisLabel: { padding: 30 },
-            tickLabels: { fontSize: 14, fill: "#334155" },
-            ticks: { stroke: "#94a3b8", size: 4 },
-          }}
+          fill="#334155"
+          fontSize={14}
+          tickSize={4}
+          tickGap={8}
+          labelGap={31}
         />
-        <VictoryAxis
-          dependentAxis
-          domain={[0, 31]}
-          tickFormat={() => ""}
-          style={{
-            axis: { stroke: "#94a3b8" },
-          }}
-        />
-      </VictoryChart>
+        <YAxis at={0} />
+      </Plot>
     </div>
   );
 };

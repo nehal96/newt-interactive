@@ -1,4 +1,3 @@
-import { axisStyle } from "@viz/chart";
 import { Theme } from "./types";
 
 export const CIRCUIT_CONFIG = {
@@ -12,24 +11,7 @@ export const CIRCUIT_CONFIG = {
   NUM_INPUTS: 4,
 };
 
-// Chart Styling
-export const fitnessChartAxisStyle = (theme: string) => ({
-  ...axisStyle,
-  axis: {
-    stroke: theme === Theme.EVANGELION ? "#55eeaa" : "#1e293b",
-  },
-  axisLabel: {
-    ...axisStyle.axisLabel,
-    fontSize: 11,
-    fontFamily: "monospace",
-    padding: 25,
-    fill: theme === Theme.EVANGELION ? "#55eeaa" : "#1e293b",
-  },
-  tickLabels: {
-    ...axisStyle.tickLabels,
-    fontSize: 11,
-    fontFamily: "monospace",
-    fill: theme === Theme.EVANGELION ? "#55eeaa" : "#1e293b",
-  },
-  ticks: { ...axisStyle.ticks, size: 0 },
-});
+export const fitnessChartColors = (theme: string) =>
+  theme === Theme.EVANGELION
+    ? { frame: "#55eeaa", line: "#55eeaa", marker: "#E65B08" }
+    : { frame: "#1e293b", line: "#3f3f46", marker: "#ef4444" };

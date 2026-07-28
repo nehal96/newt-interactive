@@ -3,11 +3,8 @@ import { Sheet, SheetTrigger, SheetContent, SheetTitle } from "@ui/controls";
 import MathFormula from "@ui/prose/MathFormula";
 import { SlideDeck } from "@viz/slides";
 import { VisuallyHidden } from "radix-ui";
-import {
-  accumulationCurve,
-  ResponseTimeChart,
-  ResponseTimeControls,
-} from "./chart";
+import { ResponseTimeChart, ResponseTimeControls } from "./chart";
+import { accumulationCurve } from "./helpers";
 
 const ProteinAccumulationEquationSheet = () => (
   <Sheet>
