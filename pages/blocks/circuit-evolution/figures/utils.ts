@@ -1,8 +1,8 @@
+import type { NodeStyle } from "@viz/flow";
 import {
   CircuitNode,
   CircuitEdge,
   TruthTableRow,
-  NodeStyle,
   Theme,
 } from "./types";
 import { CIRCUIT_CONFIG } from "./config";

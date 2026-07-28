@@ -8,6 +8,7 @@ import {
   type SeriesPart,
 } from "./piece";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
+import circuitEvolution from "../pages/blocks/circuit-evolution/meta";
 import erdosRenyiGraph from "../pages/blocks/erdos-renyi-graph/meta";
 import kalmanFilters from "../pages/blocks/kalman-filters/meta";
 import robotLocalization from "../pages/blocks/robot-localization/meta";
@@ -75,14 +76,7 @@ export const PIECES: Piece[] = [
     ],
   }),
   c1ffl,
-  definePiece({
-    href: "/blocks/circuit-evolution",
-    kind: "block",
-    title: "Circuit Evolution Simulator",
-    subtitle: "A basic model of how genetic circuits can evolve",
-    published: "2024-11-26",
-    art: "generations",
-  }),
+  circuitEvolution,
   erdosRenyiGraph,
   definePiece({
     href: "/notes/threejs-journey",
