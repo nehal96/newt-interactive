@@ -1,5 +1,4 @@
 import { useState } from "react";
-import * as _ from "lodash";
 import * as Select from "@radix-ui/react-select";
 import { Sandpack } from "@codesandbox/sandpack-react";
 import { atomDark } from "@codesandbox/sandpack-themes";
@@ -16,11 +15,9 @@ const ShaderPatternsCodeSandbox = () => {
     shaderPatterns[0]
   );
   const onValueChange = (patternName) => {
-    const patternObj = _.find(shaderPatterns, (pattern) => {
-      return patternName === pattern.name;
-    });
-
-    setSelectedShaderPattern(patternObj);
+    setSelectedShaderPattern(
+      shaderPatterns.find((pattern) => pattern.name === patternName)
+    );
   };
 
   const files = {
