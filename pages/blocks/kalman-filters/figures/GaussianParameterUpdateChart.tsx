@@ -1,5 +1,4 @@
 import { VictoryChart, VictoryArea, VictoryAxis } from "victory";
-import { min, max } from "lodash";
 import { GaussianParameterUpdateChartParams } from "./types";
 
 const getGaussianData = (
@@ -44,8 +43,8 @@ const GaussianParameterUpdateChart = ({
   // Min is 3 deviations less than prior, Max is 3 deviations more than measurement
   const minX = priorMean - 3 * priorSigma;
   const maxX = measurementMean + 3 * measurementSigma + 10;
-  const domainMin = min([minX, 0]);
-  const domainMax = max([100, maxX]);
+  const domainMin = Math.min(minX, 0);
+  const domainMax = Math.max(100, maxX);
 
   const mockPriorGaussian = getGaussianData(
     priorMean,

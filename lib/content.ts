@@ -8,6 +8,7 @@ import {
   type SeriesPart,
 } from "./piece";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
+import kalmanFilters from "../pages/blocks/kalman-filters/meta";
 import robotLocalization from "../pages/blocks/robot-localization/meta";
 
 export type { Piece, PieceKind, SeriesPart } from "./piece";
@@ -97,15 +98,7 @@ export const PIECES: Piece[] = [
     published: "2022-02-08",
     art: "wireframe",
   }),
-  definePiece({
-    href: "/blocks/kalman-filters",
-    kind: "block",
-    title: "Kalman Filters",
-    subtitle:
-      "How to combine uncertain information to make predictions in a continuously changing 1D environment",
-    published: "2022-01-23",
-    art: "distributions",
-  }),
+  kalmanFilters,
   robotLocalization,
   definePiece({
     href: "/blocks/dna",
