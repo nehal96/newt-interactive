@@ -6,8 +6,8 @@ import { ArticleSection } from "@ui/layout";
 import { ImageSeries, Quote, UnorderedList } from "@ui/prose";
 import MathFormula from "@ui/prose/MathFormula";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { AutoregulationNetworkComparisonTutorial } from "../../../interactives/systems-biology";
-import ErdosRenyiGNMNetworkWithProvider from "../../../interactives/erdos-renyi-graph";
+import { AutoregulationNetworkComparisonTutorial } from "./figures";
+import ErdosRenyiGNMNetwork from "@viz/flow/RandomGraphExplorer";
 import * as Accordion from "@radix-ui/react-accordion";
 import { FiInfo, FiChevronDown } from "react-icons/fi";
 
@@ -209,7 +209,7 @@ Negative autoregulation itself, with 34 self-arrows, is about 30 standard deviat
 We'll explore this question in the next article. For now, feel free to play around with an Erdős-Rényi network generator below and see how the network changes when you change some parameters. You can also check it out in the [Erdős-Rényi Graphs block](/blocks/erdos-renyi-graph).
 
 <ArticleSection variant="large" className="mt-9 md:mt-8">
-  <ErdosRenyiGNMNetworkWithProvider />
+  <ErdosRenyiGNMNetwork />
 </ArticleSection>
 
 <ArticleSection variant="medium" className="mb-0 md:mb-0" >

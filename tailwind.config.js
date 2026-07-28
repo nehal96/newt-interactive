@@ -5,8 +5,6 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./ui/**/*.{js,ts,jsx,tsx,mdx}",
     "./viz/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./interactives/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
