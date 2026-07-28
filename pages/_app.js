@@ -31,7 +31,9 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <meta name="theme-color" content="#818cf8" />
+        {/* Must equal Tailwind's glass.pane — Safari tints its overscroll
+            strip with this, and drift shows as a band above the navbar. */}
+        <meta name="theme-color" content="#EBE9F9" />
       </Head>
       <TooltipProvider delayDuration={300}>
         <Component {...pageProps} />
