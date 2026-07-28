@@ -8,6 +8,7 @@ import {
   type SeriesPart,
 } from "./piece";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
+import robotLocalization from "../pages/blocks/robot-localization/meta";
 
 export type { Piece, PieceKind, SeriesPart } from "./piece";
 
@@ -105,15 +106,7 @@ export const PIECES: Piece[] = [
     published: "2022-01-23",
     art: "distributions",
   }),
-  definePiece({
-    href: "/blocks/robot-localization",
-    kind: "block",
-    title: "Simple Robot Localization",
-    subtitle:
-      "The algorithm behind how a robot finds its location in a simple environment",
-    published: "2022-01-09",
-    art: "bars",
-  }),
+  robotLocalization,
   definePiece({
     href: "/blocks/dna",
     kind: "block",
