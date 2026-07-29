@@ -305,7 +305,10 @@ export default function NotchDeck() {
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"Result modal\ninsights landing"} />
+                <PhoneMock
+                  src="/decks/notch/insights.webp"
+                  label="Insights landing while the volume table still computes"
+                />
               </div>
             </div>
 
@@ -331,7 +334,10 @@ export default function NotchDeck() {
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"Stats\nvolume by movement"} />
+                <PhoneMock
+                  src="/decks/notch/volume.webp"
+                  label="Volume by movement over thirty days, Rx beside scaled"
+                />
               </div>
             </div>
 
@@ -500,7 +506,10 @@ export default function NotchDeck() {
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"Home\nstreak, today and habits"} />
+                <PhoneMock
+                  src="/decks/notch/home.webp"
+                  label="The home screen: streak, this week, today and habits"
+                />
               </div>
             </div>
           </div>
