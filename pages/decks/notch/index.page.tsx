@@ -190,9 +190,17 @@ export default function NotchDeck() {
           <div className="wrap">
             <p className="label">The product</p>
             <h2 style={{ marginBottom: 8 }}>
-              Nine features, working as one{" "}
-              <span className="racing">system</span>.
+              One decision, and everything{" "}
+              <span className="racing">downstream</span> of it.
             </h2>
+
+            <div className="act">
+              <p className="label">Getting it in</p>
+              <p className="lede">
+                Two steps, both of them things you&rsquo;d do anyway. Point a
+                camera at the board, then say how it went.
+              </p>
+            </div>
 
             <div className="show">
               <div className="show-copy">
@@ -257,8 +265,19 @@ export default function NotchDeck() {
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"Result detail\nscaling breakdown"} />
+                <PhoneMock
+                  src="/decks/notch/scaling.webp"
+                  label="A result showing Clean and Jerk scaled from Rx 135/95"
+                />
               </div>
+            </div>
+
+            <div className="act">
+              <p className="label">What that unlocks</p>
+              <p className="lede">
+                Everything below reads the same typed rows. None of it is
+                possible while scaling is a boolean.
+              </p>
             </div>
 
             <div className="show">
@@ -286,13 +305,39 @@ export default function NotchDeck() {
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"Post-workout\ninsight cards"} />
+                <PhoneMock label={"Result modal\ninsights landing"} />
               </div>
             </div>
 
             <div className="show flip">
               <div className="show-copy">
-                <span className="show-index">04 &mdash; Records and stats</span>
+                <span className="show-index">04 &mdash; Volume</span>
+                <h3>
+                  Every rep you&rsquo;ve done, split by how you{" "}
+                  <span className="racing">did</span> it.
+                </h3>
+                <p>
+                  Volume by movement over thirty days, ninety, or all time, with
+                  the Rx count and the scaled count carried separately. Two
+                  hundred and sixty single-unders, every one of them scaled, is
+                  a different fact from sixty-two front squats, every one of
+                  them as prescribed, and the two never collapse into a single
+                  number.
+                </p>
+                <ul className="caps">
+                  <li>Thirty day, ninety day and all-time windows</li>
+                  <li>Rx and scaled counted apart, never merged</li>
+                  <li>Any movement drills into its own history</li>
+                </ul>
+              </div>
+              <div className="show-media">
+                <PhoneMock label={"Stats\nvolume by movement"} />
+              </div>
+            </div>
+
+            <div className="show">
+              <div className="show-copy">
+                <span className="show-index">05 &mdash; Records and goals</span>
                 <h3>
                   Eleven kinds of personal{" "}
                   <span className="racing">record</span>, tracked without being
@@ -312,12 +357,18 @@ export default function NotchDeck() {
                   the same axes, and multi-rep lifts can be re-read as estimated
                   one-rep maxes to make years of mixed training comparable.
                 </p>
+                <p>
+                  A goal is set against a movement and drawn onto that same
+                  chart. Each one caches the movements related to its target, so
+                  work on a progression counts toward the thing you&rsquo;re
+                  chasing and banded pull-ups move a strict pull-up goal.
+                </p>
                 <ul className="caps">
                   <li>Eleven PR types detected automatically</li>
                   <li>Every rep max charted as its own series</li>
                   <li>Goals projected onto the movement&rsquo;s own axes</li>
                   <li>Multi-rep lifts convertible to an estimated 1RM</li>
-                  <li>Volume by movement, Rx split from scaled</li>
+                  <li>Backed by a movement relationship graph</li>
                 </ul>
               </div>
               <div className="show-media">
@@ -329,63 +380,62 @@ export default function NotchDeck() {
               </div>
             </div>
 
-            <div className="show">
-              <div className="show-copy">
-                <span className="show-index">05 &mdash; Goals</span>
-                <h3>
-                  Goals that notice <span className="racing">adjacent</span>{" "}
-                  progress.
-                </h3>
-                <p>
-                  Set out to learn a movement, hit a number, or build volume.
-                  Each goal caches the movements related to its target, so work
-                  on a progression counts toward the thing you&rsquo;re chasing
-                  and banded pull-ups move a strict pull-up goal. Progress is
-                  computed server-side and charted against milestones.
-                </p>
-                <ul className="caps">
-                  <li>Learn a movement, hit a PR, or increase volume</li>
-                  <li>Backed by a movement relationship graph</li>
-                  <li>Milestones and progress charts</li>
-                </ul>
-              </div>
-              <div className="show-media">
-                <PhoneMock label={"Goal detail\nprogress chart"} />
-              </div>
+            <div className="bench">
+              <span className="show-index">
+                06 &mdash; Benchmarks and the Open
+              </span>
+              <h3>
+                Fran, Murph and the <span className="racing">Open</span>, as
+                first-class objects.
+              </h3>
+              <p>
+                A scaled Fran is only meaningful next to other scaled Frans, so
+                every named benchmark carries a canonical definition and its
+                variants are scored apart from one another. That comparison is
+                the same typed scaling data, pointed at a workout the whole
+                sport already agrees on.
+              </p>
+              <dl className="stack">
+                <dt>Library</dt>
+                <dd>
+                  <ul>
+                    <li>
+                      <b>Twenty-plus</b> Girls and Heroes
+                    </li>
+                    <li>Open 26.1 through 26.3</li>
+                  </ul>
+                </dd>
+
+                <dt>Variants</dt>
+                <dd>
+                  <ul>
+                    <li>Rx</li>
+                    <li>Scaled</li>
+                    <li>Foundations</li>
+                    <li>Compared only within variant</li>
+                  </ul>
+                </dd>
+
+                <dt>Definitions</dt>
+                <dd>
+                  <ul>
+                    <li>Exact movements and rep schemes</li>
+                    <li>Loads by gender</li>
+                    <li>Tiebreak checkpoints</li>
+                    <li>Time caps</li>
+                  </ul>
+                </dd>
+              </dl>
             </div>
 
-            <div className="show flip open-show">
-              <div className="show-copy">
-                <span className="show-index">
-                  06 &mdash; Benchmarks and the Open
-                </span>
-                <h3>
-                  Fran, Murph and the <span className="racing">Open</span>, as
-                  first-class objects.
-                </h3>
-                <p>
-                  Twenty-plus named benchmarks carry canonical definitions, with
-                  exact movements, rep schemes, loads by gender, tiebreak
-                  checkpoints and variant standards, so a scaled Fran is
-                  compared against scaled Frans rather than the prescribed
-                  version. The Open gets its own screens, scored week by week.
-                </p>
-                <ul className="caps">
-                  <li>Twenty-plus Girls and Heroes benchmarks</li>
-                  <li>Rx, scaled and foundations variants tracked separately</li>
-                  <li>Tiebreak checkpoints and time caps</li>
-                  <li>Open 26.1 through 26.3</li>
-                </ul>
-              </div>
-              <div className="show-media">
-                <PhoneMock
-                  label={"Open workout\nscore entry"}
-                  variant="open"
-                />
-              </div>
+            <div className="act">
+              <p className="label">Beyond the loop</p>
+              <p className="lede">
+                Two things that sit outside the logging cycle altogether.
+              </p>
             </div>
 
-            <div className="show">
+            <div className="show flip">
               <div className="show-copy">
                 <span className="show-index">07 &mdash; Lift analysis</span>
                 <h3>
@@ -419,53 +469,38 @@ export default function NotchDeck() {
               </div>
             </div>
 
-            <div className="show flip">
-              <div className="show-copy">
-                <span className="show-index">08 &mdash; Habits</span>
-                <h3>
-                  The small things, on a <span className="racing">grid</span>.
-                </h3>
-                <p>
-                  Creatine and protein tracking with daily targets,
-                  loading-phase support, streaks and scheduled reminders, laid
-                  out as a contribution grid so a month of consistency reads in
-                  one glance rather than as a table.
-                </p>
-                <ul className="caps">
-                  <li>Streaks and completion history</li>
-                  <li>Loading phases for creatine</li>
-                  <li>Scheduled local reminders</li>
-                </ul>
-              </div>
-              <div className="show-media">
-                <PhoneMock label={"Habits\nstreak grid"} />
-              </div>
-            </div>
-
             <div className="show">
               <div className="show-copy">
                 <span className="show-index">
-                  09 &mdash; The rest of the app
+                  08 &mdash; The daily surface
                 </span>
                 <h3>
-                  Built, not <span className="racing">bolted on</span>.
+                  What you actually <span className="racing">open</span> the app
+                  to.
                 </h3>
                 <p>
-                  A gesture-driven calendar written from scratch, where you
-                  swipe between weeks and pull to expand to a month with
-                  training days dotted in. A 3D avatar rendered with Three.js on
-                  the profile. A guided onboarding. Uploads that keep running
-                  while you navigate away, so nothing sits behind a spinner.
+                  A week strip with your training days filled in, a streak
+                  counted in weeks rather than days because that is how training
+                  actually goes, and a plain-language line telling you what
+                  you&rsquo;ve done since Monday, assembled from the same
+                  movement history everything else reads.
+                </p>
+                <p>
+                  Below it, the last thing you logged, whatever is on today,
+                  including the Open while it&rsquo;s running, and the habits
+                  you&rsquo;re keeping. The calendar underneath is gesture-driven
+                  and written from scratch: swipe between weeks, pull to expand
+                  to a month.
                 </p>
                 <ul className="caps">
+                  <li>Weekly summary composed from movement history</li>
+                  <li>Creatine and protein against daily targets</li>
                   <li>Custom swipeable calendar</li>
                   <li>Three.js avatar through expo-gl</li>
-                  <li>Background upload and task queue</li>
-                  <li>Sign in with Apple</li>
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"Home\ncalendar and today's workout"} />
+                <PhoneMock label={"Home\nstreak, today and habits"} />
               </div>
             </div>
           </div>
