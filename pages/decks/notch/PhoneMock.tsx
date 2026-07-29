@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
 export interface PhoneMockProps {
-  /** Under /public. Omitted while a slot is still awaiting its capture. */
+  /** Under /public; a video or a still. Omitted while a slot awaits capture. */
   src?: string;
   poster?: string;
-  /** Placeholder caption, and the video's accessible label. */
+  /** Placeholder caption, and the media's accessible label. */
   label: string;
   variant?: "volt" | "open";
 }
+
+const isVideo = (src: string) => /\.(mp4|webm|mov)$/i.test(src);
 
 /* Ten of these share one page, so nothing is fetched until it is nearly on
    screen and playback stops again once it leaves. */
@@ -50,11 +52,12 @@ export default function PhoneMock({
     }
   }, [armed, visible]);
 
+  // A real capture already contains the device's own Dynamic Island.
   return (
     <div className={`phone${variant === "open" ? " open-phone" : ""}`}>
       {!src && <div className="island" />}
       <div className="phone-screen">
-        {src ? (
+        {src && isVideo(src) && (
           <video
             ref={videoRef}
             src={armed ? src : undefined}
@@ -65,7 +68,9 @@ export default function PhoneMock({
             playsInline
             aria-label={label}
           />
-        ) : (
+        )}
+        {src && !isVideo(src) && <img src={src} alt={label} loading="lazy" />}
+        {!src && (
           <div className="awaiting">
             <div className="aw-name">{label}</div>
             <div className="aw-hint">Media slot</div>

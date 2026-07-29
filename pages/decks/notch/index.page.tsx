@@ -298,14 +298,26 @@ export default function NotchDeck() {
                   movement-history table, so the figure on the home screen and
                   the profile can never disagree.
                 </p>
+                <p>
+                  Every movement opens onto its own history, where each rep
+                  max is a separate series, the goal you set is projected onto
+                  the same axes, and multi-rep lifts can be re-read as estimated
+                  one-rep maxes to make years of mixed training comparable.
+                </p>
                 <ul className="caps">
                   <li>Eleven PR types detected automatically</li>
-                  <li>Volume by movement, by rep and distance and calorie</li>
-                  <li>Thirty day, ninety day and all-time views</li>
+                  <li>Every rep max charted as its own series</li>
+                  <li>Goals projected onto the movement&rsquo;s own axes</li>
+                  <li>Multi-rep lifts convertible to an estimated 1RM</li>
+                  <li>Volume by movement, Rx split from scaled</li>
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"PRs tab\nrecords by movement"} />
+                <PhoneMock
+                  src="/decks/notch/records.mp4"
+                  poster="/decks/notch/records.webp"
+                  label="Clean and jerk history, charted with a goal projection"
+                />
               </div>
             </div>
 

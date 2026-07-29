@@ -146,9 +146,13 @@ if (!has("keep-dot")) {
   }
 }
 
+// --mask x,y,w,h[,rrggbb] — repeatable. Covers dev-build chrome a production
+// recording wouldn't have, and status-bar glyphs the capture caught.
 for (const spec of args.filter((a, i) => args[i - 1] === "--mask")) {
-  const [x, y, w, h] = spec.split(",").map(Number);
-  filters.push(`drawbox=x=${x}:y=${y}:w=${w}:h=${h}:color=0xFFFFFF@1:t=fill`);
+  const [x, y, w, h, color] = spec.split(",");
+  filters.push(
+    `drawbox=x=${x}:y=${y}:w=${w}:h=${h}:color=0x${color || "FFFFFF"}@1:t=fill`
+  );
 }
 
 filters.push(
