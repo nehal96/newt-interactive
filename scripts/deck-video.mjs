@@ -15,7 +15,7 @@ const flag = (name, fallback) => {
 };
 const has = (name) => args.includes(`--${name}`);
 
-const VALUED = new Set(["deck", "in", "out", "width", "crf", "poster", "mask"]);
+const VALUED = new Set(["deck", "in", "out", "width", "crf", "poster", "mask", "cut"]);
 const positional = [];
 for (let i = 0; i < args.length; i++) {
   if (!args[i].startsWith("--")) {
@@ -28,7 +28,8 @@ const [slot, input] = positional;
 
 if (!slot || !input) {
   console.error("usage: deck-video.mjs <slot> <input> [--deck notch] [--in S] [--out S]");
-  console.error("       [--width 620] [--crf 26] [--poster S] [--keep-dot] [--mask x,y,w,h]");
+  console.error("       [--cut a:b ...] [--width 620] [--crf 26] [--poster S]");
+  console.error("       [--keep-dot] [--mask x,y,w,h[,rrggbb] ...]");
   process.exit(1);
 }
 
@@ -62,9 +63,19 @@ const srcH = Number(meta.height);
 // turns every white in the app grey.
 const fullRange = meta.color_range === "pc";
 
+// --cut a:b, repeatable — splices segments together, for recordings whose
+// middle is a spinner. Applied as a filter, so -ss/-to must stay out of it.
+const cuts = args
+  .filter((a, i) => args[i - 1] === "--cut")
+  .map((s) => s.split(":").map(Number));
+
 const trim = [];
-if (start !== null) trim.push("-ss", String(start));
-if (end !== null) trim.push("-to", String(end));
+if (!cuts.length) {
+  if (start !== null) trim.push("-ss", String(start));
+  if (end !== null) trim.push("-to", String(end));
+}
+
+const probeAt = cuts.length ? cuts[0][0] : start;
 
 /* The screen-recording indicator is a red dot inside the Dynamic Island. The
    island is pure black, so a black patch over the dot is invisible — provided
@@ -72,7 +83,7 @@ if (end !== null) trim.push("-to", String(end));
 function findDotMask() {
   const band = Math.round(srcH * 0.09);
   const raw = run("ffmpeg", [
-    "-v", "error", ...(start !== null ? ["-ss", String(start)] : []),
+    "-v", "error", ...(probeAt !== null ? ["-ss", String(probeAt)] : []),
     "-i", input, "-frames:v", "1",
     "-vf", `crop=${srcW}:${band}:0:0`,
     "-pix_fmt", "rgb24", "-f", "rawvideo", "-",
@@ -134,7 +145,12 @@ function findDotMask() {
   return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
 }
 
-const filters = ["format=rgb24"];
+const filters = [];
+if (cuts.length) {
+  const between = cuts.map(([a, b]) => `between(t,${a},${b})`).join("+");
+  filters.push(`select='${between}'`, "setpts=N/FRAME_RATE/TB");
+}
+filters.push("format=rgb24");
 
 if (!has("keep-dot")) {
   const dot = findDotMask();

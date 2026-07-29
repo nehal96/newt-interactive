@@ -202,22 +202,30 @@ export default function NotchDeck() {
                   <span className="racing">workout</span>.
                 </h3>
                 <p>
-                  Point the camera at your gym&rsquo;s whiteboard. A vision
-                  model lifts the text off the photo, then a second model parses
-                  it into real structure, with sections, movements, rep schemes,
-                  prescribed loads split by gender, and time caps. Anything it
-                  doesn&rsquo;t recognise raises a review alert instead of
-                  quietly landing bad data in the database.
+                  Point the camera at your gym&rsquo;s whiteboard, or hand it a
+                  shot from your library. A vision model lifts the text off the
+                  photo, then a second model parses it into real structure, with
+                  sections, movements, rep schemes, prescribed loads split by
+                  gender, and time caps.
+                </p>
+                <p>
+                  The extracted text is yours to correct before anything is
+                  created, and what the parse genuinely couldn&rsquo;t infer
+                  comes back as a question rather than a guess.
                 </p>
                 <ul className="caps">
                   <li>Photo, text or gym programming as input</li>
                   <li>GPT-5-mini vision OCR, then GPT-4.1 structured parse</li>
-                  <li>Runs in the background so nothing blocks</li>
+                  <li>Extraction editable before the workout exists</li>
                   <li>Unknown movements flagged for review</li>
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"Add workout\nphoto capture flow"} />
+                <PhoneMock
+                  src="/decks/notch/capture.mp4"
+                  poster="/decks/notch/capture.webp"
+                  label="A whiteboard photo parsed into a structured workout"
+                />
               </div>
             </div>
 
@@ -403,7 +411,11 @@ export default function NotchDeck() {
                 </ul>
               </div>
               <div className="show-media">
-                <PhoneMock label={"Lift analysis\npose overlay playback"} />
+                <PhoneMock
+                  src="/decks/notch/lift.mp4"
+                  poster="/decks/notch/lift.webp"
+                  label="A hang power snatch replayed under a pose skeleton"
+                />
               </div>
             </div>
 
