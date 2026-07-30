@@ -43,6 +43,66 @@ const Wordmark = () => (
   </span>
 );
 
+const DIAGRAM_ALT =
+  "On the left, a whiteboard workout — 10 minute AMRAP, 5 power snatch at 105/155, 10 toes to bar — and the result logged under it: 6 rounds, 0 reps, with the note 95 lbs, knees to chest. On the right, what Notch derives. The structured workout carries the type, each movement, its reps and its loads by gender. The structured result carries the score, and for each movement the scaling type, the weight used, the scaling percentage and the volume: power snatch scaled by weight reduction to 95 lbs, 61.3 percent, 30 reps of volume; toes to bar substituted with knees to chest, 60 reps of volume.";
+
+/* Parser-blocking where it sits, so the palette is resolved before the deck
+   below it paints. Every theme rule keys off the attribute it sets. */
+const THEME_BOOTSTRAP = `try{document.documentElement.dataset.notchTheme=localStorage.getItem("notch-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}`;
+
+const SunIcon = () => (
+  <svg
+    className="when-dark"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.7"
+    strokeLinecap="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4.2" />
+    <path d="M12 2.5v2.2M12 19.3v2.2M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.5 12h2.2M19.3 12h2.2M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5" />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg
+    className="when-light"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.7"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M20.6 14.7A8.7 8.7 0 0 1 9.3 3.4a8.7 8.7 0 1 0 11.3 11.3Z" />
+  </svg>
+);
+
+const ThemeToggle = () => (
+  <div className="topbar">
+    <div className="wrap">
+      <button
+        type="button"
+        className="theme-toggle"
+        aria-label="Switch between light and dark mode"
+        onClick={() => {
+          const root = document.documentElement;
+          const next = root.dataset.notchTheme === "dark" ? "light" : "dark";
+          root.dataset.notchTheme = next;
+          try {
+            localStorage.setItem("notch-theme", next);
+          } catch (e) {}
+        }}
+      >
+        <SunIcon />
+        <MoonIcon />
+      </button>
+    </div>
+  </div>
+);
+
 export default function NotchDeck() {
   return (
     <>
@@ -57,11 +117,24 @@ export default function NotchDeck() {
         <meta property="og:url" content={metadata.url} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
+        {/* The canvas past the deck's own box. Must equal --bg in
+            notch.module.css, or the overscroll gutter shows a band. */}
+        {/* Unquoted attribute value on purpose: next/head serialises this text
+            as HTML, so quotes come back as &quot; and the selector never
+            matches. */}
+        <style key="notch-canvas">{`
+          html { background: #ffffff; }
+          html[data-notch-theme=dark] { background: #000832; }
+        `}</style>
       </Head>
+
+      <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
 
       <div
         className={`${styles.deck} ${emblema.variable} ${racing.variable} ${mono.variable}`}
       >
+        <ThemeToggle />
+
         <section className="hero">
           <div className="wrap">
             <div className="hero-grid">
@@ -151,18 +224,20 @@ export default function NotchDeck() {
             </p>
 
             <figure className="diagram">
-              <picture>
-                <source
-                  srcSet="/decks/notch/diagram-dark.webp"
-                  media="(prefers-color-scheme: dark)"
-                />
-                <img
-                  src="/decks/notch/diagram.webp"
-                  width={1600}
-                  height={1030}
-                  alt="On the left, a whiteboard workout — 10 minute AMRAP, 5 power snatch at 105/155, 10 toes to bar — and the result logged under it: 6 rounds, 0 reps, with the note 95 lbs, knees to chest. On the right, what Notch derives. The structured workout carries the type, each movement, its reps and its loads by gender. The structured result carries the score, and for each movement the scaling type, the weight used, the scaling percentage and the volume: power snatch scaled by weight reduction to 95 lbs, 61.3 percent, 30 reps of volume; toes to bar substituted with knees to chest, 60 reps of volume."
-                />
-              </picture>
+              <img
+                className="when-light"
+                src="/decks/notch/diagram.webp"
+                width={1600}
+                height={1030}
+                alt={DIAGRAM_ALT}
+              />
+              <img
+                className="when-dark"
+                src="/decks/notch/diagram-dark.webp"
+                width={1600}
+                height={1030}
+                alt={DIAGRAM_ALT}
+              />
             </figure>
 
             <p className="lede">
@@ -449,9 +524,7 @@ export default function NotchDeck() {
               </span>
               <span className="foot-m">By Nehal Udyavar</span>
               <span className="foot-m">
-                <a href="mailto:nehaludyavar@gmail.com">
-                  nehaludyavar@gmail.com
-                </a>
+                <a href="mailto:nehaludyavar@gmail.com">Get in touch</a>
               </span>
             </div>
           </div>
