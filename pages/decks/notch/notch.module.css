@@ -305,7 +305,7 @@
 }
 
 .deck :global(.phone) {
-  --w: 302px;
+  --w: 255px;
   width: var(--w);
   aspect-ratio: 402 / 874;
   flex: none;
@@ -527,16 +527,26 @@
   .deck :global(.show),
   .deck :global(.flip) {
     grid-template-columns: 1fr;
-    gap: 44px;
+    gap: 30px;
   }
-  .deck :global(.flip) :global(.show-copy) {
+  /* Stacked, the screen sits between the heading and the body copy, so the
+     copy's two halves become grid items in their own right. Anything added
+     inside .show-copy needs an order here or it lands ahead of the heading. */
+  .deck :global(.show-copy) {
+    display: contents;
+  }
+  .deck :global(.show-head) {
     order: 1;
   }
-  .deck :global(.flip) :global(.show-media) {
-    order: 2;
-  }
   .deck :global(.show-media) {
+    order: 2;
     justify-content: flex-start;
+  }
+  .deck :global(.show-body) {
+    order: 3;
+  }
+  .deck :global(.show-head) h3 {
+    margin-bottom: 0;
   }
   .deck :global(.note) + :global(.note) {
     border-left: 0;
@@ -564,7 +574,22 @@
     padding-top: 72px;
   }
   .deck :global(.phone) {
-    --w: 262px;
+    --w: 210px;
+  }
+  /* One row at every phone width: the chips shrink with the viewport rather
+     than wrapping, so nothing here may reintroduce wrapping or a fixed size. */
+  .deck :global(.disciplines) {
+    flex-wrap: nowrap;
+    gap: clamp(3px, 1.2vw, 8px);
+  }
+  .deck :global(.disciplines) span {
+    font-size: clamp(8.5px, 2.6vw, 11.5px);
+    letter-spacing: 0.06em;
+    padding: 7px clamp(6px, 2vw, 13px);
+    white-space: nowrap;
+  }
+  .deck :global(.disciplines) :global(.sep) {
+    margin: 0 2px;
   }
   .deck :global(.stack) {
     grid-template-columns: 1fr;
@@ -577,6 +602,29 @@
     padding-top: 0;
   }
   .deck :global(.spec) div + div {
+    border-left: 0;
+  }
+}
+
+/* Its own breakpoint: the row stops fitting around 672px, and a wrapped
+   .foot-m hangs its divider off the start of the next line. */
+@media (max-width: 700px) {
+  .deck footer {
+    padding: 34px 0 52px;
+  }
+  .deck :global(.foot) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .deck :global(.foot) :global(.wordmark) {
+    font-size: 23px;
+    margin-bottom: 4px;
+  }
+  .deck :global(.foot-m) {
+    padding-left: 0;
+    margin-left: 0;
     border-left: 0;
   }
 }

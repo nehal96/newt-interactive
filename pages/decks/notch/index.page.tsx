@@ -217,7 +217,7 @@ export default function NotchDeck() {
         </section>
 
         <section>
-          <div className="wrap">
+          <div className="wrap wide">
             <p className="label">How it works</p>
 
             <p className="lede">
@@ -235,17 +235,22 @@ export default function NotchDeck() {
 
             <div className="show">
               <div className="show-copy">
-                <span className="show-index">01 &mdash; Capture</span>
-                <h3>
-                  Add workouts{" "}
-                  <span className="racing">seamlessly</span>.
-                </h3>
-                <p>
-                  Point the camera at the whiteboard, screenshot the programming
-                  your gym posted, or type it out yourself. Notch pulls out the
-                  sections, the movements, the reps, the weights for men and
-                  women and the time cap, and fills them in for you.
-                </p>
+                <div className="show-head">
+                  <span className="show-index">01 &mdash; Capture</span>
+                  <h3>
+                    Add workouts{" "}
+                    <span className="racing">seamlessly</span>.
+                  </h3>
+                </div>
+                <div className="show-body">
+                  <p>
+                    Point the camera at the whiteboard, screenshot the
+                    programming your gym posted, or type it out yourself. Notch
+                    pulls out the sections, the movements, the reps, the weights
+                    for men and women and the time cap, and fills them in for
+                    you.
+                  </p>
+                </div>
               </div>
               <div className="show-media">
                 <PhoneMock
@@ -258,23 +263,34 @@ export default function NotchDeck() {
 
             <div className="show flip">
               <div className="show-copy">
-                <span className="show-index">02 &mdash; Results</span>
-                <h3>
-                  Put in your scores and notes, and get instant{" "}
-                  <span className="racing">insights</span>.
-                </h3>
-                <p>
-                  Keep writing notes like you always did. But this time, Notch will work out what it means and track it for you.
-                </p>
-                <p>
-                It can record if you scaled some movement
-                &mdash; used a lighter weight, a band, fewer reps, changed the movement. It can also calculate how far you got, whether that's part-way through a chipper, a
-                  part-finished round in a ladder, total reps across an AMRAP,
-                  your share of a partner workout. If you type &ldquo;85x3, 95x2, then
-                  105x5&rdquo; it will understand that 105 is your working set, and the
-                  first two were warmups.
-                </p>
-                <p>It can also compare your performance to before, so you can even see progress within scaled workouts, like using a heavier weight than last time, or finishing faster.</p>
+                <div className="show-head">
+                  <span className="show-index">02 &mdash; Results</span>
+                  <h3>
+                    Put in your scores and notes, and get instant{" "}
+                    <span className="racing">insights</span>.
+                  </h3>
+                </div>
+                <div className="show-body">
+                  <p>
+                    Keep writing notes like you always did. But this time, Notch
+                    will work out what it means and track it for you.
+                  </p>
+                  <p>
+                    It can record if you scaled some movement &mdash; used a
+                    lighter weight, a band, fewer reps, changed the movement. It
+                    can also calculate how far you got, whether that's part-way
+                    through a chipper, a part-finished round in a ladder, total
+                    reps across an AMRAP, your share of a partner workout. If
+                    you type &ldquo;85x3, 95x2, then 105x5&rdquo; it will
+                    understand that 105 is your working set, and the first two
+                    were warmups.
+                  </p>
+                  <p>
+                    It can also compare your performance to before, so you can
+                    even see progress within scaled workouts, like using a
+                    heavier weight than last time, or finishing faster.
+                  </p>
+                </div>
               </div>
               <div className="show-media">
                 <PhoneMock
@@ -286,23 +302,31 @@ export default function NotchDeck() {
 
             <div className="show">
               <div className="show-copy">
-                <span className="show-index">03 &mdash; Goals and PRs</span>
-                <h3>
-                  Set a goal, and every result after it counts{" "}
-                  <span className="racing">toward</span> it.
-                </h3>
-                <p>
-                  There are two types of goals: learning a movement and hitting a weight target. Whichever you pick, everytime it shows up in a workout, you'll see your progress, automatically.
-                </p>
-                <p>
-                  You never type a record in. Notch finds them: one-rep max
-                  through twenty-rep max, most reps, fastest time, longest
-                  distance, most calories &mdash; eleven kinds.
-                </p>
-                <p>
-                  Tap a movement anywhere in the app and you see every time you
-                  have done it. See your progress in beautiful stats and charts.
-                </p>
+                <div className="show-head">
+                  <span className="show-index">03 &mdash; Goals and PRs</span>
+                  <h3>
+                    Set a goal, and every result after it counts{" "}
+                    <span className="racing">toward</span> it.
+                  </h3>
+                </div>
+                <div className="show-body">
+                  <p>
+                    There are two types of goals: learning a movement and
+                    hitting a weight target. Whichever you pick, everytime it
+                    shows up in a workout, you'll see your progress,
+                    automatically.
+                  </p>
+                  <p>
+                    You never type a record in. Notch finds them: one-rep max
+                    through twenty-rep max, most reps, fastest time, longest
+                    distance, most calories &mdash; eleven kinds.
+                  </p>
+                  <p>
+                    Tap a movement anywhere in the app and you see every time
+                    you have done it. See your progress in beautiful stats and
+                    charts.
+                  </p>
+                </div>
               </div>
               <div className="show-media">
                 <PhoneMock
@@ -315,15 +339,23 @@ export default function NotchDeck() {
 
             <div className="show flip">
               <div className="show-copy">
-                <span className="show-index">04 &mdash; Stats</span>
-                <h3>
-                  Count <span className="racing">every</span> rep you've done.
-                </h3>
-                <p>
-                  See how many reps of each movement you have done in the last thirty
-                  days, the last ninety, or ever. See which ones you scaled and which you did as prescribed.
-                </p>
-                <p>At the end of the year, get a Wrapped, showing you everything you did, in one place.</p>
+                <div className="show-head">
+                  <span className="show-index">04 &mdash; Stats</span>
+                  <h3>
+                    Count <span className="racing">every</span> rep you've done.
+                  </h3>
+                </div>
+                <div className="show-body">
+                  <p>
+                    See how many reps of each movement you have done in the last
+                    thirty days, the last ninety, or ever. See which ones you
+                    scaled and which you did as prescribed.
+                  </p>
+                  <p>
+                    At the end of the year, get a Wrapped, showing you
+                    everything you did, in one place.
+                  </p>
+                </div>
               </div>
               <div className="show-media">
                 <PhoneMock
@@ -335,56 +367,63 @@ export default function NotchDeck() {
 
             <div className="show open-show">
               <div className="show-copy">
-                <span className="show-index">
-                  05 &mdash; Benchmarks and the Open
-                </span>
-                <h3>
-                  Special workouts get the <span className="racing">special</span> treatment.
-                </h3>
-                <p>
-                  Benchmarks are automatically detected and tracked as your gym does them, so you can see your progress in one place.
-                </p>
-                <p>
-                  The Open looks different in the app. Three weeks a year everyone
-                  does the same workout, so each week gets its own custom design.
-                </p>
-                <p>
-                  When you finish, photograph your scorecard. Notch reads your
-                  score off it and, because it already knows 26.1 is a
-                  twelve-minute workout of three hundred and fifty-four reps, it
-                  saves your score as an Rx or Scaled attempt at that workout
-                  rather than a number on its own.
-                </p>
-                <dl className="stack">
-                  <dt>Library</dt>
-                  <dd>
-                    <ul>
-                      <li>
-                        <b>Twenty-plus</b> Girls and Heroes
-                      </li>
-                      <li>Open 26.1 through 26.3</li>
-                    </ul>
-                  </dd>
+                <div className="show-head">
+                  <span className="show-index">
+                    05 &mdash; Benchmarks and the Open
+                  </span>
+                  <h3>
+                    Special workouts get the{" "}
+                    <span className="racing">special</span> treatment.
+                  </h3>
+                </div>
+                <div className="show-body">
+                  <p>
+                    Benchmarks are automatically detected and tracked as your
+                    gym does them, so you can see your progress in one place.
+                  </p>
+                  <p>
+                    The Open looks different in the app. Three weeks a year
+                    everyone does the same workout, so each week gets its own
+                    custom design.
+                  </p>
+                  <p>
+                    When you finish, photograph your scorecard. Notch reads your
+                    score off it and, because it already knows 26.1 is a
+                    twelve-minute workout of three hundred and fifty-four reps,
+                    it saves your score as an Rx or Scaled attempt at that
+                    workout rather than a number on its own.
+                  </p>
+                  <dl className="stack">
+                    <dt>Library</dt>
+                    <dd>
+                      <ul>
+                        <li>
+                          <b>Twenty-plus</b> Girls and Heroes
+                        </li>
+                        <li>Open 26.1 through 26.3</li>
+                      </ul>
+                    </dd>
 
-                  <dt>Variants</dt>
-                  <dd>
-                    <ul>
-                      <li>Rx</li>
-                      <li>Scaled</li>
-                      <li>Foundations</li>
-                    </ul>
-                  </dd>
+                    <dt>Variants</dt>
+                    <dd>
+                      <ul>
+                        <li>Rx</li>
+                        <li>Scaled</li>
+                        <li>Foundations</li>
+                      </ul>
+                    </dd>
 
-                  <dt>Definitions</dt>
-                  <dd>
-                    <ul>
-                      <li>Exact movements and rep schemes</li>
-                      <li>Loads by gender</li>
-                      <li>Tiebreak checkpoints</li>
-                      <li>Time caps</li>
-                    </ul>
-                  </dd>
-                </dl>
+                    <dt>Definitions</dt>
+                    <dd>
+                      <ul>
+                        <li>Exact movements and rep schemes</li>
+                        <li>Loads by gender</li>
+                        <li>Tiebreak checkpoints</li>
+                        <li>Time caps</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
               </div>
               <div className="show-media">
                 <PhoneMock
@@ -396,16 +435,18 @@ export default function NotchDeck() {
 
             <div className="show">
               <div className="show-copy">
-                <span className="show-index">06 &mdash; Lift analysis</span>
-                <h3>
-                  Film a lift. Get an analysis.
-                </h3>
-                <p>
-                  Record a snatch or a clean and Notch gives it back with
-                  seventeen points on your body tracked in every frame, drawn as
-                  a skeleton over your own video. You can step through it frame
-                  by frame to look at the catch.
-                </p>
+                <div className="show-head">
+                  <span className="show-index">06 &mdash; Lift analysis</span>
+                  <h3>Film a lift. Get an analysis.</h3>
+                </div>
+                <div className="show-body">
+                  <p>
+                    Record a snatch or a clean and Notch gives it back with
+                    seventeen points on your body tracked in every frame, drawn
+                    as a skeleton over your own video. You can step through it
+                    frame by frame to look at the catch.
+                  </p>
+                </div>
               </div>
               <div className="show-media">
                 <PhoneMock
@@ -418,17 +459,23 @@ export default function NotchDeck() {
 
             <div className="show flip">
               <div className="show-copy">
-                <span className="show-index">
-                  07 &mdash; The daily surface
-                </span>
-                <h3>
-                  Everything summarized in a <span className="racing">beautiful</span> home screen.
-                </h3>
-                <p>
-                  A row of the week with your training days filled in, a streak
-                  counted in weeks, and a sentence telling you what you have done since
-                  Monday. All your progress easily visible and accessible. Makes you want to keep going, doesn't it?
-                </p>
+                <div className="show-head">
+                  <span className="show-index">
+                    07 &mdash; The daily surface
+                  </span>
+                  <h3>
+                    Everything summarized in a{" "}
+                    <span className="racing">beautiful</span> home screen.
+                  </h3>
+                </div>
+                <div className="show-body">
+                  <p>
+                    A row of the week with your training days filled in, a
+                    streak counted in weeks, and a sentence telling you what you
+                    have done since Monday. All your progress easily visible and
+                    accessible. Makes you want to keep going, doesn't it?
+                  </p>
+                </div>
               </div>
               <div className="show-media">
                 <PhoneMock
