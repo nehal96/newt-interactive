@@ -5,6 +5,7 @@
 .deck {
   --navy: #000832;
   --volt: #4364ff;
+  --on-volt: #ffffff;
   --gold: #d4a853;
   --rx: #10b981;
   --scaled: #f59e0b;
@@ -42,6 +43,7 @@
     --body: #b9c1e8;
     --dim: #7b85ba;
     --volt: #7183ff;
+    --on-volt: #000832;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 18px rgba(0, 0, 0, 0.3);
     --shadow-lg: 0 30px 70px -20px rgba(0, 0, 0, 0.7),
       0 12px 28px -12px rgba(0, 0, 0, 0.5);
@@ -127,6 +129,11 @@
   max-width: 60ch;
 }
 
+.deck :global(.wide) :global(.lede) {
+  max-width: 45rem;
+  font-size: 16px;
+}
+
 /* Emblema One "n" rotated 1deg beside Racing Sans One "otch", as the app's
    welcome screen draws it. */
 .deck :global(.wordmark) {
@@ -135,6 +142,9 @@
   color: var(--head);
   line-height: 1;
   letter-spacing: normal;
+  /* Both faces ship 400 only, so this is synthetic. Dropping it makes the
+     footer wordmark lighter than the one in the h1, which inherits 600. */
+  font-weight: 600;
 }
 .deck :global(.wordmark) :global(.n) {
   font-family: var(--font-notch-emblema), serif;
@@ -178,23 +188,36 @@
 }
 
 .deck :global(.disciplines) {
-  display: inline-flex;
-  border-top: 1px solid var(--hair);
-  border-bottom: 1px solid var(--hair);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
-.deck :global(.disciplines) div {
+.deck :global(.disciplines) span {
   font-family: var(--font-notch-mono), ui-monospace, monospace;
   font-size: 11.5px;
-  letter-spacing: 0.16em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--dim);
-  padding: 14px 22px;
+  line-height: 1;
+  color: var(--head);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 4px;
+  padding: 9px 13px;
 }
-.deck :global(.disciplines) div + div {
-  border-left: 1px solid var(--hair);
+.deck :global(.disciplines) :global(.plat) {
+  color: var(--on-volt);
+  background: var(--volt);
+  border-color: var(--volt);
 }
-.deck :global(.disciplines) div:first-child {
-  padding-left: 0;
+.deck :global(.disciplines) :global(.sep) {
+  align-self: stretch;
+  width: 1px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--edge);
+  margin: 0 5px;
 }
 
 .deck :global(.spec) {
@@ -368,29 +391,30 @@
   justify-content: center;
 }
 
-/* A feature whose evidence is its own breadth, so it carries no phone. */
-.deck :global(.bench) {
-  border-top: 1px solid var(--hair);
-  padding-top: 60px;
-  margin-top: 76px;
+.deck :global(.slot) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 340px;
+  margin: 0 0 44px;
+  border: 1px dashed var(--edge);
+  border-radius: 6px;
+  font-family: var(--font-notch-mono), ui-monospace, monospace;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-align: center;
+  padding: 30px;
 }
-.deck :global(.bench) h3 {
-  margin-bottom: 16px;
-}
-.deck :global(.bench) :global(.stack) {
-  margin-top: 34px;
-}
-
-/* Divides the product section into its three movements. */
-.deck :global(.act) {
-  margin: 40px 0 0;
-}
-.deck :global(.act) :global(.label) {
-  margin-bottom: 18px;
-  color: var(--head);
-}
-.deck :global(.act) :global(.lede) {
-  font-size: 17.5px;
+.deck :global(.slot) :global(.slot-m) {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--dim);
+  opacity: 0.7;
 }
 
 .deck :global(.show-index) {
@@ -502,7 +526,27 @@
   color: #1a1a1a;
   font-weight: 600;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
+}
+.deck :global(.typed) {
+  display: inline-block;
+  background: #fff;
+  border: 1px solid #c9c9be;
+  border-radius: 3px;
+  padding: 7px 11px;
+  color: #1a1a1a;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: middle;
+}
+.deck :global(.typed-cap) {
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a8578;
+  margin-left: 12px;
+  vertical-align: middle;
 }
 
 .deck :global(.readout) {
@@ -551,60 +595,6 @@
   margin-top: 3px;
 }
 
-.deck :global(.arch) {
-  display: grid;
-  gap: 16px;
-}
-.deck :global(.tier) {
-  background: var(--panel);
-  border: 1px solid var(--edge);
-  border-radius: 8px;
-  padding: 22px 24px;
-  box-shadow: var(--shadow-sm);
-}
-.deck :global(.tier-h) {
-  font-family: var(--font-notch-mono), ui-monospace, monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--volt);
-  margin-bottom: 14px;
-}
-.deck :global(.tier-row) {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-}
-.deck :global(.node) {
-  font-family: var(--font-notch-mono), ui-monospace, monospace;
-  font-size: 12px;
-  background: var(--bg-sunk);
-  border: 1px solid var(--edge);
-  border-radius: 5px;
-  padding: 7px 12px;
-  color: var(--head);
-}
-.deck :global(.node).hi,
-.deck :global(.node-hi) {
-  border-color: var(--volt);
-  color: var(--volt);
-}
-.deck :global(.tier-note) {
-  font-size: 14px;
-  color: var(--dim);
-  margin-top: 14px;
-  max-width: none;
-}
-.deck :global(.flow) {
-  text-align: center;
-  font-family: var(--font-notch-mono), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: var(--dim);
-  text-transform: uppercase;
-}
-
 .deck :global(.notes) {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -636,8 +626,9 @@
 
 .deck :global(.stack) {
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
+  grid-template-columns: 150px minmax(0, 1fr);
   border-top: 1px solid var(--hair);
+  margin-top: 26px;
 }
 .deck :global(.stack) dt {
   font-family: var(--font-notch-mono), ui-monospace, monospace;
@@ -680,52 +671,6 @@
   transform: translateY(1px);
 }
 
-.deck :global(.status) {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-}
-.deck :global(.card) {
-  border: 1px solid var(--edge);
-  border-radius: 8px;
-  padding: 22px;
-  background: var(--panel);
-  box-shadow: var(--shadow-sm);
-}
-.deck :global(.card-k) {
-  font-family: var(--font-notch-mono), ui-monospace, monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--dim);
-  margin-bottom: 10px;
-}
-.deck :global(.card-v) {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--head);
-  letter-spacing: -0.01em;
-}
-.deck :global(.card-s) {
-  font-size: 13.5px;
-  color: var(--dim);
-  margin-top: 6px;
-  line-height: 1.55;
-}
-.deck :global(.dot) {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-.deck :global(.dot).live,
-.deck :global(.dot-live) {
-  background: var(--rx);
-}
-
 .deck footer {
   border-top: 1px solid var(--hair);
   padding: 44px 0 72px;
@@ -739,7 +684,9 @@
 .deck :global(.foot) :global(.wordmark) {
   font-size: 26px;
 }
-.deck :global(.foot) > span {
+/* Must not select .wordmark, which is also a span child here — it would
+   uppercase and letter-space the logo. */
+.deck :global(.foot-m) {
   font-family: var(--font-notch-mono), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.16em;
@@ -748,6 +695,14 @@
   padding-left: 18px;
   margin-left: 18px;
   border-left: 1px solid var(--edge);
+}
+.deck :global(.foot) a {
+  text-transform: none;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+.deck :global(.foot) a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 1000px) {
@@ -810,16 +765,6 @@
   }
   .deck :global(.stack) dd {
     padding-top: 0;
-  }
-  .deck :global(.disciplines) {
-    flex-direction: column;
-  }
-  .deck :global(.disciplines) div {
-    padding-left: 0;
-  }
-  .deck :global(.disciplines) div + div {
-    border-left: 0;
-    border-top: 1px solid var(--hair);
   }
   .deck :global(.spec) div + div {
     border-left: 0;
