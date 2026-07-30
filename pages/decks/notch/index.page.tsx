@@ -146,15 +146,29 @@ export default function NotchDeck() {
           <div className="wrap">
             <p className="label">How it works</p>
 
-            <div className="slot">
-              <span>The diagram goes here</span>
-              <span className="slot-m">
-                whiteboard + typed result &rarr; structured workout + structured
-                result
-              </span>
-            </div>
+            <p className="lede">
+              How workout notes get converted into structured progress data.
+            </p>
 
-            <p className="lede">Lots of features downstream of this.</p>
+            <figure className="diagram">
+              <picture>
+                <source
+                  srcSet="/decks/notch/diagram-dark.webp"
+                  media="(prefers-color-scheme: dark)"
+                />
+                <img
+                  src="/decks/notch/diagram.webp"
+                  width={1600}
+                  height={1030}
+                  alt="On the left, a whiteboard workout — 10 minute AMRAP, 5 power snatch at 105/155, 10 toes to bar — and the result logged under it: 6 rounds, 0 reps, with the note 95 lbs, knees to chest. On the right, what Notch derives. The structured workout carries the type, each movement, its reps and its loads by gender. The structured result carries the score, and for each movement the scaling type, the weight used, the scaling percentage and the volume: power snatch scaled by weight reduction to 95 lbs, 61.3 percent, 30 reps of volume; toes to bar substituted with knees to chest, 60 reps of volume."
+                />
+              </picture>
+            </figure>
+
+            <p className="lede">
+              Getting this information enables a lot of cool features, like per
+              workout insights and volume statistics.
+            </p>
 
             <div className="show">
               <div className="show-copy">
