@@ -11,6 +11,7 @@ import sharp from "sharp";
 import { launchChrome, Page } from "../article-export/capture.mjs";
 
 const SRC = new URL("./source.svg", import.meta.url);
+const HAND = new URL("./kalam-400.woff2", import.meta.url);
 const OUT = new URL("../../public/decks/notch/", import.meta.url);
 
 // The tldraw viewBox, and a raster that must stay wide enough to cover the
@@ -24,10 +25,32 @@ const swap = (svg, from, to) => {
   if (!svg.includes(from)) {
     throw new Error(`source.svg no longer contains ${from} — re-derive this edit`);
   }
-  return svg.replace(from, to);
+  return svg.replaceAll(from, to);
 };
 
+// Kalam is the app's handwriting, so it is the diagram's too. Vendored beside
+// this script rather than fetched: the raster must build the same offline.
+const hand = await readFile(HAND);
+const KALAM = `@font-face {
+  font-family: "kalam";
+  font-weight: normal;
+  src: url("data:font/woff2;base64,${hand.toString("base64")}") format("woff2");
+}
+`;
+
 const prepare = (svg) => {
+  svg = swap(svg, "<defs><style>", `<defs><style>${KALAM}`);
+  svg = swap(svg, "font-family: tldraw_draw, sans-serif", "font-family: kalam, cursive");
+
+  // Kalam's x-height sits below the face it replaced, so the whiteboard's
+  // movement lines lost their footing. Scaling the group, not the font-size,
+  // keeps the fixed-width foreignObject from rewrapping them.
+  svg = swap(
+    svg,
+    "matrix(1, 0, 0, 1, 227.9417, 258.3613) scale(0.4190403245051744, 0.4190403245051744)",
+    "matrix(1, 0, 0, 1, 227.9417, 258.3613) scale(0.48, 0.48)"
+  );
+
   // The whiteboard is an unfilled black outline, which only reads as a
   // whiteboard over a white page. The deck's page is navy half the time.
   svg = swap(svg, 'fill="none" stroke="#1d1d1d"', 'fill="#ffffff" stroke="#9fa8b2"');
