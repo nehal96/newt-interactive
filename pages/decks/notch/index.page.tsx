@@ -191,9 +191,9 @@ export default function NotchDeck() {
           <div className="wrap wide">
             <p className="label">Why I built it</p>
             <p className="lede">
-              After every workout I&rsquo;d put my score and notes into Wodify.
+              After every workout I&rsquo;d put my score and notes into Wodify, but over time, I felt the app wasn't doing enough for me. 
               It works fine for the gym &mdash; membership, scheduling, payments
-              &mdash; but not for the athlete. Over time I felt it wasn&rsquo;t
+              &mdash; but not for the athlete. Its design was clunky too, and it wasn&rsquo;t
               really tracking my progress at all.
             </p>
             <p className="lede">
@@ -211,7 +211,7 @@ export default function NotchDeck() {
               unused. What if you read it? If you turned every workout, every
               result and every note into structured data, you could measure
               scaling progressions, volume, all the increments nobody could
-              measure before. And then build on it. Turns out, a lot.
+              measure before. And then build on top of it. So I decided to make it.
             </p>
           </div>
         </section>
@@ -444,8 +444,7 @@ export default function NotchDeck() {
           <div className="wrap">
             <p className="label">Where it could go</p>
             <h2>
-              Alongside your gym&rsquo;s app, more social, every kind of{" "}
-              <span className="racing">training</span>.
+              Alongside your gym&rsquo;s app, more <span className="racing">social</span>, more types of training.
             </h2>
             <p className="lede" style={{ margin: "26px 0 40px" }}>
               Three directions I'm interested in.
@@ -466,8 +465,7 @@ export default function NotchDeck() {
                   The moments Notch already detects &mdash; a PR, a first Rx, a
                   benchmark falling &mdash; are exactly what members post to the
                   gym group chat themselves. There is an obvious version of this
-                  with training partners and a gym feed. The question is what
-                  should be visible and what stays private.
+                  with training partners and a gym feed. Think Strava, but for functional fitness.
                 </p>
               </div>
               <div className="note">
