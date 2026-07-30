@@ -540,7 +540,7 @@
   }
   .deck :global(.show-media) {
     order: 2;
-    justify-content: flex-start;
+    justify-content: center;
   }
   .deck :global(.show-body) {
     order: 3;
@@ -573,8 +573,9 @@
   .deck :global(.hero) {
     padding-top: 72px;
   }
+  /* aspect-ratio is fixed, so height only moves with the width. */
   .deck :global(.phone) {
-    --w: 210px;
+    --w: 157.5px;
   }
   /* One row at every phone width: the chips shrink with the viewport rather
      than wrapping, so nothing here may reintroduce wrapping or a fixed size. */
