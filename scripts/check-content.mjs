@@ -25,14 +25,15 @@ const sources = walk("pages")
 const routeFiles = walk("pages").filter((f) => /\.page\.(mdx|tsx)$/.test(f));
 
 // ── routes ↔ catalogue ────────────────────────────────────────────────────
-// /decks/* are unlisted product surfaces, not pieces: a catalogue row is
-// exactly what they must not have.
 const NOT_A_PIECE = new Set([
   "/_app", "/_document", "/404", "/og-card", "/feed.xml", "/sitemap.xml", "/",
 ]);
-const NOT_A_PIECE_PREFIXES = ["/api", "/decks/"];
-const isPiece = (href) =>
-  !NOT_A_PIECE.has(href) && !NOT_A_PIECE_PREFIXES.some((p) => href.startsWith(p));
+// A page that states its own metadata. Decks do, so they are not exempt here.
+const isContentPage = (href) =>
+  !NOT_A_PIECE.has(href) && !href.startsWith("/api");
+// A page the homepage, sitemap and feed must carry. /decks/* are unlisted
+// product surfaces: a catalogue row is exactly what they must not have.
+const isCatalogued = (href) => isContentPage(href) && !href.startsWith("/decks");
 
 const hrefForRoute = (file) =>
   "/" + relative("pages", file).replace(/\.page\.(mdx|tsx)$/, "").replace(/\/?index$/, "");
@@ -40,7 +41,7 @@ const hrefForRoute = (file) =>
 const routeHrefs = routeFiles
   .map(hrefForRoute)
   .map((h) => (h === "//" || h === "" ? "/" : h))
-  .filter(isPiece);
+  .filter(isCatalogued);
 
 // Only a meta.ts that lib/content.ts imports counts: a piece can hold a
 // perfectly good meta.ts and still be invisible to the homepage and sitemap.
@@ -64,7 +65,11 @@ for (const href of routeHrefs) {
   }
 }
 for (const href of catalogueHrefs) {
-  if (!routeHrefs.includes(href)) {
+  // Decks are filtered out of routeHrefs, so without this the existence test
+  // below reports a missing file for a page that is right there.
+  if (href.startsWith("/decks")) {
+    fail(`lib/content.ts lists ${href} — decks are unlisted and must have no catalogue row.`);
+  } else if (!routeHrefs.includes(href)) {
     fail(`lib/content.ts lists ${href}, but no ${href.slice(1)}/index.page.* exists.`);
   }
 }
@@ -93,7 +98,7 @@ for (const file of sources) {
 // ── a page states its metadata ────────────────────────────────────────────
 for (const file of routeFiles) {
   const href = hrefForRoute(file);
-  if (NOT_A_PIECE.has(href) || href.startsWith("/api")) continue;
+  if (!isContentPage(href)) continue;
   // MDX exports it; a hand-built page may keep it local and pass it to MdxLayout.
   const text = readFileSync(file, "utf8");
   if (!/(export\s+(const|\{)\s*metadata|const\s+metadata\s*=)/.test(text)) {

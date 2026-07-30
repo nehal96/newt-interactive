@@ -84,34 +84,36 @@ const origin = `http://127.0.0.1:${server.address().port}`;
 
 const chrome = await launchChrome({ port: 9233 });
 try {
-  for (const variant of variants) {
-    const page = await Page.open(chrome.port, `${origin}/${variant.name}.svg`);
-    await page.cdp.send("Emulation.setDeviceMetricsOverride", {
-      ...FRAME,
-      deviceScaleFactor: 2,
-      mobile: false,
-    });
-    // The deck sits the art straight on the section, no plate.
-    await page.cdp.send("Emulation.setDefaultBackgroundColorOverride", {
-      color: { r: 0, g: 0, b: 0, a: 0 },
-    });
-    await new Promise((r) => setTimeout(r, 1500));
+  await Promise.all(
+    variants.map(async (variant) => {
+      const page = await Page.open(chrome.port, `${origin}/${variant.name}.svg`);
+      await page.cdp.send("Emulation.setDeviceMetricsOverride", {
+        ...FRAME,
+        deviceScaleFactor: 2,
+        mobile: false,
+      });
+      // The deck sits the art straight on the section, no plate.
+      await page.cdp.send("Emulation.setDefaultBackgroundColorOverride", {
+        color: { r: 0, g: 0, b: 0, a: 0 },
+      });
+      await new Promise((r) => setTimeout(r, 1500));
 
-    const { data } = await page.cdp.send("Page.captureScreenshot", {
-      format: "png",
-      captureBeyondViewport: true,
-      clip: { x: 0, y: 0, ...FRAME, scale: 2 },
-    });
+      const { data } = await page.cdp.send("Page.captureScreenshot", {
+        format: "png",
+        captureBeyondViewport: true,
+        clip: { x: 0, y: 0, ...FRAME, scale: 2 },
+      });
 
-    const buf = await sharp(Buffer.from(data, "base64"))
-      .resize({ width: RASTER_WIDTH, kernel: "lanczos3" })
-      .webp({ quality: 90, alphaQuality: 100 })
-      .toBuffer();
+      const buf = await sharp(Buffer.from(data, "base64"))
+        .resize({ width: RASTER_WIDTH, kernel: "lanczos3" })
+        .webp({ quality: 90, alphaQuality: 100 })
+        .toBuffer();
 
-    await writeFile(new URL(`${variant.name}.webp`, OUT), buf);
-    console.log(`${variant.name}.webp — ${Math.round(buf.length / 1024)} kB`);
-    await page.close?.();
-  }
+      await writeFile(new URL(`${variant.name}.webp`, OUT), buf);
+      console.log(`${variant.name}.webp — ${Math.round(buf.length / 1024)} kB`);
+      await page.close?.();
+    })
+  );
 } finally {
   chrome.proc?.kill();
   server.close();

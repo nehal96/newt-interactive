@@ -5,8 +5,11 @@
 // Writes public/decks/<deck>/<slot>.mp4 and .webp.
 
 import { execFileSync } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+
+const FFMPEG = process.env.FFMPEG_BIN || "ffmpeg";
+const FFPROBE = process.env.FFPROBE_BIN || "ffprobe";
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -48,7 +51,7 @@ const run = (bin, argv) =>
   execFileSync(bin, argv, { encoding: "buffer", maxBuffer: 1 << 30 });
 
 const probe = (entries) =>
-  run("ffprobe", [
+  run(FFPROBE, [
     "-v", "error", "-select_streams", "v:0",
     "-show_entries", entries, "-of", "default=noprint_wrappers=1",
     input,
@@ -82,7 +85,7 @@ const probeAt = cuts.length ? cuts[0][0] : start;
    it stays within the stadium, which is what the inset below guarantees. */
 function findDotMask() {
   const band = Math.round(srcH * 0.09);
-  const raw = run("ffmpeg", [
+  const raw = run(FFMPEG, [
     "-v", "error", ...(probeAt !== null ? ["-ss", String(probeAt)] : []),
     "-i", input, "-frames:v", "1",
     "-vf", `crop=${srcW}:${band}:0:0`,
@@ -176,7 +179,7 @@ filters.push(
   "format=yuv420p"
 );
 
-run("ffmpeg", [
+run(FFMPEG, [
   "-v", "error", ...trim, "-i", input, "-an",
   "-vf", filters.join(","),
   "-c:v", "libx264", "-profile:v", "high", "-crf", String(crf),
@@ -186,11 +189,11 @@ run("ffmpeg", [
   "-movflags", "+faststart", "-y", mp4,
 ]);
 
-run("ffmpeg", [
+run(FFMPEG, [
   "-v", "error", "-ss", String(flag("poster", "0")), "-i", mp4,
   "-frames:v", "1", "-c:v", "libwebp", "-quality", "82", "-y", webp,
 ]);
 
-const kb = (f) => Math.round(Number(run("stat", ["-f%z", f]).toString()) / 1024);
+const kb = (f) => Math.round(statSync(f).size / 1024);
 console.log(`  ${mp4}  ${kb(mp4)} KB`);
 console.log(`  ${webp}  ${kb(webp)} KB`);

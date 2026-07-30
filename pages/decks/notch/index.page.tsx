@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { Emblema_One, IBM_Plex_Mono, Racing_Sans_One } from "next/font/google";
+import { SITE_URL } from "@lib/links";
 import PhoneMock from "./PhoneMock";
 import styles from "./notch.module.css";
 
@@ -33,7 +34,7 @@ const metadata = {
   title: "Notch — an intelligent tracker for functional fitness",
   description:
     "Add your workout by photograph, screenshot or typing, put in your result and notes, and Notch uses both to track your progress: a new PR, scaling progressions, volume calculations.",
-  url: "https://www.newtinteractive.com/decks/notch",
+  url: `${SITE_URL}/decks/notch`,
 };
 
 const Wordmark = () => (
@@ -224,20 +225,7 @@ export default function NotchDeck() {
             </p>
 
             <figure className="diagram">
-              <img
-                className="when-light"
-                src="/decks/notch/diagram.webp"
-                width={1600}
-                height={1030}
-                alt={DIAGRAM_ALT}
-              />
-              <img
-                className="when-dark"
-                src="/decks/notch/diagram-dark.webp"
-                width={1600}
-                height={1030}
-                alt={DIAGRAM_ALT}
-              />
+              <div className="diagram-art" role="img" aria-label={DIAGRAM_ALT} />
             </figure>
 
             <p className="lede">

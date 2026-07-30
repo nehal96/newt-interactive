@@ -1,80 +1,49 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useInViewport, useMediaQuery } from "@hooks";
 
-export interface PhoneMockProps {
-  /** Under /public; a video or a still. Omitted while a slot awaits capture. */
-  src?: string;
+interface PhoneMockProps {
+  /** Under /public; a video or a still. */
+  src: string;
   poster?: string;
-  /** Placeholder caption, and the media's accessible label. */
+  /** The media's accessible label. */
   label: string;
-  variant?: "volt" | "open";
 }
 
 const isVideo = (src: string) => /\.(mp4|webm|mov)$/i.test(src);
 
-/* Ten of these share one page, so nothing is fetched until it is nearly on
-   screen and playback stops again once it leaves. */
-export default function PhoneMock({
-  src,
-  poster,
-  label,
-  variant = "volt",
-}: PhoneMockProps) {
+export default function PhoneMock({ src, poster, label }: PhoneMockProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [armed, setArmed] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const { hasBeenNear, isActive } = useInViewport(videoRef, {
+    activeMargin: "300px",
+  });
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
 
+  // Playback is driven after the render that attaches `src`; playing straight
+  // from the observer would fire against a source-less element.
   useEffect(() => {
     const el = videoRef.current;
-    if (!el) return;
+    if (!el || !hasBeenNear) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setVisible(entry.isIntersecting);
-        if (entry.isIntersecting) setArmed(true);
-      },
-      { rootMargin: "300px" }
-    );
+    if (isActive && !reduced) el.play().catch(() => {});
+    else el.pause();
+  }, [hasBeenNear, isActive, reduced]);
 
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [src]);
-
-  // Playback is driven after the render that attaches `src`; calling play()
-  // straight from the observer would fire against a source-less element.
-  useEffect(() => {
-    const el = videoRef.current;
-    if (!el || !armed) return;
-
-    if (visible && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.play().catch(() => {});
-    } else {
-      el.pause();
-    }
-  }, [armed, visible]);
-
-  // A real capture already contains the device's own Dynamic Island.
   return (
-    <div className={`phone${variant === "open" ? " open-phone" : ""}`}>
-      {!src && <div className="island" />}
+    <div className="phone">
       <div className="phone-screen">
-        {src && isVideo(src) && (
+        {isVideo(src) ? (
           <video
             ref={videoRef}
-            src={armed ? src : undefined}
-            poster={poster}
+            src={hasBeenNear ? src : undefined}
+            poster={hasBeenNear ? poster : undefined}
             preload="none"
             muted
             loop
             playsInline
             aria-label={label}
           />
-        )}
-        {src && !isVideo(src) && <img src={src} alt={label} loading="lazy" />}
-        {!src && (
-          <div className="awaiting">
-            <div className="aw-name">{label}</div>
-            <div className="aw-hint">Media slot</div>
-          </div>
+        ) : (
+          <img src={src} alt={label} loading="lazy" decoding="async" />
         )}
       </div>
     </div>
