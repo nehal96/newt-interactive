@@ -305,7 +305,7 @@
 }
 
 .deck :global(.phone) {
-  --w: 275px;
+  --w: 300px;
   width: var(--w);
   flex: none;
   padding: calc(var(--w) * 0.03);
