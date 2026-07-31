@@ -305,9 +305,8 @@
 }
 
 .deck :global(.phone) {
-  --w: 255px;
+  --w: 275px;
   width: var(--w);
-  aspect-ratio: 402 / 874;
   flex: none;
   padding: calc(var(--w) * 0.03);
   border-radius: calc(var(--w) * 0.145);
@@ -330,11 +329,14 @@
   border-radius: calc(var(--w) * 0.134);
   background: #0a0a0c;
 }
+/* 402/874 is the screen's ratio and has to stay on the screen: the bezel
+   padding is equal on all four sides, so on a box this tall it would narrow
+   the same ratio set on the frame, and cover would crop the captures' gutters. */
 .deck :global(.phone-screen) {
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 402 / 874;
   border-radius: calc(var(--w) * 0.116);
   overflow: hidden;
   background: #0b1020;
@@ -354,7 +356,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 72px;
   align-items: center;
-  padding: 76px 0;
+  padding: 60px 0;
   border-top: 1px solid var(--hair);
 }
 .deck :global(.flip) {
@@ -575,7 +577,7 @@
   }
   /* aspect-ratio is fixed, so height only moves with the width. */
   .deck :global(.phone) {
-    --w: 157.5px;
+    --w: 172px;
   }
   /* One row at every phone width: the chips shrink with the viewport rather
      than wrapping, so nothing here may reintroduce wrapping or a fixed size. */
