@@ -1,0 +1,649 @@
+/* Notch product deck. Self-contained: its own tokens, type and palette, none
+   of the site's. Every rule must stay nested under `.deck` — unnested element
+   selectors here would leak to every page on the site. */
+
+.deck {
+  --navy: #000832;
+  --volt: #4364ff;
+  --on-volt: #ffffff;
+  --gold: #d4a853;
+
+  --bg: #ffffff;
+  --bg-sunk: #f8fafc;
+  --panel: #ffffff;
+  --edge: #e2e8f0;
+  --hair: #edf1f6;
+  --head: #1e293b;
+  --body: #475569;
+  --dim: #64748b;
+  --hover: rgba(15, 23, 42, 0.07);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 18px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 30px 70px -20px rgba(15, 23, 42, 0.3),
+    0 12px 28px -12px rgba(15, 23, 42, 0.18);
+
+  --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The toggle has to beat the OS preference, so the attribute is the only theme
+   signal here; the deck's bootstrap script resolves and sets it before paint,
+   and without that script every reader gets the light palette. */
+:global(html[data-notch-theme="dark"]) .deck {
+  --bg: #000832;
+  --bg-sunk: #030e3e;
+  --panel: #061245;
+  --edge: #17245c;
+  --hair: #101b50;
+  --head: #ffffff;
+  --body: #b9c1e8;
+  --dim: #7b85ba;
+  --volt: #7183ff;
+  --on-volt: #000832;
+  --hover: rgba(255, 255, 255, 0.11);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 18px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 30px 70px -20px rgba(0, 0, 0, 0.7),
+    0 12px 28px -12px rgba(0, 0, 0, 0.5);
+}
+
+.deck :global(.wrap) {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.deck :global(.racing) {
+  font-family: var(--font-notch-racing), ui-sans-serif, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.deck h1,
+.deck h2,
+.deck h3 {
+  color: var(--head);
+  margin: 0;
+  text-wrap: balance;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.deck h1,
+.deck h2 {
+  font-size: clamp(28px, 4vw, 40px);
+}
+.deck h3 {
+  font-size: clamp(23px, 2.6vw, 30px);
+  line-height: 1.2;
+}
+.deck h1 :global(.racing),
+.deck h2 :global(.racing),
+.deck h3 :global(.racing) {
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 1.08em;
+}
+
+.deck p {
+  margin: 0 0 1em;
+  max-width: 64ch;
+}
+.deck p:last-child {
+  margin-bottom: 0;
+}
+.deck a {
+  color: var(--volt);
+}
+
+.deck section {
+  padding: 96px 0;
+}
+.deck :global(.sunk) {
+  background: var(--bg-sunk);
+}
+
+.deck :global(.label) {
+  font-family: var(--font-notch-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  max-width: none;
+  padding-bottom: 14px;
+  margin: 0 0 28px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.deck :global(.lede) {
+  font-size: 19px;
+  color: var(--body);
+  max-width: 60ch;
+}
+
+.deck :global(.wide) :global(.lede) {
+  max-width: 45rem;
+  font-size: 16px;
+}
+
+.deck :global(.wordmark) {
+  display: inline-flex;
+  align-items: baseline;
+  color: var(--head);
+  line-height: 1;
+  letter-spacing: normal;
+  /* Both faces ship 400 only, so this is synthetic. Dropping it makes the
+     footer wordmark lighter than the one in the h1, which inherits 600. */
+  font-weight: 600;
+}
+.deck :global(.wordmark) :global(.n) {
+  font-family: var(--font-notch-emblema), serif;
+  font-size: 0.846em;
+  transform: rotate(1deg);
+  display: inline-block;
+}
+.deck :global(.wordmark) :global(.otch) {
+  font-family: var(--font-notch-racing), sans-serif;
+  font-size: 1em;
+  margin-left: -0.02em;
+}
+
+.deck :global(.topbar) {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  right: 0;
+  z-index: 5;
+}
+.deck :global(.topbar) :global(.wrap) {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.deck :global(.theme-toggle) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.deck :global(.theme-toggle):hover {
+  background: var(--hover);
+  color: var(--head);
+}
+.deck :global(.theme-toggle):focus-visible {
+  outline: 2px solid var(--volt);
+  outline-offset: 2px;
+}
+.deck :global(.theme-toggle) svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+}
+/* Light is the fallback: with the bootstrap script blocked there is no theme
+   attribute, and only the dark half must stay hidden. Each selector must
+   outrank `.theme-toggle svg` above or both icons show at once. */
+.deck :global(.theme-toggle) :global(.when-dark) {
+  display: none;
+}
+:global(html[data-notch-theme="dark"]) .deck :global(.theme-toggle)
+  :global(.when-light) {
+  display: none;
+}
+:global(html[data-notch-theme="dark"]) .deck :global(.theme-toggle)
+  :global(.when-dark) {
+  display: block;
+}
+
+.deck :global(.hero) {
+  padding: 104px 0 0;
+}
+.deck :global(.hero-grid) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 64px;
+  align-items: center;
+}
+.deck :global(.hero) :global(.wordmark) {
+  font-size: clamp(62px, 9vw, 104px);
+  margin-bottom: 20px;
+}
+.deck :global(.hero-tag) {
+  font-size: clamp(20px, 2.5vw, 26px);
+  color: var(--head);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  line-height: 1.3;
+  max-width: 19ch;
+  margin: 0 0 18px;
+}
+.deck :global(.hero-sub) {
+  font-size: 17.5px;
+  color: var(--body);
+  max-width: 46ch;
+  margin: 0 0 34px;
+}
+
+.deck :global(.disciplines) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.deck :global(.disciplines) span {
+  font-family: var(--font-notch-mono), ui-monospace, monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--head);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 4px;
+  padding: 9px 13px;
+}
+.deck :global(.disciplines) :global(.plat) {
+  color: var(--on-volt);
+  background: var(--volt);
+  border-color: var(--volt);
+}
+.deck :global(.disciplines) :global(.sep) {
+  align-self: stretch;
+  width: 1px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--edge);
+  margin: 0 5px;
+}
+
+.deck :global(.spec) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  border-top: 1px solid var(--hair);
+  margin-top: 96px;
+}
+.deck :global(.spec) div {
+  padding: 22px 24px 26px;
+  border-bottom: 1px solid var(--hair);
+}
+.deck :global(.spec) div + div {
+  border-left: 1px solid var(--hair);
+}
+.deck :global(.spec) dt {
+  font-family: var(--font-notch-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 8px;
+}
+.deck :global(.spec) dd {
+  margin: 0;
+  font-size: 16px;
+  color: var(--head);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.deck :global(.phone) {
+  --w: 275px;
+  width: var(--w);
+  flex: none;
+  padding: calc(var(--w) * 0.03);
+  border-radius: calc(var(--w) * 0.145);
+  background: linear-gradient(
+    158deg,
+    #8e939c 0%,
+    #40454e 16%,
+    #2b2f36 42%,
+    #5a6069 68%,
+    #31353c 86%,
+    #787d86 100%
+  );
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+.deck :global(.phone)::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--w) * 0.0115);
+  border-radius: calc(var(--w) * 0.134);
+  background: #0a0a0c;
+}
+/* 402/874 is the screen's ratio and has to stay on the screen: the bezel
+   padding is equal on all four sides, so on a box this tall it would narrow
+   the same ratio set on the frame, and cover would crop the captures' gutters. */
+.deck :global(.phone-screen) {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 402 / 874;
+  border-radius: calc(var(--w) * 0.116);
+  overflow: hidden;
+  background: #0b1020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.deck :global(.phone-screen) img,
+.deck :global(.phone-screen) video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.deck :global(.show) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 72px;
+  align-items: center;
+  padding: 60px 0;
+  border-top: 1px solid var(--hair);
+}
+.deck :global(.flip) {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+.deck :global(.flip) :global(.show-copy) {
+  order: 2;
+}
+.deck :global(.flip) :global(.show-media) {
+  order: 1;
+}
+.deck :global(.show-media) {
+  display: flex;
+  justify-content: center;
+}
+
+/* Transparent art, so the section colour carries it. The two files differ only
+   in ink: the light one is unreadable on the dark scheme's navy. */
+.deck :global(.diagram) {
+  width: 70%;
+  margin: 30px auto 44px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+/* Carried as a background rather than two <img>s: `display: none` cancels
+   neither the fetch nor the decode, so a pair shipped both rasters on every
+   load. Only the rule that wins is ever fetched. */
+.deck :global(.diagram-art) {
+  width: 100%;
+  /* Below this the app screenshot's own labels stop being legible. */
+  min-width: 680px;
+  aspect-ratio: 1600 / 1030;
+  background: url("/decks/notch/diagram.webp") center / contain no-repeat;
+}
+:global(html[data-notch-theme="dark"]) .deck :global(.diagram-art) {
+  background-image: url("/decks/notch/diagram-dark.webp");
+}
+
+.deck :global(.show-index) {
+  font-family: var(--font-notch-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--volt);
+  display: block;
+  margin-bottom: 16px;
+}
+.deck :global(.show) h3 {
+  margin-bottom: 16px;
+}
+.deck :global(.show) p {
+  font-size: 16.5px;
+}
+
+.deck :global(.open-show) :global(.show-index) {
+  color: var(--gold);
+}
+
+.deck :global(.notes) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--hair);
+}
+.deck :global(.note) {
+  padding: 28px 30px 30px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.deck :global(.note) + :global(.note) {
+  border-left: 1px solid var(--hair);
+  padding-left: 30px;
+}
+.deck :global(.note) h4 {
+  margin: 0 0 10px;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--head);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.deck :global(.note) p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--body);
+}
+
+.deck :global(.stack) {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  border-top: 1px solid var(--hair);
+  margin-top: 26px;
+}
+.deck :global(.stack) dt {
+  font-family: var(--font-notch-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 24px 20px 24px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.deck :global(.stack) dd {
+  margin: 0;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.deck :global(.stack) ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+}
+.deck :global(.stack) li {
+  font-size: 14.5px;
+  color: var(--body);
+}
+.deck :global(.stack) li b {
+  color: var(--head);
+  font-weight: 600;
+}
+.deck :global(.stack) li:not(:last-child)::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 11px;
+  background: var(--edge);
+  margin-left: 10px;
+  transform: translateY(1px);
+}
+
+.deck footer {
+  border-top: 1px solid var(--hair);
+  padding: 44px 0 72px;
+}
+.deck :global(.foot) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 0;
+  align-items: center;
+}
+.deck :global(.foot) :global(.wordmark) {
+  font-size: 26px;
+}
+.deck :global(.foot-m) {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  letter-spacing: 0;
+  color: var(--dim);
+  padding-left: 18px;
+  margin-left: 18px;
+  border-left: 1px solid var(--edge);
+}
+.deck :global(.foot) a {
+  text-decoration: none;
+}
+.deck :global(.foot) a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+  .deck :global(.hero-grid) {
+    grid-template-columns: 1fr;
+    gap: 52px;
+  }
+  .deck :global(.show),
+  .deck :global(.flip) {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  /* Stacked, the screen sits between the heading and the body copy, so the
+     copy's two halves become grid items in their own right. Anything added
+     inside .show-copy needs an order here or it lands ahead of the heading. */
+  .deck :global(.show-copy) {
+    display: contents;
+  }
+  .deck :global(.show-head) {
+    order: 1;
+  }
+  .deck :global(.show-media) {
+    order: 2;
+    justify-content: center;
+  }
+  .deck :global(.phone) {
+    --w: 230px;
+  }
+  .deck :global(.show-body) {
+    order: 3;
+  }
+  .deck :global(.show-head) h3 {
+    margin-bottom: 0;
+  }
+  .deck :global(.note) + :global(.note) {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .deck :global(.note) {
+    padding-right: 0;
+  }
+  .deck :global(.diagram) {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .deck {
+    font-size: 16px;
+  }
+  .deck section {
+    padding: 66px 0;
+  }
+  .deck :global(.wrap) {
+    padding: 0 20px;
+  }
+  .deck :global(.hero) {
+    padding-top: 72px;
+  }
+  /* aspect-ratio is fixed, so height only moves with the width. */
+  .deck :global(.phone) {
+    --w: 185px;
+  }
+  /* One row at every phone width: the chips shrink with the viewport rather
+     than wrapping, so nothing here may reintroduce wrapping or a fixed size. */
+  .deck :global(.disciplines) {
+    flex-wrap: nowrap;
+    gap: clamp(3px, 1.2vw, 8px);
+  }
+  .deck :global(.disciplines) span {
+    font-size: clamp(8.5px, 2.6vw, 11.5px);
+    letter-spacing: 0.06em;
+    padding: 7px clamp(6px, 2vw, 13px);
+    white-space: nowrap;
+  }
+  .deck :global(.disciplines) :global(.sep) {
+    margin: 0 2px;
+  }
+  .deck :global(.stack) {
+    grid-template-columns: 1fr;
+  }
+  .deck :global(.stack) dt {
+    padding-bottom: 6px;
+    border-bottom: 0;
+  }
+  .deck :global(.stack) dd {
+    padding-top: 0;
+  }
+  .deck :global(.spec) div + div {
+    border-left: 0;
+  }
+}
+
+/* Its own breakpoint: the row stops fitting around 672px, and a wrapped
+   .foot-m hangs its divider off the start of the next line. */
+@media (max-width: 700px) {
+  .deck footer {
+    padding: 34px 0 52px;
+  }
+  .deck :global(.foot) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .deck :global(.foot) :global(.wordmark) {
+    font-size: 23px;
+    margin-bottom: 4px;
+  }
+  .deck :global(.foot-m) {
+    padding-left: 0;
+    margin-left: 0;
+    border-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.deck :focus-visible {
+  outline: 2px solid var(--volt);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
