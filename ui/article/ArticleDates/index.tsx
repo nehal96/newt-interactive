@@ -13,10 +13,7 @@ const formatDate = (iso: string) => {
 };
 
 const ArticleDates = ({ published }: ArticleDatesProps) => (
-  <p
-    data-article-meta
-    className="text-sm text-ink-400 font-light text-center mb-12 md:mb-16"
-  >
+  <p className="text-sm text-ink-400 font-light text-center mb-12 md:mb-16">
     <time dateTime={published}>{formatDate(published)}</time>
   </p>
 );

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
+import { useMediaQuery } from "@hooks";
 import { cn } from "@lib/utils";
 
 interface Entry {
@@ -8,10 +9,11 @@ interface Entry {
   level: 2 | 3;
 }
 
-/** Under this many headings the rail is decoration, not navigation. */
 const MIN_HEADINGS = 3;
-/** Clearance between the rail and a figure before the rail gives way. */
-const CLEARANCE = 24;
+const RAIL_GAP = 24;
+const TRIGGER_OFFSET = 24;
+const RAIL_FITS = "(min-width: 1200px)";
+const INTRO_ID = "introduction";
 
 const easeInOutCubic = (t: number) =>
   t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
@@ -19,7 +21,10 @@ const easeInOutCubic = (t: number) =>
 const scrollPaddingTop = () =>
   parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
 
-const collect = (article: Element): Entry[] => {
+const collect = (anchor: HTMLElement): Entry[] => {
+  const article = anchor.closest("article");
+  if (!article) return [];
+
   const headings = Array.from(
     article.querySelectorAll<HTMLElement>("h2[id], h3[id]")
   );
@@ -31,57 +36,75 @@ const collect = (article: Element): Entry[] => {
     level: heading.tagName === "H3" ? 3 : 2,
   }));
 
-  const opening = article.querySelector<HTMLElement>(
-    "p:not([data-article-meta])"
+  const opening = Array.from(article.querySelectorAll("p")).find(
+    (paragraph) =>
+      anchor.compareDocumentPosition(paragraph) &
+      Node.DOCUMENT_POSITION_FOLLOWING
   );
   if (
     opening &&
     headings[0].compareDocumentPosition(opening) &
       Node.DOCUMENT_POSITION_PRECEDING
-  ) {
-    if (!opening.id) opening.id = "introduction";
-    entries.unshift({ id: opening.id, label: "Introduction", level: 2 });
-  }
+  )
+    entries.unshift({ id: INTRO_ID, label: "Introduction", level: 2 });
 
   return entries;
 };
 
 const TableOfContents = () => {
+  const anchorRef = useRef<HTMLSpanElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const dotRef = useRef<HTMLSpanElement>(null);
-  const linkRefs = useRef(new Map<string, HTMLAnchorElement>());
   const scrollAnimation = useRef<number | null>(null);
 
   const [entries, setEntries] = useState<Entry[]>([]);
+  const railFits = useMediaQuery(RAIL_FITS);
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   useEffect(() => {
-    const article = document.querySelector("article");
-    if (article) setEntries(collect(article));
-  }, []);
+    if (!railFits) {
+      setEntries([]);
+      return;
+    }
+    const anchor = anchorRef.current;
+    if (anchor) setEntries(collect(anchor));
+  }, [railFits]);
 
-  // The list is the only thing React renders. Which entry is lit, where the dot
-  // sits and whether a figure is in the way all change on scroll frames, and
-  // routing those through state paints the rail a frame behind the layout.
+  // Scroll state is written to the DOM directly; routing it through React
+  // paints the rail a frame behind the layout.
   useEffect(() => {
     const nav = navRef.current;
     const dot = dotRef.current;
     const article = nav?.closest("article");
     if (!nav || !dot || !article || !entries.length) return;
 
+    const links = Array.from(nav.querySelectorAll("a"));
+    const targets = entries.map((entry) => document.getElementById(entry.id));
+
     let frame: number | null = null;
-    let obstacles: HTMLElement[] = [];
-    let lineHeight = 0;
-    let lit = "";
     let stale = true;
+    let lit = -1;
+    let obstructed: boolean | null = null;
+    let trigger = 0;
+    let tops: number[] = [];
+    let offsets: number[] = [];
+    let bands: [number, number][] = [];
 
     const survey = () => {
-      lineHeight = parseFloat(getComputedStyle(nav).lineHeight) || 0;
+      const scrolled = window.scrollY;
+      const lineHeight = parseFloat(getComputedStyle(nav).lineHeight) || 0;
+      trigger = scrollPaddingTop() + TRIGGER_OFFSET;
 
+      tops = targets.map((el) =>
+        el ? el.getBoundingClientRect().top + scrolled : Infinity
+      );
+      // Half a line rather than half the box, so a wrapped entry is marked on
+      // its first line instead of between its two.
+      offsets = links.map((link) => link.offsetTop + lineHeight / 2);
+
+      bands = [];
       const rail = nav.getBoundingClientRect();
-      if (!rail.width) {
-        obstacles = [];
-        return;
-      }
+      if (!rail.width) return;
 
       const style = getComputedStyle(article);
       const columnWidth =
@@ -89,37 +112,19 @@ const TableOfContents = () => {
         parseFloat(style.paddingLeft) -
         parseFloat(style.paddingRight);
 
-      const pool = new Set<HTMLElement>();
+      const candidates: HTMLElement[] = [];
       article.querySelectorAll<HTMLElement>("figure, table").forEach((el) => {
-        pool.add(el);
-        Array.from(el.children).forEach((child) => pool.add(child as HTMLElement));
+        candidates.push(el, ...(Array.from(el.children) as HTMLElement[]));
       });
 
-      obstacles = Array.from(pool).filter((el) => {
+      for (const el of candidates) {
         const box = el.getBoundingClientRect();
         // A figure spanning the whole column is a wrapper around centred ink.
         // Only one that stops short of it has really broken out toward the rail.
-        if (!box.width || box.width >= columnWidth - 1) return false;
-        return (
-          box.left < rail.right + CLEARANCE && box.right > rail.left - CLEARANCE
-        );
-      });
-    };
-
-    const current = () => {
-      const doc = document.documentElement;
-      // A final section shorter than the viewport never crosses the line.
-      if (window.scrollY + window.innerHeight >= doc.scrollHeight - 2)
-        return entries[entries.length - 1];
-
-      const line = window.scrollY + scrollPaddingTop() + CLEARANCE;
-      let found = entries[0];
-      for (const entry of entries) {
-        const heading = document.getElementById(entry.id);
-        if (heading && heading.getBoundingClientRect().top + window.scrollY <= line)
-          found = entry;
+        if (!box.width || box.width >= columnWidth - 1) continue;
+        if (box.left < rail.right + RAIL_GAP && box.right > rail.left - RAIL_GAP)
+          bands.push([box.top + scrolled, box.bottom + scrolled]);
       }
-      return found;
     };
 
     const paint = () => {
@@ -129,65 +134,66 @@ const TableOfContents = () => {
         stale = false;
       }
 
-      const { id } = current();
-      const changed = id !== lit;
-      const first = lit === "";
-      if (changed) {
-        linkRefs.current.get(lit)?.removeAttribute("aria-current");
-        linkRefs.current.get(id)?.setAttribute("aria-current", "location");
-        lit = id;
-      }
-
-      const link = linkRefs.current.get(id);
-      if (link) {
-        // Half a line rather than half the box, so a wrapped entry is marked
-        // on its first line instead of between its two.
-        const y = link.offsetTop + lineHeight / 2;
-        const next = `translate3d(0, calc(${y}px - 50%), 0)`;
-        if (next !== dot.style.transform) {
-          // Travelling to another entry is the animation. Following the entry
-          // it already marks through a reflow is a correction, and a correction
-          // that eases arrives after the text it is meant to be pinned to.
-          const glide = changed && !first;
-          if (!glide) dot.style.transitionProperty = "none";
-          dot.style.transform = next;
-          dot.style.opacity = "1";
-          if (!glide) {
-            void dot.offsetHeight;
-            dot.style.transitionProperty = "";
-          }
-        }
-      }
-
+      const scrolled = window.scrollY;
       const rail = nav.getBoundingClientRect();
-      nav.dataset.obstructed = String(
-        obstacles.some((el) => {
-          const box = el.getBoundingClientRect();
-          return (
-            box.top < rail.bottom + CLEARANCE &&
-            box.bottom > rail.top - CLEARANCE
-          );
-        })
+      const line = scrolled + trigger;
+
+      let index = 0;
+      for (let i = 0; i < tops.length; i++) if (tops[i] <= line) index = i;
+      // A final section shorter than the viewport never crosses the line.
+      if (scrolled + window.innerHeight >= document.documentElement.scrollHeight - 2)
+        index = entries.length - 1;
+
+      const blocked = bands.some(
+        ([top, bottom]) =>
+          top < scrolled + rail.bottom + RAIL_GAP &&
+          bottom > scrolled + rail.top - RAIL_GAP
       );
+
+      const changed = index !== lit;
+      if (changed) {
+        links[lit]?.removeAttribute("aria-current");
+        links[index]?.setAttribute("aria-current", "location");
+      }
+
+      const next = `translate3d(0, calc(${offsets[index]}px - 50%), 0)`;
+      if (next !== dot.style.transform) {
+        // Travelling to another entry is the animation. Following the entry it
+        // already marks through a reflow is a correction, and a correction that
+        // eases arrives after the text it is meant to be pinned to.
+        dot.style.transitionProperty = changed && lit !== -1 ? "" : "none";
+        dot.style.transform = next;
+        dot.style.opacity = "1";
+      }
+      lit = index;
+
+      if (blocked !== obstructed) {
+        nav.dataset.obstructed = String(blocked);
+        obstructed = blocked;
+      }
     };
 
     const schedule = () => {
       if (frame === null) frame = requestAnimationFrame(paint);
     };
 
-    const onResize = () => {
+    const resurvey = () => {
       stale = true;
       schedule();
     };
 
     schedule();
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", resurvey);
+    // A figure mounting late moves every heading below it.
+    const observer = new ResizeObserver(resurvey);
+    observer.observe(article);
 
     return () => {
       if (frame !== null) cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", resurvey);
+      observer.disconnect();
     };
   }, [entries]);
 
@@ -211,7 +217,7 @@ const TableOfContents = () => {
       0,
       target.getBoundingClientRect().top + window.scrollY - scrollPaddingTop()
     );
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (reduceMotion) {
       window.scrollTo(0, to);
       return;
     }
@@ -221,7 +227,6 @@ const TableOfContents = () => {
 
     const from = window.scrollY;
     const distance = to - from;
-    // A short hop should feel instant, a long one shouldn't crawl.
     const duration = Math.min(900, Math.max(350, Math.abs(distance) * 0.25));
     const start = performance.now();
 
@@ -233,46 +238,41 @@ const TableOfContents = () => {
     scrollAnimation.current = requestAnimationFrame(step);
   };
 
-  if (!entries.length) return null;
-
   return (
-    // A zero-height flex item: it sits at the prose's first line by flow rather
-    // than by measurement, and costs the column no vertical space.
-    <div className="sticky top-[5.5rem] ml-[calc(50%-36.5rem)] hidden h-0 w-48 self-start min-[1200px]:block">
-      <nav
-        ref={navRef}
-        aria-label="Table of contents"
-        // The top padding sits the first line on the prose's, whose line box
-        // is taller; it tracks half the difference between the two.
-        className="no-scrollbar relative max-h-[calc(100vh-7rem)] overflow-y-auto pl-5 pt-1.5 font-ui text-xs leading-snug transition-opacity duration-200 data-[obstructed=true]:pointer-events-none data-[obstructed=true]:opacity-0"
-      >
-        <ul>
-          {entries.map((entry) => (
-            <li
-              key={entry.id}
-              className={cn("mb-3 last:mb-0", entry.level === 3 && "pl-3")}
-            >
-              <a
-                ref={(el) => {
-                  if (el) linkRefs.current.set(entry.id, el);
-                  else linkRefs.current.delete(entry.id);
-                }}
-                href={`#${entry.id}`}
-                onClick={(event) => goTo(event, entry.id)}
-                className="block text-ink-400 transition-colors duration-200 hover:text-ink-800 aria-[current=location]:text-ink-900"
-              >
-                {entry.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <span
-          aria-hidden
-          ref={dotRef}
-          className="pointer-events-none absolute left-2 top-0 h-1 w-1 rounded-full bg-indigo-500 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
-        />
-      </nav>
-    </div>
+    <>
+      <span ref={anchorRef} id={INTRO_ID} aria-hidden />
+      {entries.length > 0 && (
+        <div className="sticky top-[5.5rem] ml-[calc(50%-theme(maxWidth.prose)/2-14rem)] hidden h-0 w-48 self-start min-[1200px]:block">
+          <nav
+            ref={navRef}
+            aria-label="Table of contents"
+            className="no-scrollbar relative max-h-[calc(100vh-7rem)] overflow-y-auto pl-5 pt-1.5 font-ui text-xs leading-snug transition-opacity duration-200 data-[obstructed=true]:pointer-events-none data-[obstructed=true]:opacity-0"
+          >
+            <ul>
+              {entries.map((entry) => (
+                <li
+                  key={entry.id}
+                  className={cn("mb-3 last:mb-0", entry.level === 3 && "pl-3")}
+                >
+                  <a
+                    href={`#${entry.id}`}
+                    onClick={(event) => goTo(event, entry.id)}
+                    className="block text-ink-400 transition-colors duration-200 hover:text-ink-800 aria-[current=location]:text-ink-900"
+                  >
+                    {entry.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <span
+              aria-hidden
+              ref={dotRef}
+              className="pointer-events-none absolute left-2 top-0 h-1 w-1 rounded-full bg-indigo-500 opacity-0 transition-all duration-300 ease-out-quint will-change-transform"
+            />
+          </nav>
+        </div>
+      )}
+    </>
   );
 };
 

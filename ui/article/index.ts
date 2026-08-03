@@ -10,5 +10,4 @@ export {
   ArticleNavigationContainer,
 } from "./SeriesNavigation";
 export { default as SubscribeForm } from "./SubscribeForm";
-export { default as TableOfContents } from "./TableOfContents";
 export { default as Title } from "./Title";

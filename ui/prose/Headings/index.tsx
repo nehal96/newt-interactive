@@ -20,7 +20,8 @@ const textOf = (node: ReactNode): string => {
   return "";
 };
 
-/** Rendered on the server so a `#section` link resolves before hydration. */
+/** Assigned in render, never an effect — a `#section` link has to resolve
+ * before hydration. */
 const anchorId = (id: string | undefined, children: ReactNode) =>
   id ?? (slugify(textOf(children)) || undefined);
 
