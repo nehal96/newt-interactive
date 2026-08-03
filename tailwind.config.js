@@ -75,6 +75,12 @@ module.exports = {
         prose: "45rem",
         column: "46rem",
       },
+      // `tailwindcss-animate` claims the `ease-*` namespace too, so an
+      // `ease-[cubic-bezier(...)]` arbitrary value is ambiguous and emits
+      // nothing. Curves have to be named here.
+      transitionTimingFunction: {
+        "out-quint": "cubic-bezier(0.22, 1, 0.36, 1)",
+      },
       animation: {
         "protein-pulse":
           "protein-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",

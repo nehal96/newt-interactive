@@ -1,11 +1,34 @@
-import { DetailedHTMLProps, FunctionComponent, HTMLAttributes } from "react";
-import { cn } from "@lib/utils";
+import {
+  DetailedHTMLProps,
+  FunctionComponent,
+  HTMLAttributes,
+  ReactNode,
+  isValidElement,
+} from "react";
+import { cn, slugify } from "@lib/utils";
 
-const H2: FunctionComponent<
-  DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>
-> = ({ children, className }) => {
+type HeadingProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLHeadingElement>,
+  HTMLHeadingElement
+>;
+
+const textOf = (node: ReactNode): string => {
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(textOf).join("");
+  if (isValidElement(node))
+    return textOf((node.props as { children?: ReactNode }).children);
+  return "";
+};
+
+/** Assigned in render, never an effect — a `#section` link has to resolve
+ * before hydration. */
+const anchorId = (id: string | undefined, children: ReactNode) =>
+  id ?? (slugify(textOf(children)) || undefined);
+
+const H2: FunctionComponent<HeadingProps> = ({ children, className, id }) => {
   return (
     <h2
+      id={anchorId(id, children)}
       className={cn(
         "font-body font-medium text-xl w-full text-ink-800 self-center max-w-prose mb-8 md:text-2xl md:tracking-wide",
         className
@@ -16,11 +39,10 @@ const H2: FunctionComponent<
   );
 };
 
-const H3: FunctionComponent<
-  DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>
-> = ({ children, className }) => {
+const H3: FunctionComponent<HeadingProps> = ({ children, className, id }) => {
   return (
     <h3
+      id={anchorId(id, children)}
       className={cn(
         "font-body font-medium text-lg w-full text-ink-800 self-center max-w-prose mb-8 mt-4 md:text-xl md:tracking-wide",
         className
