@@ -13,6 +13,7 @@ const ArticleHeader = ({ title, subtitle, published }: ArticleHeaderProps) => (
     <Title>{title}</Title>
     {subtitle && (
       <p
+        data-article-meta
         className={cn(
           "text-lg text-ink-500 font-light justify-self-center self-center text-center max-w-3xl md:text-xl",
           published ? "mb-4" : "mb-12 md:mb-16"

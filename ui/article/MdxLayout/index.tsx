@@ -1,9 +1,12 @@
+import type { PieceKind } from "@lib/piece";
 import { ArticleContainer, PageShell } from "@ui/layout";
 import { SeriesTitleLink } from "../SeriesNavigation";
 import ArticleHeader from "../ArticleHeader";
 import SeoHead, { type SeoMetadata } from "../SeoHead";
+import TableOfContents from "../TableOfContents";
 
 export interface Metadata extends SeoMetadata {
+  kind?: PieceKind;
   title: string;
   subtitle?: React.ReactNode;
   description?: string;
@@ -40,6 +43,7 @@ export default function MdxLayout({ children, metadata }: MdxLayoutProps) {
             subtitle={metadata.subtitle}
             published={metadata.published}
           />
+          {metadata.kind === "essay" && <TableOfContents />}
           {children}
         </ArticleContainer>
       </PageShell>
