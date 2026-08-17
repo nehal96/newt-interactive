@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@ui/controls";
+import { Caption } from "./controls";
 
 const LABELS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const HEIGHTS = ["+4/16", "+3/16", "+2/16", "+1/16", "0", "−1/16", "−2/16", "−3/16"];
@@ -156,7 +157,7 @@ export default function SheetStack() {
         </span>
       </div>
 
-      <figcaption className="mt-5 font-ui text-sm leading-6 text-ink-500">
+      <Caption>
         The eight sections of the 6 Å synthesis that Kendrew&rsquo;s group
         computed, traced from figure 18 of Bodo, Dintzis, Kendrew &amp; Wyckoff,{" "}
         <cite>Proc. R. Soc. A</cite> <b>253</b>, 70 (1959). Each parallelogram is
@@ -166,7 +167,7 @@ export default function SheetStack() {
         are these same drawings turned through 180°, which is what the screw axis
         does. The sheets are pulled apart here for legibility; true spacing is
         1.93 Å, about a twentieth of a sheet&rsquo;s height.
-      </figcaption>
+      </Caption>
     </figure>
   );
 }
