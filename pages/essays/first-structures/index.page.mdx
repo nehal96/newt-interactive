@@ -1,0 +1,13 @@
+import { MdxLayout, PostArticleSubscribe } from "@ui/article";
+import { SheetStack } from "./figures";
+import meta from "./meta";
+
+export const metadata = meta;
+
+<SheetStack />
+
+<PostArticleSubscribe />
+
+export default function MDXPage({ children }) {
+  return <MdxLayout metadata={metadata}>{children}</MdxLayout>;
+}

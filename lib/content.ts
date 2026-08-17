@@ -8,6 +8,7 @@ import {
   type SeriesPart,
 } from "./piece";
 import hemoglobin from "../pages/essays/hemoglobin/meta";
+import firstStructures from "../pages/essays/first-structures/meta";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
 import dna from "../pages/blocks/dna/meta";
 import circuitEvolution from "../pages/blocks/circuit-evolution/meta";
@@ -28,6 +29,7 @@ export const KIND_LABEL: Record<PieceKind, string> = {
 
 export const PIECES: Piece[] = [
   hemoglobin,
+  firstStructures,
   systemsBiology,
   c1ffl,
   circuitEvolution,
