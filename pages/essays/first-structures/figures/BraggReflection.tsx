@@ -7,7 +7,11 @@ const TOP = 12;
 const LEFT = 44;
 const RIGHT = 716;
 const BOTTOM = 228;
-const O = { x: 392, y: 104 };
+const ATOM_X0 = 64;
+const ATOM_GAP = 32;
+const ATOMS = 21;
+// The rays turn on an atom, so this has to stay on the lattice: ATOM_X0 + k·ATOM_GAP.
+const O = { x: ATOM_X0 + 10 * ATOM_GAP, y: 104 };
 const PX_PER_A = 19;
 const MAX_RAY = 180;
 const ARC_R = 38;
@@ -70,8 +74,14 @@ export default function BraggReflection() {
         {sheets.map((y, i) => (
           <g key={y} opacity={i < 2 ? 1 : 0.45}>
             <line x1={56} y1={y} x2={704} y2={y} stroke={XR.rule} />
-            {Array.from({ length: 21 }, (_, k) => (
-              <circle key={k} cx={64 + k * 32} cy={y} r={3.2} fill={XR.atom} />
+            {Array.from({ length: ATOMS }, (_, k) => (
+              <circle
+                key={k}
+                cx={ATOM_X0 + k * ATOM_GAP}
+                cy={y}
+                r={3.2}
+                fill={XR.atom}
+              />
             ))}
           </g>
         ))}
@@ -98,6 +108,11 @@ export default function BraggReflection() {
             y2={second.y}
           />
           <line x1={second.x} y1={second.y} x2={lower.to.x} y2={lower.to.y} />
+        </g>
+
+        <g fill={XR.atom}>
+          <circle cx={O.x} cy={O.y} r={4.4} />
+          <circle cx={second.x} cy={second.y} r={4.4} />
         </g>
 
         <g stroke={XR.atom} strokeDasharray="4 4">
