@@ -14,8 +14,60 @@ const MAX_PITCH = 78;
 
 const SPACING_A = 1.93;
 const SHEET_WIDTH_A = 74.06;
+const SHEET_HEIGHT_A = 33.36;
+const ASPECT = SHEET_WIDTH_A / SHEET_HEIGHT_A;
 const EXAGGERATION = 2.6;
 const SPACING = (SPACING_A / SHEET_WIDTH_A) * EXAGGERATION;
+
+// Must match the outline path in the sheet SVGs, or the slab edges float free
+// of the drawing they belong to.
+const CELL = [
+  [0, 1],
+  [64.5 / SHEET_WIDTH_A, 1],
+  [1, 0],
+  [9.56 / SHEET_WIDTH_A, 0],
+];
+
+const CLIP = `polygon(${CELL.map(([x, y]) => `${x * 100}% ${y * 100}%`).join(
+  ", "
+)})`;
+
+const PLATE = SPACING * 0.34;
+const PLATE_H = PLATE * ASPECT * 100;
+
+const LIGHT = [-0.55, -0.84];
+
+const EDGES = CELL.map(([x, y], i) => {
+  const [nx, ny] = CELL[(i + 1) % CELL.length];
+  const dx = nx - x;
+  const dy = (ny - y) / ASPECT;
+  const angle = Math.atan2(dy, dx);
+  const lit = Math.max(
+    0,
+    -Math.sin(angle) * LIGHT[0] + Math.cos(angle) * LIGHT[1]
+  );
+  return {
+    left: `${x * 100}%`,
+    top: `${y * 100}%`,
+    width: `${Math.hypot(dx, dy) * 100}%`,
+    rotate: (angle * 180) / Math.PI,
+    face:
+      `linear-gradient(180deg,` +
+      ` rgba(255,255,255,${(0.5 + 0.35 * lit).toFixed(3)}) 0%,` +
+      ` rgba(214,212,226,${(0.35 + 0.25 * lit).toFixed(3)}) 14%,` +
+      ` rgba(150,147,172,${(0.5 - 0.12 * lit).toFixed(3)}) 46%,` +
+      ` rgba(118,115,142,${(0.62 - 0.14 * lit).toFixed(3)}) 86%,` +
+      ` rgba(88,84,112,${(0.55 - 0.12 * lit).toFixed(3)}) 100%)`,
+  };
+});
+
+const SHEEN =
+  "linear-gradient(118deg," +
+  " rgba(255,255,255,0.7) 0%," +
+  " rgba(255,255,255,0) 15%," +
+  " rgba(150,147,172,0.035) 50%," +
+  " rgba(255,255,255,0) 86%," +
+  " rgba(255,255,255,0.5) 100%)";
 
 const FLY_MS = 800;
 const STAGGER = 40;
@@ -123,26 +175,61 @@ export default function SheetStack() {
                 transition: `transform ${FLY_MS}ms ${ease}`,
               }}
             >
-              {LABELS.map((label, i) => (
-                <img
-                  key={label}
-                  src={`/images/first-structures/kendrew-sheet-${label}-solids.svg`}
-                  alt={`Fourier section at y = ${HEIGHTS[i]} b`}
-                  draggable={false}
-                  className="absolute left-1/2 top-1/2 select-none [transform-style:preserve-3d]"
-                  style={{
-                    width: `${SHEET_W}%`,
-                    transform: stacked
-                      ? `translate(-50%, -50%) translateZ(${(3.5 - i) * lift}px)`
-                      : `translate(${-50 + COL_OFFSET[i % COLS]}%, ${
-                          -50 + ROW_OFFSET[Math.floor(i / COLS)]
-                        }%)`,
-                    opacity: stacked ? 0.5 : 1,
-                    transition: `transform ${FLY_MS}ms ${ease}, opacity ${FLY_MS}ms ${ease}`,
-                    transitionDelay: `${(stacked ? i : LABELS.length - 1 - i) * STAGGER}ms`,
-                  }}
-                />
-              ))}
+              {LABELS.map((label, i) => {
+                const delay = `${(stacked ? i : LABELS.length - 1 - i) * STAGGER}ms`;
+                const fade = {
+                  opacity: stacked ? 0.5 : 1,
+                  transition: `opacity ${FLY_MS}ms ${ease}`,
+                  transitionDelay: delay,
+                };
+                return (
+                  // Opacity here would flatten the preserve-3d and collapse the
+                  // side faces — the children fade instead.
+                  <div
+                    key={label}
+                    className="absolute left-1/2 top-1/2 [transform-style:preserve-3d]"
+                    style={{
+                      width: `${SHEET_W}%`,
+                      aspectRatio: `${SHEET_WIDTH_A} / ${SHEET_HEIGHT_A}`,
+                      transform: stacked
+                        ? `translate(-50%, -50%) translateZ(${(3.5 - i) * lift}px)`
+                        : `translate(${-50 + COL_OFFSET[i % COLS]}%, ${
+                            -50 + ROW_OFFSET[Math.floor(i / COLS)]
+                          }%)`,
+                      transition: `transform ${FLY_MS}ms ${ease}`,
+                      transitionDelay: delay,
+                    }}
+                  >
+                    {EDGES.map((edge, e) => (
+                      <div
+                        key={e}
+                        className="absolute"
+                        style={{
+                          left: edge.left,
+                          top: edge.top,
+                          width: edge.width,
+                          height: `${PLATE_H}%`,
+                          transformOrigin: "0 0",
+                          transform: `rotateZ(${edge.rotate}deg) rotateX(-90deg)`,
+                          backfaceVisibility: "hidden",
+                          background: edge.face,
+                        }}
+                      />
+                    ))}
+                    <div
+                      className="absolute inset-0"
+                      style={{ clipPath: CLIP, background: SHEEN, ...fade }}
+                    />
+                    <img
+                      src={`/images/first-structures/kendrew-sheet-${label}-solids.svg`}
+                      alt={`Fourier section at y = ${HEIGHTS[i]} b`}
+                      draggable={false}
+                      className="absolute inset-0 h-full w-full select-none"
+                      style={fade}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
