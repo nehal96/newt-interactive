@@ -155,7 +155,7 @@ export default function FourierPhases() {
 
       <div className="mt-6">
         <SliderRow
-          label="terms included"
+          label="Terms included"
           value={terms}
           display={`${terms} of ${N_TERMS}`}
           min={0}
@@ -170,17 +170,17 @@ export default function FourierPhases() {
           variant={wrong ? "outline" : "secondary"}
           onClick={() => setScrambled(null)}
           aria-pressed={!wrong}
-          className="font-mono text-xs"
+          className="text-sm"
         >
-          correct phases
+          Correct phases
         </Button>
         <Button
           variant={wrong ? "secondary" : "outline"}
           onClick={scramble}
           aria-pressed={wrong}
-          className="font-mono text-xs"
+          className="text-sm"
         >
-          random phases
+          Random phases
         </Button>
       </div>
 

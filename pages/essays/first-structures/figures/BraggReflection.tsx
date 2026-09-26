@@ -196,7 +196,7 @@ export default function BraggReflection() {
 
       <div className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-3">
         <SliderRow
-          label="glancing angle θ"
+          label="Glancing angle θ"
           value={theta}
           display={`${theta.toFixed(1)}°`}
           min={5}
@@ -205,7 +205,7 @@ export default function BraggReflection() {
           onChange={setTheta}
         />
         <SliderRow
-          label="sheet spacing d"
+          label="Sheet spacing d"
           value={d}
           display={`${d.toFixed(2)} Å`}
           min={2}
@@ -214,7 +214,7 @@ export default function BraggReflection() {
           onChange={setD}
         />
         <SliderRow
-          label="wavelength λ"
+          label="Wavelength λ"
           value={lambda}
           display={`${lambda.toFixed(2)} Å`}
           min={0.6}

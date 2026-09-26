@@ -70,7 +70,7 @@ export default function WaveInterference() {
 
       <div className="mt-6">
         <SliderRow
-          label="extra distance travelled by wave B"
+          label="Extra distance travelled by wave B"
           value={shift}
           display={`${shift.toFixed(2)} λ`}
           min={0}

@@ -236,11 +236,11 @@ export default function SheetStack() {
       </div>
 
       <div className="mt-5 flex items-center gap-3">
-        <Button variant="outline" onClick={toggle} className="font-mono text-xs">
-          {stacked ? "lay them out" : "stack them"}
+        <Button variant="outline" onClick={toggle} className="text-sm">
+          {stacked ? "Lay them out" : "Stack them"}
         </Button>
-        <span className="font-mono text-xs text-ink-400">
-          {stacked ? "drag to turn" : "eight sections, y = +4/16 b to −3/16 b"}
+        <span className="text-xs text-ink-500">
+          {stacked ? "Drag to turn" : "Eight sections, y = +4/16 b to −3/16 b"}
         </span>
       </div>
 

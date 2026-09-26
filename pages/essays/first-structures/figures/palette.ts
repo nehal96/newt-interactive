@@ -8,6 +8,8 @@ export const XR = {
   accent: "#E11D48",
   sum: "#1A1825",
   atom: "#B1AFC0",
+  molecule: "#C7D2FE",
+  moleculeEdge: "#818CF8",
   rule: "#DDDCE5",
   label: "#6A687D",
 } as const;

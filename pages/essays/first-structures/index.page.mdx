@@ -1,7 +1,11 @@
 import { MdxLayout, PostArticleSubscribe } from "@ui/article";
 import {
-  WaveInterference,
-  BraggReflection,
+  WavesAddUp,
+  CrystalLattice,
+  OneMoleculeScatters,
+  TwoLayers,
+  CrystalToFilm,
+  Term,
   FourierPhases,
   SheetStack,
 } from "./figures";
@@ -9,13 +13,55 @@ import meta from "./meta";
 
 export const metadata = meta;
 
-### Wave interference
+For ten years, Andrei Lupas’s lab at the Max Planck Institute in Tübingen had been unable to solve the structure of Af1503, a membrane receptor from an archaeon that lives in hot vents on the sea floor. They had crystals and they had x-ray diffraction data of those crystals, but whatever method they tried, they could not get a picture of the molecule.
 
-<WaveInterference />
+In August 2020, Lupas was serving as an assessor for CASP, a competition in which anonymous groups predict the shape of proteins whose structures have been measured but not yet published. Partway through the season the assessors met online to look at what had been sent in. The predictions from group 427 did not look like anything seen before. As one of the other assessors put it, “either this group is close to solving the folding problem or they cheated somehow.” Lupas had a way to check, one that could not be faked. He entered Af1503 as a target. If it was truly as good as it looked, it might make a prediction that closely matched his data. Group 427’s model gave him the structure in half an hour.
 
-### Bragg's law
+On 30 November 2020, the full results of CASP were released, and group 427 had a median accuracy of 92.4 (out of 100), where 90 is as good as an experimental measurement. By then, the assessors had already guessed who they were: group 427 was DeepMind, and the program was AlphaFold2. They had not cheated; they were, in fact, close to solving the folding problem.
 
-<BraggReflection />
+Why is it important to know the structure of proteins? Its structure enables its function. An enzyme speeds up a chemical reaction because its folded chain forms a pocket that holds the reacting molecules in the right position. An antibody neutralizes a virus because part of its folded chains matches a region on the virus's surface and binds to it, preventing the virus from entering cells. Most drugs are small molecules that fit into a pocket on a protein and block or switch on its activity, so designing a drug is easier when the shape of the target is known. When a protein fails to fold correctly, it can cause disease.
+
+AlphaFold’s database of predicted structures now holds more than 200 million, one for nearly every protein whose sequence has been recorded. The Protein Data Bank, an open database of experimentally determined structures, holds a little over 250,000, deposited by structural biologists since 1971. All 200 million predictions were made by a model that was trained on the PDB. AlphaFold3, released in 2024, predicts how proteins bind DNA, RNA, and drug molecules, and in 2025 David Baker’s lab used a design tool, RFdiffusion, to make antibodies on a computer that bound to the flu virus accurately. These tools, along with today’s models like ESM3 that read a protein’s sequence, structure, and function together, are trained either on the PDB directly or from AlphaFold’s predictions.
+
+These tools are only as good as the measurements they learn from, and each measurement – at least in structural biology – is slow to make. The rule of thumb, as Demis Hassabis, DeepMind’s co-founder, likes to say, was that it took a PhD student their entire PhD to discover one protein structure. That is, four or five years to get the protein to form a crystal, hold it in an x-ray beam, record the spots it scattered, and turn those spots into a map of where its atoms sat. Where measurements are few or lacking, the tools are weakest. Only a small fraction of the structures in the PDB contain an approved or investigational drug. When five pharmaceutical companies added their private data to the training of OpenFold3, an open-source version of AlphaFold3, they reported that the share of drug molecules placed correctly in their targets rose from 29% to 47%. For some properties of proteins, such as the way they shift between shapes when they work, there might not be a method to measure them at all.
+
+Protein structures themselves were once unmeasurable. When the PDB opened in 1971, it included just seven structures. Among the earliest were myoglobin and hemoglobin, solved in Cambridge in 1957 and 1959 by John Kendrew and Max Perutz, the first protein structures ever determined. Nearly every one of the quarter million structures measured since then traces back to the method Perutz’s group worked out. In 1937, when Perutz took his first photographs of hemoglobin crystals, he was where Lupas would be eight decades later: he had the spots, but no way to turn them into a picture of the molecule. No one was sure whether the structure of a protein could be measured at all. And certainly, he didn’t expect it to take sixteen years to find the method, and twenty-two to see the molecule.
+
+This is the story of those twenty-two years.
+
+---
+
+Max Perutz joined J.D. Bernal’s lab in Cambridge through a chance encounter. In 1932, as an undergraduate student at the University of Vienna, Max had found his chemistry courses boring and ‘backwards’, and it was not until 1934, after he attended a series of lectures on organic compounds, that he got seriously interested in the new field of biochemistry. He learned that vitamins were being investigated at Gowland Hopkins’s lab at Cambridge, and so decided that was where he should go.
+
+The next summer, in 1935, Perutz learned that Hermann Mark, a chemistry professor, was traveling to Cambridge, and asked him to inquire about a position in Hopkins’ lab. Mark, to Max’s disappointment, forgot. He did however talk with J.D. Bernal, the head of crystallography, who said that he was looking for a research student to join his lab. Mark suggested that Perutz join Bernal instead, to which Perutz objected, saying he knew nothing about x-ray crystallography. “You’ll learn it, my boy”, Mark replied. Bernal accepted, and so, a year later, in September 1936, Max Perutz arrived at the Cavendish to uncover the structure of molecules.
+
+Through the eyes of Bernal, Max was joining at an exciting time. Known to everyone around him as The Sage thanks to his wide-ranging intellect and charm, J.D. Bernal had just begun moving x-ray crystallography from graphite and bronze into the realm of biology. He did the first diffraction work on cholesterol in 1929, vitamin B1 in 1933, and notably, produced the first sharp x-ray photograph of a protein, pepsin, in 1934, overturning the widely held belief that proteins would not diffract at all. That spring night of the discovery, Bernal “wandered about the streets of Cambridge, thinking of the future and of how much it might be possible to know about the structure of proteins if the photographs… could be interpreted in every detail.”
+
+When Max arrived at Bernal’s lab, a small, dingy sub-department in Cavendish, Bernal didn’t have any protein crystals left to give him to study. He instead made him work on rhodonite, a mineral found in blast-furnace slag. “Nasty minerals” were not what Max had come to study, but he quickly loved his new life at Cambridge, and being a patient and persistent worker, used it as a way to quickly learn the techniques of x-ray crystallography.
+
+By the time Max started learning it, x-ray crystallography had been around for just over two decades. William Lawrence Bragg and his father had used it to work out the structure of common salt in 1913, and in the years since the method had been used to determine the structure of salts, metals, and organic molecules of a few dozen atoms.
+
+To understand how it works together, it helps to understand both x-rays and crystals separately first. X-rays are a specific wavelength of light, which can be represented as waves (and photons). Visible light, what we see, sits in the 400-700nm range. X-rays are a lot smaller, in the 0.1-10nm range, about the same range as the space in between atoms. Along with wavelength, waves have amplitude (height, which relates to brightness) and phase (the offset). When trying to add waves, the ones in step reinforce each other, and those opposing cancel each other out.
+
+<WavesAddUp />
+
+A crystal is a box of molecules, organized by the <Term k="unitCell">unit cell</Term> repeated in every direction, creating a lattice structure.
+
+<CrystalLattice />
+
+When an x-ray wave hits a single molecule, it excites the electrons in the molecule's atoms, and each electron sends out a wave of its own, with the same phase and amplitude. Together they spread out from the molecule in every direction. 
+
+<OneMoleculeScatters />
+
+The circles above represent the crests of the waves, called the wavefronts. A single molecule scatters far too little to record. In a crystal, the molecules are aligned in a lattice, so what happens when x-rays hit all of them? The waves from each molecule interact with each other and add up. When the extra distance is a whole wavelength, crests meet crests and the waves add into one strong ray. When it is half a wavelength, crests meet troughs and they cancel. The ray leaves at the same angle the beam came in, which makes it look like a reflection.
+
+<TwoLayers />
+
+A real crystal has thousands of layers stacked in three dimensions, and they can be sliced in many directions. When hit with x-rays, in almost every direction the waves from all those layers cancel. In a few directions they add up, and bright rays leave the crystal. A photographic film behind the crystal records each ray as a spot. Where the spots fall is set by the size and shape of the crystal. How dark each spot is depends on the molecules inside the crystal, so the pattern of spots carries information about the molecule.
+
+<CrystalToFilm />
+
+---
 
 ### The Fourier idea, and the phase problem
 
