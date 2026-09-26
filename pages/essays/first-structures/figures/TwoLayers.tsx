@@ -88,7 +88,7 @@ export default function TwoLayers() {
   const sumColor = inStep ? XR.accent : XR.sum;
 
   return (
-    <figure className="mx-auto my-8 w-full max-w-[40rem] lg:my-12 lg:max-w-[48rem]">
+    <figure className="mx-auto my-8 w-full max-w-[38rem] lg:my-12">
       <svg
         viewBox="0 0 680 250"
         className="h-auto w-full"
@@ -284,7 +284,7 @@ export default function TwoLayers() {
 
       <Readouts
         items={[
-          ["Extra path for layer 2", `${frac.toFixed(2)} wavelengths`],
+          ["Layer 2's extra path", `${frac.toFixed(2)} wavelengths`],
           [
             "Brightness of the outgoing ray",
             `${Math.round(brightness * 100)}%`,

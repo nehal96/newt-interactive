@@ -39,7 +39,7 @@ const LATTICE = [200, 220, 240].flatMap((x) =>
 
 export default function CrystalToFilm() {
   return (
-    <figure className="mx-auto my-8 w-full max-w-[40rem] lg:my-12 lg:max-w-[48rem]">
+    <figure className="mx-auto my-8 w-full max-w-[38rem] lg:my-12">
       <svg
         viewBox="0 20 680 260"
         className="h-auto w-full"

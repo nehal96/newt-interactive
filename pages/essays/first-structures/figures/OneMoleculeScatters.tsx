@@ -12,7 +12,7 @@ const RINGS = [
 
 export default function OneMoleculeScatters() {
   return (
-    <figure className="mx-auto my-8 w-full max-w-[40rem] lg:my-12 lg:max-w-[48rem]">
+    <figure className="mx-auto my-8 w-full max-w-[38rem] lg:my-12">
       <svg
         viewBox="0 0 680 250"
         className="h-auto w-full"
