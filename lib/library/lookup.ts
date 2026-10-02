@@ -48,15 +48,28 @@ export type Details = {
   firstPublished: number | null;
 };
 
+// Goodreads answers scripted traffic with an empty 202 challenge once it's had enough, so
+// one lookup fetches its page once, and an empty page counts as "no Goodreads data".
+const goodreadsPages = new Map<string, { at: number; page: Promise<string | undefined> }>();
+function goodreadsPage(isbn: string) {
+  const hit = goodreadsPages.get(isbn);
+  if (hit && Date.now() - hit.at < 60_000) return hit.page;
+  const page = get(`https://www.goodreads.com/book/isbn/${isbn}`)
+    .then((r) => r?.text())
+    .then((html) => (html?.includes(isbn) ? html : undefined))
+    .catch(() => undefined);
+  goodreadsPages.set(isbn, { at: Date.now(), page });
+  return page;
+}
+
 export async function lookupDetails(isbn: string): Promise<Details> {
-  const [olRes, firstRes, grRes] = await Promise.all([
+  const [olRes, firstRes, gr] = await Promise.all([
     get(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`),
     get(`https://openlibrary.org/search.json?isbn=${isbn}&fields=first_publish_year`),
-    get(`https://www.goodreads.com/book/isbn/${isbn}`),
+    goodreadsPage(isbn),
   ]);
   const ol = (await olRes?.json().catch(() => null))?.[`ISBN:${isbn}`];
   const first = (await firstRes?.json().catch(() => null))?.docs?.[0];
-  const gr = await grRes?.text().catch(() => undefined);
   const grField = (k: string) => gr?.match(new RegExp(`"${k}":"([^"]*)"`))?.[1];
   return {
     title: ol?.title ?? null,
@@ -72,17 +85,41 @@ export async function lookupDetails(isbn: string): Promise<Details> {
 
 export type FoundCover = { buf: Buffer; source: string; sourceUrl: string };
 
-const COVER_SOURCES: Record<string, (isbn: string) => Promise<string | null | undefined>> = {
+export const COVER_SOURCES = ["amazon", "apple", "goodreads", "openlibrary"] as const;
+export type CoverSource = (typeof COVER_SOURCES)[number];
+
+const COVER_URL: Record<CoverSource, (isbn: string) => Promise<string | null | undefined>> = {
   amazon: async (isbn) => {
     const i10 = isbn10(isbn);
     return i10 && `https://images-na.ssl-images-amazon.com/images/P/${i10}.01._SCRMZZZZZZ_.jpg`;
   },
-  goodreads: async (isbn) => {
-    const html = await (await get(`https://www.goodreads.com/book/isbn/${isbn}`))?.text();
-    return html?.includes(isbn) ? html.match(/og:image" content="([^"]+)"/)?.[1] : null;
+  apple: async (isbn) => {
+    const json = await (await get(`https://itunes.apple.com/lookup?isbn=${isbn}`))?.json().catch(() => null);
+    const art: string | undefined = json?.results?.[0]?.artworkUrl100;
+    return art?.replace(/\/\d+x\d+bb\./, "/1600x1600bb.");
   },
+  goodreads: async (isbn) => (await goodreadsPage(isbn))?.match(/og:image" content="([^"]+)"/)?.[1],
   openlibrary: async (isbn) => `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`,
 };
+
+// The height the page needs for a sharp cover; below it, a photo of the copy is better.
+export const SHARP_HEIGHT = 800;
+
+export type Candidate = FoundCover & {
+  width: number;
+  height: number;
+  /** What's wrong with it, if anything — shown to the model and to Nehal. */
+  problems: string[];
+};
+
+function problemsWith(width: number, height: number) {
+  const problems: string[] = [];
+  if (height < SHARP_HEIGHT) problems.push(`low resolution (${height}px tall; ${SHARP_HEIGHT}px+ looks sharp)`);
+  const aspect = width / height;
+  // Real covers sit around 0.6–0.75 wide-to-tall; outside that it's usually a crop, a spread, or a padded mock-up.
+  if (aspect < 0.5 || aspect > 0.85) problems.push(`unusual shape (${width}×${height}) — may be cropped, a spread, or a mock-up`);
+  return problems;
+}
 
 export async function fetchImage(url: string): Promise<Buffer | null> {
   const res = await get(url);
@@ -92,13 +129,31 @@ export async function fetchImage(url: string): Promise<Buffer | null> {
   return meta?.height && meta.height >= MIN_HEIGHT ? buf : null;
 }
 
-export async function findCover(isbn: string): Promise<FoundCover | null> {
-  for (const [source, resolve] of Object.entries(COVER_SOURCES)) {
-    const sourceUrl = await resolve(isbn).catch(() => null);
-    const buf = sourceUrl && (await fetchImage(sourceUrl));
-    if (buf) return { buf, source, sourceUrl };
-  }
-  return null;
+async function candidateFrom(source: string, sourceUrl: string): Promise<Candidate | null> {
+  const buf = await fetchImage(sourceUrl);
+  if (!buf) return null;
+  const { width = 0, height = 0 } = await sharp(buf).metadata();
+  return { buf, source, sourceUrl, width, height, problems: problemsWith(width, height) };
+}
+
+/** Every source's cover for this ISBN, in source order. */
+export async function findCovers(isbn: string): Promise<Candidate[]> {
+  const found = await Promise.all(
+    COVER_SOURCES.map(async (source) => {
+      const url = await COVER_URL[source](isbn).catch(() => null);
+      return url ? candidateFrom(source, url) : null;
+    }),
+  );
+  return found.filter((c): c is Candidate => c !== null);
+}
+
+/** The candidate to use when the model doesn't choose: the first without problems, else the tallest. */
+export function bestCover(candidates: Candidate[]): Candidate | null {
+  return candidates.find((c) => c.problems.length === 0) ?? [...candidates].sort((a, b) => b.height - a.height)[0] ?? null;
+}
+
+export async function coverFromUrl(url: string): Promise<Candidate | null> {
+  return candidateFrom("url", url);
 }
 
 /** A small JPEG of a cover, for showing a candidate to the model. */

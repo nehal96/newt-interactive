@@ -3,7 +3,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 import { type BookRow, type Writable, deleteBook, findByIsbn, genres, getBook, insertBook, searchBooks, updateBook } from "@lib/library/db";
-import { fetchImage, findCover, lookupDetails, normalizeIsbn, preview, slugify, storeCover } from "@lib/library/lookup";
+import {
+  COVER_SOURCES, SHARP_HEIGHT, type Candidate, bestCover, coverFromUrl, findCovers, lookupDetails, normalizeIsbn, preview, slugify, storeCover,
+} from "@lib/library/lookup";
 
 const INSTRUCTIONS = `Tools for Nehal's personal library, shown at newtinteractive.com/nehals-library.
 
@@ -11,15 +13,21 @@ Every record describes Nehal's own copy — the edition in their photo — not t
 
 Adding a book from a photo or screenshot:
 1. Read the ISBN-13 (under the barcode on the back, or on the copyright page; on an Amazon page, the "ISBN-13" line). If none is visible, ask for a photo of the back cover. Never take an ISBN from a web search — that is some edition, not necessarily theirs.
-2. Call lookup_isbn. It returns the catalogue details and the cover it found, as an image.
+2. Call lookup_isbn. It returns the catalogue details and every cover candidate it found (Amazon, Apple Books, Goodreads, Open Library), each as an image with its size and any problems.
 3. Compare against the photo and fix what's wrong when you call add_book:
    - title with the printed capitalisation (catalogues often return sentence case);
    - publisher = the imprint whose logo is on the spine (e.g. "The Bodley Head", not just "Penguin"); catalogue publishers can be badly wrong;
    - format: hardcover, paperback, or mass-market (small pocket size);
    - first_published = the year the work first appeared, not this printing; catalogues often give a reissue year, and nonsense for ancient works (use negative years for BC);
    - kind and genre: reuse an existing genre from list_genres where one fits.
-4. Check the cover: same design and publisher logo as the photo, flat cover art (reject 3D product mock-ups), at least ~800px tall. If it's wrong, pass cover_url with a better image of this exact edition, or skip_cover and tell Nehal a cover photo is needed.
-5. After adding, reply briefly: what was added, where the cover came from, and anything you weren't sure of.
+4. Choose the cover by comparing each candidate with the photo. The right one is this exact edition: same artwork, same type, same publisher logo. Different printings under one ISBN can carry different covers, so a matching title is not enough.
+   - Reject 3D product mock-ups (a book drawn at an angle) and anything that isn't the front cover.
+   - Among candidates that match, prefer the sharpest (${SHARP_HEIGHT}px+ tall).
+   - Pass your choice to add_book as cover_source. If none matches the photo, pass skip_cover — a typeset stand-in is better than another edition's art — and tell Nehal the book needs a photo of its front cover.
+   - Only use cover_url for an image you're confident is this edition (e.g. the publisher's own page for this ISBN); never a generic image search result.
+5. After adding, reply briefly: what was added, which cover you used and why, and anything you weren't sure of. If the cover is under ${SHARP_HEIGHT}px tall or has a flagged problem, say so — Nehal may want to replace it with a photo.
+
+To fix a cover later: lookup_isbn to see the candidates, then set_cover with cover_source or image_url; reject_cover removes a wrong one.
 
 Use update_book for read status ("read", "reading", "unread") and corrections. Never remove a book unless Nehal explicitly asks.`;
 
@@ -55,6 +63,29 @@ const summary = (b: BookRow) => ({
 
 const joinAuthors = (a: string[]) => (a.length > 1 ? `${a.slice(0, -1).join(", ")} and ${a[a.length - 1]}` : (a[0] ?? ""));
 
+const COVER_SOURCE = z.enum(COVER_SOURCES).describe("Which lookup_isbn candidate to use");
+
+const describeCover = (c: Candidate) => ({
+  source: c.source,
+  size: `${c.width}×${c.height}`,
+  problems: c.problems.length ? c.problems : "none",
+  url: c.sourceUrl,
+});
+
+/** Resolve a cover choice: an explicit URL, a named lookup candidate, or the best candidate for the ISBN. */
+async function chooseCover(isbn: string | null, source?: string, url?: string): Promise<Candidate | string | null> {
+  if (url) return (await coverFromUrl(url)) ?? `Couldn't use ${url}: not reachable, or under 400px tall.`;
+  if (!isbn) return source ? "This book has no ISBN, so there are no lookup candidates — pass image_url instead." : null;
+  const candidates = await findCovers(isbn);
+  if (!source) return bestCover(candidates);
+  return candidates.find((c) => c.source === source) ?? `No ${source} cover for ISBN ${isbn}. Available: ${candidates.map((c) => c.source).join(", ") || "none"}.`;
+}
+
+async function coverContent(c: Candidate) {
+  const note = c.problems.length ? `Cover: ${c.source} ${c.width}×${c.height} — ${c.problems.join("; ")}` : `Cover: ${c.source} ${c.width}×${c.height}`;
+  return [text(note), image((await preview(c.buf)).base64) as never];
+}
+
 function server(origin: string) {
   const refresh = () =>
     fetch(`${origin}/api/library/revalidate`, { method: "POST", headers: { "x-library-secret": process.env.LIBRARY_MCP_SECRET! } }).catch(() => null);
@@ -65,19 +96,26 @@ function server(origin: string) {
         "lookup_isbn",
         {
           title: "Look up an ISBN",
-          description: "Catalogue details and the best edition-exact cover for an ISBN, and whether it's already in the library. Read-only.",
+          description: "Catalogue details and every cover candidate for an ISBN (each shown as an image, with size and problems), and whether it's already in the library. Read-only.",
           inputSchema: z.object({ isbn: z.string() }),
           annotations: { readOnlyHint: true },
         },
         async ({ isbn: raw }) => {
           const isbn = normalizeIsbn(raw);
           if (!isbn) return fail(`"${raw}" is not a valid ISBN-10 or ISBN-13.`);
-          const [existing, details, cover] = await Promise.all([findByIsbn(isbn), lookupDetails(isbn), findCover(isbn)]);
-          const content = [text({ isbn, already_in_library: existing ? summary(existing) : null, details, cover: cover ? { source: cover.source, url: cover.sourceUrl } : null })];
-          if (cover) {
-            const p = await preview(cover.buf);
-            content.push(text(`Cover found (${cover.source}, ${p.width}×${p.height}):`), image(p.base64) as never);
-          }
+          const [existing, details, candidates] = await Promise.all([findByIsbn(isbn), lookupDetails(isbn), findCovers(isbn)]);
+          const best = bestCover(candidates);
+          const content = [
+            text({
+              isbn,
+              already_in_library: existing ? summary(existing) : null,
+              details,
+              cover_candidates: candidates.map(describeCover),
+              default_if_unspecified: best?.source ?? null,
+            }),
+          ];
+          for (const c of candidates) content.push(...(await coverContent(c)));
+          if (!candidates.length) content.push(text("No cover found for this ISBN — the book will need a photo of its front cover."));
           return { content };
         },
       );
@@ -86,7 +124,7 @@ function server(origin: string) {
         "add_book",
         {
           title: "Add a book",
-          description: "Add a book to the library and publish it. Finds the cover by ISBN unless cover_url or skip_cover is given.",
+          description: "Add a book to the library and publish it. Pass cover_source (from lookup_isbn's candidates), cover_url, or skip_cover; with none, it uses the first problem-free candidate.",
           inputSchema: z.object({
             isbn: z.string().nullable().describe("ISBN-13 from the photo; null only for books printed without one"),
             ...editable,
@@ -98,11 +136,12 @@ function server(origin: string) {
             notes: editable.notes.optional(),
             read_status: editable.read_status.optional(),
             first_published: editable.first_published.optional(),
-            cover_url: z.string().url().optional().describe("Image of this exact edition's front cover, if the ISBN lookup's cover is wrong"),
-            skip_cover: z.boolean().optional(),
+            cover_source: COVER_SOURCE.optional(),
+            cover_url: z.string().url().optional().describe("Image of this exact edition's front cover, when no candidate matches"),
+            skip_cover: z.boolean().optional().describe("No candidate matches the photo; show a typeset stand-in"),
           }),
         },
-        async ({ isbn: raw, cover_url, skip_cover, ...fields }) => {
+        async ({ isbn: raw, cover_source, cover_url, skip_cover, ...fields }) => {
           const isbn = raw ? normalizeIsbn(raw) : null;
           if (raw && !isbn) return fail(`"${raw}" is not a valid ISBN-10 or ISBN-13.`);
           if (isbn) {
@@ -121,16 +160,8 @@ function server(origin: string) {
             confidence_note: isbn ? "ISBN read from Nehal's photo" : "No ISBN; details from the photo",
           };
 
-          let found = null as null | { buf: Buffer; source: string; sourceUrl: string };
-          if (!skip_cover) {
-            if (cover_url) {
-              const buf = await fetchImage(cover_url);
-              if (!buf) return fail(`Couldn't use ${cover_url}: not reachable, or under 400px tall.`);
-              found = { buf, source: "url", sourceUrl: cover_url };
-            } else if (isbn) {
-              found = await findCover(isbn);
-            }
-          }
+          const found = skip_cover ? null : await chooseCover(isbn, cover_source, cover_url);
+          if (typeof found === "string") return fail(found);
           if (found) Object.assign(row, await storeCover(id, found.buf, found.source, found.sourceUrl));
 
           const book = await insertBook(id, row);
@@ -138,7 +169,7 @@ function server(origin: string) {
           return {
             content: [
               text({ added: summary(book), live: `${origin}/nehals-library` }),
-              ...(found ? [image((await preview(found.buf)).base64) as never] : [text("No cover — ask Nehal for a photo of the front cover.")]),
+              ...(found ? await coverContent(found) : [text("No cover — ask Nehal for a photo of the front cover.")]),
             ],
           };
         },
@@ -164,16 +195,19 @@ function server(origin: string) {
         "set_cover",
         {
           title: "Set a book's cover",
-          description: "Replace a book's cover with an image of its exact edition, from a URL.",
-          inputSchema: z.object({ id: z.string(), image_url: z.string().url() }),
+          description: "Replace a book's cover with its exact edition: one of lookup_isbn's candidates (cover_source) or an image URL.",
+          inputSchema: z.object({ id: z.string(), cover_source: COVER_SOURCE.optional(), image_url: z.string().url().optional() }),
         },
-        async ({ id, image_url }) => {
-          if (!(await getBook(id))) return fail(`No book with id "${id}".`);
-          const buf = await fetchImage(image_url);
-          if (!buf) return fail(`Couldn't use ${image_url}: not reachable, or under 400px tall.`);
-          const book = await updateBook(id, await storeCover(id, buf, "url", image_url));
+        async ({ id, cover_source, image_url }) => {
+          const existing = await getBook(id);
+          if (!existing) return fail(`No book with id "${id}".`);
+          if (!cover_source === !image_url) return fail("Pass exactly one of cover_source or image_url.");
+          const found = await chooseCover(existing.isbn, cover_source, image_url);
+          if (typeof found === "string") return fail(found);
+          if (!found) return fail("No cover found for this ISBN.");
+          const book = await updateBook(id, await storeCover(id, found.buf, found.source, found.sourceUrl));
           await refresh();
-          return { content: [text({ updated: summary(book!) }), image((await preview(buf)).base64) as never] };
+          return { content: [text({ updated: summary(book!) }), ...(await coverContent(found))] };
         },
       );
 
