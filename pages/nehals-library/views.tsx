@@ -81,8 +81,10 @@ const CAPTION_CLEARANCE = 36;
 
 export function Grid({ books }: { books: Book[] }) {
   const listRef = useRef<HTMLUListElement>(null);
+  const touchRef = useRef(false);
+  const lastRef = useRef<Book>();
   const [rows, setRows] = useState<number[]>([]);
-  const [open, setOpen] = useState<{ row: number; space: number }>();
+  const [active, setActive] = useState<{ index: number; touch: boolean; space: number }>();
 
   useEffect(() => {
     const ul = listRef.current!;
@@ -93,45 +95,84 @@ export function Grid({ books }: { books: Book[] }) {
     return () => ro.disconnect();
   }, [books]);
 
+  // A tap anywhere outside the grid dismisses the touch caption.
+  useEffect(() => {
+    if (!active?.touch) return;
+    const away = (e: PointerEvent) => {
+      if (!listRef.current!.contains(e.target as Node)) setActive(undefined);
+    };
+    document.addEventListener("pointerdown", away);
+    return () => document.removeEventListener("pointerdown", away);
+  }, [active?.touch]);
+
   const reveal = (i: number, li: HTMLElement) => {
     const caption = li.querySelector<HTMLElement>("[data-caption]")!;
     const gap = parseFloat(getComputedStyle(listRef.current!).rowGap);
-    setOpen({ row: rows[i], space: Math.max(0, caption.offsetHeight + CAPTION_GAP + CAPTION_CLEARANCE - gap) });
+    setActive({ index: i, touch: false, space: Math.max(0, caption.offsetHeight + CAPTION_GAP + CAPTION_CLEARANCE - gap) });
   };
 
+  const current = active ? books[active.index] : lastRef.current;
+  lastRef.current = current;
+  const openRow = active && !active.touch ? rows[active.index] : undefined;
+
   return (
-    <ul
-      ref={listRef}
-      onMouseLeave={() => setOpen(undefined)}
-      className="flex flex-wrap items-end gap-x-5 gap-y-12 [--mm:0.5px] sm:gap-x-9 sm:gap-y-14 sm:[--mm:0.82px]"
-    >
-      {books.map((b, i) => (
-        <li
-          key={b.id}
-          tabIndex={0}
-          onMouseEnter={(e) => reveal(i, e.currentTarget)}
-          onFocus={(e) => reveal(i, e.currentTarget)}
-          onBlur={() => setOpen(undefined)}
-          className="group relative transition-[margin] duration-300 ease-out"
-          style={{ marginBottom: open && rows[i] === open.row ? open.space : 0 }}
-        >
-          <div className="transition-transform duration-300 ease-out group-hover:-translate-y-1.5 group-focus:-translate-y-1.5">
-            <Cover book={b} height={mm(b.heightMm)} sizes="(min-width: 640px) 180px, 110px" preload={i < ABOVE_FOLD} />
-          </div>
-          <div
-            data-caption
-            className="pointer-events-none absolute left-0 top-full z-10 w-40 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus:opacity-100 sm:w-48"
-            style={{ marginTop: CAPTION_GAP }}
-          >
-            <p className="font-title text-[0.95rem] leading-tight text-ink-900">{b.title}</p>
-            <p className="mt-0.5 font-ui text-xs text-ink-500">{b.authors.join(", ")}</p>
-          </div>
-          <span className="sr-only">
-            {b.title} by {b.byline}
-          </span>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul
+        ref={listRef}
+        onMouseLeave={() => !touchRef.current && setActive(undefined)}
+        className="flex flex-wrap items-end gap-x-5 gap-y-12 [--mm:0.5px] sm:gap-x-9 sm:gap-y-14 sm:[--mm:0.82px]"
+      >
+        {books.map((b, i) => {
+          const lifted = active?.index === i;
+          return (
+            <li
+              key={b.id}
+              tabIndex={0}
+              onPointerDown={(e) => (touchRef.current = e.pointerType !== "mouse")}
+              onPointerEnter={(e) => e.pointerType === "mouse" && reveal(i, e.currentTarget)}
+              onClick={() => touchRef.current && setActive(lifted ? undefined : { index: i, touch: true, space: 0 })}
+              onFocus={(e) => !touchRef.current && e.currentTarget.matches(":focus-visible") && reveal(i, e.currentTarget)}
+              onBlur={() => !touchRef.current && setActive(undefined)}
+              className="relative select-none outline-none transition-[margin] duration-300 ease-out [-webkit-tap-highlight-color:transparent] focus-visible:outline-ink-400"
+              style={{ marginBottom: openRow !== undefined && rows[i] === openRow ? active!.space : 0 }}
+            >
+              <div className={cn("transition-transform duration-300 ease-out", lifted && "-translate-y-1.5")}>
+                <Cover book={b} height={mm(b.heightMm)} sizes="(min-width: 640px) 180px, 110px" preload={i < ABOVE_FOLD} />
+              </div>
+              <div
+                data-caption
+                aria-hidden
+                className={cn(
+                  "pointer-events-none absolute left-0 top-full z-10 w-40 opacity-0 transition-opacity duration-200 sm:w-48",
+                  lifted && !active!.touch && "opacity-100",
+                )}
+                style={{ marginTop: CAPTION_GAP }}
+              >
+                <p className="font-title text-[0.95rem] leading-tight text-ink-900">{b.title}</p>
+                <p className="mt-0.5 font-ui text-xs text-ink-500">{b.authors.join(", ")}</p>
+              </div>
+              <span className="sr-only">
+                {b.title} by {b.byline}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none fixed inset-x-0 bottom-0 z-20 border-t border-ink-200 bg-paper/95 px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur transition duration-200 ease-out",
+          active?.touch ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
+        )}
+      >
+        {current && (
+          <>
+            <p className="font-title text-base leading-tight text-ink-900">{current.title}</p>
+            <p className="mt-0.5 font-ui text-sm text-ink-500">{current.authors.join(", ")}</p>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
