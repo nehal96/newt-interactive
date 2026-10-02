@@ -43,3 +43,8 @@ yarn-error.log*
 
 # article-export output (generated docs, screenshots, GIFs)
 docs/*/export/
+
+# books: raw shelf photos (personal)
+data/books/photos/
+# books: local cover cache; the live covers are in Vercel Blob
+public/images/books/covers/
