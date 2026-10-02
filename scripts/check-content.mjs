@@ -32,8 +32,10 @@ const NOT_A_PIECE = new Set([
 const isContentPage = (href) =>
   !NOT_A_PIECE.has(href) && !href.startsWith("/api");
 // A page the homepage, sitemap and feed must carry. /decks/* are unlisted
-// product surfaces: a catalogue row is exactly what they must not have.
-const isCatalogued = (href) => isContentPage(href) && !href.startsWith("/decks");
+// product surfaces: a catalogue row is exactly what they must not have. So is
+// the library, which is a page about the site's owner, not a piece.
+const UNLISTED = new Set(["/nehals-library"]);
+const isCatalogued = (href) => isContentPage(href) && !href.startsWith("/decks") && !UNLISTED.has(href);
 
 const hrefForRoute = (file) =>
   "/" + relative("pages", file).replace(/\.page\.(mdx|tsx)$/, "").replace(/\/?index$/, "");

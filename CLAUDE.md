@@ -199,6 +199,28 @@ shared infrastructure.
 
 **Read `docs/hemoglobin/molstar.md` before touching the 3D code.**
 
+## Nehal's Library (`pages/nehals-library/`)
+
+An unlisted page of every book on the shelves. **Its data is not in the repo.**
+Rows live in a Neon Postgres `books` table (`lib/library/db.ts`), covers in a
+**public** Vercel Blob store (a private store rejects public uploads, and the
+access mode is fixed at creation). The page is ISR: `getStaticProps` reads the
+table, and every write regenerates it through `/api/library/revalidate`.
+
+Books are added by talking to Claude, not by editing code. The MCP connector at
+`/api/mcp/<LIBRARY_MCP_SECRET>` exposes lookup, add, update, cover and search
+tools; its `INSTRUCTIONS` hold the edition rules (the record describes the
+owned copy, so cover and publisher must match the photo). The secret in the
+path is the only auth — rotate the env var to revoke it.
+
+The connector is a **Pages** API route that adapts Node req/res to the Web
+`Request` mcp-handler expects. Don't move it to `app/`: an `app/` directory
+makes Next force `strictNullChecks` into `tsconfig.json`, and this repo
+doesn't type-check under it.
+
+Locally, `vercel env pull .env.development.local` brings the database and Blob
+credentials; `.env.local` is left alone.
+
 ## Social cards (`scripts/og-cards.mjs`)
 
 Every `CoverArt` motif rasterised to a 1200×630 PNG in `public/images/og/`, which
