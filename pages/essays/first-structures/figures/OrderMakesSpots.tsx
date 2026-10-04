@@ -91,8 +91,8 @@ const SCATTERED = (() => {
 /** A layer of molecules and the film behind it, drawn in perspective with the beam passing through. */
 function ViewSketch({ cx, y, text }: { cx: number; y: number; text: number }) {
   const w = 34;
-  const h = 58;
-  const skew = 12;
+  const h = 44;
+  const skew = 9;
   const quad = (x: number) =>
     `M${x} ${y + skew} L${x + w} ${y} L${x + w} ${y + h} L${x} ${y + h + skew} Z`;
   const layerX = cx - 70;
@@ -149,18 +149,18 @@ export function OrderMakesSpots() {
   const sketchTop = 8;
   let S: number, molX: number[], filmX: number[], molTop: number, filmTop: number, headY: number;
   if (wide) {
-    S = Math.min(170, (W - 64) / 4);
+    S = Math.min(140, (W - 64) / 4);
     const x0 = (W - (4 * S + 64)) / 2;
     molX = [x0, x0 + 2 * S + 48];
     filmX = [molX[0] + S + 16, molX[1] + S + 16];
-    headY = sketchTop + 120;
+    headY = sketchTop + 96;
     molTop = headY + 26;
     filmTop = molTop;
   } else {
     S = (W - 16) / 2;
     molX = [0, S + 16];
     filmX = molX;
-    headY = sketchTop + 152;
+    headY = sketchTop + 128;
     molTop = headY + 26;
     filmTop = molTop + S + 16;
   }
@@ -199,23 +199,23 @@ export function OrderMakesSpots() {
         <ViewSketch cx={wide ? Math.max(154, W / 2 - 140) : W / 2} y={sketchTop} text={text} />
         {wide ? (
           <text className="font-ui" fontSize={13} fill={XR.label}>
-            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 36}>
+            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 26}>
               Below, the molecules and the film
             </tspan>
-            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 54}>
+            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 44}>
               are both seen face-on,
             </tspan>
-            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 72}>
+            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 62}>
               looking along the beam.
             </tspan>
           </text>
         ) : (
-          <text x={W / 2} y={sketchTop + 126} textAnchor="middle" className="font-ui" fontSize={12} fill={XR.label}>
+          <text x={W / 2} y={sketchTop + 104} textAnchor="middle" className="font-ui" fontSize={12} fill={XR.label}>
             Below, both are seen face-on, looking along the beam.
           </text>
         )}
 
-        {["At random", "In a grid"].map((h, i) => (
+        {["At random", "In a grid: a crystal"].map((h, i) => (
           <text
             key={h}
             x={groupX(i)}

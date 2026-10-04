@@ -9,15 +9,14 @@ import {
 } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@ui/controls";
 
-type VariantName = "static" | "interactive";
-
 type VariantProps = {
-  name: VariantName;
+  name: string;
+  label?: string;
   subtitle?: ReactNode;
   children: ReactNode;
 };
 
-const LABEL: Record<VariantName, string> = {
+const LABEL: Record<string, string> = {
   static: "Static",
   interactive: "Interactive",
 };
@@ -69,7 +68,7 @@ export default function Figure({
         {variants.length > 1 && (
           <Tabs
             value={active}
-            onValueChange={(v) => setActive(v as VariantName)}
+            onValueChange={setActive}
           >
             <TabsList className="h-8 bg-ink-100 p-0.5">
               {variants.map((v) => (
@@ -78,7 +77,7 @@ export default function Figure({
                   value={v.props.name}
                   className="px-2.5 py-1 font-ui text-xs text-ink-500 hover:bg-transparent data-[state=active]:bg-paper data-[state=active]:text-ink-900"
                 >
-                  {LABEL[v.props.name]}
+                  {v.props.label ?? LABEL[v.props.name] ?? v.props.name}
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -94,14 +93,5 @@ export default function Figure({
         </figcaption>
       )}
     </figure>
-  );
-}
-
-/** Stands in for a figure that hasn't been built yet. */
-export function Pending({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex min-h-36 items-center justify-center rounded-md border border-dashed border-ink-300 px-6 py-8 text-center font-mono text-xs leading-5 text-ink-500">
-      {children}
-    </div>
   );
 }

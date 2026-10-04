@@ -5,12 +5,12 @@ import { XR } from "./palette";
 import { Atom, Labels } from "./scene";
 import { SliderRow } from "./controls";
 
-const SPACING = 3;
-/** tan θ at the film's edge; matches the angles the film covers in the two-atom figure. */
+export const SPACING = 3;
+/** tan θ at the film's edge. */
 const EDGE_TAN = 0.75;
 
 /** Far-field strength for n atoms, as a fraction of its peak: sin²(nπs·sinθ) / (n² sin²(πs·sinθ)). */
-function rowStrength(n: number, sinTheta: number) {
+export function rowStrength(n: number, sinTheta: number) {
   const a = Math.PI * SPACING * sinTheta;
   const den = Math.sin(a);
   if (Math.abs(den) < 1e-9) return 1;

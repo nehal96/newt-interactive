@@ -62,3 +62,13 @@ export function filmGradient(
   }
   return stops;
 }
+
+/**
+ * Where a circle of radius r1 about the upper atom meets one of radius r2 about
+ * the lower atom, `d` below it, on the film side. Offsets from the upper atom.
+ */
+export function crossing(d: number, r1: number, r2: number): Pt | null {
+  const v = (d * d + r1 * r1 - r2 * r2) / (2 * d);
+  const u2 = r1 * r1 - v * v;
+  return u2 < 0 ? null : [Math.sqrt(u2), v];
+}

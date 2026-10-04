@@ -148,11 +148,11 @@ export function Camera() {
   let photo: { x: number; y: number; w: number };
   let mount: { x: number; y: number; w: number; h: number };
   if (!narrow) {
-    photo = { x: W * 0.56, y: rowTop, w: W * 0.44 };
-    mount = { x: W * 0.22, y: rowTop, w: W * 0.28, h: (W * 0.44) / PHOTO.aspect - 40 };
+    photo = { x: W * 0.62, y: rowTop, w: W * 0.34 };
+    mount = { x: W * 0.3, y: rowTop, w: W * 0.26, h: (W * 0.34) / PHOTO.aspect - 40 };
   } else {
-    photo = { x: W * 0.45, y: rowTop, w: W * 0.55 };
-    mount = { x: 0, y: rowTop, w: W * 0.43, h: Math.max(150, (W * 0.55) / PHOTO.aspect - 40) };
+    photo = { x: W * 0.48, y: rowTop, w: W * 0.52 };
+    mount = { x: 0, y: rowTop, w: W * 0.46, h: Math.max(140, (W * 0.52) / PHOTO.aspect - 40) };
   }
   const photoH = photo.w / PHOTO.aspect;
   const H = rowTop + Math.max(photoH + 30, mount.h + 40);
