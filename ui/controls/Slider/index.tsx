@@ -11,10 +11,21 @@ const Slider = React.forwardRef<
     trackClassName?: string;
     rangeClassName?: string;
     thumbClassName?: string;
+    /** The thumb carries `role="slider"`, so screen readers read these from it. */
+    thumbLabel?: string;
+    valueText?: string;
   }
 >(
   (
-    { className, trackClassName, rangeClassName, thumbClassName, ...props },
+    {
+      className,
+      trackClassName,
+      rangeClassName,
+      thumbClassName,
+      thumbLabel,
+      valueText,
+      ...props
+    },
     ref
   ) => (
     <SliderPrimitive.Root
@@ -43,6 +54,8 @@ const Slider = React.forwardRef<
           "block h-5 w-5 rounded-full border-2 border-zinc-700 bg-white ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-700 focus-visible:ring-offset-2 cursor-pointer data-[disabled]:cursor-not-allowed data-[disabled]:border-zinc-500",
           thumbClassName
         )}
+        aria-label={thumbLabel}
+        aria-valuetext={valueText}
       />
     </SliderPrimitive.Root>
   )

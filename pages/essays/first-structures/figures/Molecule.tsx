@@ -1,7 +1,7 @@
 import { XR } from "./palette";
 
 // Neighbouring centres sit just over 2 × ATOM_R apart: atoms touch, never overlap.
-const ATOMS: [number, number][] = [
+export const ATOMS: [number, number][] = [
   [-10.3, -10.7],
   [4.1, -10.7],
   [-17.5, 1.8],

@@ -1,11 +1,20 @@
 import { MdxLayout, PostArticleSubscribe } from "@ui/article";
 import TippyTooltip, { TippyTooltipContent } from "@ui/controls/TippyTooltip";
 import {
-  WavesAddUp,
-  CrystalLattice,
-  OneMoleculeScatters,
-  TwoLayers,
-  CrystalToFilm,
+  Figure,
+  Variant,
+  Pending,
+  Draft,
+  TwoWaves,
+  TwoWavesInteractive,
+  OneAtom,
+  TwoAtoms,
+  TwoAtomsInteractive,
+  RowOfAtoms,
+  RowOfAtomsInteractive,
+  OrderMakesSpots,
+  ReadingTheFilm,
+  Camera,
   Term,
   FourierPhases,
   SheetStack,
@@ -49,23 +58,133 @@ X-rays have wavelengths comparable to the distances between atoms; roughly in th
 
 {/* Explainer #1: Crystals, lattice structure, diffraction, x-rays. */}
 
-<WavesAddUp />
+<Figure
+  title="Two waves in step add up; half a wave apart, they cancel."
+  caption="Heights are in units of one wave's height and aren't drawn to scale against the wavelength. Both waves share one wavelength, as in the experiment: copper X-rays, 1.54 Å."
+>
+  <Variant
+    name="static"
+    subtitle="Two X-ray waves of equal height, shifted by none, a quarter and a half of a wavelength. Below each pair is their sum: the two heights added at every point."
+  >
+    <TwoWaves />
+  </Variant>
+  <Variant
+    name="interactive"
+    subtitle="Drag wave 2, or use the slider, to make the sum as tall as you can, then as flat as you can."
+  >
+    <TwoWavesInteractive />
+  </Variant>
+</Figure>
 
-A crystal is a box of molecules, organized by the <Term k="unitCell">unit cell</Term> repeated in every direction, creating a lattice structure.
+<Draft>
 
-<CrystalLattice />
+The film behind the crystal records brightness: the more X-rays reach a point, the darker the film turns there. Two waves that arrive in step darken the film, and two that arrive half a wavelength apart leave it clear. Waves that set out in step can fall out of step just by travelling different distances. If one goes a whole wavelength farther than the other, its crests land back in line with the other's; if it goes half a wavelength farther, crest meets trough. Every spot on a crystallographer's film comes from this rule, applied to the waves scattered by atoms. The place to start is a single atom.
+
+</Draft>
 
 When an x-ray wave hits a single molecule, it excites the electrons in the molecule's atoms, and each electron sends out a wave of its own, with the same phase and amplitude. Together they spread out from the molecule in every direction. 
 
-<OneMoleculeScatters />
+<Figure
+  title="One atom sends a faint ripple in every direction."
+  subtitle="X-rays arrive from the left. The atom sends out a ripple of the same wavelength, drawn as circles at its crests, weakening as it spreads. The film records only a faint fog."
+  caption="A 2D slice, not to scale. Almost all of the beam passes the atom without scattering, so a small block stops it before the film. Film darkness is exaggerated, since one atom scatters far too little to record."
+>
+  <OneAtom />
+</Figure>
 
 The circles above represent the crests of the waves, called the wavefronts. A single molecule scatters far too little to record. In a crystal, the molecules are aligned in a lattice, so what happens when x-rays hit all of them? The waves from each molecule interact with each other and add up. When the extra distance is a whole wavelength, crests meet crests and the waves add into one strong ray. When it is half a wavelength, crests meet troughs and they cancel. The ray leaves at the same angle the beam came in, which makes it look like a reflection.
 
-<TwoLayers />
+<Draft>
+
+Add a second atom and the picture changes. Each atom sends out its own ripple, and where the ripples overlap they add by the rule in Figure 1. In some directions the second atom's wave has travelled exactly one wavelength farther than the first atom's, so their crests line up and the film darkens. In others it has travelled half a wavelength farther, and the two cancel. The film shows bands.
+
+</Draft>
+
+<Figure
+  title="Two atoms' ripples add in some directions and cancel in others."
+  caption="A 2D slice, not to scale. Film darkness is computed from each wave's path length and on the same scale as the figure above: where the two waves arrive in step, the film is four times as dark as one atom's fog."
+>
+  <Variant
+    name="interactive"
+    subtitle="Each circle is a crest of one atom's ripple. Red dots mark where crests from the two atoms cross: the waves add there, and the dots line up in directions that darken the film. In between, crests meet troughs and cancel. Drag the lower atom, or use the slider: closer atoms spread the dark bands apart."
+  >
+    <TwoAtomsInteractive />
+  </Variant>
+  <Variant
+    name="static"
+    subtitle="Each circle is a crest of one atom's ripple. Red dots mark where crests from the two atoms cross: the waves add there, and the dots line up in directions that darken the film. In between, crests meet troughs and cancel. Closer atoms spread the dark bands farther apart."
+  >
+    <TwoAtoms />
+  </Variant>
+</Figure>
+
+<Draft>
+
+The spacing of the bands depends on the spacing of the atoms. Atoms close together need a steep angle before the extra distance reaches a whole wavelength, so their bands spread far apart; atoms farther apart pack their bands closer together. That inverse rule is the key to reading an X-ray photograph.
+
+Adding more atoms to the row, at the same spacing, keeps the bright directions where they were but makes them narrower. Between them, the extra waves now cancel almost everywhere, because with many atoms some are always out of step with others. A crystal has tens of thousands of copies in a row, so its bright directions are very sharp.
+
+</Draft>
+
+<Figure
+  title="The more atoms in a row, the sharper the dark bands on the film."
+  caption="Computed for a film far from the row compared with the row's length, as in a real camera. Each strip's darkest band is drawn equally dark; in reality 20 atoms make it 100 times stronger than 2 do. The beam stop's shadow is not drawn. Atom rows not to scale."
+>
+  <Variant
+    name="static"
+    subtitle="The film from rows of 2, 5 and 20 atoms, all 3 wavelengths apart. The dark bands stay in the same places, where every atom's wave arrives in step, but get narrower, and the film between them clears."
+  >
+    <RowOfAtoms />
+  </Variant>
+  <Variant
+    name="interactive"
+    subtitle="Add atoms to the row, all 3 wavelengths apart. The dark bands stay where every atom's wave arrives in step, but get narrower, and the film between them clears."
+  >
+    <RowOfAtomsInteractive />
+  </Variant>
+</Figure>
+
+A crystal is a box of molecules, organized by the <Term k="unitCell">unit cell</Term> repeated in every direction, creating a lattice structure.
+
+<Draft>
+
+A crystal repeats in every direction. A hemoglobin crystal half a millimetre across is a box of molecules, roughly 109 by 63 by 54 Å, repeated in a regular grid, about 90,000 boxes in a row along one direction. This repeating box is called the unit cell. Because every box is identical and sits exactly where the grid says, the waves from all of them line up in only a few directions, and each of those directions leaves a spot on the film. Molecules scattered at random, as in a solution, line up in no particular direction and leave only a smooth haze.
+
+</Draft>
+
+<Figure
+  title="Only an ordered arrangement concentrates the X-rays into spots."
+  subtitle="The same molecules, at random and repeated in a grid, with the film each gives. At random, their waves line up in no particular direction and leave a smooth haze. In a grid, every unit cell's wave arrives in step in only a few directions, and each leaves a sharp spot."
+  caption="Computed for one flat layer of the molecules, with point atoms and the beam perpendicular to the layer; the random film is averaged over molecules moving, as in a solution. Each film's darkness is scaled separately, and spot darkness is compressed so faint spots show. A real crystal is many layers deep, so it shows only some of these spots at a time."
+>
+  <OrderMakesSpots />
+</Figure>
 
 A real crystal has thousands of layers stacked in three dimensions, and they can be sliced in many directions. When hit with x-rays, in almost every direction the waves from all those layers cancel. In a few directions they add up, and bright rays leave the crystal. A photographic film behind the crystal records each ray as a spot. Where the spots fall is set by the size and shape of the crystal. How dark each spot is depends on the molecules inside the crystal, so the pattern of spots carries information about the molecule.
 
-<CrystalToFilm />
+<Figure
+  title="Spot spacing measures the box; spot darkness depends on what's inside it."
+  subtitle="Halve the box, and the spots spread twice as far apart. Keep the box but move the one heavy atom inside it, and the spots stay in the same places while some darken and others fade."
+  caption="Computed for one flat layer of square boxes with point atoms, the beam perpendicular to the layer, and copper X-rays (1.54 Å). The heavy atom has 26 electrons, like iron; the light ones 8 and 6, like oxygen and carbon. Spot darkness is drawn in proportion to each spot's computed strength, on one scale for the two films where the atom moves."
+>
+  <ReadingTheFilm />
+</Figure>
+
+<Draft>
+
+Perutz would read hemoglobin's box from the spot positions within months of his first photographs. Reading the molecule from the darknesses would take him twenty-two years.
+
+In a camera like those in Bernal's lab, a copper X-ray tube produced a beam of a single wavelength, 1.54 Å, which passed through a thin metal filter and a narrow tube that kept it straight. The crystal sat sealed in a glass capillary about a millimetre wide, with a drop of the liquid it grew in at each end to keep it from drying out. A flat film 5 to 10 cm behind it recorded the spots, and a small metal block stopped the straight-through beam. Held still, the crystal brings only a few directions into step at once, so the camera rocked it back and forth through a few degrees during each exposure, sweeping more spots into line. Each photograph took one to two hours.
+
+</Draft>
+
+<Figure
+  title="X-rays from a copper tube pass through a rocking crystal and leave a pattern of spots on film."
+  subtitle="The tube's X-rays are filtered to one wavelength and narrowed to a fine beam. The crystal, sealed wet in a glass capillary, is rocked a few degrees while the film records the spots; a small block stops the straight-through beam. Below, the mount close up and one of the films: a wet hemoglobin crystal, published in 1938."
+  caption="Not to scale. Camera parts after Perutz and Rogers, J. Sci. Instrum. 23, 217 (1946); mount after Boyes-Watson, Davidson and Perutz, Proc. R. Soc. A 191, 83 (1947), fig. 1. Photograph: Bernal, Fankuchen and Perutz, Nature 141, 523 (1938), fig. 1, a 5° rock about the b axis."
+>
+  <Camera />
+</Figure>
 
 In the summer of 1937, Max Perutz began pondering a more worthwhile problem to tackle. While visiting Prague, he brought up this question with his cousin’s husband, a young chemistry professor named Felix Haurowitz. Perutz was considering taking on hemin, the chloride salt of the heme group found in hemoglobin. Haurowitz talked him out of it and told him to go for the whole molecule instead. He did not, however, have any hemoglobin crystals of his own to provide, but he named a Cambridge physiologist, Gilbert Adair, as someone who could supply them.
 

@@ -5,6 +5,7 @@ export function SliderRow({
   label,
   value,
   display,
+  valueText,
   min,
   max,
   step,
@@ -13,6 +14,7 @@ export function SliderRow({
   label: string;
   value: number;
   display: string;
+  valueText?: string;
   min: number;
   max: number;
   step: number;
@@ -32,7 +34,9 @@ export function SliderRow({
         min={min}
         max={max}
         step={step}
-        aria-label={label}
+        thumbLabel={label}
+        valueText={valueText ?? display}
+        thumbClassName="relative after:absolute after:-inset-3 after:rounded-full"
       />
     </div>
   );
