@@ -21,7 +21,7 @@ function SideView({ W, top, text }: { W: number; top: number; text: number }) {
 
   return (
     <g>
-      <rect x={1} y={by - 30} width={tubeW - 2} height={60} rx={6} fill={XR.paper} stroke={XR.label} strokeWidth={1.25} />
+      <rect x={1} y={by - 30} width={tubeW - 2} height={60} rx={6} fill={XR.card} stroke={XR.label} strokeWidth={1.25} />
       <rect x={tubeW - 16} y={by - 10} width={8} height={20} rx={1} fill={XR.second} />
 
       <g stroke={XR.first} strokeWidth={2.5}>
@@ -39,7 +39,7 @@ function SideView({ W, top, text }: { W: number; top: number; text: number }) {
         ))}
       </g>
 
-      <rect x={xc - 4} y={by - 44} width={8} height={74} rx={4} fill={XR.paper} fillOpacity={0.6} stroke={XR.label} strokeWidth={1} />
+      <rect x={xc - 4} y={by - 44} width={8} height={74} rx={4} fill={XR.film} fillOpacity={0.6} stroke={XR.label} strokeWidth={1} />
       <path d={`M${xc - 3} ${by - 3} l3 -4 l3 4 l-3 5 z`} fill={XR.sum} />
       <path d={`M${xc - 9} ${by + 30} h18 l-4 14 h-10 z`} fill={XR.atom} />
       <line x1={xc} x2={xc} y1={by + 44} y2={by + 74} stroke={XR.label} strokeWidth={2} />
@@ -71,14 +71,14 @@ function SideView({ W, top, text }: { W: number; top: number; text: number }) {
         <text x={filterX} y={by - 40} textAnchor="middle">nickel filter</text>
         {W < 560 ? (
           <>
-            <text x={(colX0 + colX1) / 2} y={by + 26} textAnchor="middle">pinhole</text>
-            <text x={(colX0 + colX1) / 2} y={by + 26 + text + 3} textAnchor="middle">collimator</text>
+            <text x={(colX0 + colX1) / 2} y={by + 26} textAnchor="middle">narrow</text>
+            <text x={(colX0 + colX1) / 2} y={by + 26 + text + 3} textAnchor="middle">tube</text>
           </>
         ) : (
-          <text x={(colX0 + colX1) / 2} y={by + 26} textAnchor="middle">pinhole collimator</text>
+          <text x={(colX0 + colX1) / 2} y={by + 26} textAnchor="middle">narrow tube</text>
         )}
-        <text x={xc} y={by - 52} textAnchor="middle">crystal in a glass capillary</text>
-        <text x={xc + 22} y={by + 70}>rocks 3–5°</text>
+        <text x={xc} y={by - 52} textAnchor="middle">crystal in a glass tube</text>
+        <text x={xc + 22} y={by + 70}>rocked 3–5°</text>
         <text x={stopX + 5} y={by + 24} textAnchor="end">beam stop</text>
         <text x={filmX + 3} y={by - 78} textAnchor="end">flat film</text>
         <text x={(xc + filmX) / 2} y={by + 106} textAnchor="middle">5–10 cm</text>
@@ -123,11 +123,11 @@ function Mount({ x, y, w, h, text }: { x: number; y: number; w: number; h: numbe
         <line x1={tx + bore} x2={tx + bore} y1={y + h + 10} y2={y + h + 18} />
       </g>
       <Labels size={text}>
-        {label(y + plug / 2, "picein seal")}
-        {label((y + plug + liquidTop) / 2, "liquid")}
+        {label(y + plug / 2, "seal")}
+        {label((y + plug + liquidTop) / 2, "its liquid")}
         {label(cy, "crystal", true)}
-        {label((liquidBottom + y + h - plug) / 2, "liquid")}
-        {label(y + h - plug / 2, "picein seal")}
+        {label((liquidBottom + y + h - plug) / 2, "its liquid")}
+        {label(y + h - plug / 2, "seal")}
         <text x={tx + bore / 2} y={y + h + 32} textAnchor="middle">
           1 mm
         </text>
@@ -140,8 +140,8 @@ export function Camera() {
   const ids = useId();
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const narrow = W < 560;
-  const text = narrow ? 11 : 12;
-  const head = narrow ? 12 : 13;
+  const text = narrow ? 10 : 11;
+  const head = narrow ? 11 : 12;
   const sideH = 210;
 
   const rowTop = sideH + 34;
@@ -172,7 +172,7 @@ export function Camera() {
         aria-labelledby={`${ids}t ${ids}d`}
       >
         <title id={`${ids}t`}>
-          X-rays from a copper tube pass through a rocking crystal and leave a pattern of spots on film.
+          X-rays pass through a crystal and leave spots on a film.
         </title>
         <desc id={`${ids}d`}>
           Side view of an X-ray camera: a copper X-ray tube, a nickel filter, a pinhole
@@ -196,8 +196,8 @@ export function Camera() {
         </g>
 
         {[
-          { x: mount.x + mount.w / 2, y: mount.y, s: "The mount" },
-          { x: photo.x + photo.w / 2, y: photo.y, s: narrow ? "The film, 1938" : "The film: a photograph from 1938" },
+          { x: mount.x + mount.w / 2, y: mount.y, s: "The glass tube" },
+          { x: photo.x + photo.w / 2, y: photo.y, s: narrow ? "A photograph, 1938" : "A real photograph, 1938" },
         ].map(({ x, y, s }) => (
           <text key={s} x={x} y={headerY(y)} textAnchor="middle" className="font-ui" fontSize={head} fontWeight={600} fill={XR.sum}>
             {s}
@@ -217,7 +217,7 @@ export function Camera() {
         <rect x={photo.x} y={photo.y} width={photo.w} height={photoH} fill="none" stroke={XR.atom} strokeWidth={0.75} />
         <Labels size={text}>
           <text x={photo.x + photo.w / 2} y={photo.y + photoH + 18} textAnchor="middle">
-            wet hemoglobin, 5° rock
+            hemoglobin, rocked 5°
           </text>
         </Labels>
       </svg>

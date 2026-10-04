@@ -3,7 +3,10 @@ import TippyTooltip, { TippyTooltipContent } from "@ui/controls/TippyTooltip";
 import {
   Figure,
   Variant,
-  Draft,
+  Wrap,
+  Add,
+  AddParagraph,
+  Cut,
   TwoWaves,
   TwoWavesInteractive,
   Scattering,
@@ -49,68 +52,64 @@ When Max arrived at Bernal’s lab, a small, dingy sub-department in the Cavendi
 
 By the time Max started learning it, x-ray crystallography had been around for just over two decades. William Lawrence Bragg and his father had used it to work out the structure of common salt in 1913, and in the years since the method had been used to determine the structure of salts, metals, and organic molecules of a few dozen atoms.
 
-X-rays have wavelengths comparable to the distances between atoms; roughly in the range of 0.1 to 10 nanometers. Like other waves, they have amplitude (height, which relates to brightness) and phase (the offset). When trying to add waves, the ones in step reinforce each other, and those opposing cancel each other out.
+X-rays have wavelengths comparable to the distances between atoms; roughly in the range of 0.1 to 10 nanometers. Like other waves, they have amplitude (height, which relates to brightness) and phase (the offset). <Cut>When trying to add waves, the ones in step reinforce each other, and those opposing cancel each other out.</Cut>
 
 {/* Explainer #1: Crystals, lattice structure, diffraction, x-rays. */}
 
 <Figure
-  title="Two waves in step add up; half a wave apart, they cancel."
-  caption="Heights are in units of one wave's height and aren't drawn to scale against the wavelength. Both waves share one wavelength, as in the experiment: copper X-rays, 1.54 Å."
+  title="Waves in step add up. Waves half a wave apart cancel out."
+  caption="Both waves have the same wavelength, as the X-rays in the experiment did. Not to scale."
 >
   <Variant
     name="static"
-    subtitle="Two X-ray waves of equal height, shifted by none, a quarter and a half of a wavelength. Below each pair is their sum: the two heights added at every point."
+    subtitle="Added together, two waves make a new one, in red. Its height depends on how far apart their crests are."
   >
     <TwoWaves />
   </Variant>
   <Variant
     name="interactive"
-    subtitle="Drag wave 2, or use the slider, to make the sum as tall as you can, then as flat as you can."
+    subtitle="Drag the second wave, or use the slider, to shift it. Try to make the red line as tall as you can, then as flat as you can."
   >
     <TwoWavesInteractive />
   </Variant>
 </Figure>
 
-<Draft>
+<AddParagraph>The film behind the crystal records brightness: where waves arrive in step it darkens, and where they cancel it stays clear. Waves that set out in step fall out of step just by travelling different distances.</AddParagraph>
 
-The film behind the crystal records brightness: where waves arrive in step it darkens, and where they cancel it stays clear. Waves that set out in step fall out of step just by travelling different distances.
-
-</Draft>
-
-When an x-ray wave hits a single molecule, it excites the electrons in the molecule's atoms, and each electron sends out a wave of its own, with the same phase and amplitude. Together they spread out from the molecule in every direction. 
+When an x-ray wave hits a single <Cut>molecule</Cut><Add>atom</Add>, it excites the <Add>atom's </Add>electrons<Cut> in the molecule's atoms</Cut>, and each electron sends out a wave of its own, with the same <Cut>phase and amplitude</Cut><Add>wavelength</Add>. Together they spread out from the <Cut>molecule</Cut><Add>atom</Add> in every direction<Add>, far weaker than the wave that made them</Add>.
 
 <Figure
-  title="Ripples from neighbouring atoms add only in certain directions, and more atoms make those directions sharp."
-  subtitle="One atom, then two, then a row, each with the film it exposes. Drag the second atom or use the sliders to change the spacing and the number of atoms."
-  caption="A 2D slice, not to scale. Film darkness for one and two atoms is computed from each wave's path length, on one scale: two atoms in step darken the film four times as much as one atom's fog. For the row, it is computed for a film far away compared with the row, and each darkest band is drawn equally dark; in reality N atoms make it N² times stronger. Rows longer than the film are drawn squeezed."
+  title="Ripples from two or more atoms add up in only a few directions."
+  caption="Flattened to two dimensions, not to scale. In the row, the bands are drawn equally dark for any number of atoms; in reality they darken as atoms are added."
 >
   <Scattering />
 </Figure>
 
-The circles above represent the crests of the waves, called the wavefronts. A single molecule scatters far too little to record. In a crystal, the molecules are aligned in a lattice, so what happens when x-rays hit all of them? The waves from each molecule interact with each other and add up. When the extra distance is a whole wavelength, crests meet crests and the waves add into one strong ray. When it is half a wavelength, crests meet troughs and they cancel. The ray leaves at the same angle the beam came in, which makes it look like a reflection.
+<Cut>The circles above represent the crests of the waves, called the wavefronts.</Cut> A single <Cut>molecule</Cut><Add>atom</Add> scatters far too little to record<Cut>. In a crystal, the molecules are aligned in a lattice, so what happens when x-rays hit all of them? The waves from each molecule interact with each other and add up. When the extra distance is a whole wavelength, crests meet crests and the waves add into one strong ray. When it is half a wavelength, crests meet troughs and they cancel. The ray leaves at the same angle the beam came in, which makes it look like a reflection.</Cut><Add>, but a crystal holds billions of atoms in a regular arrangement, so their waves can add up.</Add>
 
-A crystal is a box of molecules, organized by the <Term k="unitCell">unit cell</Term> repeated in every direction, creating a lattice structure.
+<Wrap>
 
 <Figure
-  title="A crystal, molecules repeated in a regular grid, concentrates the X-rays into spots."
-  subtitle="The same molecules, at random and repeated in a regular grid, which is what a crystal is, with the film each gives. At random, their waves line up in no particular direction and leave a smooth haze. In the crystal, every unit cell's wave arrives in step in only a few directions, and each leaves a sharp spot."
-  caption="Computed for one flat layer of the molecules, with point atoms and the beam perpendicular to the layer; the random film is averaged over molecules moving, as in a solution. Each film's darkness is scaled separately, and spot darkness is compressed so faint spots show. A real crystal is many layers deep, so it shows only some of these spots at a time."
+  side
+  title="Molecules at random give a blur. Molecules in a crystal give sharp spots."
+  subtitle="At random, as in a liquid, the molecules' waves never line up, and the film gets a blur. In a crystal they repeat in a grid, so their waves add up in only a few directions, each making a sharp spot."
+  caption="Simplified to one flat layer, not to scale. The two films are drawn at different strengths."
 >
   <OrderMakesSpots />
 </Figure>
 
-A real crystal has thousands of layers stacked in three dimensions, and they can be sliced in many directions. When hit with x-rays, in almost every direction the waves from all those layers cancel. In a few directions they add up, and bright rays leave the crystal. A photographic film behind the crystal records each ray as a spot. Where the spots fall is set by the size and shape of the crystal. How dark each spot is depends on the molecules inside the crystal, so the pattern of spots carries information about the molecule.
+A crystal is a box of molecules, organized by the <Term k="unitCell">unit cell</Term> repeated in every direction, creating a lattice structure.
 
-<Draft>
+<Cut>A real crystal has thousands of layers stacked in three dimensions, and they can be sliced in many directions.</Cut> When <Add>x-rays </Add>hit<Cut> with x-rays</Cut><Add> a crystal</Add>, in almost every direction the waves<Cut> from all those layers</Cut> cancel. In a few directions they add up, <Cut>and bright rays leave the crystal. A photographic film behind the crystal records each ray as a spot.</Cut><Add>and a film behind the crystal records each of those directions as a spot.</Add> Where the spots fall is set by the size and shape of the <Cut>crystal</Cut><Add>unit cell</Add>. How dark each spot is depends on the molecules inside the crystal, so the pattern of spots carries information about the molecule.
 
-Perutz would read hemoglobin's box from the spot positions within months of his first photographs. Reading the molecule from the darknesses would take him twenty-two years.
+</Wrap>
 
-</Draft>
+<AddParagraph>Perutz would read hemoglobin's unit cell from the spot positions within months of his first photographs. Reading the molecule from the darknesses would take him twenty-two years.</AddParagraph>
 
 <Figure
-  title="X-rays from a copper tube pass through a rocking crystal and leave a pattern of spots on film."
-  subtitle="The tube's X-rays are filtered to one wavelength and narrowed to a fine beam. The crystal, sealed wet in a glass capillary, is rocked a few degrees while the film records the spots; a small block stops the straight-through beam. Below, the mount close up and one of the films: a wet hemoglobin crystal, published in 1938."
-  caption="Not to scale. Camera parts after Perutz and Rogers, J. Sci. Instrum. 23, 217 (1946); mount after Boyes-Watson, Davidson and Perutz, Proc. R. Soc. A 191, 83 (1947), fig. 1. Photograph: Bernal, Fankuchen and Perutz, Nature 141, 523 (1938), fig. 1, a 5° rock about the b axis."
+  title="X-rays pass through a crystal and leave spots on a film."
+  subtitle="The nickel filter leaves X-rays of a single wavelength. The crystal is sealed wet in a glass tube, because it falls apart when dry, and rocked a few degrees to catch more spots. Below, a 1938 photograph of a hemoglobin crystal."
+  caption="Not to scale. Drawn after Perutz and Rogers (1946) and Boyes-Watson, Davidson and Perutz (1947). Photograph from Bernal, Fankuchen and Perutz, Nature, 1938."
 >
   <Camera />
 </Figure>
@@ -123,17 +122,22 @@ During this time, crystals of chymotrypsin, a digestive enzyme, arrived from the
 
 ---
 
-That winter of 1937-38, Max Perutz got his first encouraging results. The photographs of Adair’s wet horse methemoglobin crystals gave sharp spots right up to the edge of the film. This meant that every hemoglobin molecule in the crystal was identical to every other, down to the positions of their atoms. From the spacing of the spots near the centre of the film he measured the unit cell<Fn>From the cell’s volume and the crystal’s density, Perutz worked out that each cell held two hemoglobin molecules and that the molecule weighed 69,000, close to the figures Adair and Svedberg had measured by other methods (about 67,000 and 66,800).</Fn>. The symmetry of the photographs showed that each molecule was made of two identical halves.
+<Wrap>
 
 <Figure
-  title="Spot spacing measures the box: halve the box and the spots spread twice as far apart."
-  subtitle="Two crystals, with boxes 40 Å and 20 Å across and one atom in each box, and the film each gives."
-  caption="Computed for one flat layer of square boxes with point atoms, the beam perpendicular to the layer, and copper X-rays (1.54 Å)."
+  side
+  title="The smaller the unit cell, the farther apart the spots."
+  subtitle="So the spacing of the spots gives the size of the unit cell."
+  caption="Simplified to one flat layer. Å is an ångström, a ten-billionth of a metre."
 >
   <ReadingTheFilm group="box" />
 </Figure>
 
+That winter of 1937-38, Max Perutz got his first encouraging results. The photographs of Adair’s wet horse methemoglobin crystals gave sharp spots right up to the edge of the film. This meant that every hemoglobin molecule in the crystal was identical to every other, down to the positions of their atoms. From the spacing of the spots near the centre of the film he measured the unit cell<Fn>From the cell’s volume and the crystal’s density, Perutz worked out that each cell held two hemoglobin molecules and that the molecule weighed 69,000, close to the figures Adair and Svedberg had measured by other methods (about 67,000 and 66,800).</Fn>. The symmetry of the photographs showed that each molecule was made of two identical halves.
+
 Perutz, with Bernal and Isidor Fankuchen, an American crystallographer, published the results in a letter to *Nature* on 19 March 1938. The letter ended on an optimistic note. Their work so far showed the "wealth of new data" that X-rays could draw from a well-crystallized protein, and they called for the method to be applied to many more proteins. Drying, Bernal wrote, "ought to make possible the direct analysis of the molecular structure once complete sets of reflections are available in different states of hydration." They also identified a limit: the positions of the heme groups could not be inferred from the data. This was because the film photograph records the intensity of each spot, which comes from the amplitude of the wave, but it cannot record the wave’s phase, which is where along the cycle the wave arrives. To rebuild the structure they needed both amplitude and phase information; without phases there was no way to add the waves back together into a picture of the molecule. This was the phase problem, and it would hold them up for the next fifteen years.
+
+</Wrap>
 
 The week before the *Nature* letter appeared, the world changed. On 12 March, Hitler annexed Austria. German troops marched into Vienna, and Perutz’s parents, Jewish by descent, fled to Prague at once. In an instant, Max Perutz had become a refugee. To make matters worse, his parents would no longer be able to fund his Cambridge education, and so he would run out of money too.
 
@@ -228,9 +232,9 @@ Five years earlier, Perutz and Kendrew had dismissed heavy-atom tricks for prote
 Perutz could not use Riggs’s material: human hemoglobin did not crystallize in a form suited for x-ray analysis. The mercury would have to go onto horse hemoglobin. This task fell to Vernon Ingram, a chemist who had joined the group a few months earlier. Horse hemoglobin has two reactive cysteines, one on each half of the molecule, so each molecule picked up two mercury atoms<Fn>Ingram mixed the protein with para-chloromercuribenzoate in the proportion of two molecules of reagent to one of hemoglobin</Fn>. David Green, Perutz’s graduate student, then grew crystals from the mixture. Under the microscope, they looked like ordinary horse hemoglobin crystals, and on the x-ray photographs the unit cell dimensions came out nearly identical, but the intensities had changed. Many spots were visibly stronger or weaker than their counterparts in the native pattern<Fn>A control crystal was also grown from the same protein without mercury which showed the normal pattern, so the differences could only come from the heavy atoms.</Fn>. Perutz developed the two photographs in the summer of 1953 and, as he told it later, ran up three floors to bring Bragg down to the darkroom to look at them together. It was the first time a heavy atom had measurably changed the diffraction pattern of a protein.
 
 <Figure
-  title="Add one heavy atom and the spots stay in place, but their darkness changes."
-  subtitle="Two crystals with the same 40 Å box of light atoms; the second has one heavy atom added to every box. The spots fall in the same places; only their darkness changes."
-  caption="Computed for one flat layer of square boxes with point atoms, the beam perpendicular to the layer, and copper X-rays (1.54 Å). The heavy atom has 80 electrons, like mercury; the light ones 6 to 8, like carbon, nitrogen and oxygen. Darkness is drawn in proportion to each spot's computed strength, on one scale for both films."
+  title="A heavy atom leaves the spots where they are but changes how dark they are."
+  subtitle="The unit cell doesn't change, so the spots stay put. But the heavy atom's wave adds to each spot's wave differently: some spots get darker, others fainter."
+  caption="Simplified to one flat layer. The light atoms have 6 to 8 electrons, like carbon, nitrogen and oxygen. A real protein has thousands of atoms, too many to draw, so the heavy atom is scaled down to the share of the scattering that mercury had in Perutz's crystals."
 >
   <ReadingTheFilm group="atom" />
 </Figure>

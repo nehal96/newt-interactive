@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@ui/controls";
+import { cn } from "@lib/utils";
 
 type VariantProps = {
   name: string;
@@ -30,8 +31,11 @@ export default function Figure({
   title,
   subtitle,
   caption,
+  side = false,
   children,
 }: {
+  /** Float right of the prose on wide screens; the prose must sit in a <Wrap>. */
+  side?: boolean;
   title: ReactNode;
   subtitle?: ReactNode;
   caption?: ReactNode;
@@ -49,18 +53,21 @@ export default function Figure({
   return (
     <figure
       aria-labelledby={titleId}
-      className="my-10 w-full max-w-prose self-center lg:my-14"
+      className={cn(
+        "my-10 w-full max-w-prose self-center rounded-xl bg-card px-4 py-5 sm:px-6 sm:py-6 lg:my-14",
+        side && "md:float-right md:mb-6 md:ml-8 md:mt-1.5 md:w-[20rem] md:px-4 md:py-4 lg:my-0 lg:mb-6",
+      )}
     >
       <div className="mb-5 flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
         <div className="min-w-0 flex-1 basis-72">
           <p
             id={titleId}
-            className="font-ui text-[1.0625rem] font-semibold leading-snug text-ink-900"
+            className="font-ui text-[0.9375rem] font-semibold leading-snug text-ink-900"
           >
             {title}
           </p>
           {shownSubtitle && (
-            <p className="mt-1.5 font-ui text-[0.9375rem] leading-normal text-ink-500">
+            <p className="mt-1 font-ui text-[0.8125rem] leading-normal text-ink-500">
               {shownSubtitle}
             </p>
           )}
@@ -70,7 +77,7 @@ export default function Figure({
             value={active}
             onValueChange={setActive}
           >
-            <TabsList className="h-8 bg-ink-100 p-0.5">
+            <TabsList className="h-8 bg-ink-200/60 p-0.5">
               {variants.map((v) => (
                 <TabsTrigger
                   key={v.props.name}
@@ -88,10 +95,15 @@ export default function Figure({
       {current ? current.props.children : children}
 
       {caption && (
-        <figcaption className="mt-4 font-ui text-[0.8125rem] leading-5 text-ink-500">
+        <figcaption className="mt-4 font-ui text-xs leading-[1.125rem] text-ink-500">
           {caption}
         </figcaption>
       )}
     </figure>
   );
+}
+
+/** A run of prose that a `side` figure can float into. */
+export function Wrap({ children }: { children: ReactNode }) {
+  return <div className="flow-root w-full max-w-prose self-center">{children}</div>;
 }

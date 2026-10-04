@@ -1,5 +1,5 @@
-export { default as Figure, Variant } from "./Figure";
-export { default as Draft } from "./Draft";
+export { default as Figure, Variant, Wrap } from "./Figure";
+export { Add, AddParagraph, Cut } from "./Edits";
 export { default as Term } from "./Term";
 export { TwoWaves, TwoWavesInteractive } from "./TwoWaves";
 export { Scattering } from "./TwoAtoms";

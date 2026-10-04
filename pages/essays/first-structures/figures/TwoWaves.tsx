@@ -93,7 +93,7 @@ function WaveColumn({
           y={bracketY - 6}
           textAnchor="middle"
           className="font-mono"
-          fontSize={11}
+          fontSize={10}
           fill={XR.label}
         >
           {bracketLabel}
@@ -116,7 +116,7 @@ function WavelengthScale({ x, lambda, y }: { x: number; lambda: number; y: numbe
         y={y - 7}
         textAnchor="middle"
         className="font-mono"
-        fontSize={11}
+        fontSize={10}
         fill={XR.label}
       >
         1 wavelength
@@ -169,7 +169,7 @@ export function TwoWaves() {
   const colW = (W - labelW - 2 * gap) / 3;
   const lambda = colW / 2;
   const amp = clamp(lambda * 0.2, 8, 16);
-  const text = narrow ? 11 : 12;
+  const text = narrow ? 10 : 11;
 
   const guideTop = narrow ? 28 : 46;
   const w1 = guideTop + 8 + amp;
@@ -190,7 +190,7 @@ export function TwoWaves() {
         aria-labelledby={`${ids}t ${ids}d`}
       >
         <title id={`${ids}t`}>
-          Two waves in step add up; half a wave apart, they cancel.
+          Waves in step add up. Waves half a wave apart cancel out.
         </title>
         <desc id={`${ids}d`}>
           Three columns. In each, wave 1 and wave 2 have height 1 and the same
@@ -208,7 +208,7 @@ export function TwoWaves() {
                 x={x}
                 y={14}
                 className="font-ui"
-                fontSize={narrow ? 12 : 13}
+                fontSize={narrow ? 11 : 12}
                 fontWeight={600}
                 fill={XR.sum}
               >
@@ -255,7 +255,7 @@ export function TwoWavesInteractive() {
   const waveW = W - labelW - 4;
   const lambda = waveW / 3;
   const amp = clamp(lambda * 0.16, 9, 16);
-  const text = narrow ? 11 : 12;
+  const text = narrow ? 10 : 11;
 
   const guideTop = 46;
   const w1 = guideTop + 8 + amp;
@@ -291,7 +291,7 @@ export function TwoWavesInteractive() {
         aria-labelledby={`${ids}t ${ids}d`}
       >
         <title id={`${ids}t`}>
-          Two waves in step add up; half a wave apart, they cancel.
+          Waves in step add up. Waves half a wave apart cancel out.
         </title>
         <desc id={`${ids}d`}>
           Wave 2 is shifted {d.toFixed(2)} of a wavelength from wave 1. Added
@@ -303,7 +303,7 @@ export function TwoWavesInteractive() {
           x={labelW}
           y={14}
           className="font-ui"
-          fontSize={narrow ? 12 : 13}
+          fontSize={narrow ? 11 : 12}
           fontWeight={600}
           fill={XR.sum}
         >

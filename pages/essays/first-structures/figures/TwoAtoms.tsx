@@ -41,7 +41,7 @@ function ScatterPanel({
 
   const narrow = W < 520;
   const compact = W < 320;
-  const text = narrow ? 11 : 12;
+  const text = narrow ? 10 : 11;
   const lambda = clamp((W - 20) / 15.5, 14, maxLambda);
   const D = 12 * lambda;
   const filmW = 14;
@@ -229,7 +229,7 @@ function ScatterPanel({
       )}
 
       {!hideHeader && (
-        <text x={0} y={14} className="font-ui" fontSize={narrow ? 12 : 13} fontWeight={600} fill={XR.sum}>
+        <text x={0} y={14} className="font-ui" fontSize={narrow ? 11 : 12} fontWeight={600} fill={XR.sum}>
           {header}
         </text>
       )}
@@ -245,7 +245,7 @@ function ScatterPanel({
         </text>
         {stage === "one" && (
           <text x={filmX - 6} y={filmTop + 14} textAnchor="end">
-            {compact ? "faint fog" : "a faint fog"}
+            faint grey
           </text>
         )}
         {callout && (
@@ -259,18 +259,18 @@ function ScatterPanel({
               strokeWidth={0.75}
             />
             <text x={ax - 8} y={lower[1] + 2.4 * lambda + 8} textAnchor="end" fill={XR.accent}>
-              crests cross
+              crest meets crest
             </text>
           </g>
         )}
         {labelInStep && (
           <text x={filmX - 6} y={end(labelInStep) + 16} textAnchor="end" fill={XR.accent}>
-            {compact ? "in step: dark" : "in step: film darkens"}
+            {compact ? "waves add" : "waves add: dark"}
           </text>
         )}
         {labelCancel && (
           <text x={filmX - 6} y={end(labelCancel) - 8} textAnchor="end">
-            {compact ? "cancel: clear" : "crests meet troughs: clear"}
+            {compact ? "cancel" : "waves cancel: clear"}
           </text>
         )}
       </Labels>
@@ -336,8 +336,8 @@ export function TwoAtomsInteractive() {
 function Note({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="mb-1">
-      <p className="font-ui text-[0.8125rem] font-semibold text-ink-900">{title}</p>
-      <p className="mt-1 font-ui text-[0.9375rem] leading-normal text-ink-700">{children}</p>
+      <p className="font-ui text-xs font-semibold text-ink-900">{title}</p>
+      <p className="mt-1 font-ui text-[0.8125rem] leading-normal text-ink-700">{children}</p>
     </div>
   );
 }
@@ -352,17 +352,16 @@ export function Scattering() {
     <div ref={ref} className="flex w-full flex-col gap-10">
       <div>
         <Note title="1. One atom">
-          One atom sends out a ripple in every direction. On its own it leaves only a faint,
-          even fog on the film, with no pattern.
+          One atom spreads its ripple evenly, so the film darkens a little everywhere, with no
+          pattern. The small block stops the X-rays that pass straight through.
         </Note>
         <ScatterPanel {...panel} stage="one" header="1. One atom" />
       </div>
       <div>
         <Note title="2. Two atoms">
-          Add a second atom and the ripples overlap. The red dots mark where a crest from one
-          meets a crest from the other: they line up in a few directions, and only there does
-          the film darken. Change the spacing and watch the bands move: closer atoms push them
-          farther apart.
+          With two atoms, crest meets crest in some directions and the waves add; in others crest
+          meets trough and they cancel. The film darkens only where they add. Move the atoms
+          closer and the dark bands spread apart.
         </Note>
         <ScatterPanel {...panel} stage="two" header="2. Two atoms" onSpacing={setSpacing} />
         <div className="mt-4">
@@ -378,10 +377,10 @@ export function Scattering() {
         </div>
       </div>
       <div>
-        <Note title={`3. A row of ${n} atoms`}>
-          Now a whole row at the same spacing. Add atoms and the dark bands stay where they
-          were but grow thinner, while the film between them clears. A crystal has thousands
-          of atoms in a row, so its bands are very sharp.
+        <Note title="3. A row of atoms">
+          With more atoms at the same spacing, the waves still add in those directions but cancel
+          almost everywhere else, so the bands get thinner. A crystal has thousands of atoms in a
+          row, so its bands are very thin.
         </Note>
         <ScatterPanel {...panel} stage="row" header={`3. A row of ${n} atoms`} />
         <div className="mt-4">

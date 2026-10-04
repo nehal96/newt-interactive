@@ -22,9 +22,9 @@ export function SliderRow({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-baseline justify-between gap-4 text-sm text-ink-500">
+      <div className="flex items-baseline justify-between gap-4 text-xs text-ink-500">
         <span>{label}</span>
-        <span className="text-base font-semibold tabular-nums text-ink-800">
+        <span className="text-sm font-semibold tabular-nums text-ink-800">
           {display}
         </span>
       </div>

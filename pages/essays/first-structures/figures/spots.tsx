@@ -48,7 +48,10 @@ export function SpotFilm({
   max = 1,
   haze,
   linear = false,
+  marks = [],
 }: {
+  /** Spots to ring, with an optional word beside the ring. */
+  marks?: { X: number; Y: number; color: string; label?: string }[];
   x: number;
   y: number;
   size: number;
@@ -84,6 +87,24 @@ export function SpotFilm({
           />
         ))}
       </g>
+      {marks.map(({ X, Y, color, label }) => (
+        <g key={`${X}-${Y}`}>
+          <circle cx={x + c + X * c} cy={y + c + Y * c} r={7} fill="none" stroke={color} strokeWidth={1.5} />
+          {label && (
+            <text
+              x={x + c + X * c + (X > 0.4 ? -10 : 10)}
+              y={y + c + Y * c + 4}
+              textAnchor={X > 0.4 ? "end" : "start"}
+              className="font-mono"
+              fontSize={10}
+              fill={color}
+              style={{ paintOrder: "stroke", stroke: XR.film, strokeWidth: 3, strokeLinejoin: "round" }}
+            >
+              {label}
+            </text>
+          )}
+        </g>
+      ))}
       <circle cx={x + c} cy={y + c} r={Math.max(5, size / 30)} fill={XR.label} />
       <rect x={x} y={y} width={size} height={size} fill="none" stroke={XR.atom} strokeWidth={0.75} />
     </g>

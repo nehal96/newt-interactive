@@ -8,25 +8,50 @@ import { SpotFilm, latticeSpots, type Spot } from "./spots";
 const LAMBDA = 1.54;
 const EDGE_TAN = 0.2;
 
-type Atom = { x: number; y: number; f: number };
+type Atom = { x: number; y: number; f: number; heavy?: boolean };
 
-/** Fractional positions inside one box: light atoms (f = electrons), and the same box with mercury (80) added. */
+/** Fractional positions inside one box; f is the number of electrons (carbon 6, nitrogen 7, oxygen 8). */
 const LIGHT: Atom[] = [
-  { x: 0.12, y: 0.18, f: 6 },
-  { x: 0.3, y: 0.1, f: 8 },
-  { x: 0.48, y: 0.22, f: 6 },
-  { x: 0.7, y: 0.15, f: 7 },
-  { x: 0.86, y: 0.3, f: 6 },
-  { x: 0.18, y: 0.45, f: 7 },
-  { x: 0.4, y: 0.5, f: 6 },
-  { x: 0.62, y: 0.58, f: 8 },
-  { x: 0.84, y: 0.66, f: 6 },
-  { x: 0.25, y: 0.78, f: 6 },
-  { x: 0.5, y: 0.86, f: 7 },
-  { x: 0.75, y: 0.88, f: 6 },
+  { x: 0.608, y: 0.713, f: 8 },
+  { x: 0.086, y: 0.47, f: 6 },
+  { x: 0.631, y: 0.853, f: 6 },
+  { x: 0.387, y: 0.824, f: 7 },
+  { x: 0.539, y: 0.565, f: 6 },
+  { x: 0.703, y: 0.419, f: 6 },
+  { x: 0.866, y: 0.734, f: 6 },
+  { x: 0.73, y: 0.123, f: 8 },
+  { x: 0.603, y: 0.171, f: 6 },
+  { x: 0.916, y: 0.065, f: 6 },
+  { x: 0.905, y: 0.206, f: 6 },
+  { x: 0.315, y: 0.906, f: 8 },
+  { x: 0.831, y: 0.611, f: 6 },
+  { x: 0.911, y: 0.846, f: 6 },
+  { x: 0.373, y: 0.329, f: 6 },
+  { x: 0.223, y: 0.476, f: 6 },
+  { x: 0.11, y: 0.918, f: 6 },
+  { x: 0.895, y: 0.375, f: 7 },
+  { x: 0.076, y: 0.753, f: 6 },
+  { x: 0.458, y: 0.683, f: 8 },
+  { x: 0.372, y: 0.522, f: 7 },
+  { x: 0.762, y: 0.817, f: 6 },
+  { x: 0.441, y: 0.921, f: 6 },
+  { x: 0.216, y: 0.129, f: 6 },
+  { x: 0.131, y: 0.589, f: 7 },
+  { x: 0.09, y: 0.329, f: 8 },
+  { x: 0.68, y: 0.307, f: 7 },
+  { x: 0.359, y: 0.217, f: 6 },
+  { x: 0.823, y: 0.456, f: 6 },
+  { x: 0.211, y: 0.747, f: 8 },
 ];
+
+/**
+ * A real protein has thousands of atoms, too many to draw, so the heavy atom is
+ * scaled to a quarter of the light atoms' combined scattering: about the share
+ * two mercury atoms (80 electrons each) have against hemoglobin's ~5,000 atoms.
+ */
+const HEAVY_F = 0.25 * Math.sqrt(LIGHT.reduce((sum, a) => sum + a.f * a.f, 0));
 const ARRANGEMENT_A: Atom[] = LIGHT;
-const ARRANGEMENT_B: Atom[] = [{ x: 0.58, y: 0.36, f: 80 }, ...LIGHT];
+const ARRANGEMENT_B: Atom[] = [{ x: 0.3, y: 0.62, f: HEAVY_F, heavy: true }, ...LIGHT];
 
 const strengthOf = (atoms: Atom[]) => (h: number, k: number) => {
   let re = 0;
@@ -51,20 +76,27 @@ type Panel = {
 
 const SPOTS_A = latticeSpots(40, LAMBDA, EDGE_TAN, strengthOf(ARRANGEMENT_A));
 const SPOTS_B = latticeSpots(40, LAMBDA, EDGE_TAN, strengthOf(ARRANGEMENT_B));
+const change = SPOTS_A.map((a, i) => SPOTS_B[i].s - a.s);
+const DARKER = SPOTS_A[change.indexOf(Math.max(...change))];
+const FAINTER = SPOTS_A[change.indexOf(Math.min(...change))];
+const MARKS = (labelled: boolean) => [
+  { X: DARKER.X, Y: DARKER.Y, color: XR.accent, label: labelled ? "darker" : undefined },
+  { X: FAINTER.X, Y: FAINTER.Y, color: XR.label, label: labelled ? "fainter" : undefined },
+];
 const SHARED_MAX = Math.max(...SPOTS_A.map((s) => s.s), ...SPOTS_B.map((s) => s.s));
 
 const GROUPS: { title: string; note: string; panels: Panel[] }[] = [
   {
-    title: "Halve the box",
+    title: "Halve the unit cell",
     note: "spots twice as far apart",
     panels: [
-      { label: "box 40 Å", box: 40, atoms: [{ x: 0.5, y: 0.5, f: 1 }], spots: latticeSpots(40, LAMBDA, EDGE_TAN, ONE_ATOM), max: 1 },
-      { label: "box 20 Å", box: 20, atoms: [{ x: 0.5, y: 0.5, f: 1 }], spots: latticeSpots(20, LAMBDA, EDGE_TAN, ONE_ATOM), max: 1 },
+      { label: "40 Å across", box: 40, atoms: [{ x: 0.5, y: 0.5, f: 1 }], spots: latticeSpots(40, LAMBDA, EDGE_TAN, ONE_ATOM), max: 1 },
+      { label: "20 Å across", box: 20, atoms: [{ x: 0.5, y: 0.5, f: 1 }], spots: latticeSpots(20, LAMBDA, EDGE_TAN, ONE_ATOM), max: 1 },
     ],
   },
   {
     title: "Add a heavy atom",
-    note: "same places, new darkness",
+    note: "same places, different darkness",
     panels: [
       { label: "light atoms only", box: 40, atoms: ARRANGEMENT_A, spots: SPOTS_A, max: SHARED_MAX },
       { label: "plus one heavy atom", box: 40, atoms: ARRANGEMENT_B, spots: SPOTS_B, max: SHARED_MAX },
@@ -96,7 +128,7 @@ function CrystalPatch({
   const rows = Math.ceil(h / cell) + 1;
   const ox = x + (w - Math.floor(w / cell) * cell) / 2;
   const oy = y + (h - Math.floor(h / cell) * cell) / 2;
-  const radius = (f: number) => (f >= 26 ? 5.5 : f === 1 ? 3 : 2.2);
+  const radius = (a: Atom) => (a.heavy ? 5 : a.f === 1 ? 3 : 1.7);
   return (
     <g>
       <defs>
@@ -121,8 +153,8 @@ function CrystalPatch({
               key={`${n}-${k}`}
               cx={ox + (i + a.x) * cell}
               cy={oy + (j + a.y) * cell}
-              r={radius(a.f)}
-              fill={a.f >= 26 || a.f === 1 ? XR.sum : XR.label}
+              r={radius(a)}
+              fill={a.heavy || a.f === 1 ? XR.sum : XR.label}
             />
           ));
         })}
@@ -145,18 +177,18 @@ export function ReadingTheFilm({ group }: { group: "box" | "atom" }) {
   const ids = useId();
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const narrow = W < 520;
-  const text = narrow ? 11 : 12;
+  const text = narrow ? 10 : 11;
   const shown = GROUPS.filter((_, i) => (group === "box" ? i === 0 : i === 1));
 
-  const S = Math.min(170, (W - 16) / 2);
+  const S = Math.min(170, (W - 12) / 2);
   const crystalH = Math.round(S * 0.5);
   const pxPerA = S / 3.4 / 40;
-  const groupH = 22 + 20 + crystalH + 12 + S + 26;
+  const groupH = 22 + crystalH + 12 + S + 26;
   const H = groupH;
 
   const place = (_g: number, p: number) => {
-    const x0 = (W - (2 * S + 16)) / 2;
-    return { x: x0 + p * (S + 16), y: 0 };
+    const x0 = (W - (2 * S + 12)) / 2;
+    return { x: x0 + p * (S + 12), y: 0 };
   };
 
   return (
@@ -171,13 +203,13 @@ export function ReadingTheFilm({ group }: { group: "box" | "atom" }) {
       >
         <title id={`${ids}t`}>
           {group === "box"
-            ? "Halve the box and the spots spread twice as far apart."
-            : "Add one heavy atom and the spots stay put, but their darkness changes."}
+            ? "The smaller the unit cell, the farther apart the spots."
+            : "A heavy atom leaves the spots where they are but changes how dark they are."}
         </title>
         <desc id={`${ids}d`}>
           {group === "box"
             ? "Two crystal patches, each above its film. Halving the box from 40 to 20 ångströms spreads the spots twice as far apart."
-            : "Two crystal patches with the same 40 ångström box of light atoms, each above its film; the second has one heavy atom added. The spots fall in the same places, but which are dark and which are faint changes."}
+            : "Two crystal patches with the same 40 ångström box of light atoms, each above its film; the second has one heavy atom added. The spots fall in the same places; some get darker and others fainter."}
         </desc>
 
         {shown.map((g) => {
@@ -188,25 +220,14 @@ export function ReadingTheFilm({ group }: { group: "box" | "atom" }) {
           const top = a.y;
           return (
             <g key={g.title}>
-              <text
-                x={mid}
-                y={top + 14}
-                textAnchor="middle"
-                className="font-ui"
-                fontSize={narrow ? 12 : 13}
-                fontWeight={600}
-                fill={XR.sum}
-              >
-                {g.title}
-              </text>
               {g.panels.map((p, pi) => {
                 const { x } = place(gi, pi);
-                const crystalTop = top + 42;
+                const crystalTop = top + 22;
                 const filmTop = crystalTop + crystalH + 12;
                 return (
                   <g key={p.label}>
                     <Labels size={text}>
-                      <text x={x + S / 2} y={top + 34} textAnchor="middle">
+                      <text x={x + S / 2} y={top + 14} textAnchor="middle">
                         {p.label}
                       </text>
                     </Labels>
@@ -219,14 +240,22 @@ export function ReadingTheFilm({ group }: { group: "box" | "atom" }) {
                       panel={p}
                       ring={gi === 1 && pi === 1}
                     />
-                    <SpotFilm x={x} y={filmTop} size={S} spots={p.spots} max={p.max} linear />
+                    <SpotFilm
+                      x={x}
+                      y={filmTop}
+                      size={S}
+                      spots={p.spots}
+                      max={p.max}
+                      linear
+                      marks={gi === 1 ? MARKS(pi === 1) : []}
+                    />
                   </g>
                 );
               })}
               <Labels size={text}>
                 <text
                   x={mid}
-                  y={top + 42 + crystalH + 12 + S + 18}
+                  y={top + 22 + crystalH + 12 + S + 18}
                   textAnchor="middle"
                   fill={XR.accent}
                 >

@@ -13,6 +13,7 @@ module.exports = {
       },
       colors: {
         paper: "#FBFAF7",
+        card: "#F2F1ED",
         ink: {
           100: "#EEEDF2",
           200: "#DDDCE5",

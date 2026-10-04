@@ -143,7 +143,7 @@ export function OrderMakesSpots() {
   const ids = useId();
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const narrow = W < 520;
-  const text = narrow ? 11 : 12;
+  const text = narrow ? 10 : 11;
   const wide = W >= 600;
 
   const sketchTop = 8;
@@ -160,7 +160,7 @@ export function OrderMakesSpots() {
     S = (W - 16) / 2;
     molX = [0, S + 16];
     filmX = molX;
-    headY = sketchTop + 128;
+    headY = sketchTop + 100;
     molTop = headY + 26;
     filmTop = molTop + S + 16;
   }
@@ -181,7 +181,7 @@ export function OrderMakesSpots() {
         role="img"
         aria-labelledby={`${ids}t ${ids}d`}
       >
-        <title id={`${ids}t`}>Only an ordered arrangement concentrates the X-rays into spots.</title>
+        <title id={`${ids}t`}>Molecules at random give a blur. Molecules in a crystal give sharp spots.</title>
         <desc id={`${ids}d`}>
           A sketch shows an X-ray beam passing through a flat layer of molecules to
           a film behind it. Below, seen face-on along the beam: on the left,
@@ -196,33 +196,16 @@ export function OrderMakesSpots() {
           </clipPath>
         </defs>
 
-        <ViewSketch cx={wide ? Math.max(154, W / 2 - 140) : W / 2} y={sketchTop} text={text} />
-        {wide ? (
-          <text className="font-ui" fontSize={13} fill={XR.label}>
-            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 26}>
-              Below, the molecules and the film
-            </tspan>
-            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 44}>
-              are both seen face-on,
-            </tspan>
-            <tspan x={Math.max(154, W / 2 - 140) + 140} y={sketchTop + 62}>
-              looking along the beam.
-            </tspan>
-          </text>
-        ) : (
-          <text x={W / 2} y={sketchTop + 104} textAnchor="middle" className="font-ui" fontSize={12} fill={XR.label}>
-            Below, both are seen face-on, looking along the beam.
-          </text>
-        )}
+        <ViewSketch cx={Math.max(W / 2, 156)} y={sketchTop} text={text} />
 
-        {["At random", "In a grid: a crystal"].map((h, i) => (
+        {["At random", "In a crystal"].map((h, i) => (
           <text
             key={h}
             x={groupX(i)}
             y={headY}
             textAnchor="middle"
             className="font-ui"
-            fontSize={narrow ? 12 : 13}
+            fontSize={narrow ? 11 : 12}
             fontWeight={600}
             fill={XR.sum}
           >
@@ -271,10 +254,10 @@ export function OrderMakesSpots() {
             unit cell
           </text>
           <text x={filmX[0] + S / 2} y={filmTop + S + 18} textAnchor="middle">
-            film: smooth haze
+            a blur
           </text>
           <text x={filmX[1] + S / 2} y={filmTop + S + 18} textAnchor="middle">
-            film: sharp spots
+            sharp spots
           </text>
         </Labels>
       </svg>

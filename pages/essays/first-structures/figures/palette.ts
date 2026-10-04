@@ -12,7 +12,8 @@ export const XR = {
   moleculeEdge: "#818CF8",
   rule: "#DDDCE5",
   label: "#6A687D",
-  film: "#F1EFE8",
-  // Must equal Tailwind's `paper`, or label halos show as patches.
+  film: "#FBFAF7",
   paper: "#FBFAF7",
+  // Must equal Tailwind's `card`, the figure background, or label halos show as patches.
+  card: "#F2F1ED",
 } as const;

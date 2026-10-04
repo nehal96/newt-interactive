@@ -24,7 +24,7 @@ export function BeamKey({ x, y, size }: { x: number; y: number; size: number }) 
   );
   return (
     <g>
-      <rect x={x - 4} y={y - 14} width={160} height={46} rx={3} fill={XR.paper} />
+      <rect x={x - 4} y={y - 14} width={160} height={46} rx={3} fill={XR.card} />
       <g stroke={XR.first} strokeWidth={1.75} fill={XR.first}>
         <line x1={x} x2={x + 22} y1={y} y2={y} />
         <path d={`M${x + 28} ${y} l-8 -4 v8 z`} strokeLinejoin="round" />
@@ -152,7 +152,7 @@ export function Labels({ size, children }: { size: number; children: ReactNode }
       fill={XR.label}
       style={{
         paintOrder: "stroke",
-        stroke: XR.paper,
+        stroke: XR.card,
         strokeWidth: 4,
         strokeLinejoin: "round",
       }}
