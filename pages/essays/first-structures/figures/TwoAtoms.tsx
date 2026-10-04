@@ -3,7 +3,7 @@ import { useId, useRef, useState, type PointerEvent, type ReactNode } from "reac
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
 import { crossing, filmGradient, type BeamStop, type Pt } from "./scatter";
-import { Atom, BeamArrow, Film, Labels, Ripples, StopBlock } from "./scene";
+import { Atom, BeamArrow, BeamKey, Film, Labels, Ripples, StopBlock } from "./scene";
 import { SliderRow } from "./controls";
 import { SPACING as ROW_SPACING, rowStrength } from "./RowOfAtoms";
 
@@ -24,8 +24,10 @@ function ScatterPanel({
   maxLambda = 24,
   span = 18,
   hideHeader = false,
+  showKey = false,
 }: {
   hideHeader?: boolean;
+  showKey?: boolean;
   W: number;
   maxLambda?: number;
   span?: number;
@@ -42,11 +44,13 @@ function ScatterPanel({
   const narrow = W < 520;
   const compact = W < 320;
   const text = narrow ? 10 : 11;
-  const lambda = clamp((W - 20) / 15.5, 14, maxLambda);
+  const sideW = narrow ? 78 : 92;
+  const lambda = clamp((W - 20 - sideW) / 15.5, 12, maxLambda);
   const D = 12 * lambda;
   const filmW = 14;
-  const sceneW = Math.min(W, 15.5 * lambda + 20);
-  const filmX = (W + sceneW) / 2 - filmW - 2;
+  const sceneW = Math.min(W - sideW, 15.5 * lambda + 20);
+  const filmX = (W - sideW - sceneW) / 2 + sceneW - filmW - 2;
+  const sideX = filmX + filmW + 6;
   const filmTop = 26;
   const filmBottom = filmTop + span * lambda;
   const cy = (filmTop + filmBottom) / 2;
@@ -79,7 +83,7 @@ function ScatterPanel({
       : filmGradient(atoms, lambda, filmX, filmTop, filmBottom, stop, 1);
 
   const reach = Math.hypot(D, filmBottom - filmTop);
-  const rippleReach = 7.5 * lambda;
+  const rippleReach = D - 0.5 * lambda;
   const crestRadii: number[] = [];
   for (let k = 1; (k - 0.5) * lambda < rippleReach; k++) crestRadii.push((k - 0.5) * lambda);
 
@@ -139,7 +143,8 @@ function ScatterPanel({
     .filter((g) => end(g) < cy)
     .sort((a, b) => end(b) - end(a))[0];
   const labelCancel = labelInStep
-    ? cancel.find((g) => g.diff === labelInStep.diff + 0.5)
+    ? (cancel.find((g) => g.diff === labelInStep.diff + 0.5) ??
+      cancel.find((g) => g.diff === labelInStep.diff - 0.5))
     : cancel.filter((g) => g.diff > 0).sort((a, b) => a.diff - b.diff)[0];
   const lowerInStep = inStep.filter((g) => end(g) > cy).sort((a, b) => end(a) - end(b))[0];
   const callout =
@@ -162,9 +167,9 @@ function ScatterPanel({
 
   const description =
     stage === "one"
-      ? "One atom in an X-ray beam sends out circular ripples. The film to the right shows only a faint, smooth fog, clear where the beam stop shades it."
+      ? "One atom in an x-ray beam sends out circular ripples. The film to the right shows only a faint, smooth fog, clear where the beam stop shades it."
       : stage === "two"
-        ? `Two atoms ${spacing.toFixed(1)} wavelengths apart, one above the other, each sending out circular ripples. Red dots mark where a crest from one atom crosses a crest from the other; the dots fall in lines that end on dark bands of the film. Between them, crests meet troughs and cancel, and the film stays clear.`
+        ? `Two atoms ${spacing.toFixed(1)} wavelengths apart, one above the other, each hit by the x-ray beam and sending out circular ripples. Red dots mark where a crest from one atom crosses a crest from the other; the dots fall in lines that end on dark bands of the film. Between them, crests meet troughs and cancel, and the film stays clear.`
         : `A row of ${n} atoms, ${ROW_SPACING} wavelengths apart. Thin red lines mark the directions where every atom's wave arrives in step; the film is dark there, in bands that narrow as atoms are added, and clear in between.`;
 
   return (
@@ -182,23 +187,45 @@ function ScatterPanel({
         <clipPath id={`${ids}c`}>
           <rect x={ax} y={filmTop - 8} width={filmX - ax} height={H - filmTop + 8} />
         </clipPath>
+        <linearGradient
+          id={`${ids}v`}
+          gradientUnits="userSpaceOnUse"
+          x1={0}
+          x2={0}
+          y1={filmTop - 8}
+          y2={H}
+        >
+          <stop offset={0} stopColor="black" />
+          <stop offset={0.15} stopColor="white" />
+          <stop offset={0.85} stopColor="white" />
+          <stop offset={1} stopColor="black" />
+        </linearGradient>
+        <mask id={`${ids}m`}>
+          <rect x={0} y={0} width={W} height={H} fill={`url(#${ids}v)`} />
+        </mask>
       </defs>
 
-      {stage !== "row" &&
-        atoms.map(([x, y]) => (
-          <Ripples
-            key={y}
-            cx={x}
-            cy={y}
-            lambda={lambda}
-            reach={rippleReach}
-            clipId={`${ids}c`}
-            strength={1.6}
-            floor={0.3}
-            fadeOut
-          />
-        ))}
-      <BeamArrow x0={arrowX} x1={ax - 1.4 * lambda} y={cy} />
+      {stage !== "row" && (
+        <g mask={`url(#${ids}m)`}>
+          {atoms.map(([x, y]) => (
+            <Ripples
+              key={y}
+              cx={x}
+              cy={y}
+              lambda={lambda}
+              reach={rippleReach}
+              clipId={`${ids}c`}
+              strength={1.6}
+              floor={0.3}
+              fadeOut
+            />
+          ))}
+        </g>
+      )}
+      {(stage === "two" ? [upper[1], lower[1]] : [cy]).map((y) => (
+        <BeamArrow key={y} x0={arrowX} x1={ax - 1.4 * lambda} y={y} />
+      ))}
+      {showKey && <BeamKey x={4} y={16} size={text} />}
 
       <g fill="none" strokeWidth={1.25}>
         {inStep.map((g) => (
@@ -234,7 +261,7 @@ function ScatterPanel({
         </text>
       )}
       <Labels size={text}>
-        <text x={arrowX} y={cy - 10}>X-rays</text>
+        <text x={arrowX} y={(stage === "two" ? upper[1] : cy) - 10}>x-rays</text>
         {stage === "one" && (
           <text x={stop.x + 6} y={cy + stop.half + 16} textAnchor="end">
             beam stop
@@ -244,7 +271,7 @@ function ScatterPanel({
           film
         </text>
         {stage === "one" && (
-          <text x={filmX - 6} y={filmTop + 14} textAnchor="end">
+          <text x={sideX} y={filmTop + 14}>
             faint grey
           </text>
         )}
@@ -258,19 +285,24 @@ function ScatterPanel({
               stroke={XR.accent}
               strokeWidth={0.75}
             />
-            <text x={ax - 8} y={lower[1] + 2.4 * lambda + 8} textAnchor="end" fill={XR.accent}>
+            <text
+              x={ax - 8 < 110 ? 2 : ax - 8}
+              y={lower[1] + 2.4 * lambda + (ax - 8 < 110 ? 18 : 8)}
+              textAnchor={ax - 8 < 110 ? "start" : "end"}
+              fill={XR.accent}
+            >
               crest meets crest
             </text>
           </g>
         )}
         {labelInStep && (
-          <text x={filmX - 6} y={end(labelInStep) + 16} textAnchor="end" fill={XR.accent}>
-            {compact ? "waves add" : "waves add: dark"}
+          <text x={sideX} y={end(labelInStep) + 4} fill={XR.accent}>
+            waves add
           </text>
         )}
         {labelCancel && (
-          <text x={filmX - 6} y={end(labelCancel) - 8} textAnchor="end">
-            {compact ? "cancel" : "waves cancel: clear"}
+          <text x={sideX} y={end(labelCancel) + 4}>
+            {compact ? "cancel" : "waves cancel"}
           </text>
         )}
       </Labels>
@@ -347,15 +379,16 @@ export function Scattering() {
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const [spacing, setSpacing] = useState(3);
   const [n, setN] = useState(5);
-  const panel = { W, maxLambda: 15, span: 16, spacing, n, hideHeader: true };
+  const panel = { W, maxLambda: 15, span: 13, spacing, n, hideHeader: true };
   return (
     <div ref={ref} className="flex w-full flex-col gap-10">
       <div>
         <Note title="1. One atom">
           One atom spreads its ripple evenly, so the film darkens a little everywhere, with no
-          pattern. The small block stops the X-rays that pass straight through.
+          pattern. The beam stop blocks the primary x-ray beam that passes straight through, so the
+          film records only the waves the electrons send out.
         </Note>
-        <ScatterPanel {...panel} stage="one" header="1. One atom" />
+        <ScatterPanel {...panel} stage="one" header="1. One atom" showKey />
       </div>
       <div>
         <Note title="2. Two atoms">
@@ -366,7 +399,7 @@ export function Scattering() {
         <ScatterPanel {...panel} stage="two" header="2. Two atoms" onSpacing={setSpacing} />
         <div className="mt-4">
           <SliderRow
-            label="Spacing"
+            label="Spacing between atoms"
             value={spacing}
             display={`${spacing.toFixed(1)} wavelengths`}
             min={1}

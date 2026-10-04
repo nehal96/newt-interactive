@@ -66,7 +66,7 @@ function SideView({ W, top, text }: { W: number; top: number; text: number }) {
       </g>
 
       <Labels size={text}>
-        <text x={2} y={by + 46}>X-ray tube</text>
+        <text x={2} y={by + 46}>x-ray tube</text>
         <text x={2} y={by + 46 + text + 3}>(copper)</text>
         <text x={filterX} y={by - 40} textAnchor="middle">nickel filter</text>
         {W < 560 ? (
@@ -175,7 +175,7 @@ export function Camera() {
           X-rays pass through a crystal and leave spots on a film.
         </title>
         <desc id={`${ids}d`}>
-          Side view of an X-ray camera: a copper X-ray tube, a nickel filter, a pinhole
+          Side view of an x-ray camera: a copper x-ray tube, a nickel filter, a pinhole
           collimator, a crystal in a glass capillary on a mount that rocks a few degrees,
           a small beam stop and a flat film 5 to 10 centimetres behind. Below: the
           capillary close up, with picein seals at both ends, liquid in each end and the

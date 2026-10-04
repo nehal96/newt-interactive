@@ -98,7 +98,7 @@ export default function Figure({
       {current ? current.props.children : children}
 
       {caption && (
-        <figcaption className="mt-4 font-ui text-xs leading-[1.125rem] text-ink-500">
+        <figcaption className="mt-4 font-ui text-[0.6875rem] leading-4 text-ink-400">
           {caption}
         </figcaption>
       )}

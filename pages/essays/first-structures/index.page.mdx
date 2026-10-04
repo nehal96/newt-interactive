@@ -10,7 +10,7 @@ import {
   TwoWaves,
   TwoWavesInteractive,
   Scattering,
-  OrderMakesSpots,
+  CrystalSpots,
   ReadingTheFilm,
   Camera,
   WhatTheFilmKeeps,
@@ -55,77 +55,64 @@ Through the eyes of Bernal, Max was joining at an exciting time. Known to his fr
 
 When Max arrived at Bernal’s lab, a small, dingy sub-department in the Cavendish, Bernal didn’t have any protein crystals left to give him to study. He instead made him work on rhodonite, a mineral found in blast-furnace slag. “Nasty minerals” were not what Max had come to study, but he used the work to learn the techniques of x-ray crystallography.
 
-By the time Max started learning it, x-ray crystallography had been around for just over two decades. William Lawrence Bragg and his father had used it to work out the structure of common salt in 1913, and in the years since the method had been used to determine the structure of salts, metals, and organic molecules of a few dozen atoms.
+### How x-ray crystallography works
 
-X-rays have wavelengths comparable to the distances between atoms; roughly in the range of 0.1 to 10 nanometers. Like other waves, they have amplitude (height, which relates to brightness) and phase (the offset). <Cut>When trying to add waves, the ones in step reinforce each other, and those opposing cancel each other out.</Cut>
+By the time Max started learning it, x-ray crystallography had been around for just over two decades. The technique works by shining a narrow beam of x-rays through a crystal and recording, on photographic film behind it, the pattern of spots the crystal scatters them into. From where the spots fall and how dark they are, one can work back to where the atoms sit inside the crystal. In 1912, Max von Laue in Munich had shown that crystals scatter x-rays into such spots. The next year, William Lawrence Bragg, then a 23-year-old research student at Cambridge, used them to work out the structure of common salt, the first crystal structure ever solved. In the years since, the method had been used to determine the structures of minerals, metals, and organic molecules of a few dozen atoms.
+
+Spots form because x-rays are waves, and waves add. The x-rays used in crystallography have wavelengths of about a tenth of a nanometer, close to the distance between neighboring atoms. Like other waves, they have amplitude (height, which relates to brightness) and phase (the offset). When trying to add waves, the ones in step reinforce each other, and those opposing cancel each other out.
 
 {/* Explainer #1: Crystals, lattice structure, diffraction, x-rays. */}
 
-<Figure
-  title="Waves in step add up. Waves half a wave apart cancel out."
-  caption="Both waves have the same wavelength, as the X-rays in the experiment did. Not to scale."
->
+<Figure title="How waves interact">
   <Variant
     name="static"
-    subtitle="Added together, two waves make a new one, in red. Its height depends on how far apart their crests are."
+    subtitle="Waves in step add up to a taller wave; waves half a wave apart cancel out. Their sum is in red."
   >
     <TwoWaves />
   </Variant>
   <Variant
     name="interactive"
-    subtitle="Drag the second wave, or use the slider, to shift it. Try to make the red line as tall as you can, then as flat as you can."
+    subtitle="Waves in step add up to a taller wave; waves half a wave apart cancel out. Drag the second wave, or use the slider, to make the red sum as tall, then as flat, as you can."
   >
     <TwoWavesInteractive />
   </Variant>
 </Figure>
 
-<AddParagraph>The film behind the crystal records brightness: where waves arrive in step it darkens, and where they cancel it stays clear. Waves that set out in step fall out of step just by travelling different distances.</AddParagraph>
+When an x-ray wave hits a single atom, it excites the atom's electrons, and each electron sends out a wave of its own, with the same wavelength. Together they spread out from the atom in every direction, far weaker than the wave that made them.
 
-When an x-ray wave hits a single <Cut>molecule</Cut><Add>atom</Add>, it excites the <Add>atom's </Add>electrons<Cut> in the molecule's atoms</Cut>, and each electron sends out a wave of its own, with the same <Cut>phase and amplitude</Cut><Add>wavelength</Add>. Together they spread out from the <Cut>molecule</Cut><Add>atom</Add> in every direction<Add>, far weaker than the wave that made them</Add>.
+Now put two atoms side by side. Each sends out its own wave, and the two waves overlap on their way to the film. They start in step, but to reach most places on the film, one wave has to travel farther than the other. Where the extra distance is a whole wavelength, crests still meet crests, the waves add, and the film darkens. Where it is half a wavelength, crests meet troughs, the waves cancel, and the film stays clear.
 
 <Figure
-  title="Ripples from two or more atoms add up in only a few directions."
-  caption="Flattened to two dimensions, not to scale. In the row, the bands are drawn equally dark for any number of atoms; in reality they darken as atoms are added."
+  title="How atoms scatter x-rays"
+  subtitle="Ripples from two or more atoms add up in only a few directions."
+  caption="Not to scale. In the row, the bands are drawn equally dark for any number of atoms; in reality they darken as atoms are added."
 >
   <Scattering />
 </Figure>
 
-<Cut>The circles above represent the crests of the waves, called the wavefronts.</Cut> A single <Cut>molecule</Cut><Add>atom</Add> scatters far too little to record<Cut>. In a crystal, the molecules are aligned in a lattice, so what happens when x-rays hit all of them? The waves from each molecule interact with each other and add up. When the extra distance is a whole wavelength, crests meet crests and the waves add into one strong ray. When it is half a wavelength, crests meet troughs and they cancel. The ray leaves at the same angle the beam came in, which makes it look like a reflection.</Cut><Add>, but a crystal holds billions of atoms in a regular arrangement, so their waves can add up.</Add>
+A single atom scatters far too little to record. To get a signal strong enough to see, the same arrangement of atoms has to be repeated many times over, and that is what a crystal is.
 
-<Wrap>
+Familiar crystals like salt, sugar, and quartz are solids whose atoms sit in a pattern that repeats in every direction. Proteins can form crystals too. Under the right conditions, trillions of identical molecules pack together in neat rows and layers. The box that, stacked like bricks, rebuilds the whole crystal is called the <Term k="unitCell">unit cell</Term>.
 
-<Figure
-  side
-  title="Molecules at random give a blur. Molecules in a crystal give sharp spots."
-  subtitle="At random, as in a liquid, the molecules' waves never line up, and the film gets a blur. In a crystal they repeat in a grid, so their waves add up in only a few directions, each making a sharp spot."
-  caption="Simplified to one flat layer, not to scale. The two films are drawn at different strengths."
->
-  <OrderMakesSpots />
-</Figure>
-
-A crystal is a box of molecules, organized by the <Term k="unitCell">unit cell</Term> repeated in every direction, creating a lattice structure.
-
-<Cut>A real crystal has thousands of layers stacked in three dimensions, and they can be sliced in many directions.</Cut> When <Add>x-rays </Add>hit<Cut> with x-rays</Cut><Add> a crystal</Add>, in almost every direction the waves<Cut> from all those layers</Cut> cancel. In a few directions they add up, <Cut>and bright rays leave the crystal. A photographic film behind the crystal records each ray as a spot.</Cut><Add>and a film behind the crystal records each of those directions as a spot.</Add> Where the spots fall is set by the size and shape of the <Cut>crystal</Cut><Add>unit cell</Add>. How dark each spot is depends on the molecules inside the crystal, so the pattern of spots carries information about the molecule.
-
-</Wrap>
-
-<AddParagraph>Perutz would read hemoglobin's unit cell from the spot positions within months of his first photographs. Reading the molecule from the darknesses would take him twenty-two years.</AddParagraph>
+Seen face-on, looking along the beam, a vertical row of atoms leaves bands running horizontally across the film. A horizontal row, correspondingly, leaves bands running vertically. Put the two together into a flat grid of atoms, and the waves are in step only where a horizontal band crosses a vertical one, and thus only at that intersection does the film darken, as spots. If each point in the grid is a molecule rather than a single atom, the spots stay in the same places, but each one is a different darkness. A real crystal is three-dimensional, with its molecules repeating in depth as well, but the idea is the same: the film darkens only where the waves from every row line up.
 
 <Figure
-  title="X-rays pass through a crystal and leave spots on a film."
-  subtitle="The nickel filter leaves X-rays of a single wavelength. The crystal is sealed wet in a glass tube, because it falls apart when dry, and rocked a few degrees to catch more spots. Below, a 1938 photograph of a hemoglobin crystal."
-  caption="Not to scale. Drawn after Perutz and Rogers (1946) and Boyes-Watson, Davidson and Perutz (1947). Photograph from Bernal, Fankuchen and Perutz, Nature, 1938."
+  title="How a crystal makes spots"
+  subtitle="A row of atoms makes bands. A flat grid has rows both ways, and its film darkens only where their bands cross."
+  caption="Not to scale. Each film is computed from the atoms above it and drawn at its own strength."
 >
-  <Camera />
+  <CrystalSpots />
 </Figure>
+
+Where the spots fall depends only on the size and shape of the unit cell. Shrink the box and the spots spread apart, just as the bands did when the two atoms moved closer. How dark each spot is depends on what's inside the box. The atoms of each molecule scatter like the two atoms did, their waves adding up in some directions and cancelling in others, so each spot's darkness reflects how they are arranged. The spacing of the spots gives the size of the box, and their darkness carries information about the molecule inside it.
+
+---
 
 In the summer of 1937, Max Perutz began pondering a more worthwhile problem to tackle. While visiting Prague, he brought up this question with his cousin’s husband, a young chemistry professor named Felix Haurowitz. Perutz was considering taking on hemin, the chloride salt of the heme group found in hemoglobin. Haurowitz talked him out of it and told him to go for the whole molecule instead. He did not, however, have any hemoglobin crystals of his own to provide, but he named a Cambridge physiologist, Gilbert Adair, as someone who could supply them.
 
 When Perutz got back to Cambridge that autumn, he approached Adair with this request. The ever-smiling and generous Adair quickly grew him crystals of horse hemoglobin, apologizing that they were “probably much too small” as he handed them over. They turned out to be excellent for x-ray work. A decade earlier, Adair had shown that hemoglobin had four heme groups with four iron atoms. He also established the equation that described how those four hemes took on oxygen cooperatively: the first reluctantly and each of the others more readily.
 
 During this time, crystals of chymotrypsin, a digestive enzyme, arrived from the Rockefeller Institute in New York City and were assigned to Perutz. He began working on both together, with “no particular preference.” As he worked on chymotrypsin though, he found that its crystals gave diffraction patterns he could not read. A crystal’s pattern can only be read if it is one lattice through and through, every molecule predictably spaced out. Chymotrypsin’s crystals were twinned, two lattices overlapping one another, which meant that after diffraction, there was no way to tell which spots belonged to which orientation. Hemoglobin became, by elimination, Perutz’s sole focus.
-
----
 
 <Wrap>
 
@@ -176,6 +163,14 @@ On 3 September 1939, Britain declared war on Germany. Tribunals classified Germa
 His internment took him through camps in Britain to a troopship bound for Canada and a camp of wooden huts above Quebec City. There, a hundred men to a room, double-bunked, behind barbed-wire windows, he organized a university with the other interned academics. A campaign by his colleagues in Britain eventually secured his release, and in January 1941 he landed at Liverpool, was formally set free, and was told to register with the Cambridge police as an enemy alien.
 
 Back at Cambridge, Bragg encouraged Perutz to continue his protein structure research. He returned to the drying problem where he last left off. Rapid drying destroyed the fine detail in the diffraction patterns, so Perutz set off on figuring out a way to slow the process. In his experiment, instead of letting the crystal dry in open air, he sealed it in a thin glass capillary, with a trace of its own mother liquor at each end<Fn>He was by now growing his own hemoglobin crystals with the help of the Molteno Institute. The capillary was about a millimetre across, and the crystal sat in the vapour of the liquor</Fn>. Inside the tube the crystal lost water only gradually, so that a complete drying now took several days rather than minutes.
+
+<Figure
+  title="Perutz’s x-ray crystallography setup"
+  subtitle="X-rays pass through the crystal and leave spots on the film. A nickel filter leaves x-rays of a single wavelength, and the crystal, sealed in its glass tube, is rocked a few degrees to catch more spots."
+  caption="Not to scale. Drawn after Perutz and Rogers (1946) and Boyes-Watson, Davidson and Perutz (1947). Photograph from Bernal, Fankuchen and Perutz, Nature, 1938."
+>
+  <Camera />
+</Figure>
 
 Perutz recorded four stages this way: fully wet, two intermediate, and air dried. The two intermediate stages gave patterns nearly as detailed as the wet crystal. But he found that shrinkage was lopsided. The crystal contracted almost entirely in one direction, and so Perutz read this as molecules lying in rigid sheets, with the water between the sheets draining away and the sheets sliding over one another<Fn>Given this geometry, he could rule out the elongated ellipsoid shape physical chemists had earlier proposed.</Fn>. He published these results in *Nature* in May 1942.
 

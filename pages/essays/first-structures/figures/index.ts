@@ -3,7 +3,7 @@ export { Add, AddParagraph, Cut } from "./Edits";
 export { default as Term } from "./Term";
 export { TwoWaves, TwoWavesInteractive } from "./TwoWaves";
 export { Scattering } from "./TwoAtoms";
-export { OrderMakesSpots } from "./OrderMakesSpots";
+export { CrystalSpots } from "./CrystalSpots";
 export { ReadingTheFilm } from "./ReadingTheFilm";
 export { Camera } from "./Camera";
 export { WhatTheFilmKeeps } from "./WhatTheFilmKeeps";

@@ -127,7 +127,7 @@ function ViewSketch({ cx, y, text }: { cx: number; y: number; text: number }) {
         }))}
       </g>
       <Labels size={text}>
-        <text x={cx - 150} y={mid - 10}>X-rays</text>
+        <text x={cx - 150} y={mid - 10}>x-rays</text>
         <text x={layerX + w / 2} y={y + h + skew + 18} textAnchor="middle">
           layer of molecules
         </text>
@@ -183,7 +183,7 @@ export function OrderMakesSpots() {
       >
         <title id={`${ids}t`}>Molecules at random give a blur. Molecules in a crystal give sharp spots.</title>
         <desc id={`${ids}d`}>
-          A sketch shows an X-ray beam passing through a flat layer of molecules to
+          A sketch shows an x-ray beam passing through a flat layer of molecules to
           a film behind it. Below, seen face-on along the beam: on the left,
           molecules at random positions and angles, whose film shows a smooth
           haze fading outward from the centre; on the right, the same molecules
