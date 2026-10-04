@@ -98,8 +98,8 @@ const GROUPS: { title: string; note: string; panels: Panel[] }[] = [
     title: "Add a heavy atom",
     note: "same places, different darkness",
     panels: [
-      { label: "light atoms only", box: 40, atoms: ARRANGEMENT_A, spots: SPOTS_A, max: SHARED_MAX },
-      { label: "plus one heavy atom", box: 40, atoms: ARRANGEMENT_B, spots: SPOTS_B, max: SHARED_MAX },
+      { label: "light atoms", box: 40, atoms: ARRANGEMENT_A, spots: SPOTS_A, max: SHARED_MAX },
+      { label: "plus a heavy atom", box: 40, atoms: ARRANGEMENT_B, spots: SPOTS_B, max: SHARED_MAX },
     ],
   },
 ];

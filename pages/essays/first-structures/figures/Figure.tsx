@@ -32,10 +32,12 @@ export default function Figure({
   subtitle,
   caption,
   side = false,
+  slim = false,
   children,
 }: {
   /** Float right of the prose on wide screens; the prose must sit in a <Wrap>. */
   side?: boolean;
+  slim?: boolean;
   title: ReactNode;
   subtitle?: ReactNode;
   caption?: ReactNode;
@@ -55,7 +57,8 @@ export default function Figure({
       aria-labelledby={titleId}
       className={cn(
         "my-10 w-full max-w-prose self-center rounded-xl bg-card px-4 py-5 sm:px-6 sm:py-6 lg:my-14",
-        side && "md:float-right md:mb-6 md:ml-8 md:mt-1.5 md:w-[20rem] md:px-4 md:py-4 lg:my-0 lg:mb-6",
+        side && (slim ? "md:w-[16rem]" : "md:w-[20rem]"),
+        side && "md:float-right md:clear-right md:mb-6 md:ml-8 md:mt-1.5 md:px-4 md:py-4 lg:my-0 lg:mb-6",
       )}
     >
       <div className="mb-5 flex flex-wrap items-start justify-between gap-x-6 gap-y-3">

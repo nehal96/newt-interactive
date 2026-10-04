@@ -333,7 +333,7 @@ export function TwoAtomsInteractive() {
   );
 }
 
-function Note({ title, children }: { title: string; children: ReactNode }) {
+export function Note({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="mb-1">
       <p className="font-ui text-xs font-semibold text-ink-900">{title}</p>

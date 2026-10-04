@@ -104,10 +104,31 @@ a `<p>`). They accept or reject the marks themselves.
 
 ## Where things stand
 
-Explainer 1 runs: waves → atoms (one, two, a row) → crystal (side) → camera
-with the 1938 photograph. The unit-cell spacing figure sits beside the winter
-1937–38 paragraph; the heavy-atom figure follows the 1953 mercury paragraph.
-Next story beats that could take a figure: chymotrypsin's twinned crystals,
-the phase problem, drying (unit cell shrinks, spots move), the salt series,
-grading spots by eye, the doubled cell, Kendrew's 6 Å (inner spots only), and
-the existing placeholders for Explainers 2 and 3 and the four-bump graph.
+As of 2026-10-04 the first set is built. In essay order:
+1. Explainer 1: waves (static and interactive variants still both offered),
+   `Scattering`, crystal (side), camera with the 1938 photograph.
+2. Winter 1937–38 (one Wrap, two side floats): unit-cell spacing, then
+   `WhatTheFilmKeeps`.
+3. Explainer 2 (1939): `FourierMap`.
+4. 1942–43: `KnownWave` (side), then `FourBumps`, computed from the 1947 paper's
+   table 7.
+5. Explainer 3 (1948): `PattersonMap`.
+6. 1953: heavy atom (slim side), then `KnownWave known="mercury" brief` (slim side).
+7. Hodgkin, 1954: `TwoChoices`.
+8. 1957: `SheetStack`.
+
+Parked: a rework of the Patterson figure; a small crystal "locator" for the four
+bumps (an edge-on slab inset was rejected); a mirror-image ghost panel for
+`TwoChoices`; Crick's rod-height comparison.
+
+The plan of record is the author's doc "Hemoglobin essay — prioritized figure
+list". Its first set, in build order: same height/different offset together
+with the known-wave arrows, then the Fourier build-up, then the Patterson map
+and the two candidate phases, then a title for `SheetStack`. Its hemoglobin-in-3D
+figure is dropped: the essay will link to the Science Museum's models instead.
+The second and third sets wait for the essay pass.
+
+Quote fixes, fact checks and prose ideas found while mining the papers go in
+the author's running doc "First structures: prose and quote improvements"
+(https://claude.ai/code/artifact/bc1bb713-3e1c-4857-b76a-1b887c7c7367), not
+into the essay. The author goes through it later.

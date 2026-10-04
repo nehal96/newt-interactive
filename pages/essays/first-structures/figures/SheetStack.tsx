@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@ui/controls";
-import { Caption } from "./controls";
 
 const LABELS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const HEIGHTS = ["+4/16", "+3/16", "+2/16", "+1/16", "0", "−1/16", "−2/16", "−3/16"];
@@ -145,7 +144,7 @@ export default function SheetStack() {
   const ease = "cubic-bezier(.2,.7,.2,1)";
 
   return (
-    <figure className="mx-auto my-8 w-full max-w-[40rem] lg:my-12 lg:max-w-[52rem]">
+    <div className="w-full">
       <div
         ref={scene}
         className="[perspective:1600px]"
@@ -240,21 +239,10 @@ export default function SheetStack() {
           {stacked ? "Lay them out" : "Stack them"}
         </Button>
         <span className="text-xs text-ink-500">
-          {stacked ? "Drag to turn" : "Eight sections, y = +4/16 b to −3/16 b"}
+          {stacked ? "Drag to turn the stack" : "Eight slices through the crystal"}
         </span>
       </div>
 
-      <Caption>
-        The eight sections of the 6 Å synthesis that Kendrew&rsquo;s group
-        computed, traced from figure 18 of Bodo, Dintzis, Kendrew &amp; Wyckoff,{" "}
-        <cite>Proc. R. Soc. A</cite> <b>253</b>, 70 (1959). Each parallelogram is
-        one unit cell — 64.5 Å along a, 34.7 Å along c, meeting at 74° — and only
-        the contours above the cell&rsquo;s mean electron density are drawn.
-        Eight is half the crystal: the other eight sheets of the physical model
-        are these same drawings turned through 180°, which is what the screw axis
-        does. The sheets are pulled apart here for legibility; true spacing is
-        1.93 Å, about a twentieth of a sheet&rsquo;s height.
-      </Caption>
-    </figure>
+    </div>
   );
 }
