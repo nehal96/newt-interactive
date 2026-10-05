@@ -85,7 +85,7 @@ Now put two atoms side by side. Each sends out its own wave, and the two waves o
 <Figure
   title="How atoms scatter x-rays"
   subtitle="Ripples from two or more atoms add up in only a few directions."
-  caption="Not to scale. In the row, the bands are drawn equally dark for any number of atoms; in reality they darken as atoms are added."
+  caption="Not to scale. The row's bands are drawn equally dark; real ones darken as atoms are added."
 >
   <Scattering />
 </Figure>
@@ -94,12 +94,25 @@ A single atom scatters far too little to record. To get a signal strong enough t
 
 Familiar crystals like salt, sugar, and quartz are solids whose atoms sit in a pattern that repeats in every direction. Proteins can form crystals too. Under the right conditions, trillions of identical molecules pack together in neat rows and layers. The box that, stacked like bricks, rebuilds the whole crystal is called the <Term k="unitCell">unit cell</Term>.
 
+<Wrap>
+
+<Figure
+  side
+  title="How the unit cell sets the spots"
+  subtitle="The smaller the unit cell, the farther apart the spots, so their spacing gives the cell's size."
+  caption="One flat layer, not to scale. Å is an ångström, a ten-billionth of a meter."
+>
+  <ReadingTheFilm group="box" />
+</Figure>
+
 Seen face-on, looking along the beam, a vertical row of atoms leaves bands running horizontally across the film. A horizontal row, correspondingly, leaves bands running vertically. Put the two together into a flat grid of atoms, and the waves are in step only where a horizontal band crosses a vertical one, and thus only at that intersection does the film darken, as spots. If each point in the grid is a molecule rather than a single atom, the spots stay in the same places, but each one is a different darkness. A real crystal is three-dimensional, with its molecules repeating in depth as well, but the idea is the same: the film darkens only where the waves from every row line up.
+
+</Wrap>
 
 <Figure
   title="How a crystal makes spots"
   subtitle="A row of atoms makes bands. A flat grid has rows both ways, and its film darkens only where their bands cross."
-  caption="Not to scale. Each film is computed from the atoms above it and drawn at its own strength."
+  caption="Not to scale. Each film is drawn at its own strength."
 >
   <CrystalSpots />
 </Figure>
@@ -116,26 +129,18 @@ During this time, crystals of chymotrypsin, a digestive enzyme, arrived from the
 
 <Wrap>
 
-<Figure
-  side
-  title="The smaller the unit cell, the farther apart the spots."
-  subtitle="So the spacing of the spots gives the size of the unit cell."
-  caption="Simplified to one flat layer. Å is an ångström, a ten-billionth of a metre."
->
-  <ReadingTheFilm group="box" />
-</Figure>
-
 That winter of 1937-38, Max Perutz got his first encouraging results. The photographs of Adair’s wet horse methemoglobin crystals gave sharp spots right up to the edge of the film. This meant that every hemoglobin molecule in the crystal was identical to every other, down to the positions of their atoms. From the spacing of the spots near the centre of the film he measured the unit cell<Fn>From the cell’s volume and the crystal’s density, Perutz worked out that each cell held two hemoglobin molecules and that the molecule weighed 69,000, close to the figures Adair and Svedberg had measured by other methods (about 67,000 and 66,800).</Fn>. The symmetry of the photographs showed that each molecule was made of two identical halves.
 
 <Figure
   side
-  title="The film keeps how tall a wave is, but not where its crests fall."
-  subtitle="A spot's darkness goes with the square of its wave's height: twice as tall, four times as dark."
+  drop="9rem"
+  title="What the film records"
+  subtitle="A spot's darkness shows how tall its wave is, but not where its crests fall. Twice as tall is four times as dark."
 >
   <WhatTheFilmKeeps />
 </Figure>
 
-Perutz, with Bernal and Isidor Fankuchen, an American crystallographer, published the results in a letter to *Nature* on 19 March 1938. The letter ended on an optimistic note. Their work so far showed the "wealth of new data" that X-rays could draw from a well-crystallized protein, and they called for the method to be applied to many more proteins. Drying, Bernal wrote, "ought to make possible the direct analysis of the molecular structure once complete sets of reflections are available in different states of hydration." They also identified a limit: the positions of the heme groups could not be inferred from the data. This was because the film photograph records the intensity of each spot, which comes from the amplitude of the wave, but it cannot record the wave’s phase, which is where along the cycle the wave arrives. To rebuild the structure they needed both amplitude and phase information; without phases there was no way to add the waves back together into a picture of the molecule. This was the phase problem, and it would hold them up for the next fifteen years.
+Perutz, with Bernal and Isidor Fankuchen, an American crystallographer, published the results in a letter to *Nature* on 19 March 1938. The letter ended on an optimistic note. Their work so far showed the "wealth of new data" that X-rays could draw from a well-crystallized protein, and they called for the method to be applied to many more proteins. Drying, Bernal wrote, "ought to make possible the direct analysis of the molecular structure once complete sets of reflections are available in different states of hydration." They also identified a limit: the positions of the heme groups could not be inferred from the data. This was because the film photograph records the intensity of each spot, which comes from the amplitude of the wave, but it cannot record the wave’s phase, which is where along the cycle the wave arrives. The structure is rebuilt as a Fourier series, a sum of all the spots’ waves, and each wave has to go in with both its amplitude and its phase. Without phases there was no way to add the waves back together into a picture of the molecule. This was the phase problem, and it would hold them up for the next fifteen years.
 
 </Wrap>
 
@@ -143,20 +148,11 @@ The week before the *Nature* letter appeared, the world changed. On 12 March, Hi
 
 Amid this turmoil, Perutz found a clever way to spend his summers in the mountains. A skier and mountaineer since childhood, he joined a field expedition to the Swiss Alps to study how snow turned into glacier ice. His glacier work was published the following year, and gave him a reputation as an expert on glaciers, one that would come in useful later.
 
-Back in Cambridge that autumn of 1938, there was more change awaiting Perutz. William Lawrence Bragg, the scientist who discovered the law governing x-ray diffraction, had just been appointed as the head of the Cavendish, taking over from Ernest Rutherford, who died the previous year. Bragg was not a popular choice among the nuclear physicists that mostly made up the lab. But, as the founder of x-ray crystallography, he could be integral to Perutz. After all, his previous supervisor, J.D. Bernal, had moved to Birkbeck College in London in early 1938, “taking all of biological crystallography with him except Perutz”<Fn>Bernal was blocked from the Cambridge chair partly by his Communist Party membership.</Fn>.
+Back in Cambridge that autumn of 1938, there was more change awaiting Perutz. Bragg, by then the leading figure in x-ray crystallography, had just been appointed head of the Cavendish, taking over from Ernest Rutherford, who died the previous year. He was not a popular choice among the nuclear physicists that mostly made up the lab, but for Perutz he could be integral. After all, Perutz’s previous supervisor, J.D. Bernal, had moved to Birkbeck College in London in early 1938, “taking all of biological crystallography with him except Perutz”<Fn>Bernal was blocked from the Cambridge chair partly by his Communist Party membership.</Fn>.
 
 Perutz, however, was nervous to show Bragg what he had been working on. When he finally mustered the courage weeks later, Bragg was won over immediately. Perutz, he told the writer Horace Judson decades later, had taken “the best photographs of a protein at that time”, and his enthusiasm had been “fired” by them. Without delay, he contacted the Rockefeller Foundation, requesting a grant to support Perutz’s research. It was secured within weeks, and the position let Perutz guarantee his parents’ support and secure their immigration to England<Fn>£275 per year for three years, and £100 for a more powerful x-ray tube</Fn><Fn>They had fled to Switzerland after Czechoslovakia came under German pressure</Fn>.
 
 In January 1939, Bernal gave a lecture setting out two ways past the phase problem they had named in the 1938 paper. The first was to watch how the intensities of the spots on the photograph changed as the crystal dried. The second was to add a heavy atom, which he only mentioned. The idea was not new. Three years earlier, J. Monteath Robertson had worked out the complete structure of phthalocyanine, a blue dye of fifty-eight atoms, by comparing two crystals of it, one with a nickel atom at the centre of the molecule and one without. The nickel changed the brightness of the spots, and from those changes Robertson could work out where every atom sat. Whether the same could be done for a molecule the size of hemoglobin, with its five thousand atoms, was a different question. Perutz decided to try the first path.
-
-{/* Explainer #2: Fourier series. The phase problem, known wave trick */}
-
-<Figure
-  title="Adding the spots' waves back together draws the molecule."
-  caption="Simplified to one flat layer of the seven-atom molecule from earlier, with its atoms 1.5 Å apart, as carbon atoms in a chain are. Lines join points of equal density, as in the maps of the time; the shaded discs show where the atoms really are."
->
-  <FourierMap />
-</Figure>
 
 On 3 September 1939, Britain declared war on Germany. Tribunals classified German and Austrian nationals as security risks, doubtful cases, or refugees from Nazi oppression. Perutz was classified as a refugee and allowed to continue his hemoglobin work. But then, in May 1940, just a few weeks after receiving his PhD for a thesis on the crystal structure of hemoglobin, Perutz was arrested. The Home Office had extended internment to men previously judged harmless.
 
@@ -167,7 +163,7 @@ Back at Cambridge, Bragg encouraged Perutz to continue his protein structure res
 <Figure
   title="Perutz’s x-ray crystallography setup"
   subtitle="X-rays pass through the crystal and leave spots on the film. A nickel filter leaves x-rays of a single wavelength, and the crystal, sealed in its glass tube, is rocked a few degrees to catch more spots."
-  caption="Not to scale. Drawn after Perutz and Rogers (1946) and Boyes-Watson, Davidson and Perutz (1947). Photograph from Bernal, Fankuchen and Perutz, Nature, 1938."
+  caption="Not to scale. After Perutz and Rogers (1946) and Boyes-Watson, Davidson and Perutz (1947). Photograph: Bernal, Fankuchen and Perutz, Nature, 1938."
 >
   <Camera />
 </Figure>
@@ -182,8 +178,10 @@ Drying the crystals did not work because, as they dried, the protein layers move
 
 <Figure
   side
-  title="Adding a wave you can work out shows which way an unknown one points."
-  caption="Arrows stand for waves: length is height, direction is in step (+) or half a wave out (−). Sizes are illustrative. After Boyes-Watson and Perutz, Nature, 1943."
+  drop="8.75rem"
+  title="How a known wave reveals a sign"
+  subtitle="Add a wave you can work out, and the change in darkness shows which way the unknown wave points."
+  caption="Arrows stand for waves: length is height, direction is in step (+) or half a wave out (−). Not to scale. After Boyes-Watson and Perutz (1943)."
 >
   <KnownWave known="liquid" />
 </Figure>
@@ -194,15 +192,15 @@ The comparison worked, but within limits. Once Perutz had worked out the liquid�
 
 </Wrap>
 
+Perutz and his research assistant, Joy Boyes-Watson, published their results in *Nature* in June 1943. After six years, the first partial picture of the inside of the molecule was a single line graph with four bumps, which they guessed to be a flat, stacked sheet structure. It was one-dimensional data for a three-dimensional structure, and the guess would turn out to be wrong.
+
 <Figure
-  title="Seven waves added together gave four bumps."
-  subtitle="The density through one layer of the crystal, from the liquid on one side, through the protein, to the liquid on the other. Changing the liquid changed the edges; the four bumps stayed where they were."
-  caption="Computed from the heights and signs of the seven spots in Boyes-Watson, Davidson and Perutz (1947), the full account of the 1943 work. Relative scale."
+  title="The first look inside hemoglobin"
+  subtitle="Seven waves added together gave the density through one layer of the crystal. Changing the liquid changed the edges; the four bumps stayed put."
+  caption="Computed from the seven spots in Boyes-Watson, Davidson and Perutz (1947). Relative scale."
 >
   <FourBumps />
 </Figure>
-
-Perutz and his research assistant, Joy Boyes-Watson, published their results in *Nature* in June 1943. After six years, the first partial picture of the inside of the molecule was a single line graph with four bumps, which they guessed to be a flat, stacked sheet structure. It was one-dimensional data for a three-dimensional structure, and the guess would turn out to be wrong.
 
 ---
 
@@ -221,9 +219,9 @@ At Cavendish, Max Perutz quickly taught Kendrew the elements of crystallography 
 In the spring of 1948 the results of the three-dimensional Patterson synthesis came back from London. The Patterson maps of 1947 had used a few hundred spots from the molecule as seen from one side, with everything inside it overlapping on the page. A three-dimensional map would separate what those projections had piled on top of one another, but it required grading all the spots in the pattern, some 7000 or so.
 
 <Figure
-  title="A Patterson map shows the distances between atoms, not the atoms themselves."
-  subtitle="It is built from spot darkness alone, so it needs no phases. Perutz hoped it would show whether hemoglobin's chains ran side by side."
-  caption="Simplified to one flat layer and computed from the atoms drawn. The chains are 10.5 Å apart with a 5 Å repeat along them, the spacings of the rods in Perutz's 1949 map."
+  title="How a Patterson map works"
+  subtitle="Built from darkness alone, it shows the distances between atoms, not the atoms themselves. Perutz hoped it would show whether hemoglobin's chains ran side by side."
+  caption="One flat layer. The chains are 10.5 Å apart with a 5 Å repeat, the spacings in Perutz's 1949 map."
 >
   <PattersonMap />
 </Figure>
@@ -271,9 +269,9 @@ Five years earlier, Perutz and Kendrew had dismissed heavy-atom tricks for prote
 <Figure
   side
   slim
-  title="A heavy atom leaves the spots where they are but changes how dark they are."
+  title="What a heavy atom does to the spots"
   subtitle="The unit cell is unchanged, so the spots stay put. The heavy atom's wave darkens some and fades others."
-  caption="Simplified to one flat layer of light atoms. A real protein has thousands, so the heavy atom is scaled to mercury's real share of the scattering."
+  caption="One flat layer. The heavy atom is scaled to mercury's real share of a protein's scattering."
 >
   <ReadingTheFilm group="atom" />
 </Figure>
@@ -287,7 +285,8 @@ Perutz could not use Riggs’s material: human hemoglobin did not crystallize in
 <Figure
   side
   slim
-  title="As with the salt, the mercury's wave gives each spot's sign."
+  title="How mercury gives each spot’s sign"
+  subtitle="As with the salt, the mercury's known wave shows which way each spot's wave points."
   caption="Arrows as in the salt figure. After Green, Ingram and Perutz (1954)."
 >
   <KnownWave known="mercury" brief />
@@ -300,8 +299,9 @@ Over the following months, Perutz turned the heavy-atom photographs into numbers
 In the spring of 1954, while Perutz was still comparing maps with and without mercury, Dorothy Hodgkin, née Crowfoot, stopped by the lab. "If you could get two heavy-atom derivatives," she told him, as he later recalled, "you could determine the structure in three dimensions." A derivative is the same protein crystallized in the same lattice with a heavy atom fixed at a definite site, and the mercury crystal was one such<Fn>Its two mercury atoms counted as one derivative, since they were added together at symmetry-related sites and gave a single comparison per spot</Fn>. For any reflection outside the symmetry axis set, a single comparison leaves two candidate phases, because there are two directions the protein wave can point so that adding the mercury’s wave gives the measured result. Hodgkin pointed to a passage at the end of Bijvoet’s 1951 paper on strychnine, where the Dutch crystallographer proposed that a second derivative, with a heavy atom at a different site, could settle which of the two was right. Full phase angles for every reflection would make a three-dimensional map possible.
 
 <Figure
-  title="One heavy atom leaves two possible phases. A second one picks between them."
-  caption="Arrows stand for waves: length is height, direction is offset. Sizes are illustrative. The test is the one Bokhoven, Schoone and Bijvoet proposed in 1951; Harker (1956) drew it as three circles that cross at only one point."
+  title="Why one heavy atom isn’t enough"
+  subtitle="One heavy atom leaves two possible phases; a second one picks between them."
+  caption="Arrows stand for waves: length is height, direction is offset. Not to scale. After Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
 >
   <TwoChoices />
 </Figure>
@@ -320,6 +320,14 @@ Kendrew could not find where each heavy atom sat along the symmetry axis because
 
 Kendrew said later that from this point the solution of myoglobin was inevitable. He planned to work first at a resolution of six angstroms, which he expected would be enough to separate neighboring stretches of the polypeptide chain but not enough to show the side chains or individual atoms. At that resolution only the innermost spots on the photograph were needed. "It was only three hundred reflections, you see," he said. "Three hundred spots. From each of three or four different heavy-atom derivatives." By his estimate, the whole of the data collection and the calculation for that first low-resolution map could have been done in about two weeks. For measuring intensities, he replaced the comparison of spots against a chart by eye with a densitometer<Fn>Kendrew had seen the densitometer used on tissue sections by a colleague in London and travelled there to use it after hours until the unit could buy its own.</Fn>. The three-dimensional Fourier synthesis, which meant summing hundreds of waves for each point in the unit cell, went to the EDSAC, the digital computer at the Mathematical Laboratory<Fn>Kendrew’s first research student, Hugh Huxley, complained in 1949 about a two-week hand calculation to his friend John Bennett in Maurice Wilkes’s EDSAC group. Bennett then wrote a program that did it in half an hour. Kendrew learned to program with Bennett’s help and the two published the first paper on crystallographic computing with a digital computer in 1952. Perutz, on the other hand, did not trust the machine and kept his calculations on Hollerith punched cards.</Fn>. What could in theory have been done in two weeks took two years.
 
+<Figure
+  title="How the spots rebuild a molecule"
+  subtitle="Adding more spots’ waves sharpens the map. The innermost few blur the atoms together; more of them pull the atoms apart. Each wave also needs its right offset."
+  caption="One flat layer of the seven-atom molecule, atoms 1.5 Å apart, as in a carbon chain. Lines join points of equal density, as in the maps of the time; shaded discs show where the atoms really are."
+>
+  <FourierMap />
+</Figure>
+
 In 1956, while Kendrew was pushing ahead with myoglobin, Perutz was still working part-time. Hemoglobin remained stuck on the doubled unit cell, and additional heavy-atom derivatives hadn’t been found either. The compounds that worked for myoglobin did not work for hemoglobin, echoing the issues that Kendrew ran into when he first tried the mercury trick. Hemoglobin “didn’t seem to have [the] niches” where the compounds got lodged like sperm whale myoglobin did. It seemed that the reactive cysteines that mercury attached to were the only “hooks” available for hemoglobin, and those were already taken. Dintzis’s workaround was to block hemoglobin’s reactive cysteines with iodoacetamide, a small reagent, so that when the crystals were soaked in a mercury compound again, the mercury would be forced to bind somewhere else, if it could. He set these up, along with hundreds of other preparations, before returning to the United States in 1956.
 
 Dintzis did not look at them. After he left, over the winter of 1956-57, Ann Cullis, Perutz’s research assistant, found the preparations still on the shelves and they began going through them one by one. Most of the bottles failed, but one of the blocked-hemoglobin bottles, soaked in mercuridiacetate, passed. The unit cell matched the native one and its intensity changes were different from the previous mercury-attached hemoglobin, which meant that the mercury was sitting in a different position. Now, hemoglobin had a heavy atom in a second position, and the two-derivative method that Hodgkin had suggested three years earlier could be tried.
@@ -329,9 +337,9 @@ That spring of 1957, Perutz went back to working full days, and the solution to 
 In the summer of 1957, Kendrew’s two years of work came through. He got his electron density map of sperm whale myoglobin at a resolution of six angstroms, the first protein structure ever solved. There were sixteen contour maps, each a slice through the unit cell, just under two angstroms apart. Kendrew had each one traced onto a sheet of clear plastic, and the sheets bolted together into a block a foot long and eight inches thick. From any side of the block, the electron density could now be seen in three dimensions. From this, he built a plasticine model. It “reminded many people of many things”, he later commented. A visitor to the MRC writing an internal report on the Cambridge unit said its most common association was "abdominal viscera"; the Italian crystallographer Alfonso Liquori called it “a horrible object, but beautiful work”; William Astbury, of keratin fame, called it “worm-like”; and a correspondent said it looked like “a dog quietly huddled up.” Kendrew was disappointed that it was not as pretty as the DNA double helix that Crick and James Watson had solved next door a few years earlier. Pretty or not, elements of the molecule were now recognizable. One was the heme, a flat disk of electron density held to at least four neighboring stretches of chain with one face left open to oxygen. The other was the chain itself. At the six angstrom resolution, a tightly packed helical segment looks like a solid rod, and the straight runs all fitted Pauling’s alpha helix, even though it could not be proved at this resolution. “The big surprise was that it was so irregular,” Kendrew said later. The chain turned through large angles and wandered with no symmetry and no repeating geometry. When Kendrew and his colleagues [published](https://www.nature.com/articles/181662a0) their 6 Å map in Nature in March 1958, they wrote that the arrangement was “more complicated than has been predicted by any theory of protein structure.” Crick’s warnings from 1951 were confirmed. When Sanger finished the insulin sequence in 1955, he showed that its amino acids followed no simple repeating pattern. Now, Kendrew saw that the fold followed no simple repeating geometry either.
 
 <Figure
-  title="Stacked, the flat slices of Kendrew's map showed the molecule in depth."
+  title="Kendrew’s map of myoglobin"
   subtitle="Each sheet is one slice through the myoglobin crystal, with lines joining points of equal density. Stack them, then drag to turn the stack."
-  caption="Eight of the sixteen slices, traced from Bodo, Dintzis, Kendrew and Wyckoff (1959), figure 18; the other eight are the same drawings turned over by the crystal's symmetry. Pulled apart to be legible: the real slices were 1.93 Å apart."
+  caption="Traced from Bodo, Dintzis, Kendrew and Wyckoff (1959), figure 18; half the slices are the other half turned over by the crystal's symmetry. Spread apart to be legible: the real slices were 1.93 Å apart."
 >
   <SheetStack />
 </Figure>

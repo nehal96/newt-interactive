@@ -36,8 +36,8 @@ export function FourBumps() {
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const narrow = W < 520;
   const text = narrow ? 10 : 11;
-  const plotTop = 30;
-  const plotH = narrow ? 120 : 150;
+  const plotTop = narrow ? 66 : 38;
+  const plotH = narrow ? 90 : 100;
   const x0 = 4;
   const len = W - 8;
   const px = (z: number) => x0 + ((z + REPEAT / 2) / REPEAT) * len;
@@ -47,15 +47,16 @@ export function FourBumps() {
     (f((t / len) * REPEAT - REPEAT / 2) - LO) * scale;
   const py = (v: number) => base - (v - LO) * scale;
 
-  const axisY = base + 14;
-  const stripY = axisY + 26;
-  const stripH = 22;
+  const axisY = base + 22;
+  const stripY = axisY + 20;
+  const stripH = 18;
   const H = stripY + stripH + 22;
 
-  const [p2, p3] = [TAP_PEAKS[2], TAP_PEAKS[3]];
+  const [p2, p3] = [TAP_PEAKS[0], TAP_PEAKS[1]];
   const spacing = p3 - p2;
   const bracketY = py(Math.max(tap(p2), tap(p3))) - 10;
-  const labelZ = -REPEAT / 2 + 1;
+  const legendX = x0 + len - (narrow ? 212 : 218);
+  const legendY = narrow ? 28 : 12;
 
   return (
     <div ref={ref} className="w-full">
@@ -88,12 +89,14 @@ export function FourBumps() {
           <text x={(px(p2) + px(p3)) / 2} y={bracketY - 6} textAnchor="middle">
             {spacing.toFixed(1)} Å
           </text>
-          <text x={0} y={12}>denser ↑</text>
-          <text x={px(labelZ)} y={py(salt(labelZ)) - 8}>salt solution</text>
-          <text x={px(labelZ)} y={py(tap(labelZ)) - 8} fill={XR.accent}>
+          <text x={0} y={12}>electron density ↑</text>
+          <text x={legendX + 22} y={legendY} fill={XR.accent}>
             tap water
           </text>
+          <text x={legendX + 132} y={legendY}>salt solution</text>
         </Labels>
+        <line x1={legendX} x2={legendX + 16} y1={legendY - 4} y2={legendY - 4} stroke={XR.accent} strokeWidth={2.25} />
+        <line x1={legendX + 110} x2={legendX + 126} y1={legendY - 4} y2={legendY - 4} stroke={XR.label} strokeWidth={1.5} strokeDasharray="5 4" />
 
         <line x1={x0} x2={x0 + len} y1={axisY - 6} y2={axisY - 6} stroke={XR.rule} />
         <g className="font-mono" fontSize={10} fill={XR.label} textAnchor="middle">
@@ -117,7 +120,7 @@ export function FourBumps() {
           stroke={XR.moleculeEdge}
           strokeWidth={0.75}
         />
-        <g stroke={XR.sum} strokeWidth={1.5}>
+        <g stroke={XR.sum} strokeWidth={3} strokeLinecap="round">
           {TAP_PEAKS.map((z) => (
             <line key={z} x1={px(z)} x2={px(z)} y1={stripY + 3} y2={stripY + stripH - 3} />
           ))}
@@ -129,6 +132,7 @@ export function FourBumps() {
             {narrow ? "protein: four sheets?" : "the protein layer, read as four sheets of chain"}
           </text>
         </g>
+
       </svg>
     </div>
   );

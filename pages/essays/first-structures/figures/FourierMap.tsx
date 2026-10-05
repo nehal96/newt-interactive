@@ -146,7 +146,7 @@ export function FourierMap() {
     <div ref={ref} className="flex w-full flex-col gap-8">
       <div>
         <Note title="1. Adding the waves back">
-          Every spot is a wave with a height and an offset. The spots near the centre give the
+          Every spot is a wave with a height and an offset. The spots near the center give the
           broad shape; the outer ones add finer detail, until the atoms separate.
         </Note>
         <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="mt-3 block" role="img" aria-labelledby={`${ids}a`}>

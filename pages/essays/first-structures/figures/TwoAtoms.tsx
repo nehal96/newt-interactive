@@ -368,8 +368,8 @@ export function TwoAtomsInteractive() {
 export function Note({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="mb-1">
-      <p className="font-ui text-xs font-semibold text-ink-900">{title}</p>
-      <p className="mt-1 font-ui text-[0.8125rem] leading-normal text-ink-700">{children}</p>
+      <p className="font-ui text-xs font-semibold text-ink-800">{title}</p>
+      <p className="mt-0.5 font-ui text-xs leading-[1.125rem] text-ink-600">{children}</p>
     </div>
   );
 }
