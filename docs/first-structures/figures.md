@@ -116,6 +116,7 @@ As of 2026-10-04 the first set is built. In essay order:
 6. 1953: heavy atom (slim side), then `KnownWave known="mercury" brief` (slim side).
 7. Hodgkin, 1954: `TwoChoices`.
 8. 1957: `SheetStack`, with a "Mark the heme" toggle (red rings on slices e–g, lifted from the traced sheets by `scripts/kendrew_heme.py`; Bodo et al. 1959 put the heme at y = −1/16 b and its neighbours).
+9. Before the Lupas epilogue: `PerutzModel`, Perutz's 1967 human hemoglobin model rebuilt from 2HHB by `scripts/hemoglobin_slabs.py` (his 1960 recipe: 5.5 Å map, sections 2 Å apart normal to the dyad, cut above 0.54 e/Å³; heme disks sized from the heme atoms). Black = β (the 1960 paper puts the reactive SH on the black chains). Hover/tap names a chain or heme; the rest fade to a shared grey; hover is frozen while dragging.
 
 Parked: a rework of the Patterson figure; a small crystal "locator" for the four
 bumps (an edge-on slab inset was rejected); a mirror-image ghost panel for

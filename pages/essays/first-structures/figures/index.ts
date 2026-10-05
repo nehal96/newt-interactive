@@ -14,3 +14,4 @@ export { PattersonMap } from "./PattersonMap";
 export { CrickRods } from "./CrickRods";
 export { TwoChoices } from "./TwoChoices";
 export { default as SheetStack } from "./SheetStack";
+export { PerutzModel } from "./PerutzModel";
