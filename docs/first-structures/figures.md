@@ -115,7 +115,7 @@ As of 2026-10-04 the first set is built. In essay order:
 5. Explainer 3 (1948): `PattersonMap`.
 6. 1953: heavy atom (slim side), then `KnownWave known="mercury" brief` (slim side).
 7. Hodgkin, 1954: `TwoChoices`.
-8. 1957: `SheetStack`.
+8. 1957: `SheetStack`, with a "Mark the heme" toggle (red rings on slices e–g, lifted from the traced sheets by `scripts/kendrew_heme.py`; Bodo et al. 1959 put the heme at y = −1/16 b and its neighbours).
 
 Parked: a rework of the Patterson figure; a small crystal "locator" for the four
 bumps (an edge-on slab inset was rejected); a mirror-image ghost panel for

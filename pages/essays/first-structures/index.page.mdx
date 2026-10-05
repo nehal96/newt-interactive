@@ -18,7 +18,9 @@ import {
   FourBumps,
   Term,
   FourierMap,
+  FourierMapInteractive,
   PattersonMap,
+  CrickRods,
   TwoChoices,
   SheetStack,
 } from "./figures";
@@ -206,21 +208,17 @@ Perutz and his research assistant, Joy Boyes-Watson, published their results in 
 
 For most of 1943, Perutz was sent as a glacier expert to work on Habbakuk, an Allied wartime project to build an aircraft carrier out of wood-pulp-reinforced ice<Fn>[More details]</Fn>. After that didn’t work out, in early 1944, Perutz returned to Cambridge. In his absence his two research assistants had been photographing hemoglobin crystals and grading their diffraction spots by eye<Fn>There was no instrument in the lab that could read darkness automatically, so a calibration strip was made by exposing film to an x-ray beam for a series of times, producing a row of about twenty spots that went from barely visible to nearly black. This eye-balling generally had an error of 20-25% for medium and strong spots and 30-40% for the weak ones.</Fn>. The seven signs from 1943 were enough for a line graph, but any picture of the molecule would need every spot on the film turned into a number, and there were thousands of them<Fn>When a researcher wanted to grade a spot on a real photograph, it was compared against the strip, and the number that most closely matched the spot’s darkness was recorded. They were also roughly related, so a spot that scored 60 was about twice as dark as that scored 30.</Fn>.
 
-Perutz could not grade them all, so he settled on the few hundred that showed the molecule from one side, and had them graded in salt solutions and at different stages of drying. Over three years the tally ran to several thousand spots. The resulting maps – built from spot intensities alone, not phases – pinned down the molecule’s outside, but did not reveal its internal structure.
-
-{/* [Figure] */}
+Perutz could not grade them all, so he settled on the few hundred that showed the molecule from one side, and had them graded in salt solutions and at different stages of drying. Over three years the tally ran to several thousand spots. Without phases, he could not add the waves back together into a picture of the molecule, but there was another way to add them. In 1934, the crystallographer Lindo Patterson had shown that if every wave goes in with its intensity alone, as though all the phases were the same, the sum is not a map of the atoms but a map of the distances between them. Wherever two atoms sit a certain distance apart, the map has a peak that same distance from its center, and the more often that distance occurs in the molecule, the stronger the peak, almost acting like a tally. Since the film records intensities, a Patterson map needs no phases at all. Perutz’s Patterson maps pinned down the molecule’s outside, but did not reveal its internal structure.
 
 In early 1946, a new face had joined the Cavendish. John Kendrew, a physical chemist whose doctoral research had been interrupted by the war, had worked on airborne radar and operational research before being posted in Southeast Asia. There, during the war, he had kept running into J.D. Bernal<Fn>J.D. Bernal was the scientific advisor to Mountbatten and was the one who suggested Perutz to the Habbakuk project.</Fn>. Kendrew would spend a good amount of time with Bernal, listening to him talk about x-ray crystallography, Max Perutz’s work, and its prospects of uncovering the structures of biological molecules. When he finally reached home, he had two choices: go to London to work with Bernal, or return to Cambridge and ask to join Perutz’s team. He had unused scholarship money in Cambridge, so back there he went.
 
 At Cavendish, Max Perutz quickly taught Kendrew the elements of crystallography that he had learned over the last nine years. Perutz also arranged a doctorate for Kendrew under Bragg, on the structural differences of fetal hemoglobin<Fn>One day, Perutz ran into Joseph Barcroft, a physiologist, who reminded Perutz that fetal hemoglobin, which he was studying, behaved differently from adult hemoglobin, and proposed that Kendrew look for the structural basis for this difference through x-ray crystallography. He could even supply the fetal hemoglobin from sheep. With that, Kendrew’s thesis topic was settled.</Fn>. Kendrew completed his thesis work in about a year. By the end of 1947 he and Perutz had written a paper showing that fetal and adult hemoglobins crystallized differently and were therefore different proteins, but unable to say how the molecules differed. This was the last time Kendrew worked on hemoglobin. His doctorate, awarded in 1949, included this work alongside the beginnings of a protein of his own choosing, myoglobin, because, as he later said, it was “the best next.”
 
----
-
 In the spring of 1948 the results of the three-dimensional Patterson synthesis came back from London. The Patterson maps of 1947 had used a few hundred spots from the molecule as seen from one side, with everything inside it overlapping on the page. A three-dimensional map would separate what those projections had piled on top of one another, but it required grading all the spots in the pattern, some 7000 or so.
 
 <Figure
   title="How a Patterson map works"
-  subtitle="Built from darkness alone, it shows the distances between atoms, not the atoms themselves. Perutz hoped it would show whether hemoglobin's chains ran side by side."
+  subtitle="It shows how far apart the atoms are, not where they are. Perutz hoped it would show whether hemoglobin's chains lay side by side."
   caption="One flat layer. The chains are 10.5 Å apart with a 5 Å repeat, the spacings in Perutz's 1949 map."
 >
   <PattersonMap />
@@ -228,7 +226,7 @@ In the spring of 1948 the results of the three-dimensional Patterson synthesis c
 
 What Perutz wanted from this map was further evidence of the ‘stacked sheets’ model from 1943. If the chains inside the protein were an irregular tangle, the distances between atoms would occur about equally often in every direction, and the map would be a featureless, unintelligible blur. If, however, the chains ran side by side in parallel bundles or flat layers, the same distances would repeat thousands of times, and would pile up into straight rods on the map. Every plausible model of a globular protein was assumed to be the latter<Fn>Astbury’s stacked disks for egg albumin and Pauling’s layers were the models that assumed a regular interior</Fn>. Perutz too expected rods.
 
-A Patterson map is built by adding up waves. Perutz’s map required a little over 400 million additions. No machine in Cambridge could do this calculation, so the numbers were sent to London, where an operator converted them into punch cards and ran them through Hollerith tabulators<Fn>They were sent to the Scientific Computing Institute in London, where they used a procedure Dorothy Crowfoot’s group in Oxford had devised for penicillin</Fn>. The answer came back as 31 contour maps, one for each slice through the cell, which Perutz traced onto transparent sheets and stacked so he could see depth.
+Perutz’s map required a little over 400 million additions. No machine in Cambridge could do this calculation, so the numbers were sent to London, where an operator converted them into punch cards and ran them through Hollerith tabulators<Fn>They were sent to the Scientific Computing Institute in London, where they used a procedure Dorothy Crowfoot’s group in Oxford had devised for penicillin</Fn>. The answer came back as 31 contour maps, one for each slice through the cell, which Perutz traced onto transparent sheets and stacked so he could see depth.
 
 When Perutz examined the stack, he found that the rods were there. One ran through the centre with a repeat of 5 Å along it, and a ring of parallel rods surrounded it. He read these as folded chains lying side by side, stacked in four layers, confirming his proposal in 1943<Fn>The repeat matched Astbury’s spacing in keratin – the protein found in wool and hair – suggesting that hemoglobin’s chains were folded the same way and feeding the assumption that proteins had a regular structure.</Fn>. In May 1948, Linus Pauling, the Caltech chemist, visited Cambridge and saw these rods and suspected that they were folded in a helix shape he had recently formulated – later named the alpha helix – but kept it to himself.
 
@@ -238,15 +236,28 @@ On 8 June 1948, Perutz submitted his findings to the *Royal Society*. He had dou
 
 In June 1948, Perutz and Kendrew presented their work at a symposium in memory of Joseph Barcroft, the physiologist who had given Kendrew his thesis topic. They later wrote a review about what x-ray crystallography could and could not do for large molecules. In it, they named the phase problem as “the fundamental difficulty of all X-ray analysis, … encountered in its most acute form in the analysis of very large molecules,” and explained the two tricks crystallographers had used to get around it for smaller molecules. One was the heavy-atom method, which involved attaching a heavy atom to the molecule, one which scatters far more strongly than the light atoms, finding where it sits, and using its phases in place of unknown ones to compute a first rough map. The other was isomorphous replacement, in which two crystals, identical except for one swapped atom, give the same spot pattern but with different intensities, whereby knowing its position reveals the sign of the phase. They then ruled out the possibility that either of these would work with proteins because proteins were too large: "even the heaviest of heavy atoms would make a negligible contribution to the reflexions from so large a unit cell, so it would exert no control over the phases." A hemoglobin molecule has about 5000 atoms, with tens of thousands of electrons, so one added mercury atom’s 80 electrons was expected not to make a difference. Perutz also knew that Dorothy Crowfoot had tried this technique on insulin, a much smaller protein, and seen no detectable changes. With phases out of reach, the Patterson was the only road left.
 
-Ruling out the phases also meant that the only way forward was to work backwards. Instead of computing the structure from data, Bragg, Perutz, and Kendrew could propose structures and see which of them could have produced the data. Through 1949, they did exactly this. They proposed chains with the 5.1 Å repeat seen in keratin and hemoglobin and tested each by comparing its Patterson map with the measured one. Several of the chains matched part of the data, but none matched it well enough to stand out from the rest. When the three submitted their results to the *Royal Society* in March 1950, they admitted that their models had “no obvious advantages over their alternatives."
+Ruling out the phases also meant that the only way forward was to work backwards. Instead of computing the structure from data, Bragg, Perutz, and Kendrew could propose structures and see which of them could have produced the data. Through 1949, they did exactly this. They proposed chains with the 5.1 Å repeat seen in keratin <Add>and in their own data,</Add> and tested each by comparing its Patterson map with the measured one. Several of the chains matched part of the data, but none matched it well enough to stand out from the rest. When the three submitted their results to the *Royal Society* in March 1950, they admitted that their models had “no obvious advantages over their alternatives."
 
 The paper’s shortcoming was that it treated the chain purely as a geometry puzzle to be fitted to x-ray spacings. It ignored a chemical fact Pauling had established years earlier, that the peptide bond cannot rotate freely, which rules out most of the chains they had drawn. Pauling built that constraint into his own model, and published the following year as the alpha helix. Bragg, many years later, called the 1950 paper “the most ill-planned and abortive” piece of work he had been involved in<Fn>W. L. Bragg, "First stages in the x-ray analysis of proteins," *Reports on Progress in Physics 28* (1965): 1–14, p. 6</Fn>.
 
 While the three were still fitting chains, in the autumn of 1949, a 33-year-old physicist named Francis Crick joined the Cavendish. He was new to biology and had never done crystallography, but reading Schrödinger's *What is Life?* had convinced him to work on the structure of living molecules. He joined the Medical Research Council unit that Perutz and Kendrew ran at the Cavendish, as a research student of Bragg’s with Perutz as his supervisor, and learned crystallography largely by arguing with the two of them.
 
+<Wrap>
+
 Crick began by checking the assumption, held since 1943 and seemingly confirmed by the 1948 Patterson map, that hemoglobin was built from layers of parallel rods. The height of a Patterson peak counts how often a distance repeats, so parallel rods should give tall ones. When Crick worked backwards from Perutz’s parallel rod model, he got peaks that were much higher than anything in the actual data. The only conclusion he could draw was that hemoglobin had no regular structure. Its chain could run straight for about a dozen amino acids before it had to turn, in no consistent direction. Hemoglobin was not built like the keratin or the others discovered so far.
 
+<Figure
+  side
+  title="Why the rods were too faint"
+  subtitle="Straight, parallel chains should have made the rods about ten times taller than Perutz measured. Even short, broken rods came out too tall."
+  caption="Peak heights in e²/Å³, from Crick (1952), table 1."
+>
+  <CrickRods />
+</Figure>
+
 Crick, a second-year student, presented these findings to Bragg, Perutz, and Kendrew, in a talk titled *What Mad Pursuit*, essentially telling them that their assumptions for the last near-decade were incorrect. As Perutz would put it many years later: “Here was this new fellow, whom you couldn't stop talking… [who] was telling us that what we were so proud of, was wrong."
+
+</Wrap>
 
 That same autumn, Pauling’s group showed that sickle-cell hemoglobin and normal hemoglobin behaved as chemically different molecules. Perutz, despite not knowing the structure of a single hemoglobin, wanted to explore if there was a structural difference between the two. He found none – the x-ray patterns of the oxygenated crystals were identical – and wrote up the work in two short letters to *Nature* over 1950 and 1951<Fn>The letters did contain a real finding. Without oxygen, sickle-cell hemoglobin dissolved only about a tenth as well as normal hemoglobin, though the two were equally soluble when carrying oxygen. That was why cells sickle in the tissues, where they give up their oxygen. Perutz also found that under polarized light, sickled cells looked as if they had crystals inside them. Pauling was annoyed, feeling the conclusions were already implicit in his own work.</Fn>. Publishing them would come to be fortuitous in an unexpected way in the years to come.
 
@@ -269,9 +280,9 @@ Five years earlier, Perutz and Kendrew had dismissed heavy-atom tricks for prote
 <Figure
   side
   slim
+  drop="8.75rem"
   title="What a heavy atom does to the spots"
-  subtitle="The unit cell is unchanged, so the spots stay put. The heavy atom's wave darkens some and fades others."
-  caption="One flat layer. The heavy atom is scaled to mercury's real share of a protein's scattering."
+  subtitle="The spots stay where they are, because the unit cell is the same. But the heavy atom’s wave makes some darker and others fainter."
 >
   <ReadingTheFilm group="atom" />
 </Figure>
@@ -285,23 +296,24 @@ Perutz could not use Riggs’s material: human hemoglobin did not crystallize in
 <Figure
   side
   slim
+  drop="29.75rem"
   title="How mercury gives each spot’s sign"
   subtitle="As with the salt, the mercury's known wave shows which way each spot's wave points."
-  caption="Arrows as in the salt figure. After Green, Ingram and Perutz (1954)."
+  caption="After Green, Ingram and Perutz (1954)."
 >
   <KnownWave known="mercury" brief />
 </Figure>
 
 Over the following months, Perutz turned the heavy-atom photographs into numbers. The first task was to find where in the unit cell the mercury sat, and a Patterson map built from the differences between the two sets of intensities revealed that. With the mercury positions fixed, its contribution to every spot – both amplitude and phase – could be computed outright. Then by comparing the two films spot by spot, some phase information could be calculated. This test yielded only a plus or minus sign however, which isn’t enough as phase information for most waves, which can be any angle. For a specific set of waves though, the ones that come from straight down hemoglobin’s axis of symmetry, just the plus or minus is enough. Perutz, Ingram, and Green reported the signs for more than two hundred such reflections in a paper on ‘sign determination by isomorphous replacement’. Bragg and Perutz summed the signed reflections into an electron density map, the first of a protein built from phases that had been measured rather than guessed. Because only the down-the-axis reflections carried phases, the sum could only be a projection – the density of the whole molecule, thirty to forty layers deep, squashed onto a single plane as if every atom had been pressed flat onto the page. The paper reported that “neither polypeptide chains nor haem groups can as yet be recognized.” Still, as Bragg later said, it was thrilling to see that it worked.
 
-</Wrap>
-
 In the spring of 1954, while Perutz was still comparing maps with and without mercury, Dorothy Hodgkin, née Crowfoot, stopped by the lab. "If you could get two heavy-atom derivatives," she told him, as he later recalled, "you could determine the structure in three dimensions." A derivative is the same protein crystallized in the same lattice with a heavy atom fixed at a definite site, and the mercury crystal was one such<Fn>Its two mercury atoms counted as one derivative, since they were added together at symmetry-related sites and gave a single comparison per spot</Fn>. For any reflection outside the symmetry axis set, a single comparison leaves two candidate phases, because there are two directions the protein wave can point so that adding the mercury’s wave gives the measured result. Hodgkin pointed to a passage at the end of Bijvoet’s 1951 paper on strychnine, where the Dutch crystallographer proposed that a second derivative, with a heavy atom at a different site, could settle which of the two was right. Full phase angles for every reflection would make a three-dimensional map possible.
+
+</Wrap>
 
 <Figure
   title="Why one heavy atom isn’t enough"
-  subtitle="One heavy atom leaves two possible phases; a second one picks between them."
-  caption="Arrows stand for waves: length is height, direction is offset. Not to scale. After Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
+  subtitle="With one heavy atom, a spot’s wave could point two ways. A second heavy atom, in a different place, rules one out."
+  caption="Not to scale. After Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
 >
   <TwoChoices />
 </Figure>
@@ -321,11 +333,20 @@ Kendrew could not find where each heavy atom sat along the symmetry axis because
 Kendrew said later that from this point the solution of myoglobin was inevitable. He planned to work first at a resolution of six angstroms, which he expected would be enough to separate neighboring stretches of the polypeptide chain but not enough to show the side chains or individual atoms. At that resolution only the innermost spots on the photograph were needed. "It was only three hundred reflections, you see," he said. "Three hundred spots. From each of three or four different heavy-atom derivatives." By his estimate, the whole of the data collection and the calculation for that first low-resolution map could have been done in about two weeks. For measuring intensities, he replaced the comparison of spots against a chart by eye with a densitometer<Fn>Kendrew had seen the densitometer used on tissue sections by a colleague in London and travelled there to use it after hours until the unit could buy its own.</Fn>. The three-dimensional Fourier synthesis, which meant summing hundreds of waves for each point in the unit cell, went to the EDSAC, the digital computer at the Mathematical Laboratory<Fn>Kendrew’s first research student, Hugh Huxley, complained in 1949 about a two-week hand calculation to his friend John Bennett in Maurice Wilkes’s EDSAC group. Bennett then wrote a program that did it in half an hour. Kendrew learned to program with Bennett’s help and the two published the first paper on crystallographic computing with a digital computer in 1952. Perutz, on the other hand, did not trust the machine and kept his calculations on Hollerith punched cards.</Fn>. What could in theory have been done in two weeks took two years.
 
 <Figure
-  title="How the spots rebuild a molecule"
-  subtitle="Adding more spots’ waves sharpens the map. The innermost few blur the atoms together; more of them pull the atoms apart. Each wave also needs its right offset."
-  caption="One flat layer of the seven-atom molecule, atoms 1.5 Å apart, as in a carbon chain. Lines join points of equal density, as in the maps of the time; shaded discs show where the atoms really are."
+  title="How more spots sharpen the map"
 >
-  <FourierMap />
+  <Variant
+    name="static"
+    subtitle="The innermost spots give only the molecule’s outline. Each ring of spots further out adds finer detail, until the atoms separate. The spots added at each step are in red."
+  >
+    <FourierMap />
+  </Variant>
+  <Variant
+    name="interactive"
+    subtitle="The innermost spots give only the molecule’s outline. Each ring of spots further out adds finer detail, until the atoms separate. Drag to add spots from the center outward."
+  >
+    <FourierMapInteractive />
+  </Variant>
 </Figure>
 
 In 1956, while Kendrew was pushing ahead with myoglobin, Perutz was still working part-time. Hemoglobin remained stuck on the doubled unit cell, and additional heavy-atom derivatives hadn’t been found either. The compounds that worked for myoglobin did not work for hemoglobin, echoing the issues that Kendrew ran into when he first tried the mercury trick. Hemoglobin “didn’t seem to have [the] niches” where the compounds got lodged like sperm whale myoglobin did. It seemed that the reactive cysteines that mercury attached to were the only “hooks” available for hemoglobin, and those were already taken. Dintzis’s workaround was to block hemoglobin’s reactive cysteines with iodoacetamide, a small reagent, so that when the crystals were soaked in a mercury compound again, the mercury would be forced to bind somewhere else, if it could. He set these up, along with hundreds of other preparations, before returning to the United States in 1956.
@@ -334,19 +355,21 @@ Dintzis did not look at them. After he left, over the winter of 1956-57, Ann Cul
 
 That spring of 1957, Perutz went back to working full days, and the solution to the doubled cell mystery came quickly. “A chance observation gave me the idea that the effect might have something to do with the acidity of the solution,” he told Judson later. “Once I had the idea, I of course solved it in an afternoon.” Hemoglobin could pack into two different crystal lattices, and the switch between them was reversible and depended on pH. The transition point was just about the degree of acidity that Perutz grew his crystals at, which was why the mercury crystals had come out with one edge doubled. With a little acid or alkali, the doubling disappeared. In the space of a few months, the two problems that had held back hemoglobin since 1954 were both gone.
 
-In the summer of 1957, Kendrew’s two years of work came through. He got his electron density map of sperm whale myoglobin at a resolution of six angstroms, the first protein structure ever solved. There were sixteen contour maps, each a slice through the unit cell, just under two angstroms apart. Kendrew had each one traced onto a sheet of clear plastic, and the sheets bolted together into a block a foot long and eight inches thick. From any side of the block, the electron density could now be seen in three dimensions. From this, he built a plasticine model. It “reminded many people of many things”, he later commented. A visitor to the MRC writing an internal report on the Cambridge unit said its most common association was "abdominal viscera"; the Italian crystallographer Alfonso Liquori called it “a horrible object, but beautiful work”; William Astbury, of keratin fame, called it “worm-like”; and a correspondent said it looked like “a dog quietly huddled up.” Kendrew was disappointed that it was not as pretty as the DNA double helix that Crick and James Watson had solved next door a few years earlier. Pretty or not, elements of the molecule were now recognizable. One was the heme, a flat disk of electron density held to at least four neighboring stretches of chain with one face left open to oxygen. The other was the chain itself. At the six angstrom resolution, a tightly packed helical segment looks like a solid rod, and the straight runs all fitted Pauling’s alpha helix, even though it could not be proved at this resolution. “The big surprise was that it was so irregular,” Kendrew said later. The chain turned through large angles and wandered with no symmetry and no repeating geometry. When Kendrew and his colleagues [published](https://www.nature.com/articles/181662a0) their 6 Å map in Nature in March 1958, they wrote that the arrangement was “more complicated than has been predicted by any theory of protein structure.” Crick’s warnings from 1951 were confirmed. When Sanger finished the insulin sequence in 1955, he showed that its amino acids followed no simple repeating pattern. Now, Kendrew saw that the fold followed no simple repeating geometry either.
+In the summer of 1957, Kendrew’s two years of work came through. He got his electron density map of sperm whale myoglobin at a resolution of six angstroms, the first protein structure ever solved. There were sixteen contour maps, each a slice through the unit cell, just under two angstroms apart. Kendrew had each one traced onto a sheet of clear plastic, and the sheets bolted together into a block a foot long and eight inches thick. From any side of the block, the electron density could now be seen in three dimensions. From this, he built a [plasticine model](https://collection.sciencemuseumgroup.org.uk/objects/co13543/kendrews-original-model-of-the-myoglobin-molecule-molecular-models-proteins). It “reminded many people of many things”, he later commented. A visitor to the MRC writing an internal report on the Cambridge unit said its most common association was "abdominal viscera"; the Italian crystallographer Alfonso Liquori called it “a horrible object, but beautiful work”; William Astbury, of keratin fame, called it “worm-like”; and a correspondent said it looked like “a dog quietly huddled up.” Kendrew was disappointed that it was not as pretty as the DNA double helix that Crick and James Watson had solved next door a few years earlier.
+
+Pretty or not, elements of the molecule were now recognizable. One was the heme, a flat disk of electron density held to at least four neighboring stretches of chain with one face left open to oxygen. The other was the chain itself. At the six angstrom resolution, a tightly packed helical segment looks like a solid rod, and the straight runs all fitted Pauling’s alpha helix, even though it could not be proved at this resolution. “The big surprise was that it was so irregular,” Kendrew said later. The chain turned through large angles and wandered with no symmetry and no repeating geometry. When Kendrew and his colleagues [published](https://www.nature.com/articles/181662a0) their 6 Å map in Nature in March 1958, they wrote that the arrangement was “more complicated than has been predicted by any theory of protein structure.” Crick’s warnings from 1951 were confirmed. When Sanger finished the insulin sequence in 1955, he showed that its amino acids followed no simple repeating pattern. Now, Kendrew saw that the fold followed no simple repeating geometry either.
 
 <Figure
-  title="Kendrew’s map of myoglobin"
-  subtitle="Each sheet is one slice through the myoglobin crystal, with lines joining points of equal density. Stack them, then drag to turn the stack."
-  caption="Traced from Bodo, Dintzis, Kendrew and Wyckoff (1959), figure 18; half the slices are the other half turned over by the crystal's symmetry. Spread apart to be legible: the real slices were 1.93 Å apart."
+  title="Kendrew’s 6 Å contour maps of myoglobin"
+  subtitle="Each slice maps the electron density on one plane through the crystal. The rings are contour lines, packed closest where the density is highest. The densest spot in the whole map is the heme."
+  caption="Eight of the sixteen slices; the other eight are these turned over by the crystal’s symmetry. Stacked 2.6 times farther apart than the real 1.93 Å. Traced from Bodo, Dintzis, Kendrew and Wyckoff (1959), figure 18."
 >
   <SheetStack />
 </Figure>
 
 To get the three-dimensional map for hemoglobin, Perutz would have to follow more or less the same steps that Kendrew did, but on a larger scale. Hemoglobin had five thousand atoms, four times as many as myoglobin. Kendrew had needed three to four hundred spots for his map at 6 Å; Perutz needed more than a thousand for his 5.5 Å one, each photographed and measured in the native crystal and again in every derivative. Hemoglobin was also a less willing host for heavy atoms, so it took two years to reach the six derivatives a molecule this size needed. The intensities were read on the densitometer that Kendrew had introduced, and the Fourier summation ran on the EDSAC 2, one of the fastest computers then built.
 
-At the end of August 1959, Perutz got his map. Like Kendrew, he had his sections on plastic sheets, but where Kendrew had drawn the contours on his and bolted them into a stack to look through, Perutz cut the dense regions out of each sheet and stacked the pieces into a solid model, painting two chains black and two white, with a red disk for each heme. Twenty-two years after Haurowitz had told him to work out the structure of hemoglobin, Perutz finally had a shape. The molecule had four chains in two identical halves. Each chain was folded almost exactly as myoglobin’s was, and one half sat on top of the other, flipped upside down about the axis that Bernal and Perutz had found in the crystal symmetry two decades earlier. The four hemes in separate pockets at the surface, as far apart as they could be. That, Perutz said later, "was perhaps the greatest surprise the structure presented to us." Since the hemes were known to raise each other’s appetite for oxygen, it was assumed they would be close together.
+At the end of August 1959, Perutz got his map. Like Kendrew, he had his sections on plastic sheets, but where Kendrew had drawn the contours on his and bolted them into a stack to look through, Perutz cut the dense regions out of each sheet and stacked the pieces into a solid model, painting two chains black and two white, with a red disk for each heme. Twenty-two years after Haurowitz had told him to work out the structure of hemoglobin, Perutz finally had a shape. The molecule had four chains in two identical halves. Each chain was folded almost exactly as myoglobin’s was, and one half sat on top of the other, flipped upside down about the axis that Bernal and Perutz had found in the crystal symmetry two decades earlier. The four hemes sat in separate pockets at the surface, as far apart as they could be. That, Perutz said later, "was perhaps the greatest surprise the structure presented to us." Since the hemes were known to raise each other’s appetite for oxygen, it was assumed they would be close together.
 
 At the same time Perutz got his 5.5 Å map, Kendrew pushed myoglobin from 6 Å to 2 Å. The 6 Å map had used only the innermost few hundred spots from each crystal; at 2 Å, across all the derivatives and repeat exposures, about 250,000 spots had to be photographed, measured, and corrected. Kendrew brought in new machines to measure them, and the calculation only just fit in the memory of the EDSAC 2.
 

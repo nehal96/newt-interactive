@@ -1,4 +1,4 @@
-// A Patterson map: the molecule seen from each of its atoms in turn, stacked; computed from the atoms shown.
+// A Patterson map: the molecule seen from each of its atoms in turn, laid on top of each other; computed from the atoms shown.
 import { useId } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
@@ -243,7 +243,6 @@ function MapSquare({
   map,
   origin,
   span = REACH,
-  copies,
   label,
 }: {
   x: number;
@@ -252,14 +251,12 @@ function MapSquare({
   map: Float64Array;
   origin: number;
   span?: number;
-  copies?: Atom[];
   label?: string;
 }) {
   const clip = useId();
   const zoom = REACH / span;
   const g = (size * zoom) / (GRID - 1);
   const off = (size - size * zoom) / 2;
-  const s = size / (2 * span);
   const cx = x + size / 2;
   const cy = y + size / 2;
   return (
@@ -271,25 +268,6 @@ function MapSquare({
         </clipPath>
       </defs>
       <g clipPath={`url(#${clip})`}>
-        {copies && (
-          <g stroke={XR.molecule} strokeWidth={1.25}>
-            {copies.map((o, k) =>
-              copies.flatMap((a, i) =>
-                copies
-                  .slice(i + 1)
-                  .map((b, j) => (
-                    <line
-                      key={`${k}-${i}-${j}`}
-                      x1={cx + (a.x - o.x) * s}
-                      y1={cy - (a.y - o.y) * s}
-                      x2={cx + (b.x - o.x) * s}
-                      y2={cy - (b.y - o.y) * s}
-                    />
-                  )),
-              ),
-            )}
-          </g>
-        )}
         <path
           d={contourPath(
             map,
@@ -337,11 +315,13 @@ export function PattersonMap() {
   return (
     <div ref={ref} className="flex w-full flex-col gap-8">
       <div>
-        <Note title="1. Stand on each atom in turn">
-          Put one atom at the centre and look at where the others are. Do the
-          same from every atom, then stack the views. The stack is the Patterson
-          map: its peaks mark how far each atom is from every other, and in
-          which direction. The big peak in the middle is every atom on itself.
+        <Note title="1. The molecule seen from each atom">
+          Move the molecule so one atom sits in the center, and see where the
+          others land. Do this for each atom, then lay the views on top of each
+          other. The result is the Patterson map: one peak for each pair of
+          atoms, at the distance and direction between them. Each pair shows up
+          twice, once from each end. The big peak in the middle is every atom on
+          itself.
         </Note>
         <svg
           width={W}
@@ -378,17 +358,16 @@ export function PattersonMap() {
             map={MAPS.trio}
             origin={ORIGIN(TRIO)}
             span={TRIO_SPAN}
-            copies={TRIO}
-            label="all three, stacked"
+            label="all three overlaid"
           />
         </svg>
       </div>
       <div>
         <Note title="2. Parallel chains or a tangle?">
-          Stand on any atom in a set of parallel chains and the view is much the
-          same: chains running past at the same distances. So the peaks pile up
-          into straight lines, which Perutz called rods. In a tangle every atom
-          has a different view, and the peaks spread into a blur.
+          In parallel chains, every atom sees much the same thing: other chains
+          running past at the same distances. So the peaks pile up into straight
+          lines, which Perutz called rods. In a tangle, every atom sees something
+          different, and the peaks smear into a blur.
         </Note>
         <svg
           width={W}

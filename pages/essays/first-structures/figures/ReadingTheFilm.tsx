@@ -85,7 +85,7 @@ const MARKS = (labelled: boolean) => [
 ];
 const SHARED_MAX = Math.max(...SPOTS_A.map((s) => s.s), ...SPOTS_B.map((s) => s.s));
 
-const GROUPS: { title: string; note: string; panels: Panel[] }[] = [
+const GROUPS: { title: string; note?: string; panels: Panel[] }[] = [
   {
     title: "Halve the unit cell",
     note: "spots twice as far apart",
@@ -96,10 +96,9 @@ const GROUPS: { title: string; note: string; panels: Panel[] }[] = [
   },
   {
     title: "Add a heavy atom",
-    note: "same places, different darkness",
     panels: [
-      { label: "light atoms", box: 40, atoms: ARRANGEMENT_A, spots: SPOTS_A, max: SHARED_MAX },
-      { label: "plus a heavy atom", box: 40, atoms: ARRANGEMENT_B, spots: SPOTS_B, max: SHARED_MAX },
+      { label: "protein alone", box: 40, atoms: ARRANGEMENT_A, spots: SPOTS_A, max: SHARED_MAX },
+      { label: "plus mercury", box: 40, atoms: ARRANGEMENT_B, spots: SPOTS_B, max: SHARED_MAX },
     ],
   },
 ];
@@ -183,7 +182,7 @@ export function ReadingTheFilm({ group }: { group: "box" | "atom" }) {
   const S = Math.min(170, (W - 12) / 2);
   const crystalH = Math.round(S * 0.5);
   const pxPerA = S / 3.4 / 40;
-  const groupH = 22 + crystalH + 12 + S + 26;
+  const groupH = 22 + crystalH + 12 + S + (shown[0].note ? 26 : 4);
   const H = groupH;
 
   const place = (_g: number, p: number) => {
@@ -252,16 +251,18 @@ export function ReadingTheFilm({ group }: { group: "box" | "atom" }) {
                   </g>
                 );
               })}
-              <Labels size={text}>
-                <text
-                  x={mid}
-                  y={top + 22 + crystalH + 12 + S + 18}
-                  textAnchor="middle"
-                  fill={XR.accent}
-                >
-                  {g.note}
-                </text>
-              </Labels>
+              {g.note && (
+                <Labels size={text}>
+                  <text
+                    x={mid}
+                    y={top + 22 + crystalH + 12 + S + 18}
+                    textAnchor="middle"
+                    fill={XR.accent}
+                  >
+                    {g.note}
+                  </text>
+                </Labels>
+              )}
             </g>
           );
         })}

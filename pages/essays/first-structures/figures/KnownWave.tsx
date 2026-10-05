@@ -8,6 +8,8 @@ const PROTEIN = 1;
 const KNOWN = 0.5;
 const MAX_DARKNESS = (PROTEIN + KNOWN) ** 2;
 
+const isSign = (name: string) => name === "+" || name === "−";
+
 const TEXT = {
   liquid: {
     name: "liquid",
@@ -15,7 +17,7 @@ const TEXT = {
   },
   mercury: {
     name: "mercury",
-    add: "Once the mercury's place is found, its wave can be worked out. If the spot darkens, the protein's wave points the same way; if it fades, the other way.",
+    add: "",
   },
 } as const;
 
@@ -123,14 +125,19 @@ function Rows({ rows, title }: { rows: Row[]; title: string }) {
           const y = pad + i * rowH + rowH / 2;
           return (
             <g key={label}>
+              <text x={0} y={y} dominantBaseline="central" className="font-mono" fontSize={10} fill={XR.label}>
+                {label.slice(0, -1)}
+              </text>
               <text
-                x={0}
-                y={y + 4}
-                className="font-mono"
-                fontSize={10}
-                fill={XR.label}
+                x={16}
+                y={y}
+                dominantBaseline="central"
+                className="font-ui"
+                fontSize={13}
+                fontWeight={600}
+                fill={XR.sum}
               >
-                {label}
+                {label.slice(-1)}
               </text>
               <line
                 x1={labelW}
@@ -171,9 +178,10 @@ function Rows({ rows, title }: { rows: Row[]; title: string }) {
                             : y + a.dy + 15
                       }
                       textAnchor={a.nameAt === "start" ? "end" : "middle"}
-                      className="font-mono"
-                      fontSize={10}
-                      fill={a.color}
+                      className={isSign(a.name) ? "font-ui" : "font-mono"}
+                      fontSize={isSign(a.name) ? 13 : 10}
+                      fontWeight={isSign(a.name) ? 600 : undefined}
+                      fill={isSign(a.name) ? XR.sum : a.color}
                     >
                       {a.name}
                     </text>
@@ -238,13 +246,7 @@ export function KnownWave({
         </div>
       )}
       <div>
-        <Note
-          title={
-            brief ? `Add the ${t.name}'s wave` : `2. Add the ${t.name}'s wave`
-          }
-        >
-          {t.add}
-        </Note>
+        {!brief && <Note title={`2. Add the ${t.name}'s wave`}>{t.add}</Note>}
         <Rows
           title={`Adding the ${t.name}'s wave darkens the spot if the protein's points the same way, and fades it if not.`}
           rows={[

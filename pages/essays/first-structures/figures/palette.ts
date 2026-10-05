@@ -13,6 +13,7 @@ export const XR = {
   rule: "#DDDCE5",
   label: "#6A687D",
   film: "#FBFAF7",
+  filmGrey: "#E6E5E0",
   paper: "#FBFAF7",
   // Must equal Tailwind's `card`, the figure background, or label halos show as patches.
   card: "#F2F1ED",
