@@ -385,8 +385,7 @@ export function Scattering() {
       <div>
         <Note title="1. One atom">
           One atom spreads its ripple evenly, so the film darkens a little everywhere, with no
-          pattern. The beam stop blocks the primary x-ray beam that passes straight through, so the
-          film records only the waves the electrons send out.
+          pattern. A beam stop blocks the x-rays that pass straight through.
         </Note>
         <ScatterPanel {...panel} stage="one" header="1. One atom" showKey />
       </div>
