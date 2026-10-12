@@ -16,9 +16,9 @@ look, behave and get built here. Facts and page references are in
   row, and a `pair-grid` cover motif with its social card.
 - Nothing is built yet. The three claude.ai prototypes and `globins.json` were
   read for their logic and numbers and are deliberately not in the repo.
-- Five papers (Needleman & Wunsch, Gibbs & McIntyre, Fitch, Eddy, Hagen) have
-  been checked against their page images; `sources.md` now quotes them
-  directly. Strasser (2010) is still unchecked.
+- Six papers (Needleman & Wunsch, Gibbs & McIntyre, Fitch, Eddy, Hagen,
+  Strasser) have been checked against their page images; `sources.md` quotes
+  them directly.
 
 ## What the prototypes taught, and what changes
 
@@ -279,4 +279,3 @@ The branches overlap in two shared files and one pattern:
    about 10¹¹³ for the full pair) treats the order of neighbouring gaps as
    different alignments; Eddy's count, C(n+m, n), does not (924, about 10⁸⁹).
    Eddy's is citable and the more common convention.
-6. Upload Strasser (2010) when convenient, to check the Atlas facts.

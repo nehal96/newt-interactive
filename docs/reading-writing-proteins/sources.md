@@ -1,6 +1,6 @@
 # Reading and Writing Proteins: sources and verified facts
 
-Facts the series quotes, with journal page numbers. Everything in the five
+Facts the series quotes, with journal page numbers. Everything in the six
 paper sections below was checked against the page images of the PDFs on
 2026-10-12. Anything not yet checked is marked ⚠.
 
@@ -13,7 +13,7 @@ paper sections below was checked against the page images of the PDFs on
 | Fitch (1966), "An improved method of testing for evolutionary homology", J. Mol. Biol. 16:9–16 | 10.1016/S0022-2836(66)80258-9 | Fixed windows and minimum mutations | ✓ |
 | Eddy (2004), "What is dynamic programming?", Nat. Biotechnol. 22:909–910 | 10.1038/nbt0704-909 | DP primer | ✓ |
 | Hagen (2000), "The origins of bioinformatics", Nat. Rev. Genet. 1:231–236 | 10.1038/35042090 | History, to 1970 | ✓ |
-| Strasser (2010), J. Hist. Biol. 43:623 | 10.1007/s10739-009-9221-0 | Dayhoff's Atlas | ⚠ not uploaded |
+| Strasser (2010), J. Hist. Biol. 43:623–660 | 10.1007/s10739-009-9221-0 | Dayhoff's Atlas | ✓ |
 
 Still to read: Sankoff (1972) PNAS 10.1073/pnas.69.1.4; Sellers (1974) SIAM
 10.1137/0126070 (paywalled); Smith, Waterman & Fitch (1981)
@@ -422,20 +422,87 @@ Reproducing 38 exactly needs these sequences, not today's UniProt entries.
   1978 Atlas. Don't date PAM from Hagen. His timeline gives β-hemoglobin as 145
   residues; use 146.
 
-## History (Strasser 2010) ⚠
+## Strasser (2010)
 
-Not uploaded. Pages 623–630 were exact in the earlier session; later pages are
-approximate.
+"Collecting, comparing, and computing sequences: the making of Margaret O.
+Dayhoff's *Atlas of Protein Sequence and Structure*, 1954–1965", J. Hist.
+Biol. 43:623–660. The uploaded copy is the online-first version, which prints
+no page numbers. Journal page = PDF page + 621; the length matches exactly.
 
-- Comparing sequences began with function (active sites): Sanger's insulins
-  (p. 626), Tuppy, the Blombäcks' 22 mammals, Anfinsen (pp. 626–627). Tuppy's
-  distance idea, around 1958 (p. 628).
-- The 1965 Atlas: just under 100 pages, about 70 proteins, punch cards. The
-  one-letter code was adopted for memory and for fixed-width printers
-  (~pp. 638–642).
-- Dayhoff & Eck's 1966 cytochrome c tree came before Fitch & Margoliash (1967)
-  (~p. 647). Hagen calls the two "concurrently devised". Braunitzer: "I am not
-  a theorizer" (~p. 648).
+### Comparing for function, then for evolution
+
+- "The practice of comparing sequences emerged as soon as protein sequences
+  began to be determined and grew as a standard method among protein
+  biochemists in the 1950s" (p. 626).
+- Sanger's five insulins, aligned in 1956: the differences "were confined to a
+  small portion of the molecule, the disulfide bridge" (p. 627).
+- Tuppy on cytochrome c (horse, ox, pig, salmon, chicken): "Those features
+  which turn up invariably in all various cytochromes c… are likely to be
+  essential to the specific catalytic function" (p. 627).
+- The Blombäcks compared fibrinopeptides from 22 species by 1965 (p. 628).
+  Anfinsen (1959): "variations from species to species may yield valuable
+  information on the location of the site of enzymatic activity" (p. 628).
+- "Localizing the active site of proteins was their main concern, and
+  evolutionary considerations were a means to that end. Other biochemists,
+  however, turned the argument on its head" (pp. 628–629).
+- Tuppy (1959): "The more proteins differ… the further away in evolution the
+  organisms from which they originate are. The comparative search for amino
+  acid sequence in proteins could become an aid to discover evolutionary
+  relationships." (p. 629)
+- Why trees came late: little data, often only the conserved active site, and
+  the sequence-to-gene link unclear until about 1960 (pp. 630–631).
+- Strasser's thesis: collecting, comparing and computing sequences "were
+  already well established by 1962, having developed during the previous
+  decade in three unrelated fields: biochemical research on protein function,
+  theoretical studies of the genetic code, and attempts to apply digital
+  computers to the life sciences." (p. 624)
+- Code-breakers became evolutionists: "Smith, Jukes, Eck, and Fitch, after
+  their work on the code, all became involved in the study of molecular
+  evolution." (p. 635)
+
+### Dayhoff and the Atlas
+
+- PhD in quantum chemistry (Columbia, 1948); used punch-card machines at the
+  Watson IBM lab in 1947–48; joined Ledley's NBRF in 1960 (p. 636).
+- FORTRAN programs on the IBM 7090 at Georgetown assembled partial sequences
+  "in less than 5 min" (p. 638). The NBRF bought its own IBM 360 Model 44 about
+  1968 (p. 647).
+- One-letter code: "in order to save computer memory and to make alignments
+  more readable on fixed-space printers" (p. 639). Three-letter alignments
+  "failed to present the data in an easily comparable way due to the different
+  typographic length of the three-letter amino acid notation (compare 'Ile' to
+  'Asn,' for example)" (p. 639).
+- "All sequences, and their related information, were entered on punch cards.
+  Each card constituted an entry" (p. 640).
+- The 1965 edition "was just under 100 pages and contained the sequences of
+  around 70 proteins, mainly cytochromes c, hemoglobins, and fibrinopeptides
+  from various species." It included alignments "taken from several
+  organisms… This presentation allowed the users to grasp in a single look
+  where conserved regions resided along the protein" (p. 643).
+- Sent to more than 70 scientists (pp. 644–645). Copyrighted, which "ran
+  against the idea that experimental results, once published, should be
+  freely available" (p. 644).
+- Reception: Margoliash, "one's memory begins to be overburdened with all the
+  details"; Braunitzer, "I am not a theorizer" (letter of 18 April 1968,
+  p. 649); Stein discouraged her because she did "not do experimental work"
+  (p. 645). Dayhoff in 1981: "databases do not inspire excitement" (p. 646).
+- Apart from Eck, all of Dayhoff's collaborators were women (p. 649).
+- The 1966 Atlas's cytochrome c tree "was topologically identical to that
+  published a year later by Walter M. Fitch and Emanuel Margoliash, which is
+  often mistaken as the first phylogeny based on protein sequences produced
+  using a computer." (p. 648)
+- Fitch and Margoliash weighted differences one to three by the genetic code;
+  Dayhoff and Eck weighted them by observed frequency of change (p. 648). For
+  cytochrome c, 52 observed differences were estimated as up to 92 changes,
+  the seed of the PAM matrix (p. 647).
+
+### Not in Strasser
+
+Nothing on how alignments were made by hand (what they were written on, how
+gaps were handled), and nothing on Needleman, Wunsch or myoglobin. The earliest
+alignments it mentions are Sanger 1956, Tuppy's 1958 lecture, Anfinsen 1959,
+Gamow, Rich & Yčas 1956 and Eck 1961 (pp. 627–635). A source for hand
+alignment is still needed ⚠.
 
 ## Order of events
 
@@ -493,5 +560,5 @@ Computed on today's sequences; these are illustrations, not paper figures.
 - ⚠ The "F8" label for myoglobin His93 is from memory.
 - ⚠ Ingram (1961), "Gene Evolution and the Hæmoglobins", not read. Fitch
   cites Ingram (1963), *Hemoglobins in Genetics and Evolution*.
-- ⚠ Strasser facts, until the paper is uploaded.
+- ⚠ A source describing how alignments were made by hand before 1970.
 - ⚠ The 1963 β-hemoglobin and 1965 myoglobin sequences, to reproduce Table 1.
