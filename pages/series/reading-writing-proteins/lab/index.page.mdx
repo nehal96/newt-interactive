@@ -1,0 +1,210 @@
+import Head from "next/head";
+import { MdxLayout } from "@ui/article";
+import { StripPair, SlideStation, AlignmentCount, PaperNote, PUZZLES } from "../figures";
+import meta from "./meta";
+
+export const metadata = meta;
+
+<Head>
+  <meta name="robots" content="noindex" />
+</Head>
+
+This page is for working things out. Each station takes one method and runs it
+the way its authors did, starting with an example small enough to do in your
+head and ending with the example from the paper. The design is rough on
+purpose; stations that explain well move into the essay later.
+
+1. **The problem by hand** (below)
+2. Fitch 1966: comparing windows without gaps
+3. Gibbs and McIntyre's diagram
+4. Needleman and Wunsch's array
+5. The penalty
+6. Scoring by codons
+7. The shuffle test
+8. 1970 against the textbook version
+
+### Station 1: The problem by hand
+
+By the early 1960s biochemists could read a protein as a string of amino
+acids. Myoglobin and the hemoglobin chains had been sequenced, and Kendrew and
+Perutz had shown that they fold into almost the same shape. The question was
+whether the sequences, read as text, showed the same kinship. Answering it
+means lining one sequence up against the other and counting where they agree.
+This station is that job done by hand.
+
+The rule for now is the simplest one Needleman and Wunsch used: a column scores
+1 when both letters are the same amino acid and 0 otherwise. Each letter is one
+amino acid in the one-letter code, which Margaret Dayhoff's group adopted for
+their Atlas of protein sequences.
+
+<PaperNote cite="Strasser (2010), p. 639">
+  "they adopted a one-letter notation for amino acids, instead of the usual
+  three letter code, in order to save computer memory and to make alignments
+  more readable on fixed-space printers."
+</PaperNote>
+
+#### Sliding
+
+The first thing to try is sliding one sequence along the other. Each position
+of the bottom row gives every letter a new partner on top, and the score counts
+the columns that agree.
+
+<SlideStation
+  {...PUZZLES.slide}
+  target={PUZZLES.slide.bestSlide}
+  solved="Four columns agree. Every slide pairs each letter with a new partner; this one lines up KVHL with KVHL."
+/>
+
+Every slide you try leaves a bar in the chart. On a real pair the bars tell you
+more. Here are residues 11–30 of human β-hemoglobin against residues 10–31 of
+sperm whale myoglobin:
+
+<SlideStation
+  {...PUZZLES.globinFree}
+  startOffset={5}
+  target={PUZZLES.globinFree.bestSlide}
+  solved="Six is the best any slide does here; most slides manage one or two."
+/>
+
+The tallest bar is 6, where most slides score 1 or 2. Keep this chart in mind.
+Each bar is the total along one diagonal of the grid in station 3, and Gibbs
+and McIntyre built one of their two tests on exactly these totals.
+
+#### One slide isn't enough
+
+Proteins gain and lose residues as they evolve. When one sequence has extra
+residues in the middle, the part before them lines up at one slide and the part
+after them at another. In this pair the start agrees as it is, and the end
+agrees two places over.
+
+<StripPair
+  {...PUZZLES.twoSlides}
+  solved="The gap marks two residues, K and T, that the top sequence has and the bottom one lacks. Everything before the gap keeps one pairing and everything after it takes another."
+/>
+
+A gap records an insertion or a deletion. Dragging a letter right shows what a
+gap does: that letter and everything after it move, and everything before it
+stays where it was. A slide is the same move made on the first letter, so a
+slide is a gap at the start of a row.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 443">
+  "Allowance for gaps (Braunitzer, 1965) greatly multiplies the number of
+  comparisons that can be made but introduces unnecessary and partial
+  comparisons."
+</PaperNote>
+
+#### Gaps for free
+
+So far gaps cost nothing. These two sequences were generated at random and are
+unrelated, and the best slide scores 3. Try to reach 6 using gaps.
+
+<StripPair
+  {...PUZZLES.freeCheat}
+  solved="Free gaps doubled the score of two unrelated sequences. A high count proves nothing until you know what chance produces."
+/>
+
+The same happens with real proteins. With free gaps, Needleman and Wunsch
+matched 63 residues of β-hemoglobin and myoglobin, but they needed at least 35
+gaps to do it, and ten shuffled versions of β-hemoglobin averaged 55.6 matches
+with about 36 gaps each (Table 1, p. 449). Gibbs and McIntyre, writing about
+claims that a protein repeats part of its own sequence, put the danger plainly.
+
+<PaperNote cite="Gibbs and McIntyre (1970), p. 5">
+  "few of the claimed repetitions have been tested statistitically [sic], and
+  many rely on the addition of gaps to parts of the sequence, and this has
+  inherent dangers."
+</PaperNote>
+
+#### Charging for gaps
+
+The fix is to charge for each gap, so that a gap has to earn more matches than
+it costs. Needleman and Wunsch subtract a fixed amount for every gap, however
+long it is. Gaps at the very ends of a row cost nothing, because a path through
+their array may start anywhere along its first row or column.
+
+<PaperNote
+  cite="Needleman and Wunsch (1970), p. 444"
+  differs="The paper never says end gaps are free. It follows from where their pathways may start and stop (pp. 444, 446)."
+>
+  "A penalty factor, a number subtracted for every gap made, may be assessed as
+  a barrier to allowing the gap… No gap would be allowed in the operation unless
+  the benefit from allowing that gap would exceed the barrier."
+</PaperNote>
+
+The same random pair, now at a cost of 1 per gap:
+
+<StripPair
+  {...PUZZLES.costCheat}
+  solved="At a cost of 1, the extra gaps stop paying, and the random pair falls back to what a slide gives."
+/>
+
+And the related pair from before, at the same cost:
+
+<StripPair
+  {...PUZZLES.costRelated}
+  solved="The real gap survives: 6 matches minus 1 gap is 5, and the best slide reaches only 3."
+/>
+
+#### Real globins
+
+Back to the globin fragment, with gaps allowed and a cost of 1 each:
+
+<StripPair
+  {...PUZZLES.globinCost}
+  solved="One gap pays for itself: 8 matches minus 1. It sits opposite myoglobin's E18 and A19, residues β-hemoglobin lacks in this stretch."
+/>
+
+And with gaps free again:
+
+<StripPair
+  {...PUZZLES.globinFree}
+  solved="From 7 to 11 by adding gaps, the same inflation the random pair showed."
+/>
+
+On the whole proteins, a penalty of 1 per gap gave Needleman and Wunsch 38:
+42 matches less 4 gaps. Braunitzer's earlier alignment of the same pair used
+two gaps and matched 37 residues, which scores 35 under that rule (p. 450).
+
+#### Too many to check
+
+On fragments this short you can find the best alignment by trying things. The
+whole proteins are another matter. Here is how many alignments two sequences
+have:
+
+<AlignmentCount />
+
+The two counts differ in one detail. When a gap in the top row sits next to a
+gap in the bottom row, you can write them in either order; one count treats
+those as the same alignment and the other doesn't. Sean Eddy's primer on
+dynamic programming uses the first. Either way, β-hemoglobin against myoglobin
+has somewhere between 10<sup>88</sup> and 10<sup>113</sup> alignments, far
+more than anyone could check by hand or any computer of the 1960s could
+enumerate.
+
+<PaperNote cite="Eddy (2004), p. 909">
+  "Why do we need a fancy algorithm? Can't we just score all possible
+  alignments and pick the best one? This isn't practical".
+</PaperNote>
+
+Before 1970, both steps came down to judgement. People compared sequences by
+eye to decide where the gaps went, and then judged whether the result meant
+anything.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 443">
+  "Because the method of visual comparison is tedious and because the
+  determination of the significance of a given result usually is left to
+  intuitive rationalization, computer-based statistical approaches have been
+  proposed (Fitch, 1966; Needleman & Blair, 1969)."
+</PaperNote>
+
+#### What station 1 leaves open
+
+Two questions are left. How do you find the best alignment without trying them
+all? That is Needleman and Wunsch's array, in stations 4 and 5. And how do you
+tell whether a score is more than chance? That is the shuffle test, in station
+7. Four years before Needleman and Wunsch, Walter Fitch avoided the first
+question by never placing gaps at all. That is station 2.
+
+export default function MDXPage({ children }) {
+  return <MdxLayout metadata={metadata}>{children}</MdxLayout>;
+}
