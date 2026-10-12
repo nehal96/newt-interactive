@@ -16,10 +16,9 @@ look, behave and get built here. Facts and page references are in
   row, and a `pair-grid` cover motif with its social card.
 - Nothing is built yet. The three claude.ai prototypes and `globins.json` were
   read for their logic and numbers and are deliberately not in the repo.
-- The papers live on Nehal's Mac, which this cloud session cannot reach, and
-  the open copies (Duke, PNAS) are blocked by the session's network policy.
-  Until they are uploaded to a session, every fact in `sources.md` rests on the
-  handoff's page references.
+- Five papers (Needleman & Wunsch, Gibbs & McIntyre, Fitch, Eddy, Hagen) have
+  been checked against their page images; `sources.md` now quotes them
+  directly. Strasser (2010) is still unchecked.
 
 ## What the prototypes taught, and what changes
 
@@ -67,20 +66,28 @@ moves, or drag the path in the grid and the strips update.
 
 ### Dot plot (03)
 
-**Keep:** the window and threshold filter, the shuffle toggle, and the numbers
-(1,533 dots for the real pair and for every shuffle at window 1; 21 hits near
-the main diagonal at w=20, t=7 against about 5.5 for shuffles).
+**Keep:** the shuffle toggle and the numbers (1,533 dots for the real pair
+and for every shuffle; 21 windowed hits near the main diagonal against about
+5.5 for shuffles).
 
 **Change:** sliders on one canvas become a lineup. Nine small dot plots sit in
 a grid: one is real β against myoglobin, eight are shuffles of β against
-myoglobin. At raw settings the reader cannot tell which is real, because the
-dot count depends only on composition. Turning the window up makes the real
-one show its diagonal. This turns a statistic into something the reader
-experiences, and it sets up the shuffle test before the reader knows its name.
+myoglobin. At first the reader cannot tell which is real, because the dot
+count depends only on composition. Then a profile appears under each plot:
+the total matches on each diagonal, smoothed over five neighbouring diagonals.
+That is Gibbs and McIntyre's own view (their Fig. 6B), and it makes the real
+one stand out. This turns a statistic into something the reader experiences,
+and it sets up the shuffle test before the reader knows its name.
 
-The window filter is a later refinement, probably Maizel and Lenk (1981) or
-Staden (1982); it is not in Gibbs and McIntyre. The figure presents it as a
-lens added afterwards, and the attribution stays marked ⚠ until checked.
+The profile also connects back to the slide step: the bars the reader left at
+each offset are the same diagonal totals, so beat 2's chart reappears under the
+grid. Their lysozyme against α-lactalbumin diagram (Fig. 4), which shows no
+line to the eye but a chance probability of 0·00025, is a second case for the
+same point.
+
+The windowed dot filter from the prototype is a later refinement (Maizel and
+Lenk 1981 or Staden 1982 ⚠). It can stay as an optional Newt-only lens,
+labelled as later work.
 
 ## Design language
 
@@ -194,14 +201,14 @@ again, then a short panel citing the paper.
 | 4 | Uses free gaps on an unrelated pair and doubles its score | High counts by themselves prove nothing | Every gap costs 1 | "a barrier", p. 444 |
 | 5 | Retries the related pair with the cost | Real gaps survive it | — | — |
 | 6 | Aligns β 11–30 against myoglobin 10–31 with and without the cost (7 versus 11) | Free gaps inflate real data too | — | Gibbs & McIntyre's warning on repeats that "rely on the addition of gaps", p. 5 |
-| 7 | Drags a length slider: 8,989 alignments at 6 × 6, about 2.6 × 10¹⁴ at 20 × 20, about 10¹¹³ for the full pair | No one can check them all | Braunitzer aligned by eye, with two gaps and 37 matches | "intuitive rationalization", p. 443 |
+| 7 | Drags a length slider and watches the number of possible alignments grow past 10⁸⁹ for the full pair | No one can check them all | Braunitzer's alignment used two gaps and matched 37 | N&W pp. 443, 448–450 |
 | 8 | Watches the strips fold into a grid, then drags the path | — | An alignment is a path; a slide picks a diagonal and a gap jumps between diagonals | — |
-| 9 | Looks at raw dot plots; picks the real β/myoglobin plot from a lineup of shuffles, first raw, then with the window | Raw dots look like noise for distant relatives | Diagonal runs show shared stretches; windows show distant ones | Gibbs & McIntyre, p. 1; window attribution ⚠ |
-| 10 | Fills the first cells of a small grid by hand, from the bottom-right corner, choosing the largest value in the sub-row and sub-column; then the step player finishes | Filling by hand is slow but each cell is easy | A cell remembers the best it can do | N&W Fig. 1 and 2, p. 445; backward from the C-terminus |
-| 11 | Finds the maximum in the first row or column and traces back | — | The trace recovers the alignment | p. 446 |
-| 12 | Turns on the penalty in the same grid and watches the path straighten | — | Subtract the penalty when the path leaves its diagonal | Table 1, p. 449 |
-| 13 | Runs the full β/myoglobin grid with no penalty and with penalty 1 | 63 matches need 35 or more gaps; penalty 1 gives 38 | Compare with Braunitzer's 37 | p. 450 |
-| 14 | Shuffles β and realigns: 10 times, as in 1970, then 1,000 | Is 38 more than chance? | X = (real − mean) / s, significant above 3 | p. 448; ribonuclease/lysozyme control, Table 2 |
+| 9 | Looks at raw dot plots (human against monkey and *R. rubrum* cytochrome c, then β against myoglobin); picks the real β/myoglobin plot from a lineup of shuffles, first from the dots, then from each plot's diagonal profile | Raw dots look like noise for distant relatives | Diagonal runs show shared stretches; diagonal totals show distant ones | Gibbs & McIntyre, pp. 1, 5, 7 |
+| 10 | Fills the last rows of N&W's own 12 × 13 example by hand, from the bottom-right corner, choosing the largest value in the sub-row and sub-column; then the step player finishes | Filling by hand is slow but each cell is easy | A cell remembers the best it can do | N&W Fig. 1 and 2, pp. 444–445 |
+| 11 | Finds the 8 in the corner and follows the trace; two pathways tie | — | The trace recovers the alignment | p. 446; Fig. 2 draws both tied pathways |
+| 12 | Turns on the penalty in the same grid and watches the path straighten | — | Subtract the penalty when the path leaves its diagonal | "a barrier", pp. 444, 447 |
+| 13 | Runs the full β/myoglobin grid with no penalty and with penalty 1 | 63 matches need at least 35 gaps; penalty 1 gives 38 with 4 gaps | Braunitzer's alignment scores 35 under the same rule | Table 1, p. 449; p. 450 |
+| 14 | Shuffles β and realigns: 10 times, as in 1970, then 1,000; then runs the ribonuclease/lysozyme control | Is 38 more than chance? Before 1970 significance was "left to intuitive rationalization" | X = (real − mean) / s, significant above 3; the control never passes it | pp. 443, 448; Table 2, pp. 450–451 |
 | 15 | Switches between variable sets and sees the answer change | No set of weights is justified | The next piece's question | "no a priori best set", p. 452 |
 
 ### Should piece 1 split?
@@ -219,11 +226,12 @@ time and gives Asimov two pieces of normal length.
 
 ## Build order
 
-1. `core/` and a script that reproduces the numbers. On today's UniProt
-   sequences the 1970 algorithm gives 63 matches with free gaps (the paper's
-   63) and 37 with penalty 1 (40 matches, 3 gaps), against the paper's 38
-   (42 matches, 4 gaps). The difference comes from the 1960s sequences, which
-   needs confirming against the paper's own sequence sources.
+1. `core/` and a script that reproduces the numbers. First check: the 1970
+   rule rebuilt on N&W's Fig. 1 letters must reproduce their Fig. 2 exactly
+   (it does in a scratch script). On today's UniProt sequences it gives 63
+   matches with free gaps (the paper's 63) and 37 with penalty 1 (40 matches,
+   3 gaps), against the paper's 38 (42 matches, 4 gaps). N&W used the 1963
+   β-hemoglobin and 1965 myoglobin sequences, so 38 needs those.
 2. A lab page to play with each primitive on its own before the narrative
    settles (see decisions).
 3. `StripPair` and `ScoreLine`, then beats 2 to 6.
@@ -234,16 +242,14 @@ time and gives Asimov two pieces of normal length.
 
 ## Data still needed
 
-- Ribonuclease and lysozyme sequences for the control (beat 14). Probably
-  bovine RNase A (P61823) and hen egg-white lysozyme (P00698); check which N&W
-  used ⚠.
-- A close pair for the raw dot plot in beat 9: human against horse cytochrome
-  c, or α against β hemoglobin (α/β already shows runs of 4 or more, 3 against
-  0.6 for shuffles).
-- The 1960s β-hemoglobin and myoglobin sequences N&W aligned, if the paper or
-  Dayhoff's Atlas gives them, to reproduce 38 exactly.
-- The letters in N&W Fig. 1 (OCR reads `ABCNJROCLCRPM` across and
-  `AJCJNRCKCRBP` down, max match 8) ⚠.
+- Ribonuclease and lysozyme sequences for the control (beat 14). N&W used
+  bovine pancreatic ribonuclease (Smyth, Stein & Moore 1963) and hen egg
+  lysozyme (Canfield 1963); today's entries are P61823 and P00698.
+- Cytochrome c for human, monkey and *R. rubrum*, to redraw Gibbs and
+  McIntyre's Fig. 1 in beat 9.
+- The 1963 β-hemoglobin (Konigsberg, Goldstein & Hill) and 1965 whale
+  myoglobin (Edmundson) sequences, to reproduce Table 1 exactly. Dayhoff's
+  Atlas is the likeliest place to find them as printed.
 
 ## Reconciling with first-structures
 
@@ -269,5 +275,8 @@ The branches overlap in two shared files and one pattern:
    `scripts/check-content.mjs`.
 3. Figures on the paper (CLAUDE.md today) or on a card (first-structures)?
 4. The slug `related` for piece 1, and part slugs generally.
-5. Upload the papers to a session (they can't be fetched from here) so
-   facts can be checked against the PDFs.
+5. How to count alignments in beat 7. The Delannoy count (8,989 at 6 × 6,
+   about 10¹¹³ for the full pair) treats the order of neighbouring gaps as
+   different alignments; Eddy's count, C(n+m, n), does not (924, about 10⁸⁹).
+   Eddy's is citable and the more common convention.
+6. Upload Strasser (2010) when convenient, to check the Atlas facts.
