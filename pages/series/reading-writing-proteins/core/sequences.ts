@@ -30,5 +30,33 @@ export const ALPHA: Chain = {
 };
 
 // 1-based, inclusive, as residues are numbered in papers.
-export const fragment = (chain: Chain, from: number, to: number) =>
-  chain.seq.slice(from - 1, to);
+export const fragment = (chain: Chain, from: number, to: number) => chain.seq.slice(from - 1, to);
+
+export const CYT_C_HUMAN: Chain = {
+  name: "cytochrome c",
+  species: "human",
+  uniprot: "P99999",
+  seq: "GDVEKGKKIFIMKCSQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGYSYTAANKNKGIIWGEDTLMEYLENPKKYIPGTKMIFVGIKKKEERADLIAYLKKATNE",
+};
+
+export const CYT_C_MONKEY: Chain = {
+  name: "cytochrome c",
+  species: "rhesus monkey",
+  uniprot: "P00002",
+  seq: "GDVEKGKKIFIMKCSQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGYSYTAANKNKGITWGEDTLMEYLENPKKYIPGTKMIFVGIKKKEERADLIAYLKKATNE",
+};
+
+export const CYT_C_TUNA: Chain = {
+  name: "cytochrome c",
+  species: "albacore tuna",
+  uniprot: "P81459",
+  seq: "GDVAKGKKTFVQKCAQCHTVENGGKHKVGPNLWGLFGRKTGQAEGYSYTDANKSKGIVWNNDTLMEYLENPKKYIPGTKMIFAGIKKKGERQDLVAYLKSATS",
+};
+
+// Dus, Sletten and Kamen (1968), the sequence Gibbs and McIntyre cite.
+export const CYT_C2_RRUBRUM: Chain = {
+  name: "cytochrome c2",
+  species: "Rhodospirillum rubrum",
+  uniprot: "P0C189",
+  seq: "EGDAAAGEKVSKKCLACHTFDQGGANKVGPNLFGVFENTAAHKDNYAYSESYTEMKAKGLTWTEANLAAYVKNPKAFVLEKSGDPKAKSKMTFKLTKDDEIENVIAYLKTLK",
+};

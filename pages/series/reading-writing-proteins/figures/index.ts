@@ -2,5 +2,14 @@
 export { default as StripPair } from "./strip/StripPair";
 export { default as SlideStation } from "./strip/SlideStation";
 export { default as AlignmentCount } from "./strip/AlignmentCount";
+export { default as GapOrder } from "./strip/GapOrder";
+export { default as CodonDistance } from "./fitch/CodonDistance";
+export { default as WindowPair } from "./fitch/WindowPair";
+export { default as WindowMap } from "./fitch/WindowMap";
+export { default as ScoreHistogram } from "./fitch/ScoreHistogram";
+export { default as PairDiagram } from "./diagram/PairDiagram";
+export { default as CytochromeDiagrams } from "./diagram/CytochromeDiagrams";
+export { default as GlobinDiagram } from "./diagram/GlobinDiagram";
 export { default as PaperNote } from "./PaperNote";
+export { default as LabNote } from "./LabNote";
 export { PUZZLES } from "../core/puzzles";

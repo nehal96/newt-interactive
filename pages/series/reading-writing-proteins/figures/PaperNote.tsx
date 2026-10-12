@@ -14,9 +14,7 @@ export default function PaperNote({
   return (
     <aside className="my-6 w-full max-w-prose self-center border-l-2 border-ink-200 pl-4 font-ui text-[0.95rem] leading-7 text-ink-700">
       <div>{children}</div>
-      <div className="mt-1 font-mono text-xs uppercase tracking-[0.08em] text-ink-500">
-        {cite}
-      </div>
+      <div className="mt-1 text-sm text-ink-500">{cite}</div>
       {differs && <div className="mt-2 text-sm text-ink-600">{differs}</div>}
     </aside>
   );

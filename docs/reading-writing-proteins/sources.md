@@ -347,13 +347,30 @@ Reproducing 38 exactly needs these sequences, not today's UniProt entries.
   of amino acids in the region being tested for homology and to compare the
   sum with that expected by chance." (p. 9). Lower is closer. Each window
   comparison has no gaps.
+- Table 1 (p. 10): mutation values for every pair, from the code of Trupin et
+  al. (1965) as modified in Fitch (1966a). Rows in 3-letter code, columns in
+  the 1-letter code of Keil, Prusik & Sorm (1963), which differs from today's
+  letters. Transcribed into `core/fitch.ts`; it is symmetric and its value
+  frequencies are 0·05, 0·39, 0·49, 0·07 (AMV 1·58), as p. 12 states. It
+  differs from today's code in 11 of 190 pairs (CQ, CV, FQ, EI, KI, YQ, QS,
+  QW, QI, RI, LG).
+- Chance (p. 12, eq. 3) is the multinomial over the numbers of pairs needing
+  0–3 mutations, with p0–p3 from the two chains' compositions: 0·075, 0·423,
+  0·482, 0·020 for α against β. Table 2's caption puts MR ≤ 34 at p ≤ 0·008.
 - Significance is computed from composition, without shuffling (p. 12). For α
   against β the expected average is 1·45 mutations per pair, so the most
   probable MR for 30 residues is 43·5. The cutoff is MR ≤ 34, about a 1%
   chance (p. 14).
 - 179 of the 13,104 pairs fell under the cutoff. Table 2 (p. 14) sorts them by
-  register shift (Cα − Cβ): −5 (81 hits, β 37 to 117), +1 (38, β 1 to 38), −1
-  (10, β 2 to 11), plus 12 scattered chance shifts.
+  register shift (Cα − Cβ), with the range of β window starts: −71 (6, 112–117),
+  −13 (1, 105), −8 (2, 12–13), −5 (81, 37–117), −1 (10, 2–11), +1 (38,
+  1–38), +9 (3, 62–70), +12 (9, 47–63), +24 (3, 61–63), +52 (1, 7), +59 (2,
+  7–8), +61 (9, 43–51), +73 (7, 14–20), +75 (5, 2–7), +110 (2, 1–2).
+- Fig. 1 (p. 11) is the histogram of all 13,104 MR values; Fig. 2 the same as
+  a probability plot; Fig. 4 (p. 15) MR along β for each homologous shift.
+- On the control he found fewer low values than expected, put it down to
+  "the lack of independence" among the windows, and concluded the ≤ 0·01
+  statement "over-estimates the likelihood of the chance occurrence" (p. 13).
 - "The register shift of − 1 occurs because the β-chain has an extra amino acid
   at the beginning. A deletion of two β-chain amino acids between 20 and 21
   (Ingram, 1963) now gives the α-chain the extra amino acid and the register
@@ -524,6 +541,15 @@ Mature chains from UniProt, initiator Met removed:
 | Human β-hemoglobin | P68871 | 146 | 4HHB (deoxy Hb) |
 | Sperm whale myoglobin | P02185 | 153 | 1A6M |
 | Human α-hemoglobin | P69905 | 141 | 4HHB |
+| Human cytochrome c | P99999 | 104 | |
+| Rhesus monkey cytochrome c | P00002 | 104 | |
+| Albacore tuna cytochrome c | P81459 | 103 | |
+| *R. rubrum* cytochrome c2 | P0C189 | 112 | |
+
+P0C189 cites Dus, Sletten & Kamen (1968), Gibbs & McIntyre's ref. 4 (which
+prints the volume as 234 for 243). P00091 is *R. palustris* c2, not *R.
+rubrum*. Human and rhesus differ at one residue (58, Ile against Thr); human
+and tuna at 20 of 103.
 
 ## Computed numbers
 
@@ -548,11 +574,29 @@ Computed on today's sequences; these are illustrations, not paper figures.
 - Dot plot of β against myoglobin: 1,533 dots for the real pair and every
   shuffle. With a window of 20 and threshold 7: 21 hits within 2 diagonals of
   the main one, against about 5.5 scattered hits for shuffles.
+- Fitch's windows on today's α and β with his Table 1, window 30: p0–p3
+  0.075, 0.420, 0.485, 0.021; the 1% cutoff comes out at 34 (P 0.71%). 172
+  windows at MR ≤ 34 against his 179: −5: 81 (β 37–117), +1: 38 (1–38), −1:
+  11 (2–12); +9 and +61 match his rows exactly. Chance predicts about 93 (91
+  off the three shifts, where 42 occur). Best window α 81 against β 86, MR 16.
+  With today's code instead: 156 windows, the same three shifts at 81, 38, 11.
+- Gibbs & McIntyre on these sequences: runs (matches in a row 1, 2, 3, …)
+  human/monkey 680, 36, 2, 2 plus runs of 46 and 57; human/tuna 636, 44, 4,
+  3, 3, 1 plus 10 and 21; both identical to Table 1 in their run-minus-one
+  convention. Human/*R. rubrum* 725, 46, 6, 1, 1 against their 729, 47, 6, 1,
+  1. Principal diagonal 103, 83, 21, as Table 2. Chance for human
+  composition: 738.1, 58.2, 4.6, 0.4 runs and 8.37 on the principal diagonal
+  (theirs 738, 58, 5, 0.4 and 8·4). Longest *R. rubrum* run: human 95–99
+  against 105–109, diagonal −10.
+- β (down) against myoglobin: 1,533 dots for the real pair and every shuffle;
+  30 on diagonal −1; running sums of five peak at 81. Ten seeded shuffles
+  (seeds 1–10): raw maximum 18, summed maximum 67.
 - Phone-length fragments (10–12 β residues): the best β/myoglobin fragments
   score 3 for a slide and 4 with one gap. β 11–30 against myoglobin 10–31
   scores 6 for the best slide, 7 with gap cost 1 and 11 with free gaps.
 
 ## Open items
+
 
 - ⚠ Window-filter attribution (Maizel & Lenk 1981; Staden 1982).
 - ⚠ Cytochrome c difference counts (human–chimp 0, rhesus 1, horse 12) come

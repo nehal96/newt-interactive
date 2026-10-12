@@ -14,23 +14,21 @@ export default function ScoreLine({
 }) {
   const { matches, gaps, penalty } = score;
   return (
-    <p className="font-mono text-sm tabular-nums text-ink-700" aria-live="polite">
-      <span style={{ color: RW.pairInk }}>{plural(matches, "match", "matches")}</span>
-      {slideOnly ? null : penalty > 0 ? (
-        <>
-          {" − "}
-          <span style={{ color: RW.gap }}>{plural(gaps, "gap", "gaps")}</span>
-          {` × ${penalty} = `}
-        </>
-      ) : (
-        <>
-          {", "}
-          <span style={{ color: RW.gap }}>{plural(gaps, "gap", "gaps")}</span>
-          {" free = "}
-        </>
-      )}
-      {!slideOnly && <span className="text-base font-semibold text-ink-900">{score.score}</span>}
-      {target !== undefined && <span className="ml-3 text-ink-400">best possible {target}</span>}
+    <p className="flex flex-wrap items-baseline gap-x-3 font-ui tabular-nums text-ink-600" aria-live="polite">
+      <span>
+        <span className="font-semibold" style={{ color: matches > 0 ? RW.matchInk : undefined }}>
+          {plural(matches, "match", "matches")}
+        </span>
+        {!slideOnly && (
+          <>
+            {penalty > 0 ? " − " : ", "}
+            <span style={{ color: gaps > 0 ? RW.gap : undefined }}>{plural(gaps, "gap", "gaps")}</span>
+            {penalty > 0 ? ` × ${penalty} = ` : " free = "}
+            <span className="text-lg font-semibold text-ink-900">{score.score}</span>
+          </>
+        )}
+      </span>
+      {target !== undefined && <span className="text-sm text-ink-400">best possible {target}</span>}
     </p>
   );
 }

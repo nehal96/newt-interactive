@@ -38,18 +38,18 @@ reload; commit only when asked.
 | Station | Status |
 |---|---|
 | 1. The problem by hand: slides, gaps, the penalty, the alignment count | Built |
-| 2. Fitch 1966: windows of 30 with no gaps, minimum-mutation scores from the genetic code, the bell curve and register shifts (−5, +1, −1) for α against β | Next |
-| 3. Gibbs and McIntyre's diagram: toy, cytochrome c (Fig. 1), runs and diagonal totals against chance, Fig. 6B smoothing, then β against myoglobin | Needs cytochrome c sequences |
-| 4. Needleman and Wunsch's array: their Fig. 1 example filled backward cell by cell, both tied traces | |
+| 2. Fitch 1966: windows of 30 with no gaps, minimum-mutation scores from his Table 1, the bell curve and register shifts (−5, +1, −1) for α against β | Built |
+| 3. Gibbs and McIntyre's diagram: toy, cytochrome c (Fig. 1), runs and diagonal totals against chance, Fig. 6B smoothing, then β against myoglobin | Built |
+| 4. Needleman and Wunsch's array: their Fig. 1 example filled backward cell by cell, both tied traces | Next |
 | 5. The penalty: same example, then β against myoglobin beside Table 1 | |
 | 6. Scoring by codon types: sets 3–7 | |
 | 7. The shuffle test: 10 then 1,000 shuffles, X, the ribonuclease/lysozyme control | Needs RNase and lysozyme sequences |
 | 8. 1970 against the textbook recurrence (Eddy's example), with an operation counter | |
 
-Sequences still needed (UniProt): human cytochrome c P99999, rhesus monkey
-P00002 (check species), tuna (entry not yet identified), *R. rubrum*
-cytochrome c2 P00091 (check), bovine ribonuclease A P61823, hen egg-white
-lysozyme P00698. They go in `core/sequences.ts` with their accessions.
+Sequences still needed (UniProt): bovine ribonuclease A P61823, hen egg-white
+lysozyme P00698. They go in `core/sequences.ts` with their accessions. The
+cytochromes are in: human P99999, rhesus P00002, albacore tuna P81459, *R.
+rubrum* c2 P0C189 (P00091, once listed here, is *R. palustris*).
 
 Papers on hand alignment before 1970, worth reading: Watson & Kendrew (1961),
 Nature 190:670, the first myoglobin–hemoglobin alignment, placed by structure;
@@ -89,7 +89,7 @@ step.
   mark that becomes a dot when the strips fold into the grid later, so the
   reader learns one symbol for "these two residues are paired and identical".
 - **One score line instead of four stat boxes.** `6 matches − 1 gap × 1 = 5`,
-  in mono, updated live, with the target as a faint tick after it. Seeing
+  in `font-ui` with tabular figures, updated live, with the target as a faint tick after it. Seeing
   how the score is made up is what the steps teach, so the sum stays visible.
 - **Steps live in the prose.** The prototype's level picker becomes a sequence
   of figures down the page, each placed where its rule is introduced. A figure
@@ -143,7 +143,8 @@ A series `palette.ts` holds every figure colour. Proposed roles:
 | Role | Colour | Used for |
 |---|---|---|
 | Residue | `ink-900` | letters in strips and grid labels |
-| Pairing and structure | indigo (`#4F46E5` family) | rungs, dots, the path, diagonal steps |
+| Match | green (`#15803D` family) | matched cells and their rungs, match counts, the slide bars |
+| Structure | indigo (`#4F46E5` family) | dots, the path, diagonal steps |
 | Gap | amber (`#B57E1F`) | the stretched thread in a strip, jump segments in the grid, gap cost in the score line |
 | Chance | `ink-300` | shuffled sequences, the null histogram |
 | Focus | red (`#E11D48`) | exactly one thing per figure: the current cell in the step player, the real score on the histogram, the cell the reader is filling |
@@ -153,11 +154,12 @@ Property colouring of residues (hydrophobic, charged, polar) stays off in piece
 
 ### Type and layout
 
-- Residues in `font-mono`, labels in `font-mono` small caps, captions and
-  standfirst in `font-ui`, prose in `font-body`.
-- Figures sit on the paper with no fill or frame, per CLAUDE.md. The
-  first-structures branch puts its figures on a tinted card instead; that is a
-  decision to make once, for both pieces, and is not adopted here yet.
+- `font-mono` is for residues only. Row labels, the score line, chart labels,
+  captions and citations are `font-ui`; prose is `font-body`.
+- On the lab page each interactive sits in a rounded `ink-200` border with no
+  fill (`figures/Panel.tsx`). CLAUDE.md says figures take no frame, and the
+  first-structures branch uses a tinted card; settle one treatment for both
+  pieces before the essay.
 - Each sequence row is labelled with protein and species
   (`β-hemoglobin · human`, `myoglobin · sperm whale`).
 - Motion is short (under 300 ms), and every animated transition has a

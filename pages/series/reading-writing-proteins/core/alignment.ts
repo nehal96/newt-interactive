@@ -13,14 +13,17 @@ export function fromStrings(a: string, b: string): Alignment {
   return normalize({ top: a.split(""), bottom: b.split("") });
 }
 
-// Equal lengths, and no column where both rows are gaps.
+// Equal lengths, and no column where both rows are end gaps. A column inside
+// either row's gap stays, or that gap shrinks when the other row ends there.
 export function normalize({ top, bottom }: Alignment): Alignment {
   const t = [...top];
   const b = [...bottom];
   while (t.length < b.length) t.push(GAP);
   while (b.length < t.length) b.push(GAP);
+  const insideT = internalGaps(t);
+  const insideB = internalGaps(b);
   for (let k = t.length - 1; k >= 0; k--) {
-    if (t[k] === GAP && b[k] === GAP) {
+    if (t[k] === GAP && b[k] === GAP && !insideT[k] && !insideB[k]) {
       t.splice(k, 1);
       b.splice(k, 1);
     }

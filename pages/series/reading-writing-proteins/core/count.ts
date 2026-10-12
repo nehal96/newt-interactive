@@ -1,7 +1,7 @@
 // How many ways two sequences can be aligned.
 // No runtime imports: scripts/check-series.mjs loads this file directly in Node.
 
-// Order of neighbouring gaps ignored: choose which of the n + m columns hold
+// Order of neighboring gaps ignored: choose which of the n + m columns hold
 // the first sequence's residues. Eddy (2004) counts this way.
 export function alignmentsBinomial(n: number, m: number): bigint {
   let r = BigInt(1);
@@ -11,7 +11,7 @@ export function alignmentsBinomial(n: number, m: number): bigint {
   return r;
 }
 
-// Order of neighbouring gaps counted: the Delannoy number D(n, m).
+// Order of neighboring gaps counted: the Delannoy number D(n, m).
 export function alignmentsDelannoy(n: number, m: number): bigint {
   let prev: bigint[] = Array(m + 1).fill(BigInt(1));
   for (let i = 1; i <= n; i++) {

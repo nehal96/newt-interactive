@@ -1,6 +1,21 @@
 import Head from "next/head";
 import { MdxLayout } from "@ui/article";
-import { StripPair, SlideStation, AlignmentCount, PaperNote, PUZZLES } from "../figures";
+import {
+  StripPair,
+  SlideStation,
+  AlignmentCount,
+  GapOrder,
+  CodonDistance,
+  WindowPair,
+  WindowMap,
+  ScoreHistogram,
+  PairDiagram,
+  CytochromeDiagrams,
+  GlobinDiagram,
+  PaperNote,
+  LabNote,
+  PUZZLES,
+} from "../figures";
 import meta from "./meta";
 
 export const metadata = meta;
@@ -11,12 +26,12 @@ export const metadata = meta;
 
 This page is for working things out. Each station takes one method and runs it
 the way its authors did, starting with an example small enough to do in your
-head and ending with the example from the paper. The design is rough on
-purpose; stations that explain well move into the essay later.
+head and ending with the example from their paper. It's rough on purpose. The
+stations that explain well will move into the essay.
 
-1. **The problem by hand** (below)
-2. Fitch 1966: comparing windows without gaps
-3. Gibbs and McIntyre's diagram
+1. **The problem by hand**
+2. **Fitch's windows**
+3. **Gibbs and McIntyre's diagram**
 4. Needleman and Wunsch's array
 5. The penalty
 6. Scoring by codons
@@ -25,16 +40,17 @@ purpose; stations that explain well move into the essay later.
 
 ### Station 1: The problem by hand
 
-By the early 1960s biochemists could read a protein as a string of amino
-acids. Myoglobin and the hemoglobin chains had been sequenced, and Kendrew and
-Perutz had shown that they fold into almost the same shape. The question was
-whether the sequences, read as text, showed the same kinship. Answering it
-means lining one sequence up against the other and counting where they agree.
-This station is that job done by hand.
+By the early 1960s you could read a protein as a string of letters. Myoglobin
+and the two hemoglobin chains had been sequenced, and Kendrew and Perutz had
+shown that they fold into almost the same shape. So were they related? If they
+were, the sequences should show it too. To find out, you line one sequence up
+against the other and count the places where they agree.
 
-The rule for now is the simplest one Needleman and Wunsch used: a column scores
-1 when both letters are the same amino acid and 0 otherwise. Each letter is one
-amino acid in the one-letter code, which Margaret Dayhoff's group adopted for
+That sounds easy. This station is about why it isn't.
+
+The scoring is the simplest rule Needleman and Wunsch used: a column scores 1
+when both letters are the same amino acid, and 0 otherwise. Each letter is one
+amino acid, in the one-letter code that Margaret Dayhoff's group adopted for
 their Atlas of protein sequences.
 
 <PaperNote cite="Strasser (2010), p. 639">
@@ -45,19 +61,20 @@ their Atlas of protein sequences.
 
 #### Sliding
 
-The first thing to try is sliding one sequence along the other. Each position
-of the bottom row gives every letter a new partner on top, and the score counts
-the columns that agree.
+The obvious first move is to slide one sequence along the other. Every position
+gives each letter a new partner, and the score counts the columns that agree.
+Each slide you try leaves a bar in the chart underneath, so you can see which
+positions did well.
 
 <SlideStation
   {...PUZZLES.slide}
   target={PUZZLES.slide.bestSlide}
-  solved="Four columns agree. Every slide pairs each letter with a new partner; this one lines up KVHL with KVHL."
+  solved="Four columns agree: KVHL over KVHL."
 />
 
-Every slide you try leaves a bar in the chart. On a real pair the bars tell you
-more. Here are residues 11–30 of human β-hemoglobin against residues 10–31 of
-sperm whale myoglobin:
+Now a real pair: residues 11–30 of human β-hemoglobin against residues 10–31 of
+sperm whale myoglobin. Most slides manage 1 or 2. Find the one that does much
+better.
 
 <SlideStation
   {...PUZZLES.globinFree}
@@ -66,26 +83,27 @@ sperm whale myoglobin:
   solved="Six is the best any slide does here; most slides manage one or two."
 />
 
-The tallest bar is 6, where most slides score 1 or 2. Keep this chart in mind.
-Each bar is the total along one diagonal of the grid in station 3, and Gibbs
-and McIntyre built one of their two tests on exactly these totals.
+That tall bar is the first sign the two are related. Hold on to this chart.
+It comes back in station 3, where each bar turns out to be one diagonal of
+Gibbs and McIntyre's diagram.
 
 #### One slide isn't enough
 
-Proteins gain and lose residues as they evolve. When one sequence has extra
-residues in the middle, the part before them lines up at one slide and the part
-after them at another. In this pair the start agrees as it is, and the end
-agrees two places over.
+Proteins gain and lose residues as they evolve. So when one sequence has an
+extra stretch in the middle, the part before it lines up at one slide and the
+part after it lines up at another, and no single slide gets both. In this pair
+the start already agrees. Can you get the end to agree too?
 
 <StripPair
   {...PUZZLES.twoSlides}
-  solved="The gap marks two residues, K and T, that the top sequence has and the bottom one lacks. Everything before the gap keeps one pairing and everything after it takes another."
+  solved="K and T are in the top sequence and not the bottom one. Everything before the gap keeps one pairing and everything after it takes another."
 />
 
-A gap records an insertion or a deletion. Dragging a letter right shows what a
-gap does: that letter and everything after it move, and everything before it
-stays where it was. A slide is the same move made on the first letter, so a
-slide is a gap at the start of a row.
+What you've made is a gap. Drag a letter right and it moves, along with
+everything after it, while everything before it stays put. A gap marks an
+insertion in one sequence or a deletion in the other, and from the sequences
+alone you can't tell which. A slide is the same move made on the first letter,
+so a slide is just a gap at the start of a row.
 
 <PaperNote cite="Needleman and Wunsch (1970), p. 443">
   "Allowance for gaps (Braunitzer, 1965) greatly multiplies the number of
@@ -95,19 +113,21 @@ slide is a gap at the start of a row.
 
 #### Gaps for free
 
-So far gaps cost nothing. These two sequences were generated at random and are
-unrelated, and the best slide scores 3. Try to reach 6 using gaps.
+So far gaps cost nothing, and that's a problem. These two sequences are random
+and have nothing to do with each other. The best slide scores 3. See if you can
+reach 6 with gaps.
 
 <StripPair
   {...PUZZLES.freeCheat}
-  solved="Free gaps doubled the score of two unrelated sequences. A high count proves nothing until you know what chance produces."
+  solved="Free gaps doubled the score of two unrelated sequences."
 />
 
-The same happens with real proteins. With free gaps, Needleman and Wunsch
-matched 63 residues of β-hemoglobin and myoglobin, but they needed at least 35
-gaps to do it, and ten shuffled versions of β-hemoglobin averaged 55.6 matches
-with about 36 gaps each (Table 1, p. 449). Gibbs and McIntyre, writing about
-claims that a protein repeats part of its own sequence, put the danger plainly.
+You can. With free gaps you can pair up almost any letters you like, so a high
+score stops meaning anything. Real proteins are no different. With free gaps
+Needleman and Wunsch matched 63 residues of β-hemoglobin and myoglobin, but it
+took at least 35 gaps, and ten shuffled versions of β-hemoglobin still averaged
+55.6 matches (Table 1, p. 449). Gibbs and McIntyre saw the same danger in
+claims that proteins repeat their own sequences:
 
 <PaperNote cite="Gibbs and McIntyre (1970), p. 5">
   "few of the claimed repetitions have been tested statistitically [sic], and
@@ -117,10 +137,10 @@ claims that a protein repeats part of its own sequence, put the danger plainly.
 
 #### Charging for gaps
 
-The fix is to charge for each gap, so that a gap has to earn more matches than
-it costs. Needleman and Wunsch subtract a fixed amount for every gap, however
-long it is. Gaps at the very ends of a row cost nothing, because a path through
-their array may start anywhere along its first row or column.
+The fix is to make gaps cost something. Needleman and Wunsch subtract a fixed
+penalty for every gap, however long it is, so a gap has to win back more
+matches than it costs. Gaps hanging off the ends of a row are free, because an
+alignment can start and stop anywhere.
 
 <PaperNote
   cite="Needleman and Wunsch (1970), p. 444"
@@ -131,63 +151,75 @@ their array may start anywhere along its first row or column.
   the benefit from allowing that gap would exceed the barrier."
 </PaperNote>
 
-The same random pair, now at a cost of 1 per gap:
+Here's the random pair again, at a cost of 1 per gap. Try the gaps that worked
+before.
 
 <StripPair
   {...PUZZLES.costCheat}
-  solved="At a cost of 1, the extra gaps stop paying, and the random pair falls back to what a slide gives."
+  solved="The extra gaps don't pay anymore, and the score falls back to what a slide gives."
 />
 
-And the related pair from before, at the same cost:
+Now the related pair from before, at the same cost. Its gap marks something
+real, so it should still pay.
 
 <StripPair
   {...PUZZLES.costRelated}
-  solved="The real gap survives: 6 matches minus 1 gap is 5, and the best slide reaches only 3."
+  solved="Six matches minus one gap is 5, still better than any slide."
 />
+
+That's the point of the penalty. It lets real gaps through and keeps the
+opportunistic ones out.
 
 #### Real globins
 
-Back to the globin fragment, with gaps allowed and a cost of 1 each:
+Back to the globin fragment, with gaps allowed at a cost of 1 each. One gap
+pays its way here.
 
 <StripPair
   {...PUZZLES.globinCost}
-  solved="One gap pays for itself: 8 matches minus 1. It sits opposite myoglobin's E18 and A19, residues β-hemoglobin lacks in this stretch."
+  solved="8 matches minus 1 gap is 7, one better than the best slide. The gap sits opposite myoglobin's E18 and A19, residues β-hemoglobin lacks in this stretch."
 />
 
-And with gaps free again:
+Take the cost away and the score climbs to 11, the same inflation the random
+pair showed.
 
 <StripPair
   {...PUZZLES.globinFree}
-  solved="From 7 to 11 by adding gaps, the same inflation the random pair showed."
+  solved="From 7 to 11, just by adding gaps."
 />
 
-On the whole proteins, a penalty of 1 per gap gave Needleman and Wunsch 38:
+On the whole proteins, a penalty of 1 gave Needleman and Wunsch a score of 38:
 42 matches less 4 gaps. Braunitzer's earlier alignment of the same pair used
-two gaps and matched 37 residues, which scores 35 under that rule (p. 450).
+two gaps and matched 37 residues, which scores 35 under the same rule (p. 450).
 
 #### Too many to check
 
-On fragments this short you can find the best alignment by trying things. The
-whole proteins are another matter. Here is how many alignments two sequences
-have:
+On fragments this short you can find the best alignment by fiddling. On whole
+proteins you can't, because the number of possible alignments explodes. Drag
+the lengths up and watch.
 
 <AlignmentCount />
 
-The two counts differ in one detail. When a gap in the top row sits next to a
-gap in the bottom row, you can write them in either order; one count treats
-those as the same alignment and the other doesn't. Sean Eddy's primer on
-dynamic programming uses the first. Either way, β-hemoglobin against myoglobin
-has somewhere between 10<sup>88</sup> and 10<sup>113</sup> alignments, far
-more than anyone could check by hand or any computer of the 1960s could
-enumerate.
+The two numbers count slightly different things. Look at these two alignments.
+Between L and H, the top row has a K with no partner and the bottom row has a T
+with no partner, and the two gaps can go in either order.
+
+<GapOrder />
+
+Are they different alignments? They pair exactly the same residues, so the
+smaller count says no and counts them once. The larger count says yes. Sean
+Eddy's primer on dynamic programming uses the smaller one. Either way,
+β-hemoglobin against myoglobin has somewhere between 10<sup>88</sup> and
+10<sup>113</sup> alignments. Nobody could check them all by hand, and no
+computer of the 1960s could either.
 
 <PaperNote cite="Eddy (2004), p. 909">
   "Why do we need a fancy algorithm? Can't we just score all possible
   alignments and pick the best one? This isn't practical".
 </PaperNote>
 
-Before 1970, both steps came down to judgement. People compared sequences by
-eye to decide where the gaps went, and then judged whether the result meant
+So before 1970, alignment came down to judgment twice over. People lined
+sequences up by eye, and then decided by eye whether the result meant
 anything.
 
 <PaperNote cite="Needleman and Wunsch (1970), p. 443">
@@ -199,11 +231,291 @@ anything.
 
 #### What station 1 leaves open
 
-Two questions are left. How do you find the best alignment without trying them
-all? That is Needleman and Wunsch's array, in stations 4 and 5. And how do you
-tell whether a score is more than chance? That is the shuffle test, in station
-7. Four years before Needleman and Wunsch, Walter Fitch avoided the first
-question by never placing gaps at all. That is station 2.
+That leaves two questions. How do you find the best alignment without trying
+them all? And how do you tell a real similarity from chance? Needleman and
+Wunsch answered the first with their array, in stations 4 and 5, and the second
+with the shuffle test, in station 7. But four years earlier Walter Fitch had
+found a way around the first question altogether.
+
+### Station 2: Fitch's windows
+
+Fitch's way around it was to never place a gap. At the University of Wisconsin
+in 1965, he cut both sequences into overlapping stretches of 30 residues, which
+this page calls windows, and compared every window of one with every window of
+the other. Nothing slides inside a window. A deletion doesn't vanish, though:
+before it the windows line up at one offset, and after it at another.
+
+<PaperNote cite="Fitch (1966), p. 9">
+  "a deletion in the middle of one protein would throw the homologous relation
+  out of register at that point"
+</PaperNote>
+
+#### Scoring by codons
+
+Fitch changed the score too. Station 1 only asked whether two amino acids were
+the same. Fitch asked how close they are: how many DNA bases would have to
+change to turn one into the other. Most amino acids have several codons, so
+the answer is the fewest changes between any codon of one and any codon of the
+other. It's 0 for the same amino acid and never more than 3. So now the score
+runs the other way, and lower is closer.
+
+The table is Fitch's own (Table 1, p. 10). He built it from the genetic code as
+Trupin, Nirenberg and colleagues had read it in 1965, which wasn't finished
+yet, and 11 of the 190 pairs differ from today's code. Point at a pair to see
+its codons, or switch to today's code to see which pairs changed.
+
+<CodonDistance />
+
+K and E are one base apart: AAA becomes GAA. Most pairs take one or two
+changes, and only a few take all three. The rest of this station uses Fitch's
+table, the way he did.
+
+#### One window against another
+
+Add up a window's 30 column scores and you get its score, which Fitch called
+MR, the minimum mutations required. By his calculation two unrelated windows of
+α- and β-hemoglobin average 43.5, about 1.45 per pair (p. 12). He drew the line
+at 34. A window at or under 34 counts as a sign of common ancestry, because
+chance gets that low less than 1% of the time.
+
+Try a few windows. The register shift, α's start minus β's, says how far apart
+the two windows sit.
+
+<WindowPair />
+
+Start both chains at residue 1 and you get 35, just over the line. Move β along
+by one, to α 2 against β 3, and it drops to 26. That's a shift of −1, because β
+has an extra residue at its start. α 81 against β 86, at a shift of −5, scores
+16, the lowest anywhere. α 60 against β 20 scores 42, about what chance gives.
+
+Look at the light green rungs. They're pairs one base change apart, and each
+adds just 1 to the score, where an unrelated pair adds about 1.5. So near
+misses pull a related window down along with the identical pairs, and that's
+why Fitch's windows pick up more than the eye does.
+
+<PaperNote cite="Fitch (1966), p. 15">
+  "Finding the homologous regions is not simply the result of observing those
+  identical amino acid pairings that can be seen visually."
+</PaperNote>
+
+#### Every window against every window
+
+α has 112 windows of 30 and β has 117, so there are 13,104 pairs to score, and
+Fitch's program scored them all. Here each pair is a square, with α's window
+start down the side and β's along the top. Moving down a diagonal keeps the
+register shift fixed. The squares at or under 34 are green, and most of them
+sit on three diagonals.
+
+<WindowMap />
+
+Those three diagonals, at shifts of −1, +1 and −5, are the three Fitch found.
+Read along β and the best diagonal changes twice. Each change means residues
+were gained or lost somewhere in between. Here's how Fitch read it:
+
+<PaperNote cite="Fitch (1966), p. 14">
+  "The register shift of − 1 occurs because the β-chain has an extra amino
+  acid at the beginning. A deletion of two β-chain amino acids between 20 and
+  21 (Ingram, 1963) now gives the α-chain the extra amino acid and the
+  register shift becomes + 1. A subsequent deletion of six amino acids in the
+  α-chain produces a net shift of − 5."
+</PaperNote>
+
+The windows tell you a gap is there and roughly where, but not exactly where.
+A window that straddles the gap is half in one register and half in the
+other, so it scores badly in both. A second program in the same paper pinned
+the β gap down:
+
+<PaperNote cite="Fitch (1966), p. 15">
+  "the β-chain deletion should really be between amino acids 18 and 19 so that
+  asparagine (β) will coincide with histidine (α)."
+</PaperNote>
+
+<LabNote title="Against the paper">
+  With his table and today's sequences, 172 windows score 34 or less, against
+  his 179. The three main shifts hold 81, 38 and 11 windows against his 81, 38
+  and 10, starting at β 37–117, 1–38 and 2–12 against his 37–117, 1–38 and
+  2–11 (Table 2, p. 14). Two of his chance shifts come out identical too: +9 at
+  β 62–70 and +61 at β 43–51.
+</LabNote>
+
+#### Is it more than chance?
+
+How low would the windows score if α and β weren't related at all? Fitch
+didn't shuffle sequences to find out. He worked it out from composition: draw
+each pair at random from the amino acids of α and β, in the proportions they
+occur, and add up 30 of them (p. 12). The dashed line is that calculation, and
+the bars are all 13,104 real windows. This is his Fig. 1. Most windows follow
+the line, but the low end doesn't.
+
+<ScoreHistogram />
+
+Zoom in on the low scores. Chance predicts about 93 windows at or under 34,
+and 172 turn up.
+
+Even that undersells it. Away from the three diagonals only 42 windows reach
+the cutoff, where the calculation predicts about 91, so the calculation is
+generous. Fitch saw the same thing when he compared human cytochrome c with
+α-hemoglobin as a control: 37 low windows where 54 were expected. He put it
+down to the windows not being independent of one another (p. 13).
+
+<PaperNote cite="Fitch (1966), p. 13">
+  "Thus, a statement that the probability of an MR value is ≤ 0·01
+  over-estimates the likelihood of the chance occurrence."
+</PaperNote>
+
+So the count isn't what settles it. What settles it is where the low scores
+sit, in long runs down a few diagonals.
+
+<PaperNote cite="Fitch (1966), p. 14">
+  "one does not expect to see the low MR values continue over a considerable
+  portion of the two sequences if these values are the result of random
+  events."
+</PaperNote>
+
+#### What station 2 leaves open
+
+Fitch never searched for gaps, so station 1's explosion never came up, and
+13,104 comparisons were enough. What you get back is a register shift for each
+stretch, though, not an alignment, and a window of 30 blurs every gap it
+crosses. Gibbs and McIntyre would drop the windows and look at every residue.
+Needleman and Wunsch would put the gaps back and find the best place for them.
+
+### Station 3: Gibbs and McIntyre's diagram
+
+In 1970 Adrian Gibbs, of the microbiology department at the Australian National
+University, and George McIntyre, a statistician at CSIRO, published the
+simplest method of the three. Write one sequence down the left side of a grid
+and the other along the top. Put a dot in every cell where the row and the
+column hold the same amino acid. That's it. They called it the diagram. If two
+sequences are related, their dots line up into a line running down and to the
+right.
+
+<PaperNote cite="Gibbs and McIntyre (1970), p. 1">
+  "it is basically simple (can be done by hand if necessary), and shows
+  directly all the possible similarities between the sequences."
+</PaperNote>
+
+They kept station 1's scoring, too: a dot for the same amino acid and nothing
+for anything else. They didn't trust Fitch's codons.
+
+<PaperNote cite="Gibbs and McIntyre (1970), p. 4">
+  "we doubt the value of using the 'minimum mutational distance' measure used
+  by Fitch [2,10] because of the great number of untested and untestable
+  assumptions in this particular measure of similarity."
+</PaperNote>
+
+#### By hand
+
+Here's station 1's pair, with the first sequence down the side. Fill it in.
+
+<PairDiagram {...PUZZLES.twoSlides} byHand />
+
+The dots fall on two diagonals: PLW on one, and EGH two places over. Every cell
+on a diagonal pairs residues the same distance apart, so a diagonal is a slide
+from station 1, and a register shift in Fitch's terms. A gap is a jump from one
+diagonal to another. Show station 1's best alignment and you'll see the path
+run down the first diagonal, then jump.
+
+Real sequences add noise. In the globin fragment from station 1, plenty of
+dots come from residues that just happen to match, but the line is still
+there, broken where the two chains differ.
+
+<PairDiagram {...PUZZLES.globinCost} />
+
+Remember the bars in station 1's slide chart? Each one counted the dots on one
+of these diagonals.
+
+#### Cytochrome c
+
+Their first case was cytochrome c, which by then had been sequenced from
+enough species for them to compare 25 cytochromes. Here's human cytochrome c
+against three of them. Monkey differs from human at one residue, so its line runs corner to corner,
+broken once. Tuna differs at about a fifth of its residues, and the line breaks
+up but stays on one diagonal. The bacterium *Rhodospirillum rubrum* is a
+different story.
+
+<CytochromeDiagrams />
+
+<PaperNote cite="Gibbs and McIntyre (1970), p. 1">
+  "the line of matches between the cytochromes of man and R. rubrum is, at
+  different parts of the sequences, on three different diagonals, indicating
+  that parts of one sequence are not present in the other."
+</PaperNote>
+
+The longest run there, five in a row, pairs human 95–99 with *R. rubrum*
+105–109, ten diagonals off the main one. You can barely see it among the chance
+dots. Something else shows up in all three, though: the same horizontal bands.
+Lysine and glycine are common in human cytochrome c, so their rows fill up with
+dots whatever they're compared against.
+
+The monkey and tuna diagrams also have short lines parallel to the main one,
+near the top left. The start of cytochrome c repeats itself:
+
+<PaperNote cite="Gibbs and McIntyre (1970), pp. 1, 3">
+  "the repetition in the N-terminal part (residues 3–8 and 20–25) of the
+  sequence Val-Glu-Lys(or Asn)-Gly-Gly(or Lys)-Lys."
+</PaperNote>
+
+#### Counting instead of looking
+
+Eyes are easy to fool, so Gibbs and McIntyre counted two things. They counted
+the unbroken runs of dots along the diagonals, and they added up the dots on
+each diagonal. Then they compared both with what chance would give (p. 1).
+Like Fitch, they worked chance out from composition instead of shuffling. The
+chance of a dot in any cell is just the number of matching pairs of amino
+acids divided by the number of cells (p. 10).
+
+Both counts are under the diagrams above. Monkey has two very long runs, where
+chance expects none at all, and *R. rubrum*'s runs look like chance. Monkey's
+main diagonal holds 103 dots and *R. rubrum*'s 21, against about 8 by chance.
+
+<LabNote title="Against the paper">
+  Human against monkey has 680 lone dots, 36 runs of two and 2 each of three
+  and four; human against tuna has 636, 44, 4, 3, 3 and 1. Both are exactly
+  their Table 1. *R. rubrum* gives 725, 46, 6, 1, 1 against their 729, 47, 6,
+  1, 1. The main diagonals hold 103, 83 and 21, exactly their Table 2. For two
+  random sequences with human cytochrome c's composition, chance gives 738
+  lone dots, 58 runs of two and 8.4 on the main diagonal, as theirs. They count
+  runs one shorter than this page does, so a lone dot is their run of 0
+  (p. 10).
+</LabNote>
+
+#### Faint lines
+
+Close relatives draw a clear line. Distant ones draw a faint one, and gaps
+break it across neighboring diagonals. For the two chains of immunoglobulin,
+where the lines are hard to see, Gibbs and McIntyre added each diagonal to its
+four neighbors and plotted the running sums (Fig. 6B, p. 7). A line broken
+across several diagonals then adds up in one place.
+
+β-hemoglobin against myoglobin is a faint case too. Can you see the line?
+Compare it with shuffles of β. A shuffle keeps every amino acid and only loses
+the order, so it has exactly as many dots as the real pair, 1,533. What it
+loses is the line.
+
+<GlobinDiagram />
+
+The dots alone can't tell a relative from a shuffle. The diagonals can. The
+real pair puts 30 dots on one diagonal, where ten shuffles get to 18 at most,
+and summed over five diagonals it peaks at 81 against at most 67. Here one
+diagonal is already enough. Summing earns its keep when gaps have split a line,
+as they did in the immunoglobulin chains.
+
+Counting can even find what the eye can't. Their diagram of chicken lysozyme
+against bovine α-lactalbumin (Fig. 4) shows no line at all, and yet:
+
+<PaperNote cite="Gibbs and McIntyre (1970), p. 5">
+  "a runs index of 0.139, and a diagonals index of 0.032 with a probability of
+  0.00025 of occurring by chance."
+</PaperNote>
+
+#### What station 3 leaves open
+
+The diagram shows every similarity at once, and it doesn't choose between
+them. To get an alignment you have to pick one path through it: which diagonals
+to follow, where to jump, and whether each jump is worth it. Picking that path
+by hand is station 1's problem all over again. Needleman and Wunsch's array, in
+station 4, picks it for you.
 
 export default function MDXPage({ children }) {
   return <MdxLayout metadata={metadata}>{children}</MdxLayout>;

@@ -1,13 +1,6 @@
 // Two sequences the reader lines up by hand: drag a residue to open or close a
 // gap before it, or in slide mode drag a whole row.
-import {
-  useEffect,
-  useRef,
-  useState,
-  type KeyboardEvent,
-  type PointerEvent,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from "react";
 import { cn } from "@lib/utils";
 import {
   GAP,
@@ -21,6 +14,7 @@ import {
   type Side,
 } from "../../core/alignment";
 import { bestAlignment } from "../../core/best";
+import Panel from "../Panel";
 import { RW } from "../palette";
 import { useWidth } from "../useWidth";
 import ScoreLine from "./ScoreLine";
@@ -41,6 +35,8 @@ export type StripPairProps = {
   solved?: ReactNode;
   showBest?: boolean;
   onChange?: (al: Alignment) => void;
+  /** Rendered inside the frame, below the caption. */
+  extra?: ReactNode;
 };
 
 const SIDES: Side[] = ["top", "bottom"];
@@ -66,11 +62,15 @@ export default function StripPair({
   solved,
   showBest = true,
   onChange,
+  extra,
 }: StripPairProps) {
   const initial = () => atOffset(top, bottom, startOffset);
   const [al, setAl] = useState<Alignment>(initial);
   const [revealed, setRevealed] = useState(false);
-  const [focus, setFocus] = useState<Record<Side, number>>({ top: 0, bottom: 0 });
+  const [focus, setFocus] = useState<Record<Side, number>>({
+    top: 0,
+    bottom: 0,
+  });
   const [dragging, setDragging] = useState<{ side: Side; idx: number } | null>(null);
   const alRef = useRef(al);
   alRef.current = al;
@@ -83,7 +83,7 @@ export default function StripPair({
   }, [al, onChange]);
 
   const cols = al.top.length;
-  const cw = Math.max(22, Math.min(32, Math.floor((width || 640) / cols)));
+  const cw = Math.max(22, Math.min(40, Math.floor((width || 640) / cols)));
   const score = scoreOf(al, penalty);
 
   // One step of the residue left or right. Returns the new alignment, or null
@@ -169,11 +169,7 @@ export default function StripPair({
               >
                 <span
                   className="block w-full"
-                  style={
-                    inside[k]
-                      ? { borderTop: `2px solid ${RW.gap}` }
-                      : { borderTop: `1px dotted ${RW.faint}` }
-                  }
+                  style={inside[k] ? { borderTop: `2px solid ${RW.gap}` } : { borderTop: `1px dotted ${RW.faint}` }}
                 />
               </div>
             );
@@ -198,15 +194,23 @@ export default function StripPair({
               onFocus={() => setFocus((f) => ({ ...f, [side]: i }))}
               className={cn(
                 "flex select-none items-center justify-center rounded-md border font-mono text-[15px] outline-none",
-                "cursor-grab touch-none focus-visible:ring-2 focus-visible:ring-ink-400",
-                isDragged ? "cursor-grabbing border-ink-400 bg-ink-200" : "border-ink-200 bg-ink-100 hover:border-ink-300"
+                "cursor-grab touch-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ink-400",
+                isDragged && "cursor-grabbing",
+                !matched[k] &&
+                  (isDragged ? "border-ink-400 bg-ink-200" : "border-ink-200 bg-ink-100 hover:border-ink-300")
               )}
               style={{
                 width: cw - 3,
                 height: cw + 6,
                 margin: "0 1.5px",
-                color: matched[k] ? RW.pairInk : RW.residue,
-                fontWeight: matched[k] ? 600 : 400,
+                ...(matched[k]
+                  ? {
+                      color: RW.matchInk,
+                      background: RW.matchSoft,
+                      borderColor: RW.matchEdge,
+                      fontWeight: 600,
+                    }
+                  : { color: RW.residue }),
               }}
             >
               {x}
@@ -219,13 +223,13 @@ export default function StripPair({
 
   const reached = target !== undefined && score.score >= target;
 
+  const button = "rounded-md px-2 py-1 text-ink-500 transition-colors hover:bg-ink-100 hover:text-ink-900";
+
   return (
-    <figure className="my-8 w-full max-w-prose self-center">
+    <Panel>
       <div ref={wrapRef} className="overflow-x-auto pb-1">
         <div style={{ width: cols * cw }}>
-          <div className="mb-1 font-mono text-[11px] uppercase tracking-[0.08em] text-ink-500">
-            {topLabel}
-          </div>
+          <div className="mb-1.5 font-ui text-xs text-ink-500">{topLabel}</div>
           {renderRow(SIDES[0])}
           <svg width={cols * cw} height={14} aria-hidden className="block">
             {matched.map((on, k) =>
@@ -236,7 +240,7 @@ export default function StripPair({
                   x2={k * cw + cw / 2}
                   y1={1}
                   y2={13}
-                  stroke={RW.pair}
+                  stroke={RW.match}
                   strokeWidth={2}
                   strokeLinecap="round"
                 />
@@ -244,45 +248,38 @@ export default function StripPair({
             )}
           </svg>
           {renderRow(SIDES[1])}
-          <div className="mt-1 font-mono text-[11px] uppercase tracking-[0.08em] text-ink-500">
-            {bottomLabel}
-          </div>
+          <div className="mt-1.5 font-ui text-xs text-ink-500">{bottomLabel}</div>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
         <ScoreLine score={score} target={target} slideOnly={mode === "slide"} />
-        <div className="flex gap-2 font-ui text-sm">
-          <button
-            type="button"
-            onClick={reset}
-            className="rounded-md border border-ink-200 px-2.5 py-1 text-ink-700 hover:border-ink-400"
-          >
+        <div className="-mr-2 flex gap-1 font-ui text-sm">
+          <button type="button" onClick={reset} className={button}>
             Reset
           </button>
           {showBest && (
-            <button
-              type="button"
-              onClick={showBestAlignment}
-              className="rounded-md border border-ink-200 px-2.5 py-1 text-ink-700 hover:border-ink-400"
-            >
+            <button type="button" onClick={showBestAlignment} className={button}>
               Show the best
             </button>
           )}
         </div>
       </div>
 
-      <figcaption className="mt-3 min-h-[1.5rem] font-ui text-sm leading-6 text-ink-600" aria-live="polite">
-        {reached && !revealed && solved}
-        {revealed && "One of the best alignments under these rules. Others may tie."}
+      <figcaption className="mt-2 min-h-[1.5rem] font-ui text-sm leading-6" aria-live="polite">
+        {reached && !revealed && <span className="text-ink-700">{solved}</span>}
+        {revealed && (
+          <span className="text-ink-700">One of the best alignments under these rules. Others may tie.</span>
+        )}
         {!reached && !revealed && (
           <span className="text-ink-500">
-            {mode === "slide"
-              ? "Drag either row left or right."
-              : "Drag a letter right to open a gap before it, or left to close one. With the keyboard, arrows move between letters and Shift + arrow drags."}
+            {mode === "slide" ? "Drag either row." : "Drag a letter right to open a gap before it, left to close it."}
+            <span className="sr-only"> With the keyboard, arrows move between letters and Shift + arrow drags.</span>
           </span>
         )}
       </figcaption>
-    </figure>
+
+      {extra && <div className="mt-4 border-t border-ink-100 pt-4">{extra}</div>}
+    </Panel>
   );
 }
