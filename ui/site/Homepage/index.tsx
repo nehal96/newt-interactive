@@ -50,7 +50,7 @@ const Meta = ({ piece }: { piece: Piece }) => (
     </span>
     {piece.parts ? (
       <span className="hidden tabular-nums tracking-[0.02em] text-ink-400 sm:inline">
-        {piece.parts.length} parts
+        {piece.parts.length} {piece.parts.length === 1 ? "part" : "parts"}
       </span>
     ) : null}
     <span className={DATE_CLASS}>{formatMonth(piece.published)}</span>

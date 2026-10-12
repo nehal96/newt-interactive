@@ -199,6 +199,14 @@ shared infrastructure.
 
 **Read `docs/hemoglobin/molstar.md` before touching the 3D code.**
 
+## Reading and Writing Proteins (`pages/series/reading-writing-proteins/`)
+
+A computational biology series on the globins, for Asimov Press. The series
+folder is the piece: its `figures/` is shared by its parts and private to the
+series. **Read `docs/reading-writing-proteins/plan.md` before building** — it
+holds the design language, code layout and beat order — and check facts
+against `sources.md`, which marks anything unverified with ⚠.
+
 ## Nehal's Library (`pages/nehals-library/`)
 
 An unlisted page of every book on the shelves. **Its data is not in the repo.**

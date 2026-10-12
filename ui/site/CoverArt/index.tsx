@@ -234,6 +234,76 @@ const Wireframe = () => (
   </>
 );
 
+const GRID = { x: 90, y: 46, cell: 10, cols: 14, rows: 10 };
+const GAP_COLS = new Set([4, 5, 6]);
+const PATH: [number, number][] = [
+  [0, 0], [1, 1], [2, 2], [3, 3], [7, 4], [8, 5], [9, 6], [10, 7], [11, 8], [12, 9],
+];
+const FIELD: [number, number][] = [
+  [0, 5], [1, 8], [2, 5], [3, 9], [4, 1], [5, 6], [6, 2], [6, 8],
+  [8, 1], [9, 3], [10, 0], [11, 5], [13, 1], [13, 6], [4, 8],
+];
+const gx = (i: number) => GRID.x + GRID.cell * i + GRID.cell / 2;
+const gy = (j: number) => GRID.y + GRID.cell * j + GRID.cell / 2;
+
+const PairGrid = () => (
+  <>
+    <rect
+      x={GRID.x}
+      y={GRID.y}
+      width={GRID.cell * GRID.cols}
+      height={GRID.cell * GRID.rows}
+      fill="none"
+      className={HAIRLINE}
+      strokeWidth={1}
+      opacity={0.5}
+    />
+    <g strokeWidth={1}>
+      {Array.from({ length: GRID.cols }, (_, i) => (
+        <rect
+          key={`t${i}`}
+          x={GRID.x + GRID.cell * i + 2}
+          y={GRID.y - 12}
+          width={6}
+          height={6}
+          rx={1.5}
+          fill={GAP_COLS.has(i) ? "none" : C.i200}
+          stroke={GAP_COLS.has(i) ? C.i300 : "none"}
+        />
+      ))}
+      {Array.from({ length: GRID.rows }, (_, j) => (
+        <rect
+          key={`l${j}`}
+          x={GRID.x - 12}
+          y={GRID.y + GRID.cell * j + 2}
+          width={6}
+          height={6}
+          rx={1.5}
+          fill={C.i200}
+        />
+      ))}
+    </g>
+    <g fill={C.i300}>
+      {FIELD.map(([i, j]) => (
+        <circle key={`${i},${j}`} cx={gx(i)} cy={gy(j)} r={1.9} />
+      ))}
+    </g>
+    <polyline
+      points={PATH.map(([i, j]) => `${gx(i)},${gy(j)}`).join(" ")}
+      fill="none"
+      stroke={C.i400}
+      strokeWidth={1.6}
+      strokeLinejoin="round"
+    />
+    <g fill={C.i600} stroke={C.i800} strokeWidth={1.2}>
+      {PATH.filter((_, k) => k !== 4).map(([i, j]) => (
+        <circle key={`${i},${j}`} cx={gx(i)} cy={gy(j)} r={3.4} />
+      ))}
+    </g>
+    <circle cx={gx(7)} cy={gy(4)} r={4.2} fill={C.r600} />
+  </>
+);
+
 const MOTIFS: Record<Motif, FC<Arrows>> = {
   network: Network,
   "network-layered": NetworkLayered,
@@ -243,6 +313,7 @@ const MOTIFS: Record<Motif, FC<Arrows>> = {
   helix: Helix,
   bars: Bars,
   wireframe: Wireframe,
+  "pair-grid": PairGrid,
 };
 
 const CoverArt = ({ motif, className }: { motif: Motif; className?: string }) => {

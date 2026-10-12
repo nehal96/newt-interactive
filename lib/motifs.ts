@@ -6,7 +6,8 @@ export type Motif =
   | "distributions"
   | "helix"
   | "bars"
-  | "wireframe";
+  | "wireframe"
+  | "pair-grid";
 
 export const MOTIFS: Motif[] = [
   "network",
@@ -17,4 +18,5 @@ export const MOTIFS: Motif[] = [
   "helix",
   "bars",
   "wireframe",
+  "pair-grid",
 ];

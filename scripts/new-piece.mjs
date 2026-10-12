@@ -7,7 +7,7 @@ import { join } from "node:path";
 const [kind, slug, title, subtitle] = process.argv.slice(2);
 
 const DIR = { essay: "essays", series: "series", block: "blocks", note: "notes" };
-const MOTIFS = ["network", "network-layered", "circuit", "generations", "distributions", "helix", "bars", "wireframe"];
+const MOTIFS = ["network", "network-layered", "circuit", "generations", "distributions", "helix", "bars", "wireframe", "pair-grid"];
 
 if (!DIR[kind] || !slug) {
   console.error("usage: node scripts/new-piece.mjs <essay|series|block|note> <slug> [title] [subtitle]");

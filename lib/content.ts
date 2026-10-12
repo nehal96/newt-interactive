@@ -11,6 +11,7 @@ import hemoglobin from "../pages/essays/hemoglobin/meta";
 import c1ffl from "../pages/blocks/c1-ffl/meta";
 import dna from "../pages/blocks/dna/meta";
 import circuitEvolution from "../pages/blocks/circuit-evolution/meta";
+import readingWritingProteins from "../pages/series/reading-writing-proteins/meta";
 import systemsBiology from "../pages/series/systems-biology/meta";
 import erdosRenyiGraph from "../pages/blocks/erdos-renyi-graph/meta";
 import kalmanFilters from "../pages/blocks/kalman-filters/meta";
@@ -28,6 +29,7 @@ export const KIND_LABEL: Record<PieceKind, string> = {
 
 export const PIECES: Piece[] = [
   hemoglobin,
+  readingWritingProteins,
   systemsBiology,
   c1ffl,
   circuitEvolution,

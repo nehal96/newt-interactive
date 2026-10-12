@@ -1,0 +1,68 @@
+import { MdxLayout } from "@ui/article";
+import meta from "./meta";
+
+export const metadata = meta;
+
+_Working skeleton. Each heading is one step of the piece; the plan for each is in
+`docs/reading-writing-proteins/plan.md`._
+
+### Same shape, different words
+
+_Myoglobin and β-hemoglobin side by side: one fold, about a quarter of their
+residues identical. The question the piece asks._
+
+### Sliding one sequence along the other
+
+_The reader slides a strip and keeps score. Each offset they try leaves a bar._
+
+### One slide isn't enough
+
+_A related pair whose start and end want different slides. Pulling a residue opens a gap._
+
+### Gaps for free
+
+_The same move on two unrelated sequences inflates their score. The rule: every gap costs._
+
+### Real globins
+
+_A globin fragment where one gap pays for itself and the rest don't._
+
+### Too many ways to line them up
+
+_The count of possible alignments as the sequences grow, and Braunitzer's alignment by eye._
+
+### Every alignment is a path
+
+_The two strips fold onto the edges of a grid. An alignment becomes a path through it._
+
+### Dots in the grid
+
+_Gibbs and McIntyre's diagram. Raw dots for β against myoglobin, and which of nine plots is real._
+
+### A cell remembers the best it can do
+
+_Needleman and Wunsch's 1970 rule, filled backward from the C-terminus, first by hand and then by the step player._
+
+### Reading off the answer
+
+_The maximum in the first row or column, and the trace back to the alignment._
+
+### Charging for gaps
+
+_The same grid with a penalty. The path straightens._
+
+### The whole proteins
+
+_63 matches with free gaps, 38 with a penalty of one, against Braunitzer's 37._
+
+### Is that more than chance?
+
+_Shuffle β, realign, and build the histogram: ten shuffles as in 1970, then a thousand._
+
+### No best set of numbers
+
+_The scores depend on weights nobody could justify yet, which is the next piece's question._
+
+export default function MDXPage({ children }) {
+  return <MdxLayout metadata={metadata}>{children}</MdxLayout>;
+}
