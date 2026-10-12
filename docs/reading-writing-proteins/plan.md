@@ -14,11 +14,54 @@ look, behave and get built here. Facts and page references are in
 - Scaffolded: the series landing page (`/series/reading-writing-proteins`), a
   piece 1 skeleton (`/related`) whose headings are the beats below, a catalogue
   row, and a `pair-grid` cover motif with its social card.
-- Nothing is built yet. The three claude.ai prototypes and `globins.json` were
-  read for their logic and numbers and are deliberately not in the repo.
 - Six papers (Needleman & Wunsch, Gibbs & McIntyre, Fitch, Eddy, Hagen,
   Strasser) have been checked against their page images; `sources.md` quotes
   them directly.
+- The three claude.ai prototypes and `globins.json` were read for their logic
+  and numbers and are deliberately not in the repo.
+
+### The lab, and how this phase works
+
+This first pass is for Nehal to learn the methods, not to build the essay.
+The working surface is the unlisted lab page,
+`/series/reading-writing-proteins/lab`: one station per method, each run the
+way its authors ran it, from a toy example up to the paper's own example, with
+short explanations and quotes between the figures. Stations that explain well
+move to the essay later; design, level of detail and UI get settled then.
+Rough is fine. Build one station at a time, then stop for Nehal to play with it
+before starting the next.
+
+Nehal works locally with `npm run dev` open on the lab page, and does not want
+a commit, push and pull cycle for each change: edit files and let the page
+reload; commit only when asked.
+
+| Station | Status |
+|---|---|
+| 1. The problem by hand: slides, gaps, the penalty, the alignment count | Built |
+| 2. Fitch 1966: windows of 30 with no gaps, minimum-mutation scores from the genetic code, the bell curve and register shifts (−5, +1, −1) for α against β | Next |
+| 3. Gibbs and McIntyre's diagram: toy, cytochrome c (Fig. 1), runs and diagonal totals against chance, Fig. 6B smoothing, then β against myoglobin | Needs cytochrome c sequences |
+| 4. Needleman and Wunsch's array: their Fig. 1 example filled backward cell by cell, both tied traces | |
+| 5. The penalty: same example, then β against myoglobin beside Table 1 | |
+| 6. Scoring by codon types: sets 3–7 | |
+| 7. The shuffle test: 10 then 1,000 shuffles, X, the ribonuclease/lysozyme control | Needs RNase and lysozyme sequences |
+| 8. 1970 against the textbook recurrence (Eddy's example), with an operation counter | |
+
+Sequences still needed (UniProt): human cytochrome c P99999, rhesus monkey
+P00002 (check species), tuna (entry not yet identified), *R. rubrum*
+cytochrome c2 P00091 (check), bovine ribonuclease A P61823, hen egg-white
+lysozyme P00698. They go in `core/sequences.ts` with their accessions.
+
+Papers on hand alignment before 1970, worth reading: Watson & Kendrew (1961),
+Nature 190:670, the first myoglobin–hemoglobin alignment, placed by structure;
+Braunitzer (1965), *Evolving Genes and Proteins* p. 183, the alignment N&W
+test against; Zuckerkandl & Pauling (1965), same volume pp. 97–166. From
+memory and unverified: Perutz, Kendrew & Watson (1965), J. Mol. Biol. 13:669;
+Ingram (1961), Nature 189:704.
+
+The algorithms are plain TypeScript in `core/` with no runtime imports, so
+`scripts/check-series.mjs` can load them in Node; it recomputes every number
+the lab quotes and runs as part of `npm run check`. Add a check for each new
+number a station quotes.
 
 ## What the prototypes taught, and what changes
 
