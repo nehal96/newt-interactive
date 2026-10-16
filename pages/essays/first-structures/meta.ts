@@ -3,9 +3,9 @@ import { definePiece } from "@lib/piece";
 export default definePiece({
   href: "/essays/first-structures",
   kind: "essay",
-  title: "How the First Protein Structures Were Discovered",
+  title: "Solving the First Protein Structures",
   subtitle:
-    "How Max Perutz and John Kendrew spent twenty-two years learning to see inside a protein",
+    "An interactive look at x-ray crystallography and Max Perutz’s Nobel Prize-winning experiments",
   description:
     "An interactive essay on how the first protein structures were solved: from Perutz's first x-ray photographs of hemoglobin in 1937, through the phase problem and the heavy-atom method that cracked it, to Kendrew's myoglobin in 1957 and hemoglobin in 1959.",
   keywords:
