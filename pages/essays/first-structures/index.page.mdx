@@ -10,6 +10,8 @@ import {
   ReadingTheFilm,
   Camera,
   WavesToPicture,
+  SpotRecords,
+  SpotRecordsInteractive,
   WavesToPictureInteractive,
   KnownWave,
   FourBumps,
@@ -47,7 +49,7 @@ When Perutz arrived at Bernal’s lab, a small, dingy sub-department in the Cave
 
 The technique works by shining a narrow beam of x-rays through a crystal and recording, on photographic film placed behind it, the pattern of spots the crystal scatters them into, an effect [discovered](https://doi.org/10.1002/andp.19133461004) in 1912. In principle, from where the spots fall (their pattern) and how dark they are (their intensities), one can work back to where the atoms sit inside the crystal. By the time Perutz arrived in Cambridge, the method had been used to determine the structures of minerals, metals, and organic molecules of a few dozen atoms — but certainly nothing as large as a protein.
 
-Spots form because x-rays are waves, and waves can combine. The x-rays used in crystallography have wavelengths of about a tenth of a nanometer, or one ångström (Å), which is roughly the distance between neighboring atoms in a molecule. Like other waves, they have amplitude (height, which relates to brightness) and phase, which describes where along its cycle a wave is (or where its crests fall). When waves are added, those in step reinforce each other, and those opposed cancel each other out.
+Spots form because x-rays are waves, and waves can combine. The x-rays used in crystallography have wavelengths of about a tenth of a nanometer, or one ångström (Å), which is roughly the distance between neighboring atoms in a molecule. Like other waves, they have amplitude (height, which relates to brightness) and phase, which describes where along its cycle a wave is. When waves are added, those in step reinforce each other, and those opposed cancel each other out.
 
 <Figure title="How waves interact">
   <Variant
@@ -87,9 +89,7 @@ The spots on the film record two kinds of information. The pattern they create c
 
 Fed up with blast-furnace slag, Perutz began thinking about using x-ray crystallography to solve parts of proteins. In the summer of 1937, while visiting Prague, he raised this idea with his cousin’s husband, a young chemistry professor named Felix Haurowitz. Perutz was considering taking on hemin, the chloride salt of the heme group found in hemoglobin, but Haurowitz talked him out of it and told him to go for the whole hemoglobin protein instead. Haurowitz even suggested a physiologist in Cambridge, named Gilbert Adair, who could provide hemoglobin crystals.
 
-When Perutz got back to Cambridge, he approached Adair, who grew him crystals of horse hemoglobin while apologizing that they were “probably much too small” as he handed them over. They turned out to be excellent for x-ray work<Fn>A decade earlier, Adair had shown that hemoglobin had four heme groups with four iron atoms. He also established the equation that described how those four hemes took on oxygen cooperatively: the first reluctantly and each of the others more readily.</Fn>.
-
-Crystals of chymotrypsin, a digestive enzyme, had also been assigned to Perutz, but they gave diffraction patterns he could not read, and so hemoglobin became, by elimination, his sole focus<Fn>The chymotrypsin crystals had arrived from the Rockefeller Institute. They were twinned — two lattices overlapping one another — which meant that after diffraction, there was no way to tell which spots belonged to which orientation. Adair’s hemoglobin, on the other hand, gave clean single crystals.</Fn>.
+When Perutz got back to Cambridge, he approached Adair, who grew him crystals of horse hemoglobin while apologizing that they were “probably much too small” as he handed them over. They turned out to be excellent for x-ray work<Fn>A decade earlier, Adair had shown that hemoglobin had four heme groups with four iron atoms. He also established the equation that described how those four hemes took on oxygen cooperatively: the first reluctantly and each of the others more readily.</Fn>. Crystals of chymotrypsin, a digestive enzyme, had also been assigned to Perutz, but they gave diffraction patterns he could not read, and so hemoglobin became, by elimination, his sole focus<Fn>The chymotrypsin crystals had arrived from the Rockefeller Institute. They were twinned — two lattices overlapping one another — which meant that after diffraction, there was no way to tell which spots belonged to which orientation. Adair’s hemoglobin, on the other hand, gave clean single crystals.</Fn>.
 
 <Wrap>
 
@@ -105,9 +105,24 @@ That winter of 1937-38, Max Perutz got his first encouraging results. The photog
 
 </Wrap>
 
-Perutz published these results in [a letter to *Nature*](https://doi.org/10.1038/141523a0) on 19 March 1938, but was still a long way from actually solving the structure<Fn>Together with Bernal and Isidor Fankuchen, an American crystallographer.</Fn>. The issue, at the time, was that the film photograph preserves only part of the information needed to reconstruct the molecule. Each spot’s darkness told Perutz how strong a scattered x-ray wave was, but did not reveal the wave’s phase — where its crests and troughs lined up relative to those of the other waves. These phases are critical because two waves of equal strength can produce completely different results when added together. When aligned crest to crest, they reinforce one another and, when aligned crest to trough, they cancel.
+Perutz published these results in [a letter to *Nature*](https://doi.org/10.1038/141523a0) on 19 March 1938, but was still a long way from actually solving the structure<Fn>Together with Bernal and Isidor Fankuchen, an American crystallographer.</Fn>. The issue was that the film recorded only part of the information needed to reconstruct the molecule. Each spot’s darkness told Perutz how strong a scattered x-ray wave was, but not the wave’s phase — where its crests and troughs lined up relative to those of the other waves. These phases were critical because two waves of equal strength can add up to completely different results. When aligned crest to crest, they reinforce one another; when aligned crest to trough, they cancel.
 
-To work backward from the spots to a picture of the molecule, then, Perutz needed to combine the waves mathematically. He knew their strengths, but without their phases, he did not know how to line them up. Different choices could produce different pictures from the same spots. For smaller molecules, crystallographers could guess an arrangement of atoms, calculate the spots it would produce, and compare them with the film. For a molecule with thousands of atoms, there were far too many arrangements to try. Finding the missing phases was the “phase problem,” and it held up the structure of hemoglobin for the next fifteen years.
+To work backward from the spots to a picture of the molecule, then, Perutz needed to combine the waves mathematically. He knew their strengths, but without their phases, he did not know how to line them up, and different choices could produce different pictures from the same spots. For smaller molecules, crystallographers could guess an arrangement of atoms, calculate the spots it would produce, and compare them with the film. For a molecule with thousands of atoms, there were far too many arrangements to try. Finding the missing phases was the “phase problem,” and it held up the structure of hemoglobin for the next fifteen years.
+
+<Figure title="What a spot records">
+  <Variant
+    name="interactive"
+    subtitle="A spot keeps how tall its wave is, but not where its crests fall. Adding a wave you know shows where they fall."
+  >
+    <SpotRecordsInteractive />
+  </Variant>
+  <Variant
+    name="static"
+    subtitle="A spot keeps how tall its wave is, but not where its crests fall. Adding a wave you know shows where they fall."
+  >
+    <SpotRecords />
+  </Variant>
+</Figure>
 
 <Figure title="How waves add up to a picture">
   <Variant
@@ -140,7 +155,7 @@ His internment took him through camps in Britain to a troopship bound for Canada
 
 ### The Phase Problem
 
-Back at Cambridge, Perutz returned to drying crystals. Rapid drying destroyed the fine detail in the diffraction patterns, so he sealed the crystal in a thin glass capillary, with a trace of its own mother liquor — the solution in which it had grown — at each end<Fn>He was by now growing his own hemoglobin crystals with the help of the Molteno Institute. The capillary was about a millimeter across, and the crystal sat in the vapor of the liquor</Fn>. This way, it could be dried over several days and held at each drying stage for weeks.
+Back at Cambridge, Perutz returned to drying crystals. Rapid drying destroyed the fine detail in the diffraction patterns, so he sealed the crystal in a thin glass capillary, with a trace of its own mother liquor — the salt solution in which it had grown — at each end<Fn>He was by now growing his own hemoglobin crystals with the help of the Molteno Institute. The capillary was about a millimeter across, and the crystal sat in the vapor of the liquor</Fn>. This way, it could be dried over several days and held at each drying stage for weeks.
 
 <Figure
   title="Perutz’s x-ray crystallography setup"
@@ -150,7 +165,7 @@ Back at Cambridge, Perutz returned to drying crystals. Rapid drying destroyed th
   <Camera />
 </Figure>
 
-Perutz photographed the crystal at four stages and found that the shrinkage was lopsided. The crystal contracted almost entirely in one direction, so he concluded that the molecules were packed in layers with liquid between them, which grew closer and slid over one another as the water drained away<Fn>Given this geometry, he could rule out the elongated ellipsoid shape physical chemists had earlier proposed.</Fn>. He [published these results](https://doi.org/10.1038/149491a0) in *Nature* in May 1942. From the same photographs, he concluded that each molecule was flat, “a platelet 36 Å thick,” the beginning of a wrong turn that would take most of the decade to correct.
+Perutz photographed the crystal at four stages and found that the shrinkage was lopsided. The crystal contracted almost entirely in one direction, so he concluded that the molecules lay in layers that closed up as the water between them drained away<Fn>Given this geometry, he could rule out the elongated ellipsoid shape physical chemists had earlier proposed.</Fn>. He [published these results](https://doi.org/10.1038/149491a0) in *Nature* in May 1942. From the same photographs, he concluded that each molecule was flat, “a platelet 36 Å thick,” the beginning of a wrong turn that would take most of the decade to correct.
 
 But drying changed two things at once. As the layers moved closer, the liquid between them also grew saltier, and salt, with its heavier atoms, scatters x-rays more strongly, so Perutz could not tell which change had made a spot darker or fainter.
 

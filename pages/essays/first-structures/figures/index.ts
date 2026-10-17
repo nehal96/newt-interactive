@@ -16,3 +16,4 @@ export { TwoChoices } from "./TwoChoices";
 export { default as SheetStack } from "./SheetStack";
 export { PerutzModel } from "./PerutzModel";
 export { default as Sidenote } from "./Sidenote";
+export { SpotRecords, SpotRecordsInteractive } from "./SpotRecords";
