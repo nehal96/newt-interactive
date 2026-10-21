@@ -4,6 +4,7 @@ import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
 import { Labels } from "./scene";
 import { SpotFilm, latticeSpots, type Spot } from "./spots";
+import { ATOMS as SMALL } from "./Molecule";
 
 const LAMBDA = 1.54;
 const EDGE_TAN = 0.2;
@@ -53,6 +54,23 @@ const HEAVY_F = 0.25 * Math.sqrt(LIGHT.reduce((sum, a) => sum + a.f * a.f, 0));
 const ARRANGEMENT_A: Atom[] = LIGHT;
 const ARRANGEMENT_B: Atom[] = [{ x: 0.3, y: 0.62, f: HEAVY_F, heavy: true }, ...LIGHT];
 
+/** The small seven-carbon molecule of the earlier figures, and the same atoms bent into another shape, in drawing units. */
+const BENT: [number, number][] = [
+  [-17.2, -17.2],
+  [-17.2, -2.8],
+  [-17.2, 11.6],
+  [-2.8, 11.6],
+  [11.6, 11.6],
+  [11.6, -2.8],
+  [26, -2.8],
+];
+/** Drawing units across one box. */
+const SMALL_BOX = 87;
+const inBox = (pts: [number, number][]): Atom[] =>
+  pts.map(([x, y]) => ({ x: 0.5 + x / SMALL_BOX, y: 0.5 + y / SMALL_BOX, f: 6 }));
+const MOLECULE: Atom[] = inBox(SMALL);
+const OTHER: Atom[] = inBox(BENT);
+
 const strengthOf = (atoms: Atom[]) => (h: number, k: number) => {
   let re = 0;
   let im = 0;
@@ -76,32 +94,51 @@ type Panel = {
 
 const SPOTS_A = latticeSpots(40, LAMBDA, EDGE_TAN, strengthOf(ARRANGEMENT_A));
 const SPOTS_B = latticeSpots(40, LAMBDA, EDGE_TAN, strengthOf(ARRANGEMENT_B));
-const change = SPOTS_A.map((a, i) => SPOTS_B[i].s - a.s);
-const DARKER = SPOTS_A[change.indexOf(Math.max(...change))];
-const FAINTER = SPOTS_A[change.indexOf(Math.min(...change))];
-const MARKS = (labelled: boolean) => [
-  { X: DARKER.X, Y: DARKER.Y, color: XR.accent, label: labelled ? "darker" : undefined },
-  { X: FAINTER.X, Y: FAINTER.Y, color: XR.label, label: labelled ? "fainter" : undefined },
-];
-const SHARED_MAX = Math.max(...SPOTS_A.map((s) => s.s), ...SPOTS_B.map((s) => s.s));
+const SPOTS_MOLECULE = latticeSpots(40, LAMBDA, EDGE_TAN, strengthOf(MOLECULE));
+const SPOTS_OTHER = latticeSpots(40, LAMBDA, EDGE_TAN, strengthOf(OTHER));
 
-const GROUPS: { title: string; note?: string; panels: Panel[] }[] = [
-  {
-    title: "Halve the unit cell",
+type Mark = { X: number; Y: number; color: string; label?: string };
+
+/** Rings on the spot that darkens most and the one that fades most from `a` to `b`. */
+function marksFor(a: Spot[], b: Spot[]) {
+  const change = a.map((s, i) => b[i].s - s.s);
+  const darker = a[change.indexOf(Math.max(...change))];
+  const fainter = a[change.indexOf(Math.min(...change))];
+  return (labelled: boolean): Mark[] => [
+    { X: darker.X, Y: darker.Y, color: XR.accent, label: labelled ? "darker" : undefined },
+    { X: fainter.X, Y: fainter.Y, color: XR.label, label: labelled ? "fainter" : undefined },
+  ];
+}
+const maxOf = (...sets: Spot[][]) => Math.max(...sets.flat().map((s) => s.s));
+const SHARED_MAX = maxOf(SPOTS_A, SPOTS_B);
+const OTHER_MAX = maxOf(SPOTS_MOLECULE, SPOTS_OTHER);
+
+type Group = "box" | "atom" | "molecule";
+
+const GROUPS: Record<Group, { note?: string; panels: Panel[]; marks?: (labelled: boolean) => Mark[] }> = {
+  box: {
     note: "spots twice as far apart",
     panels: [
       { label: "40 Å across", box: 40, atoms: [{ x: 0.5, y: 0.5, f: 1 }], spots: latticeSpots(40, LAMBDA, EDGE_TAN, ONE_ATOM), max: 1 },
       { label: "20 Å across", box: 20, atoms: [{ x: 0.5, y: 0.5, f: 1 }], spots: latticeSpots(20, LAMBDA, EDGE_TAN, ONE_ATOM), max: 1 },
     ],
   },
-  {
-    title: "Add a heavy atom",
+  atom: {
     panels: [
       { label: "protein alone", box: 40, atoms: ARRANGEMENT_A, spots: SPOTS_A, max: SHARED_MAX },
       { label: "plus mercury", box: 40, atoms: ARRANGEMENT_B, spots: SPOTS_B, max: SHARED_MAX },
     ],
+    marks: marksFor(SPOTS_A, SPOTS_B),
   },
-];
+  molecule: {
+    note: "same places, different darkness",
+    panels: [
+      { label: "one molecule", box: 40, atoms: MOLECULE, spots: SPOTS_MOLECULE, max: OTHER_MAX },
+      { label: "another molecule", box: 40, atoms: OTHER, spots: SPOTS_OTHER, max: OTHER_MAX },
+    ],
+    marks: marksFor(SPOTS_MOLECULE, SPOTS_OTHER),
+  },
+};
 
 /** A patch of the crystal, boxes outlined, drawn at a fixed number of pixels per ångström. */
 function CrystalPatch({
@@ -127,7 +164,8 @@ function CrystalPatch({
   const rows = Math.ceil(h / cell) + 1;
   const ox = x + (w - Math.floor(w / cell) * cell) / 2;
   const oy = y + (h - Math.floor(h / cell) * cell) / 2;
-  const radius = (a: Atom) => (a.heavy ? 5 : a.f === 1 ? 3 : 1.7);
+  const sparse = panel.atoms.length < 10;
+  const radius = (a: Atom) => (a.heavy ? 5 : a.f === 1 ? 3 : sparse ? 2.4 : 1.7);
   return (
     <g>
       <defs>
@@ -147,13 +185,15 @@ function CrystalPatch({
         {Array.from({ length: (cols + 1) * (rows + 1) }, (_, n) => {
           const i = (n % (cols + 1)) - 1;
           const j = Math.floor(n / (cols + 1)) - 1;
+          // A few big atoms per cell read as a molecule only if no cell is cut off at the edge.
+          if (sparse && (i < 0 || j < 0 || i >= Math.floor(w / cell) || j >= Math.floor(h / cell))) return null;
           return panel.atoms.map((a, k) => (
             <circle
               key={`${n}-${k}`}
               cx={ox + (i + a.x) * cell}
               cy={oy + (j + a.y) * cell}
               r={radius(a)}
-              fill={a.heavy || a.f === 1 ? XR.sum : XR.label}
+              fill={a.heavy || a.f === 1 ? XR.sum : sparse ? XR.moleculeEdge : XR.label}
             />
           ));
         })}
@@ -172,23 +212,31 @@ function CrystalPatch({
   );
 }
 
-export function ReadingTheFilm({ group }: { group: "box" | "atom" }) {
+const TITLES: Record<Group, string> = {
+  box: "The smaller the unit cell, the farther apart the spots.",
+  atom: "A heavy atom leaves the spots where they are but changes how dark they are.",
+  molecule: "A different molecule in the same unit cell leaves the spots where they are but changes how dark they are.",
+};
+
+const DESCRIPTIONS: Record<Group, string> = {
+  box: "Two crystal patches, each above its film. Halving the box from 40 to 20 ångströms spreads the spots twice as far apart.",
+  atom: "Two crystal patches with the same 40 ångström box of light atoms, each above its film; the second has one heavy atom added. The spots fall in the same places; some get darker and others fainter.",
+  molecule: "Two crystal patches with the same 40 ångström box, filled with the same atoms in different places, each above its film. The spots fall in the same places; some get darker and others fainter.",
+};
+
+export function ReadingTheFilm({ group }: { group: Group }) {
   const ids = useId();
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const narrow = W < 520;
   const text = narrow ? 10 : 11;
-  const shown = GROUPS.filter((_, i) => (group === "box" ? i === 0 : i === 1));
+  const g = GROUPS[group];
 
   const S = Math.min(170, (W - 12) / 2);
   const crystalH = Math.round(S * 0.5);
   const pxPerA = S / 3.4 / 40;
-  const groupH = 22 + crystalH + 12 + S + (shown[0].note ? 26 : 4);
-  const H = groupH;
-
-  const place = (_g: number, p: number) => {
-    const x0 = (W - (2 * S + 12)) / 2;
-    return { x: x0 + p * (S + 12), y: 0 };
-  };
+  const H = 22 + crystalH + 12 + S + (g.note ? 26 : 4);
+  const x0 = (W - (2 * S + 12)) / 2;
+  const mid = W / 2;
 
   return (
     <div ref={ref} className="w-full">
@@ -200,73 +248,52 @@ export function ReadingTheFilm({ group }: { group: "box" | "atom" }) {
         role="img"
         aria-labelledby={`${ids}t ${ids}d`}
       >
-        <title id={`${ids}t`}>
-          {group === "box"
-            ? "The smaller the unit cell, the farther apart the spots."
-            : "A heavy atom leaves the spots where they are but changes how dark they are."}
-        </title>
-        <desc id={`${ids}d`}>
-          {group === "box"
-            ? "Two crystal patches, each above its film. Halving the box from 40 to 20 ångströms spreads the spots twice as far apart."
-            : "Two crystal patches with the same 40 ångström box of light atoms, each above its film; the second has one heavy atom added. The spots fall in the same places; some get darker and others fainter."}
-        </desc>
+        <title id={`${ids}t`}>{TITLES[group]}</title>
+        <desc id={`${ids}d`}>{DESCRIPTIONS[group]}</desc>
 
-        {shown.map((g) => {
-          const gi = group === "box" ? 0 : 1;
-          const a = place(gi, 0);
-          const b = place(gi, 1);
-          const mid = (a.x + b.x + S) / 2;
-          const top = a.y;
+        {g.panels.map((p, pi) => {
+          const x = x0 + pi * (S + 12);
+          const crystalTop = 22;
+          const filmTop = crystalTop + crystalH + 12;
           return (
-            <g key={g.title}>
-              {g.panels.map((p, pi) => {
-                const { x } = place(gi, pi);
-                const crystalTop = top + 22;
-                const filmTop = crystalTop + crystalH + 12;
-                return (
-                  <g key={p.label}>
-                    <Labels size={text}>
-                      <text x={x + S / 2} y={top + 14} textAnchor="middle">
-                        {p.label}
-                      </text>
-                    </Labels>
-                    <CrystalPatch
-                      x={x}
-                      y={crystalTop}
-                      w={S}
-                      h={crystalH}
-                      pxPerA={pxPerA}
-                      panel={p}
-                      ring={gi === 1 && pi === 1}
-                    />
-                    <SpotFilm
-                      x={x}
-                      y={filmTop}
-                      size={S}
-                      spots={p.spots}
-                      max={p.max}
-                      linear
-                      marks={gi === 1 ? MARKS(pi === 1) : []}
-                    />
-                  </g>
-                );
-              })}
-              {g.note && (
-                <Labels size={text}>
-                  <text
-                    x={mid}
-                    y={top + 22 + crystalH + 12 + S + 18}
-                    textAnchor="middle"
-                    fill={XR.accent}
-                  >
-                    {g.note}
-                  </text>
-                </Labels>
-              )}
+            <g key={p.label}>
+              <Labels size={text}>
+                <text x={x + S / 2} y={14} textAnchor="middle">
+                  {p.label}
+                </text>
+              </Labels>
+              <CrystalPatch
+                x={x}
+                y={crystalTop}
+                w={S}
+                h={crystalH}
+                pxPerA={pxPerA}
+                panel={p}
+                ring={group === "atom" && pi === 1}
+              />
+              <SpotFilm
+                x={x}
+                y={filmTop}
+                size={S}
+                spots={p.spots}
+                max={p.max}
+                linear
+                marks={g.marks ? g.marks(pi === 1) : []}
+              />
             </g>
           );
         })}
+        {g.note && (
+          <Labels size={text}>
+            <text x={mid} y={22 + crystalH + 12 + S + 18} textAnchor="middle" fill={XR.accent}>
+              {g.note}
+            </text>
+          </Labels>
+        )}
       </svg>
     </div>
   );
 }
+
+/** The two-molecule comparison, for figures that lay out their own films. */
+export const MOLECULE_PAIR = GROUPS.molecule;

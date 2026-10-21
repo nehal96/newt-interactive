@@ -10,14 +10,14 @@ import { SPACING as ROW_SPACING } from "./RowOfAtoms";
 const N = 5;
 const LAMBDA = 1 / ROW_SPACING;
 /** tan θ at the film's half-width. */
-const EDGE_TAN = 1;
+export const EDGE_TAN = 1;
 const RES = 140;
 /** Pixels under the beam stop, left out when scaling darkness: the straight-through peak would wash out the rest. */
 const STOP_PX = 7;
 /** The molecule's drawing units per repeat spacing. */
 const CELL = 87;
 
-type Pt = [number, number];
+export type Pt = [number, number];
 type Kind = "across" | "down" | "grid" | "molecules";
 
 const line = (i: number) => i - (N - 1) / 2;
@@ -60,7 +60,7 @@ function intensity(atoms: Pt[]) {
 const ink = [0x1a, 0x18, 0x25];
 const paper = [0xfb, 0xfa, 0xf7];
 
-function filmImage(atoms: Pt[]) {
+export function filmImage(atoms: Pt[]) {
   const { out, max } = intensity(atoms);
   const canvas = document.createElement("canvas");
   canvas.width = RES;
@@ -84,7 +84,7 @@ const PANELS: { kind: Kind; header: string; label: string }[] = [
 ];
 
 /** Film x for the in-step curve of the row across, order m, at film height Y (both in units of D). */
-function bandX(m: number, Y: number) {
+export function bandX(m: number, Y: number) {
   const s = m * LAMBDA;
   return s * Math.sqrt((Y * Y + 1) / (1 - s * s));
 }

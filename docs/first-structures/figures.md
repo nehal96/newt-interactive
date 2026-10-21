@@ -105,8 +105,17 @@ a `<p>`). They accept or reject the marks themselves.
 ## Where things stand
 
 As of 2026-10-04 the first set is built. In essay order:
-1. Explainer 1: waves (static and interactive variants still both offered),
-   `Scattering`, crystal (side), camera with the 1938 photograph.
+1. X-Rays (reworked 2026-10-20, with the author): `TwoWaves`, static only.
+   `WhyBands`: a draggable film marker shows two atoms' paths, the red extra
+   path and the two arriving waves, with a spacing slider; then the row of
+   atoms with an atom-count slider, bands thinning and darkening. Then
+   `CrystalRecords` as a static side float beside the "two kinds" paragraph:
+   a row each way and the grid (both band sets dashed over the spots), a rule,
+   then one molecule vs another ("same places, different darkness", rings as
+   in the 1953 mercury pair). Tried and rejected: stacking many atoms' waves
+   in the marker readout (confusing), a static strip for the many-atoms panel
+   (worse), interactive rows-to-spots (wanted static), two full-width figures
+   back to back (too long).
 2. Winter 1937–38 (one Wrap, two side floats): unit-cell spacing, then
    `WhatTheFilmKeeps`.
 3. Explainer 2 (1939): `FourierMap`.

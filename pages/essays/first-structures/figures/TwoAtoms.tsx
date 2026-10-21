@@ -14,7 +14,7 @@ const MAX_SPACING = 5;
 
 type Stage = "one" | "two" | "row";
 
-function ScatterPanel({
+export function ScatterPanel({
   W,
   stage,
   spacing,
@@ -25,7 +25,10 @@ function ScatterPanel({
   span = 18,
   hideHeader = false,
   showKey = false,
+  grow,
 }: {
+  /** Darken the row's bands with the atom count, reaching black at this many atoms. */
+  grow?: number;
   hideHeader?: boolean;
   showKey?: boolean;
   W: number;
@@ -77,7 +80,10 @@ function ScatterPanel({
       ? Array.from({ length: Math.ceil(filmBottom - filmTop) + 1 }, (_, i) => {
           const y = filmTop + i;
           const t = (y - cy) / D;
-          const o = Math.abs(y - cy) <= shadowHalf ? 0 : 0.9 * rowStrength(n, t / Math.hypot(1, t));
+          const s = rowStrength(n, t / Math.hypot(1, t));
+          // Drawn by wave height, n·√s, so a few atoms stay visible beside many.
+          const shade = grow ? Math.min(1, (n * Math.sqrt(s)) / grow) : s;
+          const o = Math.abs(y - cy) <= shadowHalf ? 0 : 0.9 * shade;
           return { offset: i / (filmBottom - filmTop), o };
         })
       : filmGradient(atoms, lambda, filmX, filmTop, filmBottom, stop, 1);
@@ -118,7 +124,7 @@ function ScatterPanel({
       const pts = guide(diff);
       if (pts) guides.push({ diff: k / 2, pts });
     }
-  if (stage === "row")
+  if (stage === "row" && n > 1)
     for (let k = -ROW_SPACING + 1; k < ROW_SPACING; k++) {
       const s = k / ROW_SPACING;
       const y = cy + (D * s) / Math.sqrt(1 - s * s);

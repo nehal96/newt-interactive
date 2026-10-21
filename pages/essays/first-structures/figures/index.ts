@@ -1,14 +1,15 @@
 export { default as Figure, Variant, Wrap } from "./Figure";
 export { Add, AddParagraph, Cut } from "./Edits";
 export { default as Term } from "./Term";
-export { TwoWaves, TwoWavesInteractive } from "./TwoWaves";
-export { Scattering } from "./TwoAtoms";
-export { CrystalSpots } from "./CrystalSpots";
+export { TwoWaves } from "./TwoWaves";
+export { WhyBands } from "./WhyBands";
+export { CrystalRecords } from "./CrystalRecords";
 export { ReadingTheFilm } from "./ReadingTheFilm";
 export { Camera } from "./Camera";
 export { WavesToPicture, WavesToPictureInteractive } from "./WavesToPicture";
 export { KnownWave } from "./KnownWave";
 export { FourBumps } from "./FourBumps";
+export { LiquidLayer, LiquidLayerInteractive } from "./LiquidLayer";
 export { FourierMap, FourierMapInteractive } from "./FourierMap";
 export { PattersonMap } from "./PattersonMap";
 export { CrickRods } from "./CrickRods";

@@ -6,8 +6,8 @@ import { TAU, curvePath } from "./wave";
 import { Labels } from "./scene";
 
 /** Boyes-Watson, Davidson & Perutz 1947, table 7 (unit cell 5), with the signs settled in their table 9 and p. 120. */
-const F_TAP_WATER = [98, -58, 26, 0, -48, -68, -41];
-const F_SALT = [32, -32, 14, 22, -46, -68, -33];
+export const F_TAP_WATER = [98, -58, 26, 0, -48, -68, -41];
+export const F_SALT = [32, -32, 14, 22, -46, -68, -33];
 /** c sin β of the normal wet cell, table 1. */
 const REPEAT = 50.7;
 /** Thickness of the protein layer, p. 113. */
