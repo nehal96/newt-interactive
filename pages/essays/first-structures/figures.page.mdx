@@ -1,0 +1,134 @@
+import Head from "next/head";
+import { MdxLayout } from "@ui/article";
+import {
+  Figure,
+  Plate,
+  TwoWaves,
+  WhySpots,
+  LinedUp,
+  Camera,
+  SaltPair,
+  FourBumps,
+  PattersonRods,
+  ReadingTheFilm,
+  TwoHeavyAtoms,
+  SheetStack,
+  PerutzModel,
+} from "./figures";
+import meta from "./meta";
+
+export const metadata = {
+  ...meta,
+  kind: undefined,
+  title: "Figures: Solving the First Protein Structures",
+  subtitle: "Every figure in the essay, in order.",
+  url: `${meta.url}/figures`,
+};
+
+<Head>
+  <meta name="robots" content="noindex" />
+</Head>
+
+The figures and interactives from [Solving the First Protein Structures](/essays/first-structures), without the prose.
+
+### X-Rays
+
+<Figure
+  title="How waves interact"
+  subtitle="Waves in step add up to a taller wave; waves half a wave apart cancel out."
+>
+  <TwoWaves />
+</Figure>
+
+<Figure
+  title="Why a crystal makes spots"
+  subtitle="When x-rays hit an atom, its electrons emit x-rays of their own. Where those waves meet on the film, they add up or cancel, depending on how far each one has traveled."
+  caption="Not to scale. In part 2, the spots sit where they did in Bernal’s 1938 photograph of hemoglobin."
+>
+  <WhySpots />
+</Figure>
+
+### The Big Idea
+
+<Figure title="The film can’t tell you how to line up the waves">
+  <LinedUp />
+</Figure>
+
+### The Phase Problem
+
+<Figure
+  title="Perutz’s x-ray crystallography setup"
+  subtitle="A nickel filter lets through x-rays of just one wavelength. The crystal, sealed in a glass tube, is rocked a few degrees to catch more spots."
+  caption="Not to scale. Based on Perutz and Rogers (1946) and Boyes-Watson, Davidson and Perutz (1947). Photograph: Bernal, Fankuchen and Perutz, Nature, 1938."
+>
+  <Camera />
+</Figure>
+
+<div className="flex w-full max-w-[20rem] flex-col self-center">
+  <Figure
+    title="Salt tells you which way to flip each wave"
+    subtitle="Salt changes only the liquid’s wave, which Perutz could work out. Where it is in step with the protein’s wave, the spot gets darker; where it is opposed, fainter."
+    caption="The liquid’s wave is drawn at half the height of the protein’s. Based on Boyes-Watson and Perutz (1943)."
+  >
+    <SaltPair />
+  </Figure>
+</div>
+
+<div className="flex w-full max-w-[20rem] flex-col self-center">
+  <Figure
+    title="The first look inside hemoglobin"
+    subtitle="Adding the seven waves gave the amount of matter at each depth through one layer. Changing the liquid changed only the edges; the four bumps stayed put."
+    caption="Computed from the seven spots in Boyes-Watson, Davidson and Perutz (1947)."
+  >
+    <FourBumps />
+  </Figure>
+</div>
+
+<Plate
+  title="The rods in Perutz’s map"
+  subtitle="Seen straight down Perutz’s Patterson map, each ringed peak is the end of a rod. Drawn in 3D, the rods all run the same way, so Perutz read them as protein chains lying side by side in layers."
+  caption="Perutz, Proc. R. Soc. A 195, 1949, fig. 21 (reprinted from Boyes-Watson, Davidson and Perutz, 1947, fig. 3a; rings added), fig. 22 and fig. 23b."
+>
+  <PattersonRods />
+</Plate>
+
+### Heavy Atoms
+
+<div className="flex w-full max-w-[16rem] flex-col self-center">
+  <Figure
+    title="What mercury does to the spots"
+    subtitle="The spots stay where they are, because the unit cell is the same. But the heavy atom’s wave makes some darker and others fainter."
+  >
+    <ReadingTheFilm group="mercury" />
+  </Figure>
+</div>
+
+<div className="flex w-full max-w-[20rem] flex-col self-center">
+  <Figure
+    title="Why one heavy atom isn’t enough"
+    subtitle="If the protein’s wave is a little ahead of the mercury’s, or the same amount behind, the spot changes the same way. A second heavy atom, in another place, tells the two apart."
+    caption="The heavy atoms’ waves are drawn at half the height of the protein’s. Based on Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
+  >
+    <TwoHeavyAtoms />
+  </Figure>
+</div>
+
+<Figure
+  title="Kendrew’s 6 Å contour maps of myoglobin"
+  subtitle="Each slice is a contour map of one plane through the crystal. The rings crowd together where there are most electrons, and the densest patch of all is the heme."
+  caption="Eight of the sixteen slices; the other eight are the same slices turned over. Stacked farther apart than the real 1.93 Å, so each one shows. Traced from Bodo, Dintzis, Kendrew and Wyckoff (1959), figure 18."
+>
+  <SheetStack />
+</Figure>
+
+<Figure
+  title="Perutz’s model of human hemoglobin"
+  subtitle="In 1967 Perutz built this model from painted wood, the way he built his first in 1959: each slice of the map cut out and stacked. The two kinds of chain are black and white, and each heme is a red disk."
+  caption="Rebuilt from the modern structure of human hemoglobin (PDB 2HHB), blurred to 5.5 Å and cut into 2 Å slices as Perutz described in 1960. The original is at the Science Museum, London."
+>
+  <PerutzModel />
+</Figure>
+
+export default function MDXPage({ children }) {
+  return <MdxLayout metadata={metadata}>{children}</MdxLayout>;
+}

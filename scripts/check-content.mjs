@@ -29,8 +29,10 @@ const NOT_A_PIECE = new Set([
   "/_app", "/_document", "/404", "/og-card", "/feed.xml", "/sitemap.xml", "/",
 ]);
 // A page that states its own metadata. Decks do, so they are not exempt here.
+// A piece's companion pages ride on the piece's own catalogue row.
+const isCompanion = (href) => href.endsWith("/lab") || href.endsWith("/figures");
 const isContentPage = (href) =>
-  !NOT_A_PIECE.has(href) && !href.startsWith("/api") && !href.endsWith("/lab");
+  !NOT_A_PIECE.has(href) && !href.startsWith("/api") && !isCompanion(href);
 // A page the homepage, sitemap and feed must carry. /decks/* are unlisted
 // product surfaces: a catalogue row is exactly what they must not have.
 const isCatalogued = (href) => isContentPage(href) && !href.startsWith("/decks");
