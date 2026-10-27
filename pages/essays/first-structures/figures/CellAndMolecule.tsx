@@ -8,7 +8,7 @@ const FILM = 120;
 const WHERE = <Note title="3. The unit cell sets where the spots fall">Make the unit cell smaller, and the spots spread farther apart.</Note>;
 const DARK = (
   <Note title="4. The molecule sets how dark they are">
-    Put a different molecule in the same unit cell. The spots stay in the same places, but some get darker and some fainter.
+    Put a different molecule in the same unit cell, and the spots stay put but some get darker and some fainter.
   </Note>
 );
 

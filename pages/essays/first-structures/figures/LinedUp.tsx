@@ -128,10 +128,10 @@ export function LinedUp() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <Note title="1. Line up the waves yourself">
+        <Note title="1. Try lining up the waves">
           Each spot gives one wave; the darker the spot, the taller its wave. Click a flip button to turn a wave upside
-          down (change its phase), and find the line-up whose sum peaks on the three hidden atoms. The film looks the same
-          for every line-up, so it can’t help: that is the phase problem.
+          down (change its phase), and find the line-up whose sum peaks on the three hidden atoms. Flipping a wave doesn’t
+          change its spot, so the film can’t tell you which phase each wave has.
         </Note>
         <div className="mt-3">
           <LineUpGame />

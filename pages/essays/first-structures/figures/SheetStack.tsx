@@ -170,7 +170,8 @@ export default function SheetStack() {
   const z = layout.zoom;
 
   return (
-    <div className="w-full">
+    // `clip`, not `hidden`: hidden would flatten the stack's 3D.
+    <div className="w-full overflow-x-clip">
       <div
         ref={scene}
         className="[perspective:1600px]"

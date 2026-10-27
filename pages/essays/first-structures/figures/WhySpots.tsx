@@ -45,7 +45,7 @@ function firstBand(s: number) {
 function verdict(extra: number) {
   const off = Math.abs(extra - Math.round(extra));
   if (off < 0.06)
-    return Math.round(Math.abs(extra)) === 0 ? "In step: dark" : "A whole number of waves behind: in step, dark";
+    return Math.round(Math.abs(extra)) === 0 ? "In step: dark" : "A whole number of wavelengths behind: in step, dark";
   if (Math.abs(off - 0.5) < 0.06) return "Half a wave behind: they cancel, clear";
   return "Partly in step: grey";
 }
@@ -298,7 +298,7 @@ export function WhySpots() {
     <div className="flex w-full flex-col gap-10">
       <div>
         <Note title="1. Two atoms make bands">
-          Drag the marker along the film. Where one wave has traveled a whole number of waves
+          Drag the marker along the film. Where one wave has traveled a whole number of wavelengths
           farther than the other, they arrive in step and the film is dark. Where it has traveled
           half a wave farther, they cancel and the film stays clear. Move the atoms apart, and the
           bands crowd together.

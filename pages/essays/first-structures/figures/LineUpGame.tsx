@@ -25,6 +25,9 @@ const key = (signs: number[]) => signs.join("");
 const WEIGHT = HEIGHT.reduce((a, h) => a + h * h, 0);
 const closeness = (signs: number[]) => (1 + signs.reduce((a, s, i) => a + s * RIGHT[i] * HEIGHT[i] ** 2, 0) / WEIGHT) / 2;
 
+const BUTTON =
+  "rounded-md border border-ink-300 bg-paper px-2 py-1 font-ui text-xs text-ink-700 hover:border-ink-500 hover:text-ink-900";
+
 const shade = (i: number) => 0.12 + (0.88 * HEIGHT[i] ** 2) / TALLEST ** 2;
 
 function FilmStrip({ W }: { W: number }) {
@@ -55,11 +58,11 @@ export function LineUpGame() {
   const close = closeness(signs);
   const solved = close > 0.999;
   const reveal = shown || solved;
-  const flip = (i: number) => {
-    const next = signs.map((s, j) => (j === i ? -s : s));
+  const choose = (next: number[]) => {
     setSigns(next);
     setSeen((cur) => new Set(cur).add(key(next)));
   };
+  const flip = (i: number) => choose(signs.map((s, j) => (j === i ? -s : s)));
 
   const rowH = narrow ? 38 : 42;
   const amp = narrow ? 13 : 15;
@@ -162,14 +165,19 @@ export function LineUpGame() {
             {message}
           </p>
         </div>
-        {!solved && (
-          <button
-            type="button"
-            onClick={() => setShown((v) => !v)}
-            className="rounded-md border border-ink-300 bg-paper px-2 py-1 font-ui text-xs text-ink-700 hover:border-ink-500 hover:text-ink-900"
-          >
-            {shown ? "Hide the atoms" : "Show the atoms"}
-          </button>
+        {solved ? (
+          <p className="min-w-[12rem] flex-1 font-ui text-xs leading-[1.125rem] text-ink-700">
+            The film alone couldn’t have told you which line-up was right. That is the phase problem.
+          </p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            <button type="button" onClick={() => setShown((v) => !v)} className={BUTTON}>
+              {shown ? "Hide the atoms" : "Show the atoms"}
+            </button>
+            <button type="button" onClick={() => choose(RIGHT)} className={BUTTON}>
+              Show the answer
+            </button>
+          </div>
         )}
       </div>
     </div>

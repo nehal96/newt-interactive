@@ -24,12 +24,7 @@ const metadata = {
   kind: undefined,
   published: undefined,
   title: "Solving the First Protein Structures: figures",
-  subtitle: (
-    <>
-      The essay’s figures, in order. Each is a React component in{" "}
-      <code className="font-mono text-[0.9em]">figures/</code>.
-    </>
-  ),
+  subtitle: "Every figure in the essay, in order.",
   url: `${meta.url}/figures`,
 };
 
@@ -87,7 +82,7 @@ const FIGURES: Entry[] = [
     figure: (
       <Figure
         title="Perutz’s x-ray crystallography setup"
-        subtitle="A nickel filter lets through x-rays of just one wavelength. The crystal, sealed in a glass tube, is rocked a few degrees to catch more spots."
+        subtitle="X-rays from the tube pass through the crystal and land on flat film. A nickel filter on the way lets through just one wavelength, and the crystal, sealed in a glass tube, is rocked a few degrees to catch more spots."
         caption="Not to scale. Based on Perutz and Rogers (1946) and Boyes-Watson, Davidson and Perutz (1947). Photograph: Bernal, Fankuchen and Perutz, Nature, 1938."
       >
         <Camera />
@@ -102,7 +97,7 @@ const FIGURES: Entry[] = [
     figure: (
       <Figure
         title="Salt tells you which way to flip each wave"
-        subtitle="Salt changes only the liquid’s wave, which Perutz could work out. Where it is in step with the protein’s wave, the spot gets darker; where it is opposed, fainter."
+        subtitle="Salt changes only the liquid’s wave, which Perutz could work out. When it is in step with the protein’s wave, the spot gets darker; when it is opposed, fainter."
         caption="The liquid’s wave is drawn at half the height of the protein’s. Based on Boyes-Watson and Perutz (1943)."
       >
         <SaltPair />
@@ -117,7 +112,7 @@ const FIGURES: Entry[] = [
     figure: (
       <Figure
         title="The first look inside hemoglobin"
-        subtitle="Adding the seven waves gave the amount of matter at each depth through one layer. Changing the liquid changed only the edges; the four bumps stayed put."
+        subtitle="Adding the seven waves gave the amount of matter at each depth through one layer. The two liquids differ only at the edges."
         caption="Computed from the seven spots in Boyes-Watson, Davidson and Perutz (1947)."
       >
         <FourBumps />
@@ -146,7 +141,7 @@ const FIGURES: Entry[] = [
     figure: (
       <Figure
         title="What mercury does to the spots"
-        subtitle="The spots stay where they are, because the unit cell is the same. But the heavy atom’s wave makes some darker and others fainter."
+        subtitle="The spots stay where they are, because the unit cell is the same. But the heavy atom’s wave makes some spots darker and others fainter."
       >
         <ReadingTheFilm group="mercury" />
       </Figure>
