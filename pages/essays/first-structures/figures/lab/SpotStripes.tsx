@@ -1,4 +1,4 @@
-// Slide one atom across the box and mark where its wave reaches spot 3 in step: the marks are the spot's stripes.
+// Slide one atom across the cell and mark where its wave reaches spot 3 in step: the marks are the spot's stripes.
 import { useId, useState } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "../palette";
@@ -44,10 +44,10 @@ export function SpotStripes() {
   return (
     <div ref={ref} className="w-full">
       <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="block" role="img" aria-labelledby={`${ids}t ${ids}d`}>
-        <title id={`${ids}t`}>Sliding an atom across the box: where its wave reaches spot 3 in step, a stripe is marked</title>
+        <title id={`${ids}t`}>Sliding an atom across the cell: where its wave reaches spot 3 in step, a stripe is marked</title>
         <desc id={`${ids}d`}>
-          The atom is {Math.round(x * 100)}% across the box. At spot 3 its wave arrives {behind.toFixed(2)} of a wave behind a
-          wave from the left wall. Places where it arrives in step come round three times across the box, at 0%, 33% and 67%,
+          The atom is {Math.round(x * 100)}% across the cell. At spot 3 its wave arrives {behind.toFixed(2)} of a wave behind a
+          wave from the left wall. Places where it arrives in step come round three times across the cell, at 0%, 33% and 67%,
           and are marked as stripes.
         </desc>
         <defs>
@@ -69,7 +69,7 @@ export function SpotStripes() {
         <path d={curvePath(labelW, atomY, bw, wave(behind), 1)} fill="none" stroke={XR.second} strokeWidth={2} />
 
         <Labels size={text}>
-          <text x={0} y={boxY + boxH / 2 + 4}>the box</text>
+          <text x={0} y={boxY + boxH / 2 + 4}>the cell</text>
           <text x={labelW} y={refY - unit - 10}>
             {narrow ? "at spot 3:" : "the waves arriving at spot 3:"}
           </text>
@@ -85,7 +85,7 @@ export function SpotStripes() {
 
       <div className="mt-4">
         <SliderRow
-          label="Slide the atom across the box"
+          label="Slide the atom across the cell"
           value={x}
           display={`${Math.round(x * 100)}% across`}
           min={0}
@@ -97,7 +97,7 @@ export function SpotStripes() {
 
       <div className="mt-6 border-t border-ink-200 pt-4">
         <p className="mb-2 font-ui text-xs text-ink-500">Every spot has its own stripes. The farther out the spot, the finer they are.</p>
-        <svg width={W} height={MH} viewBox={`0 0 ${W} ${MH}`} className="block" role="img" aria-label="The stripes for spots 1, 2, 3 and 6: one, two, three and six stripes across the box">
+        <svg width={W} height={MH} viewBox={`0 0 ${W} ${MH}`} className="block" role="img" aria-label="The stripes for spots 1, 2, 3 and 6: one, two, three and six stripes across the cell">
           <defs>
             {MINIS.map((n, i) => (
               <Profile key={n} id={`${uid}m${n}`} x0={miniX(i)} x1={miniX(i) + miniW} alpha={(v) => 0.6 * stripe(n, v)} />

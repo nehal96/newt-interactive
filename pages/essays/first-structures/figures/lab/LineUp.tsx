@@ -95,7 +95,7 @@ export function LineUp({ hint = false }: { hint?: boolean }) {
     message = right
       ? "That’s the molecule: a peak on every atom."
       : shifted
-        ? "That’s the molecule too, slid half a box along. The box has no fixed starting point, so this counts."
+        ? "That’s the molecule too, slid half a cell along. The cell has no fixed starting point, so this counts."
         : "Not this one. The film fits it just as well, but the peaks miss the atoms.";
   } else if (clued) {
     message = right

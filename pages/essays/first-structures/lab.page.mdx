@@ -21,17 +21,12 @@ import {
   SpotStripes,
   StackSheets,
   LineUp,
-  KnownWave,
   LiquidLayer,
-  LiquidLayerInteractive,
   SevenWaves,
-  FourBumps,
   RodsTest,
-  TwoChoices,
-  FourierMap,
+  TwoHeavyAtoms,
   SheetStack,
   PerutzModel,
-  OptionsLineUp,
 } from "./figures/lab";
 import meta from "./meta";
 
@@ -52,7 +47,7 @@ export const metadata = {
 
 How do you get from spots on a film to a picture of the molecule that made them?
 
-The way in is to understand how a molecule makes spots in the first place, and then try to run that backwards. Each section below answers one question and ends with the question it raises. Act I is how a molecule makes spots. Act II asks whether the process can be run backwards, and finds what is missing. Act III is how Perutz and Kendrew found it.
+First, see how a molecule makes spots. Then try to run that backwards. Each section answers one question and ends with the next one. Act I is how a molecule makes spots. Act II asks whether you can run it backwards, and finds what is missing. Act III is how Perutz and Kendrew found it.
 
 <ChainMap />
 
@@ -60,11 +55,14 @@ The way in is to understand how a molecule makes spots in the first place, and t
 
 <Q n={1} />
 
-A narrow beam of x-rays is aimed at a crystal less than a millimetre across, sealed in a glass tube with a little of the liquid it grew in. Most of the beam passes straight through the crystal and is caught by a small block, the beam stop, so that it doesn’t black out the film. A tiny fraction is knocked off course by the crystal and flies off at every angle. A flat photographic film, 5 to 10 centimetres behind the crystal, catches it.
+A narrow beam of x-rays hits a crystal less than a millimetre across, sealed in a glass tube with a little of the liquid it grew in. Most of the beam goes straight through and hits a small block, the beam stop, so that it doesn’t black out the film. A tiny fraction bounces off the crystal at every angle and lands on a flat film a few centimetres behind.
 
-Each point on the film catches only the x-rays that left the crystal at one particular angle: points near the centre, small angles; points near the edge, large ones. Nobody picks an angle. The film records every point at once, over an exposure that took Perutz’s camera about twelve hours. When it is developed, it shows dark spots in some places and nothing in between.
+Each point on the film catches the x-rays that left the crystal at one angle: small angles near the centre, large ones near the edge. After about twelve hours, the developed film shows dark spots, and nothing in between.
 
-<Figure title="X-rays that pass through a crystal leave spots on a film behind it">
+<Figure
+  title="Perutz’s x-ray crystallography setup"
+  subtitle="A nickel filter lets through x-rays of just one wavelength. The crystal, sealed in a glass tube, is rocked a few degrees to catch more spots."
+>
   <Camera />
 </Figure>
 
@@ -72,24 +70,24 @@ Each point on the film catches only the x-rays that left the crystal at one part
 
 <Q n={2} />
 
-An x-ray is a wave, like light but with a much shorter wavelength: about one ångström (Å), a ten-billionth of a metre, which is roughly the distance between neighbouring atoms in a molecule. The copper tubes of Perutz’s day gave x-rays 1.54 Å long.
+A wave, like light, but with a much shorter wavelength: about one ångström (Å), a ten-billionth of a metre, which is roughly the distance between two atoms. Perutz’s copper tube gave x-rays 1.54 Å long.
 
-Besides its wavelength, a wave has two properties that matter here. Its **height** sets how much it exposes the film: the darkness goes with the height squared, so a wave twice as tall makes a mark four times as dark. Its **phase** says where its crests fall, measured from some fixed starting line. Sliding a wave along changes its phase and nothing else; on its own, the film can’t tell the difference.
+Two more things about a wave matter here. Its **height** sets how dark it makes the film: a wave twice as tall makes a mark four times as dark. Its **phase** says where its crests fall. Sliding a wave along changes its phase and nothing else, and the film can’t see the difference.
 
 <Figure
-  title="A wave’s height sets how dark it makes the film; its phase only moves its crests"
-  subtitle="Raise the wave and the film darkens with the height squared. Slide it and the film doesn’t change."
+  title="Height sets how dark the film gets; phase only moves the crests"
+  subtitle="Raise the wave and the film darkens. Slide it and nothing changes."
 >
   <OneWave />
 </Figure>
 
-<Next n={3}>One wave on its own exposes the film evenly. Spots need something more. What happens when two waves arrive at the same place?</Next>
+<Next n={3}>One wave darkens the film evenly. Spots need more. What happens when two waves meet?</Next>
 
 <Q n={3} />
 
-They add. At every point, the combined wave is the sum of the two waves’ heights there, the way two sets of ripples on a pond add where they cross.
+They add. At every point, the combined wave is the two heights added together, like ripples crossing on a pond.
 
-If the two waves’ crests line up, they are **in step**, and the sum is twice as tall: four times as dark on the film. If the crests of one fall on the troughs of the other, they cancel, and nothing is left. Anything in between gives something in between. So whether two equal waves leave a dark mark or no mark at all depends only on how their crests line up, which is to say, on their phases.
+If their crests line up, they are **in step**, and the sum is twice as tall: four times as dark. If the crests of one land on the troughs of the other, they cancel and nothing is left. Anything in between gives something in between. So whether two equal waves leave a dark mark or none depends only on how their crests line up: on their phases.
 
 <Figure
   title="Waves in step add up; waves half a wave apart cancel"
@@ -98,56 +96,56 @@ If the two waves’ crests line up, they are **in step**, and the sum is twice a
   <TwoWavesInteractive />
 </Figure>
 
-<Next n={4}>So the film turns dark where waves arrive in step and stays clear where they cancel. But where do the waves arriving at the film come from?</Next>
+<Next n={4}>So the film is dark where waves arrive in step and clear where they cancel. Where do the waves come from?</Next>
 
 <Q n={4} />
 
-From the atoms in the crystal. As an x-ray wave passes over an atom, it shakes the atom’s electrons, and each shaken electron sends out a new, weak wave of the same wavelength in every direction, like ripples spreading from a stone dropped in water. The more electrons an atom has, the stronger its wave: mercury has 80, carbon 6.
+From the atoms in the crystal. An x-ray shakes each atom’s electrons, and each electron sends out a new, weak x-ray of the same wavelength in every direction, like ripples from a stone dropped in water. The more electrons an atom has, the stronger its wave: mercury has 80, carbon 6.
 
-A single atom spreads its ripples evenly in every direction, so it leaves a faint, even fog on the film, with no spots.
+One atom sends its ripples out evenly in every direction, so it just fogs the film evenly. No spots.
 
-<Figure title="One atom sends out ripples in every direction and fogs the film evenly">
+<Figure title="One atom fogs the film evenly">
   <OneAtom />
 </Figure>
 
-<Next n={5}>One atom gives no spots. What happens with two, when their ripples meet at the film?</Next>
+<Next n={5}>One atom gives no spots. What about two?</Next>
 
 <Q n={5} />
 
-Each point on the film now receives two waves, one from each atom. The beam reaches both atoms at the same moment, so their waves set off in step. But to reach a given point on the film they travel different distances, so they need not arrive in step.
+Now each point on the film gets two waves, one from each atom. They set off in step, because the beam reaches both atoms at once. But they travel different distances to the film, so they don’t always arrive in step.
 
-At the centre of the film both paths are the same length, so the two waves arrive in step and add. Move along the film and the path from one atom grows longer than the path from the other. Where the extra path is a whole number of wavelengths, the waves are back in step and the film is dark. Where it is half a wavelength, or one and a half, they cancel and the film stays clear. So the film is striped with bands.
+At the centre of the film both paths are the same length, so the waves add. Move along the film and one path gets longer. Where it is a whole number of wavelengths longer, the waves are back in step and the film is dark. Where it is half a wavelength longer, they cancel and the film stays clear. So the film gets bands.
 
-Move the atoms farther apart and the extra path grows faster as you move along the film, so the bands crowd closer together.
+Move the atoms apart, and the extra path grows faster as you go along the film, so the bands crowd together.
 
 <Figure
-  title="Two atoms’ waves add or cancel, depending on how much farther one has to travel"
+  title="Two atoms make bands"
   subtitle="Drag the marker along the film, and move the atoms apart."
-  caption="Not to scale. Waves from the two atoms are drawn equally tall."
+  caption="Not to scale."
 >
   <TwoAtomBands />
 </Figure>
 
-<Next n={6}>Two atoms give broad, soft bands. A crystal’s rows run to tens of thousands of copies. What do many atoms in a row do?</Next>
+<Next n={6}>Two atoms give broad, soft bands. A crystal has rows of thousands of atoms. What does a row do?</Next>
 
 <Q n={6} />
 
-Add more atoms at the same spacing. At the dark bands, each atom’s wave arrives a whole number of wavelengths behind its neighbour’s, so all of them arrive in step and the bands stay exactly where they were. Just beside a band, each wave lags only slightly behind the one before, but the lags add up along the row until the waves are spread right around the cycle and cancel. So the bands get narrower.
+Add more atoms at the same spacing. At a dark band, every atom’s wave arrives a whole number of wavelengths behind its neighbour’s, so they all arrive in step and the band stays where it was. Just beside a band, each wave falls a little further behind than the one before, until they are spread right round the cycle and cancel. So the bands get thinner.
 
-They also get much darker. With every wave in step, the heights add: a row of 12 atoms gives a wave 12 times as tall, and 144 times as dark, as one atom alone.
+They also get much darker. With every wave in step, the heights add: 12 atoms make a wave 12 times as tall, and 144 times as dark, as one atom alone.
 
 <Figure
-  title="More atoms in a row make the bands thinner and darker"
+  title="More atoms make thinner, darker bands"
   subtitle="Add atoms at the same spacing."
 >
   <AtomRow />
 </Figure>
 
-<Next n={7}>A real crystal isn’t one row. It repeats in every direction. What does that do to the bands?</Next>
+<Next n={7}>A real crystal repeats in every direction, not just along one row. What does that do?</Next>
 
 <Q n={7} />
 
-A crystal is one small box of atoms, the **unit cell**, repeated over and over in every direction, like bricks. A row running up and down makes bands that run across the film; a row running across makes bands that run up and down. A crystal has both at once, so the film can be dark only where the two sets of bands cross: at spots.
+A crystal is one small box of atoms, the **unit cell**, repeated over and over in every direction, like bricks. A row running up and down makes bands across the film; a row running across makes bands up and down. A crystal has both at once, so the film is dark only where the two sets of bands cross: at spots.
 
 <Figure
   title="A grid of copies turns bands into spots"
@@ -156,294 +154,251 @@ A crystal is one small box of atoms, the **unit cell**, repeated over and over i
   <CrystalRecords part="spots" />
 </Figure>
 
-This is why proteins have to be crystallised. A single molecule scatters far too little to record, and many molecules lying about at random only add up to a blur. Only when a great many copies are lined up, all facing the same way, do their waves reinforce into spots strong enough to photograph.
+This is why proteins have to be crystallised. One molecule scatters far too little to record, and many molecules lying at random only make a blur. Only many copies, lined up and all facing the same way, add up to spots strong enough to photograph.
 
-<Figure title="The same molecules at random give a blur; in a crystal, sharp spots">
+<Figure title="Molecules at random give a blur; in a crystal, sharp spots">
   <OrderMakesSpots />
 </Figure>
 
-Where the spots fall depends only on how far apart the boxes are. Bigger boxes give more closely spaced bands, and so more closely spaced spots; smaller boxes spread them out. Run the other way, the spacing of the spots on the film gives the size of the box. That is how Perutz measured hemoglobin’s unit cell from his first photographs in 1937–38: about 109 by 63 by 54 Å.
+Where the spots fall depends only on the size of the unit cell. A bigger cell gives spots closer together; a smaller one spreads them out. Run the other way, the spacing of the spots gives the size of the cell. That is how Perutz measured hemoglobin’s unit cell from his first photographs in 1937–38: about 109 by 63 by 54 Å.
 
 <Figure title="The smaller the unit cell, the farther apart the spots">
   <ReadingTheFilm group="box" />
 </Figure>
 
-<Payoff>The positions of the spots measure the unit cell.</Payoff>
+<Payoff>Where the spots fall gives the size of the unit cell.</Payoff>
 
-<Next n={8}>But the positions say nothing about what is inside the box. Put a different molecule in the same box and the spots land in exactly the same places. So where does the molecule show?</Next>
+<Next n={8}>But that says nothing about what is inside. Put a different molecule in the same unit cell, and the spots land in the same places. So where does the molecule show?</Next>
 
 <Q n={8} />
 
-In how dark the spots are. Every box in the crystal is identical, so at a spot the boxes’ waves all arrive in step and simply stack up. But what each box sends to that spot depends on its atoms. Each atom in the box sends its own wave there, and each travels its own distance to get there, so the waves arrive shifted by different amounts. What reaches the film is their sum.
+In how dark the spots are. Every cell is identical, so at a spot the cells’ waves all arrive in step and stack up. But each atom inside a cell sends its own wave to the spot, and each travels a different distance, so they arrive shifted by different amounts. What reaches the film is their sum.
 
-The atoms are the same at every spot, so why do their waves arrive shifted by different amounts? It is the two atoms of section 5 again. The beam reaches all the atoms at once, but to reach a spot, the wave from a lower atom has farther to go than the wave from a higher one. That extra path depends on the angle: the farther out the spot, the steeper the angle and the longer the extra path. So the same pair of atoms might be a quarter of a wave apart at one spot, half a wave at the next, three-quarters at the next.
+It is the two atoms of section 5 again. To reach a spot, a lower atom’s wave travels farther than a higher atom’s, and how much farther depends on the angle: the farther out the spot, the bigger the difference. So the same two atoms might be a quarter of a wave apart at one spot, half a wave at the next, three-quarters at the next.
 
-How much the extra path matters depends only on what is left over after whole waves. A wave exactly one, or two, wavelengths behind is back in step (section 3), so an atom 1.74 waves farther arrives just as one 0.74 waves farther would.
+Only what is left over after whole waves counts. A wave exactly one or two wavelengths behind is back in step, so a wave 1.74 waves behind acts just like one 0.74 behind.
 
 <Figure
-  title="Each atom’s wave travels a different extra distance to each spot, and the spot’s darkness is their sum"
+  title="Each spot’s darkness is the sum of its atoms’ waves"
   subtitle="Pick a spot and watch the extra paths change. Then move atom 2: every spot’s darkness changes, but no spot moves."
-  caption="Not to scale: the film is centimetres away and the cell millionths of a millimetre across, so the waves to any one spot travel side by side and arrive together. Simplified to a row of cells, each holding three equal atoms. Extra paths (red) are in wavelengths, measured against atom 1’s; past the dashed line, all three paths are the same length."
+  caption="Not to scale: the film is centimetres away and the cell millionths of a millimetre across, so the waves to one spot travel side by side. Simplified to a row of cells, each with three equal atoms. Extra paths (red) are in wavelengths, measured from atom 1; past the dashed line, all three paths are the same length."
 >
   <AtomWaves />
 </Figure>
 
-Where the extra paths happen to leave the waves nearly in step, the spot is dark. Where they leave them spread around the cycle, they cancel and the spot is faint. Move an atom and its extra path changes at every spot, by a different amount at each, so every darkness changes in its own way. Each spot asks a slightly different question about where the atoms sit, which is why, together, the darknesses can pin down the molecule.
+Where the waves happen to arrive nearly in step, the spot is dark. Where they are spread round the cycle, they cancel and the spot is faint. Move an atom and its path to every spot changes, by a different amount at each, so every spot’s darkness changes in its own way. Each spot asks a slightly different question about where the atoms are, which is why, together, the spots can pin down the molecule.
 
-A real protein’s box holds thousands of atoms, not three, so every spot is the sum of thousands of waves. Two different molecules in boxes of the same size give spots in the same places, with different darknesses.
+A real protein’s cell holds thousands of atoms, so every spot is the sum of thousands of waves. Two different molecules in the same unit cell give spots in the same places, with different darkness.
 
-<Figure title="Different molecules in the same box: same spots, different darknesses">
+<Figure title="Different molecules in the same unit cell: same spots, different darkness">
   <CrystalRecords part="darkness" />
 </Figure>
 
-<Next n={9}>The darknesses rise and fall from spot to spot. Is there a pattern to them?</Next>
+<Next n={9}>The darkness rises and falls from spot to spot. Is there a pattern to it?</Next>
 
 <Q n={9} />
 
-Take one box’s atoms on their own, without the rest of the crystal. They would send some brightness to every point on the film, not just to the spots, and that brightness would rise and fall smoothly from point to point as the atoms’ waves drift into and out of step. That smooth pattern belongs to the molecule (chart 1 below).
+Take one cell’s atoms on their own, without the rest of the crystal. They would send some x-rays to every point on the film, not just to the spots, rising and falling smoothly as their waves drift in and out of step. That smooth pattern belongs to the molecule (chart 1 below).
 
-The crystal adds a second factor: how well the boxes line up at each point (chart 2). With many boxes, that is zero almost everywhere and large only at the spot positions. The film records the two multiplied together (chart 3). So each spot is a sample of the molecule’s own smooth pattern, taken at a point the crystal allows: a spot that falls where the pattern is low comes out faint, and a bright stretch between spots never shows at all.
+The crystal adds a second factor: how well the cells line up at each point (chart 2). With many cells, that is zero almost everywhere and large only at the spots. The film records the two multiplied together (chart 3). So each spot is a sample of the molecule’s smooth pattern, taken where the crystal allows. A spot where the pattern is low comes out faint, and a bright patch between spots never shows at all.
 
-With a single box, the film would show the molecule’s whole pattern, far too faint to photograph. Add boxes and it breaks up into spots.
+With one cell, the film would show the molecule’s whole pattern, far too faint to photograph. Add cells and it breaks up into spots.
 
 <Figure
-  title="The film shows the molecule’s own pattern, seen only at the spots"
-  subtitle="Change the number of cells in the row. The red dots are the spot positions on chart 1."
-  caption="Same three-atom cell as above. Chart 2 is drawn the same height for every number of cells; in reality its peaks grow as the square of the number."
+  title="The film shows the molecule’s own pattern, but only at the spots"
+  subtitle="Change the number of cells. The red dots on chart 1 mark the spots."
+  caption="Same three-atom cell as above. Chart 2 is drawn the same height for any number of cells; really, its peaks grow with the square of the number."
 >
   <CellTimesLattice />
 </Figure>
 
-<Payoff>The darknesses of the spots are a coded picture of the molecule: samples of the pattern its atoms make.</Payoff>
+<Payoff>How dark the spots are is a coded picture of the molecule.</Payoff>
 
-<Next n={10}>So the spots hold the molecule, in code. Can we decode it, running all of this backwards from the darknesses to the atoms?</Next>
+<Next n={10}>So the spots hold the molecule, in code. Can we decode it by running all of this backwards?</Next>
 
 ### Act II: Can we run it backwards?
 
 <Q n={10} />
 
-Act I ran forwards: atoms sit in the cell; each atom’s wave travels its own extra path to each spot; the waves add; the height of the sum sets how dark the spot is (section 8). Running it backwards means starting from the darknesses and finding where the atoms must be.
+Act I ran forwards: atoms sit in the cell, each atom’s wave travels its own distance to each spot, the waves add, and the height of the sum sets how dark the spot is. Running it backwards means starting from the darkness and finding the atoms.
 
-The plainest way is to guess. Put atoms somewhere, work out each one’s extra path to each spot, add up their waves, and see whether every sum comes out as tall as the film says it should be. If a spot comes out wrong, the guess is wrong. Here two of the three atoms are given; slide the third until every spot matches.
+The plainest way is to guess. Put atoms somewhere, work out their waves at each spot, add them up, and check every spot against the film. If one comes out wrong, the guess is wrong. Here two of the three atoms are given; slide the third until every spot matches.
 
 <Figure
   title="Guess, add up the waves, compare with the film"
   subtitle="Slide the middle atom. Pick a spot to see its three waves add up; the dashed lines mark the height the film needs. Red rings mark spots that don’t match."
-  caption="The same three-atom cell as Act I. Two of the atoms are taken as known, so there is one position to guess."
+  caption="The same three-atom cell as Act I, with two of the atoms given."
 >
   <GuessAtom />
 </Figure>
 
-Slide the atom all the way across, though, and two positions make all six spots match: 35% across the cell, where the atom really is, and 47%.
+Slide it all the way across, though, and two positions match all six spots: 35% across the cell, where the atom really is, and 47%.
 
-With one atom to place along one line, guessing takes seconds, and for molecules of a few dozen atoms it is how crystallographers worked. But hemoglobin has about 5,000 atoms, each placed in three dimensions. The arrangements to try outnumber anything that could ever be checked, and a near miss gives no clue which way to move: slide the atom above and the difference rises and falls all across the cell, dropping to zero only at the two right places.
+With one atom on one line, guessing takes seconds, and for molecules of a few dozen atoms it is how crystallographers worked. But hemoglobin has about 5,000 atoms, each placed in three dimensions. There are far too many arrangements to try, and a near miss gives no hint which way to go: slide the atom above, and the mismatch rises and falls all across the cell, dropping to zero only at the two right places.
 
 <Next n={11}>Guessing can’t work for a protein. Is there a way back that doesn’t guess?</Next>
 
 <Q n={11} />
 
-There is, and it starts by turning each spot back into something you can lay over the box.
+There is. It starts by turning each spot into something you can lay over the cell.
 
-Take spot 3 and slide a single atom slowly across the box. As it moves, its wave has a little farther to travel to the spot (section 8), so it slides out of step with a wave from the box’s left wall, then back into step, then out again. Whenever the extra distance reaches a whole wavelength, it is back in step. At spot 3 that happens three times on the way across.
+Take spot 3 and slide one atom slowly across the cell. As it moves, its wave has a little farther to travel to the spot, so it drifts out of step with a wave from the cell’s left wall, then back in, then out again. Every time the extra distance reaches a whole wavelength, it is back in step. At spot 3 that happens three times on the way across.
 
-Mark every place where the atom’s wave arrives in step. The marks are evenly spaced, because the extra distance grows steadily as the atom moves, and in a flat box each mark is a line, so together they are stripes. They are a map of where atoms would light up spot 3. A dark spot means many of the molecule’s atoms sit on its stripes; a faint one, that they sit between them.
+Mark every place where the atom’s wave arrives in step. The marks are evenly spaced, and in a flat cell each mark is a line, so together they make stripes. They map where atoms would brighten spot 3. A dark spot means many of the molecule’s atoms sit on its stripes; a faint one means they sit between them.
 
 <Figure
-  title="Wherever an atom’s wave reaches the spot in step, mark a stripe"
-  subtitle="Slide the atom across the box and watch its wave at spot 3."
-  caption="The same box as section 10, drawn flat so that its marks show as lines."
+  title="Mark a stripe wherever an atom’s wave reaches the spot in step"
+  subtitle="Slide the atom across the cell and watch its wave at spot 3."
+  caption="The same cell as section 10, drawn flat so its marks show as lines."
 >
   <SpotStripes />
 </Figure>
 
-Every spot has its own stripes. The farther out the spot, the faster the extra distance grows as the atom moves, so the finer its stripes.
+Every spot has its own stripes. The farther out the spot, the faster the extra distance grows, so the finer its stripes.
 
-<Next n={12}>So each spot gives a sheet of stripes, as bold as the spot is dark. What happens when you stack the sheets?</Next>
+<Next n={12}>Each spot gives a sheet of stripes, as bold as the spot is dark. What happens when you stack the sheets?</Next>
 
 <Q n={12} />
 
-Draw each spot’s stripes on a clear sheet, as bold as the spot is dark, and stack the sheets over the box. Where many bold stripes land on top of one another the stack is darkest, and those places are the atoms: every atom sits on the stripes of every spot it helped to light. One sheet gives a blur. Six put three dark bands on the three atoms.
+Draw each spot’s stripes on a clear sheet, as bold as the spot is dark, and stack the sheets over the cell. Where many bold stripes overlap, the stack is darkest, and those places are the atoms: every atom sits on the stripes of every spot it helped to brighten. One sheet gives a blur. Six put three dark bands on the three atoms.
 
-But each sheet has to be slid to the right place first. A spot’s place on the film says how fine its stripes are, and its darkness how bold. Neither says where the stripes sit across the box. That is the phase: where the spot’s wave has its crests (section 2). Slide the very same sheets to the wrong places and the dark bands land in the wrong places, a picture of a molecule that isn’t there.
+But each sheet has to be slid to the right place first. Where a spot sits on the film says how fine its stripes are, and how dark it is says how bold. Neither says where the stripes sit across the cell. That is the phase: where the spot’s wave has its crests. Slide the same sheets to the wrong places and the dark bands land in the wrong places: a picture of a molecule that isn’t there.
 
 <Figure
-  title="The same sheets, stacked in the right places and in the wrong ones"
+  title="The same sheets, stacked in the right places and the wrong ones"
   subtitle="Stack the sheets one at a time. Both sides use the same sheets; only where each is slid differs."
-  caption="Darkest where the most bold stripes overlap. The wrong slides here belong to a molecule with atoms at 22%, 52% and 88%; any wrong slides give a wrong picture."
+  caption="The wrong slides here belong to a molecule with atoms at 22%, 52% and 88%; any wrong slides give a wrong picture."
 >
   <StackSheets />
 </Figure>
 
-Nothing on the film says which stack is right: it records how fine and how bold each sheet is, never where it goes. With a few atoms you can get round that by guessing (section 10). With 5,000, Perutz had every sheet and no way to lay them down. That is what the essay means by “he did not know how to line them up.”
+Nothing on the film says which stack is right: it records how fine and how bold each sheet is, never where it goes. With a few atoms you can get round that by guessing. With 5,000, Perutz had every sheet and no way to lay them down.
 
-<Payoff>Each spot is a sheet of stripes, and stacked in the right places the sheets draw the molecule. The film records how fine and how bold each sheet is, but not where it goes. That missing slide is the phase, and finding it is the phase problem.</Payoff>
+<Payoff>Each spot is a sheet of stripes, and stacked in the right places the sheets draw the molecule. The film keeps how fine and how bold each one is, but not where it goes. That missing slide is the phase, and finding it is the phase problem.</Payoff>
 
-<Next n={13}>So each spot’s wave has to be put the right way round, and the film doesn’t say which. What is that like to do?</Next>
+<Next n={13}>So each spot’s wave has to be put in the right place, and the film doesn’t say where. What is that like to do?</Next>
 
 <Q n={13} />
 
-Here is the lining up as a game. The molecule this time is symmetric, the same read from either end, which makes each spot’s wave simpler: it can sit only two ways, with a crest at the middle of the box or a trough there. The film says how tall each wave is. It doesn’t say which way up. (In general a wave could sit anywhere, slid by any amount, as in section 12; a symmetric molecule leaves it only these two choices, a flip rather than a slide.)
+Try it. This molecule is symmetric, the same read from either end, which makes each wave simpler: it can sit only two ways, with a crest at the middle of the cell or a trough there. The film says how tall each wave is. It doesn’t say which way up. (In general a wave can be slid by any amount, as in section 12; a symmetric molecule leaves only two choices, a flip.)
 
-Flip the waves and watch the picture they add up to. Each line-up draws a different molecule, and the film fits every one of them.
+Flip the waves and watch the picture they add up to. Each line-up draws a different molecule, and the film fits all of them.
 
 <Figure
-  title="Every way of lining up the waves draws a molecule. Which is the real one?"
+  title="Every line-up draws a molecule. Which is the real one?"
   subtitle="Each button flips one spot’s wave. The film never changes. When you have a guess, show the real atoms."
-  caption="A symmetric three-atom molecule, so each wave has either a crest or a trough at the middle. The wave heights come from the spots’ darkness."
+  caption="A symmetric three-atom molecule, so each wave has a crest or a trough at the middle. The wave heights come from the spots’ darkness."
 >
   <LineUp />
 </Figure>
 
-Nothing on the film picks out the right picture. With four spots you can try all sixteen, but each extra spot doubles the count, and a protein’s film has thousands. Perutz had no dots to check against, only a near-endless pile of pictures that all fit his film equally well.
+Nothing on the film picks out the right picture. With four spots you can try all sixteen, but each extra spot doubles the count, and a protein’s film has thousands.
 
-<Next n={14}>So the flips have to be found some other way. The first idea was to add a wave you can work out.</Next>
+<Next n={14}>So the flips have to come from somewhere else. The first idea: add a wave you can work out.</Next>
 
 ### Act III: How did they find the phases?
 
 <Q n={14} />
 
-Add something to the crystal whose wave you can work out. The simplest is one heavy atom, put where you know it sits. Because you know where it is, you know where its wave’s crests fall at every spot (section 8): that is what makes its wave known.
+Add something to the crystal whose wave you can work out. The simplest is one heavy atom in a known place. Knowing where it is, you know where its wave’s crests fall at every spot.
 
-Now compare the film before and after. Where the protein’s wave is in step with the heavy atom’s, the two add and the spot darkens. Where it is opposed, they partly cancel and the spot fades. One comparison of two films tells you, spot by spot, which way up each wave goes.
+Now compare the films before and after. Where the protein’s wave is in step with the heavy atom’s, they add and the spot darkens. Where it is opposed, they partly cancel and the spot fades. One comparison tells you, spot by spot, which way up each wave goes.
 
-Perutz first did this in 1943, with the liquid between the molecules as the known part: soaking in salt changed its wave by an amount he could work out, though only for one column of spots. In 1953 he used mercury. He didn’t place the mercury atoms himself; he found where they had settled from how the spots changed, which one heavy atom is simple enough to allow. From there he got the flips for a whole flat view of the crystal.
+Perutz first did this in 1943, with the liquid between the molecules as the known part: soaking in salt changed its wave by an amount he could work out, but only for one column of spots. In 1953 he used mercury. He didn’t place the mercury himself; he found where it had settled from how the spots changed, which a single heavy atom is simple enough to allow. That gave him the flips for a whole flat view of the crystal.
 
 <Figure
-  title="Add a heavy atom you can see, and each spot shows which way up its wave goes"
+  title="A heavy atom shows which way up each wave goes"
   subtitle="Add the heavy atom, then flip each wave to match its clue. The dashed waves are the heavy atom’s."
-  caption="The same molecule as section 13, with the protein’s atoms still hidden. The heavy atom sits at the edge of the box; its waves are smaller than any of the protein’s, so they can’t swamp them."
+  caption="The same molecule as section 13, with the protein’s atoms still hidden. The heavy atom sits at the edge of the cell; its waves are smaller than the protein’s, so they can’t swamp them."
 >
   <LineUp hint />
 </Figure>
 
-For comparison, the essay’s current figure for this step, drawn with arrows:
-
-<Figure
-  title="How a known wave reveals a sign"
-  subtitle="Add a wave you can work out, and the change in darkness shows which way the unknown wave points."
-  caption="Arrows stand for waves; length is height. Based on Boyes-Watson and Perutz (1943)."
->
-  <KnownWave known="liquid" />
-</Figure>
-
-<Next n={15}>In 1943 the known part was the liquid, not an atom. Could its wave be worked out?</Next>
+<Next n={15}>In 1943 the known part was the liquid, not an atom. How could its wave be worked out?</Next>
 
 <Q n={15} />
 
-Only for some spots. A heavy atom is easy: one atom, one place. The liquid between the molecules fills gaps of shapes nobody knew, so from the side its wave couldn’t be worked out. But seen straight down through the layers, averaged across each depth, the uneven gaps even out, and the liquid is just a flat layer of known thickness and saltiness. One column of spots through the centre of the film records exactly that view, so only for those spots could the liquid’s wave be worked out, and only for those could the salt test give the flips.
+Only for some spots. The liquid fills the gaps between the molecules in shapes nobody knew, so from the side its wave couldn’t be worked out. But seen straight down through the layers, averaged across each depth, the gaps even out, and the liquid is just a flat layer of known thickness and saltiness. One column of spots through the centre of the film records exactly that view, so only for those spots could the salt test give the flips.
 
 <Figure
   title="Where the liquid’s wave could be worked out"
-  subtitle="From the side, the liquid fills gaps of unknown shape. Seen only from top to bottom, it is a flat layer, and one column of spots records exactly that view."
-  caption="The essay’s static version. Not to scale."
+  subtitle="From the side, the liquid fills gaps of unknown shape. Seen top to bottom, it is a flat layer, and one column of spots records exactly that view."
+  caption="Not to scale."
 >
   <LiquidLayer />
 </Figure>
 
-<Figure
-  title="Where the liquid’s wave could be worked out"
-  subtitle="Average the crystal, then soak in salt and watch the ringed column."
-  caption="The essay’s interactive version of the same figure. Changes in the ringed column from Boyes-Watson, Davidson and Perutz (1947), table 7."
->
-  <LiquidLayerInteractive />
-</Figure>
-
-For the seven spots of that column nearest the centre, Perutz got the flips (two of them from the drying photographs instead). Then he could do what the game in section 13 asks: add the seven waves, each the right way up. Because these spots look straight down through the layers, the sum isn’t a picture but a single line: how much matter lies at each depth through one layer. It had four bumps about nine ångströms apart, which he read as four sheets of protein chain. That reading would turn out to be wrong.
+For the seven spots of that column nearest the centre, Perutz got the flips (two of them from drying photographs instead). Then he could do what the game in section 13 asks: add the seven waves, each the right way up. Because these spots look straight down through the layers, the sum isn’t a picture but a line: how much matter lies at each depth through one layer. It had four bumps about nine ångströms apart, which he read as four sheets of protein chain. That turned out to be wrong.
 
 <Figure
-  title="Perutz’s seven waves, each the right way up, add into four bumps"
+  title="Seven waves, each the right way up, add into four bumps"
   subtitle="The shaded column on the film holds the seven spots, numbered outward from the centre. Each becomes one row: a wave across a layer of the crystal, as tall as the spot is strong. The red line is their sum."
-  caption="New, in the game’s style. Heights and signs from Boyes-Watson, Davidson and Perutz (1947), tap-water crystals. Only half the column is drawn; the other half mirrors it. The spots beside the column are illustrative."
+  caption="Heights and signs from Boyes-Watson, Davidson and Perutz (1947), pure-water crystals. Only half the column is drawn; the other half mirrors it. The spots beside the column are illustrative."
 >
   <SevenWaves />
 </Figure>
 
-<Figure
-  title="The first look inside hemoglobin"
-  subtitle="Seven waves added together gave the density through one layer of the crystal. Changing the liquid changed the edges; the four bumps stayed put."
-  caption="The essay’s current figure. Computed from the seven spots in Boyes-Watson, Davidson and Perutz (1947)."
->
-  <FourBumps />
-</Figure>
-
-<Next n={16}>Seven flips gave one line. A picture needed spots in every direction, and their flips were still unknown. Can you get anything without them?</Next>
+<Next n={16}>Seven flips gave one line. A picture needs spots in every direction, and their flips were still unknown. Can you get anything without them?</Next>
 
 <Q n={16} />
 
-Something, yes. Add the waves using only their heights, as though every wave had its crests at the same starting point, and the result is not a map of the atoms but a map of the distances between them: a Patterson map. It needs only the darkness of the spots, so Perutz could make one from his photographs alone.
+Something, yes. Add the waves using only their heights, as if every wave had its crests at the same starting point, and you get not a map of the atoms but a map of the distances between them: a Patterson map. It needs only the darkness of the spots, so Perutz could make one from his films alone.
 
-The essay explains it with a dark classroom. You can’t see where the children sit, but you have a pack of notes, each saying how far apart one pair is and in which direction: “Sam is 1 step to the right of Ali.” Mark a dot in the middle of a whiteboard, and for each note, walk its steps from the dot and put a sticker where you land. If the desks are in neat rows, many pairs are the same steps apart, so many notes send you to the same places and the stickers pile up. If the children are scattered, the stickers land all over the board and no pattern stands out.
+Picture a dark classroom. You can’t see where the children sit, but you have a pack of notes, each saying how far apart one pair is and in which direction: “Sam is 1 step to the right of Ali.” Mark a dot in the middle of a whiteboard. For each note, walk its steps from the dot and put a sticker where you land. If the desks are in neat rows, many pairs are the same steps apart, so the stickers pile up in a few places. If the children are scattered, the stickers land all over the board and no pattern stands out.
 
-A Patterson map is built the same way: each pair of atoms adds a peak, and the more pairs share a spacing, the taller the peak grows. That is what made it a test. Perutz’s flat maps of 1947 showed only the molecule’s outline, so he set out to make one in three dimensions, to see whether hemoglobin’s chains lay side by side. If they did, the same spacings would repeat thousands of times and pile up into straight rods; if they were tangled, the map would be a blur.
+A Patterson map works the same way: each pair of atoms adds a peak, and the more pairs share a spacing, the taller the peak. That made it a test. Perutz’s flat maps of 1947 showed only the molecule’s outline, so he set out to make one in three dimensions. If hemoglobin’s chains lay side by side, the same spacings would repeat thousands of times and pile up into straight rods; if they were tangled, the map would be a blur.
 
 <Figure
   title="What the Patterson map could tell apart, and what Perutz’s showed"
   subtitle="Parallel chains give rods; a tangle gives a blur. His 1948 map had rods."
-  caption="Top: computed from the chains drawn, with the spacings of Perutz’s map. Bottom: Perutz, Proc. R. Soc. A 195, 1949, fig. 22, his idealized drawing of the map’s main rods."
+  caption="Top: computed from the chains drawn, with the spacings of Perutz’s map. Bottom: Perutz, Proc. R. Soc. A 195, 1949, fig. 22, his drawing of the map’s main rods."
 >
   <RodsTest />
 </Figure>
 
-By the spring of 1948, after measuring about 7,000 spots and some 400 million additions, he had it: 31 slices, traced onto transparent sheets and stacked. The rods were there. He read them as chains lying side by side in four layers, matching his four sheets of 1943. It looked like confirmation. It would turn out to be wrong: a few years later, Crick showed the rods were far too faint for straight chains.
+By the spring of 1948, after measuring about 7,000 spots and some 400 million additions, he had it: 31 slices, traced onto clear sheets and stacked. The rods were there. He read them as chains lying side by side in four layers, matching his four sheets of 1943. It looked like proof. A few years later, Crick showed the rods were far too faint for straight chains.
 
 <Next n={17}>Distances weren’t enough. The next idea was the heavy atom of section 14, for real.</Next>
 
 <Q n={17} />
 
-In 1953 a letter from Austen Riggs showed that mercury could be fixed to hemoglobin without changing its shape. Perutz tried it. On the photographs the spots fell in exactly the same places, but many were darker or fainter. Comparing the two films showed where the mercury sat, so its wave in every spot could be worked out: the known wave of section 14. Whether each spot darkened or faded gave its flip.
+In 1953 Austen Riggs showed that mercury could be fixed to hemoglobin without changing its shape. Perutz tried it. On the films the spots fell in the same places, but many were darker or fainter. Comparing the two films showed where the mercury sat, so its wave at every spot could be worked out: the known wave of section 14. Whether each spot darkened or faded gave its flip.
 
 <Figure
-  title="What a heavy atom does to the spots"
+  title="What mercury does to the spots"
   subtitle="The spots stay where they are, because the unit cell is the same. But the heavy atom’s wave makes some darker and others fainter."
-  caption="The essay’s figure."
 >
   <ReadingTheFilm group="atom" />
 </Figure>
 
-<Figure
-  title="How mercury gives each spot’s sign"
-  subtitle="As with the salt, the mercury’s known wave shows which way each spot’s wave points."
-  caption="The essay’s figure, drawn with arrows."
->
-  <KnownWave known="mercury" brief />
-</Figure>
+Bragg and Perutz added the flipped waves into the first electron density map of a protein built from measured phases. It came from one flat view, so it was flat, and too blurred to show chains, but it settled one thing: there were no regular layers. The four sheets were gone.
 
-Bragg and Perutz added the signed waves into the first electron density map of a protein built from measured phases. It came from one flat view, so it was flat, and too blurred to show chains, but it settled one thing: there were no regularly spaced layers. The four sheets were gone.
-
-<Next n={18}>Flips only worked for one flat view. What about the rest of the spots?</Next>
+<Next n={18}>Flips only work for one flat view. What about all the other spots?</Next>
 
 <Q n={18} />
 
-For the rest, each wave could be slid by any amount, not just flipped (section 12). One heavy atom then tells you how far a spot’s crests lie from the heavy atom’s, but not whether ahead or behind: two possible slides. In 1954 Dorothy Hodgkin pointed out the fix. A second heavy atom, in a different place, gives a second known wave, and only one slide fits both.
+For the rest, each wave could be slid by any amount, not just flipped. One heavy atom then tells you how far a spot’s crests lie from the heavy atom’s, but not whether ahead or behind: two possible slides. In 1954 Dorothy Hodgkin pointed out the fix. A second heavy atom, in a different place, gives a second known wave, and only one slide fits both.
 
 <Figure
   title="Why one heavy atom isn’t enough"
-  subtitle="With one heavy atom, a spot’s wave could point two ways. A second heavy atom, in a different place, rules one out."
-  caption="The essay’s figure. Based on Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
+  subtitle="If the protein’s wave is a little ahead of the mercury’s, or the same amount behind, the spot changes the same way. A second heavy atom, in another place, tells the two apart."
+  caption="The heavy atoms’ waves are drawn at half the height of the protein’s. Based on Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
 >
-  <TwoChoices />
+  <TwoHeavyAtoms />
 </Figure>
 
 <Next n={19}>With two or more heavy atoms, every spot’s wave could be put in place. What did the map show?</Next>
 
 <Q n={19} />
 
-Kendrew got there first, with myoglobin, a quarter of hemoglobin’s size, and five heavy-atom versions of its crystals. Every spot’s wave could now be put in its right place, and added up, as in section 13 but in three dimensions, on Cambridge’s EDSAC computer. The more spots added, the sharper the map: the innermost give only the outline, and each ring further out adds finer detail.
+Kendrew got there first, with myoglobin, a quarter of hemoglobin’s size, and five heavy-atom versions of its crystals. Every spot’s wave could now be put in place and added up, as in section 13 but in three dimensions, on Cambridge’s EDSAC computer. The more spots added, the sharper the map: the innermost spots give only the outline, and each ring farther out adds finer detail.
 
-<Figure
-  title="How more spots sharpen the map"
-  subtitle="The innermost spots give only the molecule’s outline. Each ring of spots further out adds finer detail, until the atoms separate."
-  caption="The essay’s figure."
->
-  <FourierMap />
-</Figure>
-
-In the summer of 1957 his six-ångström map came through: sixteen slices of electron density, traced onto clear plastic and stacked. The heme was a dense disk; the chain was a rod that ran straight, turned a corner and wandered, with no repeating pattern at all.
+In the summer of 1957 his six-ångström map came through: sixteen slices of electron density, traced onto clear plastic and stacked. The heme was a dense disk; the chain ran straight, turned a corner and wandered, with no repeating pattern at all.
 
 <Figure
   title="Kendrew’s 6 Å contour maps of myoglobin"
-  subtitle="Each slice maps the electron density on one plane through the crystal. The rings are contour lines, packed closest where the density is highest."
-  caption="The essay’s figure."
+  subtitle="Each slice is a contour map of one plane through the crystal. The rings crowd together where there are most electrons, and the densest spot of all is the heme."
+  caption="Eight of the sixteen slices; the other eight are the same slices turned over. Stacked farther apart than the real 1.93 Å, so each one shows. Traced from Bodo, Dintzis, Kendrew and Wyckoff (1959), figure 18."
 >
   <SheetStack />
 </Figure>
@@ -452,27 +407,13 @@ Perutz followed with hemoglobin in 1959, at five and a half ångströms, from mo
 
 <Figure
   title="Perutz’s model of human hemoglobin"
-  subtitle="Each slice of the density map cut out and stacked, the two kinds of chain in black and white, and each heme a red disk."
-  caption="The essay’s figure."
+  subtitle="In 1967 Perutz built this model from painted wood, the way he built his first in 1959: each slice of the map cut out and stacked. The two kinds of chain are black and white, and each heme is a red disk."
+  caption="Rebuilt from the modern structure of human hemoglobin (PDB 2HHB), blurred to 5.5 Å and cut into 2 Å slices as Perutz described in 1960. The original is at the Science Museum, London."
 >
   <PerutzModel />
 </Figure>
 
-<Payoff>Spots give each wave’s height. Heavy atoms give where each wave’s crests fall. With both, the waves add into an electron density map, and the map, slice by slice, into a model of the molecule.</Payoff>
-
-### Options boards
-
-Rough sketches for the essay’s method figures, two per idea, to pick from on sight. Only the chosen one gets built properly.
-
-#### Idea 2: lining up the waves
-
-**Claim.** Add every spot’s wave back together, each lined up right, and the molecule appears; the film records how strong each wave is but not how to line it up.
-
-**Pairs with** The Big Idea: “To work backward from the spots to a picture of the molecule, then, Perutz needed to combine the waves mathematically. He knew their strengths, but without their phases, he did not know how to line them up.”
-
-<Figure title="Idea 2: two options">
-  <OptionsLineUp />
-</Figure>
+<Payoff>The spots give each wave’s height. Heavy atoms give where its crests fall. With both, the waves add up into an electron density map, and the map, slice by slice, into a model of the molecule.</Payoff>
 
 export default function MDXPage({ children }) {
   return <MdxLayout metadata={metadata}>{children}</MdxLayout>;
