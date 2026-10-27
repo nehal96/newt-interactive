@@ -1,9 +1,9 @@
 // The row of atoms seen along the beam, a row lying across, the two as a flat grid, and a grid of molecules, each over the film it makes.
 import { useEffect, useId, useState } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import Molecule, { ATOMS } from "./Molecule";
-import { Labels } from "./scene";
+import { XR } from "../palette";
+import Molecule, { ATOMS } from "../Molecule";
+import { Labels } from "../scene";
 import { SPACING as ROW_SPACING } from "./RowOfAtoms";
 
 /** Atoms per side; positions are in units of the repeat spacing. */

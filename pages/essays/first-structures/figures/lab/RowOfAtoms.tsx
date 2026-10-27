@@ -1,9 +1,9 @@
 // Figure 4: the film from rows of more and more atoms at one spacing.
 import { useId, useState } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import { Atom, Labels } from "./scene";
-import { SliderRow } from "./controls";
+import { XR } from "../palette";
+import { Atom, Labels } from "../scene";
+import { SliderRow } from "../controls";
 
 export const SPACING = 3;
 /** tan θ at the film's edge. */

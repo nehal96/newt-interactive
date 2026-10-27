@@ -1,11 +1,11 @@
 // The spots' waves added back into a density map of the seven-atom molecule, one ring of spots further each frame.
 import { useId, useMemo, useState } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import { TAU } from "./wave";
-import { ATOMS } from "./Molecule";
-import { contourPath } from "./contour";
-import { SliderRow } from "./controls";
+import { XR } from "../palette";
+import { TAU } from "../wave";
+import { ATOMS } from "../Molecule";
+import { contourPath } from "../contour";
+import { SliderRow } from "../controls";
 
 /** Neighbouring atoms in `ATOMS` are 14.4 units apart; a carbon–carbon bond is about 1.5 Å. */
 const ANGSTROM = 14.4 / 1.5;

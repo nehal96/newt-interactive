@@ -15,7 +15,7 @@ export function SaltPair() {
   const ids = useId();
   const [ref, W] = useElementWidth<HTMLDivElement>(300);
   const text = 10;
-  const labelW = 56;
+  const labelW = 64;
   const gap = 12;
   const colW = (W - labelW - gap) / 2;
   const lam = colW / 2;
@@ -32,7 +32,7 @@ export function SaltPair() {
           darkens; half a wave apart they add to a shorter one and the spot fades.
         </title>
         <g className="font-mono" fontSize={text} fill={XR.label}>
-          <text x={0} y={rows.spot - 2}>spot’s</text>
+          <text x={0} y={rows.spot - 2}>protein’s</text>
           <text x={0} y={rows.spot + 10}>wave</text>
           <text x={0} y={rows.liquid - 2} fill={XR.second}>liquid’s</text>
           <text x={0} y={rows.liquid + 10} fill={XR.second}>wave</text>

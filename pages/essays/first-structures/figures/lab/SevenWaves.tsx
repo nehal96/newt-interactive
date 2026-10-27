@@ -4,11 +4,11 @@ import { useElementWidth } from "@hooks";
 import { XR } from "../palette";
 import { TAU, curvePath } from "../wave";
 import { Labels } from "../scene";
-import { F_TAP_WATER, PROTEIN, REPEAT } from "../FourBumps";
+import { F_PURE_WATER, PROTEIN, REPEAT } from "../FourBumps";
 
-const SPOTS = F_TAP_WATER.map((_, i) => i + 1);
-const TALLEST = Math.max(...F_TAP_WATER.map(Math.abs));
-const density = (z: number) => F_TAP_WATER.reduce((acc, f, i) => acc + f * Math.cos((TAU * (i + 1) * z) / REPEAT), 0);
+const SPOTS = F_PURE_WATER.map((_, i) => i + 1);
+const TALLEST = Math.max(...F_PURE_WATER.map(Math.abs));
+const density = (z: number) => F_PURE_WATER.reduce((acc, f, i) => acc + f * Math.cos((TAU * (i + 1) * z) / REPEAT), 0);
 const SAMPLE = Array.from({ length: 801 }, (_, i) => -REPEAT / 2 + (i * REPEAT) / 800);
 const LO = Math.min(...SAMPLE.map(density));
 const HI = Math.max(...SAMPLE.map(density));
@@ -67,13 +67,13 @@ export function SevenWaves() {
                 cy={rowY(i)}
                 r={4.5}
                 fill={XR.sum}
-                fillOpacity={j === 0 ? shade(F_TAP_WATER[i]) : other(i, j)}
+                fillOpacity={j === 0 ? shade(F_PURE_WATER[i]) : other(i, j)}
               />
             ),
           ),
         )}
         <line x1={px(0)} x2={px(0)} y1={rowY(0) - rowH / 2} y2={sumBase} stroke={XR.atom} strokeWidth={1} strokeDasharray="2 3" />
-        {F_TAP_WATER.map((f, i) => (
+        {F_PURE_WATER.map((f, i) => (
           <g key={i}>
             <line x1={colX + 8} x2={left - 4} y1={rowY(i)} y2={rowY(i)} stroke={XR.atom} strokeWidth={0.75} strokeDasharray="1 3" />
             <line x1={left} x2={left + len} y1={rowY(i)} y2={rowY(i)} stroke={XR.rule} />
@@ -104,7 +104,7 @@ export function SevenWaves() {
         </g>
 
         <Labels size={text}>
-          {F_TAP_WATER.map((f, i) => (
+          {F_PURE_WATER.map((f, i) => (
             <g key={i}>
               <text x={filmX - 6} y={rowY(i) + 4} textAnchor="end" fill={XR.first}>
                 {i + 1}

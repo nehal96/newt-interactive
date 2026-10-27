@@ -1,9 +1,9 @@
 // A Patterson map: the molecule seen from each of its atoms in turn, laid on top of each other; computed from the atoms shown.
 import { useId } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import { Note } from "./TwoAtoms";
-import { contourPath } from "./contour";
+import { XR } from "../palette";
+import { Note } from "../Figure";
+import { contourPath } from "../contour";
 
 type Atom = { x: number; y: number; f: number };
 

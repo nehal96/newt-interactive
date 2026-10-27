@@ -3,56 +3,23 @@ import { useId } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
 import { Labels } from "./scene";
-import { oscillationSpots } from "./oscillation";
-import { Note } from "./TwoAtoms";
+import { Note } from "./Figure";
+import SPOT_ROWS from "./crystal-spots.json";
 
 type V3 = [number, number, number];
 
-/** Horse methaemoglobin's cell and wavelength (Bernal, Fankuchen and Perutz 1938), rocked 5° as in their photograph. */
-const CELL = { a: 109, b: 63.2, c: 54.2, beta: 112 };
-const LAMBDA = 1.54;
-/** The film's half-width as a share of its distance from the crystal. */
-const REACH = 0.3;
+/**
+ * Spots on a film half as wide as its distance from the crystal, as fractions of the film's half-width, with darkness
+ * 0.15–1: the 1938 horse methaemoglobin cell (109 × 63.2 × 54.2 Å, β 112°, C2) rocked 5° in 1.54 Å x-rays, with a
+ * made-up 40-atom molecule for the darkness.
+ */
+const SPOTS = (SPOT_ROWS as number[][]).map(([y, z, o]) => ({ y, z, o }));
 
-/** A made-up molecule: fractional positions in the cell, so the spots vary in darkness the way real ones do. */
-const MOLECULE: V3[] = (() => {
-  let seed = 11;
-  const rand = () => {
-    seed = (seed * 16807) % 2147483647;
-    return (seed - 1) / 2147483646;
-  };
-  return Array.from({ length: 40 }, () => [0.2 + 0.6 * rand(), 0.2 + 0.6 * rand(), 0.2 + 0.6 * rand()] as V3);
-})();
-/** Temperature factor in Å², which fades the outer spots. */
-const B = 40;
-
-const SPOTS = (() => {
-  const raw = oscillationSpots({
-    cell: CELL,
-    lambda: LAMBDA,
-    distance: 1,
-    dMin: LAMBDA / (2 * Math.sin(Math.atan(REACH * Math.SQRT2) / 2)),
-    from: 0,
-    to: 5,
-    absent: (h, k) => (h + k) % 2 !== 0,
-  }).filter(({ y, z }) => Math.abs(y) < 0.96 * REACH && Math.abs(z) < 0.96 * REACH);
-  const strength = raw.map(({ h, k, l, y, z }) => {
-    let re = 0;
-    let im = 0;
-    for (const [x, v, w] of MOLECULE) {
-      const p = 2 * Math.PI * (h * x + k * v + l * w);
-      re += Math.cos(p);
-      im += Math.sin(p);
-    }
-    const sinTheta = Math.sin(Math.atan(Math.hypot(y, z)) / 2);
-    return (re * re + im * im) * Math.exp((-2 * B * sinTheta ** 2) / LAMBDA ** 2);
-  });
-  const max = Math.max(...strength);
-  return raw.map((s, i) => ({ y: s.y / REACH, z: s.z / REACH, o: 0.15 + 0.85 * Math.sqrt(strength[i] / max) }));
-})();
-
-/** The spot the red line picks out: a dark one well out from the centre, toward the upper right on screen. */
-const MARKED = SPOTS.filter((s) => s.o > 0.5 && Math.hypot(s.y, s.z) > 0.45).reduce((a, b) => (b.z - b.y > a.z - a.y ? b : a));
+/** Two of the darker spots, one toward the upper right of the film on screen and one toward the lower left. */
+const MARKED = [
+  SPOTS.filter((s) => s.o > 0.5 && Math.hypot(s.y, s.z) > 0.45).reduce((a, b) => (b.z - b.y > a.z - a.y ? b : a)),
+  SPOTS.filter((s) => s.o >= 0.4 && s.y > 0.3 && s.z < -0.3).reduce((a, b) => (b.y - b.z > a.y - a.z ? b : a)),
+];
 
 /** Camera: in front, a little to the left and above, so the film's face toward the crystal shows. */
 const AZ = (50 * Math.PI) / 180;
@@ -67,7 +34,7 @@ const flat = (p: V3): [number, number] => [dot(p, R), -dot(p, U)];
 const SIDE = 3;
 const CRYSTAL = 0.09;
 const BOX_HALF = CRYSTAL / 2 + 0.02;
-const BEAM_FROM = -0.38;
+const BEAM_FROM = -0.65;
 const FILM_X = 1.25;
 const FILM_HALF = 0.26;
 
@@ -103,8 +70,8 @@ export function CrystalCancels() {
   const maxX = Math.max(...key.map((p) => p[0]));
   const minY = Math.min(...key.map((p) => p[1]));
   const maxY = Math.max(...key.map((p) => p[1]));
-  const pad = { t: 24, b: 26 };
-  const k = Math.min((Math.min(W, 560) - 12) / (maxX - minX), 190 / (maxY - minY));
+  const pad = { t: 12, b: 26 };
+  const k = Math.min((Math.min(W, 560) - 12) / (maxX - minX), 150 / (maxY - minY));
   const left = (W - k * (maxX - minX)) / 2;
   const H = Math.round(pad.t + k * (maxY - minY) + pad.b);
   const P = (p: V3): [number, number] => {
@@ -114,26 +81,24 @@ export function CrystalCancels() {
   const poly = (pts: V3[]) => pts.map((p) => P(p).map((v) => v.toFixed(1)).join(",")).join(" ");
 
   const [b0x, b0y] = P([BEAM_FROM, 0, 0]);
-  const [b1x, b1y] = P([-BOX_HALF - 0.03, 0, 0]);
+  const [b1x, b1y] = P([-BOX_HALF - 0.15, 0, 0]);
   const ang = Math.atan2(b1y - b0y, b1x - b0x);
   const head = `M${b1x} ${b1y} L${b1x - 10 * Math.cos(ang) + 5 * Math.sin(ang)} ${b1y - 10 * Math.sin(ang) - 5 * Math.cos(ang)} L${b1x - 10 * Math.cos(ang) - 5 * Math.sin(ang)} ${b1y - 10 * Math.sin(ang) + 5 * Math.cos(ang)} Z`;
 
-  const target = filmPoint(MARKED.y, MARKED.z);
-  const exit: V3 = [BOX_HALF, (target[1] * BOX_HALF) / target[0], (target[2] * BOX_HALF) / target[0]];
-  const [sx, sy] = P(exit);
-  const [mx, my] = P(target);
+  const rays = MARKED.map((m) => {
+    const target = filmPoint(m.y, m.z);
+    const exit: V3 = [BOX_HALF, (target[1] * BOX_HALF) / target[0], (target[2] * BOX_HALF) / target[0]];
+    return { m, from: P(exit), to: P(target) };
+  });
   const spotR = 0.0056;
   const [fx, fy] = P([FILM_X, -FILM_HALF, -FILM_HALF]);
   const [gx, gy] = P([FILM_X, FILM_HALF, -FILM_HALF]);
-  const topY = Math.min(P([FILM_X, -FILM_HALF, FILM_HALF])[1], P([FILM_X, FILM_HALF, FILM_HALF])[1]);
-  const edgeX = P([FILM_X, -FILM_HALF, MARKED.z * FILM_HALF])[0] + 8;
-  const labelRight = edgeX + 0.62 * text * 19 < W;
 
   return (
     <div ref={ref}>
-      <Note title="2. A whole crystal">
-        Every atom in the crystal sends out its waves the same way. At almost every point on the film they arrive out of
-        step and cancel; only at a few do they all arrive in step, and those points become spots.
+      <Note title="2. A whole crystal makes spots">
+        A crystal repeats the same atoms over and over. At most points on the film, their waves cancel. At a few, they
+        all arrive in step, and those become spots.
       </Note>
       <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="mt-3 block" role="img" aria-labelledby={`${ids}t ${ids}d`}>
         <title id={`${ids}t`}>A whole crystal: the film stays clear except at its spots</title>
@@ -168,8 +133,12 @@ export function CrystalCancels() {
           ))}
         </g>
         <polygon points={poly(ring(0, 0, 0.013))} fill={XR.label} />
-        <line x1={sx} y1={sy} x2={mx} y2={my} stroke={XR.accent} strokeWidth={1.25} />
-        <polygon points={poly(ring(MARKED.y, MARKED.z, 0.018))} fill="none" stroke={XR.accent} strokeWidth={1.5} />
+        {rays.map(({ m, from, to }) => (
+          <g key={`${m.y},${m.z}`}>
+            <line x1={from[0]} y1={from[1]} x2={to[0]} y2={to[1]} stroke={XR.accent} strokeWidth={1.25} />
+            <polygon points={poly(ring(m.y, m.z, 0.018))} fill="none" stroke={XR.accent} strokeWidth={1.5} />
+          </g>
+        ))}
 
         <Labels size={text}>
           <text x={b0x} y={b0y - 14}>x-rays</text>
@@ -179,15 +148,6 @@ export function CrystalCancels() {
           <text x={(fx + gx) / 2} y={Math.max(fy, gy) + 18} textAnchor="middle">
             film
           </text>
-          {labelRight ? (
-            <text x={edgeX} y={my + 4} fill={XR.accent}>
-              all in step: a spot
-            </text>
-          ) : (
-            <text x={P([FILM_X, -FILM_HALF, FILM_HALF])[0]} y={topY - 8} textAnchor="end" fill={XR.accent}>
-              all in step: a spot
-            </text>
-          )}
         </Labels>
       </svg>
     </div>

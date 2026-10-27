@@ -25,52 +25,38 @@ committed.
   description, then source in small grey).
 - Exaggeration is fine if the caption says so.
 
-## Where each stop stands
+## Where each stop stands (after the clean-up pass, 27 Oct)
 
-| Stop | Figure now | State |
-|---|---|---|
-| X-Rays: "How waves interact" | `TwoWaves`, unchanged | agreed |
-| "How atoms scatter x-rays" | `WhyBands` part 1 (two atoms, original marker) + new part 2 `CrystalCancels`: a 3D crystal and a square film, spots computed from the 1938 hemoglobin cell rocked 5° | agreed |
-| "Two kinds of information" | `TwoKinds`: spacing pair (40/20 Å box) + molecule pair, from `ReadingTheFilm`. Replaced `CrystalRecords`; the 1937–38 box-size float was removed | agreed (idea 1 checked) |
-| The Big Idea (idea 2) | `LinedUp`: part 1 `LineUpGame` (flip four waves, hidden atoms, "how close" meter, green on success); part 2 contour maps of the 7-atom molecule lined up right and wrong, atom rings on both | agreed (idea 2 checked) |
-| Camera, 1947 layers drawing | unchanged (layers drawing is now a `Plate`) | untouched |
-| Salt 1942–43 (idea 3) | `SaltPair` side float (in step: darker; opposed: fainter); `FourBumps` kept. Removed: liquid `KnownWave` float, `LiquidLayer` figure, a salt version of the game | agreed (idea 3 checked) |
-| Patterson 1947–48 | One `Plate` (`RodsEndOn`): fig. 21 (map down the rods, peaks ringed) → fig. 22 (rods in 3D) → fig. 23b (his reading, end-on). Removed: `PattersonMap` three-atom figure, the test figure, separate fig. 23 plate | agreed |
-| Crick | `CrickRods`, unchanged (matches Crick 1952 table 1) | agreed; relabel in clean-up |
-| Mercury 1953 (idea 3 again) | `ReadingTheFilm group="atom"` slim float, heavy atom 2.4× two mercuries, caption says so. Removed: mercury `KnownWave` arrows float | agreed; idea 3 here is carried by this float + prose |
-| Hodgkin, two derivatives | `TwoHeavyAtoms`: `SaltPair`'s rows carried one step on. Columns "If ahead" / "If behind" (a sixth of a wave either side of the mercury) darken the spot alike; a second heavy atom's wave makes one darker (matches the second film, green ring) and the other fainter. Side float in a `<Wrap>` beside the "path forward" and Dintzis paragraphs. Replaced `TwoChoices` (arrows) | agreed |
-| 6 Å (idea 4) | none. "How more spots sharpen the map" (`FourierMap`) removed | agreed: left to prose. Gap noted: nothing says farther spots give finer waves |
-| 1957–59 (idea 5) | `SheetStack` now right after the 1957 paragraph, Kendrew model `Plate` after "Pretty or not", then `PerutzModel` | agreed (idea 5 checked: slices → stack → model) |
+| Stop | Figure now |
+|---|---|
+| X-Rays | `TwoWaves` "How waves interact", shorter |
+| Unit cell + "two kinds of information" | One figure, "Why a crystal makes spots" (`WhyBands`), placed after the "two kinds" paragraph: 1. two atoms make bands, 2. a whole crystal makes spots (`CrystalCancels`, spots baked into `crystal-spots.json`, two red rays), 3. the unit cell sets where the spots fall, 4. the molecule sets how dark they are (both `TwoKinds`) |
+| The Big Idea (idea 2) | `LinedUp` "The film can't tell you how to line up the waves": flip game (note names the phase problem; one small status line under the meter), then right/wrong contour maps; no caption |
+| Camera, 1947 layers | `Camera` (glass tube and photo a fifth smaller); layers `Plate` narrower, scan cropped above its 1947 caption |
+| Salt (idea 3) | `SaltPair` "Salt tells you which way to flip each wave" (side float); `FourBumps` now a side float beside the "seven waves" paragraphs, "pure water" |
+| Patterson | `PattersonRods` plate (renamed from `RodsEndOn`), a fifth narrower |
+| Crick | figure removed; prose only |
+| Mercury 1953 | `ReadingTheFilm group="atom"` float, "What mercury does to the spots", no caption |
+| Hodgkin | `TwoHeavyAtoms` side float |
+| 6 Å (idea 4) | none; left to prose |
+| 1957–59 (idea 5) | `SheetStack` (click a laid-out slice to zoom; caption no longer claims "2.6×"), Kendrew model `Plate`, `PerutzModel` (smaller, no hover fade) |
 
-## Next stops
+Figure text follows the author's rule from this pass: very plain, short,
+logical sentences, like the classroom Patterson paragraph. Panel headings
+state what the panel shows. "unit cell", not "box". "protein's wave", not
+"spot's wave".
 
-The walk-through is done. Next is the clean-up pass below.
+## Code clean-up done
 
-## Clean-up pass (after the walk-through)
-
-Text in every new figure needs a proper writing pass (the author asked for
-this). Known items: `WhyBands` caption and panel 1 heading still describe only
-part 1; `TwoKinds` title repeats its panel headings; `FourBumps` says "tap
-water" where prose says "pure water"; `CrickRods` title and bar labels;
-`RodsEndOn` should be renamed; `CrystalCancels` caption should say spot
-positions come from the 1938 cell and the crystal is rocked; `SheetStack`
-leaves empty space above and below the slices when laid out, and its subtitle
-could tie its contours to the ones in `LinedUp` part 2; `TwoHeavyAtoms` text.
-
-## Files
-
-- New and in use: `TwoHeavyAtoms`, `CrystalCancels`, `TwoKinds`, `LinedUp`, `LineUpGame`
-  (its `salt` mode is unused), `SpotsToPicture` (only its helpers are used, by
-  `LinedUp`), `SaltPair`, `RodsEndOn`, `Plate` in `Figure.tsx`, `XR.success`
-  in `palette.ts`. `ReadingTheFilm` now exports `LAMBDA`, `EDGE_TAN`, `Atom`,
-  `HEAVY_PAIR`; its heavy atom was raised to 0.6.
-- New images: `public/images/first-structures/perutz-1949-fig21.png`,
-  `perutz-1949-fig23a.png`, `perutz-1949-fig23b.png` (crops of the 1949 paper,
-  `~/Downloads/research/literature/papers/Perutz_1949_…pdf`, PDF p. 13 for fig. 21).
-- Unused, kept on disk: `WhySpots`, `CrystalFilms`, `WhereAndHowDark`,
-  `CrystalRecords`, `PhaseProblem`, `SpotRecords`, `WavesToPicture`,
-  `KnownWave`, `LiquidLayer`, `PattersonMap` (lab still uses `RodsTest`),
-  `TwoChoices`, `FourierMap`.
+Deleted unused figures (kept in commit `9c1b156`): `CrystalFilms`,
+`CrystalLattice`, `CrystalToFilm`, `FourierPhases`, `OneMoleculeScatters`,
+`PhaseProblem`, `SpotRecords`, `TwoLayers`, `WavesAddUp`, `WavesToPicture`,
+`WhatTheFilmKeeps`, `WhereAndHowDark`, `WhySpots`, `fundamentals`,
+`oscillation.ts`, `SpotsToPicture`, `CrickRods`. `Note` moved into `Figure.tsx`;
+`TwoAtoms` moved to `figures/lab/`; `LineUpGame` lost its salt mode;
+`figures/index.ts` lists only what the essay uses. The lab page is kept and
+still loads; every file only the lab uses now lives in `figures/lab/`, so
+`figures/` holds just the essay's figures and their shared helpers.
 
 ## Checking
 

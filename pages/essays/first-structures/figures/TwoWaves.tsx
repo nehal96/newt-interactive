@@ -168,13 +168,13 @@ export function TwoWaves() {
   const gap = narrow ? 12 : 24;
   const colW = (W - labelW - 2 * gap) / 3;
   const lambda = colW / 2;
-  const amp = clamp(lambda * 0.2, 8, 16);
+  const amp = clamp(lambda * 0.14, 6, 11);
   const text = narrow ? 10 : 11;
 
   const guideTop = narrow ? 28 : 46;
   const w1 = guideTop + 8 + amp;
-  const w2 = w1 + 2 * amp + 24;
-  const sum = w2 + 3 * amp + 26;
+  const w2 = w1 + 2 * amp + 18;
+  const sum = w2 + 3 * amp + 20;
   const rows: Rows = { w1, w2, sum, guideTop, guideBottom: sum + 2 * amp + 6 };
   const heightY = rows.guideBottom + 16;
   const H = heightY + 6;

@@ -1,12 +1,14 @@
-// The two things a film records: spot spacing from the box size, spot darkness from what sits in the box.
+// What a film records: spot spacing from the box size, spot darkness from what sits in the box.
 import { useElementWidth } from "@hooks";
 import { ReadingTheFilm } from "./ReadingTheFilm";
-import { Note } from "./TwoAtoms";
+import { Note } from "./Figure";
 
-const WHERE = <Note title="Where the spots fall">The smaller the box, the farther apart the spots.</Note>;
+const FILM = 120;
+
+const WHERE = <Note title="3. The unit cell sets where the spots fall">Make the unit cell smaller, and the spots spread farther apart.</Note>;
 const DARK = (
-  <Note title="How dark they are">
-    A different molecule in the same box leaves the spots in place; its atoms’ waves add up differently at each one.
+  <Note title="4. The molecule sets how dark they are">
+    Put a different molecule in the same unit cell. The spots stay in the same places, but some get darker and some fainter.
   </Note>
 );
 
@@ -19,18 +21,18 @@ export function TwoKinds() {
         <>
           {WHERE}
           {DARK}
-          <ReadingTheFilm group="box" />
-          <ReadingTheFilm group="molecule" />
+          <ReadingTheFilm group="box" size={FILM} />
+          <ReadingTheFilm group="molecule" size={FILM} />
         </>
       ) : (
         <>
           {WHERE}
           <div className="mt-3">
-            <ReadingTheFilm group="box" />
+            <ReadingTheFilm group="box" size={FILM} />
           </div>
           <div className="mt-8">{DARK}</div>
           <div className="mt-3">
-            <ReadingTheFilm group="molecule" />
+            <ReadingTheFilm group="molecule" size={FILM} />
           </div>
         </>
       )}

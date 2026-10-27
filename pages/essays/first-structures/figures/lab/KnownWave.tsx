@@ -1,8 +1,8 @@
 // A wave of known size and sign, added to the protein's, shows which way the protein's points.
 import { useId } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import { Note } from "./TwoAtoms";
+import { XR } from "../palette";
+import { Note } from "../Figure";
 
 const PROTEIN = 1;
 const KNOWN = 0.5;

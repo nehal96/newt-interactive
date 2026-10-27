@@ -223,14 +223,14 @@ const DESCRIPTIONS: Record<Group, string> = {
   molecule: "Two crystal patches with the same 40 ångström box, filled with the same atoms in different places, each above its film. The spots fall in the same places; some get darker and others fainter.",
 };
 
-export function ReadingTheFilm({ group }: { group: Group }) {
+export function ReadingTheFilm({ group, size = 170 }: { group: Group; size?: number }) {
   const ids = useId();
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const narrow = W < 520;
   const text = narrow ? 10 : 11;
   const g = GROUPS[group];
 
-  const S = Math.min(170, (W - 12) / 2);
+  const S = Math.min(size, (W - 12) / 2);
   const crystalH = Math.round(S * 0.5);
   const pxPerA = S / 3.4 / 40;
   const H = 22 + crystalH + 12 + S + (g.note ? 26 : 4);
@@ -296,4 +296,3 @@ export function ReadingTheFilm({ group }: { group: Group }) {
 
 /** The two-molecule comparison, for figures that lay out their own films. */
 export const MOLECULE_PAIR = GROUPS.molecule;
-export const HEAVY_PAIR = GROUPS.atom;

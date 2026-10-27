@@ -1,10 +1,10 @@
 // Figure 5: the same molecules at random and in a grid, and the films they give.
 import { useId } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import Molecule, { ATOMS } from "./Molecule";
-import { Labels } from "./scene";
-import { SpotFilm, latticeSpots } from "./spots";
+import { XR } from "../palette";
+import Molecule, { ATOMS } from "../Molecule";
+import { Labels } from "../scene";
+import { SpotFilm, latticeSpots } from "../spots";
 
 /** Grid spacing and X-ray wavelength, in the molecule's own drawing units. */
 const CELL = 87;

@@ -3,11 +3,49 @@ import { useId } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
 import { Labels } from "./scene";
-import { SpotFilm } from "./spots";
-import { PANEL, WAVES, WRONG, density } from "./SpotsToPicture";
+import { SpotFilm, onFilm } from "./spots";
+import { EDGE_TAN, LAMBDA, MOLECULE_PAIR } from "./ReadingTheFilm";
 import { contourPath } from "./contour";
 import { LineUpGame } from "./LineUpGame";
-import { Note } from "./TwoAtoms";
+import { Note } from "./Figure";
+
+const PANEL = MOLECULE_PAIR.panels[0];
+
+type Wave = { h: number; k: number; amp: number; phase: number };
+
+/** Every spot on the film, one of each pair across the centre (the pair gives the same wave). */
+const WAVES: Wave[] = (() => {
+  const out: Wave[] = [];
+  const reach = Math.ceil(PANEL.box / LAMBDA);
+  for (let h = 0; h <= reach; h++)
+    for (let k = -reach; k <= reach; k++) {
+      if (h === 0 && k <= 0) continue;
+      if (!onFilm((LAMBDA * h) / PANEL.box, (LAMBDA * k) / PANEL.box, EDGE_TAN)) continue;
+      let re = 0;
+      let im = 0;
+      for (const { x, y, f } of PANEL.atoms) {
+        re += f * Math.cos(2 * Math.PI * (h * x + k * y));
+        im += f * Math.sin(2 * Math.PI * (h * x + k * y));
+      }
+      out.push({ h, k, amp: Math.hypot(re, im), phase: Math.atan2(im, re) });
+    }
+  // Strongest first: the wrong line-up's random slides are dealt out in this order.
+  return out.sort((a, b) => b.amp - a.amp);
+})();
+
+/** The same strengths, slid to a fixed but arbitrary set of wrong places. */
+const WRONG: Wave[] = (() => {
+  let seed = 5;
+  const rand = () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+  return WAVES.map((w) => ({ ...w, phase: 2 * Math.PI * rand() }));
+})();
+
+/** Density at fractional (x, y) in the unit cell: each spot's wave, at its strength, slid by its phase. */
+const density = (waves: Wave[], x: number, y: number) =>
+  waves.reduce((sum, w) => sum + w.amp * Math.cos(2 * Math.PI * (w.h * x + w.k * y) - w.phase), 0);
 
 const GRID = 81;
 const LEVELS = [0.2, 0.35, 0.5, 0.65, 0.8];
@@ -28,12 +66,12 @@ function FilmToMaps() {
   const text = W < 520 ? 10 : 11;
 
   const arrowW = W < 520 ? 22 : 40;
-  const S = Math.min(170, (W - 2 * arrowW - 12) / 3);
+  const S = Math.min(120, (W - 2 * arrowW - 12) / 3);
   const total = 3 * S + 2 * arrowW + 12;
   const x0 = (W - total) / 2;
   const xs = [x0, x0 + S + arrowW, x0 + 2 * S + arrowW + 12];
   const top0 = 18;
-  const H = top0 + S + 38;
+  const H = top0 + S + 24;
   const mid = top0 + S / 2;
   const g = S / (GRID - 1);
 
@@ -80,9 +118,6 @@ function FilmToMaps() {
           <text x={xs[0] + S / 2} y={top0 - 6} textAnchor="middle">the film</text>
           <text x={xs[1] + S / 2} y={top0 + S + 18} textAnchor="middle">lined up right</text>
           <text x={xs[2] + S / 2} y={top0 + S + 18} textAnchor="middle">lined up wrong</text>
-          <text x={(xs[1] + xs[2] + S) / 2} y={H - 4} textAnchor="middle" fill={XR.accent}>
-            rings: where the atoms are
-          </text>
         </Labels>
       </svg>
     </div>
@@ -94,17 +129,19 @@ export function LinedUp() {
     <div className="flex flex-col gap-8">
       <div>
         <Note title="1. Line up the waves yourself">
-          Each spot gives one wave, as tall as the spot is dark. There are three atoms in this box: flip the waves until
-          their sum peaks where the atoms are.
+          Each spot gives one wave; the darker the spot, the taller its wave. Click a flip button to turn a wave upside
+          down (change its phase), and find the line-up whose sum peaks on the three hidden atoms. The film looks the same
+          for every line-up, so it can’t help: that is the phase problem.
         </Note>
         <div className="mt-3">
           <LineUpGame />
         </div>
       </div>
       <div>
-        <Note title="2. The same, across a flat box">
-          A real film has spots in every direction. Adding their waves at every point of the box, not just along one line,
-          gives a map of where the electrons are, drawn as contour lines. The film alone can’t say which line-up is right.
+        <Note title="2. Line them up wrong, and the molecule disappears">
+          A real film has spots in every direction. Add up their waves at every point in the unit cell, and you get a map
+          of where the electrons are, drawn as contour lines. Lined up right, the map shows the atoms. Lined up wrong, it
+          shows nothing.
         </Note>
         <div className="mt-3">
           <FilmToMaps />

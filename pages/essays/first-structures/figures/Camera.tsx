@@ -148,11 +148,11 @@ export function Camera() {
   let photo: { x: number; y: number; w: number };
   let mount: { x: number; y: number; w: number; h: number };
   if (!narrow) {
-    photo = { x: W * 0.62, y: rowTop, w: W * 0.34 };
-    mount = { x: W * 0.3, y: rowTop, w: W * 0.26, h: (W * 0.34) / PHOTO.aspect - 40 };
+    photo = { x: W * 0.66, y: rowTop, w: W * 0.272 };
+    mount = { x: W * 0.33, y: rowTop, w: W * 0.208, h: (W * 0.272) / PHOTO.aspect - 32 };
   } else {
-    photo = { x: W * 0.48, y: rowTop, w: W * 0.52 };
-    mount = { x: 0, y: rowTop, w: W * 0.46, h: Math.max(140, (W * 0.52) / PHOTO.aspect - 40) };
+    photo = { x: W * 0.56, y: rowTop, w: W * 0.416 };
+    mount = { x: W * 0.04, y: rowTop, w: W * 0.368, h: Math.max(112, (W * 0.416) / PHOTO.aspect - 32) };
   }
   const photoH = photo.w / PHOTO.aspect;
   const H = rowTop + Math.max(photoH + 30, mount.h + 40);
@@ -175,12 +175,12 @@ export function Camera() {
           X-rays pass through a crystal and leave spots on a film.
         </title>
         <desc id={`${ids}d`}>
-          Side view of an x-ray camera: a copper x-ray tube, a nickel filter, a pinhole
-          collimator, a crystal in a glass capillary on a mount that rocks a few degrees,
-          a small beam stop and a flat film 5 to 10 centimetres behind. Below: the
-          capillary close up, with picein seals at both ends, liquid in each end and the
-          crystal clear of it; and a photograph of a wet hemoglobin crystal published in
-          1938, dark spots scattered around a clear centre.
+          Side view of an x-ray camera: a copper x-ray tube, a nickel filter, a narrow
+          tube, a crystal in a glass tube on a mount that rocks a few degrees, a small
+          beam stop and a flat film 5 to 10 centimetres behind. Below: the glass tube
+          close up, with seals at both ends, liquid in each end and the crystal clear of
+          it; and a photograph of a wet hemoglobin crystal published in 1938, dark spots
+          scattered around a clear centre.
         </desc>
         <defs>
           <clipPath id={`${ids}p`}>
@@ -197,7 +197,7 @@ export function Camera() {
 
         {[
           { x: mount.x + mount.w / 2, y: mount.y, s: "The glass tube" },
-          { x: photo.x + photo.w / 2, y: photo.y, s: narrow ? "A photograph, 1938" : "A real photograph, 1938" },
+          { x: photo.x + photo.w / 2, y: photo.y, s: "A photograph, 1938" },
         ].map(({ x, y, s }) => (
           <text key={s} x={x} y={headerY(y)} textAnchor="middle" className="font-ui" fontSize={head} fontWeight={600} fill={XR.sum}>
             {s}

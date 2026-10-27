@@ -2,20 +2,16 @@ import { MdxLayout, PostArticleSubscribe } from "@ui/article";
 import {
   Figure,
   Plate,
-  Variant,
   Wrap,
   TwoWaves,
   WhyBands,
-  TwoKinds,
   ReadingTheFilm,
   Camera,
   LinedUp,
   SaltPair,
   FourBumps,
   Term,
-  RodsEndOn,
-  CrickRods,
-  TwoChoices,
+  PattersonRods,
   TwoHeavyAtoms,
   SheetStack,
   PerutzModel,
@@ -56,21 +52,14 @@ Spots form because x-rays are waves, and waves can combine. The x-rays used in c
 
 When x-rays strike a molecule, its electrons send out new waves of their own, in every direction. A single molecule scatters far too little to record. But in a crystal, trillions of identical copies are stacked like bricks in every direction. Familiar crystals like salt, sugar and quartz are built this way, and under the right conditions, proteins can form crystals too. Each brick, in this instance — the small box holding one or a few molecules — is called the “<Term k="unitCell">unit cell</Term>.”
 
-<Figure
-  title="How atoms scatter x-rays"
-  subtitle="When x-rays hit an atom, it sends out waves of its own. Whether the waves from different atoms add up or cancel at a point on the film depends on how far each has traveled to get there."
-  caption="Not to scale. Waves from the two atoms are drawn equally tall."
->
-  <WhyBands />
-</Figure>
-
 The spots on the film record two kinds of information. The pattern they create comes from the spacing *between* the unit cells. The waves from all the copies line up only in certain directions; wherever they do, they make a spot, and everywhere else they cancel. How dark the spots are depends on the arrangement of atoms *within* each unit cell. Because those atoms sit in different places, their waves combine differently in each direction: when they mostly reinforce each other, the spot is dark, and when they partly cancel, the spot is faint. Thus, the positions of the spots measure the unit cell, and the darkness of the spots is a coded picture of the molecule inside.
 
 <Figure
-  title="Where the spots fall, and how dark they are"
-  caption="Not to scale. Each crystal is a single flat layer, seen along the beam."
+  title="Why a crystal makes spots"
+  subtitle="When x-rays hit an atom, its electrons emit x-rays of their own. Where those waves meet on the film, they add up or cancel, depending on how far each one has traveled."
+  caption="Not to scale. In part 2, the spots sit where they did in Bernal’s 1938 photograph of hemoglobin."
 >
-  <TwoKinds />
+  <WhyBands />
 </Figure>
 
 ### The Big Idea
@@ -86,8 +75,7 @@ Perutz published these results in [a letter to *Nature*](https://doi.org/10.1038
 To work backward from the spots to a picture of the molecule, then, Perutz needed to combine the waves mathematically. He knew their strengths, but without their phases, he did not know how to line them up. For smaller molecules, crystallographers could guess an arrangement of atoms, calculate the spots it would produce, and compare them with the film. For a molecule with thousands of atoms, there were far too many arrangements to try. Finding the missing phases was the “phase problem,” and it held up the structure of hemoglobin for the next fifteen years.
 
 <Figure
-  title="The same spots, lined up different ways, give different pictures"
-  caption="Part 1: three atoms in a row, placed evenly about the middle, so each wave can only sit crest-up or trough-up there. Part 2: a seven-atom molecule; its wrong line-up is an arbitrary choice."
+  title="The film can’t tell you how to line up the waves"
 >
   <LinedUp />
 </Figure>
@@ -110,7 +98,7 @@ Back at Cambridge, Perutz returned to drying crystals. Rapid drying destroyed th
 
 <Figure
   title="Perutz’s x-ray crystallography setup"
-  subtitle="A nickel filter leaves x-rays of a single wavelength, and the crystal, sealed in its glass tube, is rocked a few degrees to catch more spots."
+  subtitle="A nickel filter lets through x-rays of just one wavelength. The crystal, sealed in a glass tube, is rocked a few degrees to catch more spots."
   caption="Not to scale. Based on Perutz and Rogers (1946) and Boyes-Watson, Davidson and Perutz (1947). Photograph: Bernal, Fankuchen and Perutz, Nature, 1938."
 >
   <Camera />
@@ -126,7 +114,7 @@ Perutz photographed the crystal at four stages and found that the shrinkage was 
   <img
     src="/images/first-structures/boyes-watson-1947-layers.png"
     alt="Three layers of short flat cylinders packed side by side, with gaps between the layers and one slanted box outlined among them."
-    className="w-full mix-blend-multiply"
+    className="mx-auto w-full max-w-md mix-blend-multiply"
   />
 </Plate>
 
@@ -136,9 +124,9 @@ Drying, however, changed two things at once. As the water drained, the layers mo
 
 <Figure
   side
-  title="How salt shows which way a wave points"
-  subtitle="The liquid’s wave can be worked out. Added to a spot’s wave, it makes the spot darker if the two are in step and fainter if they are opposed."
-  caption="The liquid’s wave is drawn at half the height of the spot’s. Based on Boyes-Watson and Perutz (1943)."
+  title="Salt tells you which way to flip each wave"
+  subtitle="Salt changes only the liquid’s wave, which Perutz could work out. Where it is in step with the protein’s wave, the spot gets darker; where it is opposed, fainter."
+  caption="The liquid’s wave is drawn at half the height of the protein’s. Based on Boyes-Watson and Perutz (1943)."
 >
   <SaltPair />
 </Figure>
@@ -151,17 +139,22 @@ These spots had a second advantage. Because each molecule had two identical halv
 
 </Wrap>
 
-Perutz could finally add the seven waves together. Since they looked straight down through the layers, they gave only a single line: how much matter lay at each depth through a protein layer. It had four bumps about nine ångströms apart, which he read as four thin sheets of protein chain stacked on one another.
-
-He and a research assistant [published the result](https://doi.org/10.1038/151714a0) in *Nature* in June 1943<Fn>The research assistant was Joy Boyes-Watson. The same note printed a rough two-dimensional map from an air-dried crystal, built from only four spots, which showed dumb-bell-shaped molecules. “Nevertheless, with all its shortcomings,” they wrote, “it is the first direct picture of a small protein molecule.”</Fn>. After six years, the first look inside the molecule was a line graph with four bumps — one-dimensional data for a three-dimensional structure. The method worked, but the four sheets were a guess, and they would turn out to be wrong.
+<Wrap>
 
 <Figure
+  side
   title="The first look inside hemoglobin"
-  subtitle="Seven waves added together gave the density through one layer of the crystal. Changing the liquid changed the edges; the four bumps stayed put."
+  subtitle="Adding the seven waves gave the amount of matter at each depth through one layer. Changing the liquid changed only the edges; the four bumps stayed put."
   caption="Computed from the seven spots in Boyes-Watson, Davidson and Perutz (1947)."
 >
   <FourBumps />
 </Figure>
+
+Perutz could finally add the seven waves together. Since they looked straight down through the layers, they gave only a single line: how much matter lay at each depth through a protein layer. It had four bumps about nine ångströms apart, which he read as four thin sheets of protein chain stacked on one another.
+
+He and a research assistant [published the result](https://doi.org/10.1038/151714a0) in *Nature* in June 1943<Fn>The research assistant was Joy Boyes-Watson. The same note printed a rough two-dimensional map from an air-dried crystal, built from only four spots, which showed dumb-bell-shaped molecules. “Nevertheless, with all its shortcomings,” they wrote, “it is the first direct picture of a small protein molecule.”</Fn>. After six years, the first look inside the molecule was a line graph with four bumps — one-dimensional data for a three-dimensional structure. The method worked, but the four sheets were a guess, and they would turn out to be wrong.
+
+</Wrap>
 
 In 1943, Perutz was sent as a glacier expert to an Allied wartime project<Fn>The project, Habakkuk, was to build an aircraft carrier out of pykrete, ice mixed with wood pulp, an idea by the inventor Geoffrey Pyke. Perutz tested it in a refrigerated meat store beneath London’s Smithfield Market, hidden behind frozen carcasses, and found that it slowly sagged unless kept below about −16 °C. Keeping a ship that cold would have taken so much steel that, as Perutz put it, the U.S. Navy decided “Habakkuk was a false prophet.”</Fn>. When he returned in 1944, he found that his two research assistants had spent his absence photographing hemoglobin crystals and grading thousands of spots by eye<Fn>The assistants were Joy Boyes-Watson and Edna Davidson. With no instrument to read darkness, they graded each spot against a calibration strip, a row of about twenty test exposures running from barely visible to nearly black. Recording a single layer of spots took eighteen photographs, and their estimates could be off by 20–25% for strong spots and 30–40% for weak ones.</Fn>. A picture of the molecule would need spots in every direction analyzed — not just one column — but without their phases, there was no way to add their waves together into a map.
 
@@ -181,10 +174,10 @@ The rods were there. Several peaks stretched into long, straight ridges, all run
 
 <Plate
   title="The rods in Perutz’s map"
-  subtitle="His Patterson map seen straight down the rods: each ringed peak is the end of a rod. His drawing of the same rods, one through the centre and six around it, all running the same way. And what he read them as: chains lying side by side in stacked layers, seen end-on, with the spacings that would give the A and B rods."
+  subtitle="Seen straight down Perutz’s Patterson map, each ringed peak is the end of a rod. Drawn in 3D, the rods all run the same way, so Perutz read them as protein chains lying side by side in layers."
   caption="Perutz, Proc. R. Soc. A 195, 1949, fig. 21 (reprinted from Boyes-Watson, Davidson and Perutz, 1947, fig. 3a; rings added), fig. 22 and fig. 23b."
 >
-  <RodsEndOn />
+  <PattersonRods />
 </Plate>
 
 On 8 June 1948, Perutz [submitted his findings](https://doi.org/10.1098/rspa.1949.0005) to the Royal Society. The “parallel rods” structure, he wrote, was “plausible and consistent with all the known evidence, but proof for the time being” eluded him, and he ended the paper by wondering whether hemoglobin could be taken any further at all.
@@ -199,22 +192,9 @@ They then ruled out both for proteins because of their size: “even the heavies
 
 With phases out of reach, Perutz and Kendrew stuck with Patterson maps. For nearly two years, they tried guessing chain shapes and comparing those maps to measured ones, but none stood out<Fn>In March 1950 they admitted that their models had “no obvious advantages over their alternatives” (Bragg, Kendrew and Perutz, Proc. R. Soc. A 203, 1950). They had ignored a chemical fact the American chemist Linus Pauling had established years earlier: the bonds joining amino acids cannot rotate freely. Pauling built that constraint into the model he [published](https://doi.org/10.1073/pnas.37.4.205) in 1951 as the alpha helix. Bragg, many years later, called the 1950 paper “the most ill-planned and abortive” piece of work he had been involved in (“First stages,” p. 6).</Fn>.
 
-<Wrap>
-
-<Figure
-  side
-  title="Why the rods were too faint"
-  subtitle="Straight, parallel chains should have made the rods about ten times taller than Perutz measured. Even short, broken rods came out too tall."
-  caption="Data from Crick (1952), table 1."
->
-  <CrickRods />
-</Figure>
-
 Meanwhile, in the autumn of 1949, a 33-year-old physicist named Francis Crick joined the Medical Research Council unit that Perutz and Kendrew ran at the Cavendish. He was new to biology, had never done crystallography, and learned it largely by arguing with the two of them. He began by checking the assumption, held since 1943, that hemoglobin was built from layers of parallel chains. If Perutz’s model were right, he calculated, the rods in the 1948 map should have been far taller than they were. He concluded that, since far fewer atom pairings shared the spacing their layered model required, the chains could not run straight and parallel for long; after about a dozen amino acids, they had to turn a corner.
 
 In 1951, Crick presented these findings to Bragg, Perutz, and Kendrew in a talk titled *What Mad Pursuit*, essentially telling them that their assumptions for the last near-decade were incorrect. As Perutz would put it many years later: “Here was this new fellow… [who] was telling us that what we were so proud of, was wrong.”
-
-</Wrap>
 
 With guesswork exhausted, by 1952 Bragg and Perutz [concluded](https://doi.org/10.1098/rspa.1952.0136) that the only course left was a “direct attack” — better measurement. Using a Geiger counter, Perutz measured spots on an absolute scale: what share of the x-ray beam each spot caught instead of grading it by eye<Fn>The same measurements gave [the molecule’s outline](https://doi.org/10.1107/S0365110X52000721), a “rather modest” result, Bragg later wrote, but “we snatched at such small successes to keep ourselves in heart to carry on” (“First stages,” pp. 7, 9).</Fn>. But better measurement still could not give the phases, and everything inside the molecule stayed in the dark.
 
@@ -231,9 +211,8 @@ Five years earlier, Perutz and Kendrew had ruled the method out because one atom
 <Figure
   side
   slim
-  title="What a heavy atom does to the spots"
+  title="What mercury does to the spots"
   subtitle="The spots stay where they are, because the unit cell is the same. But the heavy atom’s wave makes some darker and others fainter."
-  caption="The heavy atom is drawn stronger than two mercury atoms would be, so the changes show."
 >
   <ReadingTheFilm group="atom" />
 </Figure>
@@ -253,8 +232,8 @@ The method worked, but the map lacked depth. For that, the rest of the spots wer
 <Figure
   side
   title="Why one heavy atom isn’t enough"
-  subtitle="A spot’s wave ahead of the mercury’s, or the same distance behind, changes the spot the same way. A heavy atom in another place tells the two apart."
-  caption="The heavy atoms’ waves are drawn at half the height of the spot’s. Based on Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
+  subtitle="If the protein’s wave is a little ahead of the mercury’s, or the same amount behind, the spot changes the same way. A second heavy atom, in another place, tells the two apart."
+  caption="The heavy atoms’ waves are drawn at half the height of the protein’s. Based on Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
 >
   <TwoHeavyAtoms />
 </Figure>
@@ -273,8 +252,8 @@ In the summer of 1957, Kendrew’s two years of photographing his derivatives, m
 
 <Figure
   title="Kendrew’s 6 Å contour maps of myoglobin"
-  subtitle="Each slice maps the electron density on one plane through the crystal. The rings are contour lines, packed closest where the density is highest. The densest spot in the whole map is the heme."
-  caption="Eight of the sixteen slices; the other eight are these turned over by the crystal’s symmetry. Stacked 2.6 times farther apart than the real 1.93 Å. Traced from Bodo, Dintzis, Kendrew and Wyckoff (1959), figure 18."
+  subtitle="Each slice is a contour map of one plane through the crystal, like the ones in the line-up figure. The rings crowd together where there are most electrons, and the densest spot of all is the heme."
+  caption="Eight of the sixteen slices; the other eight are the same slices turned over. Stacked farther apart than the real 1.93 Å, so each one shows. Traced from Bodo, Dintzis, Kendrew and Wyckoff (1959), figure 18."
 >
   <SheetStack />
 </Figure>
@@ -299,8 +278,8 @@ Twenty-two years after Haurowitz had told him to work out the structure of hemog
 
 <Figure
   title="Perutz’s model of human hemoglobin"
-  subtitle="In 1967 Perutz built this model of human hemoglobin from painted wood, the way he had built his first from plastic in 1959: each slice of the density map cut out and stacked, the two kinds of chain in black and white, and each heme a red disk."
-  caption="Rebuilt from the modern structure of human deoxyhemoglobin (PDB 2HHB) at 5.5 Å, in slices 2 Å apart, as described in Perutz (1960). The original is at the Science Museum, London."
+  subtitle="In 1967 Perutz built this model from painted wood, the way he built his first in 1959: each slice of the map cut out and stacked. The two kinds of chain are black and white, and each heme is a red disk."
+  caption="Rebuilt from the modern structure of human hemoglobin (PDB 2HHB), blurred to 5.5 Å and cut into 2 Å slices as Perutz described in 1960. The original is at the Science Museum, London."
 >
   <PerutzModel />
 </Figure>

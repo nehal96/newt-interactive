@@ -145,3 +145,13 @@ export function Wrap({ children }: { children: ReactNode }) {
     <div className="flow-root w-full max-w-prose self-center">{children}</div>
   );
 }
+
+/** A panel heading and its one "what to notice" sentence. */
+export function Note({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="mb-1">
+      <p className="font-ui text-xs font-semibold text-ink-800">{title}</p>
+      <p className="mt-0.5 font-ui text-xs leading-[1.125rem] text-ink-600">{children}</p>
+    </div>
+  );
+}

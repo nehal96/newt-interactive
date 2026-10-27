@@ -6,7 +6,7 @@ import { TAU, curvePath } from "./wave";
 import { Labels } from "./scene";
 
 /** Boyes-Watson, Davidson & Perutz 1947, table 7 (unit cell 5), with the signs settled in their table 9 and p. 120. */
-export const F_TAP_WATER = [98, -58, 26, 0, -48, -68, -41];
+export const F_PURE_WATER = [98, -58, 26, 0, -48, -68, -41];
 export const F_SALT = [32, -32, 14, 22, -46, -68, -33];
 /** c sin β of the normal wet cell, table 1. */
 export const REPEAT = 50.7;
@@ -24,12 +24,12 @@ function peaks(f: (z: number) => number) {
   return out;
 }
 
-const tap = density(F_TAP_WATER);
+const pure = density(F_PURE_WATER);
 const salt = density(F_SALT);
-const TAP_PEAKS = peaks(tap);
+const PURE_PEAKS = peaks(pure);
 const SAMPLE = Array.from({ length: 1015 }, (_, i) => -REPEAT / 2 + (i * REPEAT) / 1014);
-const LO = Math.min(...SAMPLE.map(tap), ...SAMPLE.map(salt));
-const HI = Math.max(...SAMPLE.map(tap), ...SAMPLE.map(salt));
+const LO = Math.min(...SAMPLE.map(pure), ...SAMPLE.map(salt));
+const HI = Math.max(...SAMPLE.map(pure), ...SAMPLE.map(salt));
 
 export function FourBumps() {
   const ids = useId();
@@ -52,9 +52,9 @@ export function FourBumps() {
   const stripH = 18;
   const H = stripY + stripH + 22;
 
-  const [p2, p3] = [TAP_PEAKS[0], TAP_PEAKS[1]];
+  const [p2, p3] = [PURE_PEAKS[0], PURE_PEAKS[1]];
   const spacing = p3 - p2;
-  const bracketY = py(Math.max(tap(p2), tap(p3))) - 10;
+  const bracketY = py(Math.max(pure(p2), pure(p3))) - 10;
   const legendX = x0 + len - (narrow ? 212 : 218);
   const legendY = narrow ? 28 : 12;
 
@@ -71,13 +71,13 @@ export function FourBumps() {
         <title id={`${ids}t`}>Seven waves added together gave four bumps.</title>
         <desc id={`${ids}d`}>
           Density through one {REPEAT} Å layer of the crystal, computed from seven
-          spots. In tap water and in salt solution the protein shows the same four
+          spots. In pure water and in salt solution the protein shows the same four
           peaks, {spacing.toFixed(1)} Å apart; only the liquid at the two edges
-          changes, lower in tap water.
+          changes, lower in pure water.
         </desc>
 
         <path d={curvePath(x0, base, len, at(salt), 1)} fill="none" stroke={XR.label} strokeWidth={1.5} strokeDasharray="5 4" />
-        <path d={curvePath(x0, base, len, at(tap), 1)} fill="none" stroke={XR.accent} strokeWidth={2.25} strokeLinejoin="round" />
+        <path d={curvePath(x0, base, len, at(pure), 1)} fill="none" stroke={XR.accent} strokeWidth={2.25} strokeLinejoin="round" />
 
         <g stroke={XR.label} strokeWidth={1}>
           <line x1={px(p2)} x2={px(p3)} y1={bracketY} y2={bracketY} />
@@ -91,7 +91,7 @@ export function FourBumps() {
           </text>
           <text x={0} y={12}>electron density ↑</text>
           <text x={legendX + 22} y={legendY} fill={XR.accent}>
-            tap water
+            pure water
           </text>
           <text x={legendX + 132} y={legendY}>salt solution</text>
         </Labels>
@@ -121,7 +121,7 @@ export function FourBumps() {
           strokeWidth={0.75}
         />
         <g stroke={XR.sum} strokeWidth={3} strokeLinecap="round">
-          {TAP_PEAKS.map((z) => (
+          {PURE_PEAKS.map((z) => (
             <line key={z} x1={px(z)} x2={px(z)} y1={stripY + 3} y2={stripY + stripH - 3} />
           ))}
         </g>

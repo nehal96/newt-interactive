@@ -1,9 +1,9 @@
 // Figure 2: one atom in an X-ray beam, and the film it exposes.
 import { useId } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import { filmGradient, type BeamStop, type Pt } from "./scatter";
-import { Atom, BeamArrow, BeamKey, Film, Labels, Ripples, StopBlock } from "./scene";
+import { XR } from "../palette";
+import { filmGradient, type BeamStop, type Pt } from "../scatter";
+import { Atom, BeamArrow, BeamKey, Film, Labels, Ripples, StopBlock } from "../scene";
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));

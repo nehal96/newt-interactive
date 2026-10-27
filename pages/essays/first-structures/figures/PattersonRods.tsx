@@ -15,8 +15,9 @@ const PEAKS = [
 const PEAK_R = 38;
 const RODS = { w: 1384, h: 798 };
 const LAYERS = { w: 900, h: 530 };
+const MAP_LABEL = "Perutz’s map, looking down the rods";
 
-export function RodsEndOn() {
+export function PattersonRods() {
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const text = W < 520 ? 10 : 11;
   const wide = W >= 560;
@@ -51,7 +52,7 @@ export function RodsEndOn() {
   );
 
   return (
-    <div ref={ref} className="w-full">
+    <div ref={ref} className="mx-auto w-full max-w-[36rem]">
       <svg
         width={W}
         height={H}
@@ -81,14 +82,14 @@ export function RodsEndOn() {
           {down(rightX + rightW / 2, rodsY + rodsH + 8, layersY - head - 2)}
         </g>
         <g className="font-mono" fontSize={text} textAnchor="middle">
-          <text x={mapX + mapW / 2} y={mapY - 6} fill={XR.accent}>
-            the map, down the rods
+          <text x={Math.max(mapX + mapW / 2, (MAP_LABEL.length * 0.62 * text) / 2)} y={mapY - 6} fill={XR.accent}>
+            {MAP_LABEL}
           </text>
           <text x={rightX + rightW / 2} y={rodsY - 6} fill={XR.label}>
             the same rods, drawn in 3D
           </text>
           <text x={rightX + rightW / 2} y={layersY - 6} fill={XR.label}>
-            his reading: chains in layers, end-on
+            Perutz’s reading: chains in layers, end-on
           </text>
         </g>
       </svg>

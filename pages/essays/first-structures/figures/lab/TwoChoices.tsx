@@ -1,8 +1,8 @@
 // One heavy atom leaves two possible directions for a spot's wave; a second heavy atom picks one.
 import { useId } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import { Note } from "./TwoAtoms";
+import { XR } from "../palette";
+import { Note } from "../Figure";
 
 type V = [number, number];
 const add = (a: V, b: V): V => [a[0] + b[0], a[1] + b[1]];

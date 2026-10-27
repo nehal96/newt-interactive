@@ -1,10 +1,10 @@
 // Seen only from top to bottom, the liquid between the molecules is a flat layer, and one column of spots records that view.
 import { useId, useState, type ReactNode } from "react";
 import { cn } from "@lib/utils";
-import { XR } from "./palette";
-import { Note } from "./TwoAtoms";
-import { SliderRow } from "./controls";
-import { F_SALT, F_TAP_WATER } from "./FourBumps";
+import { XR } from "../palette";
+import { Note } from "../Figure";
+import { SliderRow } from "../controls";
+import { F_SALT, F_PURE_WATER } from "../FourBumps";
 
 const W = 200;
 const H = 220;
@@ -115,10 +115,10 @@ const OTHERS = Array.from({ length: 2 * REACH + 1 }, (_, a) => a - REACH).flatMa
     })),
 );
 
-const F_MAX = Math.max(...F_TAP_WATER.map(Math.abs), ...F_SALT.map(Math.abs));
+const F_MAX = Math.max(...F_PURE_WATER.map(Math.abs), ...F_SALT.map(Math.abs));
 
 function Film({ salt, label }: { salt: number; label: string }) {
-  const f = F_TAP_WATER.map((w, k) => w + salt * (F_SALT[k] - w));
+  const f = F_PURE_WATER.map((w, k) => w + salt * (F_SALT[k] - w));
   const cx = FX + FILM / 2;
   const cy = FY + FILM / 2;
   return (

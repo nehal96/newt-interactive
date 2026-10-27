@@ -1,10 +1,11 @@
 // Atoms in an X-ray beam — one, two, or a row — and the bands their ripples leave on film.
-import { useId, useRef, useState, type PointerEvent, type ReactNode } from "react";
+import { useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import { crossing, filmGradient, type BeamStop, type Pt } from "./scatter";
-import { Atom, BeamArrow, BeamKey, Film, Labels, Ripples, StopBlock } from "./scene";
-import { SliderRow } from "./controls";
+import { XR } from "../palette";
+import { crossing, filmGradient, type BeamStop, type Pt } from "../scatter";
+import { Atom, BeamArrow, BeamKey, Film, Labels, Ripples, StopBlock } from "../scene";
+import { SliderRow } from "../controls";
+import { Note } from "../Figure";
 import { SPACING as ROW_SPACING, rowStrength } from "./RowOfAtoms";
 
 const clamp = (v: number, lo: number, hi: number) =>
@@ -367,15 +368,6 @@ export function TwoAtomsInteractive() {
           onChange={setSpacing}
         />
       </div>
-    </div>
-  );
-}
-
-export function Note({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div className="mb-1">
-      <p className="font-ui text-xs font-semibold text-ink-800">{title}</p>
-      <p className="mt-0.5 font-ui text-xs leading-[1.125rem] text-ink-600">{children}</p>
     </div>
   );
 }

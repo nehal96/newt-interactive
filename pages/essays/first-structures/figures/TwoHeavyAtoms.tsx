@@ -23,7 +23,7 @@ export function TwoHeavyAtoms() {
   const ids = useId();
   const [ref, W] = useElementWidth<HTMLDivElement>(300);
   const text = 10;
-  const labelW = 66;
+  const labelW = 70;
   const gap = 12;
   const colW = (W - labelW - gap) / 2;
   const lam = colW / 2;
@@ -33,7 +33,7 @@ export function TwoHeavyAtoms() {
   const wave = (shift: number, a = amp) => (t: number) => a * Math.cos((TAU * t) / lam - TAU / 4 - TAU * shift);
 
   const labels: [number, string[], string][] = [
-    [rows.spot, ["spot’s", "wave"], XR.label],
+    [rows.spot, ["protein’s", "wave"], XR.label],
     [rows.mercury, ["mercury’s", "wave"], XR.second],
     [rows.sum1, ["sum"], XR.accent],
     [rows.film1, ["the spot"], XR.label],

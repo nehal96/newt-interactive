@@ -1,4 +1,4 @@
-// Why the film is dark only in places: each atom's wave travels a different distance to each point on it.
+// Two atoms make bands, a whole crystal makes spots, and the box and the molecule set where they fall and how dark.
 import { useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
@@ -6,18 +6,20 @@ import { TAU, curvePath } from "./wave";
 import { filmGradient, type BeamStop, type Pt } from "./scatter";
 import { Atom, BeamArrow, Film, Labels, Ripples, StopBlock } from "./scene";
 import { SliderRow } from "./controls";
-import { Note, ScatterPanel } from "./TwoAtoms";
+import { Note } from "./Figure";
 import { CrystalCancels } from "./CrystalCancels";
+import { TwoKinds } from "./TwoKinds";
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
 /** Atoms to film, and the film's half-height, in wavelengths. */
 const DIST = 9;
 const HALF = 0.7 * DIST;
-const MAX_ATOMS = 12;
 /** The beam stop's distance in front of the film and its half-height, in wavelengths. */
 const STOP_GAP = 1.5;
 const STOP_HALF = 1;
+/** The arriving waves' largest height, in pixels; the inset's height is laid out from it. */
+const AMP = 8;
 
 /** Half-height of the film shaded from either atom, as a fraction of the film's half-height. */
 function shadowEdge(s: number) {
@@ -52,13 +54,13 @@ function ArrivingWaves({ x, y, w, extra, text }: { x: number; y: number; w: numb
   const labelW = 72;
   const waveW = w - labelW;
   const lam = waveW / 3.4;
-  const amp = clamp(lam * 0.17, 7, 12);
+  const amp = clamp(lam * 0.12, 5, AMP);
   const c0 = extra >= 0 ? 0.3 * lam : waveW - 0.3 * lam;
   const top = (t: number) => amp * Math.cos((TAU * (t - c0)) / lam);
   const bottom = (t: number) => amp * Math.cos((TAU * (t - c0 - extra * lam)) / lam);
-  const r1 = y + 34 + amp;
-  const r2 = r1 + 2 * amp + 26;
-  const rs = r2 + 3 * amp + 24;
+  const r1 = y + 30 + amp;
+  const r2 = r1 + 2 * amp + 28;
+  const rs = r2 + 3 * amp + 20;
   const bracketY = r2 - amp - 8;
   const b0 = x + labelW + c0;
   const b1 = b0 + extra * lam;
@@ -122,7 +124,7 @@ function PathPanel({
   const wide = W >= 560;
   const text = wide ? 11 : 10;
   const sceneW = wide ? Math.round(W * 0.52) : W;
-  const insetW = wide ? W - sceneW - 24 : W;
+  const insetW = Math.min(wide ? W - sceneW - 24 : W, 320);
   const lambda = clamp(sceneW / 13, 11, 20);
   const D = DIST * lambda;
   const filmW = 14;
@@ -156,7 +158,7 @@ function PathPanel({
 
   const stops = filmGradient([upper, lower], lambda, filmX, filmTop, filmBottom, stop, 1);
 
-  const insetH = 34 + 2 * 12 + 26 + 2 * 12 + 24 + 3 * 12 + 30;
+  const insetH = 30 + 2 * AMP + 28 + 2 * AMP + 20 + 3 * AMP + 30;
   const insetX = wide ? sceneW + 24 : 0;
   const insetY = wide ? Math.max(0, (sceneH - insetH) / 2) : sceneH + 18;
   const H = wide ? Math.max(sceneH, insetY + insetH) : insetY + insetH;
@@ -187,7 +189,7 @@ function PathPanel({
 
   return (
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="block" role="img" aria-labelledby={`${ids}t ${ids}d`}>
-      <title id={`${ids}t`}>Why the film is dark only in places</title>
+      <title id={`${ids}t`}>Two atoms make bands on the film</title>
       <desc id={`${ids}d`}>
         Two atoms {spacing.toFixed(1)} wavelengths apart send waves to a marked point on the film. The bottom atom&rsquo;s
         path there is {extra.toFixed(2)} of a wavelength longer, so its wave arrives that far behind the top atom&rsquo;s;
@@ -264,56 +266,49 @@ function PathPanel({
   );
 }
 
-/** Two atoms and the distances to one point of the film, then a whole crystal; the lab also shows a row of atoms. */
-export function WhyBands({ part }: { part?: "paths" | "row" }) {
+/** Two atoms, a marker on the film, and a slider for their spacing. */
+export function TwoAtomBands() {
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const [spacing, setSpacing] = useState(3);
   const [probe, setProbe] = useState(() => firstBand(3));
-  const [n, setN] = useState(6);
   const changeSpacing = (s: number) => {
     setSpacing(s);
     setProbe((f) => Math.sign(f || -1) * Math.max(Math.abs(f), shadowEdge(s)));
   };
   return (
-    <div ref={ref} className="flex w-full flex-col gap-10">
-      {part !== "row" && <div>
-        {!part && <Note title="1. Why the film is dark only in places">
+    <div ref={ref}>
+      <PathPanel W={W} spacing={spacing} probe={probe} onProbe={setProbe} />
+      <div className="mt-4">
+        <SliderRow
+          label="Spacing between atoms"
+          value={spacing}
+          display={`${spacing.toFixed(1)} wavelengths`}
+          min={1}
+          max={5}
+          step={0.1}
+          onChange={changeSpacing}
+        />
+      </div>
+    </div>
+  );
+}
+
+export function WhyBands() {
+  return (
+    <div className="flex w-full flex-col gap-10">
+      <div>
+        <Note title="1. Two atoms make bands">
           Drag the marker along the film. Where one wave has traveled a whole number of waves
-          farther than the other, the two arrive in step and the film is dark. Where it has
-          traveled half a wave farther, they cancel. Move the atoms apart, and the dark bands
-          crowd together.
-        </Note>}
-        <div className={part ? "" : "mt-3"}>
-          <PathPanel W={W} spacing={spacing} probe={probe} onProbe={setProbe} />
+          farther than the other, they arrive in step and the film is dark. Where it has traveled
+          half a wave farther, they cancel and the film stays clear. Move the atoms apart, and the
+          bands crowd together.
+        </Note>
+        <div className="mt-3">
+          <TwoAtomBands />
         </div>
-        <div className="mt-4">
-          <SliderRow
-            label="Spacing between atoms"
-            value={spacing}
-            display={`${spacing.toFixed(1)} wavelengths`}
-            min={1}
-            max={5}
-            step={0.1}
-            onChange={changeSpacing}
-          />
-        </div>
-      </div>}
-      {!part && <CrystalCancels />}
-      {part === "row" && <div>
-        <ScatterPanel W={W} maxLambda={15} span={13} spacing={3} n={n} stage="row" header="" hideHeader grow={MAX_ATOMS} />
-        <div className="mt-4">
-          <SliderRow
-            label="Atoms"
-            value={n}
-            display={n === 1 ? "1: a faint fog, no bands" : `${n}: bands ${n * n}× as bright as one atom`}
-            valueText={`${n} atoms`}
-            min={1}
-            max={MAX_ATOMS}
-            step={1}
-            onChange={setN}
-          />
-        </div>
-      </div>}
+      </div>
+      <CrystalCancels />
+      <TwoKinds />
     </div>
   );
 }

@@ -1,10 +1,10 @@
 // A grid of copies turns bands into spots, and what sits in each copy sets how dark they are.
 import { useEffect, useId, useState } from "react";
 import { useElementWidth } from "@hooks";
-import { XR } from "./palette";
-import { Labels } from "./scene";
-import { SpotFilm } from "./spots";
-import { MOLECULE_PAIR } from "./ReadingTheFilm";
+import { XR } from "../palette";
+import { Labels } from "../scene";
+import { SpotFilm } from "../spots";
+import { MOLECULE_PAIR } from "../ReadingTheFilm";
 import { EDGE_TAN, bandX, filmImage, type Pt } from "./CrystalSpots";
 
 const PER_ROW = 5;
