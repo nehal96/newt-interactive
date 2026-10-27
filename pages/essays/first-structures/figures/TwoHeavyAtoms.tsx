@@ -75,9 +75,9 @@ export function TwoHeavyAtoms() {
           const mid = x + colW / 2;
           const film = (y: number, after: number, ring: boolean) => (
             <g>
-              <circle cx={mid - 18} cy={y} r={6} fill={XR.sum} fillOpacity={shade(1)} />
+              <circle cx={mid - 18} cy={y} r={6} fill={XR.ink} fillOpacity={shade(1)} />
               <path d={`M${mid - 7} ${y} h12 m-4 -3.5 l4 3.5 l-4 3.5`} fill="none" stroke={XR.label} strokeWidth={1} />
-              <circle cx={mid + 18} cy={y} r={6} fill={XR.sum} fillOpacity={shade(after)} />
+              <circle cx={mid + 18} cy={y} r={6} fill={XR.ink} fillOpacity={shade(after)} />
               {ring && <circle cx={mid + 18} cy={y} r={9.5} fill="none" stroke={XR.success} strokeWidth={1.5} />}
               <text
                 x={mid}
@@ -93,10 +93,10 @@ export function TwoHeavyAtoms() {
           );
           return (
             <g key={title}>
-              <text x={x} y={rows.head} className="font-ui" fontSize={text + 1} fontWeight={600} fill={XR.sum}>
+              <text x={x} y={rows.head} className="font-ui" fontSize={text + 1} fontWeight={600} fill={XR.ink}>
                 {title}
               </text>
-              <g stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3">
+              <g stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3">
                 {crests.map((cx) => (
                   <line key={cx} x1={x + cx} x2={x + cx} y1={rows.spot - amp - 4} y2={rows.mercury + amp} />
                 ))}

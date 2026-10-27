@@ -1,3 +1,4 @@
+// Kendrew's 1957 contour sheets of myoglobin, laid out and stacked.
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@ui/controls";
 import { CheckRow } from "./controls";

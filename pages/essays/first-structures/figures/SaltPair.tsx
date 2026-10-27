@@ -48,10 +48,10 @@ export function SaltPair() {
           const crests = [lam / 4, (5 * lam) / 4];
           return (
             <g key={title}>
-              <text x={x} y={rows.head} className="font-ui" fontSize={text + 1} fontWeight={600} fill={XR.sum}>
+              <text x={x} y={rows.head} className="font-ui" fontSize={text + 1} fontWeight={600} fill={XR.ink}>
                 {title}
               </text>
-              <g stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3">
+              <g stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3">
                 {crests.map((cx) => (
                   <line key={cx} x1={x + cx} x2={x + cx} y1={rows.spot - amp - 4} y2={rows.sum + amp * 1.5 + 4} />
                 ))}
@@ -66,9 +66,9 @@ export function SaltPair() {
                 <path d={curvePath(x, rows.liquid, colW, liquid, 1)} stroke={XR.second} strokeWidth={1.5} strokeDasharray="4 3" />
                 <path d={curvePath(x, rows.sum, colW, (t) => spot(t) + liquid(t), 1)} stroke={XR.accent} strokeWidth={2.25} />
               </g>
-              <circle cx={x + colW / 2 - 18} cy={rows.film} r={6} fill={XR.sum} fillOpacity={shade(1)} />
+              <circle cx={x + colW / 2 - 18} cy={rows.film} r={6} fill={XR.ink} fillOpacity={shade(1)} />
               <path d={`M${x + colW / 2 - 7} ${rows.film} h12 m-4 -3.5 l4 3.5 l-4 3.5`} fill="none" stroke={XR.label} strokeWidth={1} />
-              <circle cx={x + colW / 2 + 18} cy={rows.film} r={6} fill={XR.sum} fillOpacity={shade(height ** 2)} />
+              <circle cx={x + colW / 2 + 18} cy={rows.film} r={6} fill={XR.ink} fillOpacity={shade(height ** 2)} />
               <text x={x + colW / 2} y={rows.film + 22} textAnchor="middle" className="font-mono" fontSize={text} fill={XR.label}>
                 {verdict}
               </text>

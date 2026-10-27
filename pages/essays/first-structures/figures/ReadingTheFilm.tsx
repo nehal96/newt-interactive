@@ -45,15 +45,12 @@ const LIGHT: Atom[] = [
   { x: 0.211, y: 0.747, f: 8 },
 ];
 
-/**
- * Two mercury atoms are about a quarter of hemoglobin's combined scattering;
- * the heavy atom here is 2.4 times that, so the changes show on a plain darkness scale.
- */
+/** Far heavier than real mercury, so the changes show on a plain darkness scale. */
 const HEAVY_F = 0.6 * Math.sqrt(LIGHT.reduce((sum, a) => sum + a.f * a.f, 0));
 const ARRANGEMENT_A: Atom[] = LIGHT;
 const ARRANGEMENT_B: Atom[] = [{ x: 0.3, y: 0.62, f: HEAVY_F, heavy: true }, ...LIGHT];
 
-/** The small seven-carbon molecule of the earlier figures, and the same atoms bent into another shape, in drawing units. */
+/** The seven-atom molecule, and the same atoms bent into another shape, in drawing units. */
 const BENT: [number, number][] = [
   [-17.2, -17.2],
   [-17.2, -2.8],
@@ -112,17 +109,17 @@ const maxOf = (...sets: Spot[][]) => Math.max(...sets.flat().map((s) => s.s));
 const SHARED_MAX = maxOf(SPOTS_A, SPOTS_B);
 const OTHER_MAX = maxOf(SPOTS_MOLECULE, SPOTS_OTHER);
 
-type Group = "box" | "atom" | "molecule";
+type Group = "cell" | "mercury" | "molecule";
 
 const GROUPS: Record<Group, { note?: string; panels: Panel[]; marks?: (labelled: boolean) => Mark[] }> = {
-  box: {
+  cell: {
     note: "spots twice as far apart",
     panels: [
       { label: "40 Å across", box: 40, atoms: [{ x: 0.5, y: 0.5, f: 1 }], spots: latticeSpots(40, LAMBDA, EDGE_TAN, ONE_ATOM), max: 1 },
       { label: "20 Å across", box: 20, atoms: [{ x: 0.5, y: 0.5, f: 1 }], spots: latticeSpots(20, LAMBDA, EDGE_TAN, ONE_ATOM), max: 1 },
     ],
   },
-  atom: {
+  mercury: {
     panels: [
       { label: "protein alone", box: 40, atoms: ARRANGEMENT_A, spots: SPOTS_A, max: SHARED_MAX },
       { label: "plus mercury", box: 40, atoms: ARRANGEMENT_B, spots: SPOTS_B, max: SHARED_MAX },
@@ -173,7 +170,7 @@ function CrystalPatch({
         </clipPath>
       </defs>
       <g clipPath={`url(#${id})`}>
-        <g stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3">
+        <g stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3">
           {Array.from({ length: cols + 1 }, (_, i) => (
             <line key={`v${i}`} x1={ox + (i - 1) * cell} x2={ox + (i - 1) * cell} y1={y} y2={y + h} />
           ))}
@@ -192,7 +189,7 @@ function CrystalPatch({
               cx={ox + (i + a.x) * cell}
               cy={oy + (j + a.y) * cell}
               r={radius(a)}
-              fill={a.heavy || a.f === 1 ? XR.sum : sparse ? XR.moleculeEdge : XR.label}
+              fill={a.heavy || a.f === 1 ? XR.ink : sparse ? XR.moleculeEdge : XR.label}
             />
           ));
         })}
@@ -212,15 +209,15 @@ function CrystalPatch({
 }
 
 const TITLES: Record<Group, string> = {
-  box: "The smaller the unit cell, the farther apart the spots.",
-  atom: "A heavy atom leaves the spots where they are but changes how dark they are.",
+  cell: "The smaller the unit cell, the farther apart the spots.",
+  mercury: "A heavy atom leaves the spots where they are but changes how dark they are.",
   molecule: "A different molecule in the same unit cell leaves the spots where they are but changes how dark they are.",
 };
 
 const DESCRIPTIONS: Record<Group, string> = {
-  box: "Two crystal patches, each above its film. Halving the box from 40 to 20 ångströms spreads the spots twice as far apart.",
-  atom: "Two crystal patches with the same 40 ångström box of light atoms, each above its film; the second has one heavy atom added. The spots fall in the same places; some get darker and others fainter.",
-  molecule: "Two crystal patches with the same 40 ångström box, filled with the same atoms in different places, each above its film. The spots fall in the same places; some get darker and others fainter.",
+  cell: "Two crystal patches, each above its film. Halving the unit cell from 40 to 20 ångströms spreads the spots twice as far apart.",
+  mercury: "Two crystal patches with the same 40 ångström unit cell of light atoms, each above its film; the second has one heavy atom added. The spots fall in the same places; some get darker and others fainter.",
+  molecule: "Two crystal patches with the same 40 ångström unit cell, filled with the same atoms in different places, each above its film. The spots fall in the same places; some get darker and others fainter.",
 };
 
 export function ReadingTheFilm({ group, size = 170 }: { group: Group; size?: number }) {
@@ -268,7 +265,7 @@ export function ReadingTheFilm({ group, size = 170 }: { group: Group; size?: num
                 h={crystalH}
                 pxPerA={pxPerA}
                 panel={p}
-                ring={group === "atom" && pi === 1}
+                ring={group === "mercury" && pi === 1}
               />
               <SpotFilm
                 x={x}
@@ -294,5 +291,4 @@ export function ReadingTheFilm({ group, size = 170 }: { group: Group; size?: num
   );
 }
 
-/** The two-molecule comparison, for figures that lay out their own films. */
 export const MOLECULE_PAIR = GROUPS.molecule;

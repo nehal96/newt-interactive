@@ -68,7 +68,7 @@ export default function OneAtom() {
 
         <Labels size={text}>
           <text x={Math.max(4, ax - 4 * lambda)} y={ay - 10}>X-rays</text>
-          <text x={ax} y={ay + lambda * 0.5 + 16} textAnchor="middle" fill={XR.sum}>
+          <text x={ax} y={ay + lambda * 0.5 + 16} textAnchor="middle" fill={XR.ink}>
             one atom
           </text>
           <text x={stop.x + 6} y={ay + stop.half + 16} textAnchor="end">

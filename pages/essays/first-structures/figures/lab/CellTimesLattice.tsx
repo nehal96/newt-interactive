@@ -29,7 +29,7 @@ export function CellTimesLattice() {
 
   const cell = (s: number) => cellHeight(s, ATOMS) ** 2 / 9;
   const charts = [cell, (s: number) => lineUp(s, n), (s: number) => cell(s) * lineUp(s, n)];
-  const fills = [XR.label, XR.first, XR.sum];
+  const fills = [XR.label, XR.first, XR.ink];
   const titles = [
     "1. what one cell sends to each point",
     "2. how well the cells line up there",
@@ -80,12 +80,12 @@ export function CellTimesLattice() {
         <defs>
           <linearGradient id={`${ids}g`} x1={0} x2={1} y1={0} y2={0}>
             {stops.map(({ offset, o }) => (
-              <stop key={offset} offset={offset} stopColor={XR.sum} stopOpacity={o} />
+              <stop key={offset} offset={offset} stopColor={XR.ink} stopOpacity={o} />
             ))}
           </linearGradient>
         </defs>
 
-        <g stroke={XR.atom} strokeWidth={0.75} strokeDasharray="2 4">
+        <g stroke={XR.guide} strokeWidth={0.75} strokeDasharray="2 4">
           {[1, 2, 3, 4, 5, 6].map((k) => (
             <line key={k} x1={X(k)} x2={X(k)} y1={base(0) - chartH} y2={filmY + 22} />
           ))}
@@ -105,11 +105,11 @@ export function CellTimesLattice() {
 
         <rect x={x0} y={filmY} width={w} height={22} fill={XR.film} />
         <rect x={x0} y={filmY} width={w} height={22} fill={`url(#${ids}g)`} />
-        <rect x={x0} y={filmY} width={w} height={22} fill="none" stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={x0} y={filmY} width={w} height={22} fill="none" stroke={XR.guide} strokeWidth={0.75} />
 
         <Labels size={text}>
           {titles.map((t, k) => (
-            <text key={t} x={x0} y={base(k) - chartH - 8} fill={k === 2 ? XR.sum : XR.label}>
+            <text key={t} x={x0} y={base(k) - chartH - 8} fill={k === 2 ? XR.ink : XR.label}>
               {t}
             </text>
           ))}

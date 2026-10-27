@@ -119,8 +119,8 @@ function ViewSketch({ cx, y, text }: { cx: number; y: number; text: number }) {
         <line x1={layerX + w / 2} x2={filmX + w / 2 - 12} y1={mid} y2={mid} />
         <path d={`M${filmX + w / 2 - 4} ${mid} l-9 -5 v10 z`} strokeLinejoin="round" />
       </g>
-      <path d={quad(filmX)} fill={XR.film} stroke={XR.atom} strokeWidth={1} />
-      <g fill={XR.sum}>
+      <path d={quad(filmX)} fill={XR.film} stroke={XR.guide} strokeWidth={1} />
+      <g fill={XR.ink}>
         {[0.2, 0.4, 0.6, 0.8].flatMap((u) => [0.2, 0.4, 0.6, 0.8].map((v) => {
           const [px, py] = inQuad(filmX, u, v);
           return <circle key={`${u}${v}`} cx={px} cy={py} r={1.4} />;
@@ -207,7 +207,7 @@ export function OrderMakesSpots() {
             className="font-ui"
             fontSize={narrow ? 11 : 12}
             fontWeight={600}
-            fill={XR.sum}
+            fill={XR.ink}
           >
             {h}
           </text>

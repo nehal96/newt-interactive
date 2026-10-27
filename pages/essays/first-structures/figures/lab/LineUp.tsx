@@ -36,10 +36,10 @@ function Film({ W, darkness, label, marks }: { W: number; darkness: number[]; la
   return (
     <div className="mb-1">
       <svg width={W} height={marks ? 40 : 30} viewBox={`0 0 ${W} ${marks ? 40 : 30}`} className="block" aria-label={label}>
-        <rect x={0} y={4} width={W} height={22} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={0} y={4} width={W} height={22} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
         {SPOTS.map((n, i) => (
           <g key={n}>
-            <circle cx={((i + 1) / (SPOTS.length + 1)) * W} cy={15} r={6} fill={XR.sum} fillOpacity={shade(darkness[i])} />
+            <circle cx={((i + 1) / (SPOTS.length + 1)) * W} cy={15} r={6} fill={XR.ink} fillOpacity={shade(darkness[i])} />
             {marks && (
               <text x={((i + 1) / (SPOTS.length + 1)) * W} y={38} textAnchor="middle" className="font-mono" fontSize={10} fill={XR.label}>
                 {marks[i]}
@@ -85,10 +85,10 @@ export function LineUp({ hint = false }: { hint?: boolean }) {
   };
 
   const middle = (h: number) => (
-    <line x1={bw / 2} x2={bw / 2} y1={0} y2={h} stroke={XR.atom} strokeWidth={1} strokeDasharray="2 3" />
+    <line x1={bw / 2} x2={bw / 2} y1={0} y2={h} stroke={XR.guide} strokeWidth={1} strokeDasharray="2 3" />
   );
   const judged = shown || (clued && right);
-  const line = judged ? (right || shifted ? XR.sum : XR.accent) : XR.sum;
+  const line = judged ? (right || shifted ? XR.ink : XR.accent) : XR.ink;
 
   let message: string;
   if (shown) {
@@ -147,7 +147,7 @@ export function LineUp({ hint = false }: { hint?: boolean }) {
                 aria-label={`Flip spot ${n}’s wave`}
               >
                 <svg width={10} height={10} viewBox="0 0 10 10" aria-hidden>
-                  <circle cx={5} cy={5} r={4.5} fill={XR.sum} fillOpacity={shade(HEIGHT[i] ** 2)} />
+                  <circle cx={5} cy={5} r={4.5} fill={XR.ink} fillOpacity={shade(HEIGHT[i] ** 2)} />
                 </svg>
                 spot {n} {clued && ok ? "✓" : "⇅"}
               </button>
@@ -161,7 +161,7 @@ export function LineUp({ hint = false }: { hint?: boolean }) {
               <path d={curvePath(0, rowH / 2, bw, (t) => (amp * wave(i, signs[i])(t / bw)) / TALLEST, 1)} fill="none" stroke={XR.first} strokeWidth={1.75} />
               {clued && (
                 <Labels size={text}>
-                  <text x={bw - 2} y={10} textAnchor="end" fill={XR.sum}>
+                  <text x={bw - 2} y={10} textAnchor="end" fill={XR.ink}>
                     {AFTER[i] > HEIGHT[i] ** 2 ? "darker: in step with it" : "fainter: opposed to it"}
                   </text>
                 </Labels>
@@ -184,7 +184,7 @@ export function LineUp({ hint = false }: { hint?: boolean }) {
               : "The picture the four waves add up to, and the same picture shaded as a map. The real atoms are hidden."}
           </title>
           <defs>
-            <Profile id={`${uid}map`} x0={0} x1={bw} colour={XR.sum} alpha={(x) => (0.85 * Math.max(0, sum(x))) / PEAK} />
+            <Profile id={`${uid}map`} x0={0} x1={bw} colour={XR.ink} alpha={(x) => (0.85 * Math.max(0, sum(x))) / PEAK} />
           </defs>
           {middle(atomsY - 4)}
           {shown && (
@@ -197,11 +197,11 @@ export function LineUp({ hint = false }: { hint?: boolean }) {
           <line x1={0} x2={bw} y1={sumAmp + 8} y2={sumAmp + 8} stroke={XR.rule} />
           <path d={curvePath(0, sumAmp + 8, bw, (t) => (sumAmp * sum(t / bw)) / PEAK, 1)} fill="none" stroke={line} strokeWidth={2.25} />
           <rect x={0} y={mapY} width={bw} height={16} fill={`url(#${uid}map)`} />
-          <rect x={0} y={mapY} width={bw} height={16} fill="none" stroke={XR.atom} strokeWidth={0.75} />
-          <rect x={0} y={atomsY} width={bw} height={20} fill="none" stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+          <rect x={0} y={mapY} width={bw} height={16} fill="none" stroke={XR.guide} strokeWidth={0.75} />
+          <rect x={0} y={atomsY} width={bw} height={20} fill="none" stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
           {clued && <circle cx={7} cy={atomsY + 10} r={6} fill={XR.second} />}
           {shown ? (
-            ATOMS.map((x) => <circle key={x} cx={x * bw} cy={atomsY + 10} r={4.5} fill={XR.sum} />)
+            ATOMS.map((x) => <circle key={x} cx={x * bw} cy={atomsY + 10} r={4.5} fill={XR.ink} />)
           ) : (
             <Labels size={text}>
               <text x={bw / 2} y={atomsY + 14} textAnchor="middle">

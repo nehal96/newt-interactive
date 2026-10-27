@@ -40,7 +40,7 @@ export function OneWave() {
         </desc>
 
         <line x1={x0} x2={x0 + waveW} y1={axis} y2={axis} stroke={XR.rule} />
-        <line x1={x0} x2={x0} y1={top - 6} y2={H - 22} stroke={XR.atom} strokeDasharray="3 3" />
+        <line x1={x0} x2={x0} y1={top - 6} y2={H - 22} stroke={XR.guide} strokeDasharray="3 3" />
         <path d={curvePath(x0, axis, waveW, wave, 1)} fill="none" stroke={XR.first} strokeWidth={2} />
 
         <g stroke={XR.label} strokeWidth={1}>
@@ -52,8 +52,8 @@ export function OneWave() {
         </g>
 
         <rect x={fx} y={fy} width={film} height={film} fill={XR.film} />
-        <rect x={fx} y={fy} width={film} height={film} fill={XR.sum} fillOpacity={darkness} />
-        <rect x={fx} y={fy} width={film} height={film} fill="none" stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={fx} y={fy} width={film} height={film} fill={XR.ink} fillOpacity={darkness} />
+        <rect x={fx} y={fy} width={film} height={film} fill="none" stroke={XR.guide} strokeWidth={0.75} />
 
         <Labels size={text}>
           <text x={(crest + nextCrest) / 2} y={top - 16} textAnchor="middle">1 wavelength</text>

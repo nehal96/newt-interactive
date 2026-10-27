@@ -107,8 +107,8 @@ function TurnSketch({ x, y, text }: { x: number; y: number; text: number }) {
       <g stroke={XR.first} strokeWidth={2} fill={XR.first}>
         <line x1={x} x2={layerX + w / 2} y1={mid} y2={mid} />
       </g>
-      <path d={quad(layerX)} fill="none" stroke={XR.atom} strokeWidth={1} strokeDasharray="3 3" />
-      <g fill={XR.sum}>
+      <path d={quad(layerX)} fill="none" stroke={XR.guide} strokeWidth={1} strokeDasharray="3 3" />
+      <g fill={XR.ink}>
         {range.map((v) => {
           const [px, py] = at(layerX, 0.5, 0.5 + v * 0.17);
           return <circle key={v} cx={px} cy={py} r={2.4} />;
@@ -118,8 +118,8 @@ function TurnSketch({ x, y, text }: { x: number; y: number; text: number }) {
         <line x1={layerX + w / 2} x2={filmX + w / 2 - 12} y1={mid} y2={mid} />
         <path d={`M${filmX + w / 2 - 4} ${mid} l-9 -5 v10 z`} strokeLinejoin="round" />
       </g>
-      <path d={quad(filmX)} fill={XR.film} stroke={XR.atom} strokeWidth={1} />
-      <g stroke={XR.sum} strokeWidth={2.5}>
+      <path d={quad(filmX)} fill={XR.film} stroke={XR.guide} strokeWidth={1} />
+      <g stroke={XR.ink} strokeWidth={2.5}>
         {[0.2, 0.5, 0.8].map((v) => {
           const [x1, y1] = at(filmX, 0.06, v);
           const [x2, y2] = at(filmX, 0.94, v);
@@ -219,18 +219,18 @@ export function CrystalSpots() {
                 className="font-ui"
                 fontSize={narrow ? 11 : 12}
                 fontWeight={600}
-                fill={XR.sum}
+                fill={XR.ink}
               >
                 {header}
               </text>
-              <rect x={ax} y={ay} width={A} height={A} fill="none" stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+              <rect x={ax} y={ay} width={A} height={A} fill="none" stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
               {atoms.map(([x, y]) => (
                 <circle
                   key={`${x}-${y}`}
                   cx={ax + A / 2 + x * pitch}
                   cy={ay + A / 2 + y * pitch}
                   r={Math.min(4, pitch * 0.22)}
-                  fill={XR.sum}
+                  fill={XR.ink}
                 />
               ))}
               {kind === "molecules" &&
@@ -269,7 +269,7 @@ export function CrystalSpots() {
                 </g>
               )}
               <circle cx={fx + F / 2} cy={fy + F / 2} r={Math.max(4, F / 30)} fill={XR.label} />
-              <rect x={fx} y={fy} width={F} height={F} fill="none" stroke={XR.atom} strokeWidth={0.75} />
+              <rect x={fx} y={fy} width={F} height={F} fill="none" stroke={XR.guide} strokeWidth={0.75} />
 
               {(p === 1 || (wide && p === 2)) && (
                 <text

@@ -55,10 +55,10 @@ export function SpotStripes() {
         </defs>
 
         <rect x={labelW} y={boxY} width={x * bw} height={boxH} fill={`url(#${uid}s)`} />
-        <rect x={labelW} y={boxY} width={bw} height={boxH} fill="none" stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+        <rect x={labelW} y={boxY} width={bw} height={boxH} fill="none" stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
         <circle cx={X(x)} cy={boxY + boxH / 2} r={6} fill={XR.second} />
 
-        <g stroke={XR.atom} strokeWidth={1} strokeDasharray="2 3">
+        <g stroke={XR.guide} strokeWidth={1} strokeDasharray="2 3">
           {Array.from({ length: Math.floor(bw / wl) + 1 }, (_, i) => (
             <line key={i} x1={labelW + i * wl} x2={labelW + i * wl} y1={refY - unit - 6} y2={atomY + unit + 4} />
           ))}
@@ -105,7 +105,7 @@ export function SpotStripes() {
           </defs>
           {MINIS.map((n, i) => (
             <g key={n}>
-              <rect x={miniX(i)} y={2} width={miniW} height={miniH} fill={`url(#${uid}m${n})`} stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+              <rect x={miniX(i)} y={2} width={miniW} height={miniH} fill={`url(#${uid}m${n})`} stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
             </g>
           ))}
           <Labels size={text}>

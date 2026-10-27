@@ -258,12 +258,12 @@ export function ScatterPanel({
         rowGap >= 13 || stage !== "row" ? (
           <Atom key={y} x={x} y={y} />
         ) : (
-          <circle key={y} cx={x} cy={y} r={Math.max(2, rowGap * 0.36)} fill={XR.sum} />
+          <circle key={y} cx={x} cy={y} r={Math.max(2, rowGap * 0.36)} fill={XR.ink} />
         ),
       )}
 
       {!hideHeader && (
-        <text x={0} y={14} className="font-ui" fontSize={narrow ? 11 : 12} fontWeight={600} fill={XR.sum}>
+        <text x={0} y={14} className="font-ui" fontSize={narrow ? 11 : 12} fontWeight={600} fill={XR.ink}>
           {header}
         </text>
       )}
@@ -320,7 +320,7 @@ export function ScatterPanel({
           cy={lower[1]}
           r={22}
           fill="transparent"
-          stroke={dragging ? XR.atom : "none"}
+          stroke={dragging ? XR.guide : "none"}
           style={{ cursor: dragging ? "grabbing" : "grab", touchAction: "none" }}
           onPointerDown={onDown}
           onPointerMove={onMove}

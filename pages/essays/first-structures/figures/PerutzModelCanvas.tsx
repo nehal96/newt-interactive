@@ -13,6 +13,7 @@ import {
   type BufferGeometry,
 } from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { MODEL } from "./palette";
 
 type Ring = [number, number][];
 type Slabs = {
@@ -30,13 +31,8 @@ type Slabs = {
 const SLABS_URL = "/structures/hemoglobin-slabs.json";
 const BEVEL = 0.14;
 
-export type Part = { kind: "alpha" | "beta" | "haem"; chain: string };
+export type Part = { kind: "alpha" | "beta" | "heme"; chain: string };
 
-const MODEL_COLOURS = {
-  alpha: "#ECE8DF",
-  beta: "#2A292D",
-  haem: "#A92A22",
-};
 
 function toShape({ outer, holes }: { outer: Ring; holes: Ring[] }) {
   const shape = new Shape(outer.map(([x, y]) => new Vector2(x, y)));
@@ -115,12 +111,12 @@ function Model({ data, onHover }: { data: Slabs; onHover: (part: Part | null) =>
         const part = { kind: c.kind, chain: c.chain };
         return (
           <mesh key={c.chain} geometry={c.geometry} {...handlers(part)}>
-            <Surface colour={MODEL_COLOURS[c.kind as "alpha" | "beta"]} roughness={0.9} />
+            <Surface colour={MODEL[c.kind as "alpha" | "beta"]} roughness={0.9} />
           </mesh>
         );
       })}
       {haems.map((h) => {
-        const part: Part = { kind: "haem", chain: h.key };
+        const part: Part = { kind: "heme", chain: h.key };
         return (
           <mesh
             key={h.key}
@@ -129,7 +125,7 @@ function Model({ data, onHover }: { data: Slabs; onHover: (part: Part | null) =>
             quaternion={h.quaternion}
             {...handlers(part)}
           >
-            <Surface colour={MODEL_COLOURS.haem} roughness={0.5} />
+            <Surface colour={MODEL.heme} roughness={0.5} />
           </mesh>
         );
       })}
@@ -162,7 +158,7 @@ export default function PerutzModelCanvas({
       gl={{ alpha: true, antialias: true }}
       dpr={[1, 2]}
     >
-      <hemisphereLight args={["#ffffff", "#8a8798", 1.1]} />
+      <hemisphereLight args={[MODEL.skyLight, MODEL.groundLight, 1.1]} />
       <directionalLight position={[50, 120, 90]} intensity={2.4} />
       <directionalLight position={[-90, 10, 40]} intensity={0.9} />
       <directionalLight position={[0, -60, -90]} intensity={0.5} />

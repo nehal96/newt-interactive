@@ -43,7 +43,7 @@ const ORDERS = [-2, -1, 0, 1, 2].filter((m) => Math.abs(bandX(m, 0)) < EDGE_TAN)
 function Dots({ x, atoms }: { x: number; atoms: Pt[] }) {
   const pitch = GLYPH_H / PER_ROW;
   return (
-    <g fill={XR.sum}>
+    <g fill={XR.ink}>
       {atoms.map(([u, v]) => (
         <circle key={`${u}-${v}`} cx={x + u * pitch} cy={GLYPH_H / 2 + v * pitch} r={1.6} />
       ))}
@@ -121,7 +121,7 @@ export function CrystalRecords({ part }: { part?: "spots" | "darkness" }) {
               </g>
             )}
             <circle cx={col3(i) + S3 / 2} cy={GLYPH_H + 6 + S3 / 2} r={Math.max(3, S3 / 30)} fill={XR.label} />
-            <rect x={col3(i)} y={GLYPH_H + 6} width={S3} height={S3} fill="none" stroke={XR.atom} strokeWidth={0.75} />
+            <rect x={col3(i)} y={GLYPH_H + 6} width={S3} height={S3} fill="none" stroke={XR.guide} strokeWidth={0.75} />
             <Labels size={text}>
               <text x={col3(i) + S3 / 2} y={GLYPH_H + 6 + S3 + 16} textAnchor="middle" fill={i === 2 ? XR.accent : XR.label}>
                 {label}

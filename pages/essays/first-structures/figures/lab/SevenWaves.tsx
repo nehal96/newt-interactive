@@ -55,7 +55,7 @@ export function SevenWaves() {
           the protein, lower density in the liquid at the edges.
         </desc>
 
-        <rect x={filmX} y={filmTop} width={filmW} height={filmBottom - filmTop} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={filmX} y={filmTop} width={filmW} height={filmBottom - filmTop} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
         <rect x={colX - pitch / 2 + 3} y={rowY(0) - rowH / 2 + 2} width={pitch - 6} height={filmBottom - rowY(0) + rowH / 2 - 4} rx={4} fill={XR.molecule} fillOpacity={0.6} stroke={XR.first} strokeWidth={1} />
         <rect x={colX - 4} y={rowY(-1) - 4} width={8} height={8} rx={1} fill={XR.label} />
         {[-1, 0, 1].map((j) =>
@@ -66,16 +66,16 @@ export function SevenWaves() {
                 cx={colX + j * pitch}
                 cy={rowY(i)}
                 r={4.5}
-                fill={XR.sum}
+                fill={XR.ink}
                 fillOpacity={j === 0 ? shade(F_PURE_WATER[i]) : other(i, j)}
               />
             ),
           ),
         )}
-        <line x1={px(0)} x2={px(0)} y1={rowY(0) - rowH / 2} y2={sumBase} stroke={XR.atom} strokeWidth={1} strokeDasharray="2 3" />
+        <line x1={px(0)} x2={px(0)} y1={rowY(0) - rowH / 2} y2={sumBase} stroke={XR.guide} strokeWidth={1} strokeDasharray="2 3" />
         {F_PURE_WATER.map((f, i) => (
           <g key={i}>
-            <line x1={colX + 8} x2={left - 4} y1={rowY(i)} y2={rowY(i)} stroke={XR.atom} strokeWidth={0.75} strokeDasharray="1 3" />
+            <line x1={colX + 8} x2={left - 4} y1={rowY(i)} y2={rowY(i)} stroke={XR.guide} strokeWidth={0.75} strokeDasharray="1 3" />
             <line x1={left} x2={left + len} y1={rowY(i)} y2={rowY(i)} stroke={XR.rule} />
             <path
               d={curvePath(left, rowY(i), len, (t) => (amp * f * Math.cos((TAU * (i + 1) * zAt(t)) / REPEAT)) / TALLEST, 1)}
@@ -95,9 +95,9 @@ export function SevenWaves() {
           strokeLinejoin="round"
         />
 
-        <rect x={left} y={stripY} width={len} height={stripH} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={left} y={stripY} width={len} height={stripH} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
         <rect x={px(-PROTEIN / 2)} y={stripY} width={px(PROTEIN / 2) - px(-PROTEIN / 2)} height={stripH} fill={XR.molecule} stroke={XR.moleculeEdge} strokeWidth={0.75} />
-        <g stroke={XR.sum} strokeWidth={3} strokeLinecap="round">
+        <g stroke={XR.ink} strokeWidth={3} strokeLinecap="round">
           {BUMPS.map((z) => (
             <line key={z} x1={px(z)} x2={px(z)} y1={stripY + 3} y2={stripY + stripH - 3} />
           ))}
@@ -109,7 +109,7 @@ export function SevenWaves() {
               <text x={filmX - 6} y={rowY(i) + 4} textAnchor="end" fill={XR.first}>
                 {i + 1}
               </text>
-              <text x={left - 8} y={rowY(i) + 4} textAnchor="end" fill={XR.sum}>
+              <text x={left - 8} y={rowY(i) + 4} textAnchor="end" fill={XR.ink}>
                 {f === 0 ? "0" : f > 0 ? "+" : "−"}
               </text>
             </g>

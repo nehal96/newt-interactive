@@ -69,14 +69,14 @@ export function SpotFilm({
         <defs>
           <radialGradient id={id} gradientUnits="userSpaceOnUse" cx={x + c} cy={y + c} r={c * Math.SQRT2}>
             {haze.map(({ offset, o }) => (
-              <stop key={offset} offset={offset} stopColor={XR.sum} stopOpacity={o} />
+              <stop key={offset} offset={offset} stopColor={XR.ink} stopOpacity={o} />
             ))}
           </radialGradient>
         </defs>
       )}
       <rect x={x} y={y} width={size} height={size} fill={XR.film} />
       {haze && <rect x={x} y={y} width={size} height={size} fill={`url(#${id})`} />}
-      <g fill={XR.sum}>
+      <g fill={XR.ink}>
         {spots.map(({ X, Y, s }) => (
           <circle
             key={`${X}-${Y}`}
@@ -106,7 +106,7 @@ export function SpotFilm({
         </g>
       ))}
       <circle cx={x + c} cy={y + c} r={Math.max(5, size / 30)} fill={XR.label} />
-      <rect x={x} y={y} width={size} height={size} fill="none" stroke={XR.atom} strokeWidth={0.75} />
+      <rect x={x} y={y} width={size} height={size} fill="none" stroke={XR.guide} strokeWidth={0.75} />
     </g>
   );
 }

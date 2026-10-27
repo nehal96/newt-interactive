@@ -52,9 +52,9 @@ export function FourBumps() {
   const stripH = 18;
   const H = stripY + stripH + 22;
 
-  const [p2, p3] = [PURE_PEAKS[0], PURE_PEAKS[1]];
-  const spacing = p3 - p2;
-  const bracketY = py(Math.max(pure(p2), pure(p3))) - 10;
+  const [peakA, peakB] = PURE_PEAKS;
+  const spacing = peakB - peakA;
+  const bracketY = py(Math.max(pure(peakA), pure(peakB))) - 10;
   const legendX = x0 + len - (narrow ? 212 : 218);
   const legendY = narrow ? 28 : 12;
 
@@ -80,16 +80,16 @@ export function FourBumps() {
         <path d={curvePath(x0, base, len, at(pure), 1)} fill="none" stroke={XR.accent} strokeWidth={2.25} strokeLinejoin="round" />
 
         <g stroke={XR.label} strokeWidth={1}>
-          <line x1={px(p2)} x2={px(p3)} y1={bracketY} y2={bracketY} />
-          <line x1={px(p2)} x2={px(p2)} y1={bracketY - 3} y2={bracketY + 3} />
-          <line x1={px(p3)} x2={px(p3)} y1={bracketY - 3} y2={bracketY + 3} />
+          <line x1={px(peakA)} x2={px(peakB)} y1={bracketY} y2={bracketY} />
+          <line x1={px(peakA)} x2={px(peakA)} y1={bracketY - 3} y2={bracketY + 3} />
+          <line x1={px(peakB)} x2={px(peakB)} y1={bracketY - 3} y2={bracketY + 3} />
         </g>
 
         <Labels size={text}>
-          <text x={(px(p2) + px(p3)) / 2} y={bracketY - 6} textAnchor="middle">
+          <text x={(px(peakA) + px(peakB)) / 2} y={bracketY - 6} textAnchor="middle">
             {spacing.toFixed(1)} Å
           </text>
-          <text x={0} y={12}>electron density ↑</text>
+          <text x={0} y={12}>amount of matter ↑</text>
           <text x={legendX + 22} y={legendY} fill={XR.accent}>
             pure water
           </text>
@@ -102,7 +102,7 @@ export function FourBumps() {
         <g className="font-mono" fontSize={10} fill={XR.label} textAnchor="middle">
           {[-20, -10, 0, 10, 20].map((z) => (
             <g key={z}>
-              <line x1={px(z)} x2={px(z)} y1={axisY - 9} y2={axisY - 3} stroke={XR.atom} />
+              <line x1={px(z)} x2={px(z)} y1={axisY - 9} y2={axisY - 3} stroke={XR.guide} />
               <text x={px(z)} y={axisY + 8}>
                 {z === 20 ? "20 Å" : z}
               </text>
@@ -110,7 +110,7 @@ export function FourBumps() {
           ))}
         </g>
 
-        <rect x={x0} y={stripY} width={len} height={stripH} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={x0} y={stripY} width={len} height={stripH} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
         <rect
           x={px(-PROTEIN / 2)}
           y={stripY}
@@ -120,7 +120,7 @@ export function FourBumps() {
           stroke={XR.moleculeEdge}
           strokeWidth={0.75}
         />
-        <g stroke={XR.sum} strokeWidth={3} strokeLinecap="round">
+        <g stroke={XR.ink} strokeWidth={3} strokeLinecap="round">
           {PURE_PEAKS.map((z) => (
             <line key={z} x1={px(z)} x2={px(z)} y1={stripY + 3} y2={stripY + stripH - 3} />
           ))}

@@ -30,7 +30,7 @@ function SideView({ W, top, text }: { W: number; top: number; text: number }) {
       </g>
       <path d={`M${xc - 6} ${by} l-10 -5.5 v11 z`} fill={XR.first} />
 
-      <rect x={filterX - 1.5} y={by - 14} width={3} height={28} fill={XR.atom} />
+      <rect x={filterX - 1.5} y={by - 14} width={3} height={28} fill={XR.guide} />
       <rect x={colX0} y={by - 8} width={colX1 - colX0} height={16} rx={2} fill="none" stroke={XR.label} strokeWidth={1.25} />
 
       <g stroke={XR.first} strokeWidth={1} strokeOpacity={0.5}>
@@ -40,8 +40,8 @@ function SideView({ W, top, text }: { W: number; top: number; text: number }) {
       </g>
 
       <rect x={xc - 4} y={by - 44} width={8} height={74} rx={4} fill={XR.film} fillOpacity={0.6} stroke={XR.label} strokeWidth={1} />
-      <path d={`M${xc - 3} ${by - 3} l3 -4 l3 4 l-3 5 z`} fill={XR.sum} />
-      <path d={`M${xc - 9} ${by + 30} h18 l-4 14 h-10 z`} fill={XR.atom} />
+      <path d={`M${xc - 3} ${by - 3} l3 -4 l3 4 l-3 5 z`} fill={XR.ink} />
+      <path d={`M${xc - 9} ${by + 30} h18 l-4 14 h-10 z`} fill={XR.guide} />
       <line x1={xc} x2={xc} y1={by + 44} y2={by + 74} stroke={XR.label} strokeWidth={2} />
       <path
         d={`M${xc - 16} ${by + 62} A 16 6 0 0 0 ${xc + 16} ${by + 62}`}
@@ -52,8 +52,8 @@ function SideView({ W, top, text }: { W: number; top: number; text: number }) {
       <path d={`M${xc - 16} ${by + 62} l-1 -6 l5 3 z M${xc + 16} ${by + 62} l1 -6 l-5 3 z`} fill={XR.label} />
 
       <rect x={stopX} y={by - 6} width={5} height={12} rx={1} fill={XR.label} />
-      <rect x={filmX - 3} y={by - 70} width={6} height={140} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
-      <g fill={XR.sum}>
+      <rect x={filmX - 3} y={by - 70} width={6} height={140} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
+      <g fill={XR.ink}>
         {rays.map((t) => (
           <circle key={t} cx={filmX} cy={by + t} r={2} />
         ))}
@@ -98,8 +98,8 @@ function Mount({ x, y, w, h, text }: { x: number; y: number; w: number; h: numbe
   const lx = tx + bore + 14;
   const label = (yy: number, s: string, accent = false) => (
     <g>
-      <line x1={tx + bore + 3} x2={lx - 4} y1={yy} y2={yy} stroke={XR.atom} strokeWidth={0.75} />
-      <text x={lx} y={yy + 4} fill={accent ? XR.sum : XR.label}>
+      <line x1={tx + bore + 3} x2={lx - 4} y1={yy} y2={yy} stroke={XR.guide} strokeWidth={0.75} />
+      <text x={lx} y={yy + 4} fill={accent ? XR.ink : XR.label}>
         {s}
       </text>
     </g>
@@ -109,12 +109,12 @@ function Mount({ x, y, w, h, text }: { x: number; y: number; w: number; h: numbe
       <rect x={tx} y={y + plug} width={bore} height={liquidTop - y - plug} fill={XR.first} fillOpacity={0.16} />
       <rect x={tx} y={liquidBottom} width={bore} height={y + h - plug - liquidBottom} fill={XR.first} fillOpacity={0.16} />
       <rect x={tx} y={y + plug * 0.6} width={bore} height={h - plug * 1.2} fill="none" stroke={XR.label} strokeWidth={1.25} />
-      <rect x={tx - 4} y={y} width={bore + 8} height={plug} rx={4} fill={XR.sum} />
-      <rect x={tx - 4} y={y + h - plug} width={bore + 8} height={plug} rx={4} fill={XR.sum} />
+      <rect x={tx - 4} y={y} width={bore + 8} height={plug} rx={4} fill={XR.ink} />
+      <rect x={tx - 4} y={y + h - plug} width={bore + 8} height={plug} rx={4} fill={XR.ink} />
       <path
         d={`M${tx + bore - 1} ${cy - 9} l-7 3 l-1 9 l8 4 z`}
         fill={XR.moleculeEdge}
-        stroke={XR.sum}
+        stroke={XR.ink}
         strokeWidth={0.75}
       />
       <g stroke={XR.label} strokeWidth={1}>
@@ -190,7 +190,7 @@ export function Camera() {
 
         <SideView W={W} top={0} text={text} />
 
-        <g stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" fill="none">
+        <g stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" fill="none">
           <path d={`M${xc - 4} ${by + 30} L${mount.x + Math.min(30, mount.w * 0.2) - 4} ${mount.y - 26}`} />
           <path d={`M${W - 8} ${by + 70} L${photo.x + photo.w / 2} ${photo.y - 26}`} />
         </g>
@@ -199,7 +199,7 @@ export function Camera() {
           { x: mount.x + mount.w / 2, y: mount.y, s: "The glass tube" },
           { x: photo.x + photo.w / 2, y: photo.y, s: "A photograph, 1938" },
         ].map(({ x, y, s }) => (
-          <text key={s} x={x} y={headerY(y)} textAnchor="middle" className="font-ui" fontSize={head} fontWeight={600} fill={XR.sum}>
+          <text key={s} x={x} y={headerY(y)} textAnchor="middle" className="font-ui" fontSize={head} fontWeight={600} fill={XR.ink}>
             {s}
           </text>
         ))}
@@ -214,7 +214,7 @@ export function Camera() {
           preserveAspectRatio="xMidYMid slice"
           clipPath={`url(#${ids}p)`}
         />
-        <rect x={photo.x} y={photo.y} width={photo.w} height={photoH} fill="none" stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={photo.x} y={photo.y} width={photo.w} height={photoH} fill="none" stroke={XR.guide} strokeWidth={0.75} />
         <Labels size={text}>
           <text x={photo.x + photo.w / 2} y={photo.y + photoH + 18} textAnchor="middle">
             hemoglobin, rocked 5°

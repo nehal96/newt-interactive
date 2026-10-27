@@ -120,7 +120,7 @@ function Frame({
         width={size}
         height={size}
         fill={XR.film}
-        stroke={XR.atom}
+        stroke={XR.guide}
         strokeWidth={0.75}
       />
       {label && (
@@ -190,7 +190,7 @@ function AtomsSquare({
         </clipPath>
       </defs>
       <g clipPath={`url(#${clip})`}>
-        <g stroke={XR.atom} strokeWidth={1}>
+        <g stroke={XR.guide} strokeWidth={1}>
           {pairs.map(([i, j]) => {
             const [x0, y0] = P(atoms[i]);
             const [x1, y1] = P(atoms[j]);
@@ -223,7 +223,7 @@ function AtomsSquare({
                   textAnchor="middle"
                   className="font-mono"
                   fontSize={10}
-                  fill={here ? XR.film : XR.sum}
+                  fill={here ? XR.film : XR.ink}
                 >
                   {i + 1}
                 </text>
@@ -276,7 +276,7 @@ function MapSquare({
           )}
           transform={`translate(${x + off} ${y + off + size * zoom}) scale(${g} ${-g})`}
           fill="none"
-          stroke={XR.sum}
+          stroke={XR.ink}
           strokeWidth={1 / g}
           strokeLinecap="round"
         />

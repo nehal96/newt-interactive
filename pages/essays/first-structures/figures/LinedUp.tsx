@@ -85,7 +85,7 @@ function FilmToMaps() {
           d={contourPath(m, GRID, LEVELS.map((l) => l * top(m)))}
           transform={`translate(${x} ${top0}) scale(${g})`}
           fill="none"
-          stroke={XR.sum}
+          stroke={XR.ink}
           strokeWidth={0.9 / g}
         />
         <g fill="none" stroke={XR.accent} strokeWidth={1.25}>
@@ -93,7 +93,7 @@ function FilmToMaps() {
             <circle key={j} cx={x + a.x * S} cy={top0 + a.y * S} r={Math.max(3, S / 26)} />
           ))}
         </g>
-        <rect x={x} y={top0} width={S} height={S} fill="none" stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={x} y={top0} width={S} height={S} fill="none" stroke={XR.guide} strokeWidth={0.75} />
       </g>
     );
   };

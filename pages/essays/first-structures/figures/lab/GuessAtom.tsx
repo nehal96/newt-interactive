@@ -45,10 +45,10 @@ export function GuessAtom() {
 
   const film = (y: number, heights: number[]) => (
     <g>
-      <rect x={labelW} y={y} width={bw} height={22} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
+      <rect x={labelW} y={y} width={bw} height={22} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
       <rect x={labelW + 4} y={y + 6} width={8} height={10} rx={1} fill={XR.label} />
       {SPOTS.map((n, i) => (
-        <circle key={n} cx={spotX(n)} cy={y + 11} r={6} fill={XR.sum} fillOpacity={0.04 + (0.92 * heights[i] ** 2) / 9} />
+        <circle key={n} cx={spotX(n)} cy={y + 11} r={6} fill={XR.ink} fillOpacity={0.04 + (0.92 * heights[i] ** 2) / 9} />
       ))}
     </g>
   );
@@ -80,9 +80,9 @@ export function GuessAtom() {
           {match ? " Every spot matches the film." : ` Over all six spots the darknesses differ by ${off.toFixed(1)}.`}
         </desc>
 
-        <rect x={labelW} y={cellY} width={bw} height={22} fill="none" stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+        <rect x={labelW} y={cellY} width={bw} height={22} fill="none" stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
         {[ATOMS[0], ATOMS[2]].map((x) => (
-          <circle key={x} cx={labelW + x * bw} cy={cellY + 11} r={4.5} fill={XR.sum} />
+          <circle key={x} cx={labelW + x * bw} cy={cellY + 11} r={4.5} fill={XR.ink} />
         ))}
         <circle cx={labelW + guess * bw} cy={cellY + 11} r={5} fill="none" stroke={XR.second} strokeWidth={2} />
 
@@ -120,7 +120,7 @@ export function GuessAtom() {
         <Labels size={text}>
           <text x={0} y={cellY + 15}>your guess</text>
           <text x={0} y={filmRows[0] + 15}>the film</text>
-          <text x={0} y={filmRows[1] + 15} fill={match ? XR.sum : XR.accent}>
+          <text x={0} y={filmRows[1] + 15} fill={match ? XR.ink : XR.accent}>
             {narrow ? "calculated" : "from your guess"}
           </text>
           <text x={labelW} y={waveTop - 12}>at spot {spot}, the three atoms’ waves:</text>

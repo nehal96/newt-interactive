@@ -1,4 +1,4 @@
-import { type ReactNode, useId } from "react";
+import { useId } from "react";
 import { Checkbox, Slider } from "@ui/controls";
 
 export function SliderRow({
@@ -39,20 +39,6 @@ export function SliderRow({
         thumbClassName="relative after:absolute after:-inset-3 after:rounded-full"
       />
     </div>
-  );
-}
-
-export function Note({ children }: { children: ReactNode }) {
-  return (
-    <p className="mt-5 text-sm leading-6 text-ink-700">{children}</p>
-  );
-}
-
-export function Caption({ children }: { children: ReactNode }) {
-  return (
-    <figcaption className="mt-5 font-ui text-sm leading-6 text-ink-500">
-      {children}
-    </figcaption>
   );
 }
 

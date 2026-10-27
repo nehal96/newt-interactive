@@ -4,7 +4,7 @@ export { Camera } from "../Camera";
 export { OneWave } from "./OneWave";
 export { TwoWavesInteractive } from "../TwoWaves";
 export { default as OneAtom } from "./OneAtom";
-export { TwoAtomBands } from "../WhyBands";
+export { TwoAtomBands } from "../WhySpots";
 export { AtomRow } from "./AtomRow";
 export { CrystalRecords } from "./CrystalRecords";
 export { OrderMakesSpots } from "./OrderMakesSpots";

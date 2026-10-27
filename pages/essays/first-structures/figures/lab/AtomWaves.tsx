@@ -116,7 +116,7 @@ export function AtomWaves() {
           {height.toFixed(2)} of a possible 3, so the spot's darkness is {(height * height).toFixed(1)} of 9.
         </desc>
 
-        <rect x={ax - 12} y={dy} width={24} height={a} fill="none" stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+        <rect x={ax - 12} y={dy} width={24} height={a} fill="none" stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
         {ay.map((y) => (
           <BeamArrow key={y} x0={0} x1={ax - 7} y={y} />
         ))}
@@ -145,21 +145,21 @@ export function AtomWaves() {
           strokeWidth={1}
           strokeDasharray="4 3"
         />
-        <line x1={r.mid.x} y1={r.mid.y} x2={r.hit.x - 2} y2={r.hit.y} stroke={XR.sum} strokeWidth={1.5} />
+        <line x1={r.mid.x} y1={r.mid.y} x2={r.hit.x - 2} y2={r.hit.y} stroke={XR.ink} strokeWidth={1.5} />
         <g fill="none" stroke={XR.accent} strokeWidth={2} strokeLinecap="round">
           <path d={wiggle(1)} />
           <path d={wiggle(2)} />
         </g>
         {ay.map((y, i) => (
-          <circle key={i} cx={ax} cy={y} r={4.5} fill={i === 1 ? XR.second : XR.sum} />
+          <circle key={i} cx={ax} cy={y} r={4.5} fill={i === 1 ? XR.second : XR.ink} />
         ))}
 
-        <rect x={filmX} y={spotHits[SPOTS.length - 1].y - 12} width={7} height={axis + dy + 24 - (spotHits[SPOTS.length - 1].y - 12)} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={filmX} y={spotHits[SPOTS.length - 1].y - 12} width={7} height={axis + dy + 24 - (spotHits[SPOTS.length - 1].y - 12)} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
         {SPOTS.map((k, i) => {
           const b = cellHeight(k, atoms) ** 2 / 9;
           return (
             <g key={k}>
-              <circle cx={filmX + 3.5} cy={spotHits[i].y} r={4} fill={XR.sum} fillOpacity={0.05 + 0.92 * b} />
+              <circle cx={filmX + 3.5} cy={spotHits[i].y} r={4} fill={XR.ink} fillOpacity={0.05 + 0.92 * b} />
               {k === spot && <circle cx={filmX + 3.5} cy={spotHits[i].y} r={7.5} fill="none" stroke={XR.accent} strokeWidth={1.5} />}
             </g>
           );

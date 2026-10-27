@@ -1,7 +1,7 @@
 export { default as Figure, Plate, Wrap } from "./Figure";
 export { default as Term } from "./Term";
 export { TwoWaves } from "./TwoWaves";
-export { WhyBands } from "./WhyBands";
+export { WhySpots } from "./WhySpots";
 export { LinedUp } from "./LinedUp";
 export { Camera } from "./Camera";
 export { SaltPair } from "./SaltPair";

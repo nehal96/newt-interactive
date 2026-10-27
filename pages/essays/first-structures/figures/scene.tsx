@@ -120,7 +120,7 @@ export function Film({
       <defs>
         <linearGradient id={gradientId} x1={0} x2={0} y1={0} y2={1}>
           {stops.map(({ offset, o }) => (
-            <stop key={offset} offset={offset} stopColor={XR.sum} stopOpacity={o} />
+            <stop key={offset} offset={offset} stopColor={XR.ink} stopOpacity={o} />
           ))}
         </linearGradient>
       </defs>
@@ -132,7 +132,7 @@ export function Film({
         width={width}
         height={h}
         fill="none"
-        stroke={XR.atom}
+        stroke={XR.guide}
         strokeWidth={0.75}
       />
     </g>
@@ -140,10 +140,10 @@ export function Film({
 }
 
 export function Atom({ x, y }: { x: number; y: number }) {
-  return <circle cx={x} cy={y} r={5} fill={XR.sum} />;
+  return <circle cx={x} cy={y} r={5} fill={XR.ink} />;
 }
 
-/** Mono labels with a paper halo, so they stay legible over ripples. */
+/** Mono labels haloed in the card colour, so they stay legible over lines. */
 export function Labels({ size, children }: { size: number; children: ReactNode }) {
   return (
     <g

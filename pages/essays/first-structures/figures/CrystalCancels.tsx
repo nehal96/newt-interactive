@@ -1,4 +1,4 @@
-// A whole crystal and the film it exposes, in one consistent 3D view: dark only at a few spots.
+// A whole crystal and the film it exposes: dark only at a few spots.
 import { useId } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
@@ -112,22 +112,22 @@ export function CrystalCancels() {
           <path d={head} strokeLinejoin="round" />
         </g>
 
-        <g stroke={XR.atom} strokeWidth={0.75}>
+        <g stroke={XR.guide} strokeWidth={0.75}>
           {BOX_EDGES.map(([i, j]) => {
             const [x1, y1] = P(BOX[i]);
             const [x2, y2] = P(BOX[j]);
             return <line key={`${i}-${j}`} x1={x1} y1={y1} x2={x2} y2={y2} />;
           })}
         </g>
-        <g fill={XR.sum}>
+        <g fill={XR.ink}>
           {ATOMS.map((a, i) => {
             const [x, y] = P(a);
             return <circle key={i} cx={x} cy={y} r={Math.min(2.4, Math.max(1.4, k * 0.012))} />;
           })}
         </g>
 
-        <polygon points={poly(FILM)} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
-        <g fill={XR.sum}>
+        <polygon points={poly(FILM)} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
+        <g fill={XR.ink}>
           {SPOTS.map((s, i) => (
             <polygon key={i} points={poly(ring(s.y, s.z, spotR))} fillOpacity={s.o} />
           ))}

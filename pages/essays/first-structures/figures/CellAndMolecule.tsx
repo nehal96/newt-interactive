@@ -1,4 +1,4 @@
-// What a film records: spot spacing from the box size, spot darkness from what sits in the box.
+// What a film records: spot spacing from the unit cell, spot darkness from the molecule inside it.
 import { useElementWidth } from "@hooks";
 import { ReadingTheFilm } from "./ReadingTheFilm";
 import { Note } from "./Figure";
@@ -12,7 +12,7 @@ const DARK = (
   </Note>
 );
 
-export function TwoKinds() {
+export function CellAndMolecule() {
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const wide = W >= 560;
   return (
@@ -21,14 +21,14 @@ export function TwoKinds() {
         <>
           {WHERE}
           {DARK}
-          <ReadingTheFilm group="box" size={FILM} />
+          <ReadingTheFilm group="cell" size={FILM} />
           <ReadingTheFilm group="molecule" size={FILM} />
         </>
       ) : (
         <>
           {WHERE}
           <div className="mt-3">
-            <ReadingTheFilm group="box" size={FILM} />
+            <ReadingTheFilm group="cell" size={FILM} />
           </div>
           <div className="mt-8">{DARK}</div>
           <div className="mt-3">

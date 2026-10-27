@@ -1,3 +1,4 @@
+// Perutz's sliced hemoglobin model, with a label for whatever the pointer is on.
 import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useInViewport } from "@hooks";
@@ -12,9 +13,9 @@ const LABELS: Record<Part["kind"], { name: string; text: string }> = {
   },
   beta: {
     name: "β chain",
-    text: "146 amino acids, also folded like myoglobin. Its reactive cysteine, where the mercury bound in 1953, sits beside the heme.",
+    text: "146 amino acids, also folded like myoglobin. Its reactive cysteine, where mercury bound in Perutz’s 1953 horse crystals, sits beside the heme.",
   },
-  haem: {
+  heme: {
     name: "Heme",
     text: "The iron-holding ring that binds oxygen. Each sits in its own pocket on the surface; the nearest two irons are 24 Å apart.",
   },

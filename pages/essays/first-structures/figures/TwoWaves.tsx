@@ -1,4 +1,4 @@
-// Figure 1: two waves and their sum.
+// Two waves and their sum.
 import { useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
@@ -51,7 +51,7 @@ function WaveColumn({
 
   return (
     <g>
-      <g stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3">
+      <g stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3">
         {crests.map((c) => (
           <line
             key={c}
@@ -210,7 +210,7 @@ export function TwoWaves() {
                 className="font-ui"
                 fontSize={narrow ? 11 : 12}
                 fontWeight={600}
-                fill={XR.sum}
+                fill={XR.ink}
               >
                 {header}
               </text>
@@ -305,7 +305,7 @@ export function TwoWavesInteractive() {
           className="font-ui"
           fontSize={narrow ? 11 : 12}
           fontWeight={600}
-          fill={XR.sum}
+          fill={XR.ink}
         >
           {header(d)}
         </text>

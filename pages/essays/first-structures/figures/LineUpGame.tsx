@@ -31,9 +31,9 @@ function FilmStrip({ W }: { W: number }) {
   return (
     <div>
       <svg width={W} height={30} viewBox={`0 0 ${W} 30`} className="block" aria-label="the film">
-        <rect x={0} y={4} width={W} height={22} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
+        <rect x={0} y={4} width={W} height={22} fill={XR.film} stroke={XR.guide} strokeWidth={0.75} />
         {SPOTS.map((n, i) => (
-          <circle key={n} cx={((i + 1) / (SPOTS.length + 1)) * W} cy={15} r={6} fill={XR.sum} fillOpacity={shade(i)} />
+          <circle key={n} cx={((i + 1) / (SPOTS.length + 1)) * W} cy={15} r={6} fill={XR.ink} fillOpacity={shade(i)} />
         ))}
       </svg>
       <p className="mt-0.5 font-mono text-[10px] text-ink-500">the film</p>
@@ -91,7 +91,7 @@ export function LineUpGame() {
                 aria-label={`Flip spot ${n}’s wave`}
               >
                 <svg width={10} height={10} viewBox="0 0 10 10" aria-hidden>
-                  <circle cx={5} cy={5} r={4.5} fill={XR.sum} fillOpacity={shade(i)} />
+                  <circle cx={5} cy={5} r={4.5} fill={XR.ink} fillOpacity={shade(i)} />
                 </svg>
                 flip {n}
               </button>
@@ -130,9 +130,9 @@ export function LineUpGame() {
           )}
           <line x1={0} x2={bw} y1={sumAmp + 8} y2={sumAmp + 8} stroke={XR.rule} />
           <path d={curvePath(0, sumAmp + 8, bw, (t) => (sumAmp * sum(t / bw)) / PEAK, 1)} fill="none" stroke={XR.accent} strokeWidth={2.25} />
-          <rect x={0} y={atomsY} width={bw} height={20} fill="none" stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+          <rect x={0} y={atomsY} width={bw} height={20} fill="none" stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
           {reveal ? (
-            ATOMS.map((x) => <circle key={x} cx={x * bw} cy={atomsY + 10} r={4.5} fill={XR.sum} />)
+            ATOMS.map((x) => <circle key={x} cx={x * bw} cy={atomsY + 10} r={4.5} fill={XR.ink} />)
           ) : (
             <Labels size={text}>
               <text x={bw / 2} y={atomsY + 14} textAnchor="middle">

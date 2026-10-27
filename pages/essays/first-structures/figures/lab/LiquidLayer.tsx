@@ -124,7 +124,7 @@ function Film({ salt, label }: { salt: number; label: string }) {
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label={label}>
       <rect x={FX} y={FY} width={FILM} height={FILM} fill={XR.film} />
-      <g fill={XR.sum}>
+      <g fill={XR.ink}>
         {OTHERS.map(({ i, j, base, drift }) => {
           const s = Math.min(1, base * (1 + 0.8 * drift * salt));
           return (
@@ -166,7 +166,7 @@ function Film({ salt, label }: { salt: number; label: string }) {
         width={FILM}
         height={FILM}
         fill="none"
-        stroke={XR.atom}
+        stroke={XR.guide}
         strokeWidth={0.75}
       />
     </svg>

@@ -1,4 +1,4 @@
-// Two atoms make bands, a whole crystal makes spots, and the box and the molecule set where they fall and how dark.
+// Two atoms make bands, a whole crystal makes spots, and the unit cell and the molecule set where they fall and how dark.
 import { useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
@@ -8,7 +8,7 @@ import { Atom, BeamArrow, Film, Labels, Ripples, StopBlock } from "./scene";
 import { SliderRow } from "./controls";
 import { Note } from "./Figure";
 import { CrystalCancels } from "./CrystalCancels";
-import { TwoKinds } from "./TwoKinds";
+import { CellAndMolecule } from "./CellAndMolecule";
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
@@ -69,7 +69,7 @@ function ArrivingWaves({ x, y, w, extra, text }: { x: number; y: number; w: numb
 
   return (
     <g>
-      <text x={x} y={y + 13} className="font-ui" fontSize={text + 1} fontWeight={600} fill={XR.sum}>
+      <text x={x} y={y + 13} className="font-ui" fontSize={text + 1} fontWeight={600} fill={XR.ink}>
         {verdict(extra)}
       </text>
       <g stroke={XR.rule}>
@@ -77,7 +77,7 @@ function ArrivingWaves({ x, y, w, extra, text }: { x: number; y: number; w: numb
           <line key={ry} x1={x0} x2={x0 + waveW} y1={ry} y2={ry} />
         ))}
       </g>
-      <line x1={b0} x2={b0} y1={r1 - amp - 6} y2={rs + 2 * amp + 4} stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+      <line x1={b0} x2={b0} y1={r1 - amp - 6} y2={rs + 2 * amp + 4} stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
       <g fill="none" strokeLinejoin="round">
         <path d={curvePath(x0, r1, waveW, top, 1)} stroke={XR.first} strokeWidth={2} />
         <path d={curvePath(x0, r2, waveW, bottom, 1)} stroke={XR.first} strokeWidth={2} />
@@ -235,8 +235,8 @@ function PathPanel({
         onKeyDown={onKey}
         className="outline-none"
       >
-        <circle cx={filmX + filmW / 2} cy={py} r={dragging ? 7 : 6} fill="none" stroke={XR.sum} strokeWidth={1.5} />
-        <path d={`M${filmX + filmW + 4} ${py} l9 -6 v12 z`} fill={XR.sum} />
+        <circle cx={filmX + filmW / 2} cy={py} r={dragging ? 7 : 6} fill="none" stroke={XR.ink} strokeWidth={1.5} />
+        <path d={`M${filmX + filmW + 4} ${py} l9 -6 v12 z`} fill={XR.ink} />
       </g>
       <rect
         x={filmX - 6}
@@ -293,7 +293,7 @@ export function TwoAtomBands() {
   );
 }
 
-export function WhyBands() {
+export function WhySpots() {
   return (
     <div className="flex w-full flex-col gap-10">
       <div>
@@ -308,7 +308,7 @@ export function WhyBands() {
         </div>
       </div>
       <CrystalCancels />
-      <TwoKinds />
+      <CellAndMolecule />
     </div>
   );
 }

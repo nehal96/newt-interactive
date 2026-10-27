@@ -55,7 +55,7 @@ function Strip({
       <defs>
         <linearGradient id={id} x1={0} x2={0} y1={0} y2={1}>
           {stops.map(({ offset, o }) => (
-            <stop key={offset} offset={offset} stopColor={XR.sum} stopOpacity={o} />
+            <stop key={offset} offset={offset} stopColor={XR.ink} stopOpacity={o} />
           ))}
         </linearGradient>
       </defs>
@@ -67,7 +67,7 @@ function Strip({
         width={width}
         height={height}
         fill="none"
-        stroke={XR.atom}
+        stroke={XR.guide}
         strokeWidth={0.75}
       />
     </g>
@@ -82,7 +82,7 @@ function RowIcon({ n, x, cy }: { n: number; x: number; cy: number }) {
     <g>
       {Array.from({ length: n }, (_, i) => {
         const y = cy + (i - (n - 1) / 2) * gap;
-        return r >= 4 ? <Atom key={i} x={x} y={y} /> : <circle key={i} cx={x} cy={y} r={r} fill={XR.sum} />;
+        return r >= 4 ? <Atom key={i} x={x} y={y} /> : <circle key={i} cx={x} cy={y} r={r} fill={XR.ink} />;
       })}
     </g>
   );
@@ -136,7 +136,7 @@ function Panel({ W, rows, header }: { W: number; rows: number[]; header?: (n: nu
               className="font-ui"
               fontSize={narrow ? 12 : 13}
               fontWeight={600}
-              fill={XR.sum}
+              fill={XR.ink}
             >
               {header ? header(n) : `${n} atoms`}
             </text>

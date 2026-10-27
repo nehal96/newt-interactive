@@ -93,7 +93,7 @@ export function StackSheets() {
           <g key={s}>
             {SPOTS.map((n, i) =>
               n <= k ? (
-                <rect key={n} x={colX[s]} y={sheetY(i)} width={cw} height={sheetH} fill={`url(#${uid}${s}s${n})`} stroke={XR.atom} strokeWidth={0.5} />
+                <rect key={n} x={colX[s]} y={sheetY(i)} width={cw} height={sheetH} fill={`url(#${uid}${s}s${n})`} stroke={XR.guide} strokeWidth={0.5} />
               ) : (
                 <rect key={n} x={colX[s]} y={sheetY(i)} width={cw} height={sheetH} fill="none" stroke={XR.rule} strokeWidth={0.75} strokeDasharray="2 2" />
               ),
@@ -105,26 +105,26 @@ export function StackSheets() {
               strokeWidth={1}
             />
             <rect x={colX[s]} y={boxY} width={cw} height={boxH} fill={`url(#${uid}${s}b)`} />
-            <rect x={colX[s]} y={boxY} width={cw} height={boxH} fill="none" stroke={XR.atom} strokeWidth={0.75} strokeDasharray="3 3" />
+            <rect x={colX[s]} y={boxY} width={cw} height={boxH} fill="none" stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" />
             <g stroke={XR.label} strokeWidth={0.75} strokeDasharray="2 3">
               {ATOMS.map((x) => (
                 <line key={x} x1={colX[s] + x * cw} x2={colX[s] + x * cw} y1={boxY - 4} y2={atomsY} />
               ))}
             </g>
             {ATOMS.map((x) => (
-              <circle key={x} cx={colX[s] + x * cw} cy={atomsY} r={4} fill={XR.sum} />
+              <circle key={x} cx={colX[s] + x * cw} cy={atomsY} r={4} fill={XR.ink} />
             ))}
           </g>
         ))}
 
         <Labels size={text}>
           {sides.map(({ head }, s) => (
-            <text key={s} x={colX[s]} y={headY} fill={s ? XR.accent : XR.sum}>
+            <text key={s} x={colX[s]} y={headY} fill={s ? XR.accent : XR.ink}>
               {head}
             </text>
           ))}
           {SPOTS.map((n, i) => (
-            <text key={n} x={0} y={sheetY(i) + sheetH - 1} fill={n <= k ? XR.label : XR.atom}>
+            <text key={n} x={0} y={sheetY(i) + sheetH - 1} fill={n <= k ? XR.label : XR.guide}>
               spot {n}
             </text>
           ))}
