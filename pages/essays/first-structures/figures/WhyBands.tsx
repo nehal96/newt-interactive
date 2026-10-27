@@ -7,6 +7,7 @@ import { filmGradient, type BeamStop, type Pt } from "./scatter";
 import { Atom, BeamArrow, Film, Labels, Ripples, StopBlock } from "./scene";
 import { SliderRow } from "./controls";
 import { Note, ScatterPanel } from "./TwoAtoms";
+import { CrystalCancels } from "./CrystalCancels";
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
@@ -263,8 +264,8 @@ function PathPanel({
   );
 }
 
-/** Two atoms and the distances to one point of the film; then a row, whose bands sharpen and strengthen. */
-export function WhyBands() {
+/** Two atoms and the distances to one point of the film, then a whole crystal; the lab also shows a row of atoms. */
+export function WhyBands({ part }: { part?: "paths" | "row" }) {
   const [ref, W] = useElementWidth<HTMLDivElement>(640);
   const [spacing, setSpacing] = useState(3);
   const [probe, setProbe] = useState(() => firstBand(3));
@@ -275,14 +276,14 @@ export function WhyBands() {
   };
   return (
     <div ref={ref} className="flex w-full flex-col gap-10">
-      <div>
-        <Note title="1. Why the film is dark only in places">
+      {part !== "row" && <div>
+        {!part && <Note title="1. Why the film is dark only in places">
           Drag the marker along the film. Where one wave has traveled a whole number of waves
           farther than the other, the two arrive in step and the film is dark. Where it has
           traveled half a wave farther, they cancel. Move the atoms apart, and the dark bands
           crowd together.
-        </Note>
-        <div className="mt-3">
+        </Note>}
+        <div className={part ? "" : "mt-3"}>
           <PathPanel W={W} spacing={spacing} probe={probe} onProbe={setProbe} />
         </div>
         <div className="mt-4">
@@ -296,14 +297,9 @@ export function WhyBands() {
             onChange={changeSpacing}
           />
         </div>
-      </div>
-      <div>
-        <Note title="2. Many atoms: thin, strong bands">
-          Add more atoms at the same spacing. Their waves still arrive in step at the same places,
-          so the bands stay where they are. Everywhere else they now cancel, so the bands get
-          thinner, and every atom adds its wave, so they get darker. A crystal has trillions of
-          copies in a row.
-        </Note>
+      </div>}
+      {!part && <CrystalCancels />}
+      {part === "row" && <div>
         <ScatterPanel W={W} maxLambda={15} span={13} spacing={3} n={n} stage="row" header="" hideHeader grow={MAX_ATOMS} />
         <div className="mt-4">
           <SliderRow
@@ -317,7 +313,7 @@ export function WhyBands() {
             onChange={setN}
           />
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

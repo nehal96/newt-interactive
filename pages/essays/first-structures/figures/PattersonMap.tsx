@@ -421,3 +421,42 @@ export function PattersonMap() {
     </div>
   );
 }
+
+/** What the map was built to tell apart, beside what Perutz's 1948 map showed. */
+export function RodsTest({ result = true }: { result?: boolean }) {
+  const ids = useId();
+  const [ref, W] = useElementWidth<HTMLDivElement>(640);
+  const { size, cells, H } = useGrid(W);
+
+  return (
+    <div ref={ref} className="flex w-full flex-col gap-8">
+      <div>
+        {result && <Note title="1. The test">
+          If the chains lie side by side, the same spacings repeat thousands of times and the map shows straight rods. If
+          the chains are tangled, it shows a blur.
+        </Note>}
+        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className={result ? "mt-3 block" : "block"} role="img" aria-labelledby={`${ids}t`}>
+          <title id={`${ids}t`}>
+            Four straight parallel chains give a Patterson map of straight rods. The same chains, kinked at random, give a
+            map with only the centre peak and a faint blur.
+          </title>
+          <AtomsSquare x={cells[0].x} y={cells[0].y} size={size} atoms={PARALLEL} span={REACH - 4} chain={PER_CHAIN} label="side by side" />
+          <MapSquare x={cells[1].x} y={cells[1].y} size={size} map={MAPS.parallel} origin={ORIGIN(PARALLEL)} label="its map: rods" />
+          <AtomsSquare x={cells[2].x} y={cells[2].y} size={size} atoms={TANGLE} span={REACH - 4} chain={PER_CHAIN} label="tangled" />
+          <MapSquare x={cells[3].x} y={cells[3].y} size={size} map={MAPS.tangle} origin={ORIGIN(TANGLE)} label="its map: a blur" />
+        </svg>
+      </div>
+      {result && <div>
+        <Note title="2. The result">
+          Perutz&rsquo;s 1948 map had rods: one through the centre and six around it, all running the same way, 10 to 11 Å
+          apart. It looked like the side-by-side answer.
+        </Note>
+        <img
+          src="/images/first-structures/perutz-1949-rods.png"
+          alt="Seven long parallel cylinders in perspective, one in the centre and six around it, the ends drawn as nested contour rings; the central one is cut open to show a row of peaks."
+          className="mt-3 w-full mix-blend-multiply"
+        />
+      </div>}
+    </div>
+  );
+}

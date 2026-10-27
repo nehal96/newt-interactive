@@ -69,13 +69,14 @@ const SHEEN =
   " rgba(255,255,255,0.5) 100%)";
 
 const FLY_MS = 800;
-const STAGGER = 40;
-const ZOOM_MS = 600;
-const SETTLE = FLY_MS + STAGGER * (LABELS.length - 1) + 40;
+const STAGGER = 70;
+const FOCUS_MS = 600;
+const FOCUS_PAD = 12;
 
 const WIDE = {
   sheetW: 23,
   zoom: 2.1,
+  focusW: 92,
   cols: [-163, -54.3, 54.3, 163],
   rows: [-63.5, 63.5],
   stackedH: 0.5,
@@ -83,6 +84,7 @@ const WIDE = {
 const PHONE = {
   sheetW: 46,
   zoom: 1.75,
+  focusW: 100,
   cols: [-54.3, 54.3],
   rows: [-190.5, -63.5, 63.5, 190.5],
   stackedH: 0.8,
@@ -98,14 +100,14 @@ function laidH({ sheetW, rows }: typeof WIDE) {
 
 export default function SheetStack() {
   const [stacked, setStacked] = useState(false);
-  const [zoomed, setZoomed] = useState(false);
+  const [focus, setFocus] = useState<number | null>(null);
+  const [moving, setMoving] = useState<"stack" | "focus">("stack");
   const [heme, setHeme] = useState(false);
   const [pitch, setPitch] = useState(0);
   const [yaw, setYaw] = useState(0);
   const [width, setWidth] = useState(0);
   const scene = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number } | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const el = scene.current;
@@ -115,24 +117,17 @@ export default function SheetStack() {
     return () => ro.disconnect();
   }, []);
 
-  useEffect(
-    () => () => {
-      if (timer.current) clearTimeout(timer.current);
-    },
-    []
-  );
-
   const toggle = () => {
-    if (timer.current) clearTimeout(timer.current);
     setPitch(0);
     setYaw(0);
-    if (stacked) {
-      setZoomed(false);
-      timer.current = setTimeout(() => setStacked(false), ZOOM_MS);
-    } else {
-      setStacked(true);
-      timer.current = setTimeout(() => setZoomed(true), SETTLE);
-    }
+    setFocus(null);
+    setMoving("stack");
+    setStacked((s) => !s);
+  };
+
+  const look = (i: number | null) => {
+    setMoving("focus");
+    setFocus(i);
   };
 
   const layout = width > 0 && width < NARROW ? PHONE : WIDE;
@@ -164,13 +159,22 @@ export default function SheetStack() {
   };
 
   const ease = "cubic-bezier(.2,.7,.2,1)";
+  const ms = moving === "stack" ? FLY_MS : FOCUS_MS;
+  const curve = moving === "stack" ? ease : "cubic-bezier(.65,0,.35,1)";
+  const laidOut = width * laidH(layout) + 2 * GRID_GAP;
+  const sheetPx = (width * layout.sheetW) / 100;
+  const focusScale = width
+    ? Math.min((width * layout.focusW) / 100, (laidOut - 2 * FOCUS_PAD) * ASPECT) / sheetPx
+    : 1;
+  const z = layout.zoom;
 
   return (
     <div className="w-full">
       <div
         ref={scene}
         className="[perspective:1600px]"
-        style={{ touchAction: "none", cursor: stacked ? "grab" : "default" }}
+        style={{ touchAction: stacked ? "none" : "auto", cursor: stacked ? "grab" : "default" }}
+        onClick={() => focus !== null && look(null)}
         onPointerDown={onDown}
         onPointerMove={onMove}
         onPointerUp={onUp}
@@ -179,22 +183,16 @@ export default function SheetStack() {
         <div
           className="relative [transform-style:preserve-3d]"
           style={{
-            height: width
-              ? stacked
-                ? width * layout.stackedH
-                : width * laidH(layout) + 2 * GRID_GAP
-              : undefined,
+            height: width ? (stacked ? width * layout.stackedH : laidOut) : undefined,
             aspectRatio: width ? undefined : `1 / ${laidH(WIDE)}`,
             transform: `rotateX(${pitch}deg) rotateY(${yaw}deg)`,
             transition: `height ${FLY_MS}ms ${ease}`,
           }}
         >
+          {/* The zoom stays on; laid out, each sheet undoes it, so stacking is one motion per sheet. */}
           <div
             className="pointer-events-none absolute inset-0 [transform-style:preserve-3d]"
-            style={{
-              transform: `scale(${zoomed ? layout.zoom : 1})`,
-              transition: `transform ${ZOOM_MS}ms ${ease}`,
-            }}
+            style={{ transform: `scale(${z})` }}
           >
             <div
               className="absolute inset-0 [transform-style:preserve-3d]"
@@ -206,10 +204,15 @@ export default function SheetStack() {
               }}
             >
               {LABELS.map((label, i) => {
-                const delay = `${(stacked ? i : LABELS.length - 1 - i) * STAGGER}ms`;
+                const delay =
+                  moving === "stack"
+                    ? `${(stacked ? LABELS.length - 1 - i : i) * STAGGER}ms`
+                    : "0ms";
+                const focused = focus === i;
+                const hidden = focus !== null && !focused;
                 const fade = {
-                  opacity: stacked ? 0.5 : 1,
-                  transition: `opacity ${FLY_MS}ms ${ease}`,
+                  opacity: stacked ? 0.5 : hidden ? 0 : 1,
+                  transition: `opacity ${ms}ms ${curve}`,
                   transitionDelay: delay,
                 };
                 return (
@@ -217,18 +220,38 @@ export default function SheetStack() {
                   // side faces — the children fade instead.
                   <div
                     key={label}
-                    className="absolute left-1/2 top-1/2 [transform-style:preserve-3d]"
+                    role={stacked ? undefined : "button"}
+                    tabIndex={stacked || hidden ? -1 : 0}
+                    aria-label={focused ? "Back to all eight slices" : `Look closer at slice ${label}`}
+                    onClick={(e) => {
+                      if (stacked) return;
+                      e.stopPropagation();
+                      look(focused ? null : i);
+                    }}
+                    onKeyDown={(e) => {
+                      if (stacked) return;
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        look(focused ? null : i);
+                      } else if (e.key === "Escape" && focus !== null) look(null);
+                    }}
+                    className={`absolute [transform-style:preserve-3d] ${
+                      stacked || hidden ? "" : "pointer-events-auto"
+                    }`}
                     style={{
+                      left: `${50 - layout.sheetW / 2}%`,
+                      top: `calc(50% - ${sheetPx / ASPECT / 2}px)`,
                       width: `${layout.sheetW}%`,
                       aspectRatio: `${SHEET_WIDTH_A} / ${SHEET_HEIGHT_A}`,
+                      cursor: stacked ? undefined : focused ? "zoom-out" : "zoom-in",
                       transform: stacked
-                        ? `translate(-50%, -50%) translateZ(${(3.5 - i) * lift}px)`
-                        : `translate(${
-                            -50 + layout.cols[i % layout.cols.length]
-                          }%, ${
-                            -50 + layout.rows[Math.floor(i / layout.cols.length)]
-                          }%)`,
-                      transition: `transform ${FLY_MS}ms ${ease}`,
+                        ? `translate(0%, 0%) translateZ(${(3.5 - i) * lift}px) scale(1)`
+                        : focused
+                          ? `translate(0%, 0%) translateZ(1px) scale(${focusScale / z})`
+                          : `translate(${layout.cols[i % layout.cols.length] / z}%, ${
+                              layout.rows[Math.floor(i / layout.cols.length)] / z
+                            }%) translateZ(0px) scale(${1 / z})`,
+                      transition: `transform ${ms}ms ${curve}`,
                       transitionDelay: delay,
                     }}
                   >
@@ -245,6 +268,8 @@ export default function SheetStack() {
                           transform: `rotateZ(${edge.rotate}deg) rotateX(-90deg)`,
                           backfaceVisibility: "hidden",
                           background: edge.face,
+                          opacity: hidden ? 0 : 1,
+                          transition: `opacity ${ms}ms ${curve}`,
                         }}
                       />
                     ))}
@@ -266,7 +291,7 @@ export default function SheetStack() {
                         draggable={false}
                         className="absolute inset-0 h-full w-full select-none"
                         style={{
-                          opacity: heme ? 1 : 0,
+                          opacity: heme && !hidden ? 1 : 0,
                           transition: `opacity 300ms ${ease}`,
                         }}
                       />
@@ -284,9 +309,13 @@ export default function SheetStack() {
           {stacked ? "Lay them out" : "Stack them"}
         </Button>
         <CheckRow label="Mark the heme" checked={heme} onChange={setHeme} />
-        {stacked && (
-          <span className="text-xs text-ink-500">Drag to turn the stack</span>
-        )}
+        <span className="text-xs text-ink-500">
+          {stacked
+            ? "Drag to turn the stack"
+            : focus !== null
+              ? "Click it again to go back"
+              : "Click a slice to look closer"}
+        </span>
       </div>
 
     </div>

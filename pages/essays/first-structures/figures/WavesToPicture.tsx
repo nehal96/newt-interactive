@@ -5,7 +5,7 @@ import { XR } from "./palette";
 import { TAU, curvePath } from "./wave";
 
 /** Fractional positions of three equal atoms along one unit cell. */
-const ATOMS = [0.26, 0.58, 0.78];
+export const ATOMS = [0.24, 0.51, 0.74];
 /** Higher orders fade, as they do for real atoms; keeps the four heights comparable. */
 const BLUR = 0.035;
 
@@ -314,7 +314,7 @@ function Frame({
         y={blocks[0].y}
         w={colW}
         shifts={RIGHT}
-        header="Right phases"
+        header="Lined up right"
         layout={layout}
         showCell
       />
@@ -342,7 +342,7 @@ export function WavesToPicture() {
       <Frame
         W={W}
         shifts={OTHER}
-        otherHeader="Other phases"
+        otherHeader="Lined up wrong"
         title={TITLE}
         desc="Four waves laid across one unit cell, one for each spot on the film; each spot farther from the film's center gives a finer wave. Added with the right phases, the sum peaks on the three atoms. With the second and fourth waves shifted half a wave, the film is unchanged but the sum peaks in three other places."
       />

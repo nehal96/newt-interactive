@@ -30,7 +30,7 @@ const NOT_A_PIECE = new Set([
 ]);
 // A page that states its own metadata. Decks do, so they are not exempt here.
 const isContentPage = (href) =>
-  !NOT_A_PIECE.has(href) && !href.startsWith("/api");
+  !NOT_A_PIECE.has(href) && !href.startsWith("/api") && !href.endsWith("/lab");
 // A page the homepage, sitemap and feed must carry. /decks/* are unlisted
 // product surfaces: a catalogue row is exactly what they must not have.
 const isCatalogued = (href) => isContentPage(href) && !href.startsWith("/decks");

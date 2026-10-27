@@ -29,7 +29,7 @@ export function PerutzModel() {
     <div className="w-full">
       <div
         ref={ref}
-        className="aspect-[4/3] w-full touch-none"
+        className="mx-auto aspect-[4/3] w-full max-w-md touch-none"
         style={{ cursor: hover ? "pointer" : "grab" }}
       >
         {hasBeenNear && <PerutzModelCanvas active={isActive} hover={hover} onHover={setHover} />}

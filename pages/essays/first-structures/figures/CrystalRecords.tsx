@@ -64,7 +64,7 @@ function Molecules({ x, y, atoms }: { x: number; y: number; atoms: { x: number; 
   );
 }
 
-export function CrystalRecords() {
+export function CrystalRecords({ part }: { part?: "spots" | "darkness" }) {
   const ids = useId();
   const [ref, W] = useElementWidth<HTMLDivElement>(320);
   const [bands, setBands] = useState<string[] | null>(null);
@@ -80,8 +80,10 @@ export function CrystalRecords() {
   const col3 = (i: number) => i * (S3 + 12);
   const rowH = GLYPH_H + 6 + S + 22;
   const divider = GLYPH_H + 6 + S3 + 22 + 12;
-  const row2 = divider + 20;
-  const H = row2 + rowH + 18;
+  const row2 = part === "darkness" ? 0 : divider + 20;
+  const H = part === "spots" ? divider - 12 : row2 + rowH + 18;
+  const top = part !== "darkness";
+  const bottom = part !== "spots";
   const [a, b] = MOLECULE_PAIR.panels;
 
   const caption = (i: number, y: number, label: string) => (
@@ -105,7 +107,7 @@ export function CrystalRecords() {
         <clipPath id={`${ids}c`}>
           <rect x={col3(2)} y={GLYPH_H + 6} width={S3} height={S3} />
         </clipPath>
-        {ROW_FILMS.map(({ atoms, label }, i) => (
+        {top && ROW_FILMS.map(({ atoms, label }, i) => (
           <g key={label}>
             <Dots x={col3(i) + S3 / 2} atoms={atoms} />
             <rect x={col3(i)} y={GLYPH_H + 6} width={S3} height={S3} fill={XR.film} />
@@ -128,8 +130,8 @@ export function CrystalRecords() {
           </g>
         ))}
 
-        <line x1={0} x2={W} y1={divider} y2={divider} stroke={XR.rule} />
-        {[a, b].map((p, i) => (
+        {top && bottom && <line x1={0} x2={W} y1={divider} y2={divider} stroke={XR.rule} />}
+        {bottom && [a, b].map((p, i) => (
           <g key={p.label}>
             <Molecules x={col(i) + S / 2} y={row2} atoms={p.atoms} />
             <SpotFilm
@@ -143,13 +145,17 @@ export function CrystalRecords() {
             />
           </g>
         ))}
-        {caption(0, row2, "one molecule")}
-        {caption(1, row2, "another molecule")}
-        <Labels size={text}>
-          <text x={W / 2} y={H - 4} textAnchor="middle" fill={XR.accent}>
-            same places, different darkness
-          </text>
-        </Labels>
+        {bottom && (
+          <>
+            {caption(0, row2, "one molecule")}
+            {caption(1, row2, "another molecule")}
+            <Labels size={text}>
+              <text x={W / 2} y={H - 4} textAnchor="middle" fill={XR.accent}>
+                same places, different darkness
+              </text>
+            </Labels>
+          </>
+        )}
       </svg>
     </div>
   );

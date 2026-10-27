@@ -9,9 +9,9 @@ import { Labels } from "./scene";
 export const F_TAP_WATER = [98, -58, 26, 0, -48, -68, -41];
 export const F_SALT = [32, -32, 14, 22, -46, -68, -33];
 /** c sin β of the normal wet cell, table 1. */
-const REPEAT = 50.7;
+export const REPEAT = 50.7;
 /** Thickness of the protein layer, p. 113. */
-const PROTEIN = 34;
+export const PROTEIN = 34;
 
 const density = (F: number[]) => (z: number) =>
   F.reduce((sum, f, i) => sum + f * Math.cos((TAU * (i + 1) * z) / REPEAT), 0);

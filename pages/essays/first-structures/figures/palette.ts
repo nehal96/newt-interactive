@@ -6,6 +6,7 @@ export const XR = {
   first: "#3F71D8",
   second: "#B57E1F",
   accent: "#E11D48",
+  success: "#059669",
   sum: "#1A1825",
   atom: "#B1AFC0",
   molecule: "#C7D2FE",

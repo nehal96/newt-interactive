@@ -6,10 +6,10 @@ import { Labels } from "./scene";
 import { SpotFilm, latticeSpots, type Spot } from "./spots";
 import { ATOMS as SMALL } from "./Molecule";
 
-const LAMBDA = 1.54;
-const EDGE_TAN = 0.2;
+export const LAMBDA = 1.54;
+export const EDGE_TAN = 0.2;
 
-type Atom = { x: number; y: number; f: number; heavy?: boolean };
+export type Atom = { x: number; y: number; f: number; heavy?: boolean };
 
 /** Fractional positions inside one box; f is the number of electrons (carbon 6, nitrogen 7, oxygen 8). */
 const LIGHT: Atom[] = [
@@ -46,11 +46,10 @@ const LIGHT: Atom[] = [
 ];
 
 /**
- * A real protein has thousands of atoms, too many to draw, so the heavy atom is
- * scaled to a quarter of the light atoms' combined scattering: about the share
- * two mercury atoms (80 electrons each) have against hemoglobin's ~5,000 atoms.
+ * Two mercury atoms are about a quarter of hemoglobin's combined scattering;
+ * the heavy atom here is 2.4 times that, so the changes show on a plain darkness scale.
  */
-const HEAVY_F = 0.25 * Math.sqrt(LIGHT.reduce((sum, a) => sum + a.f * a.f, 0));
+const HEAVY_F = 0.6 * Math.sqrt(LIGHT.reduce((sum, a) => sum + a.f * a.f, 0));
 const ARRANGEMENT_A: Atom[] = LIGHT;
 const ARRANGEMENT_B: Atom[] = [{ x: 0.3, y: 0.62, f: HEAVY_F, heavy: true }, ...LIGHT];
 
@@ -297,3 +296,4 @@ export function ReadingTheFilm({ group }: { group: Group }) {
 
 /** The two-molecule comparison, for figures that lay out their own films. */
 export const MOLECULE_PAIR = GROUPS.molecule;
+export const HEAVY_PAIR = GROUPS.atom;

@@ -13,7 +13,7 @@ const KNOWN_MAX = 0.6;
 const MAX_HEIGHT = PROTEIN + KNOWN_MAX;
 const darkness = (h: number) => Math.min(1, (h / MAX_HEIGHT) ** 2);
 
-function Spot({ x, y, size, height }: { x: number; y: number; size: number; height: number }) {
+export function Spot({ x, y, size, height }: { x: number; y: number; size: number; height: number }) {
   return (
     <g>
       <rect x={x} y={y} width={size} height={size} fill={XR.film} stroke={XR.atom} strokeWidth={0.75} />
@@ -26,7 +26,7 @@ function Spot({ x, y, size, height }: { x: number; y: number; size: number; heig
  * Two wavelengths of a wave, its crests shifted `shift` of a wavelength from the dashed line.
  * A negative height draws the wave half a wave out.
  */
-function Wave({
+export function Wave({
   x,
   cy,
   w,
@@ -119,7 +119,7 @@ const STEPS = [
 
 /* ---------- Static ---------- */
 
-function StaticHeight({ w }: { w: number }) {
+export function StaticHeight({ w }: { w: number }) {
   const rows = [
     { label: "a wave", height: 0.8, shift: 0 },
     { label: "crests shifted", height: 0.8, shift: 0.25 },

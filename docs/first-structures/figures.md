@@ -127,6 +127,11 @@ As of 2026-10-04 the first set is built. In essay order:
 8. 1957: `SheetStack`, with a "Mark the heme" toggle (red rings on slices e–g, lifted from the traced sheets by `scripts/kendrew_heme.py`; Bodo et al. 1959 put the heme at y = −1/16 b and its neighbours).
 9. Before the Lupas epilogue: `PerutzModel`, Perutz's 1967 human hemoglobin model rebuilt from 2HHB by `scripts/hemoglobin_slabs.py` (his 1960 recipe: 5.5 Å map, sections 2 Å apart normal to the dyad, cut above 0.54 e/Å³; heme disks sized from the heme atoms). Black = β (the 1960 paper puts the reactive SH on the black chains). Hover/tap names a chain or heme; the rest fade to a shared grey; hover is frozen while dragging.
 
+The method is being worked through, one question at a time, on a local-only
+lab page, `lab.page.mdx` (404 in production); its figures live in
+`figures/lab/`. The "why spots" interactive prototyped there is the core
+figure for the next pass; see the Figures section of `third-draft-plan.md`.
+
 Parked: a rework of the Patterson figure; a small crystal "locator" for the four
 bumps (an edge-on slab inset was rejected); a mirror-image ghost panel for
 `TwoChoices`; Crick's rod-height comparison.

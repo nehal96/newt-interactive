@@ -32,9 +32,6 @@ const BEVEL = 0.14;
 
 export type Part = { kind: "alpha" | "beta" | "haem"; chain: string };
 
-const GHOST = 0.75;
-const GHOST_CHAIN = "#A9A6B1";
-
 const MODEL_COLOURS = {
   alpha: "#ECE8DF",
   beta: "#2A292D",
@@ -61,28 +58,11 @@ function useSlabs() {
   return data;
 }
 
-function Surface({ colour, ghost, roughness }: { colour: string; ghost: boolean; roughness: number }) {
-  return (
-    <meshStandardMaterial
-      color={colour}
-      roughness={roughness}
-      flatShading
-      transparent
-      opacity={ghost ? GHOST : 1}
-      depthWrite={!ghost}
-    />
-  );
+function Surface({ colour, roughness }: { colour: string; roughness: number }) {
+  return <meshStandardMaterial color={colour} roughness={roughness} flatShading />;
 }
 
-function Model({
-  data,
-  hover,
-  onHover,
-}: {
-  data: Slabs;
-  hover: Part | null;
-  onHover: (part: Part | null) => void;
-}) {
+function Model({ data, onHover }: { data: Slabs; onHover: (part: Part | null) => void }) {
   const chains = useMemo(() => {
     const byChain: Record<string, BufferGeometry[]> = {};
     const depth = data.spacing - 2 * BEVEL;
@@ -117,8 +97,6 @@ function Model({
     }));
   }, [data]);
 
-  const dimmed = (part: Part) =>
-    hover !== null && (hover.kind !== part.kind || hover.chain !== part.chain);
   const handlers = (part: Part) => ({
     onPointerOver: (e: { stopPropagation: () => void }) => {
       e.stopPropagation();
@@ -137,11 +115,7 @@ function Model({
         const part = { kind: c.kind, chain: c.chain };
         return (
           <mesh key={c.chain} geometry={c.geometry} {...handlers(part)}>
-            <Surface
-              colour={dimmed(part) ? GHOST_CHAIN : MODEL_COLOURS[c.kind as "alpha" | "beta"]}
-              ghost={dimmed(part)}
-              roughness={0.9}
-            />
+            <Surface colour={MODEL_COLOURS[c.kind as "alpha" | "beta"]} roughness={0.9} />
           </mesh>
         );
       })}
@@ -155,7 +129,7 @@ function Model({
             quaternion={h.quaternion}
             {...handlers(part)}
           >
-            <Surface colour={MODEL_COLOURS.haem} ghost={dimmed(part)} roughness={0.5} />
+            <Surface colour={MODEL_COLOURS.haem} roughness={0.5} />
           </mesh>
         );
       })}
@@ -192,7 +166,7 @@ export default function PerutzModelCanvas({
       <directionalLight position={[50, 120, 90]} intensity={2.4} />
       <directionalLight position={[-90, 10, 40]} intensity={0.9} />
       <directionalLight position={[0, -60, -90]} intensity={0.5} />
-      {data && <Model data={data} hover={hover} onHover={report} />}
+      {data && <Model data={data} onHover={report} />}
       <OrbitControls
         onStart={() => {
           dragging.current = true;
