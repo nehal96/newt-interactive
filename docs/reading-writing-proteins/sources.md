@@ -122,8 +122,13 @@ B    1 2 1 1 1 1 1 1 1 1 1 0 0
 P    0 0 0 0 0 0 0 0 0 0 0 1 0
 ```
 
-The two tied pathways, as (row, column): (1,1) → (3,3) → (4,5) or (5,4) →
-(6,6) → (7,8) → (9,10) → (10,11) → (12,12).
+The two tied pathways, as (row, column), including the mismatched cells they
+pass through: (1,1) → (2,2) → (3,3) → (4,5) or (5,4) → (6,6) → (7,8) → (8,9)
+→ (9,10) → (10,11) → (12,12). Fig. 2's arrows run through (2,2), (8,9) and
+the others; they are cells on the pathway, not skipped. As rows, A over B:
+`ABCNJ-RQCLCR-PM` / `AJC-JNR-CKCRBP-` and `ABC-NJRQCLCR-PM` / `AJCJN-R-CKCRBP-`.
+- The authors: Department of Biochemistry, Northwestern University, and
+  Nuclear Medicine Service, V.A. Research Hospital, Chicago (p. 443).
 
 ### The penalty
 
@@ -591,6 +596,19 @@ Computed on today's sequences; these are illustrations, not paper figures.
 - β (down) against myoglobin: 1,533 dots for the real pair and every shuffle;
   30 on diagonal −1; running sums of five peak at 81. Ten seeded shuffles
   (seeds 1–10): raw maximum 18, summed maximum 67.
+- The 1970 array (`core/nw1970.ts`) reproduces Fig. 2 in all 156 cells. β
+  11–30 against myoglobin 10–31, no penalty: 11, with 30 tied pathways;
+  penalty 1: 7. Whole β against myoglobin: 63; the fill reads 3,272,940
+  cells (each cell scans its subrow and subcolumn) for 22,338 cells.
+- The penalty on their Fig. 1 example (the paper never runs this): penalty 0
+  gives 8 (8 matches, 4 gaps); 1 gives 5 (6–7 matches, 1–2 gaps); 2 gives 4 (4–6
+  matches, 0–1 gaps); 3 gives 4 (4 matches, no gaps).
+- The penalty on whole β against myoglobin, as score (fewest-gap pathway's
+  matches, gaps; tied pathways): 0: 63 (63, 35; about 4.4 × 10¹⁸). 1: 37 (40, 3;
+  384,256). 2: 34 (36, 1; 54). 3: 33 (36, 1; 9). 4: 32. 5: 31. 6: 30 (30, 0; 10).
+  7: 30 (30, 0; 1). Set 1 matches Table 1 exactly. Set 2 gives 37 with 3 gaps
+  against the paper's 38 with 4; the 1963 and 1965 sequences are the likeliest
+  reason ⚠, unconfirmed because they aren't on hand.
 - Phone-length fragments (10–12 β residues): the best β/myoglobin fragments
   score 3 for a slide and 4 with one gap. β 11–30 against myoglobin 10–31
   scores 6 for the best slide, 7 with gap cost 1 and 11 with free gaps.

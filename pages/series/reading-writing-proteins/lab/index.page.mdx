@@ -12,6 +12,11 @@ import {
   PairDiagram,
   CytochromeDiagrams,
   GlobinDiagram,
+  ArrayFill,
+  ArrayTrace,
+  ArrayRun,
+  ArrayPenalty,
+  PenaltySweep,
   PaperNote,
   LabNote,
   PUZZLES,
@@ -32,8 +37,8 @@ stations that explain well will move into the essay.
 1. **The problem by hand**
 2. **Fitch's windows**
 3. **Gibbs and McIntyre's diagram**
-4. Needleman and Wunsch's array
-5. The penalty
+4. **Needleman and Wunsch's array**
+5. **The penalty**
 6. Scoring by codons
 7. The shuffle test
 8. 1970 against the textbook version
@@ -516,6 +521,227 @@ them. To get an alignment you have to pick one path through it: which diagonals
 to follow, where to jump, and whether each jump is worth it. Picking that path
 by hand is station 1's problem all over again. Needleman and Wunsch's array, in
 station 4, picks it for you.
+
+### Station 4: Needleman and Wunsch's array
+
+Station 1 ended on a problem. β-hemoglobin and myoglobin have more possible
+alignments than anyone could ever check, so how do you find the best one?
+Saul Needleman and Christian Wunsch, at Northwestern University and the VA
+Research Hospital in Chicago, found a way that never looks at most of them.
+Their paper reached the Journal of Molecular Biology in July 1969.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 443">
+  "While the interruptions give rise to a very large number of comparisons,
+  the method efficiently excludes from consideration those comparisons that
+  cannot contribute to the maximum match."
+</PaperNote>
+
+Their array starts out as Gibbs and McIntyre's diagram: one protein across the
+top, the other down the side, and a 1 in every cell where the two amino acids
+are the same. An alignment is a pathway through it. Every step goes down and
+to the right. One index moves by exactly one and the other can move by more,
+so a step straight down the diagonal pairs the next two residues, and a longer
+step skips residues in one sequence. That's a gap. A pathway scores the 1s it
+passes through, and the best score any pathway gets is the maximum match.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 444">
+  "Both i and j must increase in value; either i or j must increase by only one
+  but the other index may increase by one or more."
+</PaperNote>
+
+#### Filling it backward
+
+The trick is to start at the far corner and work back. Each cell asks one
+question: of all the cells a pathway could step to next, which holds the
+largest number? Then it adds that number to its own. The cells it can step to
+are the rest of the row just below it and the rest of the column just to its
+right. Their Fig. 1 outlines them. Because you work up from the bottom, those
+cells are always done already.
+
+So when the array is full, every number means something.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 445">
+  "The number contained in each cell of the array is the largest number of
+  identical pairs that can be found if that cell is the origin for a pathway
+  which proceeds with increases in running indices."
+</PaperNote>
+
+Try it on their own example. The letters are just symbols here, not the
+one-letter code. Work up from the bottom row, right to left along each row, as
+their Fig. 1 does.
+
+<ArrayFill />
+
+Each cell takes one look along a short row and a short column, and nothing
+ever looks at a whole alignment. Jump to Fig. 1 and you're at the cell their
+figure shows being worked: R against R, which finds a 4 in the row below and
+becomes 5.
+
+The finished array has an 8 in the top left corner. Every pathway has to start
+somewhere in the first row or the first column, so the largest number there is
+the maximum match.
+
+#### Reading the pathway back
+
+The 8 tells you how good the best alignment is. It doesn't tell you what the
+alignment is. For that you follow the numbers back out. Each cell holds its own
+1 or 0 plus the number it took from the next cell, so you always know what to
+look for: the 8 came from a 7, that 7 from a 6 or a 7, and so on until you run
+off the edge.
+
+<ArrayTrace />
+
+At C against C the trail splits. The 6 you need is in two places, J against J
+and N against N, and either one leads to 8. One alignment pairs the two J's and
+leaves A's N unpaired; the other pairs the N's and leaves B's J unpaired. Their
+Fig. 2 draws both pathways, and the paper never says how to choose, because it
+doesn't have to. They score the same.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 446">
+  "The cells of the array which contributed to the maximum match, may be
+  determined by recording the origin of the number that was added to each cell
+  when the array was operated upon."
+</PaperNote>
+
+#### A real pair
+
+Now the globin fragment from station 1, residues 11–30 of β-hemoglobin against
+10–31 of myoglobin. With free gaps the best you could do by hand was 11. The
+array gets there in one pass.
+
+<ArrayRun
+  across={PUZZLES.globinFree.bottom}
+  down={PUZZLES.globinFree.top}
+  acrossLabel={PUZZLES.globinFree.bottomLabel}
+  downLabel={PUZZLES.globinFree.topLabel}
+/>
+
+It finds 11, and 30 different pathways tie for it. That's station 1's free-gap
+problem again. When gaps cost nothing, there are lots of equally good ways to
+scatter them.
+
+The whole proteins work the same way, just bigger. β-hemoglobin against
+myoglobin is an array of 146 × 153 = 22,338 cells, and filling it the 1970 way
+reads about 3.3 million cells, since each one scans its row and column. They
+ran it on a CDC 3400 (p. 447), and computer time was tight enough that they
+held their shuffle test to ten shuffles (p. 448). Still, 3.3 million is nothing
+next to 10<sup>88</sup> alignments. The answer is 63.
+
+<LabNote title="Against the paper">
+  Filled this way, their example matches Fig. 2 in all 156 cells, with the same
+  maximum match of 8 and the same two pathways. β-hemoglobin against myoglobin
+  on today's sequences gives 63, as in their Table 1, set 1.
+</LabNote>
+
+#### What station 4 leaves open
+
+The array finds the most matches, and station 1 already showed that the most
+matches isn't what you want when gaps are free. Needleman and Wunsch's 63
+needed at least 35 gaps, and shuffled β-hemoglobin still averaged 55.6. Station
+5 puts the penalty inside the array.
+
+### Station 5: The penalty
+
+Station 4's array will take any number of gaps to collect one more match.
+That's how β-hemoglobin and myoglobin reached 63, with at least 35 gaps.
+Needleman and Wunsch's answer is to make a gap cost something.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 444">
+  "A penalty factor, a number subtracted for every gap made, may be assessed as
+  a barrier to allowing the gap."
+</PaperNote>
+
+Only one rule changes. A step straight along the diagonal pairs the next two
+residues and makes no gap, so it stays free. Any other step makes a gap, so it
+costs the penalty, however many residues the gap skips. So when you fill a cell,
+take the penalty off every cell in the shaded row and column except the one
+diagonally next to you. Then pick the largest number, as before.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 447">
+  "In proceeding from one cell to the next in a maximum-match pathway, it is
+  necessary that the difference between each cell value and the penalty, be
+  greater than the value for a cell in a pathway that contains no gap."
+</PaperNote>
+
+#### Filling it with a penalty
+
+Here's their example again with a penalty of 1. They never work this example
+with a penalty, so these numbers come from their rule, not from a figure in the
+paper. Every cell below the one you're filling was filled under the penalty too,
+so the numbers are smaller than they were in station 4.
+
+<ArrayFill penalty={1} />
+
+Jump to R against R to see one cell worked. Its own match is worth 1. The
+diagonal step is worth 1. The best other step is a 3, which is worth 2 after the
+penalty. So the cell is 1 + 2 = 3. In station 4 it was 5.
+
+#### Raising the penalty
+
+Now change the penalty and watch what the whole array picks.
+
+<ArrayPenalty />
+
+With no penalty, the pathway takes four gaps to collect 8 matches. At 1 it gives
+up a match or two to drop to one or two gaps. At 3 no gap pays for itself, and
+all that's left is 4 matches on a single diagonal. A higher penalty can't change
+anything after that, because there are no gaps left to charge for.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 447">
+  "If the value of the penalty were zero, all possible gaps could be allowed. If
+  the value were equal to the theoretical value for the maximum match between
+  two proteins, it would be impossible to allow a gap and the maximum match
+  would be the largest of the values found by simply summing along the diagonals
+  of the array; this is the simple frame-shift method."
+</PaperNote>
+
+#### The real pair
+
+Now β-hemoglobin against myoglobin.
+
+<PenaltySweep />
+
+A penalty of 1 takes the score from 63 to 37 and the gaps from at least 35 to 3.
+Two of those three belong together. The pathway leaves its diagonal by skipping
+seven residues of myoglobin, then comes back to the same diagonal by skipping
+seven residues of β-hemoglobin. That detour costs two gaps and earns four extra
+matches. At a penalty of 1 it's worth it, at 2 it ties, and at 3 it's gone.
+
+<PaperNote cite="Needleman and Wunsch (1970), p. 450">
+  "This penalty will exclude from consideration any possible pathway that leaves
+  and returns to a principal diagonal, thereby needing two gaps, in order to add
+  only one or two amino acids to the maximum match."
+</PaperNote>
+
+After that, one gap is left, and the score is 36 minus the penalty. At 6 that gap
+only ties, and from 7 on the score stays at 30, the best plain slide from station
+1. The ties shrink along the way, from about 4.4 × 10<sup>18</sup> pathways with
+no penalty to 384,256 at a penalty of 1, and to a single pathway at 7.
+
+So why lose all those matches? Because the penalty costs chance more than it
+costs real relatives. In their Table 1 the real pair drops from 63 to 38, a loss
+of 25. Shuffled β-hemoglobin drops from 55.60 to 27.80, a loss of 27.80. The real
+pair's lead over chance grows from 7.40 to 10.20, and their measure of
+significance, X, rises from 4.11 to 4.88. Station 7 is about what X means. The
+penalty also settles the hand alignment: Braunitzer's two gaps and 37 matches
+score 37 − 2 = 35, below the array's 38 (p. 450).
+
+<LabNote title="Against the paper">
+  With no penalty, today's sequences match Table 1 exactly: 63 matches and at
+  least 35 gaps. With a penalty of 1 they give 37 with 3 gaps, where the paper has
+  38 with 4. They used the 1963 β-hemoglobin and 1965 myoglobin sequences, and
+  today's differ. That's the likeliest reason for the gap, but those sequences
+  aren't on hand, so it's unconfirmed. The paper prints "30 + 4 = 42" on p. 450, a
+  misprint for 38 + 4.
+</LabNote>
+
+#### What station 5 leaves open
+
+The penalty makes gaps earn their place, but the cells are still crude. A pair
+scores 1 if the amino acids are identical and 0 if they aren't, so a near miss
+counts the same as a complete mismatch. Needleman and Wunsch's other variable
+sets score each pair by how many bases its codons could share. Station 6 runs
+them.
 
 export default function MDXPage({ children }) {
   return <MdxLayout metadata={metadata}>{children}</MdxLayout>;

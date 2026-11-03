@@ -40,9 +40,9 @@ reload; commit only when asked.
 | 1. The problem by hand: slides, gaps, the penalty, the alignment count | Built |
 | 2. Fitch 1966: windows of 30 with no gaps, minimum-mutation scores from his Table 1, the bell curve and register shifts (−5, +1, −1) for α against β | Built |
 | 3. Gibbs and McIntyre's diagram: toy, cytochrome c (Fig. 1), runs and diagonal totals against chance, Fig. 6B smoothing, then β against myoglobin | Built |
-| 4. Needleman and Wunsch's array: their Fig. 1 example filled backward cell by cell, both tied traces | Next |
-| 5. The penalty: same example, then β against myoglobin beside Table 1 | |
-| 6. Scoring by codon types: sets 3–7 | |
+| 4. Needleman and Wunsch's array: their Fig. 1 example filled backward cell by cell, both tied traces | Built |
+| 5. The penalty: same example, then β against myoglobin beside Table 1 | Built |
+| 6. Scoring by codon types: sets 3–7 | Next |
 | 7. The shuffle test: 10 then 1,000 shuffles, X, the ribonuclease/lysozyme control | Needs RNase and lysozyme sequences |
 | 8. 1970 against the textbook recurrence (Eddy's example), with an operation counter | |
 

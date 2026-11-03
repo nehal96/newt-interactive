@@ -10,7 +10,11 @@ const { ALPHA, BETA, MYOGLOBIN, fragment } = seqs;
 import * as fitch from "../pages/series/reading-writing-proteins/core/fitch.ts";
 import * as diagram from "../pages/series/reading-writing-proteins/core/diagram.ts";
 import { shuffle } from "../pages/series/reading-writing-proteins/core/shuffle.ts";
+import * as nw1970 from "../pages/series/reading-writing-proteins/core/nw1970.ts";
+import * as alignment from "../pages/series/reading-writing-proteins/core/alignment.ts";
 import { PUZZLES } from "../pages/series/reading-writing-proteins/core/puzzles.ts";
+import { SWEEP } from "../pages/series/reading-writing-proteins/core/sweep.ts";
+import { TABLE_1 } from "../pages/series/reading-writing-proteins/core/table1.ts";
 
 const checks = [];
 const check = (name, fn) => checks.push([name, fn]);
@@ -147,6 +151,101 @@ check("station 3: Gibbs and McIntyre's diagram", () => {
   assert.ok(shuffles.every((s) => s.dots === 1533));
   assert.equal(Math.max(...shuffles.map((s) => s.raw)), 18);
   assert.equal(Math.max(...shuffles.map((s) => s.smooth)), 67);
+});
+
+check("station 4: Needleman and Wunsch's array", () => {
+  const { nwArray, maximumMatch, pathways, pathToRows, readsToFill, FIG_1 } = nw1970;
+  // Fig. 2 (p. 445), the completed array.
+  const FIG_2 = [
+    "8766544332100", "7766644332100", "6676544433100", "6665644332100",
+    "5556544332100", "4444454332200", "3343333433100", "3333333332100",
+    "2232222323100", "2111121111200", "1211111111100", "0000000000010",
+  ];
+  const nw = nwArray(FIG_1.across, FIG_1.down);
+  assert.deepEqual(nw.mat.map((r) => r.join("")), FIG_2);
+  assert.equal(maximumMatch(nw).value, 8);
+  // Fig. 1's working cell, R against R: own 1 plus the 4 in subrow C.
+  assert.equal(nw.mat[5][5], 5);
+  assert.deepEqual(nw.from[5][5], [[6, 7]]);
+  const two = pathways(nw).map((p) => pathToRows(nw, p)).map((r) => `${r.top.join("")}/${r.bottom.join("")}`);
+  assert.deepEqual(two, ["ABCNJ-RQCLCR-PM/AJC-JNR-CKCRBP-", "ABC-NJRQCLCR-PM/AJCJN-R-CKCRBP-"]);
+  assert.deepEqual(nw.from[2][2], [[3, 4], [4, 3]]);
+
+  const frag = nwArray(PUZZLES.globinFree.bottom, PUZZLES.globinFree.top);
+  assert.equal(maximumMatch(frag).value, PUZZLES.globinFree.target);
+  assert.equal(pathways(frag, 500).length, 30);
+  assert.equal(maximumMatch(nwArray(PUZZLES.globinCost.bottom, PUZZLES.globinCost.top, 1)).value, PUZZLES.globinCost.target);
+
+  assert.equal(maximumMatch(nwArray(MYOGLOBIN.seq, BETA.seq)).value, 63);
+  assert.equal(readsToFill(BETA.seq.length, MYOGLOBIN.seq.length), 3272940);
+});
+
+check("station 5: the penalty", () => {
+  const { nwArray, maximumMatch, fewestGaps, tied, pathToRows, stepValue, FIG_1 } = nw1970;
+  const { scoreOf } = alignment;
+
+  // The worked cell, R against R: own 1, diagonal 1, best other step 3 less 1.
+  const one = nwArray(FIG_1.across, FIG_1.down, 1);
+  assert.equal(one.mat[5][5], 3);
+  assert.equal(stepValue(one.mat, [5, 5], [6, 6], 1), 1);
+  assert.equal(stepValue(one.mat, [5, 5], [6, 7], 1), 2);
+
+  const example = [
+    [0, 8, [8, 8], [4, 4]],
+    [1, 5, [6, 7], [1, 2]],
+    [2, 4, [4, 6], [0, 1]],
+    [3, 4, [4, 4], [0, 0]],
+  ];
+  for (const [penalty, value, matches, gaps] of example) {
+    const nw = nwArray(FIG_1.across, FIG_1.down, penalty);
+    const t = tied(nw);
+    assert.equal(maximumMatch(nw).value, value);
+    assert.deepEqual(t.matches, matches);
+    assert.deepEqual(t.gaps, gaps);
+    assert.equal(scoreOf(pathToRows(nw, fewestGaps(nw)), penalty).score, value);
+  }
+
+  for (const row of SWEEP) {
+    const nw = nwArray(MYOGLOBIN.seq, BETA.seq, row.penalty);
+    const rows = pathToRows(nw, fewestGaps(nw));
+    assert.equal(rows.top.join(""), row.top, `penalty ${row.penalty} top`);
+    assert.equal(rows.bottom.join(""), row.bottom, `penalty ${row.penalty} bottom`);
+    assert.equal(tied(nw).paths.toString(), row.paths, `penalty ${row.penalty} ties`);
+    assert.equal(tied(nw).gaps[0], row.gaps, `penalty ${row.penalty} gaps`);
+    assert.equal(maximumMatch(nw).value, row.score, `penalty ${row.penalty} score`);
+    assert.deepEqual(scoreOf(rows, row.penalty), {
+      matches: row.matches,
+      gaps: row.gaps,
+      penalty: row.penalty,
+      score: row.score,
+    });
+  }
+
+  const at = (p) => SWEEP.find((r) => r.penalty === p);
+  assert.equal(at(1).score, 37);
+  assert.equal(at(1).matches - at(3).matches, 4);
+  assert.equal(at(1).gaps - at(3).gaps, 2);
+  assert.equal(at(2).score, at(2).matches - 2);
+  assert.equal(at(7).score, Math.max(...alignment.slideScores(BETA.seq, MYOGLOBIN.seq).map((s) => s.matches)));
+  assert.equal(at(7).paths, "1");
+  assert.equal(at(0).paths[0] + "." + at(0).paths[1], "4.4");
+  assert.equal(at(0).paths.length - 1, 18);
+
+  // The detour: one gap of seven in each protein, on top of the gap of two they share.
+  const runs = (s) => (s.replace(/^-+|-+$/g, "").match(/-+/g) ?? []).map((g) => g.length);
+  assert.deepEqual(runs(at(1).top), [7]);
+  assert.deepEqual(runs(at(1).bottom), [2, 7]);
+
+  // Table 1's arithmetic, as the prose quotes it.
+  const [set1, set2] = TABLE_1;
+  assert.equal(at(0).score, set1.real);
+  assert.equal(at(0).gaps, set1.gaps);
+  assert.equal(set1.real - set2.real, 25);
+  assert.equal((set1.random - set2.random).toFixed(2), "27.80");
+  assert.equal((set1.real - set1.random).toFixed(2), "7.40");
+  assert.equal((set2.real - set2.random).toFixed(2), "10.20");
+  assert.equal(((set1.real - set1.random) / set1.s).toFixed(2), set1.x.toFixed(2));
+  assert.equal(((set2.real - set2.random) / set2.s).toFixed(2), set2.x.toFixed(2));
 });
 
 let failed = 0;
