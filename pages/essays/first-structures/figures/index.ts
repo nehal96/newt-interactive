@@ -10,6 +10,7 @@ export { Patterson } from "./Patterson";
 export { Mercury } from "./Mercury";
 export { Signs } from "./Signs";
 export { Candidates } from "./Candidates";
+export { Resolution } from "./Resolution";
 export { WhySpots } from "./WhySpots";
 export { LinedUp } from "./LinedUp";
 export { Camera } from "./Camera";
