@@ -12,13 +12,12 @@ import {
   Patterson,
   Mercury,
   Signs,
-  ReadingTheFilm,
+  Candidates,
   Camera,
   SaltPair,
   FourBumps,
   Term,
   PattersonRods,
-  TwoHeavyAtoms,
   SheetStack,
   PerutzModel,
   Sidenote,
@@ -189,22 +188,9 @@ There was still the question that had made Perutz and Kendrew dismiss heavy atom
 
 Riggs had worked with human hemoglobin, which didn’t form crystals suited to x-ray work, so Perutz’s lab had to get mercury onto horse hemoglobin. Chemical tests showed that it bound to two cysteines, presumably one on each of its identical halves, but they didn’t know *where* those cysteines were located.
 
-<Wrap>
-
-<Figure
-  side
-  slim
-  title="What mercury does to the spots"
-  subtitle="The spots stay where they are, because the unit cell is the same. But the heavy atom’s wave makes some spots darker and others fainter."
->
-  <ReadingTheFilm group="mercury" />
-</Figure>
-
 Perutz photographed and developed films of plain and mercury-treated crystals in the summer of 1953, and as he later told it, ran to fetch Bragg down to the darkroom to see them side by side. The spots fell as they had before, which meant the molecules packed identically, but many were darker or fainter<Fn>A control crystal grown from the same protein without mercury showed the normal pattern, so the differences could only come from the heavy atoms.</Fn>. It was the first time a heavy atom had measurably changed the diffraction pattern of a protein.
 
 Over the following months, Perutz converted those intensity changes into phases. To do this, first he had to find where the mercury sat. For that, he measured how much the spots had changed between the two films — essentially, the change the mercury made. From these *differences*, he calculated a Patterson map. This time, with only two atoms to show instead of thousands of protein atoms, it gave one clear peak: the distance and direction between the two mercury atoms. After ruling out a few alternatives, Perutz placed them 30Å apart, one on each half of the molecule<Fn>The difference Patterson map left eight possible positions for the mercury pair. Two checks narrowed them to one. The mercury had to sit inside the molecule’s outline, which Perutz had measured in 1952, and it had to change four spots whose phases were already known in the direction the films showed. Those four phases had come from the drying and salt experiments, so the years that had yielded so little else supplied the check. Bragg later called that earlier work scaffolding, “knocked away when the building was completed.”</Fn>.
-
-</Wrap>
 
 Once he knew where the mercury was, Perutz could calculate its wave contributions, including phase. Every spot of the mercury-treated crystal was a combination of the protein’s wave and the mercury’s wave, and he now knew the latter. So, if a spot had gotten darker compared to the plain crystal, then the protein’s wave must be in step with the mercury’s; if it had gotten fainter, the two must be opposed. For the spots that looked straight down the molecule’s symmetry axis, crest-to-crest (fully in step) and crest-to-trough (fully opposed) were the only two possibilities, so whether a spot darkened or faded gave the protein’s phase outright. In other words, they could be signed: plus for in step, and minus for opposed.
 
@@ -216,26 +202,17 @@ The phase values given by these signed waves matched the ones from the drying-an
 
 With the heights and phases of these select spots, Bragg and Perutz could finally carry out a Fourier synthesis and add the waves into an electron density map, which shows where the molecule’s electrons crowd. It was the first map of a protein built from truly measured phases, rather than guessed. Because it only used spots looking down one axis, it showed the whole molecule flattened onto a single plane, all its depth squashed together. [The paper](https://doi.org/10.1098/rspa.1954.0205) reported that “neither polypeptide chains nor haem groups can as yet be recognized,” though it did settle one old question: there were “no regularly spaced layers,” and so no four sheets. Perutz called the image “entirely enigmatic”; Bragg likened it to “the last camp before the summit.”
 
-<Wrap>
-
-<Figure
-  side
-  title="Why one heavy atom isn’t enough"
-  subtitle="If the protein’s wave is a little ahead of the mercury’s, or the same amount behind, the spot changes the same way. A second heavy atom, in another place, tells the two apart."
-  caption="The heavy atoms’ waves are drawn at half the height of the protein’s. Based on Bokhoven, Schoone and Bijvoet (1951) and Harker (1956)."
->
-  <TwoHeavyAtoms />
-</Figure>
-
 The method worked, but to see the molecule’s full three-dimensional shape, Perutz needed the phases for all the other spots too, and for those, there was no symmetry to narrow the choices to in-step or opposed (plus or minus). For those, a phase could take any value in between, and the change in darkness would suggest *how far* the protein’s wave crest sat from the mercury’s, but not whether it was ahead or behind. That left two phase candidates for each spot.
 
 In the spring of 1954, while Perutz was puzzling over his flat maps, Dorothy Hodgkin, née Crowfoot, stopped by the lab. “If you could get two heavy-atom derivatives,” she told him, “you could determine the structure in three dimensions.” The first derivative — a crystal with a heavy atom attached — was mercury<Fn>The mercury crystals counted as one derivative even though each molecule carried two mercury atoms, because the two sat at matching places on the two halves and gave a single comparison for each spot.</Fn>. A second derivative, with the atom in a different place, would provide another comparison and settle the phase ambiguity: the correct phase had to agree with both.
 
+<Sketch caption="Away from the axis, the protein’s wave can sit at any angle. The film leaves two candidates, drawn solid and dashed: one ahead of mercury’s wave, one the same amount behind. Added to mercury’s wave, both give the same sum, so both match the film. Added to a second heavy atom’s wave, which sits somewhere else, they give different sums, and only one matches.">
+  <Candidates />
+</Sketch>
+
 Then, almost immediately, Perutz hit roadblocks. The next batch of mercury crystals packed differently, so their films could no longer be compared spot by spot with the plain ones<Fn>The new crystals’ unit cell came out with one edge twice as long as before. Hemoglobin could pack into two different lattices depending on the acidity of the solution, and Perutz had been growing his crystals at almost exactly the point where it flipped. “Once I had the idea,” he said, “I of course solved it in an afternoon.”</Fn>. Then, in the autumn of 1954, he fell seriously ill, and as the illness stretched into late summer 1955, he thought he would have to resign, until a colleague suggested celiac disease and a diet without gluten brought him back part-time.
 
 Meanwhile, since 1948, Kendrew had been working on myoglobin, the protein that stores oxygen in muscle, and while Perutz was ill, he pushed ahead with isomorphous replacement. When Perutz returned, he found Kendrew “going ahead splendidly,” he said later, “and I—after having produced the method—was getting absolutely nowhere!”
-
-</Wrap>
 
 Myoglobin has just a single heme and about a quarter of hemoglobin’s size, and Kendrew had found excellent crystals of it from sperm whale<Fn>Kendrew’s horse myoglobin crystals had never grown past fine needles, too small for detailed x-ray work. Sperm whale myoglobin gave far better ones, and further batches of the meat were shipped to him from Lima, Peru, where it was still sold in the market.</Fn>. The mercury trick, however, did not work on myoglobin, which had no free cysteines for the mercury to bond to. Howard Dintzis, a biophysicist who had recently joined the team, set up racks of small bottles, each holding crystals of hemoglobin or myoglobin soaked in a different compound. Weeks later he photographed them, looking for what had made mercury work: spots in the same places, but darker or fainter. Once a compound passed this test, its position was found using the same Patterson method that Perutz used for mercury. By the middle of 1955, myoglobin had five heavy-atom derivatives.
 
