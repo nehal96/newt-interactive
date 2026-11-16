@@ -11,17 +11,17 @@ const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - 2 * (1 - t) * (1 - t));
 type Pt = [number, number];
 
 // Strength of each atom's wave; the third has twice the electrons.
-const F = [1, 1, 2];
+export const F = [1, 1, 2];
 const TOTAL = F.reduce((a, b) => a + b, 0);
-const RADII = [7, 7, 10];
-const FIXED: Pt[] = [
+export const RADII = [7, 7, 10];
+export const FIXED: Pt[] = [
   [0.5, 0.18],
   [0.78, 0.84],
 ];
-const HOME: Pt = [0.22, 0.43];
+export const HOME: Pt = [0.22, 0.43];
 const AWAY: Pt = [0.46, 0.6];
 const SPOT: [number, number] = [1, 1];
-const ORDERS = [-2, -1, 0, 1, 2];
+export const ORDERS = [-2, -1, 0, 1, 2];
 // Pixels of wave height per unit of strength.
 const UNIT = 6;
 

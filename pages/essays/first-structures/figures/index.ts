@@ -5,6 +5,7 @@ export { Waves } from "./Waves";
 export { UnitCell } from "./UnitCell";
 export { Directions } from "./Directions";
 export { Darkness } from "./Darkness";
+export { PhaseGame } from "./PhaseGame";
 export { WhySpots } from "./WhySpots";
 export { LinedUp } from "./LinedUp";
 export { Camera } from "./Camera";
