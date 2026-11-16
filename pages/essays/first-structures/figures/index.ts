@@ -7,6 +7,8 @@ export { Directions } from "./Directions";
 export { Darkness } from "./Darkness";
 export { PhaseGame } from "./PhaseGame";
 export { Patterson } from "./Patterson";
+export { Mercury } from "./Mercury";
+export { Signs } from "./Signs";
 export { WhySpots } from "./WhySpots";
 export { LinedUp } from "./LinedUp";
 export { Camera } from "./Camera";
