@@ -1,6 +1,10 @@
-export { default as Figure, Plate, Wrap } from "./Figure";
+export { default as Figure, Plate, Sketch, Wrap } from "./Figure";
 export { default as Term } from "./Term";
 export { TwoWaves } from "./TwoWaves";
+export { Waves } from "./Waves";
+export { UnitCell } from "./UnitCell";
+export { Directions } from "./Directions";
+export { Darkness } from "./Darkness";
 export { WhySpots } from "./WhySpots";
 export { LinedUp } from "./LinedUp";
 export { Camera } from "./Camera";

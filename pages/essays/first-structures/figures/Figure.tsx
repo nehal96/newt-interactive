@@ -1,4 +1,4 @@
-// Figure frames: the titled card, Plate, Wrap and Note.
+// Figure frames: the titled card, Sketch, Plate, Wrap and Note.
 import { useId, type ReactNode } from "react";
 import { cn } from "@lib/utils";
 
@@ -48,6 +48,26 @@ export default function Figure({
 
       {caption && (
         <figcaption className="mt-4 font-ui text-[0.6875rem] leading-4 text-ink-400">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+/** A small drawn diagram: straight on the page, no card, one caption line below. */
+export function Sketch({
+  caption,
+  children,
+}: {
+  caption?: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <figure className="my-8 w-full max-w-prose self-center lg:my-10">
+      {children}
+      {caption && (
+        <figcaption className="mt-3 font-ui text-[0.8125rem] leading-normal text-ink-500">
           {caption}
         </figcaption>
       )}

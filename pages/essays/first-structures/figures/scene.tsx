@@ -14,6 +14,19 @@ export function BeamArrow({ x0, x1, y }: { x0: number; x1: number; y: number }) 
   );
 }
 
+/** The X-ray beam drawn as a travelling wave, its arrowhead ending at `x1`. */
+export function WaveArrow({ x0, x1, y }: { x0: number; x1: number; y: number }) {
+  const len = x1 - 14 - x0;
+  const lam = len / Math.max(1, Math.round(len / 13));
+  return (
+    <g stroke={XR.first} strokeWidth={2} fill="none" strokeLinecap="round">
+      <path d={curvePath(x0, y, len, (t) => 5 * Math.sin((TAU * t) / lam), 1)} />
+      <line x1={x0 + len} x2={x1 - 4} y1={y} y2={y} />
+      <path d={`M${x1} ${y} l-10 -5 v10 z`} fill={XR.first} strokeLinejoin="round" />
+    </g>
+  );
+}
+
 /** Key: the arrow, the wave seen side-on, and its crests drawn as lines are one beam. */
 export function BeamKey({ x, y, size }: { x: number; y: number; size: number }) {
   const lam = 12;
