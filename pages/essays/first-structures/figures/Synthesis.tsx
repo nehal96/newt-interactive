@@ -2,7 +2,7 @@
 import { useId } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
-import { TAU } from "./wave";
+import { TAU, snap } from "./wave";
 import { contourPath } from "./contour";
 import { F, FIXED, HOME, ORDERS, RADII } from "./Darkness";
 
@@ -114,13 +114,13 @@ export function Synthesis({ errors }: { errors: number[] }) {
                 cy={sy}
                 r={5}
                 fill={XR.ink}
-                fillOpacity={0.04 + 0.9 * (s.amp / TOTAL) ** 1.5}
+                fillOpacity={snap(0.04 + 0.9 * (s.amp / TOTAL) ** 1.5, 3)}
               />
               <line
                 x1={sx}
                 y1={sy}
-                x2={sx + 9 * Math.sin(phases[n])}
-                y2={sy - 9 * Math.cos(phases[n])}
+                x2={snap(sx + 9 * Math.sin(phases[n]))}
+                y2={snap(sy - 9 * Math.cos(phases[n]))}
                 stroke={XR.accent}
                 strokeWidth={1.5}
                 strokeLinecap="round"

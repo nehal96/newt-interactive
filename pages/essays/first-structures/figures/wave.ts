@@ -1,5 +1,8 @@
 export const TAU = Math.PI * 2;
 
+/** Rounds a drawn number, so the server's and the browser's arithmetic print the same attribute. */
+export const snap = (v: number, digits = 2) => +v.toFixed(digits);
+
 /** Any function of x as an SVG polyline, drawn up from the baseline y0. */
 export function curvePath(
   x0: number,

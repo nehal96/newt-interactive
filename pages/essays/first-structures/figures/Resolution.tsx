@@ -2,7 +2,7 @@
 import { useEffect, useId, useMemo, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
-import { TAU } from "./wave";
+import { TAU, snap } from "./wave";
 import { contourPath } from "./contour";
 import { ATOMS } from "./Molecule";
 
@@ -165,7 +165,7 @@ export function Resolution() {
             cy={cy + s.k * step}
             r={narrow ? 2.4 : 3}
             fill={XR.ink}
-            fillOpacity={(s.far <= reach + 1e-6 ? 1 : 0.4) * (0.16 + 0.8 * (s.amp / TOP) ** 0.9)}
+            fillOpacity={snap((s.far <= reach + 1e-6 ? 1 : 0.4) * (0.16 + 0.8 * (s.amp / TOP) ** 0.9), 3)}
           />
         ))}
         <circle

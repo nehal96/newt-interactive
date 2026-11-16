@@ -2,7 +2,7 @@
 import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
-import { TAU, curvePath } from "./wave";
+import { TAU, curvePath, snap } from "./wave";
 import { WaveArrow } from "./scene";
 import { Mol } from "./UnitCell";
 
@@ -114,8 +114,8 @@ export function Directions() {
   const dy = py - cellY(far);
   const len = Math.hypot(dx, dy);
   const seg = Math.abs(e) * LAMBDA;
-  const sx = rayX + (dx / len) * seg;
-  const sy = cellY(far) + (dy / len) * seg;
+  const sx = snap(rayX + (dx / len) * seg);
+  const sy = snap(cellY(far) + (dy / len) * seg);
 
   const wx = stacked ? 0 : geoW + 40;
   const wW = W - wx;
@@ -133,7 +133,7 @@ export function Directions() {
 
   const stops = Array.from({ length: 61 }, (_, i) => {
     const fy = -REACH + (i / 60) * 2 * REACH;
-    return { off: i / 60, o: 0.85 * brightness(extraAt(fy)) ** 0.8 };
+    return { off: i / 60, o: snap(0.85 * brightness(extraAt(fy)) ** 0.8, 3) };
   });
 
   const take = () => {

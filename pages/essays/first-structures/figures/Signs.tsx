@@ -2,7 +2,7 @@
 import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
-import { TAU } from "./wave";
+import { TAU, snap } from "./wave";
 import { WaveArrow } from "./scene";
 
 type Pt = [number, number];
@@ -46,7 +46,7 @@ const SPOTS: Spot[] = (() => {
   }));
 })();
 
-const shade = (v: number) => 0.05 + 0.9 * Math.min(1, v) ** 0.6;
+const shade = (v: number) => snap(0.05 + 0.9 * Math.min(1, v) ** 0.6, 3);
 
 const BALLS: { p: P3; hg: boolean }[] = [1, -1].flatMap((t) => [
   ...HALF.map(([x, y, z]) => ({ p: [t * x, t * y, z] as P3, hg: false })),
@@ -173,14 +173,14 @@ export function Signs() {
   const side = V * 0.54;
   const flat = (p: P3): P3 => {
     const [x, y, z] = turn(p, view);
-    return [cx + x * side, cy + y * side, z];
+    return [snap(cx + x * side), snap(cy + y * side), snap(z, 4)];
   };
   const balls = BALLS.map((b) => ({ ...b, at: flat(b.p) })).sort((a, b) => a.at[2] - b.at[2]);
   const head = flat([0, 0, 0.78]);
   const tail = flat([0, 0, -0.78]);
   const seen = Math.hypot(head[0] - tail[0], head[1] - tail[1]) / (1.56 * side);
   const endOn = seen < 0.12;
-  const angle = (Math.atan2(head[1] - tail[1], head[0] - tail[0]) * 180) / Math.PI;
+  const angle = snap((Math.atan2(head[1] - tail[1], head[0] - tail[0]) * 180) / Math.PI);
 
   const onDown = (ev: PointerEvent<SVGRectElement>) => {
     touched.current = true;
@@ -251,13 +251,13 @@ export function Signs() {
             key={i}
             cx={b.at[0]}
             cy={b.at[1]}
-            r={(b.hg ? 5 : 5.5) * (1 + 0.18 * b.at[2])}
+            r={snap((b.hg ? 5 : 5.5) * (1 + 0.18 * b.at[2]))}
             fill={b.hg ? XR.second : XR.molecule}
             stroke={b.hg ? XR.second : XR.moleculeEdge}
           />
         ))}
         {seen > 0.45 && (
-          <g transform={`rotate(${angle} ${tail[0]} ${tail[1]})`} opacity={Math.min(1, (seen - 0.45) * 4)}>
+          <g transform={`rotate(${angle} ${tail[0]} ${tail[1]})`} opacity={snap(Math.min(1, (seen - 0.45) * 4))}>
             <WaveArrow x0={tail[0] - 30} x1={tail[0] + 6} y={tail[1]} />
           </g>
         )}

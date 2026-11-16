@@ -2,7 +2,7 @@
 import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
-import { TAU, curvePath } from "./wave";
+import { TAU, curvePath, snap } from "./wave";
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
@@ -262,7 +262,7 @@ export function Darkness() {
                 cy={sy}
                 r={5}
                 fill={XR.ink}
-                fillOpacity={0.04 + 0.9 * darkness(atoms, i, j) ** 0.75}
+                fillOpacity={snap(0.04 + 0.9 * darkness(atoms, i, j) ** 0.75, 3)}
               />
             );
           }),

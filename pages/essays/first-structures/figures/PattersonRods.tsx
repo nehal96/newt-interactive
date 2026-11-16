@@ -1,4 +1,4 @@
-// Perutz's Patterson map seen down the rods (1949 fig. 21), then the rods in 3D (fig. 22) and the layered chains he read into them, end-on (fig. 23b).
+// Perutz's Patterson map seen down the rods (1949 fig. 21), then the same rods drawn in 3D (fig. 22).
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
 
@@ -14,7 +14,6 @@ const PEAKS = [
 ];
 const PEAK_R = 38;
 const RODS = { w: 1384, h: 798 };
-const LAYERS = { w: 900, h: 530 };
 const MAP_LABEL = "Perutz’s map, looking down the rods";
 
 export function PattersonRods() {
@@ -28,21 +27,19 @@ export function PattersonRods() {
   const rightW = wide ? (W - arrow) * 0.62 : W;
   const rodsW = rightW;
   const rodsH = (RODS.h / RODS.w) * rodsW;
-  const layersW = rightW * 0.72;
-  const layersH = (LAYERS.h / LAYERS.w) * layersW;
-  const rightH = head + rodsH + gap + head + layersH;
 
-  const mapH = wide ? Math.min(rightH - head, (((W - arrow - rightW) * 0.95) * MAP.h) / MAP.w) : Math.min(330, W * 0.62 * (MAP.h / MAP.w));
+  const mapH = wide
+    ? Math.min(Math.max(rodsH, 300), (((W - arrow - rightW) * 0.95) * MAP.h) / MAP.w)
+    : Math.min(330, W * 0.62 * (MAP.h / MAP.w));
   const mapW = (MAP.w / MAP.h) * mapH;
   const k = mapW / MAP.w;
+  const bandH = Math.max(mapH, rodsH);
 
   const mapX = wide ? (W - arrow - rightW - mapW) / 2 : (W - mapW) / 2;
-  const mapY = wide ? head + (rightH - head - mapH) / 2 : head;
+  const mapY = wide ? head + (bandH - mapH) / 2 : head;
   const rightX = wide ? W - rightW : 0;
-  const rodsY = wide ? head : head + mapH + 48 + head;
-  const layersY = rodsY + rodsH + gap + head;
-  const layersX = rightX + (rightW - layersW) / 2;
-  const H = layersY + layersH + 4;
+  const rodsY = wide ? head + (bandH - rodsH) / 2 : head + mapH + 48 + head;
+  const H = (wide ? head + bandH : rodsY + rodsH) + 4;
 
   const down = (x: number, y0: number, y1: number) => (
     <>
@@ -59,7 +56,7 @@ export function PattersonRods() {
         viewBox={`0 0 ${W} ${H}`}
         className="block"
         role="img"
-        aria-label="Perutz's Patterson map seen down the rods, six rod peaks ringed; his drawing of the same rods in three dimensions; and the chains he read into them, stacked in layers and seen end-on."
+        aria-label="Perutz's Patterson map seen down the rods, six rod peaks ringed, and his drawing of the same rods in three dimensions."
       >
         <image href="/images/first-structures/perutz-1949-fig21.png" x={mapX} y={mapY} width={mapW} height={mapH} style={{ mixBlendMode: "multiply" }} />
         <g fill="none" stroke={XR.accent} strokeWidth={1.5}>
@@ -68,7 +65,6 @@ export function PattersonRods() {
           ))}
         </g>
         <image href="/images/first-structures/perutz-1949-rods.png" x={rightX} y={rodsY} width={rodsW} height={rodsH} style={{ mixBlendMode: "multiply" }} />
-        <image href="/images/first-structures/perutz-1949-fig23b.png" x={layersX} y={layersY} width={layersW} height={layersH} style={{ mixBlendMode: "multiply" }} />
 
         <g stroke={XR.label} strokeWidth={1.25} fill={XR.label}>
           {wide ? (
@@ -79,7 +75,6 @@ export function PattersonRods() {
           ) : (
             down(W / 2, mapY + mapH + 8, rodsY - head - 2)
           )}
-          {down(rightX + rightW / 2, rodsY + rodsH + 8, layersY - head - 2)}
         </g>
         <g className="font-mono" fontSize={text} textAnchor="middle">
           <text x={Math.max(mapX + mapW / 2, (MAP_LABEL.length * 0.62 * text) / 2)} y={mapY - 6} fill={XR.accent}>
@@ -87,9 +82,6 @@ export function PattersonRods() {
           </text>
           <text x={rightX + rightW / 2} y={rodsY - 6} fill={XR.label}>
             the same rods, drawn in 3D
-          </text>
-          <text x={rightX + rightW / 2} y={layersY - 6} fill={XR.label}>
-            Perutz’s reading: chains in layers, end-on
           </text>
         </g>
       </svg>

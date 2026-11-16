@@ -2,7 +2,7 @@
 import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
-import { TAU, curvePath } from "./wave";
+import { TAU, curvePath, snap } from "./wave";
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
@@ -254,7 +254,7 @@ export function Mercury() {
           cy={yS}
           r={spotR}
           fill={XR.ink}
-          fillOpacity={clamp(PLAIN * times, 0, 1)}
+          fillOpacity={snap(clamp(PLAIN * times, 0, 1), 3)}
         />
         {!narrow && (
           <g className="font-mono" fontSize={text - 1} fill={XR.label}>

@@ -3,6 +3,7 @@ import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
 import { F, FIXED, HOME, RADII } from "./Darkness";
+import { snap } from "./wave";
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
@@ -26,8 +27,8 @@ function Arrow({ from, to, trim0, trim1 }: { from: Pt; to: Pt; trim0: number; tr
   const dy = to[1] - from[1];
   const len = Math.hypot(dx, dy);
   if (len < trim0 + trim1 + 8) return null;
-  const ux = dx / len;
-  const uy = dy / len;
+  const ux = snap(dx / len, 4);
+  const uy = snap(dy / len, 4);
   const x1 = from[0] + ux * trim0;
   const y1 = from[1] + uy * trim0;
   const x2 = to[0] - ux * trim1;
@@ -176,7 +177,7 @@ export function Patterson() {
               key={p}
               cx={px}
               cy={py}
-              r={4 * Math.sqrt(F[pair[0]] * F[pair[1]])}
+              r={snap(4 * Math.sqrt(F[pair[0]] * F[pair[1]]))}
               fill={XR.ink}
               fillOpacity={p === sel ? 0.85 : 0.3}
             />

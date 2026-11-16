@@ -2,7 +2,7 @@
 import { useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
-import { TAU, curvePath } from "./wave";
+import { TAU, curvePath, snap } from "./wave";
 import { Synthesis } from "./Synthesis";
 
 const mod4 = (v: number) => ((v % 4) + 4) % 4;
@@ -137,7 +137,7 @@ export function PhaseGame() {
                   cy={y}
                   r={6}
                   fill={XR.ink}
-                  fillOpacity={0.12 + 0.8 * (HEIGHTS[i] / TALLEST) ** 2}
+                  fillOpacity={snap(0.12 + 0.8 * (HEIGHTS[i] / TALLEST) ** 2, 3)}
                 />
                 <line x1={x0} x2={x0 + len} y1={y} y2={y} stroke={XR.rule} />
                 <path
@@ -188,8 +188,8 @@ export function PhaseGame() {
                   {[0, 1, 2, 3].map((q) => (
                     <circle
                       key={q}
-                      cx={cx + r * Math.sin((q / 4) * TAU)}
-                      cy={y - r * Math.cos((q / 4) * TAU)}
+                      cx={snap(cx + r * Math.sin((q / 4) * TAU))}
+                      cy={snap(y - r * Math.cos((q / 4) * TAU))}
                       r={1.25}
                       fill={XR.label}
                     />
@@ -197,8 +197,8 @@ export function PhaseGame() {
                   <line
                     x1={cx}
                     y1={y}
-                    x2={cx + r * Math.sin(a)}
-                    y2={y - r * Math.cos(a)}
+                    x2={snap(cx + r * Math.sin(a))}
+                    y2={snap(y - r * Math.cos(a))}
                     stroke={right ? XR.success : XR.accent}
                     strokeWidth={1.75}
                     strokeLinecap="round"
@@ -228,7 +228,7 @@ export function PhaseGame() {
               key={u}
               cx={x0 + u * len}
               cy={atomY}
-              r={9 * Math.sqrt(size)}
+              r={snap(9 * Math.sqrt(size))}
               fill={XR.molecule}
               fillOpacity={solved ? 1 : 0.35}
               stroke={XR.moleculeEdge}

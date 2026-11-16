@@ -2,7 +2,7 @@
 import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { useElementWidth } from "@hooks";
 import { XR } from "./palette";
-import { TAU, curvePath } from "./wave";
+import { TAU, curvePath, snap } from "./wave";
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
@@ -100,8 +100,8 @@ export function Candidates() {
   const cx = labelW + waveW + dialCol / 2;
   const cy = (yH + yS) / 2 + 4;
   const tip = (turns: number): [number, number] => [
-    cx + r * Math.sin(turns * TAU),
-    cy - r * Math.cos(turns * TAU),
+    snap(cx + r * Math.sin(turns * TAU)),
+    snap(cy - r * Math.cos(turns * TAU)),
   ];
 
   const take = () => {
@@ -139,7 +139,7 @@ export function Candidates() {
   };
 
   const cursor = dragging ? "grabbing" : "grab";
-  const shade = (v: number) => clamp(PLAIN * v, 0.04, 1);
+  const shade = (v: number) => snap(clamp(PLAIN * v, 0.04, 1), 3);
 
   const panel = (n: number) => {
     const [px, py] = origin(n);
