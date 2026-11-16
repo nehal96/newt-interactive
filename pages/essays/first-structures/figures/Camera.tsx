@@ -142,23 +142,27 @@ export function Camera() {
   const narrow = W < 560;
   const text = narrow ? 10 : 11;
   const head = narrow ? 11 : 12;
-  const sideH = 210;
+  const by = 92;
 
-  const rowTop = sideH + 34;
+  // Wide: the photograph sits beside the film and the glass tube under the x-ray tube, all in one band.
+  const sideW = narrow ? W : W * 0.64;
   let photo: { x: number; y: number; w: number };
   let mount: { x: number; y: number; w: number; h: number };
   if (!narrow) {
-    photo = { x: W * 0.66, y: rowTop, w: W * 0.272 };
-    mount = { x: W * 0.33, y: rowTop, w: W * 0.208, h: (W * 0.272) / PHOTO.aspect - 32 };
+    const w = Math.min(W - sideW - 34, 190);
+    photo = { x: W - w, y: by - w / PHOTO.aspect / 2, w };
+    mount = { x: sideW * 0.13, y: by + 86, w: 150, h: 84 };
   } else {
+    const rowTop = 244;
     photo = { x: W * 0.56, y: rowTop, w: W * 0.416 };
     mount = { x: W * 0.04, y: rowTop, w: W * 0.368, h: Math.max(112, (W * 0.416) / PHOTO.aspect - 32) };
   }
   const photoH = photo.w / PHOTO.aspect;
-  const H = rowTop + Math.max(photoH + 30, mount.h + 40);
+  const H = Math.max(photo.y + photoH + 30, mount.y + mount.h + 40);
 
-  const xc = W * 0.55;
-  const by = 92;
+  const xc = sideW * 0.55;
+  const filmX = sideW - 8;
+  const tubeX = mount.x + Math.min(30, mount.w * 0.2);
   const headerY = (y: number) => y - 12;
 
   return (
@@ -188,11 +192,21 @@ export function Camera() {
           </clipPath>
         </defs>
 
-        <SideView W={W} top={0} text={text} />
+        <SideView W={sideW} top={0} text={text} />
 
         <g stroke={XR.guide} strokeWidth={0.75} strokeDasharray="3 3" fill="none">
-          <path d={`M${xc - 4} ${by + 30} L${mount.x + Math.min(30, mount.w * 0.2) - 4} ${mount.y - 26}`} />
-          <path d={`M${W - 8} ${by + 70} L${photo.x + photo.w / 2} ${photo.y - 26}`} />
+          {narrow ? (
+            <>
+              <path d={`M${xc - 4} ${by + 30} L${tubeX - 4} ${mount.y - 26}`} />
+              <path d={`M${filmX} ${by + 70} L${photo.x + photo.w / 2} ${photo.y - 26}`} />
+            </>
+          ) : (
+            <>
+              <path d={`M${xc - 5} ${by + 28} L${tubeX + 34} ${mount.y}`} />
+              <path d={`M${filmX + 3} ${by - 70} L${photo.x} ${photo.y}`} />
+              <path d={`M${filmX + 3} ${by + 70} L${photo.x} ${photo.y + photoH}`} />
+            </>
+          )}
         </g>
 
         {[
