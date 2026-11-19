@@ -474,7 +474,7 @@ export function AxisSigns() {
             })}
             <text x={W / 2} y={readY} fill={XR.ink}>
               ringed spot: {darker ? "darker" : "fainter"}, so{" "}
-              {darker ? "the same sign as" : "the opposite sign to"} mercury’s, {word(ring.protein)}
+              {darker ? "mercury’s sign" : "not mercury’s sign"}: {word(ring.protein)}
             </text>
           </g>
         </g>
