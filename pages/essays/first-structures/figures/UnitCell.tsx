@@ -8,8 +8,18 @@ import { WaveArrow } from "./scene";
 // Offset of the molecule's bounding-box centre from its origin, in its own units.
 const MID: [number, number] = [4.1, 1.8];
 
-export function Mol({ cx, cy, scale }: { cx: number; cy: number; scale: number }) {
-  return <Molecule x={cx - MID[0] * scale} y={cy - MID[1] * scale} scale={scale} />;
+export function Mol({
+  cx,
+  cy,
+  scale,
+}: {
+  cx: number;
+  cy: number;
+  scale: number;
+}) {
+  return (
+    <Molecule x={cx - MID[0] * scale} y={cy - MID[1] * scale} scale={scale} />
+  );
 }
 
 const ROWS = 3;
@@ -32,15 +42,19 @@ export function UnitCell() {
   const cy = top + gridH / 2;
   const H = top + gridH + 30;
 
-  const mx = narrow ? 80 : 150;
   const ripples = narrow ? [20, 30, 40] : [24, 37, 50];
-  const leftW = mx + ripples[2] + (narrow ? 8 : 40);
-  const arrow = narrow ? 40 : 56;
+  const arrow = narrow ? 40 : 52;
+  const mx = arrow + 6 + ripples[2];
+  const leftW = mx + ripples[2] + (narrow ? 8 : 22);
 
   const gx = leftW + arrow + 6;
-  const cols = Math.max(2, Math.min(5, Math.floor((W - gx - DEPTH * dx - 2) / cw)));
+  const cols = Math.max(
+    2,
+    Math.min(narrow ? 3 : 4, Math.floor((W - gx - DEPTH * dx - 2) / cw)),
+  );
   const gw = cols * cw;
   const right = gx + gw;
+  const shift = Math.max(0, (W - right - DEPTH * dx) / 2);
 
   const lines: string[] = [];
   for (let c = 0; c <= cols; c++) {
@@ -76,52 +90,74 @@ export function UnitCell() {
         <desc id={`${ids}d`}>
           On the left, an x-ray wave strikes one molecule and faint waves spread
           from it in every direction. On the right, the same wave strikes a
-          block of identical boxes stacked in three dimensions, each holding
-          the same molecule. One box is outlined: the unit cell.
+          block of identical boxes stacked in three dimensions, each holding the
+          same molecule. One box is outlined: the unit cell.
         </desc>
 
-        <WaveArrow x0={0} x1={mx - ripples[2] - 6} y={cy} />
-        <g fill="none" stroke={XR.first}>
-          {ripples.map((r, i) => (
-            <circle key={r} cx={mx} cy={cy} r={r} strokeOpacity={0.4 - i * 0.13} />
-          ))}
-        </g>
-        <Mol cx={mx} cy={cy} scale={narrow ? 0.5 : 0.6} />
+        <g transform={`translate(${shift.toFixed(1)} 0)`}>
+          <WaveArrow x0={0} x1={mx - ripples[2] - 6} y={cy} />
+          <g fill="none" stroke={XR.first}>
+            {ripples.map((r, i) => (
+              <circle
+                key={r}
+                cx={mx}
+                cy={cy}
+                r={r}
+                strokeOpacity={0.4 - i * 0.13}
+              />
+            ))}
+          </g>
+          <Mol cx={mx} cy={cy} scale={narrow ? 0.5 : 0.6} />
 
-        <WaveArrow x0={leftW} x1={gx - 6} y={cy} />
-        <path
-          d={`M${gx} ${top}l${DEPTH * dx} ${-DEPTH * dy}h${gw}v${gridH}l${-DEPTH * dx} ${DEPTH * dy}V${top}z`}
-          fill={XR.rule}
-          fillOpacity={0.45}
-        />
-        <rect x={gx} y={top} width={gw} height={gridH} fill={XR.paper} />
-        <path d={lines.join("")} fill="none" stroke={XR.guide} strokeLinejoin="round" />
-        {Array.from({ length: cols * ROWS }, (_, i) => (
-          <Mol
-            key={i}
-            cx={gx + (i % cols) * cw + cw / 2}
-            cy={top + Math.floor(i / cols) * ch + ch / 2}
-            scale={narrow ? 0.42 : 0.52}
+          <WaveArrow x0={leftW} x1={gx - 6} y={cy} />
+          <path
+            d={`M${gx} ${top}l${DEPTH * dx} ${-DEPTH * dy}h${gw}v${gridH}l${-DEPTH * dx} ${DEPTH * dy}V${top}z`}
+            fill={XR.rule}
+            fillOpacity={0.45}
           />
-        ))}
-        <path
-          d={cell}
-          fill="none"
-          stroke={XR.accent}
-          strokeWidth={1.75}
-          strokeLinejoin="round"
-        />
+          <rect x={gx} y={top} width={gw} height={gridH} fill={XR.paper} />
+          <path
+            d={lines.join("")}
+            fill="none"
+            stroke={XR.guide}
+            strokeLinejoin="round"
+          />
+          {Array.from({ length: cols * ROWS }, (_, i) => (
+            <Mol
+              key={i}
+              cx={gx + (i % cols) * cw + cw / 2}
+              cy={top + Math.floor(i / cols) * ch + ch / 2}
+              scale={narrow ? 0.42 : 0.52}
+            />
+          ))}
+          <path
+            d={cell}
+            fill="none"
+            stroke={XR.accent}
+            strokeWidth={1.75}
+            strokeLinejoin="round"
+          />
 
-        <g className="font-mono" fontSize={text} fill={XR.label} textAnchor="middle">
-          <text x={px + cw / 2 + dx} y={top - DEPTH * dy - 8} fill={XR.accent}>
-            unit cell
-          </text>
-          <text x={mx} y={H - 6}>
-            one molecule
-          </text>
-          <text x={gx + gw / 2} y={H - 6}>
-            a crystal
-          </text>
+          <g
+            className="font-mono"
+            fontSize={text}
+            fill={XR.label}
+            textAnchor="middle"
+          >
+            <text
+              x={px + cw / 2 + dx}
+              y={top - DEPTH * dy - 8}
+              fill={XR.accent}
+            >
+              unit cell
+            </text>
+            <text x={mx} y={H - 6}>
+              one molecule
+            </text>
+            <text x={gx + gw / 2} y={H - 6}>
+              a crystal
+            </text>
+          </g>
         </g>
       </svg>
     </div>

@@ -10,7 +10,7 @@ import {
   PhaseGame,
   Patterson,
   Mercury,
-  Signs,
+  AxisSigns,
   Candidates,
   Resolution,
   Camera,
@@ -46,25 +46,25 @@ The technique works by shooting a narrow beam of x-rays at a crystal, which scat
 
 X-rays are waves, with a wavelength — the distance between crests — roughly comparable to the distance between atoms in a molecule. Like other waves, they have *amplitude* (height), which sets brightness, and *phase*, which describes where along its cycle a wave is. When waves are added, those in step — like crest to crest — reinforce each other, and those opposed — like crest to trough — cancel each other out.
 
-<Sketch caption="Slide the second wave. In step, the two add up; opposed, they cancel. The second wave’s phase can also be shown as an angle.">
+<Sketch caption="Drag the second wave to slide it left and right and see how phase affects the waves’ sum. In step, the two add up; opposed, they cancel. The second wave’s phase can also be shown as an angle, as shown in the circle.">
   <Waves />
 </Sketch>
 
 Spots form because of this wave addition. When x-rays strike a molecule, its electrons send out new waves of their own, in every direction. A single molecule scatters far too little to record, but in a crystal, billions of identical copies are stacked like bricks in every direction. Each brick, the small box holding one or a few molecules, is called the “<Term k="unitCell">unit cell</Term>.”
 
-<Sketch caption="One molecule scatters too little to record. A crystal stacks identical copies of it, one unit cell after another.">
+<Sketch caption="On the left, one molecule scatters an x-ray too faintly to record. On the right, a crystal: the same molecule repeated, with one unit cell outlined.">
   <UnitCell />
 </Sketch>
 
 Because they’re identical, every unit cell sends out the same waves, but each from a different starting point. In most directions, the *extra* distance one cell’s wave travels compared with its neighbor’s is some awkward fraction of a wavelength, so waves from billions of cells arrive at every possible offset and cancel each other out. Only in a few directions is that extra distance a *whole* number of wavelengths. There, each cell’s waves arrive exactly in step with its neighbor’s, and so with all the others, and together they add up to be strong enough to darken the film into a spot.
 
-<Sketch caption="Move the point along the film. The waves add up to a spot only where each cell’s wave travels a whole number of wavelengths farther than its neighbor’s.">
+<Sketch caption="Drag the point along the film. Each line is one unit cell’s wave on its way there, and the waves beside it show whether they arrive in step.">
   <Directions />
 </Sketch>
 
 How dark each spot is depends on what is *inside* the unit cell. In the direction of each spot, every atom in the cell sends out its own small wave. The more electrons the atom has, the stronger the wave. Depending on where the atoms sit, their waves travel slightly different distances and arrive with different offsets, where they combine into a single wave for that spot. When most of them reinforce each other, the combined wave is tall and the spot is dark; when they mostly cancel, the spot is faint. Each direction has a different set of offsets, so each spot has its own darkness. Thus, the positions of the spots measure the unit cell, and the darkness of the spots is a coded picture of the molecule inside.
 
-<Sketch caption="Drag the ringed atom. The waves are the three atoms’ waves at the ringed spot. Every spot stays in place but gets darker or fainter.">
+<Sketch caption="Drag the ringed atom. Its wave slides, the sum changes height, and the ringed spot gets darker or fainter.">
   <Darkness />
 </Sketch>
 
@@ -90,7 +90,7 @@ Perutz published these results in [a letter to *Nature*](https://doi.org/10.1038
 
 To work backward from the spots to a picture of the molecule, Perutz needed to add the waves back together, a calculation known as a Fourier synthesis. This required both the height and the phase of each wave; without the phase, he did not know how to line them up, and different choices of phase could produce different pictures from the same spots. For smaller molecules, crystallographers could work around this by guessing an arrangement of atoms, calculating the spots it would produce, and comparing them with the film, but for a molecule with thousands of atoms, there were far too many arrangements to try. Finding the missing phases was the “phase problem,” and it held up solving hemoglobin for the next 15 years.
 
-<Sketch caption="Each spot gives one wave: the darker the spot, the taller the wave. Slide each wave until the sum matches the molecule, drawn in grey. The film below has spots in every direction, with phases as far off as the waves above: with the wrong phases, the same spots give the wrong picture. Perutz had thousands of waves and no picture to aim for.">
+<Sketch caption="Slide the four waves until their sum matches the molecule, drawn in grey. Each wave comes from one spot on the film. The map below is what the same spots add up to with the waves where you have put them.">
   <PhaseGame />
 </Sketch>
 
@@ -124,7 +124,7 @@ The drying photographs, though, yielded very few phases. By 1943, after combinin
 
 To get a three-dimensional map of electron density, Perutz needed to find the phases for the thousands of other spots, but there was no way to do that yet. So, Perutz turned to calculating a different kind of map, one that didn’t require phases. Using just intensities, a Patterson map showed distances and directions between pairs of atoms, rather than where the atoms themselves sat. For a molecule like hemoglobin, with thousands of atoms, this kind of map would be crowded, but Perutz hoped that if the chains inside did in fact run in straight, parallel lines, then the distances between them would repeat often enough and stand out as straight rods. Measuring the 7,000 or so spots this map required was a task “whose length and tediousness it will be better not to describe,” he wrote<Fn>With no instrument to read darkness, Perutz’s assistants Joy Boyes-Watson and Edna Davidson graded each spot by eye against a calibration strip, a row of about twenty test exposures running from barely visible to nearly black. Recording a single layer of spots took eighteen photographs, and their estimates could be off by 20–25% for strong spots and 30–40% for weak ones.</Fn>.
 
-<Sketch caption="A Patterson map needs no phases. Each peak marks one pair of atoms, how far apart and in which direction, not where the atoms sit.">
+<Sketch caption="Drag an atom, or point at a peak. Each arrow between two atoms on the left ends on a peak when drawn from the center of the map on the right.">
   <Patterson />
 </Sketch>
 
@@ -158,7 +158,7 @@ Salvation arrived in 1953, in the form of a letter penned by Austen Riggs, a you
 
 There was still the question that had made Perutz and Kendrew dismiss heavy atom methods in 1948: could one atom among thousands make any difference? By 1951, Perutz had used a Geiger counter to measure how strong hemoglobin’s spots actually were, and they turned out to be weaker than expected. At each spot, the waves scattered by the protein’s electrons largely cancelled each other out, leaving a much weaker combined wave. Mercury’s 80 electrons could therefore make a sizable difference: a spot became nearly twice as dark, or half as dark, depending on whether the mercury’s wave lined up with the protein or against it<Fn>A reminder of the difference: in the heavy-atom method, one atom is so heavy that its wave dominates every spot, so each spot’s phase is close to that atom’s own, which can be calculated once the atom is located. No atom is heavy enough to do that in a protein.</Fn>.
 
-<Sketch caption="Mercury’s wave is small beside the protein’s, but it is enough. Slide the protein’s wave: in step, the spot is nearly twice as dark; opposed, less than half.">
+<Sketch caption="Drag the protein’s wave. The two spots on the right compare the protein alone with the protein plus mercury.">
   <Mercury />
 </Sketch>
 
@@ -170,8 +170,8 @@ Over the following months, Perutz converted those intensity changes into phases.
 
 Once he knew where the mercury was, Perutz could calculate its wave contributions, including phase. Every spot of the mercury-treated crystal was a combination of the protein’s wave and the mercury’s wave, and he now knew the latter. So, if a spot had gotten darker compared to the plain crystal, then the protein’s wave must be in step with the mercury’s; if it had gotten fainter, the two must be opposed. For the spots that looked straight down the molecule’s symmetry axis, crest-to-crest (fully in step) and crest-to-trough (fully opposed) were the only two possibilities, so whether a spot darkened or faded gave the protein’s phase outright. In other words, they could be signed: plus for in step, and minus for opposed.
 
-<Sketch caption="The molecule is two identical halves either side of a symmetry axis, with a mercury atom, in amber, on each. Drag it to look down the axis. On the film taken that way, a spot that gets darker with mercury is a plus; one that gets fainter is a minus.">
-  <Signs />
+<Sketch caption="Slide the ringed atom. Seen down the axis, its twin moves the opposite way, and the pair’s sum keeps a crest or a trough on the axis: plus or minus. In the films below, the ringed spot got darker with mercury, so the protein has mercury’s sign there.">
+  <AxisSigns />
 </Sketch>
 
 The phase values given by these signed waves matched the ones from the drying-and-salt experiments, confirming the results. “Everything checked and double-checked perfectly,” Bragg wrote later; “it was a thrilling time.”
@@ -182,7 +182,7 @@ The method worked, but to see the molecule’s full three-dimensional shape, Per
 
 In the spring of 1954, while Perutz was puzzling over his flat maps, Dorothy Hodgkin, née Crowfoot, stopped by the lab. “If you could get two heavy-atom derivatives,” she told him, “you could determine the structure in three dimensions.” The first derivative — a crystal with a heavy atom attached — was mercury<Fn>The mercury crystals counted as one derivative even though each molecule carried two mercury atoms, because the two sat at matching places on the two halves and gave a single comparison for each spot.</Fn>. A second derivative, with the atom in a different place, would provide another comparison and settle the phase ambiguity: the correct phase had to agree with both.
 
-<Sketch caption="Away from the axis, the protein’s wave can sit at any angle, and the film leaves two candidates, solid and dashed. Added to mercury’s wave, both give the same sum. Added to a second heavy atom’s wave, they give different sums, and only one matches the film.">
+<Sketch caption="Drag the protein’s wave. With mercury, the solid and dashed candidates give the same sum. With a second heavy atom, their sums differ, and only one matches the film.">
   <Candidates />
 </Sketch>
 
@@ -196,7 +196,7 @@ Kendrew now had what Hodgkin had described: enough derivatives to pin down the p
 
 To keep the work manageable, Kendrew planned to work first at a resolution of six ångströms, or six tenths of a nanometer—features closer than that would blur—which was enough to separate neighboring stretches of the chain, but not to show individual atoms. This required just using the inner spots on the film, about 400 per crystal. Instead of grading spots by eye, his team used a densitometer, and the waves were added up on the university’s new EDSAC computer.
 
-<Sketch caption="Drag the circle to choose how many spots are used. The inner spots alone give a blur; the farther out the spots go, the finer the detail.">
+<Sketch caption="Drag the circle to choose which spots are used. The map on the right is made from only the spots inside it.">
   <Resolution />
 </Sketch>
 

@@ -9,6 +9,7 @@ export { PhaseGame } from "./PhaseGame";
 export { Patterson } from "./Patterson";
 export { Mercury } from "./Mercury";
 export { Signs } from "./Signs";
+export { AxisSigns } from "./AxisSigns";
 export { Candidates } from "./Candidates";
 export { Resolution } from "./Resolution";
 export { WhySpots } from "./WhySpots";
